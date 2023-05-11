@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@t3-oss/env-nextjs':
+    specifier: ^0.3.1
+    version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
   ethers:
     specifier: ^6.3.0
     version: 6.3.0
@@ -675,6 +678,27 @@ packages:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
       tslib: 2.5.0
+    dev: false
+
+  /@t3-oss/env-core@0.3.1(typescript@5.0.4)(zod@3.21.4):
+    resolution: {integrity: sha512-iEnBuWeSjzqQLDTUw7H+YhstV4OZrGXTkQGL6ZOMxZQoCmwGX7GVS+1KCd5RvCzOtrIAD9jeOItSWNjC7sG4Sg==}
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    dependencies:
+      typescript: 5.0.4
+      zod: 3.21.4
+    dev: false
+
+  /@t3-oss/env-nextjs@0.3.1(typescript@5.0.4)(zod@3.21.4):
+    resolution: {integrity: sha512-W1OgOn5xtpdEGraAQesyLzO2aNLRfSJEyK6qjQFfEUnrPbkvB+WxABX2bPMqfn4KJQ8pziLCSdBFiUN8OagqAg==}
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    dependencies:
+      '@t3-oss/env-core': 0.3.1(typescript@5.0.4)(zod@3.21.4)
+      typescript: 5.0.4
+      zod: 3.21.4
     dev: false
 
   /@tootallnate/once@2.0.0:
@@ -4944,7 +4968,6 @@ packages:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
-    dev: true
 
   /uglify-js@3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}

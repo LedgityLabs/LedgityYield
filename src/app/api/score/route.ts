@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import z from "zod";
 import { ethers } from 'ethers';
+import { env } from "~/env.mjs";
 
 const ethAddressSchema = z.custom(ethers.isAddress, "Invalid Ethereum address provided.");
 
@@ -14,11 +15,11 @@ export const GET = async (request: NextRequest) => {
   // Figure whether it is allowed or not
   let allowed: boolean = true;
   try {
-    const res = await fetch("https://score-chain-url.here/v1/user/scan/address", {
+    const res = await fetch(`${env.SCORECHAIN_API_URL}/v1/user/scan/address`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'API-Key': process.env.SCORECHAIN_API_KEY || "",
+        'API-Key': env.SCORECHAIN_API_KEY,
       },
       body: JSON.stringify({
         network: "ETH",
