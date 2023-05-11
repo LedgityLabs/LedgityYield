@@ -58,7 +58,7 @@ jobs:
           NEW_RELEASE: ${{ steps.semantic-release.outputs.NEW_RELEASE }}
         run: |
           if [ $NEW_RELEASE -eq 1 ]; then
-            curl --fail -X POST ${{ secrets.APP_DEPLOY_HOOK }} || exit 1
+            curl --fail -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }} || exit 1
           else
             echo "No new release, pass."
           fi
