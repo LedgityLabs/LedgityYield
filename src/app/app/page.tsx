@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 
 const Page: NextPage = () => {
-  return <main className=" bg-amber-200">Home page</main>;
+  return <main className=" bg-red-200">App page</main>;
 };
 export default Page;
