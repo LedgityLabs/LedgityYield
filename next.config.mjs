@@ -3,9 +3,10 @@
 import "./src/env.mjs";
 
 /** @type {import('next').NextConfig} */
-export default {
+const nextConfig = {
   reactStrictMode: true,
   experimental: {
     typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
   },
 };
+export default nextConfig;

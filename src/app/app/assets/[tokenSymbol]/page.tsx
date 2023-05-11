@@ -8,7 +8,9 @@ interface Props {
 
 const Page: NextPage<Props> = (props) => {
   return (
-    <main className=" bg-green-200">"{props.params.tokenSymbol}" page</main>
+    <main className=" bg-green-200">
+      &quot;{props.params.tokenSymbol}&quot; page
+    </main>
   );
 };
 
