@@ -11,4 +11,5 @@ const Page: NextPage<Props> = (props) => {
     <main className=" bg-green-200">"{props.params.tokenSymbol}" page</main>
   );
 };
+
 export default Page;

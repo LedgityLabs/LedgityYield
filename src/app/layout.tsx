@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata = {
   title: "Ledgity - DeFi Protocol",
   description:
-    "Invest stablecoins into real world assets and earn up to 7% APY. Access low-risk, stable and high yield offered by real world asset directly from your wallet.",
+    "Invest stablecoins into real world assets and earn up to 7% APY. Access low-risk & stable yield offered by real world asset directly from your wallet.",
 };
 
 interface Props {
