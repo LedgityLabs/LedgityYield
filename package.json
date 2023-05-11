@@ -1,7 +1,6 @@
 {
-  "name": "ledgity-dapp",
+  "name": "ledgity-defi",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -22,6 +21,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "postcss": "8.4.23",
+    "semantic-release": "^21.0.2",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
   },

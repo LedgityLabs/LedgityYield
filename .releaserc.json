@@ -1,0 +1,27 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "releaseRules": [{ "type": "perf", "release": "patch" }]
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["package.json", "pnpm-lock.yaml", "CHANGELOG.md"],
+        "message": "chore(release): Ledgity DeFi ${nextRelease.version} [skip ci]"
+      }
+    ]
+  ],
+  "preset": "angular"
+}
