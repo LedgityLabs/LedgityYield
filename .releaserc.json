@@ -13,12 +13,12 @@
         "presetConfig": {
           "types": [
             { "type": "feat", "section": "Features" },
-            { "type": "perf", "hidden": "Features" },
+            { "type": "perf", "section": "Features" },
             { "type": "fix", "section": "Fixes" },
-            { "type": "docs", "hidden": "Docs" },
-            { "type": "test", "hidden": "Tests" },
-            { "type": "style", "hidden": "Others" },
-            { "type": "refactor", "hidden": "Others" },
+            { "type": "docs", "section": "Docs" },
+            { "type": "test", "section": "Tests" },
+            { "type": "style", "section": "Others" },
+            { "type": "refactor", "section": "Others" },
             { "type": "chore", "hidden": true }
           ]
         }
