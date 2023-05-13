@@ -1,4 +1,4 @@
-import "~/styles/globals.css";
+import "@/styles/globals.css";
 import { Poppins, Inter } from "next/font/google";
 import { type NextPage } from "next";
 
