@@ -2,5 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+@layer base {
+  * {
+    /* Accessibility - Apply focus ring */
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  body {
+    /* Style - Apply default font, text color and background */
+    @apply font-body text-fg bg-bg;
+  }
 }

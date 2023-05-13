@@ -30,8 +30,10 @@ interface Props {
 const RootLayout: NextPage<Props> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${poppins.variable} font-body`}>
-        {children}
+      <body className={`${inter.variable} ${poppins.variable}`}>
+        <header></header>
+        <main>{children}</main>
+        <footer></footer>
       </body>
     </html>
   );
