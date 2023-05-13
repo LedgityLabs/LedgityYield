@@ -7,7 +7,23 @@
         "releaseRules": [{ "type": "perf", "release": "patch" }]
       }
     ],
-    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "presetConfig": {
+          "types": [
+            { "type": "feat", "section": "Features" },
+            { "type": "perf", "hidden": "Features" },
+            { "type": "fix", "section": "Fixes" },
+            { "type": "docs", "hidden": "Docs" },
+            { "type": "test", "hidden": "Tests" },
+            { "type": "style", "hidden": "Others" },
+            { "type": "refactor", "hidden": "Others" },
+            { "type": "chore", "hidden": true }
+          ]
+        }
+      }
+    ],
     "@semantic-release/changelog",
     [
       "@semantic-release/npm",

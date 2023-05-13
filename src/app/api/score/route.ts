@@ -3,13 +3,13 @@ import z from "zod";
 import { ethers } from 'ethers';
 import { env } from "~/env.mjs";
 
-const ethAddressSchema = z.custom(ethers.isAddress, "Invalid Ethereum address provided.");
+export const revalidate = 0;
 
+const ethAddressSchema = z.custom(ethers.isAddress, "Invalid Ethereum address provided.");
 export const GET = async (request: NextRequest) => {
 
   // Retrieve wallet address
-  const { searchParams } = new URL(request.url);
-  const validation = ethAddressSchema.safeParse(searchParams.get('address'));
+  const validation = ethAddressSchema.safeParse(request.nextUrl.searchParams.get('address'));
   if (!validation.success) return NextResponse.json({ allowed: false });
 
   // Figure whether it is allowed or not
@@ -25,6 +25,9 @@ export const GET = async (request: NextRequest) => {
         network: "ETH",
         address: validation.data
       }),
+      next: {
+        revalidate: 0
+      }
     });
     const data = await res.json();
     if (data.riskScore && data.riskScore < 30) allowed = true;
