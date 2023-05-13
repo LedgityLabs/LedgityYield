@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/ledgity-labs/dapp/compare/v1.1.1...v1.2.0) (2023-05-13)
+
+
+### Features
+
+* a bunch of UI-related features (see commit long description) ([e0d8929](https://github.com/ledgity-labs/dapp/commit/e0d8929ccf2f7a4d94804bfc70da91eaec11dcde))
+* **ui:** setup a minimal ui kit page ([b267377](https://github.com/ledgity-labs/dapp/commit/b2673772488c50769bd8ef026eabe71f92f15f6f))
+
 ## [1.1.1](https://github.com/ledgity-labs/dapp/compare/v1.1.0...v1.1.1) (2023-05-13)
 
 ### Bug Fixes
