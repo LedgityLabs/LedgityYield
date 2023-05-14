@@ -13,7 +13,7 @@ const Page: NextPage = () => {
               {buttonVariants.map((variant, index1) => (
                 <div key={index1} className="flex gap-4 p-2">
                   {buttonSizes.map((size, index2) => (
-                    <Button variant={variant} size={size as any} key={index2}>
+                    <Button variant={variant} size={size} key={index2}>
                       {variant} {size}
                     </Button>
                   ))}

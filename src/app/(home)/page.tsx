@@ -1,4 +1,4 @@
-import Scroller from "@/components/ui/Scroller";
+import { Scroller } from "@/components/ui";
 import { type NextPage } from "next";
 
 const Page: NextPage = () => (
