@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import z from "zod";
 import { ethers } from 'ethers';
-import { env } from "~/env.mjs";
+import { env } from "@/env.mjs";
 
 export const revalidate = 0;
 
