@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/ledgity-labs/dapp/compare/v1.2.0...v1.3.0) (2023-05-14)
+
+
+### Bug Fixes
+
+* import alias prefix in api/score route.ts ([48bb83c](https://github.com/ledgity-labs/dapp/commit/48bb83ccdc97330d1922d93bec28f01a6659b1ed))
+
+
+### Features
+
+* add a minimal hero on home page ([8e98105](https://github.com/ledgity-labs/dapp/commit/8e9810529f58ae6555958b4eb5330f5239f6f82b))
+* import assets and add a minimal header for outside app layout ([1f21b8e](https://github.com/ledgity-labs/dapp/commit/1f21b8ec4c11cd569b55ddc9bdb5040a39243b06))
+* improve header logo alignment + refactor this one in its own component ([cfdcd1f](https://github.com/ledgity-labs/dapp/commit/cfdcd1f667fef6bb0152bac0ce4d1bafa0723645))
+
 # [1.2.0](https://github.com/ledgity-labs/dapp/compare/v1.1.1...v1.2.0) (2023-05-13)
 
 
