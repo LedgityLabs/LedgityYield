@@ -1,4 +1,4 @@
-import { Button, buttonSizes, buttonVariants } from "@/components/ui/button";
+import { Button, buttonSizes, buttonVariants } from "@/components/ui";
 import { NextPage } from "next";
 
 const Page: NextPage = () => {

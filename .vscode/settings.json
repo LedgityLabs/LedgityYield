@@ -19,6 +19,6 @@
     ".env.local": true,
     ".env.local.template": true,
     "README.md": true,
-    "LICENSE.md": true
+    "LICENSE": true
   }
 }

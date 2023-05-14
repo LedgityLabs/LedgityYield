@@ -51,3 +51,4 @@ export const Button: FC<ButtonProps> = ({
     {children}
   </button>
 );
+export default Button;
