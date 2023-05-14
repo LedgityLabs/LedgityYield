@@ -37,6 +37,12 @@
         "assets": ["package.json", "pnpm-lock.yaml", "CHANGELOG.md"],
         "message": "chore(release): Ledgity DeFi ${nextRelease.version} [skip ci]"
       }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": ["package.json"]
+      }
     ]
   ],
   "preset": "angular"
