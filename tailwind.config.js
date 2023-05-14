@@ -24,8 +24,8 @@ const vars = {
     // Primary colors 
     // Used for:
     // - <Button variant = "default"/> component
-    "--primary-bg": toRGB(colors.sky[600]),
-    "--primary-fg": toRGB(colors.slate[200]),
+    "--primary-bg": toRGB(colors.indigo[500]),
+    "--primary-fg": toRGB(colors.slate[100]),
 
     // Secondary colors
     // Used for:

@@ -13,7 +13,7 @@ const Header: FC = () => (
           src={logo}
           className="h-9 w-auto cursor-pointer"
         />
-        <p className="-mt-0.5 ml-2 self-start rounded-md bg-sky-600/80 px-1.5 py-1 font-body text-[0.7rem] font-semibold leading-tight tracking-wide text-stone-100">
+        <p className="-mt-0.5 ml-2 self-start rounded-md bg-indigo-400 px-1.5 py-1 font-body text-[0.7rem] font-semibold leading-tight tracking-wide text-stone-100">
           DeFi
         </p>
       </Link>
