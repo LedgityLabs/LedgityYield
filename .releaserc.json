@@ -4,7 +4,10 @@
     [
       "@semantic-release/commit-analyzer",
       {
-        "releaseRules": [{ "type": "perf", "release": "patch" }]
+        "releaseRules": [
+          { "type": "perf", "release": "minor" },
+          { "type": "revert", "release": "minor" }
+        ]
       }
     ],
     [
@@ -13,12 +16,15 @@
         "presetConfig": {
           "types": [
             { "type": "feat", "section": "Features" },
+            { "type": "revert", "section": "Features" },
             { "type": "perf", "section": "Features" },
             { "type": "fix", "section": "Fixes" },
             { "type": "docs", "section": "Docs" },
             { "type": "test", "section": "Tests" },
+            { "type": "ci", "section": "Others" },
             { "type": "style", "section": "Others" },
             { "type": "refactor", "section": "Others" },
+            { "type": "build", "section": "Others" },
             { "type": "chore", "hidden": true }
           ]
         }
