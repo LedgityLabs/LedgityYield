@@ -1,3 +1,10 @@
+## [1.8.0](https://github.com/ledgity-labs/dapp/compare/v1.7.0...v1.8.0) (2023-05-15)
+
+
+### Features
+
+* **home:** make subtle glow more intense as well as tagline text gradient ([3876fda](https://github.com/ledgity-labs/dapp/commit/3876fda25cba6f5829ffe85184ddb998559aa492))
+
 ## [1.7.0](https://github.com/ledgity-labs/dapp/compare/v1.6.0...v1.7.0) (2023-05-15)
 
 
