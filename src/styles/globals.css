@@ -12,4 +12,19 @@
     /* Style - Apply default font, text color and background */
     @apply font-body text-fg bg-bg;
   }
+
+  /* Home page hero reapeated radial gradient effect*/
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-conic-gradient(black 0%, gray 0.7%),
+      repeating-conic-gradient(gray 0.0000001%, grey 0.000104%) 60% 60%/200vw
+        200vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.006;
+    background-blend-mode: difference;
+    filter: brightness(250%) contrast(600%);
+  }
 }
