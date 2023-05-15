@@ -1,3 +1,15 @@
+## [1.4.0](https://github.com/ledgity-labs/dapp/compare/v1.3.0...v1.4.0) (2023-05-15)
+
+
+### Features
+
+* improve <Button/> component usability using forwardRef and React.HTMLAttributes ([0422023](https://github.com/ledgity-labs/dapp/commit/0422023ab90014dd2c756c49338f887ba0bac7c7))
+
+
+### Others
+
+* include all types of commits into generated changelogs ([26654b9](https://github.com/ledgity-labs/dapp/commit/26654b98cf08b67acddd31be492c5e2ab7b5d5cd))
+
 # [1.3.0](https://github.com/ledgity-labs/dapp/compare/v1.2.0...v1.3.0) (2023-05-14)
 
 
