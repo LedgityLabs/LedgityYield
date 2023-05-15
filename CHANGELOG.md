@@ -1,3 +1,12 @@
+## [1.6.0](https://github.com/ledgity-labs/dapp/compare/v1.5.0...v1.6.0) (2023-05-15)
+
+
+### Features
+
+* center a bit more home tagline + tiny improvements on redability and maintainability ([abaffae](https://github.com/ledgity-labs/dapp/commit/abaffae2f95ba56f483c25ed71bf02e897a5941d))
+* **home:** add a subtle top-right gradient effect to "real world assets" in tagline ([6a96b32](https://github.com/ledgity-labs/dapp/commit/6a96b323ff50454b74a35eb3f2fc66476bb2a2b2))
+* **home:** add repeated radial gradient effect + makes stats cards more blurry and visible ([fbcd236](https://github.com/ledgity-labs/dapp/commit/fbcd236c4a82bc242f7afea066fdd229cf071b8a))
+
 ## [1.5.0](https://github.com/ledgity-labs/dapp/compare/v1.4.0...v1.5.0) (2023-05-15)
 
 
