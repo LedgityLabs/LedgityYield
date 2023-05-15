@@ -30,7 +30,7 @@ const vars = {
     // Secondary colors
     // Used for:
     // - <Button variant="secondary"/> component
-    "--secondary-bg": toRGB(colors.indigo[300]),
+    "--secondary-bg": toRGB(colors.sky[500]),
     "--secondary-fg": toRGB(colors.slate[800]),
 
     // Destructive colors (intended to notice a destructive or critical action to the user)
@@ -43,7 +43,7 @@ const vars = {
     "--border": toRGB(colors.slate[800]),
 
     // Border colors for inputs components (input, select, textarea, ...)
-    "--input": toRGB(colors.slate[200]),
+    "--input": toRGB(colors.slate[300]),
 
     // Focus ring color
     "--ring": toRGB(colors.indigo[300]),
