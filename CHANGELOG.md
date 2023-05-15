@@ -1,3 +1,10 @@
+## [1.7.0](https://github.com/ledgity-labs/dapp/compare/v1.6.0...v1.7.0) (2023-05-15)
+
+
+### Features
+
+* **home:** temporarily remove header backdrop blur effect for a more immersive experience ([81d5467](https://github.com/ledgity-labs/dapp/commit/81d5467985a9a1b11d5b6b35b204c4fd84635664))
+
 ## [1.6.0](https://github.com/ledgity-labs/dapp/compare/v1.5.0...v1.6.0) (2023-05-15)
 
 
