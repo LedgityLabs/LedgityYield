@@ -1,3 +1,10 @@
+## [1.5.0](https://github.com/ledgity-labs/dapp/compare/v1.4.0...v1.5.0) (2023-05-15)
+
+
+### Features
+
+* improve home page by adding CTAs + elegant background glows ([22ab112](https://github.com/ledgity-labs/dapp/commit/22ab11291290259632d47a0e429ec544263d8ec6))
+
 ## [1.4.0](https://github.com/ledgity-labs/dapp/compare/v1.3.0...v1.4.0) (2023-05-15)
 
 
