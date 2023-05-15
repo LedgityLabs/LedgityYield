@@ -1,18 +1,22 @@
 {
+  "preset": "angular",
   "branches": ["main"],
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
       {
+        "preset": "angular",
         "releaseRules": [
           { "type": "perf", "release": "minor" },
-          { "type": "revert", "release": "minor" }
+          { "type": "revert", "release": "minor" },
+          { "type": "release", "release": false }
         ]
       }
     ],
     [
       "@semantic-release/release-notes-generator",
       {
+        "preset": "conventionalcommits",
         "presetConfig": {
           "types": [
             { "type": "feat", "section": "Features" },
@@ -25,7 +29,8 @@
             { "type": "style", "section": "Others" },
             { "type": "refactor", "section": "Others" },
             { "type": "build", "section": "Others" },
-            { "type": "chore", "hidden": true }
+            { "type": "chore", "section": "Others" },
+            { "type": "release", "hidden": true }
           ]
         }
       }
@@ -41,7 +46,7 @@
       "@semantic-release/git",
       {
         "assets": ["package.json", "pnpm-lock.yaml", "CHANGELOG.md"],
-        "message": "chore(release): Ledgity DeFi ${nextRelease.version} [skip ci]"
+        "message": "release: Ledgity DeFi v${nextRelease.version} [skip ci]"
       }
     ],
     [
@@ -50,6 +55,5 @@
         "assets": ["package.json"]
       }
     ]
-  ],
-  "preset": "angular"
+  ]
 }
