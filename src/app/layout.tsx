@@ -37,7 +37,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           <title>Ledgity - DeFi Protocol</title>
           <meta
             name="description"
-            content="DeFi Protocol where you can lend USDC and start earning yield. Ledgity's stable yield comes from the best risk adjusted return opportunities from DeFi, CeFi and Real World Assets."
+            content="Invest stablecoins into real world assets and earn up to 7% APY. Access low-risk & stable yield offered by real world assets directly from your wallet."
           />
           <link rel="icon" href="/assets/favicon/32x32.png" />
         </Head>

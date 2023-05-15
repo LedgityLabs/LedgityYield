@@ -3,11 +3,11 @@ import { type NextPage } from "next";
 
 const Page: NextPage = () => (
   <>
-    <section className="hero relative flex min-h-screen -mt-[92px] flex-col justify-center items-center bg-[url('/assets/glow.png')] bg-cover bg-center bg-fixed">
+    <section className="hero relative flex min-h-screen -mt-[92px] flex-col justify-center items-center bg-[url('/assets/glow-light.png')] bg-cover bg-center bg-fixed backdrop-filter backdrop-contrast-100">
       <h2 className="text-center font-heading text-7xl font-bold text-slate-700">
         Invest stablecoins into
         <br />
-        <span className=" text-indigo-300 text-transparent bg-clip-text bg-gradient-to-tr from-indigo-300 to-indigo-400">
+        <span className=" text-indigo-300 text-transparent bg-clip-text bg-gradient-to-tr from-indigo-300 to-indigo-500">
           real world assets
         </span>
         .
