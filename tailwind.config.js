@@ -63,6 +63,9 @@ export const theme = {
     body: ["var(--font-inter)"]
   },
   extend: {
+    backgroundImage: {
+      card: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.08), transparent);`
+    },
     colors: {
       bg: "rgb(var(--bg) / <alpha-value>)",
       fg: "rgb(var(--fg) / <alpha-value>)",

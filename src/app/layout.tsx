@@ -3,6 +3,7 @@ import { Poppins, Inter } from "next/font/google";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Header from "@/components/Header";
+import { CardsHelper } from "@/components/ui";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -41,6 +42,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           />
           <link rel="icon" href="/assets/favicon/32x32.png" />
         </Head>
+        <CardsHelper />
         <body className={`${inter.variable} ${poppins.variable}`}>
           <Header />
           <main>{children}</main>
