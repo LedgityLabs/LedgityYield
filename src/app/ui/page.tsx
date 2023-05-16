@@ -31,9 +31,9 @@ const Page: NextPage = () => {
           </section>
           <section>
             <h2 className="text-2xl text-center font-semibold">Cards</h2>
-            <div className="p-2">
+            <div className="p-2 flex flex-col gap-12">
               {cardVariants.map((variant, index) => (
-                <Card variant={variant} key={index} className="max-w-lg">
+                <Card variant={variant} key={index} className="max-w-lg p-12">
                   <h3 className="font-bold text-xl text-center">{variant}</h3>
                   <br />
                   <p>

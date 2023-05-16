@@ -16,7 +16,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
         // Variants
         {
-          default: "border-input border-[3px] drop-shadow-lg",
+          default: "border-input border-[3px] shadow-lg",
           borderless: "border-input/20 border-2 shadow-sm",
         }[variant],
 
