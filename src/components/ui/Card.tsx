@@ -12,20 +12,22 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, children, variant = "default", ...props }, ref) => (
     <>
       <article
-        className={twMerge(
-          "card", // Used by CardsHelper
-          "rounded-3xl bg-primary/5 backdrop-blur-md  shadow-slate-200",
+        className={
+          "bg-card " +
+          twMerge(
+            "card", // Used by CardsHelper
+            "rounded-3xl bg-primary/5 backdrop-blur-md  shadow-slate-200",
 
-          // Variants
-          {
-            default: "border-input border-[3px] shadow-lg",
-            borderless: "border-input/20 border-2 shadow-sm",
-          }[variant],
+            // Variants
+            {
+              default: "border-input border-[3px] shadow-lg",
+              borderless: "border-input/20 border-2 shadow-sm",
+            }[variant],
 
-          // Custom classes
-          className,
-          "bg-card"
-        )}
+            // Custom classes
+            className
+          )
+        }
         {...props}
         ref={ref}
       >
