@@ -1,3 +1,12 @@
+## [1.9.0](https://github.com/ledgity-labs/dapp/compare/v1.8.0...v1.9.0) (2023-05-16)
+
+
+### Features
+
+* **components:** add Card component outline ([a6c1a7d](https://github.com/ledgity-labs/dapp/commit/a6c1a7da972b083fdb1f701435a3f40601bc99ea))
+* **home:** slightly reduce glow-light.png opacity ([6274619](https://github.com/ledgity-labs/dapp/commit/62746199feb0eac5e9fce750694bd0814211772b))
+* **ui:** add Card component to the ui kit page ([174718b](https://github.com/ledgity-labs/dapp/commit/174718bb95d92339bad4299120e136bd8d3a1b54))
+
 ## [1.8.0](https://github.com/ledgity-labs/dapp/compare/v1.7.0...v1.8.0) (2023-05-15)
 
 
