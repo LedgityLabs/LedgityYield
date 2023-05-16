@@ -50,6 +50,16 @@ const Page: NextPage = () => (
       </div>
       <Scroller className="absolute bottom-11" />
     </section>
+    <section className="flex justify-center">
+      <div className="w-[70vw] grid grid-cols-3 gap-12 py-40">
+        <Card className="h-64">A</Card>
+        <Card className="h-64">B</Card>
+        <Card className="h-64">C</Card>
+        <Card className="h-64">D</Card>
+        <Card className="h-64">E</Card>
+        <Card className="h-64">F</Card>
+      </div>
+    </section>
   </>
 );
 export default Page;
