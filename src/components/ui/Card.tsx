@@ -10,14 +10,14 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, children, variant = "default", ...props }, ref) => (
-    <div
+    <article
       className={twMerge(
-        "",
+        "rounded-3xl bg-primary/5 backdrop-blur-md  shadow-slate-200",
 
         // Variants
         {
-          default: "",
-          borderless: "",
+          default: "border-input border-[3px] drop-shadow-lg",
+          borderless: "border-input/20 border-2 shadow-sm",
         }[variant],
 
         // Custom classes
@@ -27,7 +27,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       ref={ref}
     >
       {children}
-    </div>
+    </article>
   )
 );
 Card.displayName = "Card";
