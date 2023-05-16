@@ -3,7 +3,7 @@ import { type NextPage } from "next";
 
 const Page: NextPage = () => (
   <>
-    <section className="hero relative flex min-h-screen -mt-[92px] flex-col justify-center items-center bg-[url('/assets/glow-light.png')] bg-cover bg-center bg-fixed backdrop-filter backdrop-contrast-100">
+    <section className="hero relative flex min-h-screen -mt-[92px] flex-col justify-center items-center bg-[url('/assets/glow-light.png')] bg-cover bg-center bg-fixed">
       <h2 className="text-center font-heading text-7xl font-bold text-slate-700">
         Invest stablecoins into
         <br />
