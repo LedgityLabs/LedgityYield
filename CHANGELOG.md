@@ -1,3 +1,13 @@
+## [1.10.0](https://github.com/ledgity-labs/dapp/compare/v1.9.0...v1.10.0) (2023-05-16)
+
+
+### Features
+
+* **components:** add first version of Cards glow effect ([9c0c58a](https://github.com/ledgity-labs/dapp/commit/9c0c58a5df0d1eabc73d9aaeeda584964b2e07c4))
+* **components:** add style to the 2 Card components variants ([2966ef4](https://github.com/ledgity-labs/dapp/commit/2966ef48a697ca01ea346da72bc3e6f422384167))
+* **home:** add empty features boxes ([49ebff5](https://github.com/ledgity-labs/dapp/commit/49ebff551041ff55c8971f6ecd91c9b6b9797e63))
+* **ui:** improve the cards display in ui kit page ([a34639a](https://github.com/ledgity-labs/dapp/commit/a34639a0578c2806c5624d25e84f478d40f81f6a))
+
 ## [1.9.0](https://github.com/ledgity-labs/dapp/compare/v1.8.0...v1.9.0) (2023-05-16)
 
 
