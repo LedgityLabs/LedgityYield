@@ -64,8 +64,6 @@ export const theme = {
   },
   extend: {
     backgroundImage: {
-      // "card-small": "radial-gradient(150px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1), transparent)",
-      // "card-large": "radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1), transparent)",
       "card-border": "radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)",
     },
     colors: {
