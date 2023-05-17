@@ -1,3 +1,16 @@
+## [1.14.0](https://github.com/ledgity-labs/dapp/compare/v1.13.0...v1.14.0) (2023-05-17)
+
+
+### Features
+
+* add favicon + replace usage of deprecated next/head by metadata API ([43af5f2](https://github.com/ledgity-labs/dapp/commit/43af5f20c7881ff3e6494aca88fa738b58b9c3fe))
+* **header:** add a blured transparent background to header when scrollY is not at the very top ([efa0384](https://github.com/ledgity-labs/dapp/commit/efa0384032e1342afa5184a201a364ce755e46c5))
+
+
+### Fixes
+
+* fix ui page that were still relying on old card component + clean unused cards variants ([8da4b86](https://github.com/ledgity-labs/dapp/commit/8da4b8675c5a9f63c7c4e3e545d4562df1e37c2f))
+
 ## [1.13.0](https://github.com/ledgity-labs/dapp/compare/v1.12.0...v1.13.0) (2023-05-17)
 
 
