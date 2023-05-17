@@ -1,10 +1,14 @@
+"use client";
 import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "~/assets/logo/light.png";
 import { Button } from "@/components/ui";
+import { usePathname } from "next/navigation";
 
 const Header: FC = () => {
+  const path = usePathname();
+
   // TODO: Add "backdrop-blur-md" tailwind class to `<nav>` element when its 'y' position !== 0
   return (
     <header className="pb-[92px] relative">
@@ -19,9 +23,11 @@ const Header: FC = () => {
             DeFi
           </p>
         </Link>
-        <Link href="/app">
-          <Button size="large">Enter app</Button>
-        </Link>
+        {!path.startsWith("/app") && (
+          <Link href="/app">
+            <Button size="large">Enter app</Button>
+          </Link>
+        )}
       </nav>
     </header>
   );

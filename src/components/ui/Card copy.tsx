@@ -21,38 +21,30 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     <>
       <article
         className={
-          "bg-card-border " +
+          // Glow size
+          {
+            small: "bg-card-small",
+            large: "bg-card-large",
+          }[glowSize] +
+          " " +
           twMerge(
-            "card",
-            " rounded-3xl bg-fg/10 backdrop-blur-md  shadow-slate-200",
+            "card", // Used by CardsHelper
+            "rounded-3xl bg-primary/5 backdrop-blur-md  shadow-slate-200",
+
             // Variants
             {
-              default: "p-[2px] shadow-lg",
-              borderless: "p-[2px] shadow-sm",
-            }[variant]
+              default: "border-input border-[3px] shadow-lg",
+              borderless: "border-input/20 border-2 shadow-sm",
+            }[variant],
+
+            // Custom classes
+            className
           )
         }
+        {...props}
+        ref={ref}
       >
-        <div
-          className={
-            // Glow size
-            {
-              small: "bg-card-small",
-              large: "bg-card-large",
-            }[glowSize] +
-            " " +
-            twMerge(
-              "rounded-[1.4rem] bg-indigo-50 backdrop-blur-md",
-
-              // Custom classes
-              className
-            )
-          }
-          {...props}
-          ref={ref}
-        >
-          {children}
-        </div>
+        {children}
       </article>
     </>
   )

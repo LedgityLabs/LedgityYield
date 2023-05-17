@@ -1,25 +1,28 @@
 "use client";
-import { FC } from "react";
+import { FC, useRef } from "react";
 
-let instantiated = false;
 export const CardsHelper: FC = () => {
+  const instantiated = useRef(false);
+  let cards: HTMLDivElement[] = [];
+
   function handleMouseMove(e: MouseEvent) {
-    document
-      .querySelectorAll<HTMLElement>(".card")
-      .forEach((card: HTMLElement) => {
-        const rect = card.getBoundingClientRect(),
-          x = e.clientX - rect.left,
-          y = e.clientY - rect.top;
-        setTimeout(() => {
-          card.style.setProperty("--mouse-x", `${x}px`);
-          card.style.setProperty("--mouse-y", `${y}px`);
-        }, 300);
-      });
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
   }
+
   if (typeof window !== "undefined") {
-    if (!instantiated) {
+    cards = Array.prototype.slice.call(
+      document.querySelectorAll<HTMLDivElement>(".card")
+    );
+    if (!instantiated.current) {
+      console.log("instantiated");
       document.body.addEventListener("mousemove", handleMouseMove);
-      instantiated = true;
+      instantiated.current = true;
     }
   }
   return null;
