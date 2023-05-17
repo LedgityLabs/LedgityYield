@@ -3,7 +3,6 @@ import { usePathname } from "next/navigation";
 import { FC, useEffect, useRef } from "react";
 
 export const CardsHelper: FC = () => {
-  let hasLastListener = useRef(false);
   let cards = useRef<NodeListOf<HTMLDivElement> | null>();
   const path = usePathname();
 
@@ -20,12 +19,10 @@ export const CardsHelper: FC = () => {
   }
 
   useEffect(() => {
-    if (hasLastListener.current)
-      document.body.removeEventListener("mousemove", handleMouseMove);
-    console.log("Initialized");
     cards.current = document.querySelectorAll<HTMLDivElement>(".card");
     document.body.addEventListener("mousemove", handleMouseMove);
-    hasLastListener.current = true;
+    return () =>
+      document.body.removeEventListener("mousemove", handleMouseMove);
   }, [path]);
   return null;
 };

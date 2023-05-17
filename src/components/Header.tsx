@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "~/assets/logo/light.png";
@@ -8,11 +8,23 @@ import { usePathname } from "next/navigation";
 
 const Header: FC = () => {
   const path = usePathname();
+  const [scrollY, setScrollY] = useState(0);
+  const handleScroll = () => setScrollY(window.scrollY);
+
+  useEffect(() => {
+    document.addEventListener("scroll", handleScroll);
+    return () => document.removeEventListener("scroll", handleScroll);
+  });
 
   // TODO: Add "backdrop-blur-md" tailwind class to `<nav>` element when its 'y' position !== 0
   return (
     <header className="pb-[92px] relative">
-      <nav className="fixed z-10 flex justify-between px-8 py-6 w-screen">
+      <nav
+        className={
+          "fixed z-10 flex justify-between px-8 py-6 w-screen " +
+          (scrollY > 0 ? "backdrop-blur-md" : "")
+        }
+      >
         <Link href="/" className="flex pt-1">
           <Image
             alt="Ledgity Logo"
