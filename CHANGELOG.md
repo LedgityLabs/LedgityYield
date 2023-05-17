@@ -1,3 +1,11 @@
+## [1.17.0](https://github.com/ledgity-labs/dapp/compare/v1.16.0...v1.17.0) (2023-05-17)
+
+
+### Features
+
+* **home:** add a minimal Footer component and implement it on layout ([2ae8fca](https://github.com/ledgity-labs/dapp/commit/2ae8fcabf4c489316abc971ccd3d043e7e71aff9))
+* **home:** first version of "How it works?" section ([41c8a16](https://github.com/ledgity-labs/dapp/commit/41c8a161eb4f3e0b748886fa8e985ec0cf696c6e))
+
 ## [1.16.0](https://github.com/ledgity-labs/dapp/compare/v1.15.0...v1.16.0) (2023-05-17)
 
 
