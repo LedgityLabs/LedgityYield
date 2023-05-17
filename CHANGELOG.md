@@ -1,3 +1,10 @@
+## [1.16.0](https://github.com/ledgity-labs/dapp/compare/v1.15.0...v1.16.0) (2023-05-17)
+
+
+### Features
+
+* **card:** add subtle glow to card content also + enable turbopack ([cd20b5d](https://github.com/ledgity-labs/dapp/commit/cd20b5d0bb555e0b90fd2cdeeca5201dfc34a2e4))
+
 ## [1.15.0](https://github.com/ledgity-labs/dapp/compare/v1.14.0...v1.15.0) (2023-05-17)
 
 
