@@ -52,9 +52,9 @@ const Page: NextPage = () => (
       <Scroller className="absolute bottom-11" />
     </section>
     <section className="flex justify-center py-36">
-      <div className="grid grid-cols-3 gap-8 gap-x-16 px-8 ">
+      <div className="grid grid-cols-3 gap-12 gap-x-16 px-8 ">
         <div>
-          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+          <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
             Long term stability
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
@@ -66,7 +66,7 @@ const Page: NextPage = () => (
           </Card>
         </div>
         <div>
-          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+          <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
             High efficiency
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
@@ -78,7 +78,7 @@ const Page: NextPage = () => (
           </Card>
         </div>
         <div>
-          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+          <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
             Diversified portofolio
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
@@ -90,7 +90,7 @@ const Page: NextPage = () => (
           </Card>
         </div>
         <div>
-          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+          <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
             Detailed analytics
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
@@ -102,7 +102,7 @@ const Page: NextPage = () => (
           </Card>
         </div>
         <div>
-          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+          <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
             Heavily audited
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
@@ -114,7 +114,7 @@ const Page: NextPage = () => (
           </Card>
         </div>
         <div>
-          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+          <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
             Multi-chains
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
@@ -125,6 +125,50 @@ const Page: NextPage = () => (
             <Image src={analytics} alt="todo" />
           </Card>
         </div>
+      </div>
+    </section>
+    <section className="flex flex-col justify-center items-center">
+      <h3 className="text-center font-semibold text-4xl pb-4 font-heading">
+        How it works ?
+      </h3>
+      <ol className="flex justify-center items-center flex-wrap">
+        <li className="p-4">
+          <Card className="p-10 flex gap-8 items-center w-[500px]">
+            <Card className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center">
+              <span className="text-primary-fg font-bold">1</span>
+            </Card>
+            <p className="text-xl">
+              You deposit stablecoins and get wrapped coins as proof of deposit
+            </p>
+          </Card>
+        </li>
+        <li className="p-4">
+          <Card className="p-10 flex gap-8 items-center w-[500px]">
+            <Card className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center">
+              <span className="text-primary-fg font-bold">2</span>
+            </Card>
+            <p className="text-xl">
+              Your funds get allocated accross diversified DeFi and CeFi
+              strategies
+            </p>
+          </Card>
+        </li>
+        <li className="basis-full p-4 flex justify-center">
+          <Card className="p-10 flex gap-8 items-center w-[500px]">
+            <Card className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center">
+              <span className="text-primary-fg font-bold">3</span>
+            </Card>
+            <p className="text-xl">
+              You start earning interest stable yields while you sleep!
+            </p>
+          </Card>
+        </li>
+      </ol>
+      <div className="flex gap-8 justify-center items-center mt-8">
+        <p className="text-xl font-semibold">Ready to get started ?</p>
+        <Link href="/app">
+          <Button size="large">Take me to the app</Button>
+        </Link>
       </div>
     </section>
   </>
