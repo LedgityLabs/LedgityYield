@@ -1,3 +1,16 @@
+## [1.13.0](https://github.com/ledgity-labs/dapp/compare/v1.12.0...v1.13.0) (2023-05-17)
+
+
+### Features
+
+* **cardshelper:** make the CardsHelper working on page change and improve its performances ([da352c9](https://github.com/ledgity-labs/dapp/commit/da352c9871fd3c19e25f6449409b190f48795333))
+
+
+### Others
+
+* cleanup unused backgroundImages in tailwind.config.js + remove old Card component ([2e5d5dc](https://github.com/ledgity-labs/dapp/commit/2e5d5dc5bf6c6c9dfe2396c92f145fab24ea7ebe))
+* remove now unused stuff from Card component ([1025301](https://github.com/ledgity-labs/dapp/commit/1025301ec7f6058e1845736f31f5d39c98d3f2f3))
+
 ## [1.12.0](https://github.com/ledgity-labs/dapp/compare/v1.11.0...v1.12.0) (2023-05-17)
 
 
