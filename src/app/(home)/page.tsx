@@ -19,7 +19,6 @@ const Page: NextPage = () => (
         {/* <div className=" absolute top-8 h-1 w-screen bg-sky-200"></div> */}
         <Card
           variant="borderless"
-          glowSize="small"
           className="relative flex h-40 w-44 flex-col items-center justify-center p-6"
         >
           <p className="mb-3 text-5xl font-bold text-fg/80">$8k</p>
@@ -29,7 +28,6 @@ const Page: NextPage = () => (
         </Card>
         <Card
           variant="borderless"
-          glowSize="small"
           className="relative flex h-40 w-44 flex-col items-center justify-center p-6"
         >
           <p className="mb-3 text-5xl font-bold text-fg/80">7%</p>
@@ -39,7 +37,6 @@ const Page: NextPage = () => (
         </Card>
         <Card
           variant="borderless"
-          glowSize="small"
           className="relative flex h-40 w-44 flex-col items-center justify-center p-6"
         >
           <p className="mb-3 text-5xl font-bold text-fg/80">±0.1%</p>
