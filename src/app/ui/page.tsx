@@ -1,10 +1,4 @@
-import {
-  Button,
-  buttonSizes,
-  buttonVariants,
-  Card,
-  cardVariants,
-} from "@/components/ui";
+import { Button, buttonSizes, buttonVariants, Card } from "@/components/ui";
 import { NextPage } from "next";
 
 const Page: NextPage = () => {
@@ -16,7 +10,7 @@ const Page: NextPage = () => {
         </h1>
         <div className="flex w-screen p-12 gap-12">
           <section>
-            <h2 className="text-2xl text-center font-semibold">Buttons</h2>
+            <h2 className="text-2xl text-center font-semibold mb-4">Buttons</h2>
             <div className="p-2">
               {buttonVariants.map((variant, index1) => (
                 <div key={index1} className="flex gap-4 p-2">
@@ -30,20 +24,16 @@ const Page: NextPage = () => {
             </div>
           </section>
           <section>
-            <h2 className="text-2xl text-center font-semibold">Cards</h2>
+            <h2 className="text-2xl text-center font-semibold mb-4">Cards</h2>
             <div className="p-2 flex flex-col gap-12">
-              {cardVariants.map((variant, index) => (
-                <Card variant={variant} key={index} className="max-w-lg p-12">
-                  <h3 className="font-bold text-xl text-center">{variant}</h3>
-                  <br />
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                </Card>
-              ))}
+              <Card className="max-w-lg p-12">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+              </Card>
             </div>
           </section>
         </div>

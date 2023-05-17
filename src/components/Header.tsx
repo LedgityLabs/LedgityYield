@@ -16,7 +16,6 @@ const Header: FC = () => {
     return () => document.removeEventListener("scroll", handleScroll);
   });
 
-  // TODO: Add "backdrop-blur-md" tailwind class to `<nav>` element when its 'y' position !== 0
   return (
     <header className="pb-[92px] relative">
       <nav

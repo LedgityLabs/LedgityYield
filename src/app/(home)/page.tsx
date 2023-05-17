@@ -17,28 +17,19 @@ const Page: NextPage = () => (
       </h2>
       <section className="relative my-20 flex content-around justify-around gap-16">
         {/* <div className=" absolute top-8 h-1 w-screen bg-sky-200"></div> */}
-        <Card
-          variant="borderless"
-          className="relative flex h-40 w-44 flex-col items-center justify-center p-6"
-        >
+        <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
           <p className="mb-3 text-5xl font-bold text-fg/80">$8k</p>
           <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
             TVL
           </h3>
         </Card>
-        <Card
-          variant="borderless"
-          className="relative flex h-40 w-44 flex-col items-center justify-center p-6"
-        >
+        <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
           <p className="mb-3 text-5xl font-bold text-fg/80">7%</p>
           <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
             APY
           </h3>
         </Card>
-        <Card
-          variant="borderless"
-          className="relative flex h-40 w-44 flex-col items-center justify-center p-6"
-        >
+        <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
           <p className="mb-3 text-5xl font-bold text-fg/80">±0.1%</p>
           <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
             1Y stability
@@ -61,12 +52,30 @@ const Page: NextPage = () => (
     </section>
     <section className="flex justify-center">
       <div className="w-[70vw] grid grid-cols-3 gap-12 py-40">
-        <Card className="h-64">A</Card>
-        <Card className="h-64">B</Card>
-        <Card className="h-64">C</Card>
-        <Card className="h-64">D</Card>
-        <Card className="h-64">E</Card>
-        <Card className="h-64">F</Card>
+        <Card className="h-64 flex justify-center items-center">
+          <h3></h3>
+          <p></p>
+        </Card>
+        <Card className="h-64 flex justify-center items-center">
+          <h3></h3>
+          <p></p>
+        </Card>
+        <Card className="h-64 flex justify-center items-center">
+          <h3></h3>
+          <p></p>
+        </Card>
+        <Card className="h-64 flex justify-center items-center">
+          <h3></h3>
+          <p></p>
+        </Card>
+        <Card className="h-64 flex justify-center items-center">
+          <h3></h3>
+          <p></p>
+        </Card>
+        <Card className="h-64 flex justify-center items-center">
+          <h3></h3>
+          <p></p>
+        </Card>
       </div>
     </section>
   </>
