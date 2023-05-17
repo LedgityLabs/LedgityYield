@@ -1,3 +1,10 @@
+## [1.15.0](https://github.com/ledgity-labs/dapp/compare/v1.14.0...v1.15.0) (2023-05-17)
+
+
+### Features
+
+* **home:** first version of feature cards ([42f65e7](https://github.com/ledgity-labs/dapp/commit/42f65e7fa9d34519a9902cac5b4d87c0b5a33524))
+
 ## [1.14.0](https://github.com/ledgity-labs/dapp/compare/v1.13.0...v1.14.0) (2023-05-17)
 
 
