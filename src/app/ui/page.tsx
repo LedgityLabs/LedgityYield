@@ -1,4 +1,10 @@
-import { Button, buttonSizes, buttonVariants, Card } from "@/components/ui";
+import {
+  Button,
+  buttonSizes,
+  buttonVariants,
+  Card,
+  cardRadiuses,
+} from "@/components/ui";
 import { NextPage } from "next";
 
 const Page: NextPage = () => {
@@ -25,15 +31,17 @@ const Page: NextPage = () => {
           </section>
           <section>
             <h2 className="text-2xl text-center font-semibold mb-4">Cards</h2>
-            <div className="p-2 flex flex-col gap-12">
-              <Card className="max-w-lg p-12">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </Card>
+            <div className="p-2 flex flex-col gap-8">
+              {cardRadiuses.map((radius, index) => (
+                <Card key={index} radius={radius} className="max-w-lg p-12">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                </Card>
+              ))}
             </div>
           </section>
         </div>
