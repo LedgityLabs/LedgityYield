@@ -1,3 +1,10 @@
+## [1.11.0](https://github.com/ledgity-labs/dapp/compare/v1.10.0...v1.11.0) (2023-05-16)
+
+
+### Features
+
+* **components:** add a tiny delay to Card glow movement and improvement CardsHelper performances ([2c000dc](https://github.com/ledgity-labs/dapp/commit/2c000dc7a4753a34b28525c4992a7c6158dc7c46))
+
 ## [1.10.0](https://github.com/ledgity-labs/dapp/compare/v1.9.0...v1.10.0) (2023-05-16)
 
 
