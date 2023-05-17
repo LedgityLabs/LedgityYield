@@ -1,3 +1,10 @@
+## [1.12.0](https://github.com/ledgity-labs/dapp/compare/v1.11.0...v1.12.0) (2023-05-17)
+
+
+### Features
+
+* **home:** a bunch of home page related features (see long description) ([5221c4a](https://github.com/ledgity-labs/dapp/commit/5221c4a7d65b9ef9e51c5eb47c0bfd12cd9b4789))
+
 ## [1.11.0](https://github.com/ledgity-labs/dapp/compare/v1.10.0...v1.11.0) (2023-05-16)
 
 
