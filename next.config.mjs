@@ -6,7 +6,7 @@ import "./src/env.mjs";
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
+    // typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
   },
 };
 export default nextConfig;

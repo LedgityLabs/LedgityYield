@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -17,12 +16,16 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         }
       >
         <div
-          className={twMerge(
-            "rounded-[1.4rem] bg-indigo-50 backdrop-blur-md",
+          className={
+            "bg-card-content " + // Must be outside, else twMerge will override it
+            twMerge(
+              "card",
+              "rounded-[1.4rem] bg-indigo-50 backdrop-blur-md",
 
-            // Custom classes
-            className
-          )}
+              // Custom classes
+              className
+            )
+          }
           {...props}
           ref={ref}
         >
