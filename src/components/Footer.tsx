@@ -3,8 +3,11 @@ import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "~/assets/logo/dark.png";
+import { usePathname } from "next/navigation";
 
 const Footer: FC = () => {
+  const path = usePathname();
+  if (path.startsWith("/app")) return null;
   return (
     <footer className="bg-fg p-12 flex justify-center items-center">
       <Link href="/" className="flex pt-1">

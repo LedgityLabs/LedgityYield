@@ -59,7 +59,7 @@ const Page: NextPage = () => (
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
             <p className="p-6">
-              Thanks to our fund being backed by Real World Assets, we register
+              Thanks to our fund being backed by Real World Assets, we record
               very few variations on announced yield rates.
             </p>
             <Image src={analytics} alt="todo" />
@@ -83,8 +83,8 @@ const Page: NextPage = () => (
           </h3>
           <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
             <p className="p-6">
-              Dlor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+              Deposited stablecoins are allocated accross multiple DeFi and CeFi
+              strategies to provide you with resilient yields.
             </p>
             <Image src={analytics} alt="todo" />
           </Card>
@@ -159,7 +159,7 @@ const Page: NextPage = () => (
               <span className="text-primary-fg font-bold">3</span>
             </Card>
             <p className="text-xl">
-              You start earning interest stable yields while you sleep!
+              You start earning stable yields while you sleep !
             </p>
           </Card>
         </li>
