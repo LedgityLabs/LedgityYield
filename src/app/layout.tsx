@@ -1,8 +1,11 @@
+"use client";
 import "@/styles/globals.css";
 import { Poppins, Inter } from "next/font/google";
 import { type NextPage } from "next";
 import Header from "@/components/Header";
 import { CardsHelper } from "@/components/ui";
+import { usePathname } from "next/navigation";
+import Footer from "@/components/Footer";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -30,6 +33,7 @@ interface Props {
 }
 
 const RootLayout: NextPage<Props> = ({ children }) => {
+  const path = usePathname();
   return (
     <>
       <html lang="en">
@@ -37,7 +41,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
         <body className={`${inter.variable} ${poppins.variable}`}>
           <Header />
           <main>{children}</main>
-          <footer></footer>
+          {!path.startsWith("/app") && <Footer />}
         </body>
       </html>
     </>

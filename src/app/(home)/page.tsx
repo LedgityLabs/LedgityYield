@@ -127,7 +127,7 @@ const Page: NextPage = () => (
         </div>
       </div>
     </section>
-    <section className="flex flex-col justify-center items-center">
+    <section className="flex flex-col justify-center items-center mb-36">
       <h3 className="text-center font-semibold text-4xl pb-4 font-heading">
         How it works ?
       </h3>
