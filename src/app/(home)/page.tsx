@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import usdcToken from "~/assets/tokens/usdc.png";
+import analytics from "~/assets/analytics.png";
 
 const Page: NextPage = () => (
   <>
@@ -50,32 +51,80 @@ const Page: NextPage = () => (
       </div> */}
       <Scroller className="absolute bottom-11" />
     </section>
-    <section className="flex justify-center">
-      <div className="w-[70vw] grid grid-cols-3 gap-12 py-40">
-        <Card className="h-64 flex justify-center items-center">
-          <h3></h3>
-          <p></p>
-        </Card>
-        <Card className="h-64 flex justify-center items-center">
-          <h3></h3>
-          <p></p>
-        </Card>
-        <Card className="h-64 flex justify-center items-center">
-          <h3></h3>
-          <p></p>
-        </Card>
-        <Card className="h-64 flex justify-center items-center">
-          <h3></h3>
-          <p></p>
-        </Card>
-        <Card className="h-64 flex justify-center items-center">
-          <h3></h3>
-          <p></p>
-        </Card>
-        <Card className="h-64 flex justify-center items-center">
-          <h3></h3>
-          <p></p>
-        </Card>
+    <section className="flex justify-center py-36">
+      <div className="grid grid-cols-3 gap-8 gap-x-16 px-8 ">
+        <div>
+          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+            Long term stability
+          </h3>
+          <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
+            <p className="p-6">
+              Thanks to our fund being backed by Real World Assets, we register
+              very few variations on announced yield rates.
+            </p>
+            <Image src={analytics} alt="todo" />
+          </Card>
+        </div>
+        <div>
+          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+            High efficiency
+          </h3>
+          <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
+            <p className="p-6">
+              Our team of financial experts are constantly optimizing strategies
+              to provide you with highest rates at lowest risks.
+            </p>
+            <Image src={analytics} alt="todo" />
+          </Card>
+        </div>
+        <div>
+          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+            Diversified portofolio
+          </h3>
+          <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
+            <p className="p-6">
+              Dlor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
+            </p>
+            <Image src={analytics} alt="todo" />
+          </Card>
+        </div>
+        <div>
+          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+            Detailed analytics
+          </h3>
+          <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
+            <p className="p-6">
+              The app provides you with detailed charts and statistics about
+              your investment and the protocol itself.
+            </p>
+            <Image src={analytics} alt="todo" />
+          </Card>
+        </div>
+        <div>
+          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+            Heavily audited
+          </h3>
+          <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
+            <p className="p-6">
+              Our fund contract (which holds 95% of deposited assets) is based
+              on Gnosis Safe, a renewed and multi-audited solution.
+            </p>
+            <Image src={analytics} alt="todo" />
+          </Card>
+        </div>
+        <div>
+          <h3 className="text-center font-semibold text-xl pb-4 font-heading">
+            Multi-chains
+          </h3>
+          <Card className="w-96 h-72 flex justify-between flex-col overflow-hidden">
+            <p className="p-6">
+              The protocol is currently available on Polygon and Ethereum. We
+              plan to deploy it on other chains in the near future.
+            </p>
+            <Image src={analytics} alt="todo" />
+          </Card>
+        </div>
       </div>
     </section>
   </>
