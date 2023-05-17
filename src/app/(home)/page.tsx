@@ -133,8 +133,11 @@ const Page: NextPage = () => (
       </h3>
       <ol className="flex justify-center items-center flex-wrap">
         <li className="p-4">
-          <Card className="p-10 flex gap-8 items-center w-[500px]">
-            <Card className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center">
+          <Card className="p-8 flex gap-8 items-center w-[500px]">
+            <Card
+              radius="full"
+              className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center"
+            >
               <span className="text-primary-fg font-bold">1</span>
             </Card>
             <p className="text-xl">
@@ -143,8 +146,11 @@ const Page: NextPage = () => (
           </Card>
         </li>
         <li className="p-4">
-          <Card className="p-10 flex gap-8 items-center w-[500px]">
-            <Card className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center">
+          <Card className="p-8 flex gap-8 items-center w-[500px]">
+            <Card
+              radius="full"
+              className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center"
+            >
               <span className="text-primary-fg font-bold">2</span>
             </Card>
             <p className="text-xl">
@@ -154,8 +160,11 @@ const Page: NextPage = () => (
           </Card>
         </li>
         <li className="basis-full p-4 flex justify-center">
-          <Card className="p-10 flex gap-8 items-center w-[500px]">
-            <Card className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center">
+          <Card className="p-8 flex gap-8 items-center w-[500px]">
+            <Card
+              radius="full"
+              className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center"
+            >
               <span className="text-primary-fg font-bold">3</span>
             </Card>
             <p className="text-xl">
@@ -165,7 +174,9 @@ const Page: NextPage = () => (
         </li>
       </ol>
       <div className="flex gap-8 justify-center items-center mt-8">
-        <p className="text-xl font-semibold">Ready to get started ?</p>
+        <p className="text-xl font-semibold underline decoration-2 decoration-slate-400">
+          Ready to get started ?
+        </p>
         <Link href="/app">
           <Button size="large">Take me to the app</Button>
         </Link>

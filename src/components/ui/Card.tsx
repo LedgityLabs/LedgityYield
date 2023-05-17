@@ -1,17 +1,28 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+export const cardRadiuses = ["default", "full"] as const;
+export type CardRadius = (typeof cardRadiuses)[number];
+
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  radius?: CardRadius;
+}
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, ...props }, ref) => (
+  ({ className, children, radius = "default", ...props }, ref) => (
     <>
       <article
         className={
           "bg-card-border " + // Must be outside, else twMerge will override it
           twMerge(
             "card", // Used by <CardsHelper />
-            "rounded-3xl bg-fg/10 backdrop-blur-md shadow-slate-200 p-[2px] shadow-sm inline-block h-min"
+            "bg-fg/10 backdrop-blur-md shadow-slate-200 p-[2px] shadow-sm inline-block h-min",
+
+            // Radiuses
+            {
+              default: "rounded-3xl",
+              full: "rounded-full",
+            }[radius]
           )
         }
       >
@@ -20,7 +31,13 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
             "bg-card-content " + // Must be outside, else twMerge will override it
             twMerge(
               "card",
-              "rounded-[1.4rem] bg-indigo-50 backdrop-blur-md",
+              "bg-indigo-50 backdrop-blur-md",
+
+              // Radiuses
+              {
+                default: "rounded-[1.4rem]",
+                full: "rounded-full",
+              }[radius],
 
               // Custom classes
               className
