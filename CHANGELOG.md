@@ -1,3 +1,16 @@
+## [1.18.0](https://github.com/ledgity-labs/dapp/compare/v1.17.0...v1.18.0) (2023-05-17)
+
+
+### Features
+
+* add radius-based variants of <Card/> component ([888915b](https://github.com/ledgity-labs/dapp/commit/888915b31418a39e66b5681a38d0a7f2a3b0bca7))
+* **ui:** add new <Card/> radius variant to UI kit page ([f62064d](https://github.com/ledgity-labs/dapp/commit/f62064d79437478c4dc339f2cae319e8ac313995))
+
+
+### Fixes
+
+* fix deployment error + some text typos ([26ac08f](https://github.com/ledgity-labs/dapp/commit/26ac08fcf6daa2f76097e11f20c89ddaefd8770e))
+
 ## [1.17.0](https://github.com/ledgity-labs/dapp/compare/v1.16.0...v1.17.0) (2023-05-17)
 
 
