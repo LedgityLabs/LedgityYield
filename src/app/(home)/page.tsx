@@ -5,6 +5,10 @@ import Link from "next/link";
 import usdcToken from "~/assets/tokens/usdc.png";
 import analytics from "~/assets/analytics.png";
 import { clsx } from "clsx";
+import foundersoneLogo from "~/assets/partners/foundersone.png";
+import risepartnersLogo from "~/assets/partners/risepartners.png";
+import adanLogo from "~/assets/partners/adan.svg";
+import circleLogo from "~/assets/partners/circle.png";
 
 const Page: NextPage = () => (
   <>
@@ -142,7 +146,7 @@ const Page: NextPage = () => (
           </Button>
         </Link>
       </section>
-      <section className="flex flex-col justify-center items-center py-36">
+      <section className="flex flex-col justify-center items-center py-48">
         <h3 className="text-center font-semibold text-4xl pb-4 font-heading">
           How it works ?
         </h3>
@@ -156,8 +160,7 @@ const Page: NextPage = () => (
                 <span className="text-primary-fg font-bold">1</span>
               </Card>
               <p className="text-xl">
-                You deposit stablecoins and get wrapped coins as proof of
-                deposit
+                You lend stablecoins and get wrapped coins as proof of deposit
               </p>
             </Card>
           </li>
@@ -197,6 +200,29 @@ const Page: NextPage = () => (
             <Button size="large">Take me to the app</Button>
           </Link>
         </div>
+      </section>
+      <section className="pb-36 flex flex-col items-center">
+        <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">
+          Our partners
+        </h3>
+        <ul className="flex justify-center gap-16">
+          <li>
+            <Image src={circleLogo} alt="Circle Logo" height={60} />
+          </li>
+          <li>
+            <Image
+              src={risepartnersLogo}
+              alt="Rise Partners Logo"
+              height={60}
+            />
+          </li>
+          <li>
+            <Image src={adanLogo} alt="ADAN Logo" height={60} />
+          </li>
+          <li>
+            <Image src={foundersoneLogo} alt="Founders One Logo" height={60} />
+          </li>
+        </ul>
       </section>
     </div>
   </>
