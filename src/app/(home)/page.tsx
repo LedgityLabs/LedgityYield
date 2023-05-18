@@ -207,20 +207,48 @@ const Page: NextPage = () => (
         </h3>
         <ul className="flex justify-center gap-16">
           <li>
-            <Image src={circleLogo} alt="Circle Logo" height={60} />
+            <Link
+              href="https://www.circle.com"
+              target="_blank"
+              className="opacity-90 hover:opacity-100 transition"
+            >
+              <Image src={circleLogo} alt="Circle Logo" height={60} />
+            </Link>
           </li>
           <li>
-            <Image
-              src={risepartnersLogo}
-              alt="Rise Partners Logo"
-              height={60}
-            />
+            <Link
+              href="https://www.risepartners.org"
+              target="_blank"
+              className="opacity-90 hover:opacity-100 transition"
+            >
+              <Image
+                src={risepartnersLogo}
+                alt="Rise Partners Logo"
+                height={60}
+              />
+            </Link>
           </li>
           <li>
-            <Image src={adanLogo} alt="ADAN Logo" height={60} />
+            <Link
+              href="https://www.adan.eu"
+              target="_blank"
+              className="opacity-90 hover:opacity-100 transition"
+            >
+              <Image src={adanLogo} alt="ADAN Logo" height={60} />
+            </Link>
           </li>
           <li>
-            <Image src={foundersoneLogo} alt="Founders One Logo" height={60} />
+            <Link
+              href=""
+              target="_blank"
+              className="opacity-90 hover:opacity-100 transition"
+            >
+              <Image
+                src={foundersoneLogo}
+                alt="Founders One Logo"
+                height={60}
+              />
+            </Link>
           </li>
         </ul>
       </section>
