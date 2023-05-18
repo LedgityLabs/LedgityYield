@@ -1,3 +1,10 @@
+## [1.19.0](https://github.com/ledgity-labs/dapp/compare/v1.18.0...v1.19.0) (2023-05-18)
+
+
+### Features
+
+* **home:** a bunch of home page updates (hero transition, CSS replaced by tailwind, new glow, ...) ([9ba4b14](https://github.com/ledgity-labs/dapp/commit/9ba4b145a7765a5da61c80c3f7b0723a2014992e))
+
 ## [1.18.0](https://github.com/ledgity-labs/dapp/compare/v1.17.0...v1.18.0) (2023-05-17)
 
 
