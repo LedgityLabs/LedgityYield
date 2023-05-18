@@ -1,3 +1,10 @@
+## [1.20.0](https://github.com/ledgity-labs/dapp/compare/v1.19.0...v1.20.0) (2023-05-18)
+
+
+### Features
+
+* **home:** improve feature card appearance + new glow asset (used as background for home body) ([bdb864d](https://github.com/ledgity-labs/dapp/commit/bdb864d7aa87e6b454da11ae7808bb711dcd604d))
+
 ## [1.19.0](https://github.com/ledgity-labs/dapp/compare/v1.18.0...v1.19.0) (2023-05-18)
 
 
