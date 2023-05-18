@@ -5,6 +5,7 @@ import Image from "next/image";
 import logo from "~/assets/logo/light.png";
 import { Button } from "@/components/ui";
 import { usePathname } from "next/navigation";
+import { clsx } from "clsx";
 
 const Header: FC = () => {
   const path = usePathname();
@@ -19,10 +20,10 @@ const Header: FC = () => {
   return (
     <header className="pb-[92px] relative z-50">
       <nav
-        className={
-          "fixed flex justify-between px-8 py-6 w-screen " +
-          (scrollY > 0 ? "backdrop-blur-md" : "")
-        }
+        className={clsx(
+          "fixed flex justify-between px-8 py-6 w-screen",
+          scrollY > 0 && "backdrop-blur-md"
+        )}
       >
         <Link href="/" className="flex pt-1">
           <Image

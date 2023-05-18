@@ -54,6 +54,14 @@ const vars = {
   ".dark": {}
 };
 
+/*
+
+
+        radial-gradient(300px circle at 120% 120%, rgb(var(--primary-bg) / 0.8), transparent),
+        radial-gradient(300px circle at -20% -20%, rgb(var(--primary-bg) / 0.8), transparent)
+
+         radial-gradient(600px circle at 50% 80%, white, rgb(var(--primary-bg) / 0.3))
+*/
 /** @type {import('tailwindcss').Config} */
 export const content = ["./src/**/*.{js,ts,jsx,tsx,mdx}"];
 export const darkMode = ["class"];
@@ -65,8 +73,13 @@ export const theme = {
   extend: {
     backgroundImage: {
       hero: "repeating-conic-gradient(black 0%, gray 0.7%), repeating-conic-gradient(gray 0.0000001%, grey 0.000104%)",
-      "card-border": "radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)",
-      "card-content": "radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1), transparent)",
+
+      "card-border": `
+        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)
+        `,
+
+      "card-content": `
+        radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1)`,
     },
     colors: {
       bg: "rgb(var(--bg) / <alpha-value>)",

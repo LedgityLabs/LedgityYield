@@ -16,11 +16,11 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           "bg-card-border " + // Must be outside, else twMerge will override it
           twMerge(
             "card", // Used by <CardsHelper />
-            "bg-fg/10 backdrop-blur-md shadow-slate-200 p-[2px] shadow-sm inline-block h-min",
+            "bg-input/80 shadow-slate-200 p-[2px] shadow-sm h-min",
 
             // Radiuses
             {
-              default: "rounded-3xl",
+              default: "rounded-[1.8rem]",
               full: "rounded-full",
             }[radius]
           )
@@ -30,12 +30,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           className={
             "bg-card-content " + // Must be outside, else twMerge will override it
             twMerge(
-              "card",
-              "bg-indigo-50 backdrop-blur-md",
+              "card", // Used by <CardsHelper />
+              " bg-indigo-50",
 
               // Radiuses
               {
-                default: "rounded-[1.4rem]",
+                default: "rounded-[1.7rem]",
                 full: "rounded-full",
               }[radius],
 

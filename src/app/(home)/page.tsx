@@ -61,12 +61,12 @@ const Page: NextPage = () => (
       </div>
     </section>
     <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative">
-      <section className="flex justify-center -mt-48">
-        <div className="grid grid-cols-3 gap-16 px-8 ">
+      <section className="flex flex-col justify-center items-center -mt-56">
+        <div className="grid grid-cols-3 gap-12 px-8 ">
           <div>
-            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90 ">
-              <Image className="invert opacity-60" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-xl font-heading">
+            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90">
+              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 Long term stability
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
@@ -76,9 +76,9 @@ const Page: NextPage = () => (
             </Card>
           </div>
           <div>
-            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90 ">
-              <Image className="invert opacity-60" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-xl font-heading">
+            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90">
+              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 High efficiency
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
@@ -88,9 +88,9 @@ const Page: NextPage = () => (
             </Card>
           </div>
           <div>
-            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90 ">
-              <Image className="invert opacity-60" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-xl font-heading">
+            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90">
+              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 Diversified portofolio
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
@@ -100,9 +100,9 @@ const Page: NextPage = () => (
             </Card>
           </div>
           <div>
-            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90 ">
-              <Image className="invert opacity-60" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-xl font-heading">
+            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90">
+              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 Detailed analytics
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
@@ -112,9 +112,9 @@ const Page: NextPage = () => (
             </Card>
           </div>
           <div>
-            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90 ">
-              <Image className="invert opacity-60" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-xl font-heading">
+            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90">
+              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 Heavily audited
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
@@ -124,9 +124,9 @@ const Page: NextPage = () => (
             </Card>
           </div>
           <div>
-            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90 ">
-              <Image className="invert opacity-60" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-xl font-heading">
+            <Card className="w-96 flex justify-between flex-col overflow-hidden opacity-90">
+              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 Multi-chains
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
@@ -136,12 +136,17 @@ const Page: NextPage = () => (
             </Card>
           </div>
         </div>
+        <Link href="/app">
+          <Button className="mt-12" size="large">
+            Browse available yields
+          </Button>
+        </Link>
       </section>
       <section className="flex flex-col justify-center items-center py-36">
         <h3 className="text-center font-semibold text-4xl pb-4 font-heading">
           How it works ?
         </h3>
-        <ol className="flex justify-center items-center flex-wrap">
+        <ol className="flex flex-col justify-center items-center flex-wrap">
           <li className="p-4">
             <Card className="p-8 flex gap-8 items-center w-[500px]">
               <Card
