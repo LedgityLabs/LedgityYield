@@ -17,10 +17,10 @@ const Header: FC = () => {
   });
 
   return (
-    <header className="pb-[92px] relative">
+    <header className="pb-[92px] relative z-50">
       <nav
         className={
-          "fixed z-10 flex justify-between px-8 py-6 w-screen " +
+          "fixed flex justify-between px-8 py-6 w-screen " +
           (scrollY > 0 ? "backdrop-blur-md" : "")
         }
       >

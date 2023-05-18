@@ -11,7 +11,7 @@ const toRGB = val => parseColor(val).color.join(" ");
 const vars = {
   ":root": {
     // Default background (bg) and text-color (fg) applied to <body/>
-    "--bg": toRGB(colors.slate[100]),
+    "--bg": toRGB(colors.indigo[50]),
     "--fg": toRGB(colors.slate[800]),
 
     // Accentuated versions of default background and foreground
@@ -64,6 +64,7 @@ export const theme = {
   },
   extend: {
     backgroundImage: {
+      hero: "repeating-conic-gradient(black 0%, gray 0.7%), repeating-conic-gradient(gray 0.0000001%, grey 0.000104%)",
       "card-border": "radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)",
       "card-content": "radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1), transparent)",
     },

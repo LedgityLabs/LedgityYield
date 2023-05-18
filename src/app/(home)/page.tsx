@@ -4,54 +4,63 @@ import Image from "next/image";
 import Link from "next/link";
 import usdcToken from "~/assets/tokens/usdc.png";
 import analytics from "~/assets/analytics.png";
+import { clsx } from "clsx";
 
 const Page: NextPage = () => (
   <>
-    <section className="hero relative flex min-h-screen -mt-[92px] flex-col justify-center items-center bg-[url('/assets/glow-light.png')] bg-cover bg-center bg-fixed">
-      <h2 className="text-center font-heading text-8xl font-bold text-slate-700">
-        Stable yields for
-        <br />
-        <span className="text-indigo-300 text-transparent bg-clip-text bg-gradient-to-t from-indigo-300 to-indigo-500">
-          stablecoins
-        </span>
-        .
-      </h2>
-      <section className="relative my-20 flex content-around justify-around gap-16">
-        {/* <div className=" absolute top-8 h-1 w-screen bg-sky-200"></div> */}
-        <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
-          <p className="mb-3 text-5xl font-bold text-fg/80">$8k</p>
-          <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
-            TVL
-          </h3>
-        </Card>
-        <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
-          <p className="mb-3 text-5xl font-bold text-fg/80">7%</p>
-          <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
-            APY
-          </h3>
-        </Card>
-        <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
-          <p className="mb-3 text-5xl font-bold text-fg/80">±0.1%</p>
-          <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
-            1Y stability
-          </h3>
-        </Card>
-      </section>
-      <div className="flex gap-8">
-        <Link href="/app">
-          <Button size="large">Invest now</Button>
-        </Link>
-        <Button variant="outline" size="large">
-          Learn more
-        </Button>
-      </div>
-      {/* <div className="flex gap-3 justify-center items-center text-xl font-semibold mt-4 text-slate-500">
+    <section
+      className={clsx(
+        "hero min-h-[140vh] bg-[url('/assets/glow-light.png')] bg-cover bg-center",
+        "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:bg-blend-difference before:brightness-[250%] before:contrast-[600%]",
+        "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
+      )}
+    >
+      <div className="flex -mt-[92px] relative flex-col min-h-screen justify-center items-center">
+        <h2 className="text-center font-heading text-8xl font-bold text-slate-700">
+          Stable yields for
+          <br />
+          <span className="text-indigo-300 text-transparent bg-clip-text bg-gradient-to-t from-indigo-300 to-indigo-500">
+            stablecoins
+          </span>
+          .
+        </h2>
+        <section className="relative my-20 flex content-around justify-around gap-16">
+          {/* <div className=" absolute top-8 h-1 w-screen bg-sky-200"></div> */}
+          <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
+            <p className="mb-3 text-5xl font-bold text-fg/80">$8k</p>
+            <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
+              TVL
+            </h3>
+          </Card>
+          <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
+            <p className="mb-3 text-5xl font-bold text-fg/80">7%</p>
+            <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
+              APY
+            </h3>
+          </Card>
+          <Card className="relative flex h-40 w-44 flex-col items-center justify-center p-6">
+            <p className="mb-3 text-5xl font-bold text-fg/80">±0.1%</p>
+            <h3 className="absolute bottom-3 text-lg  font-semibold text-primary/30">
+              1Y stability
+            </h3>
+          </Card>
+        </section>
+        <div className="flex gap-8">
+          <Link href="/app">
+            <Button size="large">Invest now</Button>
+          </Link>
+          <Button variant="outline" size="large">
+            Learn more
+          </Button>
+        </div>
+        {/* <div className="flex gap-3 justify-center items-center text-xl font-semibold mt-4 text-slate-500">
         Available tokens:
         <Image src={usdcToken} alt="USDC token logo" width={30} height={30} />
       </div> */}
-      <Scroller className="absolute bottom-11" />
+        <Scroller className="absolute bottom-11" />
+      </div>
     </section>
-    <section className="flex justify-center py-36">
+    <section className="flex justify-center -mt-48 relative">
       <div className="grid grid-cols-3 gap-12 gap-x-16 px-8 ">
         <div>
           <h3 className="text-center font-semibold text-[1.35rem] pb-4 font-heading">
@@ -127,7 +136,7 @@ const Page: NextPage = () => (
         </div>
       </div>
     </section>
-    <section className="flex flex-col justify-center items-center mb-36">
+    <section className="flex flex-col justify-center items-center my-36">
       <h3 className="text-center font-semibold text-4xl pb-4 font-heading">
         How it works ?
       </h3>

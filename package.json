@@ -10,7 +10,6 @@
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.3.1",
     "clsx": "^1.2.1",
-    "conventional-changelog-conventionalcommits": "^5.0.0",
     "ethers": "^6.3.0",
     "next": "13.4.2",
     "react": "18.2.0",
@@ -24,6 +23,7 @@
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "conventional-changelog-conventionalcommits": "^5.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
