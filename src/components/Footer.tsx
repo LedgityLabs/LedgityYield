@@ -10,23 +10,27 @@ const Footer: FC = () => {
   const path = usePathname();
   if (path.startsWith("/app")) return null;
   return (
-    <footer className={clsx("bg-fg p-24 flex flex-col justify-center items-center relative mt-32")}>
-      <section className="flex justify-between w-full flex-wrap">
-        <article className="text-bg flex justify-center items-center min-w-[310px]">
-          <ul className="flex gap-8">
+    <footer
+      className={clsx(
+        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative mt-32 w-screen overflow-hidden"
+      )}
+    >
+      <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full">
+        <article className="text-bg flex lg:justify-start justify-center items-center lg:row-start-1 row-start-3">
+          <ul className="flex xl:gap-8 gap-6">
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
-              <Link href="" target="_blank">
+              <Link href="" target="_blank" className="whitespace-nowrap">
                 Terms and Conditions
               </Link>
             </li>
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
-              <Link href="" target="_blank">
+              <Link href="" target="_blank" className="whitespace-nowrap">
                 Privacy Policy
               </Link>
             </li>
           </ul>
         </article>
-        <article>
+        <article className="flex justify-center items-center ">
           <Link href="/" className="flex pt-1">
             <Image alt="Ledgity Logo" src={logo} className="h-9 w-auto cursor-pointer" width={121} />
             <p className="-mt-0.5 ml-2 self-start rounded-sm bg-indigo-400 px-1.5 py-1 font-body text-[0.7rem] font-semibold leading-tight tracking-wide text-stone-100 before:-z-10">
@@ -34,7 +38,7 @@ const Footer: FC = () => {
             </p>
           </Link>
         </article>
-        <article className="flex justify-end items-center">
+        <article className="flex lg:justify-end justify-center items-center">
           <ul className="flex justify-center items-center gap-5">
             <li className="flex justify-center items-center">
               <Link href="" target="_blank" className="w-8 h-8 inline-block">
