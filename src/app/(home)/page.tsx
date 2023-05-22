@@ -177,9 +177,13 @@ const Page: NextPage = () => (
       </section>
       <section className="pb-36 flex flex-col items-center">
         <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Our partners</h3>
-        <ul className="flex justify-center gap-16">
+        <ul className="flex flex-wrap justify-center gap-16 px-16">
           <li>
-            <Link href="https://www.circle.com" target="_blank" className="opacity-90 hover:opacity-100 transition">
+            <Link
+              href="https://www.circle.com"
+              target="_blank"
+              className="opacity-90 hover:opacity-100 transition min-h-[60px]"
+            >
               <Image src={circleLogo} alt="Circle Logo" height={60} />
             </Link>
           </li>
@@ -187,18 +191,22 @@ const Page: NextPage = () => (
             <Link
               href="https://www.risepartners.org"
               target="_blank"
-              className="opacity-90 hover:opacity-100 transition"
+              className="opacity-90 hover:opacity-100 transition min-h-[60px]"
             >
               <Image src={risepartnersLogo} alt="Rise Partners Logo" height={60} />
             </Link>
           </li>
           <li>
-            <Link href="https://www.adan.eu" target="_blank" className="opacity-90 hover:opacity-100 transition">
+            <Link
+              href="https://www.adan.eu"
+              target="_blank"
+              className="opacity-90 hover:opacity-100 transition min-h-[60px]"
+            >
               <Image src={adanLogo} alt="ADAN Logo" height={60} />
             </Link>
           </li>
           <li>
-            <Link href="" target="_blank" className="opacity-90 hover:opacity-100 transition">
+            <Link href="" target="_blank" className="opacity-90 hover:opacity-100 transition min-h-[60px]">
               <Image src={foundersoneLogo} alt="Founders One Logo" height={60} />
             </Link>
           </li>
