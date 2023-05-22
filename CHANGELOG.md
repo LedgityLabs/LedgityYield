@@ -1,3 +1,12 @@
+## [1.23.0](https://github.com/ledgity-labs/dapp/compare/v1.22.0...v1.23.0) (2023-05-22)
+
+
+### Features
+
+* **home:** make features cards and "how it works?" section responsive ([b3e218e](https://github.com/ledgity-labs/dapp/commit/b3e218e6faeef174281ab69d0568fb5ef8ebb723))
+* **home:** make partners section responsive ([26c50c6](https://github.com/ledgity-labs/dapp/commit/26c50c60af0dd7361aa103c768ed03c342b86712))
+* make footer responsive ([0c42188](https://github.com/ledgity-labs/dapp/commit/0c421889410e594a35f9398441011049f00fcc1a))
+
 ## [1.22.0](https://github.com/ledgity-labs/dapp/compare/v1.21.0...v1.22.0) (2023-05-22)
 
 
