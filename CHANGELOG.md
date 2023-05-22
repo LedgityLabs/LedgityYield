@@ -1,3 +1,11 @@
+## [1.22.0](https://github.com/ledgity-labs/dapp/compare/v1.21.0...v1.22.0) (2023-05-22)
+
+
+### Features
+
+* first version of footer ([8c18d1a](https://github.com/ledgity-labs/dapp/commit/8c18d1a07e61e41f8028b7255a9e5141beb18b72))
+* make header and hero responsive ([bbe0e27](https://github.com/ledgity-labs/dapp/commit/bbe0e27e31b527a6ae45338e564426b690e74fce))
+
 ## [1.21.0](https://github.com/ledgity-labs/dapp/compare/v1.20.0...v1.21.0) (2023-05-18)
 
 
