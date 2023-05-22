@@ -1,3 +1,10 @@
+## [1.23.1](https://github.com/ledgity-labs/dapp/compare/v1.23.0...v1.23.1) (2023-05-22)
+
+
+### Fixes
+
+* tiny adjustments about responsivness ([cf877ef](https://github.com/ledgity-labs/dapp/commit/cf877ef2317cdb296b0810a3c5dc4e502651ee50))
+
 ## [1.23.0](https://github.com/ledgity-labs/dapp/compare/v1.22.0...v1.23.0) (2023-05-22)
 
 
