@@ -21,23 +21,18 @@ const Header: FC = () => {
     <header className="pb-[92px] relative z-50">
       <nav
         className={clsx(
-          "fixed flex justify-between px-8 py-6 w-screen",
+          "fixed flex sm:justify-between justify-center items-center px-8 py-6 w-screen",
           scrollY > 0 && "backdrop-blur-md"
         )}
       >
         <Link href="/" className="flex pt-1">
-          <Image
-            alt="Ledgity Logo"
-            src={logo}
-            className="h-9 w-auto cursor-pointer"
-            width={121}
-          />
+          <Image alt="Ledgity Logo" src={logo} className="h-9 w-auto cursor-pointer" width={121} />
           <p className="-mt-0.5 ml-2 self-start rounded-sm bg-indigo-400 px-1.5 py-1 font-body text-[0.7rem] font-semibold leading-tight tracking-wide text-stone-100">
             DeFi
           </p>
         </Link>
         {!path.startsWith("/app") && (
-          <Link href="/app">
+          <Link href="/app" className="sm:block hidden">
             <Button size="large">Enter app</Button>
           </Link>
         )}
