@@ -1,3 +1,13 @@
+## [1.21.0](https://github.com/ledgity-labs/dapp/compare/v1.20.0...v1.21.0) (2023-05-18)
+
+
+### Features
+
+* **home:** add partners section ([05f4fac](https://github.com/ledgity-labs/dapp/commit/05f4facf39c50f385f1bbb3155da9ada9aad3bd0))
+* **home:** increase spacing between section and add hover effect to partners logos ([7320c3d](https://github.com/ledgity-labs/dapp/commit/7320c3d71015d761eadce1fd35f7468ace1c52ed))
+* **home:** progessively hide scroll indicator onscroll ([aca3dbb](https://github.com/ledgity-labs/dapp/commit/aca3dbb5d9823083d92b14041e8c1338314c18d1))
+* **home:** tiny adjustments, new CTA, mono-column "How it works?" section ([ab3a02b](https://github.com/ledgity-labs/dapp/commit/ab3a02b17aa7f76e5878ee6ee64e23dff1173fd1))
+
 ## [1.20.0](https://github.com/ledgity-labs/dapp/compare/v1.19.0...v1.20.0) (2023-05-18)
 
 
