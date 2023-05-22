@@ -18,7 +18,7 @@ const Page: NextPage = () => (
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
       )}
     >
-      <div className="flex -mt-[92px] relative flex-col min-h-screen justify-center items-center lg:gap-18 md:gap-12 gap-14">
+      <div className="flex -mt-[92px] relative flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14">
         <h2 className="text-center leading-none font-heading lg:text-8xl md:text-[4.5rem] sm:text-[4rem] text-[3rem] font-bold text-slate-700">
           Stable <span className="whitespace-nowrap">yields for</span>
           <br />

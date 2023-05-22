@@ -4,6 +4,7 @@ import { type NextPage } from "next";
 import Header from "@/components/Header";
 import { CardsHelper } from "@/components/ui";
 import Footer from "@/components/Footer";
+import clsx from "clsx";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -35,7 +36,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
     <>
       <html lang="en">
         <CardsHelper />
-        <body className={`${inter.variable} ${poppins.variable}`}>
+        <body className={clsx(`${inter.variable} ${poppins.variable}`, "w-screen overflow-x-hidden")}>
           <Header />
           <main>{children}</main>
           <Footer />

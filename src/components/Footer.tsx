@@ -20,7 +20,7 @@ const Footer: FC = () => {
           <ul className="flex xl:gap-8 gap-6">
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
               <Link href="" target="_blank" className="whitespace-nowrap">
-                Terms and Conditions
+                Terms & Conditions
               </Link>
             </li>
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
