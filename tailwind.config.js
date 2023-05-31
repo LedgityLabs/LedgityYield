@@ -78,6 +78,10 @@ export const theme = {
         radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)
         `,
 
+      "card-illustrations": `
+        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg)), rgb(var(--primary-bg)), transparent)
+        `,
+
       "card-content": `
         radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1)`,
     },

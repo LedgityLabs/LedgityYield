@@ -59,65 +59,93 @@ const Page: NextPage = () => (
       </div>
     </section>
     <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative">
-      <section className="flex flex-col justify-center items-center -mt-56">
-        <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-12 px-8 ">
-          <div>
-            <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="opacity-90 contrast-50" src={stabilityIllustration} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
-                Long term stability
-              </h3>
-              <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Benefit from an institutional set up and a protocol backed by RWA
-              </p>
-            </Card>
-          </div>
-          <div>
-            <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="opacity-90 contrast-50" src={efficiencyIllustration} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">High efficiency</h3>
-              <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Our team of experts provide financial engineering to achieve the best risk-adjusted return from RWA
-              </p>
-            </Card>
-          </div>
-          <div>
-            <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="opacity-90 contrast-50" src={diversificationIllustration} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Diversification</h3>
-              <p className="p-6 pt-0 pb-7 text-lg text-center">
-                The collateralized portoflio of RWA assets is allocated accross hundreds of yield opportunities
-              </p>
-            </Card>
-          </div>
-          <div>
-            <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="opacity-90 contrast-50" src={analyticsIllustration} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Analytics</h3>
-              <p className="p-6 pt-0 pb-7 text-lg text-center">
-                The app provides you with detailed charts and statistics about your investment and the protocol itself.
-              </p>
-            </Card>
-          </div>
-          <div>
-            <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="opacity-90 contrast-50" src={analyticsIllustration} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">No liquidations</h3>
-              <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Our protocol do not act with liquidation mechanism and borrowing fees
-              </p>
-            </Card>
-          </div>
-          <div>
-            <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="opacity-90 contrast-50" src={multichainsIllustration} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Multi-chains</h3>
-              <p className="p-6 pt-0 pb-7 text-lg text-center">
-                We aim to bring yield opportunities to every stablecoin token holders. The protocol tends to be
-                available on EVM compatible blockchains
-              </p>
-            </Card>
-          </div>
+      <section className="flex flex-col justify-center items-center -mt-64">
+        <div className="flex flex-wrap justify-center gap-10 px-8 max-w-[calc(24rem*3+2.5rem*3+2*2rem)]">
+          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+              Long term stability
+            </h3>
+            <div
+              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              style={{
+                mask: "url('/assets/features/stability.svg')",
+              }}
+            ></div>
+            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+              Our institutional set up backed by RWAs allows offered yields to record very few variations through time.
+            </p>
+          </Card>
+          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+              High efficiency
+            </h3>
+            <div
+              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              style={{
+                mask: "url('/assets/features/efficiency.svg')",
+              }}
+            ></div>
+            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+              Our team of experts provide financial engineering to achieve the best risk-adjusted return from RWA.
+            </p>
+          </Card>
+          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+              Diversification
+            </h3>
+            <div
+              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              style={{
+                mask: "url('/assets/features/diversification.svg')",
+              }}
+            ></div>
+            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+              The collateralized portoflio of RWA assets is allocated accross hundreds of yield opportunities
+            </p>
+          </Card>
+
+          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+              Multi-chains
+            </h3>
+            <div
+              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              style={{
+                mask: "url('/assets/features/multichains.svg')",
+              }}
+            ></div>
+            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+              The protocol aims to be available on most EVM chains to bring stable yield to every stablecoin holders.
+            </p>
+          </Card>
+          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+              No liquidations
+            </h3>
+            <div
+              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              style={{
+                mask: "url('/assets/features/no-liquidations.svg')",
+              }}
+            ></div>{" "}
+            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+              Our protocol does not implement any liquidation mechanism. Lorem ipsum dolor sit amet, consectetur.
+            </p>
+          </Card>
+          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+              Analytics
+            </h3>
+            <div
+              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              style={{
+                mask: "url('/assets/features/analytics.svg')",
+              }}
+            ></div>
+            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+              The app provides you with detailed charts and statistics about your investment and the protocol itself.
+            </p>
+          </Card>
         </div>
         <Link href="/app">
           <Button className="mt-12" size="large">
