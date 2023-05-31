@@ -2,12 +2,6 @@ import { Button, Scroller, Card } from "@/components/ui";
 import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import analytics from "~/assets/analytics.png";
-import stabilityIllustration from "~/assets/features/stability.svg";
-import efficiencyIllustration from "~/assets/features/efficiency.svg";
-import diversificationIllustration from "~/assets/features/diversification.svg";
-import multichainsIllustration from "~/assets/features/multichains.svg";
-import analyticsIllustration from "~/assets/features/analytics.svg";
 import { clsx } from "clsx";
 import foundersoneLogo from "~/assets/partners/foundersone.png";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
@@ -40,7 +34,7 @@ const Page: NextPage = () => (
           </Card>
           <Card className="relative flex lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
             <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">7%</p>
-            <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/30">APY</h3>
+            <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/30">APR</h3>
           </Card>
           <Card className="relative flex lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
             <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">±0.1%</p>
@@ -61,12 +55,12 @@ const Page: NextPage = () => (
     <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative">
       <section className="flex flex-col justify-center items-center -mt-64">
         <div className="flex flex-wrap justify-center gap-10 px-8 max-w-[calc(24rem*3+2.5rem*3+2*2rem)]">
-          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
             <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
               Long term stability
             </h3>
             <div
-              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
               style={{
                 mask: "url('/assets/features/stability.svg')",
               }}
@@ -75,12 +69,12 @@ const Page: NextPage = () => (
               Our institutional set up backed by RWAs allows offered yields to record very few variations through time.
             </p>
           </Card>
-          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
             <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
               High efficiency
             </h3>
             <div
-              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
               style={{
                 mask: "url('/assets/features/efficiency.svg')",
               }}
@@ -89,12 +83,12 @@ const Page: NextPage = () => (
               Our team of experts provide financial engineering to achieve the best risk-adjusted return from RWA.
             </p>
           </Card>
-          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
             <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
               Diversification
             </h3>
             <div
-              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
               style={{
                 mask: "url('/assets/features/diversification.svg')",
               }}
@@ -104,12 +98,12 @@ const Page: NextPage = () => (
             </p>
           </Card>
 
-          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
             <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
               Multi-chains
             </h3>
             <div
-              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
               style={{
                 mask: "url('/assets/features/multichains.svg')",
               }}
@@ -118,12 +112,12 @@ const Page: NextPage = () => (
               The protocol aims to be available on most EVM chains to bring stable yield to every stablecoin holders.
             </p>
           </Card>
-          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
             <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
               No liquidations
             </h3>
             <div
-              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
               style={{
                 mask: "url('/assets/features/no-liquidations.svg')",
               }}
@@ -132,12 +126,12 @@ const Page: NextPage = () => (
               Our protocol does not implement any liquidation mechanism. Lorem ipsum dolor sit amet, consectetur.
             </p>
           </Card>
-          <Card className="w-96 h-[352px] flex justify-between flex-col overflow-hidden relative opacity-90">
+          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
             <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
               Analytics
             </h3>
             <div
-              className="card bg-card-border bg-fg/30 h-full w-full absolute"
+              className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
               style={{
                 mask: "url('/assets/features/analytics.svg')",
               }}

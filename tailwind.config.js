@@ -79,11 +79,11 @@ export const theme = {
         `,
 
       "card-illustrations": `
-        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg)), rgb(var(--primary-bg)), transparent)
+        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg)), transparent), radial-gradient(300px circle at 50% 60%, rgb(var(--primary-bg) / 0.5), transparent)
         `,
 
       "card-content": `
-        radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.1)`,
+        radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15)`,
     },
     colors: {
       bg: "rgb(var(--bg) / <alpha-value>)",
