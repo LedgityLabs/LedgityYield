@@ -75,16 +75,18 @@ export const theme = {
       "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       hero: "repeating-conic-gradient(black 0%, gray 0.7%), repeating-conic-gradient(gray 0.0000001%, grey 0.000104%)",
 
-      "card-border": `
-        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)
+      "card-border": `radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)`,
+      "card-border-default": `
+        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent), radial-gradient(300px circle at 50% 100%, rgb(var(--primary-bg) / 0.5), transparent)
         `,
 
       "card-illustrations": `
         radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg)), transparent), radial-gradient(300px circle at 50% 60%, rgb(var(--primary-bg) / 0.5), transparent)
         `,
 
-      "card-content": `
-        radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15)`,
+      "card-content": `radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15)`,
+      "card-content-default": `
+        radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15), radial-gradient(500px circle at 50% 100%, rgb(var(--primary-bg) / 0.15)`,
     },
     colors: {
       bg: "rgb(var(--bg) / <alpha-value>)",

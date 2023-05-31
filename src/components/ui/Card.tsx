@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -6,14 +7,17 @@ export type CardRadius = (typeof cardRadiuses)[number];
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   radius?: CardRadius;
+  defaultGradient?: boolean;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, radius = "default", ...props }, ref) => (
+  ({ className, children, radius = "default", defaultGradient = false, ...props }, ref) => (
     <>
       <article
-        className={
-          "bg-card-border " + // Must be outside, else twMerge will override it
+        className={clsx(
+          !defaultGradient && "bg-card-border", // Must be outside, else twMerge will override it
+          defaultGradient && "bg-card-border-default",
+
           twMerge(
             "card", // Used by <CardsHelper />
             "bg-input/80 shadow-slate-200 p-[2px] shadow-sm h-min",
@@ -24,11 +28,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
               full: "rounded-full",
             }[radius]
           )
-        }
+        )}
       >
         <div
-          className={
-            "bg-card-content " + // Must be outside, else twMerge will override it
+          className={clsx(
+            !defaultGradient && "bg-card-content", // Must be outside, else twMerge will override it
+            defaultGradient && "bg-card-content-default",
             twMerge(
               "card", // Used by <CardsHelper />
               " bg-indigo-50",
@@ -42,7 +47,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
               // Custom classes
               className
             )
-          }
+          )}
           {...props}
           ref={ref}
         >
