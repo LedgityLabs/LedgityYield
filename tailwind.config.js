@@ -72,6 +72,7 @@ export const theme = {
   },
   extend: {
     backgroundImage: {
+      "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       hero: "repeating-conic-gradient(black 0%, gray 0.7%), repeating-conic-gradient(gray 0.0000001%, grey 0.000104%)",
 
       "card-border": `

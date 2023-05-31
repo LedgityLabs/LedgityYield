@@ -55,8 +55,8 @@ const Page: NextPage = () => (
     <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative">
       <section className="flex flex-col justify-center items-center -mt-64">
         <div className="flex flex-wrap justify-center gap-10 px-8 max-w-[calc(24rem*3+2.5rem*3+2*2rem)]">
-          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
-            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+          <Card className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 bg-gradient-radial from-bg to-transparent">
               Long term stability
             </h3>
             <div
@@ -65,12 +65,12 @@ const Page: NextPage = () => (
                 mask: "url('/assets/features/stability.svg')",
               }}
             ></div>
-            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               Our institutional set up backed by RWAs allows offered yields to record very few variations through time.
             </p>
           </Card>
-          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
-            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+          <Card className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 bg-gradient-radial from-bg to-transparent">
               High efficiency
             </h3>
             <div
@@ -79,12 +79,12 @@ const Page: NextPage = () => (
                 mask: "url('/assets/features/efficiency.svg')",
               }}
             ></div>
-            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               Our team of experts provide financial engineering to achieve the best risk-adjusted return from RWA.
             </p>
           </Card>
-          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
-            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+          <Card className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 bg-gradient-radial from-bg to-transparent">
               Diversification
             </h3>
             <div
@@ -93,13 +93,13 @@ const Page: NextPage = () => (
                 mask: "url('/assets/features/diversification.svg')",
               }}
             ></div>
-            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               The collateralized portoflio of RWA assets is allocated accross hundreds of yield opportunities
             </p>
           </Card>
 
-          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
-            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+          <Card className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 bg-gradient-radial from-bg to-transparent">
               Multi-chains
             </h3>
             <div
@@ -108,12 +108,12 @@ const Page: NextPage = () => (
                 mask: "url('/assets/features/multichains.svg')",
               }}
             ></div>
-            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               The protocol aims to be available on most EVM chains to bring stable yield to every stablecoin holders.
             </p>
           </Card>
-          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
-            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+          <Card className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 bg-gradient-radial from-bg to-transparent">
               No liquidations
             </h3>
             <div
@@ -122,12 +122,12 @@ const Page: NextPage = () => (
                 mask: "url('/assets/features/no-liquidations.svg')",
               }}
             ></div>{" "}
-            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               Our protocol does not implement any liquidation mechanism. Lorem ipsum dolor sit amet, consectetur.
             </p>
           </Card>
-          <Card className="w-96 h-[360px] flex justify-between flex-col overflow-hidden relative opacity-90">
-            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 w-full">
+          <Card className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90">
+            <h3 className="text-center text-fg/90 z-10 font-bold text-[1.4rem] font-heading absolute top-7 bg-gradient-radial from-bg to-transparent">
               Analytics
             </h3>
             <div
@@ -136,7 +136,7 @@ const Page: NextPage = () => (
                 mask: "url('/assets/features/analytics.svg')",
               }}
             ></div>
-            <p className="absolute bottom-0 p-7 pt-0 -mt-4 text-fg/80 text-lg text-center">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               The app provides you with detailed charts and statistics about your investment and the protocol itself.
             </p>
           </Card>
