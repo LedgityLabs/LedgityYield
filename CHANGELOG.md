@@ -1,3 +1,17 @@
+## [1.24.0](https://github.com/ledgity-labs/dapp/compare/v1.23.1...v1.24.0) (2023-05-31)
+
+
+### Features
+
+* makes features cards animated on hover ([a708b04](https://github.com/ledgity-labs/dapp/commit/a708b04808e94c925ca49dcd9f118e1c346f87ce))
+* upload new features cards' illustrations and texts ([53021ea](https://github.com/ledgity-labs/dapp/commit/53021ea6f0235c5f41d8737f467ef2855ed48f6d))
+
+
+### Others
+
+* **deps:** update dependency eslint to v8.41.0 ([9a127c1](https://github.com/ledgity-labs/dapp/commit/9a127c1c41de7a70502d6058b79695c0d7bb83ca))
+* **deps:** update nextjs monorepo to v13.4.3 ([7bd7042](https://github.com/ledgity-labs/dapp/commit/7bd70422465ecb5e105d6b30f73bbbd528a34b5a))
+
 ## [1.23.1](https://github.com/ledgity-labs/dapp/compare/v1.23.0...v1.23.1) (2023-05-22)
 
 
