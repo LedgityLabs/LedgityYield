@@ -3,6 +3,11 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import analytics from "~/assets/analytics.png";
+import stabilityIllustration from "~/assets/features/stability.svg";
+import efficiencyIllustration from "~/assets/features/efficiency.svg";
+import diversificationIllustration from "~/assets/features/diversification.svg";
+import multichainsIllustration from "~/assets/features/multichains.svg";
+import analyticsIllustration from "~/assets/features/analytics.svg";
 import { clsx } from "clsx";
 import foundersoneLogo from "~/assets/partners/foundersone.png";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
@@ -58,43 +63,37 @@ const Page: NextPage = () => (
         <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-12 px-8 ">
           <div>
             <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <Image className="opacity-90 contrast-50" src={stabilityIllustration} alt="todo" />
               <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
                 Long term stability
               </h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Thanks to our fund being backed by Real World Assets, we record very few variations on announced yield
-                rates.
+                Benefit from an institutional set up and a protocol backed by RWA
               </p>
             </Card>
           </div>
           <div>
             <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <Image className="opacity-90 contrast-50" src={efficiencyIllustration} alt="todo" />
               <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">High efficiency</h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Our financial experts are constantly optimizing strategies to provide you with highest rates at lowest
-                risks.
+                Our team of experts provide financial engineering to achieve the best risk-adjusted return from RWA
               </p>
             </Card>
           </div>
           <div>
             <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="invert opacity-90" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
-                Diversified portofolio
-              </h3>
+              <Image className="opacity-90 contrast-50" src={diversificationIllustration} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Diversification</h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Lent funds are allocated accross multiple DeFi and CeFi strategies to provide you with resilient yields.
+                The collateralized portoflio of RWA assets is allocated accross hundreds of yield opportunities
               </p>
             </Card>
           </div>
           <div>
             <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="invert opacity-90" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">
-                Detailed analytics
-              </h3>
+              <Image className="opacity-90 contrast-50" src={analyticsIllustration} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Analytics</h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
                 The app provides you with detailed charts and statistics about your investment and the protocol itself.
               </p>
@@ -102,21 +101,20 @@ const Page: NextPage = () => (
           </div>
           <div>
             <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="invert opacity-90" src={analytics} alt="todo" />
-              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Heavily audited</h3>
+              <Image className="opacity-90 contrast-50" src={analyticsIllustration} alt="todo" />
+              <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">No liquidations</h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
-                Our fund contract (holding 95% of deposited assets) is based on Gnosis Safe, a renewed multi-audited
-                solution.
+                Our protocol do not act with liquidation mechanism and borrowing fees
               </p>
             </Card>
           </div>
           <div>
             <Card className="lg:w-92 sm:w-96 w-full flex justify-between flex-col overflow-hidden opacity-90">
-              <Image className="invert opacity-90" src={analytics} alt="todo" />
+              <Image className="opacity-90 contrast-50" src={multichainsIllustration} alt="todo" />
               <h3 className="mb-2 text-center mt-6 text-fg/90 font-bold text-[1.3rem] font-heading">Multi-chains</h3>
               <p className="p-6 pt-0 pb-7 text-lg text-center">
-                The protocol is available on Polygon and Ethereum. We plan to deploy it on other chains in the near
-                future.
+                We aim to bring yield opportunities to every stablecoin token holders. The protocol tends to be
+                available on EVM compatible blockchains
               </p>
             </Card>
           </div>
