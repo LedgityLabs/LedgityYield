@@ -1,3 +1,10 @@
+## [1.31.0](https://github.com/ledgity-labs/dapp/compare/v1.30.0...v1.31.0) (2023-06-01)
+
+
+### Features
+
+* adjust animation + make it appears correctly on devices smaller than 900px width ([9500c22](https://github.com/ledgity-labs/dapp/commit/9500c22f0413c5cd966115d39c152daf815967f0))
+
 ## [1.30.0](https://github.com/ledgity-labs/dapp/compare/v1.29.0...v1.30.0) (2023-06-01)
 
 
