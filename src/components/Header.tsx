@@ -12,6 +12,7 @@ const Header: FC = () => {
   const handleScroll = () => setScrollY(window.scrollY);
 
   useEffect(() => {
+    handleScroll();
     document.addEventListener("scroll", handleScroll);
     return () => document.removeEventListener("scroll", handleScroll);
   });

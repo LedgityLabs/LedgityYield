@@ -165,51 +165,69 @@ const Page: NextPage = () => (
         </Link>
       </section>
       <section className="flex flex-col justify-center items-center py-48">
-        <h3 className="text-center font-semibold text-4xl pb-4 font-heading">How it works ?</h3>
-        <ol className="flex flex-col justify-center items-center flex-wrap gap-8 p-8">
-          <li>
-            <Card className="p-8 flex sm:flex-row flex-col justift-center gap-8 items-center sm:w-[500px] w-full">
-              <Card
-                radius="full"
-                className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center"
-              >
-                <span className="text-primary-fg font-bold">1</span>
-              </Card>
-              <p className="text-xl sm:text-start text-center">
-                You lend stablecoins and get wrapped coins as proof of deposit
-              </p>
+        <h3 className="text-center font-semibold text-4xl pb-20 font-heading">How it works ?</h3>
+        <ol className="flex gap-12">
+          <li className="flex flex-col justify-center">
+            <Card className="relative w-[250px] py-5">
+              <div className="absolute -left-4 -top-4">
+                <Card
+                  radius="full"
+                  className="text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
+                >
+                  <span className="text-primary-fg font-bold">1</span>
+                </Card>
+              </div>
+              <p className="text-xl text-center w-full">Deposit stablecoins</p>
             </Card>
+            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-semibold tracking-wide">
+              USDC, EUROC, and more!
+            </p>
           </li>
-          <li>
-            <Card className="p-8 flex sm:flex-row flex-col justift-center gap-8 items-center sm:w-[500px] w-full">
-              <Card
-                radius="full"
-                className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center"
-              >
-                <span className="text-primary-fg font-bold">2</span>
-              </Card>
-              <p className="text-xl sm:text-start text-center">
-                Your funds get allocated accross diversified DeFi and CeFi strategies
-              </p>
+          <li className="flex flex-col justify-center">
+            <Card className="relative w-[250px] py-5">
+              <div className="absolute -left-4 -top-4">
+                <Card
+                  radius="full"
+                  className="text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
+                >
+                  <span className="text-primary-fg font-bold">2</span>
+                </Card>
+              </div>
+              <p className="text-xl text-center w-full">Receive L-Tokens</p>
             </Card>
+            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-semibold tracking-wide">
+              E.g., LUSDC for USDC
+            </p>
           </li>
-          <li>
-            <Card className="p-8 flex sm:flex-row flex-col justift-center gap-8 items-center sm:w-[500px] w-full">
-              <Card
-                radius="full"
-                className="text-xl h-12 w-12 bg-primary/80 rounded-full flex justify-center items-center"
-              >
-                <span className="text-primary-fg font-bold">3</span>
-              </Card>
-              <p className="text-xl sm:text-start text-center">You start earning stable yields while you sleep !</p>
+          <li className="flex flex-col justify-center">
+            <Card className="relative w-[250px] py-5">
+              <div className="absolute -left-4 -top-4">
+                <Card
+                  radius="full"
+                  className=" text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
+                >
+                  <span className="text-primary-fg font-bold">3</span>
+                </Card>
+              </div>
+              <p className="text-xl text-center w-full">Enjoy stable yield !</p>
             </Card>
+            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-semibold tracking-wide">
+              (Backed by RWA)
+            </p>
           </li>
         </ol>
-        <div className="flex sm:flex-row flex-col gap-8 justify-center items-center mt-8">
-          <p className="text-xl font-semibold underline decoration-2 decoration-slate-400">Ready to get started ?</p>
-          <Link href="/app">
-            <Button size="large">Take me to the app</Button>
-          </Link>
+        <div className="flex flex-col gap-6 justify-center items-center mt-24">
+          <p className="text-xl text-center underline decoration-[3px] decoration-slate-300">Ready to get started ?</p>
+          <div className="flex flex-wrap justify-center items-center gap-6">
+            <Link href="/app">
+              <Button size="large">Take me to the app</Button>
+            </Link>
+            <Link href="/app">
+              <Button variant="outline" size="large">
+                Read our whitepaper
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
       <section className="pb-36 flex flex-col items-center">
