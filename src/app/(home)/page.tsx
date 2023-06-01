@@ -1,3 +1,4 @@
+"use client";
 import { Button, Scroller, Card } from "@/components/ui";
 import { type NextPage } from "next";
 import Image from "next/image";
@@ -7,7 +8,7 @@ import foundersoneLogo from "~/assets/partners/foundersone.png";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
 import adanLogo from "~/assets/partners/adan.svg";
 import circleLogo from "~/assets/partners/circle.png";
-import Script from "next/script";
+import { motion } from "framer-motion";
 
 const Page: NextPage = () => (
   <>
@@ -18,7 +19,11 @@ const Page: NextPage = () => (
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
       )}
     >
-      <div className="flex -mt-[92px] relative flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        className="flex -mt-[92px] relative flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14"
+      >
         <h2 className="text-center leading-none font-heading lg:text-8xl md:text-[4.5rem] sm:text-[4rem] text-[3rem] font-bold text-slate-700">
           Stable <span className="whitespace-nowrap">yields for</span>
           <br />
@@ -48,19 +53,21 @@ const Page: NextPage = () => (
             data-tf-popup="J2ENFK9t"
             data-tf-opacity="100"
             data-tf-size="100"
-            data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
+            data-tf-iframe-props="title=Subscribe to app release"
             data-tf-transitive-search-params
             data-tf-medium="snippet"
           >
             Invest now
           </Button>
           {/* </Link> */}
-          <Button variant="outline" size="large">
-            Learn more
-          </Button>
+          <a href="#features">
+            <Button variant="outline" size="large">
+              Learn more
+            </Button>
+          </a>
         </div>
-        <Scroller className="absolute lg:bottom-11 bottom-8" />
-      </div>
+        <Scroller id="features" className="absolute lg:bottom-11 bottom-8" />
+      </motion.div>
     </section>
     <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative pb-32">
       <section className="flex flex-col justify-center items-center -mt-64">
@@ -174,7 +181,7 @@ const Page: NextPage = () => (
           data-tf-popup="J2ENFK9t"
           data-tf-opacity="100"
           data-tf-size="100"
-          data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
+          data-tf-iframe-props="title=Subscribe to app release"
           data-tf-transitive-search-params
           data-tf-medium="snippet"
           className="mt-12"
@@ -240,7 +247,7 @@ const Page: NextPage = () => (
           <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
             Want to learn more ?
           </p>
-          <Link href="/app">
+          <Link href="/">
             <Button variant="outline" size="large">
               Read our whitepaper
             </Button>
@@ -254,7 +261,7 @@ const Page: NextPage = () => (
           data-tf-popup="J2ENFK9t"
           data-tf-opacity="100"
           data-tf-size="100"
-          data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
+          data-tf-iframe-props="title=Subscribe to app release"
           data-tf-transitive-search-params
           data-tf-medium="snippet"
           size="large"

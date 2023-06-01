@@ -33,7 +33,7 @@ const Header: FC = () => {
             data-tf-popup="J2ENFK9t"
             data-tf-opacity="100"
             data-tf-size="100"
-            data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+            data-tf-iframe-props="title=Subscribe to app release"
             data-tf-transitive-search-params
             data-tf-medium="snippet"
             size="large"
