@@ -7,6 +7,7 @@ import foundersoneLogo from "~/assets/partners/foundersone.png";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
 import adanLogo from "~/assets/partners/adan.svg";
 import circleLogo from "~/assets/partners/circle.png";
+import Script from "next/script";
 
 const Page: NextPage = () => (
   <>
@@ -41,9 +42,19 @@ const Page: NextPage = () => (
           </Card>
         </section>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
-          <Link href="/app">
-            <Button size="large">Invest now</Button>
-          </Link>
+          {/* <Link href="/app"> */}
+          <Button
+            size="large"
+            data-tf-popup="J2ENFK9t"
+            data-tf-opacity="100"
+            data-tf-size="100"
+            data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+            data-tf-transitive-search-params
+            data-tf-medium="snippet"
+          >
+            Invest now
+          </Button>
+          {/* </Link> */}
           <Button variant="outline" size="large">
             Learn more
           </Button>
@@ -158,11 +169,20 @@ const Page: NextPage = () => (
             </p>
           </Card>
         </div>
-        <Link href="/app">
-          <Button className="mt-12" size="large">
-            Browse available yields
-          </Button>
-        </Link>
+        {/* <Link href="/app"> */}
+        <Button
+          data-tf-popup="J2ENFK9t"
+          data-tf-opacity="100"
+          data-tf-size="100"
+          data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+          data-tf-transitive-search-params
+          data-tf-medium="snippet"
+          className="mt-12"
+          size="large"
+        >
+          Browse available yields
+        </Button>
+        {/* </Link> */}
       </section>
       <section className="flex flex-col justify-center items-center py-48">
         <h3 className="text-center font-semibold text-4xl pb-20 font-heading">How it works ?</h3>
@@ -219,9 +239,19 @@ const Page: NextPage = () => (
         <div className="flex flex-col gap-6 justify-center items-center mt-24">
           <p className="text-xl text-center underline decoration-[3px] decoration-slate-300">Ready to get started ?</p>
           <div className="flex flex-wrap justify-center items-center gap-6 px-6">
-            <Link href="/app">
-              <Button size="large">Take me to the app</Button>
-            </Link>
+            {/* <Link href="/app"> */}
+            <Button
+              data-tf-popup="J2ENFK9t"
+              data-tf-opacity="100"
+              data-tf-size="100"
+              data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+              data-tf-transitive-search-params
+              data-tf-medium="snippet"
+              size="large"
+            >
+              Take me to the app
+            </Button>
+            {/* </Link> */}
             <Link href="/app">
               <Button variant="outline" size="large">
                 Read our whitepaper

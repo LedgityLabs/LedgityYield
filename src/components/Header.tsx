@@ -28,9 +28,19 @@ const Header: FC = () => {
         <Logo />
 
         {!path.startsWith("/app") && (
-          <Link href="/app" className="sm:block hidden">
-            <Button size="large">Enter app</Button>
-          </Link>
+          // <Link href="/app" className="sm:block hidden">
+          <Button
+            data-tf-popup="J2ENFK9t"
+            data-tf-opacity="100"
+            data-tf-size="100"
+            data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+            data-tf-transitive-search-params
+            data-tf-medium="snippet"
+            size="large"
+          >
+            Enter app
+          </Button>
+          // </Link>
         )}
       </nav>
     </header>

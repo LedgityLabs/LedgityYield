@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { CardsHelper } from "@/components/ui";
 import Footer from "@/components/Footer";
 import clsx from "clsx";
+import Script from "next/script";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -40,6 +41,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           <Header />
           <main>{children}</main>
           <Footer />
+          <Script src="//embed.typeform.com/next/embed.js"></Script>
         </body>
       </html>
     </>
