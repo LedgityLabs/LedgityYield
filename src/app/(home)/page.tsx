@@ -166,7 +166,7 @@ const Page: NextPage = () => (
       </section>
       <section className="flex flex-col justify-center items-center py-48">
         <h3 className="text-center font-semibold text-4xl pb-20 font-heading">How it works ?</h3>
-        <ol className="flex gap-12">
+        <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
           <li className="flex flex-col justify-center">
             <Card className="relative w-[250px] py-5">
               <div className="absolute -left-4 -top-4">
@@ -218,7 +218,7 @@ const Page: NextPage = () => (
         </ol>
         <div className="flex flex-col gap-6 justify-center items-center mt-24">
           <p className="text-xl text-center underline decoration-[3px] decoration-slate-300">Ready to get started ?</p>
-          <div className="flex flex-wrap justify-center items-center gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-6 px-6">
             <Link href="/app">
               <Button size="large">Take me to the app</Button>
             </Link>
