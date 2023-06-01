@@ -144,12 +144,18 @@ const Page: NextPage = () => {
         <div className="relative -mt-[33rem]">
           <span id="features" className="absolute md:-top-24"></span>
           <section className="fadein relative flex flex-col justify-center items-center ">
+            <div className="absolute left-72 -top-16 backdrop-blur-mg opacity-[28%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+              <Card defaultGradient={true} className="cube w-40 h-40  opacity-[28%] "></Card>
+            </div>
             <div className="absolute -right-16 bottom-[35%] backdrop-blur-mg opacity-[28%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
               <Card defaultGradient={true} className="cube w-52 h-52  opacity-[28%] "></Card>
             </div>
             <div className="absolute left-8 bottom-[15%] backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
               <Card defaultGradient={true} className="cube w-32 h-32  opacity-[28%] "></Card>
             </div>
+            {/* <div className="absolute left-[55%] bottom-[2%] backdrop-blur-mg opacity-[28%] animate-[spin_13s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+              <Card defaultGradient={true} className="cube w-36 h-36  opacity-[28%] "></Card>
+            </div> */}
             <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
               <Card
                 defaultGradient={true}
@@ -162,6 +168,7 @@ const Page: NextPage = () => {
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
                   style={{
                     mask: "url('/assets/features/stability.svg')",
+                    WebkitMask: "url('/assets/features/stability.svg')",
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -180,6 +187,7 @@ const Page: NextPage = () => {
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
                   style={{
                     mask: "url('/assets/features/efficiency.svg')",
+                    WebkitMask: "url('/assets/features/efficiency.svg')",
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -197,6 +205,7 @@ const Page: NextPage = () => {
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
                   style={{
                     mask: "url('/assets/features/diversification.svg')",
+                    WebkitMask: "url('/assets/features/diversification.svg')",
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -215,6 +224,7 @@ const Page: NextPage = () => {
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
                   style={{
                     mask: "url('/assets/features/multichains.svg')",
+                    WebkitMask: "url('/assets/features/multichains.svg')",
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -233,6 +243,7 @@ const Page: NextPage = () => {
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
                   style={{
                     mask: "url('/assets/features/no-liquidations.svg')",
+                    WebkitMask: "url('/assets/features/no-liquidations.svg')",
                   }}
                 ></div>{" "}
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -250,6 +261,7 @@ const Page: NextPage = () => {
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
                   style={{
                     mask: "url('/assets/features/analytics.svg')",
+                    WebkitMask: "url('/assets/features/analytics.svg')",
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
