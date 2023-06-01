@@ -1,3 +1,11 @@
+## [1.32.0](https://github.com/ledgity-labs/dapp/compare/v1.31.0...v1.32.0) (2023-06-01)
+
+
+### Features
+
+* add animated subtle animated cubes ([4a45632](https://github.com/ledgity-labs/dapp/commit/4a456324750268d646744badf1bd9b98794fb6d1))
+* **home:** add fadein to other home sections ([f1059ec](https://github.com/ledgity-labs/dapp/commit/f1059ec482404b6d04c07b05f6d1a39e4d02e159))
+
 ## [1.31.0](https://github.com/ledgity-labs/dapp/compare/v1.30.0...v1.31.0) (2023-06-01)
 
 
