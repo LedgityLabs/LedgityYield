@@ -1,3 +1,10 @@
+## [1.29.0](https://github.com/ledgity-labs/dapp/compare/v1.28.0...v1.29.0) (2023-06-01)
+
+
+### Features
+
+* make the "Learn more" button functional + install Framer Motion ([94f556c](https://github.com/ledgity-labs/dapp/commit/94f556c55d3155edab6fe13077206bba8a26f464))
+
 ## [1.28.0](https://github.com/ledgity-labs/dapp/compare/v1.27.0...v1.28.0) (2023-06-01)
 
 
