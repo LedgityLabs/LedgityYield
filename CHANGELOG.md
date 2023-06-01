@@ -1,3 +1,13 @@
+## [1.28.0](https://github.com/ledgity-labs/dapp/compare/v1.27.0...v1.28.0) (2023-06-01)
+
+
+### Features
+
+* add hover effect to logo ([79464b9](https://github.com/ledgity-labs/dapp/commit/79464b982b7ee8e77467b66d50e2f21757e6b22a))
+* bunch of tiny spacing and contrast adjustments ([96a9e75](https://github.com/ledgity-labs/dapp/commit/96a9e755b3444cd1c9d952165dfdce9844e99d46))
+* enforce global transition duration ([8ee34c8](https://github.com/ledgity-labs/dapp/commit/8ee34c8d0480e199723157fcb4fe5a0fb002632e))
+* tiny adjustments on How it works section ([4580578](https://github.com/ledgity-labs/dapp/commit/458057801cf2752bf79511117faf6fc5e696311a))
+
 ## [1.27.0](https://github.com/ledgity-labs/dapp/compare/v1.26.1...v1.27.0) (2023-06-01)
 
 
