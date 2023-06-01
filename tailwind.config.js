@@ -116,20 +116,20 @@ export const theme = {
       md: `calc(var(--radius) - 2px)`,
       sm: "calc(var(--radius) - 4px)",
     },
-  },
-  keyframes: {
-    // Used by <Scroller/> UI component
-    roll: {
-      "0%": { opacity: 0 },
-      "20%": { marginTop: "0", opacity: 1 },
-      "80%": { marginTop: "16px", opacity: 1 },
-      "100%": { opacity: 0 }
+    keyframes: {
+      // Used by <Scroller/> UI component
+      roll: {
+        "0%": { opacity: 0 },
+        "20%": { marginTop: "0", opacity: 1 },
+        "80%": { marginTop: "16px", opacity: 1 },
+        "100%": { opacity: 0 }
+      }
+    },
+    animation: {
+      // Used by <Scroller/> UI component
+      roll: "2s infinite normal roll ease"
     }
   },
-  animation: {
-    // Used by <Scroller/> UI component
-    roll: "2s infinite normal roll ease"
-  }
 };
 export const plugins = [
   plugin(({ addBase }) => addBase(vars)),

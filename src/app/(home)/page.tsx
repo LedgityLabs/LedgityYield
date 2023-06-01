@@ -8,7 +8,7 @@ import foundersoneLogo from "~/assets/partners/foundersone.png";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
 import adanLogo from "~/assets/partners/adan.svg";
 import circleLogo from "~/assets/partners/circle.png";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -16,7 +16,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Page: NextPage = () => {
   const heroSection = useRef(null);
-  const featuresSection = useRef(null);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -65,6 +64,37 @@ const Page: NextPage = () => {
           ref={heroSection}
           className="flex -mt-[92px] relative flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14"
         >
+          <div className="absolute right-12 backdrop-blur-mg opacity-[24%] animate-[spin_10s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-24 h-24 opacity-[24%] "></Card>
+          </div>
+          <div className="absolute right-80 top-[35%] backdrop-blur-mg opacity-[32%] animate-[spin_18s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-32 h-32 opacity-[32%] "></Card>
+          </div>
+          <div className="absolute right-14 top-10 backdrop-blur-mg opacity-[36%] animate-[spin_17s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-36 h-36 opacity-[36%] "></Card>
+          </div>
+          <div className="absolute left-44 bottom-12 backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-28 h-28 opacity-[28%] "></Card>
+          </div>
+          <div className="absolute left-80 bottom-[30%] backdrop-blur-mg opacity-[32%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-32 h-32 opacity-[32%] "></Card>
+          </div>
+          <div className="absolute -left-16 bottom-[40%] backdrop-blur-mg opacity-[40%] animate-[spin_16s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
+          </div>
+          <div className="absolute right-44 bottom-[10%] backdrop-blur-mg opacity-[40%] animate-[spin_18s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
+          </div>
+          <div className="absolute left-44 top-[10%] backdrop-blur-mg opacity-[40%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
+          </div>
+          <div className="absolute right-[35%] -bottom-2 backdrop-blur-mg opacity-[24%] animate-[spin_20s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-24 h-24 opacity-[24%] "></Card>
+          </div>
+          <div className="absolute left-[30%] -bottom-4 backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-28 h-28 opacity-[28%] "></Card>
+          </div>
+
           <h2 className="text-center leading-none font-heading lg:text-8xl md:text-[4.5rem] sm:text-[4rem] text-[3rem] font-bold text-slate-700">
             Stable <span className="whitespace-nowrap">yields for</span>
             <br />
@@ -113,7 +143,13 @@ const Page: NextPage = () => {
       <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative pb-32 pt-48">
         <div className="relative -mt-[33rem]">
           <span id="features" className="absolute md:-top-24"></span>
-          <section ref={featuresSection} className="fadein flex flex-col justify-center items-center ">
+          <section className="fadein relative flex flex-col justify-center items-center ">
+            <div className="absolute -right-16 bottom-[35%] backdrop-blur-mg opacity-[28%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+              <Card defaultGradient={true} className="cube w-52 h-52  opacity-[28%] "></Card>
+            </div>
+            <div className="absolute left-8 bottom-[15%] backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+              <Card defaultGradient={true} className="cube w-32 h-32  opacity-[28%] "></Card>
+            </div>
             <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
               <Card
                 defaultGradient={true}
@@ -239,6 +275,12 @@ const Page: NextPage = () => {
           </section>
         </div>
         <section className="fadein flex flex-col justify-center items-center py-64">
+          <div className="absolute right-36 bottom-[55%] backdrop-blur-mg opacity-[28%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-32 h-32  opacity-[28%] "></Card>
+          </div>
+          <div className="absolute left-36 top-[55%] backdrop-blur-mg opacity-[28%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-48 h-48  opacity-[28%] "></Card>
+          </div>
           <h3 className="text-center font-semibold text-4xl pb-20 font-heading">How it works ?</h3>
           <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
             <li className="flex flex-col justify-center">
@@ -301,7 +343,10 @@ const Page: NextPage = () => {
             </Link>
           </div>
         </section>
-        <section className="fadein pb-64 flex flex-col items-center">
+        <section className="fadein relative pb-64 flex flex-col items-center">
+          <div className="absolute right-48 bottom-[10%] backdrop-blur-mg opacity-[38%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-40 h-40  opacity-[38%] "></Card>
+          </div>
           <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Ready to get started ?</h3>
           {/* <Link href="/app"> */}
           <Button
@@ -318,6 +363,9 @@ const Page: NextPage = () => {
           {/* </Link> */}
         </section>
         <section className="fadein pb-36 flex flex-col items-center">
+          <div className="absolute left-16 -bottom-40 backdrop-blur-mg opacity-[38%] animate-[spin_19s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+            <Card defaultGradient={true} className="cube w-40 h-40  opacity-[38%] "></Card>
+          </div>
           <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Our partners</h3>
           <ul className="flex flex-wrap justify-center gap-16 px-16">
             <li>
