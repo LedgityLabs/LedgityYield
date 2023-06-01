@@ -8,7 +8,7 @@ export interface ScrollerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Scroller: FC<ScrollerProps> = ({ className, ...props }) => {
   const [opacity, setOpacity] = useState(0);
-  const handleScroll = () => setOpacity(1 - (window.scrollY / screen.height) * 2);
+  const handleScroll = () => setOpacity(1 - (window.scrollY / screen.height) * 3);
 
   useEffect(() => {
     handleScroll();

@@ -11,7 +11,7 @@
     "@t3-oss/env-nextjs": "^0.4.0",
     "clsx": "^1.2.1",
     "ethers": "^6.3.0",
-    "framer-motion": "^10.12.16",
+    "gsap": "^3.11.5",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
