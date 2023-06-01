@@ -48,7 +48,7 @@ const Page: NextPage = () => (
             data-tf-popup="J2ENFK9t"
             data-tf-opacity="100"
             data-tf-size="100"
-            data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+            data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
             data-tf-transitive-search-params
             data-tf-medium="snippet"
           >
@@ -174,7 +174,7 @@ const Page: NextPage = () => (
           data-tf-popup="J2ENFK9t"
           data-tf-opacity="100"
           data-tf-size="100"
-          data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+          data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
           data-tf-transitive-search-params
           data-tf-medium="snippet"
           className="mt-12"
@@ -184,7 +184,7 @@ const Page: NextPage = () => (
         </Button>
         {/* </Link> */}
       </section>
-      <section className="flex flex-col justify-center items-center py-48">
+      <section className="flex flex-col justify-center items-center py-64">
         <h3 className="text-center font-semibold text-4xl pb-20 font-heading">How it works ?</h3>
         <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
           <li className="flex flex-col justify-center">
@@ -199,7 +199,7 @@ const Page: NextPage = () => (
               </div>
               <p className="text-xl text-center w-full">Deposit stablecoins</p>
             </Card>
-            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-semibold tracking-wide">
+            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-medium tracking-wide">
               USDC, EUROC, and more!
             </p>
           </li>
@@ -215,7 +215,7 @@ const Page: NextPage = () => (
               </div>
               <p className="text-xl text-center w-full">Receive L-Tokens</p>
             </Card>
-            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-semibold tracking-wide">
+            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-medium tracking-wide">
               E.g., LUSDC for USDC
             </p>
           </li>
@@ -231,20 +231,22 @@ const Page: NextPage = () => (
               </div>
               <p className="text-xl text-center w-full">Enjoy stable yield !</p>
             </Card>
-            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-semibold tracking-wide">
+            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-medium tracking-wide">
               (Backed by RWA)
             </p>
           </li>
         </ol>
         <div className="flex flex-col gap-6 justify-center items-center mt-24">
-          <p className="text-xl text-center underline decoration-[3px] decoration-slate-300">Ready to get started ?</p>
+          <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
+            Ready to get started ?
+          </p>
           <div className="flex flex-wrap justify-center items-center gap-6 px-6">
             {/* <Link href="/app"> */}
             <Button
               data-tf-popup="J2ENFK9t"
               data-tf-opacity="100"
               data-tf-size="100"
-              data-tf-iframe-props="title=Sondage sur les actifs-numériques"
+              data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
               data-tf-transitive-search-params
               data-tf-medium="snippet"
               size="large"
