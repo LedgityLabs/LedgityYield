@@ -1,3 +1,21 @@
+## [1.27.0](https://github.com/ledgity-labs/dapp/compare/v1.26.1...v1.27.0) (2023-06-01)
+
+
+### Features
+
+* add social links URLs ([ea32eae](https://github.com/ledgity-labs/dapp/commit/ea32eae0ed2a5810234afc73e9811f2feb19525a))
+* integrate typeform to retrieve emails until app is available ([a7a55c5](https://github.com/ledgity-labs/dapp/commit/a7a55c5653487e6794d3e6518e9362c1b0a82549))
+
+
+### Others
+
+* **deps:** update dependency postcss to v8.4.24 ([4fa2ebd](https://github.com/ledgity-labs/dapp/commit/4fa2ebda5bdb339a347bd3bf90a375f4edbaf63e))
+
+
+### Fixes
+
+* remove margin gap right before footer ([0c1e908](https://github.com/ledgity-labs/dapp/commit/0c1e908ace8050da59290c7ca2700dd3a226912a))
+
 ## [1.26.1](https://github.com/ledgity-labs/dapp/compare/v1.26.0...v1.26.1) (2023-06-01)
 
 
