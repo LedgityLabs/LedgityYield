@@ -53,7 +53,7 @@ const Page: NextPage = () => (
     </section>
     <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative">
       <section className="flex flex-col justify-center items-center -mt-64">
-        <div className="flex flex-wrap justify-center gap-10 px-8 max-w-[calc(24rem*3+2.5rem*3+2*2rem)]">
+        <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
           <Card
             defaultGradient={true}
             className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"

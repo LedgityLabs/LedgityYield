@@ -5,6 +5,7 @@ import Image from "next/image";
 import logo from "~/assets/logo/dark.png";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import Logo from "./Logo";
 
 const Footer: FC = () => {
   const path = usePathname();
@@ -31,12 +32,7 @@ const Footer: FC = () => {
           </ul>
         </article>
         <article className="flex justify-center items-center ">
-          <Link href="/" className="flex pt-1">
-            <Image alt="Ledgity Logo" src={logo} className="h-9 w-auto cursor-pointer" width={121} />
-            <p className="-mt-0.5 ml-2 self-start rounded-sm bg-indigo-400 px-1.5 py-1 font-body text-[0.7rem] font-semibold leading-tight tracking-wide text-stone-100 before:-z-10">
-              DeFi
-            </p>
-          </Link>
+          <Logo theme="dark" />
         </article>
         <article className="flex lg:justify-end justify-center items-center">
           <ul className="flex justify-center items-center gap-5">

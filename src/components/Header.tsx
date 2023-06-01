@@ -1,11 +1,10 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import logo from "~/assets/logo/light.png";
 import { Button } from "@/components/ui";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
+import Logo from "./Logo";
 
 const Header: FC = () => {
   const path = usePathname();
@@ -25,12 +24,8 @@ const Header: FC = () => {
           scrollY > 0 && "backdrop-blur-md"
         )}
       >
-        <Link href="/" className="flex pt-1">
-          <Image alt="Ledgity Logo" src={logo} className="h-9 w-auto cursor-pointer" width={121} />
-          <p className="-mt-0.5 ml-2 self-start rounded-sm bg-indigo-400 px-1.5 py-1 font-body text-[0.7rem] font-semibold leading-tight tracking-wide text-stone-100">
-            DeFi
-          </p>
-        </Link>
+        <Logo />
+
         {!path.startsWith("/app") && (
           <Link href="/app" className="sm:block hidden">
             <Button size="large">Enter app</Button>
