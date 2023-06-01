@@ -1,3 +1,16 @@
+## [1.26.1](https://github.com/ledgity-labs/dapp/compare/v1.26.0...v1.26.1) (2023-06-01)
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.7 ([4a0779d](https://github.com/ledgity-labs/dapp/commit/4a0779d751c640533e2a47074e886566f53db8d7))
+* **deps:** update nextjs monorepo to v13.4.4 ([187f3ed](https://github.com/ledgity-labs/dapp/commit/187f3edda8e6531528132debd93cbf24c1d5a3e3))
+
+
+### Fixes
+
+* **deps:** update dependency @t3-oss/env-nextjs to ^0.4.0 ([608dc76](https://github.com/ledgity-labs/dapp/commit/608dc7649c72e13840fd846f774b88b6ac53d10b))
+
 ## [1.26.0](https://github.com/ledgity-labs/dapp/compare/v1.25.0...v1.26.0) (2023-06-01)
 
 
