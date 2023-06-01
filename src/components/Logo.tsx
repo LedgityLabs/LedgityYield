@@ -9,7 +9,7 @@ interface Props extends React.HTMLAttributes<HTMLAnchorElement> {
 }
 export const Logo: FC<Props> = ({ theme = "light", ...props }) => {
   return (
-    <Link href="/" className="flex pt-1" {...props}>
+    <Link href="/" className="flex pt-1 hover:opacity-70 transition-opacity" {...props}>
       <Image
         alt="Ledgity Logo"
         src={theme === "light" ? logoLight : logoDark}
