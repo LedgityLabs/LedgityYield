@@ -1,8 +1,6 @@
 "use client";
 import { FC } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import logo from "~/assets/logo/dark.png";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Logo from "./Logo";
@@ -37,7 +35,7 @@ const Footer: FC = () => {
         <article className="flex lg:justify-end justify-center items-center">
           <ul className="flex justify-center items-center gap-5">
             <li className="flex justify-center items-center">
-              <Link href="" target="_blank" className="w-8 h-8 inline-block">
+              <Link href="https://twitter.com/LedgityPlatform" target="_blank" className="w-8 h-8 inline-block">
                 <svg
                   className="fill-bg hover:fill-accent hover:scale-110 transition-[transform,fill]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +46,7 @@ const Footer: FC = () => {
               </Link>
             </li>
             <li className="flex justify-center items-center">
-              <Link href="" target="_blank" className="w-8 h-8 inline-block">
+              <Link href="https://www.linkedin.com/company/ledgity" target="_blank" className="w-8 h-8 inline-block">
                 <svg
                   className="fill-bg hover:fill-accent hover:scale-110 transition-[transform,fill]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +57,7 @@ const Footer: FC = () => {
               </Link>
             </li>
             <li className="flex justify-center items-center">
-              <Link href="" target="_blank" className="w-8 h-8 inline-block">
+              <Link href="https://www.linkedin.com/company/ledgity" target="_blank" className="w-8 h-8 inline-block">
                 <svg
                   className="fill-bg hover:fill-accent hover:scale-110 transition-[transform,fill]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +68,7 @@ const Footer: FC = () => {
               </Link>
             </li>
             <li className="flex justify-center items-center">
-              <Link href="" target="_blank" className="w-8 h-8 inline-block">
+              <Link href="https://github.com/ledgity-labs/dapp" target="_blank" className="w-8 h-8 inline-block">
                 <svg
                   className="fill-bg hover:fill-accent hover:scale-110 transition-[transform,fill]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +79,7 @@ const Footer: FC = () => {
               </Link>
             </li>
             <li className="flex justify-center items-center">
-              <Link href="" target="_blank" className="w-8 h-8 inline-block">
+              <Link href="mailto:defi@ledgity.com" target="_blank" className="w-8 h-8 inline-block">
                 <svg
                   className="fill-bg hover:fill-accent hover:scale-110 transition-[transform,fill]"
                   xmlns="http://www.w3.org/2000/svg"
