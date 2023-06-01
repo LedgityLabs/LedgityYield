@@ -67,7 +67,12 @@ const Page: NextPage = () => {
           <div className="absolute right-12 backdrop-blur-mg opacity-[24%] animate-[spin_10s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-24 h-24 opacity-[24%] "></Card>
           </div>
-          <div className="absolute right-80 top-[35%] backdrop-blur-mg opacity-[32%] animate-[spin_18s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div
+            className={clsx(
+              "absolute right-80 top-[35%] backdrop-blur-mg opacity-[32%] animate-[spin_18s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none",
+              "xl:block hidden"
+            )}
+          >
             <Card defaultGradient={true} className="cube w-32 h-32 opacity-[32%] "></Card>
           </div>
           <div className="absolute right-14 top-10 backdrop-blur-mg opacity-[36%] animate-[spin_17s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
@@ -76,7 +81,12 @@ const Page: NextPage = () => {
           <div className="absolute left-44 bottom-12 backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-28 h-28 opacity-[28%] "></Card>
           </div>
-          <div className="absolute left-80 bottom-[30%] backdrop-blur-mg opacity-[32%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div
+            className={clsx(
+              "absolute left-80 bottom-[30%] backdrop-blur-mg opacity-[32%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none",
+              "xl:block hidden"
+            )}
+          >
             <Card defaultGradient={true} className="cube w-32 h-32 opacity-[32%] "></Card>
           </div>
           <div className="absolute -left-16 bottom-[40%] backdrop-blur-mg opacity-[40%] animate-[spin_16s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
@@ -88,10 +98,15 @@ const Page: NextPage = () => {
           <div className="absolute left-44 top-[10%] backdrop-blur-mg opacity-[40%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
           </div>
-          <div className="absolute right-[35%] -bottom-2 backdrop-blur-mg opacity-[24%] animate-[spin_20s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div className="absolute lg:right-[47%] right-[35%] -bottom-2 backdrop-blur-mg opacity-[24%] animate-[spin_20s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-24 h-24 opacity-[24%] "></Card>
           </div>
-          <div className="absolute left-[30%] -bottom-4 backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div
+            className={clsx(
+              "absolute left-[30%] -bottom-4 backdrop-blur-mg opacity-[28%] animate-[spin_15s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none",
+              "xl:block hidden"
+            )}
+          >
             <Card defaultGradient={true} className="cube w-28 h-28 opacity-[28%] "></Card>
           </div>
 
