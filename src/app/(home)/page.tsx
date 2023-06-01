@@ -32,16 +32,21 @@ const Page: NextPage = () => {
         },
       });
 
-      gsap.from(featuresSection.current, {
-        y: "40%",
-        opacity: 0,
-        transform: "scale(140%)",
-        scrollTrigger: {
-          trigger: featuresSection.current,
-          start: "top bottom", // when the top of the trigger hits the bottom of the viewport
-          end: window.innerWidth > 900 ? "30% bottom" : "10% bottom", // when the bottom of the trigger hits the top of the viewport
-          scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-        },
+      const fadeinEls = document.querySelectorAll(".fadein");
+      fadeinEls.forEach((_el) => {
+        const el = _el as HTMLDivElement;
+        const end = el.offsetHeight < window.innerHeight ? "30% bottom" : `10% bottom`;
+        gsap.from(el, {
+          y: "40%",
+          opacity: 0,
+          transform: "scale(140%)",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom", // when the top of the trigger hits the bottom of the viewport
+            end: end, // when the bottom of the trigger hits the top of the viewport
+            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+          },
+        });
       });
     });
     return () => ctx.revert(); // cleanup
@@ -108,7 +113,7 @@ const Page: NextPage = () => {
       <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative pb-32 pt-48">
         <div className="relative -mt-[33rem]">
           <span id="features" className="absolute md:-top-24"></span>
-          <section ref={featuresSection} className="flex flex-col justify-center items-center ">
+          <section ref={featuresSection} className="fadein flex flex-col justify-center items-center ">
             <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
               <Card
                 defaultGradient={true}
@@ -233,7 +238,7 @@ const Page: NextPage = () => {
             {/* </Link> */}
           </section>
         </div>
-        <section className="flex flex-col justify-center items-center py-64">
+        <section className="fadein flex flex-col justify-center items-center py-64">
           <h3 className="text-center font-semibold text-4xl pb-20 font-heading">How it works ?</h3>
           <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
             <li className="flex flex-col justify-center">
@@ -296,7 +301,7 @@ const Page: NextPage = () => {
             </Link>
           </div>
         </section>
-        <section className="pb-64 flex flex-col items-center">
+        <section className="fadein pb-64 flex flex-col items-center">
           <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Ready to get started ?</h3>
           {/* <Link href="/app"> */}
           <Button
@@ -312,7 +317,7 @@ const Page: NextPage = () => {
           </Button>
           {/* </Link> */}
         </section>
-        <section className="pb-36 flex flex-col items-center">
+        <section className="fadein pb-36 flex flex-col items-center">
           <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Our partners</h3>
           <ul className="flex flex-wrap justify-center gap-16 px-16">
             <li>
