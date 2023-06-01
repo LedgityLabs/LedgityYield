@@ -1,3 +1,10 @@
+## [1.30.0](https://github.com/ledgity-labs/dapp/compare/v1.29.0...v1.30.0) (2023-06-01)
+
+
+### Features
+
+* **home:** add animation while scrolling from hero to features ([f0fb30d](https://github.com/ledgity-labs/dapp/commit/f0fb30d96c14fdd7b4caec9808e659a7270bcd90))
+
 ## [1.29.0](https://github.com/ledgity-labs/dapp/compare/v1.28.0...v1.29.0) (2023-06-01)
 
 
