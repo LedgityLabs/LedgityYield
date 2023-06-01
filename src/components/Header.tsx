@@ -37,6 +37,7 @@ const Header: FC = () => {
             data-tf-transitive-search-params
             data-tf-medium="snippet"
             size="large"
+            className="sm:block hidden"
           >
             Enter app
           </Button>
