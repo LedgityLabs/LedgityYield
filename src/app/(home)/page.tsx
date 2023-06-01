@@ -189,7 +189,7 @@ const Page: NextPage = () => (
         <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
           <li className="flex flex-col justify-center">
             <Card className="relative w-[250px] py-5">
-              <div className="absolute -left-4 -top-4">
+              <div className="absolute -left-4 -top-5">
                 <Card
                   radius="full"
                   className="text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
@@ -197,7 +197,7 @@ const Page: NextPage = () => (
                   <span className="text-primary-fg font-bold">1</span>
                 </Card>
               </div>
-              <p className="text-xl text-center w-full">Deposit stablecoins</p>
+              <p className="text-xl text-center w-full font-medium text-fg/90">Deposit stablecoins</p>
             </Card>
             <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-medium tracking-wide">
               USDC, EUROC, and more!
@@ -205,7 +205,7 @@ const Page: NextPage = () => (
           </li>
           <li className="flex flex-col justify-center">
             <Card className="relative w-[250px] py-5">
-              <div className="absolute -left-4 -top-4">
+              <div className="absolute -left-4 -top-5">
                 <Card
                   radius="full"
                   className="text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
@@ -213,7 +213,7 @@ const Page: NextPage = () => (
                   <span className="text-primary-fg font-bold">2</span>
                 </Card>
               </div>
-              <p className="text-xl text-center w-full">Receive L-Tokens</p>
+              <p className="text-xl text-center w-full font-medium text-fg/90">Receive L-Tokens</p>
             </Card>
             <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-medium tracking-wide">
               E.g., LUSDC for USDC
@@ -221,7 +221,7 @@ const Page: NextPage = () => (
           </li>
           <li className="flex flex-col justify-center">
             <Card className="relative w-[250px] py-5">
-              <div className="absolute -left-4 -top-4">
+              <div className="absolute -left-4 -top-5">
                 <Card
                   radius="full"
                   className=" text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
@@ -229,38 +229,39 @@ const Page: NextPage = () => (
                   <span className="text-primary-fg font-bold">3</span>
                 </Card>
               </div>
-              <p className="text-xl text-center w-full">Enjoy stable yield !</p>
+              <p className="text-xl text-center w-full font-medium text-fg/90">Enjoy stable yield !</p>
             </Card>
             <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-sm font-medium tracking-wide">
               (Backed by RWA)
             </p>
           </li>
         </ol>
-        <div className="flex flex-col gap-6 justify-center items-center mt-24">
+        <div className="flex gap-6 justify-center items-center mt-20">
           <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
-            Ready to get started ?
+            Want to learn more ?
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-6 px-6">
-            {/* <Link href="/app"> */}
-            <Button
-              data-tf-popup="J2ENFK9t"
-              data-tf-opacity="100"
-              data-tf-size="100"
-              data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
-              data-tf-transitive-search-params
-              data-tf-medium="snippet"
-              size="large"
-            >
-              Take me to the app
+          <Link href="/app">
+            <Button variant="outline" size="large">
+              Read our whitepaper
             </Button>
-            {/* </Link> */}
-            <Link href="/app">
-              <Button variant="outline" size="large">
-                Read our whitepaper
-              </Button>
-            </Link>
-          </div>
+          </Link>
         </div>
+      </section>
+      <section className="pb-64 flex flex-col items-center">
+        <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Ready to get started ?</h3>
+        {/* <Link href="/app"> */}
+        <Button
+          data-tf-popup="J2ENFK9t"
+          data-tf-opacity="100"
+          data-tf-size="100"
+          data-tf-iframe-props="title=Ledgity DeFi subscribe to release"
+          data-tf-transitive-search-params
+          data-tf-medium="snippet"
+          size="large"
+        >
+          Take me to the app
+        </Button>
+        {/* </Link> */}
       </section>
       <section className="pb-36 flex flex-col items-center">
         <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Our partners</h3>
@@ -269,7 +270,7 @@ const Page: NextPage = () => (
             <Link
               href="https://www.circle.com"
               target="_blank"
-              className="opacity-90 hover:opacity-100 transition min-h-[60px]"
+              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
               <Image src={circleLogo} alt="Circle Logo" height={60} />
             </Link>
@@ -278,7 +279,7 @@ const Page: NextPage = () => (
             <Link
               href="https://www.risepartners.org"
               target="_blank"
-              className="opacity-90 hover:opacity-100 transition min-h-[60px]"
+              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
               <Image src={risepartnersLogo} alt="Rise Partners Logo" height={60} />
             </Link>
@@ -287,13 +288,13 @@ const Page: NextPage = () => (
             <Link
               href="https://www.adan.eu"
               target="_blank"
-              className="opacity-90 hover:opacity-100 transition min-h-[60px]"
+              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
               <Image src={adanLogo} alt="ADAN Logo" height={60} />
             </Link>
           </li>
           <li>
-            <Link href="" target="_blank" className="opacity-90 hover:opacity-100 transition min-h-[60px]">
+            <Link href="" target="_blank" className="opacity-80 hover:opacity-100 transition min-h-[60px]">
               <Image src={foundersoneLogo} alt="Founders One Logo" height={60} />
             </Link>
           </li>
