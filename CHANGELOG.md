@@ -1,3 +1,12 @@
+## [1.25.0](https://github.com/ledgity-labs/dapp/compare/v1.24.0...v1.25.0) (2023-05-31)
+
+
+### Features
+
+* a bunch of tiny readability and reading priority improvements ([056c438](https://github.com/ledgity-labs/dapp/commit/056c4380ee14633a5b5e945d339cf112c8538d7e))
+* add subtle radial gradients to features cards texts to improve readability ([30a4e07](https://github.com/ledgity-labs/dapp/commit/30a4e07a5661c7c52c1ebba21d964ab8cbbcbb00))
+* some graphical adjustments to cards and illustrations to improve hover effect and readability ([86f901a](https://github.com/ledgity-labs/dapp/commit/86f901a14387e51a8f6f678020d6a9d8ee9b699f))
+
 ## [1.24.0](https://github.com/ledgity-labs/dapp/compare/v1.23.1...v1.24.0) (2023-05-31)
 
 
