@@ -11,7 +11,7 @@
     "@t3-oss/env-nextjs": "^0.3.1",
     "clsx": "^1.2.1",
     "ethers": "^6.3.0",
-    "next": "13.4.3",
+    "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "^3.21.4"
@@ -26,7 +26,7 @@
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.41.0",
-    "eslint-config-next": "13.4.3",
+    "eslint-config-next": "13.4.4",
     "postcss": "8.4.23",
     "semantic-release": "^21.0.2",
     "tailwind-merge": "^1.12.0",
