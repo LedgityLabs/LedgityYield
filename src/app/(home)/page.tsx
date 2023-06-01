@@ -51,7 +51,7 @@ const Page: NextPage = () => (
         <Scroller className="absolute lg:bottom-11 bottom-8" />
       </div>
     </section>
-    <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative">
+    <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative mb-32">
       <section className="flex flex-col justify-center items-center -mt-64">
         <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
           <Card

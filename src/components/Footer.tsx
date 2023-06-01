@@ -13,7 +13,7 @@ const Footer: FC = () => {
   return (
     <footer
       className={clsx(
-        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative mt-32 w-screen overflow-hidden"
+        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative  w-screen overflow-hidden"
       )}
     >
       <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full">
