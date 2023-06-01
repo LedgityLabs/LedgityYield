@@ -1,3 +1,30 @@
+## [1.26.1](https://github.com/ledgity-labs/dapp/compare/v1.26.0...v1.26.1) (2023-06-01)
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.7 ([4a0779d](https://github.com/ledgity-labs/dapp/commit/4a0779d751c640533e2a47074e886566f53db8d7))
+* **deps:** update nextjs monorepo to v13.4.4 ([187f3ed](https://github.com/ledgity-labs/dapp/commit/187f3edda8e6531528132debd93cbf24c1d5a3e3))
+
+
+### Fixes
+
+* **deps:** update dependency @t3-oss/env-nextjs to ^0.4.0 ([608dc76](https://github.com/ledgity-labs/dapp/commit/608dc7649c72e13840fd846f774b88b6ac53d10b))
+
+## [1.26.0](https://github.com/ledgity-labs/dapp/compare/v1.25.0...v1.26.0) (2023-06-01)
+
+
+### Features
+
+* make "How it works?" section responsive ([088024a](https://github.com/ledgity-labs/dapp/commit/088024aabe1a713b502ef4c325481d234b17cb83))
+* new version of "How it works?" section of home page ([bf464b8](https://github.com/ledgity-labs/dapp/commit/bf464b820507b1af000ad3b18fd3dccde2b48890))
+* refactor logo in its own component + improve its readability on light theme ([4777f4c](https://github.com/ledgity-labs/dapp/commit/4777f4c5de72bd88d80bba50518a49159ea13c7c))
+
+
+### Fixes
+
+* fix background gap at the bottom of home page ([f638160](https://github.com/ledgity-labs/dapp/commit/f638160cca58f87923f25cf25d147632b13c2f1c))
+
 ## [1.25.0](https://github.com/ledgity-labs/dapp/compare/v1.24.0...v1.25.0) (2023-05-31)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "ledgity-defi",
-  "version": "1.25.0",
+  "version": "1.26.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -8,10 +8,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.3.1",
+    "@t3-oss/env-nextjs": "^0.4.0",
     "clsx": "^1.2.1",
     "ethers": "^6.3.0",
-    "next": "13.4.3",
+    "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "^3.21.4"
@@ -20,14 +20,14 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "20.1.2",
-    "@types/react": "18.2.6",
+    "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.41.0",
-    "eslint-config-next": "13.4.3",
-    "postcss": "8.4.23",
+    "eslint-config-next": "13.4.4",
+    "postcss": "8.4.24",
     "semantic-release": "^21.0.2",
     "tailwind-merge": "^1.12.0",
     "tailwindcss": "3.3.2",
