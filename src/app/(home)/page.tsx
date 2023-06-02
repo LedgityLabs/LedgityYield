@@ -110,13 +110,13 @@ const Page: NextPage = () => {
             <Card defaultGradient={true} className="cube w-28 h-28 opacity-[28%] "></Card>
           </div>
 
-          <h2 className="text-center leading-none font-heading lg:text-8xl md:text-[4.5rem] sm:text-[4rem] text-[3rem] font-bold text-slate-700">
-            Stable <span className="whitespace-nowrap">yields for</span>
-            <br />
+          <h2 className="text-center leading-none font-heading lg:text-8xl sm:text-[11vw] text-[13vw] sm:block inline-flex flex-col font-bold text-slate-700">
+            Stable
+            <span> yields for</span>
+            <br className="hidden sm:block" />
             <span className="text-indigo-300 text-transparent bg-clip-text bg-gradient-to-t from-indigo-300 to-indigo-500">
-              stablecoins
+              stablecoins<span className="text-slate-700">.</span>
             </span>
-            .
           </h2>
           <section className="relative flex content-around justify-around lg:gap-16 md:gap-10 sm:gap-8 gap-4">
             <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
