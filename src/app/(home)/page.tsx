@@ -92,13 +92,13 @@ const Page: NextPage = () => {
           <div className="absolute -left-16 bottom-[40%] backdrop-blur-mg opacity-[40%] animate-[spin_16s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
           </div>
-          <div className="absolute right-44 bottom-[10%] backdrop-blur-mg opacity-[40%] animate-[spin_18s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div className="absolute sm:block hidden lg:right-44 md:right-16 sm:-right-0  lg:bottom-[10%] sm:bottom-0 backdrop-blur-mg opacity-[40%] animate-[spin_18s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
           </div>
-          <div className="absolute left-44 top-[10%] backdrop-blur-mg opacity-[40%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div className="absolute lg:block hidden left-44 top-[10%] backdrop-blur-mg opacity-[40%] animate-[spin_23s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-40 h-40 opacity-[40%] "></Card>
           </div>
-          <div className="absolute lg:right-[47%] right-[35%] -bottom-2 backdrop-blur-mg opacity-[24%] animate-[spin_20s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
+          <div className="absolute lg:block hidden lg:right-[47%] xl:right-[35%] right-[35%] -bottom-2 backdrop-blur-mg opacity-[24%] animate-[spin_20s_ease-in-out_infinite] -z-10 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-24 h-24 opacity-[24%] "></Card>
           </div>
           <div
@@ -121,15 +121,17 @@ const Page: NextPage = () => {
           <section className="relative flex content-around justify-around lg:gap-16 md:gap-10 sm:gap-8 gap-4">
             <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
               <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">$8k</p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/30">TVL</h3>
+              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">TVL</h3>
             </Card>
             <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
               <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">7%</p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/30">APR</h3>
+              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">APR</h3>
             </Card>
             <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
               <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">±0.1%</p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/30">1Y stability</h3>
+              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                1Y stability
+              </h3>
             </Card>
           </section>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
