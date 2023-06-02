@@ -393,7 +393,7 @@ const Page: NextPage = () => {
               </p>
             </li>
           </ol>
-          <div className="flex flex-wrap gap-6 justify-center items-center mt-20">
+          <div className="flex flex-wrap gap-6 px-6 justify-center items-center mt-20">
             <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
               Want to learn more ?
             </p>
