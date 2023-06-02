@@ -1,3 +1,11 @@
+## [1.35.0](https://github.com/ledgity-labs/dapp/compare/v1.34.0...v1.35.0) (2023-06-02)
+
+
+### Features
+
+* **home:** add new hero stats design for xs devices ([5327626](https://github.com/ledgity-labs/dapp/commit/53276267638c8b47338d59f4d0631dd279f7d475))
+* improve hero heading display by wrapping words on xs screens and auto-resizing heading ([e5993cb](https://github.com/ledgity-labs/dapp/commit/e5993cb851551b486278775cf6f6c1f82d511607))
+
 ## [1.34.0](https://github.com/ledgity-labs/dapp/compare/v1.33.0...v1.34.0) (2023-06-02)
 
 
