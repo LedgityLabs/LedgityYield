@@ -118,23 +118,55 @@ const Page: NextPage = () => {
               stablecoins<span className="text-slate-700">.</span>
             </span>
           </h2>
-          <section className="relative flex content-around justify-around lg:gap-16 md:gap-10 sm:gap-8 gap-4">
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-              <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">$8k</p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">TVL</h3>
-            </Card>
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-              <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">7%</p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">APR</h3>
-            </Card>
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-              <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">±0.1%</p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
-                1Y stability
-              </h3>
-            </Card>
+          <section className="">
+            <div className="sm:flex hidden content-around justify-around lg:gap-16 md:gap-10 sm:gap-8">
+              <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
+                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">7%</p>
+                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">APR</h3>
+              </Card>
+              <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
+                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">±0.1%</p>
+                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                  1Y stability
+                </h3>
+              </Card>
+              <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
+                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">$8k</p>
+                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">TVL</h3>
+              </Card>
+            </div>
+            <div className="block sm:hidden">
+              <Card>
+                <ul className="flex justify-around px-[6vw] h-28">
+                  <li className="relative flex items-center justify-center px-[4vw] pr-[6vw]">
+                    <p className="mb-3 text-4xl font-bold text-fg/80">7%</p>
+                    <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                      APR
+                    </h3>
+                  </li>
+
+                  <li className={clsx("relative flex items-center justify-center px-[6vw]", "bg-fg/[5%]")}>
+                    <p className="mb-3 text-4xl font-bold text-fg/80">±0.1%</p>
+                    <h3
+                      className={clsx(
+                        "absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading",
+                        "whitespace-nowrap"
+                      )}
+                    >
+                      1Y stability
+                    </h3>
+                  </li>
+                  <li className="relative flex items-center justify-center px-[4vw] pl-[6vw]">
+                    <p className="mb-3 text-4xl font-bold text-fg/80">$8k</p>
+                    <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                      TVL
+                    </h3>
+                  </li>
+                </ul>
+              </Card>
+            </div>
           </section>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
+          <div className="flex flex-row flex-wrap px-8 justify-center items-center gap-8">
             {/* <Link href="/app"> */}
             <Button
               size="large"
@@ -361,7 +393,7 @@ const Page: NextPage = () => {
               </p>
             </li>
           </ol>
-          <div className="flex gap-6 justify-center items-center mt-20">
+          <div className="flex flex-wrap gap-6 justify-center items-center mt-20">
             <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
               Want to learn more ?
             </p>
