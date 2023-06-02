@@ -1,3 +1,11 @@
+## [1.34.0](https://github.com/ledgity-labs/dapp/compare/v1.33.0...v1.34.0) (2023-06-02)
+
+
+### Features
+
+* decrease z-index of cubes + add backdrop blur to outline buttons for smooth effect ([70c98f2](https://github.com/ledgity-labs/dapp/commit/70c98f27ebb6a1af0ad851d285d4c3ae7ba3f188))
+* **home:** reposition and hide some cubes on sm and md devices ([50bbc23](https://github.com/ledgity-labs/dapp/commit/50bbc233d52685197113a2d1546f97af479f34f9))
+
 ## [1.33.0](https://github.com/ledgity-labs/dapp/compare/v1.32.0...v1.33.0) (2023-06-01)
 
 
