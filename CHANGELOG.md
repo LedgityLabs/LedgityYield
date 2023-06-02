@@ -1,3 +1,11 @@
+## [1.33.0](https://github.com/ledgity-labs/dapp/compare/v1.32.0...v1.33.0) (2023-06-01)
+
+
+### Features
+
+* hide and move some cubes on lg screen compared to xl ones ([6e67710](https://github.com/ledgity-labs/dapp/commit/6e67710aa84694110bb12bd3f1bc2f5a2feda5c4))
+* **home:** add more cubes + add webkit mask properties to support chrome browser ([ec69d22](https://github.com/ledgity-labs/dapp/commit/ec69d22701ca0a9c96158484231a1ba1c7c427dd))
+
 ## [1.32.0](https://github.com/ledgity-labs/dapp/compare/v1.31.0...v1.32.0) (2023-06-01)
 
 
