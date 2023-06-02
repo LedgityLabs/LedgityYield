@@ -22,7 +22,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {
           default: "bg-primary text-primary-fg",
           destructive: "bg-destructive text-destructive-fg",
-          outline: "border-2 border-input bg-accent/30 hover:bg-accent hover:text-accent-fg",
+          outline: "border-2 border-input bg-accent/30 hover:bg-accent hover:text-accent-fg backdrop-blur-lg",
           secondary: "bg-secondary text-secondary-fg",
         }[variant],
 
