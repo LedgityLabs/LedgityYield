@@ -1,7 +1,12 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-export const buttonVariants = ["default", "secondary", "outline", "destructive"] as const;
+export const buttonVariants = [
+  "default",
+  "secondary",
+  "outline",
+  "destructive",
+] as const;
 export type ButtonVariant = (typeof buttonVariants)[number];
 
 export const buttonSizes = ["small", "default", "large"] as const;
@@ -13,7 +18,10 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, variant = "default", size = "default", ...props }, ref) => (
+  (
+    { className, children, variant = "default", size = "default", ...props },
+    ref
+  ) => (
     <button
       className={twMerge(
         "inline-flex items-center justify-center rounded-md font-medium transition-colors hover:bg-opacity-80",
@@ -22,7 +30,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {
           default: "bg-primary text-primary-fg",
           destructive: "bg-destructive text-destructive-fg",
-          outline: "border-2 border-input bg-accent/30 hover:bg-accent hover:text-accent-fg backdrop-blur-lg",
+          outline:
+            "border-2 border-input bg-accent/30 hover:bg-accent hover:text-accent-fg backdrop-blur-lg",
           secondary: "bg-secondary text-secondary-fg",
         }[variant],
 
@@ -44,4 +53,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   )
 );
 Button.displayName = "Button";
-export default Button;

@@ -12,7 +12,16 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, radius = "default", defaultGradient = false, ...props }, ref) => {
+  (
+    {
+      className,
+      children,
+      radius = "default",
+      defaultGradient = false,
+      ...props
+    },
+    ref
+  ) => {
     const card = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
       if (card.current) {
@@ -69,4 +78,3 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   }
 );
 Card.displayName = "Card";
-export default Card;

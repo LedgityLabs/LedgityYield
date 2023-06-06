@@ -26,4 +26,3 @@ export const CardsHelper: FC = () => {
   }, [path]);
   return null;
 };
-export default CardsHelper;
