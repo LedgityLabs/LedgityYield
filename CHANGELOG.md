@@ -1,3 +1,21 @@
+## [1.38.0](https://github.com/ledgity-labs/dapp/compare/v1.37.0...v1.38.0) (2023-06-06)
+
+
+### Features
+
+* refactor APRCheckpoints stuff into a library and implement blacklist in LTYStaking contract ([053aa3a](https://github.com/ledgity-labs/dapp/commit/053aa3a4d4611152e384e7ee0d6d572d72a67908))
+
+
+### Others
+
+* **deps:** update dependency eslint to v8.42.0 ([d8e035a](https://github.com/ledgity-labs/dapp/commit/d8e035a8fe72b5ab18ec82a4bc94768fa9e712b9))
+
+
+### Fixes
+
+* fix ui/ page missing "use client"; statement ([63517f2](https://github.com/ledgity-labs/dapp/commit/63517f2173b12baab9094b4ba061a8c4dffcc126))
+* fix warning caused by mixed default and names exports in UI components ([ad790a6](https://github.com/ledgity-labs/dapp/commit/ad790a65ff2068a00d8cdc5f0193524067a92416))
+
 ## [1.37.0](https://github.com/ledgity-labs/dapp/compare/v1.36.0...v1.37.0) (2023-06-06)
 
 
