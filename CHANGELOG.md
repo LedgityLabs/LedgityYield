@@ -1,3 +1,16 @@
+## [1.36.0](https://github.com/ledgity-labs/dapp/compare/v1.35.0...v1.36.0) (2023-06-02)
+
+
+### Features
+
+* add padding to whitepaper CTA to prevent it reaching screen border on small devices ([e5ef49f](https://github.com/ledgity-labs/dapp/commit/e5ef49f6a777043712387e86ee3c07b1c9ba41a7))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.8 ([c00e24c](https://github.com/ledgity-labs/dapp/commit/c00e24cf1e4ad81cd6eafd9b376e9eee9d70a9e8))
+* **deps:** update dependency typescript to v5.1.3 ([0666440](https://github.com/ledgity-labs/dapp/commit/0666440f9bb2447a7dcf064a1b8cb717c3857936))
+
 ## [1.35.0](https://github.com/ledgity-labs/dapp/compare/v1.34.0...v1.35.0) (2023-06-02)
 
 
