@@ -6,24 +6,22 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 /// @custom:security-contact security@ledgity.com
-contract Blacklist is 
-    Initializable,
-    OwnableUpgradeable,
-    UUPSUpgradeable {
-
+contract Blacklist is Initializable, OwnableUpgradeable, UUPSUpgradeable {
     mapping(address => bool) private _list;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
-  
-    function initialize() initializer public {
-      __Ownable_init();
-      __UUPSUpgradeable_init();
+
+    function initialize() public initializer {
+        __Ownable_init();
+        __UUPSUpgradeable_init();
     }
 
-    function _authorizeUpgrade(address newImplementation) internal onlyOwner override {}
+    function _authorizeUpgrade(
+        address newImplementation
+    ) internal override onlyOwner {}
 
     function blacklist(address account) external onlyOwner {
         _list[account] = true;
