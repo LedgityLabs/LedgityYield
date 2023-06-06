@@ -221,8 +221,7 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  Our institutional set up backed by RWAs allows offered yields to record very few variations through
-                  time.
+                  Benefit from stability of an institutional set up and a protocol backed by Real World Assets (RWA)
                 </p>
               </Card>
               <Card
@@ -258,7 +257,7 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  The collateralized portoflio of RWA assets is allocated accross hundreds of yield opportunities
+                  The collateralized portoflio of RWA is allocated accross hundreds of yield opportunities.
                 </p>
               </Card>
 
@@ -296,7 +295,7 @@ const Page: NextPage = () => {
                   }}
                 ></div>{" "}
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  Our protocol does not implement any liquidation mechanism. Lorem ipsum dolor sit amet, consectetur.
+                  Our protocol does not implements any liquidation mechanism and fees at borrowing time.
                 </p>
               </Card>
               <Card

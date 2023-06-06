@@ -18,6 +18,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@openzeppelin/contracts-upgradeable": "^4.9.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "20.1.2",
@@ -28,6 +29,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
+    "hardhat": "^2.14.1",
     "postcss": "8.4.24",
     "semantic-release": "^21.0.2",
     "tailwind-merge": "^1.12.0",

@@ -77,7 +77,7 @@ export const theme = {
 
       "card-border": `radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)`,
       "card-border-default": `
-        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent), radial-gradient(300px circle at 50% 100%, rgb(var(--primary-bg) / 0.5), transparent)
+        radial-gradient(300px circle at 50% 100%, rgb(var(--primary-bg) / 0.5), transparent), radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent)
         `,
 
       "card-illustrations": `
@@ -86,7 +86,7 @@ export const theme = {
 
       "card-content": `radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15)`,
       "card-content-default": `
-        radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15), radial-gradient(500px circle at 50% 100%, rgb(var(--primary-bg) / 0.15)`,
+        radial-gradient(500px circle at 50% 100%, rgb(var(--primary-bg) / 0.15), radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.15)`,
     },
     colors: {
       bg: "rgb(var(--bg) / <alpha-value>)",
