@@ -8,19 +8,28 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "./libs/APRCheckpoints.sol";
 import "./Blacklist.sol";
+import "./abstracts/Blacklistable.sol";
 
 /// @custom:security-contact security@ledgity.com
 contract LTYStaking is
     Initializable,
     PausableUpgradeable,
     OwnableUpgradeable,
-    UUPSUpgradeable
+    UUPSUpgradeable,
+    Blacklistable
 {
+    struct AccountInfos {
+        APRCheckpoints.Reference depositCheckpointReference;
+        uint40 depositTimestamp; // Allows representing datetime up to 20/02/36812
+        uint88 unclaimedRewards; // Allows storing up to 309,485,009 $LTY which is far enough because it represents ~1/9 of the max supply.
+    }
+
     IERC20Upgradeable public ltyContract;
-    Blacklist blacklistContract;
 
     uint256 apr;
+
     APRCheckpoints.Pack[] packedAPRCheckpoints;
+    mapping(address => AccountInfos) accountsInfos;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -45,24 +54,16 @@ contract LTYStaking is
         _unpause();
     }
 
-    modifier notBlacklisted() {
-        require(
-            blacklistContract.isBlacklisted(msg.sender) == false,
-            "Account blacklisted"
-        );
-        _;
+    function setBlacklistContract(address _contract) public onlyOwner {
+        _setBlacklistContract(_contract);
     }
 
     function setLTYContract(address ltyAddress) external onlyOwner {
         ltyContract = IERC20Upgradeable(ltyAddress);
     }
 
-    function setBlacklistContract(address _contract) public onlyOwner {
-        blacklistContract = Blacklist(_contract);
-    }
-
-    function setAPR(uint256 _apr) external onlyOwner {
-        apr = _apr;
+    function setAPR(uint16 aprUD3) public onlyOwner {
+        APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
     }
 
     function stake(uint256 amount) external whenNotPaused notBlacklisted {}

@@ -8,8 +8,8 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "./Blacklist.sol";
 import "./libs/APRCheckpoints.sol";
+import "./abstracts/Blacklistable.sol";
 
 /// @custom:security-contact security@ledgity.com
 contract LToken is
@@ -18,7 +18,8 @@ contract LToken is
     ERC20WrapperUpgradeable,
     PausableUpgradeable,
     OwnableUpgradeable,
-    UUPSUpgradeable
+    UUPSUpgradeable,
+    Blacklistable
 {
     event balanceMutation(address account, uint256 balance);
     event queuedWithdrawalRequest(uint256 index);
@@ -35,7 +36,6 @@ contract LToken is
     }
 
     IERC20Upgradeable uContract;
-    Blacklist blacklistContract;
     IERC20Upgradeable LTYStakingContract;
     address payable serverWallet;
     address payable fundWallet;
@@ -65,7 +65,7 @@ contract LToken is
         string memory uName = uMetadata.name();
         string memory uSymbol = uMetadata.symbol();
 
-        // Build wrapper token informations
+        // Build L-Token informations
         string memory name = string(abi.encodePacked("Ledgity ", uName));
         string memory symbol = string(abi.encodePacked("L", uSymbol));
 
@@ -138,14 +138,6 @@ contract LToken is
         _;
     }
 
-    modifier notBlacklisted() {
-        require(
-            blacklistContract.isBlacklisted(msg.sender) == false,
-            "Account blacklisted"
-        );
-        _;
-    }
-
     function setServerWallet(address payable _serverWallet) public onlyOwner {
         serverWallet = _serverWallet;
     }
@@ -170,45 +162,15 @@ contract LToken is
     }
 
     function setBlacklistContract(address _contract) public onlyOwner {
-        blacklistContract = Blacklist(_contract);
+        _setBlacklistContract(_contract);
     }
-    
+
     function setLTYTier1UD18(uint256 amountUD18) public onlyOwner {
         ltyTier1UD18 = amountUD18;
     }
 
-
-    /**
-     * This function allows updating the current APR. Under the hood it writes a new APR checkpoint.
-     * For more details, see "APR checkpoints" and "Packed APR checkpoints" sections of whitepaper.
-     * @param aprUD3 The new APR to write in UD3 format (3 digit fixed point number, e.g., 12.345% = 12345)
-     */
     function setAPR(uint16 aprUD3) public onlyOwner {
-        // Retrieve last written pack
-        APRCheckpoints.Pack memory writtenPack = packedAPRCheckpoints[
-            packedAPRCheckpoints.length - 1
-        ];
-
-        // If the pack is full, or is the first pack, create a new pack
-        if (writtenPack.cursor == 5 || writtenPack.cursor == 0) {
-            packedAPRCheckpoints.push(
-                APRCheckpoints.Pack({
-                    aprsUD3: [uint16(0), uint16(0), uint16(0), uint16(0)],
-                    timestamps: [uint40(0), uint40(0), uint40(0), uint40(0)],
-                    cursor: 1
-                })
-            );
-            writtenPack = packedAPRCheckpoints[packedAPRCheckpoints.length - 1];
-        }
-        // Write the new checkpoint at current pack cursor
-        writtenPack.aprsUD3[writtenPack.cursor] = aprUD3;
-        writtenPack.timestamps[writtenPack.cursor] = uint40(block.timestamp);
-
-        // Increment write cursor
-        writtenPack.cursor++;
-
-        // Store the updated pack
-        packedAPRCheckpoints[packedAPRCheckpoints.length - 1] = writtenPack;
+        APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
     }
 
     /**

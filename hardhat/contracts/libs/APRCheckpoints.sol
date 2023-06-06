@@ -53,4 +53,35 @@ library APRCheckpoints {
                 cursorIndex: uint8(latestWrittenCursor)
             });
     }
+
+    /**
+     * This function allows updating the current APR. Under the hood it writes a new APR checkpoint.
+     * For more details, see "APR checkpoints" and "Packed APR checkpoints" sections of whitepaper.
+     * @param aprUD3 The new APR to write in UD3 format (3 digit fixed point number, e.g., 12.345% = 12345)
+     */
+    function setAPR(Pack[] storage packs, uint16 aprUD3) public {
+        // Retrieve last written pack
+        APRCheckpoints.Pack memory writtenPack = packs[packs.length - 1];
+
+        // If the pack is full, or is the first pack, create a new pack
+        if (writtenPack.cursor == 5 || writtenPack.cursor == 0) {
+            packs.push(
+                APRCheckpoints.Pack({
+                    aprsUD3: [uint16(0), uint16(0), uint16(0), uint16(0)],
+                    timestamps: [uint40(0), uint40(0), uint40(0), uint40(0)],
+                    cursor: 1
+                })
+            );
+            writtenPack = packs[packs.length - 1];
+        }
+        // Write the new checkpoint at current pack cursor
+        writtenPack.aprsUD3[writtenPack.cursor] = aprUD3;
+        writtenPack.timestamps[writtenPack.cursor] = uint40(block.timestamp);
+
+        // Increment write cursor
+        writtenPack.cursor++;
+
+        // Store the updated pack
+        packs[packs.length - 1] = writtenPack;
+    }
 }
