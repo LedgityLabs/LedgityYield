@@ -1,3 +1,10 @@
+## [1.37.0](https://github.com/ledgity-labs/dapp/compare/v1.36.0...v1.37.0) (2023-06-06)
+
+
+### Features
+
+* **contracts:** setup hardhat and write a first version of L-Token, LTY staking and blacklist contr ([a72b996](https://github.com/ledgity-labs/dapp/commit/a72b9962b4ca591b0b8cfd5a0b56820f4264710b))
+
 ## [1.36.0](https://github.com/ledgity-labs/dapp/compare/v1.35.0...v1.36.0) (2023-06-02)
 
 
