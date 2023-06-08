@@ -2,11 +2,15 @@
 // See: https://env.t3.gg/docs/nextjs
 import "./src/env.mjs";
 
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    // typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
+    typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
+  },
+  experimental: {
+    // Offload and execute scripts in a web worker with Partytown
+    nextScriptWorkers: true,
   },
 };
 export default nextConfig;

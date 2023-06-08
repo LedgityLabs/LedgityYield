@@ -5,9 +5,9 @@ import Header from "@/components/Header";
 import { CardsHelper } from "@/components/ui";
 import Footer from "@/components/Footer";
 import clsx from "clsx";
-import Script from "next/script";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Script from "next/script";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,11 +41,13 @@ const RootLayout: NextPage<Props> = ({ children }) => {
     <>
       <html lang="en">
         <CardsHelper />
-        <body className={clsx(`${inter.variable} ${poppins.variable}`, "w-screen overflow-x-hidden")}>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <Script src="//embed.typeform.com/next/embed.js"></Script>
+        <body className={clsx(`${inter.variable} ${poppins.variable}`, "")}>
+          <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <Script src="//embed.typeform.com/next/embed.js" strategy="worker" defer async></Script>
+          </div>
         </body>
       </html>
     </>

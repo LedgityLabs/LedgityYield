@@ -20,7 +20,7 @@ const Header: FC = () => {
     <header className="pb-[92px] relative z-50">
       <nav
         className={clsx(
-          "fixed flex sm:justify-between justify-center items-center px-8 py-6 w-screen",
+          "fixed flex sm:justify-between justify-center items-center px-8 py-6 w-screen sm:backdrop-blur-md",
           scrollY > 0 && "backdrop-blur-md"
         )}
       >

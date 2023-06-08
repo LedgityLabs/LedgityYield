@@ -19,6 +19,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@builder.io/partytown": "^0.8.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@openzeppelin/contracts": "^4.9.1",
