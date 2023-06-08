@@ -1,6 +1,6 @@
 {
   "name": "ledgity-defi",
-  "version": "1.49.2",
+  "version": "1.50.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
