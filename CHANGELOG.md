@@ -1,3 +1,10 @@
+## [1.49.1](https://github.com/ledgity-labs/dapp/compare/v1.49.0...v1.49.1) (2023-06-08)
+
+
+### Fixes
+
+* fix typeform buttons and Learn more button ([5cfe604](https://github.com/ledgity-labs/dapp/commit/5cfe604b4e9a0de3854985ff86b359f067a4bd17))
+
 ## [1.49.0](https://github.com/ledgity-labs/dapp/compare/v1.48.0...v1.49.0) (2023-06-08)
 
 
