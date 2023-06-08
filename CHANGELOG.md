@@ -1,3 +1,10 @@
+## [1.42.0](https://github.com/ledgity-labs/dapp/compare/v1.41.0...v1.42.0) (2023-06-08)
+
+
+### Features
+
+* open typeform on whitepaper button click ([70a143f](https://github.com/ledgity-labs/dapp/commit/70a143f8d1adc2f61f872661d56746507aae21d1))
+
 ## [1.41.0](https://github.com/ledgity-labs/dapp/compare/v1.40.0...v1.41.0) (2023-06-08)
 
 
