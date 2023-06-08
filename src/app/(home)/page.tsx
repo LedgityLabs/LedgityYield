@@ -412,11 +412,20 @@ const Page: NextPage = () => {
             <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
               Want to learn more ?
             </p>
-            <Link href="/">
-              <Button variant="outline" size="large">
-                Read our whitepaper
-              </Button>
-            </Link>
+            {/* <Link href="/"> */}
+            <Button
+              data-tf-popup="J2ENFK9t"
+              data-tf-opacity="100"
+              data-tf-size="100"
+              data-tf-iframe-props="title=Subscribe to app release"
+              data-tf-transitive-search-params
+              data-tf-medium="snippet"
+              variant="outline"
+              size="large"
+            >
+              Read our whitepaper
+            </Button>
+            {/* </Link> */}
           </div>
         </section>
         <section className="fadein relative pb-64 flex flex-col items-center">
