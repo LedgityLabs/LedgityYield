@@ -7,22 +7,22 @@ import { gsap } from "@/lib/gsap";
 const HomeHero: FC = () => {
   const heroSection = useRef(null);
 
-  // useLayoutEffect(() => {
-  //   let ctx = gsap.context(() => {
-  //     gsap.to(heroSection.current, {
-  //       yPercent: -40,
-  //       opacity: 0,
-  //       scale: 1.4,
-  //       scrollTrigger: {
-  //         trigger: heroSection.current,
-  //         start: "top top", // when the top of the trigger hits the bottom of the viewport
-  //         end: "80% top", // when the bottom of the trigger hits the top of the viewport
-  //         scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-  //       },
-  //     });
-  //   });
-  //   return () => ctx.revert(); // cleanup
-  // });
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.to(heroSection.current, {
+        yPercent: -40,
+        opacity: 0,
+        scale: 1.4,
+        scrollTrigger: {
+          trigger: heroSection.current,
+          start: "top top", // when the top of the trigger hits the bottom of the viewport
+          end: "80% top", // when the bottom of the trigger hits the top of the viewport
+          scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+        },
+      });
+    });
+    return () => ctx.revert(); // cleanup
+  });
 
   return (
     <FadeIn>
