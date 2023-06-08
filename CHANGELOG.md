@@ -1,3 +1,10 @@
+## [1.50.0](https://github.com/ledgity-labs/dapp/compare/v1.49.2...v1.50.0) (2023-06-08)
+
+
+### Features
+
+* **home:** cleanups and tiny adjustments ([14f6252](https://github.com/ledgity-labs/dapp/commit/14f62529813a153d0dd5e685b338100b974833f2))
+
 ## [1.49.2](https://github.com/ledgity-labs/dapp/compare/v1.49.1...v1.49.2) (2023-06-08)
 
 
