@@ -1,3 +1,15 @@
+## [1.46.0](https://github.com/ledgity-labs/dapp/compare/v1.45.1...v1.46.0) (2023-06-08)
+
+
+### Features
+
+* **home:** update glows images in webp ([972f1da](https://github.com/ledgity-labs/dapp/commit/972f1da2d77aaf363496feb071ee20ab3b40a24a))
+
+
+### Others
+
+* update hardhat-related dependencies to support Ethers v6 + some contract fixes ([6dfc5b3](https://github.com/ledgity-labs/dapp/commit/6dfc5b370e9f53a30a3ba384d75aa6bae2df0e6d))
+
 ## [1.45.1](https://github.com/ledgity-labs/dapp/compare/v1.45.0...v1.45.1) (2023-06-08)
 
 
