@@ -4,7 +4,7 @@ import { Button, Card, Cube, FadeIn } from "./ui";
 const HomeHowItWorks: FC = () => {
   return (
     <FadeIn>
-      <section className="relative  flex flex-col justify-center items-center py-64">
+      <section className="relative  flex flex-col justify-center items-center my-64">
         <Cube size="small" className="right-36 bottom-[55%]" />
         <Cube size="medium" className="left-36 top-[55%]" />
 

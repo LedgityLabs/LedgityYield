@@ -22,7 +22,7 @@ const HomePartners: FC = () => {
               target="_blank"
               className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
-              <Image src={circleLogo} alt="Circle Logo" height={60} />
+              <Image src={circleLogo} alt="Circle Logo" height={40} />
             </Link>
           </li>
           <li>
@@ -31,7 +31,7 @@ const HomePartners: FC = () => {
               target="_blank"
               className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
-              <Image src={risepartnersLogo} alt="Rise Partners Logo" height={60} />
+              <Image src={risepartnersLogo} alt="Rise Partners Logo" height={40} />
             </Link>
           </li>
           <li>
@@ -40,7 +40,7 @@ const HomePartners: FC = () => {
               target="_blank"
               className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
-              <Image src={adanLogo} alt="ADAN Logo" height={60} />
+              <Image src={adanLogo} alt="ADAN Logo" height={40} />
             </Link>
           </li>
           <li>
@@ -49,7 +49,7 @@ const HomePartners: FC = () => {
               target="_blank"
               className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
-              <Image src={foundersoneLogo} alt="Founders One Logo" height={60} />
+              <Image src={foundersoneLogo} alt="Founders One Logo" height={40} />
             </Link>
           </li>
           <li>
@@ -58,7 +58,7 @@ const HomePartners: FC = () => {
               target="_blank"
               className="opacity-80 hover:opacity-100 transition min-h-[60px]"
             >
-              <Image src={delubacLogo} alt="Founders One Logo" height={60} />
+              <Image src={delubacLogo} alt="Founders One Logo" height={40} />
             </Link>
           </li>
         </ul>
