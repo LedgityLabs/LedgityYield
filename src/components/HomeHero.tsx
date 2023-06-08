@@ -27,7 +27,7 @@ const HomeHero: FC = () => {
   return (
     <section
       className={clsx(
-        "min-h-[140vh] bg-[url('/assets/glow-light.png')] bg-cover bg-center",
+        "min-h-[140vh] bg-[url('/assets/glow-light.webp')] bg-cover bg-center",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:bg-blend-difference before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
       )}
