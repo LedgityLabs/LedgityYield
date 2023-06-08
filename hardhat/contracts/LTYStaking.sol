@@ -56,14 +56,10 @@ contract LTYStaking is
         _setInvested(tokenAddress);
     }
 
-    function recoverToken(address tokenAddress, uint256 amount) external onlyOwner {
+    function recoverERC20(address tokenAddress, uint256 amount) external onlyOwner {
         // Ensure the token is not the staked token
         require(tokenAddress != address(invested()), "Use recoverStaked() instead");
-        _recoverToken(tokenAddress, amount);
-    }
-
-    function recoverEthers() external onlyOwner {
-        _recoverEthers();
+        _recoverERC20(tokenAddress, amount);
     }
 
     function setAPR(uint16 aprUD3) public onlyOwner {

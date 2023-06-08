@@ -118,10 +118,6 @@ contract LToken is
         _setBlacklistContract(_contract);
     }
 
-    function recoverEthers() external onlyOwner {
-        _recoverEthers();
-    }
-
     /**
      * @dev Mirrors decimals of underlying token by using ERC20WrapperUpgradeable.decimals().
      * @return The decimals of the underlying token
@@ -131,16 +127,16 @@ contract LToken is
     }
 
     /**
-     * @dev Implementation of Recoverable._recoverToken() that ensures:
+     * @dev Implementation of Recoverable._recoverERC20() that ensures:
      * - the caller is the owner
      * - the token recovered token is not the underlying token
      * @param tokenAddress See Recoverable contract
      * @param amount See Recoverable contract
      */
-    function recoverToken(address tokenAddress, uint256 amount) external onlyOwner {
+    function recoverERC20(address tokenAddress, uint256 amount) external onlyOwner {
         // Ensure the token is not the underlying token
         require(tokenAddress != address(underlying()), "Use recoverUnderlying() instead");
-        _recoverToken(tokenAddress, amount);
+        _recoverERC20(tokenAddress, amount);
     }
 
     /**
@@ -472,7 +468,7 @@ contract LToken is
         <0 : there is more L-Tokens than underlying tokens (!! contract breach !!)
     // */
     function getDifference() public view returns (int256 difference) {
-        difference = int256(totalSupply()) - int256(totalUnderlyingSupply());
+        difference = int256(totalSupply()) - int256(underlyingBalance());
     }
 
     function recoverUnderlying() public onlyOwner endsHealthy {
