@@ -1,3 +1,10 @@
+## [1.47.0](https://github.com/ledgity-labs/dapp/compare/v1.46.2...v1.47.0) (2023-06-08)
+
+
+### Features
+
+* **home:** re-enable hero section animation ([d37b7dc](https://github.com/ledgity-labs/dapp/commit/d37b7dcf0def72479c557fc1ebc8acb68c7dc0f9))
+
 ## [1.46.2](https://github.com/ledgity-labs/dapp/compare/v1.46.1...v1.46.2) (2023-06-08)
 
 
