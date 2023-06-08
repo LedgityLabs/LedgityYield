@@ -2,7 +2,7 @@
 import { FC, useLayoutEffect, useRef } from "react";
 import { Button, Scroller, Card, Cube } from "@/components/ui";
 import { clsx } from "clsx";
-import { gsap } from "gsap";
+import { gsap } from "@/lib/gsap";
 
 const HomeHero: FC = () => {
   const heroSection = useRef(null);
@@ -20,23 +20,6 @@ const HomeHero: FC = () => {
           scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
         },
       });
-
-      const fadeinEls = document.querySelectorAll(".fadein");
-      fadeinEls.forEach((_el) => {
-        const el = _el as HTMLDivElement;
-        const end = el.offsetHeight < window.innerHeight ? "30% bottom" : `10% bottom`;
-        gsap.from(el, {
-          y: "40%",
-          opacity: 0,
-          transform: "scale(140%)",
-          scrollTrigger: {
-            trigger: el,
-            start: "top bottom", // when the top of the trigger hits the bottom of the viewport
-            end: end, // when the bottom of the trigger hits the top of the viewport
-            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-          },
-        });
-      });
     });
     return () => ctx.revert(); // cleanup
   });
@@ -44,7 +27,7 @@ const HomeHero: FC = () => {
   return (
     <section
       className={clsx(
-        "hero min-h-[140vh] bg-[url('/assets/glow-light.png')] bg-cover bg-center",
+        "min-h-[140vh] bg-[url('/assets/glow-light.png')] bg-cover bg-center",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:bg-blend-difference before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
       )}

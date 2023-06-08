@@ -6,6 +6,10 @@ import { CardsHelper } from "@/components/ui";
 import Footer from "@/components/Footer";
 import clsx from "clsx";
 import Script from "next/script";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
