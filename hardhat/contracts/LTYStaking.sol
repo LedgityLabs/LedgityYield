@@ -7,29 +7,24 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "./libs/APRCheckpoints.sol";
-import "./Blacklist.sol";
-import "./abstracts/Blacklistable.sol";
+import "./abstracts/InvestUpgradeable.sol";
+import "./abstracts/RestrictedUpgradeable.sol";
+import "./abstracts/RecoverUpgradeable.sol";
 
+/**
+ * Note that AccountInfos.unclaimedBalance (uint88) allows storing up to 309,485,009 $LTY which is far enough because it represents ~1/9 of the max supply.
+ */
 /// @custom:security-contact security@ledgity.com
 contract LTYStaking is
     Initializable,
     PausableUpgradeable,
     OwnableUpgradeable,
     UUPSUpgradeable,
-    Blacklistable
+    RestrictedUpgradeable,
+    InvestUpgradeable,
+    RecoverUpgradeable
 {
-    struct AccountInfos {
-        APRCheckpoints.Reference depositCheckpointReference;
-        uint40 depositTimestamp; // Allows representing datetime up to 20/02/36812
-        uint88 unclaimedRewards; // Allows storing up to 309,485,009 $LTY which is far enough because it represents ~1/9 of the max supply.
-    }
-
-    IERC20Upgradeable public ltyContract;
-
-    uint256 apr;
-
-    APRCheckpoints.Pack[] packedAPRCheckpoints;
-    mapping(address => AccountInfos) accountsInfos;
+    mapping(address => uint256) public stakeOf;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -40,11 +35,10 @@ contract LTYStaking is
         __Pausable_init();
         __Ownable_init();
         __UUPSUpgradeable_init();
+        __Invest_init(IERC20Upgradeable(address(0)));
     }
 
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyOwner {}
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     function pause() public onlyOwner {
         _pause();
@@ -54,16 +48,30 @@ contract LTYStaking is
         _unpause();
     }
 
-    function setBlacklistContract(address _contract) public onlyOwner {
+    function setBlacklistContract(address _contract) external onlyOwner {
         _setBlacklistContract(_contract);
     }
 
-    function setLTYContract(address ltyAddress) external onlyOwner {
-        ltyContract = IERC20Upgradeable(ltyAddress);
+    function setInvested(address tokenAddress) external onlyOwner {
+        _setInvested(tokenAddress);
+    }
+
+    function recoverToken(address tokenAddress, uint256 amount) external onlyOwner {
+        // Ensure the token is not the staked token
+        require(tokenAddress != address(invested()), "Use recoverStaked() instead");
+        _recoverToken(tokenAddress, amount);
+    }
+
+    function recoverEthers() external onlyOwner {
+        _recoverEthers();
     }
 
     function setAPR(uint16 aprUD3) public onlyOwner {
         APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
+    }
+
+    function investmentOf(address account) internal view override returns (uint256) {
+        return stakeOf[account];
     }
 
     function stake(uint256 amount) external whenNotPaused notBlacklisted {}

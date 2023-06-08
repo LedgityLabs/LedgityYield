@@ -19,18 +19,29 @@ contract Blacklist is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         __UUPSUpgradeable_init();
     }
 
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyOwner {}
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
+    /**
+     * @dev Set given account as blacklisted.
+     * @param account The account to blacklist
+     */
     function blacklist(address account) external onlyOwner {
         _list[account] = true;
     }
 
+    /**
+     * @dev Remove given account from blacklist.
+     * @param account The account to unblacklist
+     */
     function unBacklist(address account) external onlyOwner {
         _list[account] = false;
     }
 
+    /**
+     * @dev Check if given account is blacklisted.
+     * @param account The account to check
+     * @return 'true' if the account is blacklisted, 'false' otherwise
+     */
     function isBlacklisted(address account) external view returns (bool) {
         return _list[account];
     }
