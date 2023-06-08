@@ -1,3 +1,10 @@
+## [1.49.0](https://github.com/ledgity-labs/dapp/compare/v1.48.0...v1.49.0) (2023-06-08)
+
+
+### Features
+
+* **home:** re-enable FadeIn and disable it on small screens ([2cf5573](https://github.com/ledgity-labs/dapp/commit/2cf5573562e911663b28053b44d2a2210e35f2dd))
+
 ## [1.48.0](https://github.com/ledgity-labs/dapp/compare/v1.47.1...v1.48.0) (2023-06-08)
 
 
