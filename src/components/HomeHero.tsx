@@ -133,11 +133,9 @@ const HomeHero: FC = () => {
             Invest now
           </Button>
           {/* </Link> */}
-          <a href="#features">
-            <Button variant="outline" size="large">
-              Learn more
-            </Button>
-          </a>
+          <Button variant="outline" size="large" onClick={() => scrollTo(0, window.innerHeight)}>
+            Learn more
+          </Button>
         </div>
         <Scroller className="absolute lg:bottom-11 bottom-8" />
       </div>

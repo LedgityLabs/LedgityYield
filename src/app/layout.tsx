@@ -46,7 +46,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
             <Header />
             <main>{children}</main>
             <Footer />
-            <Script src="//embed.typeform.com/next/embed.js" strategy="worker" defer async></Script>
+            <Script src="//embed.typeform.com/next/embed.js" defer async></Script>
           </div>
         </body>
       </html>
