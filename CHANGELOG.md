@@ -1,3 +1,16 @@
+## [1.41.0](https://github.com/ledgity-labs/dapp/compare/v1.40.0...v1.41.0) (2023-06-08)
+
+
+### Features
+
+* **home:** add delubac partner, fix some typo and missing links ([0005133](https://github.com/ledgity-labs/dapp/commit/0005133efa70f4f4d82f50d2a31c6e3b65ebf49b))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.9 ([ec182d1](https://github.com/ledgity-labs/dapp/commit/ec182d14effc7a8fccd506039338959352468c0b))
+* **deps:** update dependency conventional-changelog-conventionalcommits to v6 ([33deeeb](https://github.com/ledgity-labs/dapp/commit/33deeeb48afd97ec0edce18ed85183576d445b46))
+
 ## [1.40.0](https://github.com/ledgity-labs/dapp/compare/v1.39.0...v1.40.0) (2023-06-08)
 
 
