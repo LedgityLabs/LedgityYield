@@ -1,6 +1,5 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";

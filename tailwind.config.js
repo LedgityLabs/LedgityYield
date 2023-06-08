@@ -1,11 +1,8 @@
-/**
- * @packageDocumentation
- * Learn more about this configuration file in docs/ui.md
- */
+/** @packageDocumentation Learn more about this configuration file in docs/ui.md */
 import plugin from "tailwindcss/plugin";
 import colors from "tailwindcss/colors";
 import { parseColor } from "tailwindcss/lib/util/color";
-const toRGB = val => parseColor(val).color.join(" ");
+const toRGB = (val) => parseColor(val).color.join(" ");
 
 // Define some CSS variables
 const vars = {
@@ -21,7 +18,7 @@ const vars = {
     "--accent-bg": toRGB(colors.slate[300]),
     "--accent-fg": toRGB(colors.slate[900]),
 
-    // Primary colors 
+    // Primary colors
     // Used for:
     // - <Button variant = "default"/> component
     "--primary-bg": toRGB(colors.indigo[500]),
@@ -49,9 +46,9 @@ const vars = {
     "--ring": toRGB(colors.indigo[300]),
 
     // Border radius
-    "--radius": "0.8rem"
+    "--radius": "0.8rem",
   },
-  ".dark": {}
+  ".dark": {},
 };
 
 /*
@@ -62,13 +59,13 @@ const vars = {
 
          radial-gradient(600px circle at 50% 80%, white, rgb(var(--primary-bg) / 0.3))
 */
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 export const content = ["./src/**/*.{js,ts,jsx,tsx,mdx}"];
 export const darkMode = ["class"];
 export const theme = {
   fontFamily: {
     heading: ["var(--font-poppins)"],
-    body: ["var(--font-inter)"]
+    body: ["var(--font-inter)"],
   },
   extend: {
     backgroundImage: {
@@ -122,16 +119,13 @@ export const theme = {
         "0%": { opacity: 0 },
         "20%": { marginTop: "0", opacity: 1 },
         "80%": { marginTop: "16px", opacity: 1 },
-        "100%": { opacity: 0 }
-      }
+        "100%": { opacity: 0 },
+      },
     },
     animation: {
       // Used by <Scroller/> UI component
-      roll: "2s infinite normal roll ease"
-    }
+      roll: "2s infinite normal roll ease",
+    },
   },
 };
-export const plugins = [
-  plugin(({ addBase }) => addBase(vars)),
-];
-
+export const plugins = [plugin(({ addBase }) => addBase(vars))];
