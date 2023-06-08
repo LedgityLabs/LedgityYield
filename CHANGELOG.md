@@ -1,3 +1,10 @@
+## [1.46.1](https://github.com/ledgity-labs/dapp/compare/v1.46.0...v1.46.1) (2023-06-08)
+
+
+### Fixes
+
+* remove unused fonts groups ([39d7419](https://github.com/ledgity-labs/dapp/commit/39d7419402428df5d8d026b18f4a710149144f74))
+
 ## [1.46.0](https://github.com/ledgity-labs/dapp/compare/v1.45.1...v1.46.0) (2023-06-08)
 
 
