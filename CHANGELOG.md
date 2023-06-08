@@ -1,3 +1,10 @@
+## [1.49.2](https://github.com/ledgity-labs/dapp/compare/v1.49.1...v1.49.2) (2023-06-08)
+
+
+### Fixes
+
+* **home:** fix rendering on Safary mobile ([5894468](https://github.com/ledgity-labs/dapp/commit/5894468b1c4bf3a0007facf37576b671e18e8711))
+
 ## [1.49.1](https://github.com/ledgity-labs/dapp/compare/v1.49.0...v1.49.1) (2023-06-08)
 
 
