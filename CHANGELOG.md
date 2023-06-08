@@ -1,3 +1,10 @@
+## [1.44.0](https://github.com/ledgity-labs/dapp/compare/v1.43.0...v1.44.0) (2023-06-08)
+
+
+### Features
+
+* upload new og image ([d2d0168](https://github.com/ledgity-labs/dapp/commit/d2d0168bec4fc71866673cbd8f4c213bdae6520f))
+
 ## [1.43.0](https://github.com/ledgity-labs/dapp/compare/v1.42.0...v1.43.0) (2023-06-08)
 
 
