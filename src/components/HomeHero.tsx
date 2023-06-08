@@ -33,7 +33,7 @@ const HomeHero: FC<Props> = ({ className }) => {
     <section
       className={twMerge(
         "relative min-h-[140vh]",
-        "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_40%_bottom_0%]",
+        "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_14%_bottom_0%]",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0",
         className
