@@ -10,7 +10,7 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
       if (container.current) {
-        const end = container.current.offsetHeight < window.innerHeight ? "30% bottom" : `10% bottom`;
+        const end = container.current.offsetHeight < window.innerHeight ? "30% bottom" : "top 90%";
         gsap.from(container.current, {
           y: "40%",
           opacity: 0,

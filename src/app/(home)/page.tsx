@@ -14,7 +14,7 @@ const Page: NextPage = () => {
     <>
       <HomeHero />
       <div className="bg-[url('/assets/other-glow.png')] bg-cover bg-top relative pb-32 pt-48">
-        <div className="relative -mt-[33rem]">
+        <div className="relative lg:-mt-[33rem] -mt-[44rem]">
           <span id="features" className="absolute md:-top-24"></span>
           <FadeIn>
             <section className="relative flex flex-col justify-center items-center ">

@@ -68,7 +68,7 @@ const HomeHero: FC = () => {
                 7%
               </p>
               <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
-                APR
+                APY
               </h3>
             </Card>
             <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
