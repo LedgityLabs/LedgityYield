@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { clsx } from "clsx";
 import foundersoneLogo from "~/assets/partners/foundersone.png";
+import delubacLogo from "~/assets/partners/delubac.png";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
 import adanLogo from "~/assets/partners/adan.svg";
 import circleLogo from "~/assets/partners/circle.png";
@@ -112,7 +113,7 @@ const Page: NextPage = () => {
 
           <h2 className="text-center leading-none font-heading lg:text-8xl sm:text-[11vw] text-[13vw] sm:block inline-flex flex-col font-bold text-slate-700">
             Stable
-            <span> yields for</span>
+            <span> yield for</span>
             <br className="hidden sm:block" />
             <span className="text-indigo-300 text-transparent bg-clip-text bg-gradient-to-t from-indigo-300 to-indigo-500">
               stablecoins<span className="text-slate-700">.</span>
@@ -121,18 +122,28 @@ const Page: NextPage = () => {
           <section className="">
             <div className="sm:flex hidden content-around justify-around lg:gap-16 md:gap-10 sm:gap-8">
               <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">7%</p>
-                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">APR</h3>
+                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
+                  7%
+                </p>
+                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                  APR
+                </h3>
               </Card>
               <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">±0.1%</p>
+                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
+                  ±0.1%
+                </p>
                 <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
                   1Y stability
                 </h3>
               </Card>
               <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">$8k</p>
-                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">TVL</h3>
+                <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
+                  $8k
+                </p>
+                <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                  TVL
+                </h3>
               </Card>
             </div>
             <div className="block sm:hidden">
@@ -145,7 +156,9 @@ const Page: NextPage = () => {
                     </h3>
                   </li>
 
-                  <li className={clsx("relative flex items-center justify-center px-[6vw]", "bg-fg/[5%]")}>
+                  <li
+                    className={clsx("relative flex items-center justify-center px-[6vw]", "bg-fg/[5%]")}
+                  >
                     <p className="mb-3 text-4xl font-bold text-fg/80">±0.1%</p>
                     <h3
                       className={clsx(
@@ -221,7 +234,8 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  Benefit from stability of an institutional set up and a protocol backed by Real World Assets (RWA)
+                  Benefit from stability of an institutional set up and a protocol backed by Real World
+                  Assets (RWA)
                 </p>
               </Card>
               <Card
@@ -239,7 +253,8 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  Our team of experts provide financial engineering to achieve the best risk-adjusted return from RWA.
+                  Our team of experts provide financial engineering to achieve the best risk-adjusted
+                  return from RWA.
                 </p>
               </Card>
               <Card
@@ -257,7 +272,8 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  The collateralized portoflio of RWA is allocated accross hundreds of yield opportunities.
+                  The collateralized portoflio of RWA is allocated accross hundreds of yield
+                  opportunities.
                 </p>
               </Card>
 
@@ -276,8 +292,8 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  The protocol aims to be available on most EVM chains to bring stable yield to every stablecoin
-                  holders.
+                  The protocol aims to be available on most EVM chains to bring stable yield to every
+                  stablecoin holders.
                 </p>
               </Card>
               <Card
@@ -285,7 +301,7 @@ const Page: NextPage = () => {
                 className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
               >
                 <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
-                  No liquidations
+                  No liquidation
                 </h3>
                 <div
                   className="card bg-card-illustrations bg-fg/30 h-full w-full absolute"
@@ -295,7 +311,7 @@ const Page: NextPage = () => {
                   }}
                 ></div>{" "}
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  Our protocol does not implements any liquidation mechanism and fees at borrowing time.
+                  Our protocol does not implement any liquidation mechanism and fees at borrowing time.
                 </p>
               </Card>
               <Card
@@ -313,8 +329,8 @@ const Page: NextPage = () => {
                   }}
                 ></div>
                 <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
-                  The app provides you with detailed charts and statistics about your investment and the protocol
-                  itself.
+                  The app provides you with detailed charts and statistics about your investment and the
+                  protocol itself.
                 </p>
               </Card>
             </div>
@@ -407,7 +423,9 @@ const Page: NextPage = () => {
           <div className="absolute right-48 bottom-[10%] backdrop-blur-mg opacity-[38%] animate-[spin_19s_ease-in-out_infinite] -z-20 blur-[2px] hover:blur-none">
             <Card defaultGradient={true} className="cube w-40 h-40  opacity-[38%] "></Card>
           </div>
-          <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Ready to get started ?</h3>
+          <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">
+            Ready to get started ?
+          </h3>
           {/* <Link href="/app"> */}
           <Button
             data-tf-popup="J2ENFK9t"
@@ -456,8 +474,21 @@ const Page: NextPage = () => {
               </Link>
             </li>
             <li>
-              <Link href="" target="_blank" className="opacity-80 hover:opacity-100 transition min-h-[60px]">
+              <Link
+                href="https://foundersdao.io/"
+                target="_blank"
+                className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              >
                 <Image src={foundersoneLogo} alt="Founders One Logo" height={60} />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://www.delubac.com/"
+                target="_blank"
+                className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              >
+                <Image src={delubacLogo} alt="Founders One Logo" height={60} />
               </Link>
             </li>
           </ul>
