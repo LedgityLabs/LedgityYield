@@ -30,8 +30,9 @@ const HomeHero: FC = () => {
     <section
       ref={heroSection}
       className={clsx(
-        "relative min-h-[140vh] bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_40%_bottom_0%]",
-        "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:bg-blend-difference before:brightness-[250%] before:contrast-[600%]",
+        "relative min-h-[140vh]",
+        "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_40%_bottom_0%]",
+        "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
       )}
     >
@@ -61,7 +62,7 @@ const HomeHero: FC = () => {
             stablecoins<span className="text-slate-700">.</span>
           </span>
         </h2>
-        <section className="">
+        <section>
           <div className="sm:flex hidden content-around justify-around lg:gap-16 md:gap-10 sm:gap-8">
             <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
               <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
@@ -120,7 +121,6 @@ const HomeHero: FC = () => {
           </div>
         </section>
         <div className="flex flex-row flex-wrap px-8 justify-center items-center gap-8">
-          {/* <Link href="/app"> */}
           <Button
             size="large"
             data-tf-popup="J2ENFK9t"
@@ -132,7 +132,6 @@ const HomeHero: FC = () => {
           >
             Invest now
           </Button>
-          {/* </Link> */}
           <Button variant="outline" size="large" onClick={() => scrollTo(0, window.innerHeight)}>
             Learn more
           </Button>
