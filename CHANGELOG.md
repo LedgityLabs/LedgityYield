@@ -1,3 +1,10 @@
+## [1.45.0](https://github.com/ledgity-labs/dapp/compare/v1.44.0...v1.45.0) (2023-06-08)
+
+
+### Features
+
+* randomly reverse cubes spinning, refactor cubes in their own components ([1677583](https://github.com/ledgity-labs/dapp/commit/167758333a68ba112a5fb096714e2778e6d847fb))
+
 ## [1.44.0](https://github.com/ledgity-labs/dapp/compare/v1.43.0...v1.44.0) (2023-06-08)
 
 
