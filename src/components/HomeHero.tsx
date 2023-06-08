@@ -27,16 +27,14 @@ const HomeHero: FC = () => {
   return (
     <FadeIn>
       <section
+        ref={heroSection}
         className={clsx(
-          "relative min-h-[140vh] bg-[url('/assets/glow-light.webp')] bg-cover bg-center",
+          "relative min-h-[140vh] bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_40%_bottom_0%]",
           "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:bg-blend-difference before:brightness-[250%] before:contrast-[600%]",
           "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
         )}
       >
-        <div
-          ref={heroSection}
-          className="relative  flex -mt-[92px]  flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14"
-        >
+        <div className="relative  flex -mt-[92px]  flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14">
           <Cube size="tiny" className="right-12" />
           <Cube size="small" className="right-80 top-[35%] xl:block hidden" />
           <Cube size="small" className="right-14 top-10" />
@@ -54,7 +52,7 @@ const HomeHero: FC = () => {
           />
           <Cube size="small" className="left-[30%] -bottom-4 xl:block hidden" />
 
-          <h2 className="text-center leading-none font-heading lg:text-8xl sm:text-[11vw] text-[13vw] sm:block inline-flex flex-col font-bold text-slate-700">
+          <h2 className="text-center leading-none font-heading lg:text-8xl sm:text-[11vw] text-[13vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
             Stable
             <span> yield for</span>
             <br className="hidden sm:block" />

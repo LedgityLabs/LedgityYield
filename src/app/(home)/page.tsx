@@ -9,7 +9,7 @@ const Page: NextPage = () => {
   return (
     <>
       <HomeHero />
-      <div className="relative bg-[url('/assets/other-glow.webp')] bg-cover bg-top -mt-[30vh]">
+      <div className="relative bg-[url('/assets/other-glow.webp')] bg-cover md:bg-top bg-[left_30%_top_30%] -mt-[30vh]">
         <HomeFeatures />
         <HomeHowItWorks />
         <HomeCTA />
