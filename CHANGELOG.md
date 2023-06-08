@@ -1,3 +1,10 @@
+## [1.51.0](https://github.com/ledgity-labs/dapp/compare/v1.50.0...v1.51.0) (2023-06-08)
+
+
+### Features
+
+* **home:** wrap CTA title on xs screens ([afd6a4e](https://github.com/ledgity-labs/dapp/commit/afd6a4ee8b93a025740d1cd8680fa619f4d19e49))
+
 ## [1.50.0](https://github.com/ledgity-labs/dapp/compare/v1.49.2...v1.50.0) (2023-06-08)
 
 
