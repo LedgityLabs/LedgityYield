@@ -7,7 +7,7 @@ const HomeCTA: FC = () => {
       <section className="relative pb-64 flex flex-col items-center">
         <Cube size="large" className="right-48 bottom-[10%]" />
         <h3 className="text-center font-semibold text-4xl pb-16 px-10 font-heading ">
-          Ready to get started ?
+          Ready to get <span className="whitespace-nowrap">started ?</span>
         </h3>
         {/* <Link href="/app"> */}
         <Button
