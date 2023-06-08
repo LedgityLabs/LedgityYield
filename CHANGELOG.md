@@ -1,3 +1,16 @@
+## [1.39.0](https://github.com/ledgity-labs/dapp/compare/v1.38.0...v1.39.0) (2023-06-08)
+
+
+### Features
+
+* **contracts:** a ton of progress about contracts, see description ([dbe04a9](https://github.com/ledgity-labs/dapp/commit/dbe04a9fe705e523aa4cd706b6ed830f0078d53f))
+* implement "No liquidations" feature's illustration ([a8104f0](https://github.com/ledgity-labs/dapp/commit/a8104f0e728bb61576c08724a2b95f74e8d88065))
+
+
+### Others
+
+* **contracts:** refact Blacklist stuff in an abstract Blacklistable contract ([5886801](https://github.com/ledgity-labs/dapp/commit/58868011b49351cc1c22908d39dce687648b8bff))
+
 ## [1.38.0](https://github.com/ledgity-labs/dapp/compare/v1.37.0...v1.38.0) (2023-06-06)
 
 
