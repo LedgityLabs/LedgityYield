@@ -12,16 +12,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["italic", "normal"],
-  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700", "800"],
+  style: ["normal"],
+  subsets: ["latin"],
   display: "swap",
   variable: "--font-poppins",
 });
 const inter = Inter({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "600", "700"],
   style: ["normal"],
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
 });
