@@ -1,3 +1,10 @@
+## [1.47.1](https://github.com/ledgity-labs/dapp/compare/v1.47.0...v1.47.1) (2023-06-08)
+
+
+### Fixes
+
+* **home:** fix glows on small screens + cubes' hoverring ([08b8e87](https://github.com/ledgity-labs/dapp/commit/08b8e870b74f07fd034034dd35418e935382d15e))
+
 ## [1.47.0](https://github.com/ledgity-labs/dapp/compare/v1.46.2...v1.47.0) (2023-06-08)
 
 
