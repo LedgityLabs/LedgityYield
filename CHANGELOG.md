@@ -1,3 +1,15 @@
+## [1.45.1](https://github.com/ledgity-labs/dapp/compare/v1.45.0...v1.45.1) (2023-06-08)
+
+
+### Others
+
+* refactor the FadeIn animation in its own component ([3a99be0](https://github.com/ledgity-labs/dapp/commit/3a99be0900b3d4f2ae40ea2d8861c2c439e5f88f))
+
+
+### Fixes
+
+* **home:** fix fadein animation on small screens ([afbac31](https://github.com/ledgity-labs/dapp/commit/afbac314fdca5c66d55652a29ca526ab127cacbb))
+
 ## [1.45.0](https://github.com/ledgity-labs/dapp/compare/v1.44.0...v1.45.0) (2023-06-08)
 
 
