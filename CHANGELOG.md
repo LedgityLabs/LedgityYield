@@ -1,3 +1,10 @@
+## [1.51.1](https://github.com/ledgity-labs/dapp/compare/v1.51.0...v1.51.1) (2023-06-08)
+
+
+### Fixes
+
+* **home:** prevent "?" of CTA title to wrap alone ([0c0220b](https://github.com/ledgity-labs/dapp/commit/0c0220b57a982696c889d833ab9c49fb1909c827))
+
 ## [1.51.0](https://github.com/ledgity-labs/dapp/compare/v1.50.0...v1.51.0) (2023-06-08)
 
 
