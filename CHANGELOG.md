@@ -1,3 +1,15 @@
+## [1.40.0](https://github.com/ledgity-labs/dapp/compare/v1.39.0...v1.40.0) (2023-06-08)
+
+
+### Features
+
+* upload opengraph-image.jpg ([e3db830](https://github.com/ledgity-labs/dapp/commit/e3db83079791ab822707b35a0e50e9d3521578b9))
+
+
+### Others
+
+* update dependencies ([11c02bb](https://github.com/ledgity-labs/dapp/commit/11c02bb9f807d55005a2a2516aa9b2a125b4acb9))
+
 ## [1.39.0](https://github.com/ledgity-labs/dapp/compare/v1.38.0...v1.39.0) (2023-06-08)
 
 
