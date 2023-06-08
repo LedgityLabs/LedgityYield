@@ -1,3 +1,10 @@
+## [1.46.2](https://github.com/ledgity-labs/dapp/compare/v1.46.1...v1.46.2) (2023-06-08)
+
+
+### Fixes
+
+* fix horizontal scroll on small screens + defer typeform script ([06699f8](https://github.com/ledgity-labs/dapp/commit/06699f82fadd8a67db37e2e79718c14222a7b167))
+
 ## [1.46.1](https://github.com/ledgity-labs/dapp/compare/v1.46.0...v1.46.1) (2023-06-08)
 
 
