@@ -1,3 +1,10 @@
+## [1.43.0](https://github.com/ledgity-labs/dapp/compare/v1.42.0...v1.43.0) (2023-06-08)
+
+
+### Features
+
+* optimize assets (some of them are used as bg as so not optimized by NextJS automatically) ([bf4d3b2](https://github.com/ledgity-labs/dapp/commit/bf4d3b224a48593660f3918fb157f8cc017070bd))
+
 ## [1.42.0](https://github.com/ledgity-labs/dapp/compare/v1.41.0...v1.42.0) (2023-06-08)
 
 
