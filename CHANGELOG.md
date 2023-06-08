@@ -1,3 +1,10 @@
+## [1.48.0](https://github.com/ledgity-labs/dapp/compare/v1.47.1...v1.48.0) (2023-06-08)
+
+
+### Features
+
+* disable hero animation on mobile screens ([8fc3328](https://github.com/ledgity-labs/dapp/commit/8fc332831650d815827e02c4c07779a0650a8837))
+
 ## [1.47.1](https://github.com/ledgity-labs/dapp/compare/v1.47.0...v1.47.1) (2023-06-08)
 
 
