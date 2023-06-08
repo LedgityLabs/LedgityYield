@@ -3,8 +3,11 @@ import { FC, useLayoutEffect, useRef } from "react";
 import { Button, Scroller, Card, Cube, FadeIn } from "@/components/ui";
 import { clsx } from "clsx";
 import { gsap } from "@/lib/gsap";
+import { twMerge } from "tailwind-merge";
 
-const HomeHero: FC = () => {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+const HomeHero: FC<Props> = ({ className }) => {
   const heroSection = useRef(null);
 
   useLayoutEffect(() => {
@@ -16,8 +19,8 @@ const HomeHero: FC = () => {
           scale: 1.4,
           scrollTrigger: {
             trigger: heroSection.current,
-            start: "top top", // when the top of the trigger hits the bottom of the viewport
-            end: "80% top", // when the bottom of the trigger hits the top of the viewport
+            start: "top top", // when the top of the trigger hits the top of the viewport
+            end: "80% top", // when the 80% from to of the trigger hits the top of the viewport
             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
           },
         });
@@ -28,15 +31,18 @@ const HomeHero: FC = () => {
 
   return (
     <section
-      ref={heroSection}
-      className={clsx(
+      className={twMerge(
         "relative min-h-[140vh]",
         "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_40%_bottom_0%]",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
-        "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0"
+        "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0",
+        className
       )}
     >
-      <div className="relative  flex -mt-[92px]  flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14">
+      <div
+        ref={heroSection}
+        className="relative  flex -mt-[92px]  flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14"
+      >
         <Cube size="tiny" className="right-12" />
         <Cube size="small" className="right-80 top-[35%] xl:block hidden" />
         <Cube size="small" className="right-14 top-10" />

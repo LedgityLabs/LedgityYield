@@ -10,7 +10,6 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
       if (container.current && window.innerWidth > 640) {
-        // const end = container.current.offsetHeight < window.innerHeight ? "30% bottom" : "top 40%";
         gsap.from(container.current, {
           y: "200px",
           scale: 1.4,
@@ -18,7 +17,7 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
           scrollTrigger: {
             trigger: container.current,
             start: "top bottom", // when the top of the trigger hits the bottom of the viewport
-            end: "top 80%", // when the bottom of the trigger hits the top of the viewport
+            end: "top 70%", // when the top of the trigger hits 70% from top viewport
             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
           },
         });

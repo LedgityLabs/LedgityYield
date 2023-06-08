@@ -1,5 +1,3 @@
-// "use client";
-import clsx from "clsx";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -13,17 +11,9 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, children, radius = "default", defaultGradient = false, ...props }, ref) => {
-    // const card = useRef<HTMLDivElement | null>(null);
-    // useEffect(() => {
-    //   if (card.current) {
-    //     card.current.style.setProperty("--mouse-x", `-10000px`);
-    //     card.current.style.setProperty("--mouse-y", `-10000px`);
-    //   }
-    // });
     return (
       <>
         <article
-          // ref={card}
           className={twMerge(
             !defaultGradient && "bg-card-border",
             defaultGradient && "bg-card-border-default",
