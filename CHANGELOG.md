@@ -1,3 +1,10 @@
+## [1.54.1](https://github.com/ledgity-labs/dapp/compare/v1.54.0...v1.54.1) (2023-06-09)
+
+
+### Fixes
+
+* **home:** add webkit mask position to support chrome and co ([6254542](https://github.com/ledgity-labs/dapp/commit/625454210268dac04bf9ee5c3cfaf7ccbd1b64d1))
+
 ## [1.54.0](https://github.com/ledgity-labs/dapp/compare/v1.53.0...v1.54.0) (2023-06-09)
 
 
