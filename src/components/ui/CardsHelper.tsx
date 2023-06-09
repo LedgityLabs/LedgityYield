@@ -19,10 +19,11 @@ export const CardsHelper: FC = () => {
   }
 
   useEffect(() => {
-    cards.current = document.querySelectorAll<HTMLDivElement>(".card");
-    document.body.addEventListener("mousemove", handleMouseMove);
-    return () =>
-      document.body.removeEventListener("mousemove", handleMouseMove);
+    if (window.innerWidth >= 640) {
+      cards.current = document.querySelectorAll<HTMLDivElement>(".card");
+      document.body.addEventListener("mousemove", handleMouseMove);
+      return () => document.body.removeEventListener("mousemove", handleMouseMove);
+    }
   }, [path]);
   return null;
 };

@@ -12,7 +12,7 @@ const HomeFeatures: FC = () => {
         <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
           <Card
             defaultGradient={true}
-            className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Long term stability
@@ -22,16 +22,17 @@ const HomeFeatures: FC = () => {
               style={{
                 mask: "url('/assets/features/stability.svg')",
                 WebkitMask: "url('/assets/features/stability.svg')",
+                maskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
               Benefit from stability of an institutional set up and a protocol backed by Real World
-              Assets (RWA)
+              Assets (RWA).
             </p>
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               High efficiency
@@ -41,6 +42,7 @@ const HomeFeatures: FC = () => {
               style={{
                 mask: "url('/assets/features/efficiency.svg')",
                 WebkitMask: "url('/assets/features/efficiency.svg')",
+                maskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -50,7 +52,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Diversification
@@ -60,6 +62,7 @@ const HomeFeatures: FC = () => {
               style={{
                 mask: "url('/assets/features/diversification.svg')",
                 WebkitMask: "url('/assets/features/diversification.svg')",
+                maskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -69,7 +72,7 @@ const HomeFeatures: FC = () => {
 
           <Card
             defaultGradient={true}
-            className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Multi-chains
@@ -79,6 +82,7 @@ const HomeFeatures: FC = () => {
               style={{
                 mask: "url('/assets/features/multichains.svg')",
                 WebkitMask: "url('/assets/features/multichains.svg')",
+                maskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -88,7 +92,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               No liquidation
@@ -98,6 +102,7 @@ const HomeFeatures: FC = () => {
               style={{
                 mask: "url('/assets/features/no-liquidations.svg')",
                 WebkitMask: "url('/assets/features/no-liquidations.svg')",
+                maskPosition: "top center",
               }}
             ></div>{" "}
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -106,7 +111,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Analytics
@@ -116,6 +121,7 @@ const HomeFeatures: FC = () => {
               style={{
                 mask: "url('/assets/features/analytics.svg')",
                 WebkitMask: "url('/assets/features/analytics.svg')",
+                maskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">

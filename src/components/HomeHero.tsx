@@ -12,7 +12,7 @@ const HomeHero: FC<Props> = ({ className }) => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      if (window.innerWidth > 640) {
+      if (window.innerWidth >= 640) {
         gsap.to(heroSection.current, {
           yPercent: -40,
           opacity: 0,
@@ -44,10 +44,11 @@ const HomeHero: FC<Props> = ({ className }) => {
         className="relative flex -mt-[92px]  flex-col min-h-screen justify-center items-center gap-[7vh]"
       >
         <Cube size="tiny" className="right-12" />
-        <Cube size="small" className="right-80 top-[35%] xl:block hidden" />
+        <Cube size="small" className="right-80 top-[35%] 2xl:block hidden" />
         <Cube size="small" className="right-14 top-10" />
-        <Cube size="tiny" className="left-44 bottom-12" />
-        <Cube size="small" className="left-80 bottom-[30%] xl:block hidden" />
+        <Cube size="tiny" className="left-44 bottom-12 xl:hidden block" />
+        <Cube size="small" className="left-44 bottom-12 xl:block hidden" />
+        <Cube size="small" className="left-80 bottom-[30%] 2xl:block hidden" />
         <Cube size="small" className="-left-16 bottom-[40%]" />
         <Cube
           size="medium"
@@ -58,7 +59,7 @@ const HomeHero: FC<Props> = ({ className }) => {
           size="tiny"
           className="lg:block hidden lg:right-[47%] xl:right-[35%] right-[35%] -bottom-2"
         />
-        <Cube size="small" className="left-[30%] -bottom-4 xl:block hidden" />
+        <Cube size="small" className="left-[30%] -bottom-4 2xl:block hidden" />
 
         <h2 className="text-center leading-none font-heading xl:text-[7rem] lg:text-[6rem] md:text-[10vw] sm:text-[11vw] text-[14vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
           Stable

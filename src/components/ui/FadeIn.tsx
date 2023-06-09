@@ -9,7 +9,7 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      if (container.current && window.innerWidth > 640) {
+      if (container.current && window.innerWidth >= 640) {
         gsap.from(container.current, {
           y: "200px",
           scale: 1.4,
