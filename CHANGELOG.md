@@ -1,3 +1,10 @@
+## [1.54.0](https://github.com/ledgity-labs/dapp/compare/v1.53.0...v1.54.0) (2023-06-09)
+
+
+### Features
+
+* **home:** animations and reponsive adjustments ([52ee196](https://github.com/ledgity-labs/dapp/commit/52ee1964df9671dda7e81049c106cdea775f0931))
+
 ## [1.53.0](https://github.com/ledgity-labs/dapp/compare/v1.52.0...v1.53.0) (2023-06-09)
 
 
