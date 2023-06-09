@@ -1,3 +1,10 @@
+## [1.53.0](https://github.com/ledgity-labs/dapp/compare/v1.52.0...v1.53.0) (2023-06-09)
+
+
+### Features
+
+* **home:** a ton of responsive adjustments ([4e02387](https://github.com/ledgity-labs/dapp/commit/4e02387d75ec55e0ce3cc33e612690703b326542))
+
 ## [1.52.0](https://github.com/ledgity-labs/dapp/compare/v1.51.1...v1.52.0) (2023-06-08)
 
 
