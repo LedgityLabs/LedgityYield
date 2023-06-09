@@ -1,3 +1,10 @@
+## [1.52.0](https://github.com/ledgity-labs/dapp/compare/v1.51.1...v1.52.0) (2023-06-08)
+
+
+### Features
+
+* **home:** adjust glows on mobile screens ([de252bd](https://github.com/ledgity-labs/dapp/commit/de252bdc5549158a0a9e88c1dec0a9f1d839f25b))
+
 ## [1.51.1](https://github.com/ledgity-labs/dapp/compare/v1.51.0...v1.51.1) (2023-06-08)
 
 
