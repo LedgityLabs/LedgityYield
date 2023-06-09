@@ -1,3 +1,15 @@
+## [1.55.0](https://github.com/ledgity-labs/dapp/compare/v1.54.1...v1.55.0) (2023-06-09)
+
+
+### Features
+
+* **ltoken:** improve contract's resiliency by using SafeERC20 library to interact with underlying ([1bd185b](https://github.com/ledgity-labs/dapp/commit/1bd185b704817096888cb020481501ef1d9ba880))
+
+
+### Others
+
+* move LTY staking tiers to LTYStaking contract + add isEligibleTo() helper function ([cd2c10e](https://github.com/ledgity-labs/dapp/commit/cd2c10e333c0934c8ff754dd9cc7d0c3f941f928))
+
 ## [1.54.1](https://github.com/ledgity-labs/dapp/compare/v1.54.0...v1.54.1) (2023-06-09)
 
 
