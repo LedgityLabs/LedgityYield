@@ -300,6 +300,25 @@ contract LToken is
         return (totalSupplyUDS3 * retentionRateUDS3) / UDS3.to(100, decimals());
     }
 
+    function _transferExceedingToFund() internal {
+        // Retrieve expected and currently amounts of underlying tokens as UDS3.
+        uint256 expectedRetainedUDS3 = getExpectedRetainedUDS3();
+        uint256 currentlyRetainedUDS3 = UDS3.scaleUp(realTotalUnderlyingSupply());
+
+        // Calculate the difference between those
+        int256 differenceSDS3 = int256(expectedRetainedUDS3) - int256(currentlyRetainedUDS3);
+
+        // If the amount of underlying tokens exceed the retention rate
+        if (differenceSDS3 > 0) {
+            // And if more than 10000 underlying tokens are exceeding
+            uint256 difference = UDS3.scaleDown(uint256(differenceSDS3));
+            if (difference > UDS3.to(10000, decimals())) {
+                // Transfer the exceeding amount to the fund wallet
+                transferUnderlyingToFund(uint256(difference));
+            }
+        }
+    }
+
     /**
      * Override of ERC20Wrapper.depositFor() method
      */
@@ -313,44 +332,29 @@ contract LToken is
         // Receive deposited underlying token and mint L-Token to the account in a 1:1 ratio
         super.depositFor(account, amount);
 
-        // Retrieve current and expected retained amounts of underlying tokens as SDS3 numbers
-        int256 expectedRetainedSDS3 = int256(getExpectedRetainedUDS3());
-        int256 currentlyRetainedSDS3 = int256(UDS3.scaleUp(underlying().balanceOf(address(this))));
-
-        // Calculate the difference between the expected and current amount of underlying on the contract
-        int256 differenceSDS3 = expectedRetainedSDS3 - currentlyRetainedSDS3;
-
-        // Scale up deposited amount to UDS3
-        uint256 amountUDS3 = UDS3.scaleUp(amount);
-
-        // If some underlying tokens are missing
-        if (differenceSDS3 > 0) {
-            // If the deposited amount is greater than the difference, keep only missing tokens on contract and transfer the rest to fundWallet wallet
-            if (amountUDS3 > uint256(differenceSDS3)) {
-                transferUnderlyingToFund(amount - uint256(differenceSDS3));
-            }
-            // Else, do nothing (i.e., keep the whole deposited amount on the contract)
-        }
-        // Else, transfer the whole deposited amount to fundWallet wallet
-        else {
-            transferUnderlyingToFund(amount);
-        }
+        // Transfer funds exceeding the retention rate to fund wallet
+        _transferExceedingToFund();
 
         // Returns true as required by the overriden parent function.
         // See: https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20Wrapper-depositFor-address-uint256-
         return true;
     }
 
-    function _withdrawTo(address account, uint256 amount) internal returns (bool) {
-        // Reset investment period of account
-        _resetInvestmentPeriodOf(account);
-
+    function calculateFees(uint256 amount) public view returns (uint256 fees) {
         // Convert amount to UDS3
         uint256 amountUDS3 = UDS3.scaleUp(amount);
 
         // Calculate fees and update the amount of unclaimed fees;
         uint256 feesUDS3 = (amountUDS3 * feesRateUDS3) / UDS3.to(100, decimals());
-        uint256 fees = UDS3.scaleDown(feesUDS3);
+        fees = UDS3.scaleDown(feesUDS3);
+    }
+
+    function _withdrawTo(address account, uint256 amount) internal returns (bool) {
+        // Reset investment period of account
+        _resetInvestmentPeriodOf(account);
+
+        // Calculate withdrawal fees and update the amount of unclaimed fees
+        uint256 fees = calculateFees(amount);
         unclaimedFees += fees;
 
         // Calculate the final withdrawn amount and update the total deposited underlying tokens
@@ -358,6 +362,9 @@ contract LToken is
 
         // Process to withdraw by burning the withdrawn L-Token amount and transfering an equivalent amount in underlying tokens
         super.withdrawTo(account, withdrawnAmount);
+
+        // Transfer funds exceeding the retention rate to fund wallet
+        _transferExceedingToFund();
 
         // Returns true as required by the overriden parent function.
         // See: https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20Wrapper-withdrawTo-address-uint256-
