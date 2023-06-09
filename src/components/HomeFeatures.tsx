@@ -23,6 +23,7 @@ const HomeFeatures: FC = () => {
                 mask: "url('/assets/features/stability.svg')",
                 WebkitMask: "url('/assets/features/stability.svg')",
                 maskPosition: "top center",
+                WebkitMaskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -43,6 +44,7 @@ const HomeFeatures: FC = () => {
                 mask: "url('/assets/features/efficiency.svg')",
                 WebkitMask: "url('/assets/features/efficiency.svg')",
                 maskPosition: "top center",
+                WebkitMaskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -63,6 +65,7 @@ const HomeFeatures: FC = () => {
                 mask: "url('/assets/features/diversification.svg')",
                 WebkitMask: "url('/assets/features/diversification.svg')",
                 maskPosition: "top center",
+                WebkitMaskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -83,6 +86,7 @@ const HomeFeatures: FC = () => {
                 mask: "url('/assets/features/multichains.svg')",
                 WebkitMask: "url('/assets/features/multichains.svg')",
                 maskPosition: "top center",
+                WebkitMaskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -103,6 +107,7 @@ const HomeFeatures: FC = () => {
                 mask: "url('/assets/features/no-liquidations.svg')",
                 WebkitMask: "url('/assets/features/no-liquidations.svg')",
                 maskPosition: "top center",
+                WebkitMaskPosition: "top center",
               }}
             ></div>{" "}
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
@@ -122,6 +127,7 @@ const HomeFeatures: FC = () => {
                 mask: "url('/assets/features/analytics.svg')",
                 WebkitMask: "url('/assets/features/analytics.svg')",
                 maskPosition: "top center",
+                WebkitMaskPosition: "top center",
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
