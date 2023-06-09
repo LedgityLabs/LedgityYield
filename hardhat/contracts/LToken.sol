@@ -2,6 +2,7 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
@@ -15,12 +16,6 @@ import "./abstracts/RecoverUpgradeable.sol";
 import "./libs/UDS3.sol";
 import "./LTYStaking.sol";
 
-/**
- * TODO: track amount of legit/exploitable underlying tokens on the contract, so even if the fundWallet
- * wallet deposits underlying tokens without using the fundWalletContract() functions, those fundWallets will
- * not be used for withdrawal requests, etc. and will be only recoverable by the owner wallet.
- */
-
 /// @custom:security-contact security@ledgity.com
 contract LToken is
     Initializable,
@@ -33,6 +28,8 @@ contract LToken is
     InvestUpgradeable,
     RecoverUpgradeable
 {
+    using SafeERC20Upgradeable for IERC20Upgradeable;
+
     struct WithdrawalRequest {
         address account;
         uint128 amount;
@@ -290,12 +287,12 @@ contract LToken is
      */
     function transferUnderlyingFromFund(uint256 amount) internal {
         fundWalletBalance -= amount;
-        underlying().transferFrom(fundWallet, address(this), amount);
+        underlying().safeTransferFrom(fundWallet, address(this), amount);
     }
 
     function transferUnderlyingToFund(uint256 amount) internal {
         fundWalletBalance += amount;
-        underlying().transferFrom(address(this), fundWallet, amount);
+        underlying().safeTransferFrom(address(this), fundWallet, amount);
     }
 
     /**
@@ -473,7 +470,7 @@ contract LToken is
 
     function recoverUnderlying() public onlyOwner endsHealthy {
         int256 difference = getDifference();
-        if (difference > 0) underlying().transfer(owner(), uint256(difference));
+        if (difference > 0) underlying().safeTransfer(owner(), uint256(difference));
         else if (difference == 0) revert("There is nothing to recover");
         else pause();
     }
