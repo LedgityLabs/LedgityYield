@@ -43,7 +43,6 @@ contract LToken is
     uint256 retentionRateUDS3;
     uint256 unclaimedFees;
     uint256 totalQueued; // Amount of L-Tokens in withdrawalQueue
-    uint256[5] ltyTiersUD18; // Amount of $LTY to be staked to be elligible to each tier
     // Holds the amount of underlying tokens detained by the fundWallet wallet (required as underlying tokens are not simply kept on the fundWallet but are swapped against FIAT and so underlying().balanceOf(fundWallet) will never return the real amount of tokens sent to fundWallet wallet)
     uint256 fundWalletBalance;
 
@@ -176,10 +175,6 @@ contract LToken is
 
     function setFundWallet(address payable _fundWallet) public onlyOwner {
         fundWallet = _fundWallet;
-    }
-
-    function setLTYTier(uint256 index, uint256 amountUD18) public onlyOwner {
-        ltyTiersUD18[index] = amountUD18;
     }
 
     function setAPR(uint16 aprUD3) public onlyOwner {
@@ -393,8 +388,8 @@ contract LToken is
         if (totalQueued + amount <= uBalance)
             _withdrawTo(_msgSender(), amount);
 
-            // Else if there is enough fundWallets to cover the current request and the sender has staked more than 200k LTY
-        else if (amount <= uBalance && ltyStakingContract.stakeOf(msg.sender) > ltyTiersUD18[0])
+            // Else if there is enough funds to cover the current request and the sender is eligible to staking tier one
+        else if (amount <= uBalance && ltyStakingContract.isEligibleTo(1, msg.sender))
             _withdrawTo(_msgSender(), amount);
 
             // Else burn accounts tokens and put the request in queue

@@ -25,6 +25,7 @@ contract LTYStaking is
     RecoverUpgradeable
 {
     mapping(address => uint256) public stakeOf;
+    uint256[] public tiers; // Amount of $LTY to be staked to be elligible to each tier
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -68,6 +69,14 @@ contract LTYStaking is
 
     function investmentOf(address account) internal view override returns (uint256) {
         return stakeOf[account];
+    }
+
+    function setTier(uint256 tierIndex, uint256 amountUD18) public onlyOwner {
+        tiers[tierIndex] = amountUD18;
+    }
+
+    function isEligibleTo(uint256 tierIndex, address account) public view returns (bool) {
+        return tiers[tierIndex] >= stakeOf[account];
     }
 
     function stake(uint256 amount) external whenNotPaused notBlacklisted {}
