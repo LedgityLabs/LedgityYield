@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Logo from "./Logo";
+import { FadeIn } from "./ui";
 
 const Footer: FC = () => {
   const path = usePathname();

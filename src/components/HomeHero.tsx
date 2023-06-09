@@ -33,7 +33,7 @@ const HomeHero: FC<Props> = ({ className }) => {
     <section
       className={twMerge(
         "relative min-h-[140vh]",
-        "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_14%_bottom_0%]",
+        "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_30%_bottom_0%]",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0",
         className
@@ -41,7 +41,7 @@ const HomeHero: FC<Props> = ({ className }) => {
     >
       <div
         ref={heroSection}
-        className="relative  flex -mt-[92px]  flex-col min-h-screen justify-center items-center xl:gap-20 lg:gap-18 md:gap-12 gap-14"
+        className="relative flex -mt-[92px]  flex-col min-h-screen justify-center items-center gap-[7vh]"
       >
         <Cube size="tiny" className="right-12" />
         <Cube size="small" className="right-80 top-[35%] xl:block hidden" />
@@ -60,7 +60,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         />
         <Cube size="small" className="left-[30%] -bottom-4 xl:block hidden" />
 
-        <h2 className="text-center leading-none font-heading lg:text-8xl sm:text-[11vw] text-[13vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
+        <h2 className="text-center leading-none font-heading xl:text-[7rem] lg:text-[6rem] md:text-[10vw] sm:text-[11vw] text-[14vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
           Stable
           <span> yield for</span>
           <br className="hidden sm:block" />
@@ -69,25 +69,25 @@ const HomeHero: FC<Props> = ({ className }) => {
           </span>
         </h2>
         <section>
-          <div className="sm:flex hidden content-around justify-around lg:gap-16 md:gap-10 sm:gap-8">
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-              <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
+          <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
+            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+              <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 7%
               </p>
               <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
                 APY
               </h3>
             </Card>
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-              <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
+            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+              <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 ±0.1%
               </p>
               <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
                 1Y stability
               </h3>
             </Card>
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 sm:h-32 sm:w-32 h-24 w-24 flex-col items-center justify-center p-6">
-              <p className="mb-3 lg:text-5xl md:text-4xl sm:text-4xl text-2xl font-bold text-fg/80">
+            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+              <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 $8k
               </p>
               <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
@@ -97,28 +97,28 @@ const HomeHero: FC<Props> = ({ className }) => {
           </div>
           <div className="block sm:hidden">
             <Card>
-              <ul className="flex justify-around px-[6vw] h-28">
-                <li className="relative flex items-center justify-center px-[4vw] pr-[6vw]">
+              <ul className="flex justify-around h-28">
+                <li className="relative flex items-center justify-center px-[7vw]">
                   <p className="mb-3 text-4xl font-bold text-fg/80">7%</p>
-                  <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
-                    APR
+                  <h3 className="absolute bottom-3 text-sm font-semibold text-primary/50 font-heading">
+                    APY
                   </h3>
                 </li>
 
-                <li className={clsx("relative flex items-center justify-center px-[6vw]", "bg-fg/[5%]")}>
+                <li className={clsx("relative flex items-center justify-center px-[4vw]", "bg-fg/[5%]")}>
                   <p className="mb-3 text-4xl font-bold text-fg/80">±0.1%</p>
                   <h3
                     className={clsx(
-                      "absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading",
+                      "absolute bottom-3 text-sm font-semibold text-primary/50 font-heading",
                       "whitespace-nowrap"
                     )}
                   >
                     1Y stability
                   </h3>
                 </li>
-                <li className="relative flex items-center justify-center px-[4vw] pl-[6vw]">
+                <li className="relative flex items-center justify-center px-[7vw]">
                   <p className="mb-3 text-4xl font-bold text-fg/80">$8k</p>
-                  <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+                  <h3 className="absolute bottom-3 text-base font-semibold text-primary/50 font-heading">
                     TVL
                   </h3>
                 </li>
@@ -138,11 +138,16 @@ const HomeHero: FC<Props> = ({ className }) => {
           >
             Invest now
           </Button>
-          <Button variant="outline" size="large" onClick={() => scrollTo(0, window.innerHeight)}>
+          <Button
+            className="sm:block hidden"
+            variant="outline"
+            size="large"
+            onClick={() => scrollTo(0, (window.innerHeight * 90) / 100)}
+          >
             Learn more
           </Button>
         </div>
-        <Scroller className="absolute lg:bottom-11 bottom-8" />
+        <Scroller className="absolute bottom-[4vh]" />
       </div>
     </section>
   );

@@ -16,7 +16,7 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
           opacity: 0,
           scrollTrigger: {
             trigger: container.current,
-            start: "top bottom", // when the top of the trigger hits the bottom of the viewport
+            start: "3% bottom", // when the top of the trigger hits the bottom of the viewport
             end: "top 70%", // when the top of the trigger hits 70% from top viewport
             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
           },
