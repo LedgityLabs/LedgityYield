@@ -1,3 +1,10 @@
+## [1.58.0](https://github.com/ledgity-labs/dapp/compare/v1.57.1...v1.58.0) (2023-06-10)
+
+
+### Features
+
+* **home:** scale down glow image + background color adjustment ([5b37d19](https://github.com/ledgity-labs/dapp/commit/5b37d197059d1e6d5f2ac121a98073ef6d9d6e5d))
+
 ## [1.57.1](https://github.com/ledgity-labs/dapp/compare/v1.57.0...v1.57.1) (2023-06-10)
 
 
