@@ -16,7 +16,7 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
   return (
     <div
       className={twMerge(
-        "absolute backdrop-blur-mg opacity-[28%] blur-[2px] hover:blur-none",
+        "absolute backdrop-blur-mg opacity-[28%] blur-[1.5px] hover:blur-none",
         !reverse &&
           {
             tiny: "animate-[spin_19s_ease-in-out_infinite]",

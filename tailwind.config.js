@@ -8,7 +8,7 @@ const toRGB = (val) => parseColor(val).color.join(" ");
 const vars = {
   ":root": {
     // Default background (bg) and text-color (fg) applied to <body/>
-    "--bg": toRGB(colors.indigo[50]),
+    "--bg": toRGB(colors.indigo[100]),
     "--fg": toRGB(colors.slate[800]),
 
     // Accentuated versions of default background and foreground
