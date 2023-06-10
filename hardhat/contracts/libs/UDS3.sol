@@ -21,13 +21,4 @@ library UDS3 {
     function scaleDown(uint256 nUDS3) internal pure returns (uint256 nUDx) {
         return nUDS3 / 10 ** 3;
     }
-
-    /**
-     * @dev Converts a given unisgned integer into USD3 number
-     * @param n The unsigned integer to convert
-     * @return nUDS3 The number in UDS3 format
-     */
-    function to(uint256 n, uint256 decimals) internal pure returns (uint256 nUDS3) {
-        return scaleUp(n * 10 ** decimals);
-    }
 }
