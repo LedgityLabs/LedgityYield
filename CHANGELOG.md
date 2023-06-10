@@ -1,3 +1,16 @@
+## [1.58.1](https://github.com/ledgity-labs/dapp/compare/v1.58.0...v1.58.1) (2023-06-10)
+
+
+### Fixes
+
+* **home:** fix not well placed hero cube ([6e3f52b](https://github.com/ledgity-labs/dapp/commit/6e3f52baa6f4e383c72dd5ee596b5b8033029521))
+
+
+### Others
+
+* code and documentation cleanups in UDS3 and APRCheckpoints libraries ([c3fb245](https://github.com/ledgity-labs/dapp/commit/c3fb24584666a86a0705e30cb8ed9a544d9aba65))
+* prevent hardhat related stuff to trigger Vercel redeploy ([8880108](https://github.com/ledgity-labs/dapp/commit/88801086aa1ea4bd95f6f5d37108ad32b862e22d))
+
 ## [1.58.0](https://github.com/ledgity-labs/dapp/compare/v1.57.1...v1.58.0) (2023-06-10)
 
 
