@@ -1,3 +1,10 @@
+## [1.57.1](https://github.com/ledgity-labs/dapp/compare/v1.57.0...v1.57.1) (2023-06-10)
+
+
+### Fixes
+
+* fix some accessibility issues (no name links & viewport maximum scale < 5) ([ad15c77](https://github.com/ledgity-labs/dapp/commit/ad15c7765da4a565b09e9f12a9c9eb3f9653adc6))
+
 ## [1.57.0](https://github.com/ledgity-labs/dapp/compare/v1.56.0...v1.57.0) (2023-06-10)
 
 
