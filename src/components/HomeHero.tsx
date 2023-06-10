@@ -57,7 +57,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         <Cube size="medium" className="lg:block hidden left-44 top-[10%]" />
         <Cube
           size="tiny"
-          className="lg:block hidden lg:right-[47%] xl:right-[35%] right-[35%] -bottom-2"
+          className="lg:block hidden lg:right-[47%] 2xl:right-[35%] right-[35%] -bottom-2"
         />
         <Cube size="small" className="left-[30%] -bottom-4 2xl:block hidden" />
 
