@@ -1,3 +1,15 @@
+## [1.57.0](https://github.com/ledgity-labs/dapp/compare/v1.56.0...v1.57.0) (2023-06-10)
+
+
+### Features
+
+* add a ton of page metadata to improve experience on referrers ([bb4ead1](https://github.com/ledgity-labs/dapp/commit/bb4ead19676982547df4ddcaca46a7ec579c096b))
+
+
+### Others
+
+* remove usage of UDS3 where it wasn't required ([f7668a6](https://github.com/ledgity-labs/dapp/commit/f7668a6b44717a4863cd48906f577783d82a949e))
+
 ## [1.56.0](https://github.com/ledgity-labs/dapp/compare/v1.55.0...v1.56.0) (2023-06-09)
 
 
