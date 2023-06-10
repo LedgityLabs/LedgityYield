@@ -26,10 +26,43 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const name = "Ledgity DeFi";
+const description =
+  "Earn up to 7% APY on your stablecoins backed by Real World Assets (RWA). Access low-risk & stable yield directly from your wallet.";
 export const metadata = {
-  title: "Ledgity DeFi | Stable Yield For Stablecoins",
-  description:
-    "Earn up to 7% APY on your stablecoins backed by Real World Assets (RWA). Access low-risk & stable yield directly from your wallet.",
+  applicationName: name,
+  referrer: "origin",
+  title: {
+    template: `${name} | %s`,
+    default: "Untitled Page",
+  },
+  colorScheme: "light",
+  themeColor: "rgb(var(--bg))",
+  description: description,
+  keywords: ["stablecoins", "yield", "DeFi", "crypto", "rwa", "real world assets"],
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  openGraph: {
+    title: `${name} | Stable Yield For Stablecoins`,
+    description: description,
+    siteName: name,
+    locale: "en_US",
+    type: "website",
+    url: "https://ledgity.finance",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@LedgityPlatform",
+    creator: "@LedgityPlatform",
+    title: `${name} | Stable Yield For Stablecoins`,
+    description: description,
+  },
+  verification: {
+    google: "Gy_ommY7mtAUwTSdS8bNsHmmMeeKSmPAy8H5lEhX738",
+  },
 };
 
 interface Props {

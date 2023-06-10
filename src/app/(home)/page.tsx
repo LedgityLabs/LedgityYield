@@ -5,6 +5,10 @@ import HomeHowItWorks from "@/components/HomeHowItWorks";
 import HomeFeatures from "@/components/HomeFeatures";
 import HomeCTA from "@/components/HomeCTA";
 
+export const metadata = {
+  title: "Stable Yield For Stablecoins",
+};
+
 const Page: NextPage = () => {
   return (
     <>
