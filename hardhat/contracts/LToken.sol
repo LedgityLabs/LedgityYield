@@ -99,6 +99,7 @@ contract LToken is
     /**
      * @dev Implements a bunch of parent contract functions reserved to owner
      * See parent contracts for further details.
+     * @inheritdoc UUPSUpgradeable
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
@@ -115,8 +116,8 @@ contract LToken is
     }
 
     /**
-     * @dev Mirrors decimals of underlying token by using ERC20WrapperUpgradeable.decimals().
-     * @return The decimals of the underlying token
+     * @dev Mirrors decimals of the underlying token using ERC20WrapperUpgradeable.decimals().
+     * @inheritdoc ERC20WrapperUpgradeable
      */
     function decimals() public view override(ERC20Upgradeable, ERC20WrapperUpgradeable) returns (uint8) {
         return ERC20WrapperUpgradeable.decimals();
@@ -143,8 +144,7 @@ contract LToken is
 
     /**
      * @dev Implementation of InvestUpgradeable.claimRewards(). Required by parent contract to use non-discrete rewards tracking. In this contract claiming rewards results in minting new LTokens to the user. However this function is not to be called publicly and is called each time the investment period is reset.
-     * @param account The account to mint rewards to
-     * @param amount The amount of rewards to mint
+     * @inheritdoc InvestUpgradeable
      */
     function claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
         // Mint rewarded L-Tokens to account
@@ -154,6 +154,9 @@ contract LToken is
         return true;
     }
 
+    /**
+     * @inheritdoc InvestUpgradeable
+     */
     function investmentOf(address account) internal view override returns (uint256) {
         return realBalanceOf(account);
     }
@@ -190,8 +193,7 @@ contract LToken is
     /**
      * Override of ERC20.balanceOf() that returns the total amount of L-Token that belong to
      * the account, including not yet minted rewards.
-     * @param account The account to check balance for
-     * @return The total balance of the account
+     * @inheritdoc ERC20Upgradeable
      */
     function balanceOf(address account) public view override returns (uint256) {
         return realBalanceOf(account) + rewardsOf(account);
@@ -208,7 +210,7 @@ contract LToken is
 
     /**
      * @dev Returns the L-Token total supply, including not yet minted rewards and queued tokens.
-     * @return The total supply of L-Token
+     * @inheritdoc ERC20Upgradeable
      */
     function totalSupply() public view override returns (uint256) {
         return realTotalSupply() + totalQueued + unclaimedFees;
@@ -245,6 +247,7 @@ contract LToken is
      * - the contract is not paused,
      * - the sender is not blacklisted
      * - that the contract ends healthy afterreseting investment period of both sender and recipient.
+     * @inheritdoc ERC20Upgradeable
      */
     function _beforeTokenTransfer(
         address from,
@@ -265,9 +268,7 @@ contract LToken is
     /**
      * @dev Override of ERC20._afterTokenTransfer() hook, that emit events to indicates accounts balance
      * mutation and that ensures the contract ends healthy after each transfer.
-     * @param from See ERC20._afterTokenTransfer()
-     * @param to See ERC20._afterTokenTransfer()
-     * @param amount See ERC20._afterTokenTransfer()
+     * @inheritdoc ERC20Upgradeable
      */
     function _afterTokenTransfer(
         address from,
@@ -320,6 +321,7 @@ contract LToken is
 
     /**
      * Override of ERC20Wrapper.depositFor() method
+     * @inheritdoc ERC20WrapperUpgradeable
      */
     function depositFor(
         address account,
@@ -364,6 +366,7 @@ contract LToken is
     /**
      * @dev Override of ERC20WrapperUpgradeable.withdrawTo() function that prevents any usage of it
      * (forbidden). Use _withdrawTo() internally instead.
+     * @inheritdoc ERC20WrapperUpgradeable
      */
     function withdrawTo(address account, uint256 amount) public override forbidden returns (bool) {}
 

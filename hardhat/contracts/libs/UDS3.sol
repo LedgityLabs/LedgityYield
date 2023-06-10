@@ -1,24 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-
+/**
+ * @title UDS3
+ * @author Lila Rest (lila@ledgity.com)
+ * @notice This library provides utilities to perform precise calculation on unsigned decimal
+ * fixed point numbers. See "UDS3 library" section of whitepaper for more details.
+ */
 library UDS3 {
     /**
-     * @dev Scales up a given number by 3 decimals (see "UDS3" section of whitepaper)
-     * @param nUDx The number to scale up
+     * @dev Scales up a given number by 3 decimals
+     * @param n The number to scale up
      * @return nUDS3 The number in UDS3 format
      */
-    function scaleUp(uint256 nUDx) internal pure returns (uint256 nUDS3) {
-        return nUDx * 10 ** 3;
+    function scaleUp(uint256 n) internal pure returns (uint256 nUDS3) {
+        return n * 10 ** 3;
     }
 
     /**
-     * @dev Scales down a given UDS3 number by 3 decimals (see "UDS3" section of whitepaper)
+     * @dev Scales down a given UDS3 number by 3 decimals
      * @param nUDS3 The UDS3 number to scale down
-     * @return nUDx The unscaled number
+     * @return n The unscaled number
      */
-    function scaleDown(uint256 nUDS3) internal pure returns (uint256 nUDx) {
+    function scaleDown(uint256 nUDS3) internal pure returns (uint256 n) {
         return nUDS3 / 10 ** 3;
     }
 }
