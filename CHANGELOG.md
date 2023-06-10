@@ -1,3 +1,10 @@
+## [1.56.0](https://github.com/ledgity-labs/dapp/compare/v1.55.0...v1.56.0) (2023-06-09)
+
+
+### Features
+
+* **ltoken:** refactory exceeding funds transfering in a function + implement it also in _withdrawTo ([9ca5c08](https://github.com/ledgity-labs/dapp/commit/9ca5c08e2c7a0a3c1e25e0532086f0c175f930b1))
+
 ## [1.55.0](https://github.com/ledgity-labs/dapp/compare/v1.54.1...v1.55.0) (2023-06-09)
 
 
