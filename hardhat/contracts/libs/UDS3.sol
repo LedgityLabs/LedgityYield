@@ -5,8 +5,8 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 library UDS3 {
     /**
-     * @dev Converts a given UDx number (x = decimals()) into UDS3
-     * @param nUDx The UDx number to convert
+     * @dev Scales up a given number by 3 decimals (see "UDS3" section of whitepaper)
+     * @param nUDx The number to scale up
      * @return nUDS3 The number in UDS3 format
      */
     function scaleUp(uint256 nUDx) internal pure returns (uint256 nUDS3) {
@@ -14,9 +14,9 @@ library UDS3 {
     }
 
     /**
-     * @dev Converts a given UDS3 number into UDx number (x = decimals())
-     * @param nUDS3 The UDS3 number to convert
-     * @return nUDx The number in UDx format
+     * @dev Scales down a given UDS3 number by 3 decimals (see "UDS3" section of whitepaper)
+     * @param nUDS3 The UDS3 number to scale down
+     * @return nUDx The unscaled number
      */
     function scaleDown(uint256 nUDS3) internal pure returns (uint256 nUDx) {
         return nUDS3 / 10 ** 3;

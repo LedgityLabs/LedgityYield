@@ -2,6 +2,7 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -13,7 +14,6 @@ import "./libs/APRCheckpoints.sol";
 import "./abstracts/RestrictedUpgradeable.sol";
 import "./abstracts/InvestUpgradeable.sol";
 import "./abstracts/RecoverUpgradeable.sol";
-import "./libs/UDS3.sol";
 import "./LTYStaking.sol";
 
 /// @custom:security-contact security@ledgity.com
@@ -39,8 +39,8 @@ contract LToken is
     address payable withdrawerWallet;
     address fundWallet;
 
-    uint256 feesRateUDS3;
-    uint256 retentionRateUDS3;
+    uint256 feesRateUD3;
+    uint256 retentionRateUD3;
     uint256 unclaimedFees;
     uint256 totalQueued; // Amount of L-Tokens in withdrawalQueue
     // Holds the amount of underlying tokens detained by the fundWallet wallet (required as underlying tokens are not simply kept on the fundWallet but are swapped against FIAT and so underlying().balanceOf(fundWallet) will never return the real amount of tokens sent to fundWallet wallet)
@@ -135,6 +135,12 @@ contract LToken is
         _recoverERC20(tokenAddress, amount);
     }
 
+    function recoverUnderlying() public onlyOwner endsHealthy {
+        int256 difference = getDifference();
+        if (difference > 0) _recoverERC20(address(underlying()), uint256(difference));
+        else revert("There is nothing to recover");
+    }
+
     /**
      * @dev Implementation of InvestUpgradeable.claimRewards(). Required by parent contract to use non-discrete rewards tracking. In this contract claiming rewards results in minting new LTokens to the user. However this function is not to be called publicly and is called each time the investment period is reset.
      * @param account The account to mint rewards to
@@ -158,11 +164,11 @@ contract LToken is
      * For more infos about each state, see states declaration at the top of the contract.
      */
     function setFeesRate(uint256 _feesRateUD3) public onlyOwner {
-        feesRateUDS3 = _feesRateUD3 * 10 ** decimals();
+        feesRateUD3 = _feesRateUD3;
     }
 
     function setRetentionRate(uint256 _retentionRateUD3) public onlyOwner {
-        retentionRateUDS3 = _retentionRateUD3 * 10 ** decimals();
+        retentionRateUD3 = _retentionRateUD3;
     }
 
     function setLTYStakingContract(address _contract) public onlyOwner {
@@ -269,8 +275,10 @@ contract LToken is
         uint256 amount
     ) internal override endsHealthy {
         super._afterTokenTransfer(from, to, amount);
+
+        // Emit events to indicate accounts balance mutation
         if (from != address(0)) emit balanceMutation(from, balanceOf(from));
-        if (to != address(0)) emit balanceMutation(from, balanceOf(to));
+        if (to != address(0)) emit balanceMutation(to, balanceOf(to));
     }
 
     /**
@@ -293,29 +301,20 @@ contract LToken is
     /**
      * @dev Calculates the expected amount of underlying token that is expected to be retained on
      * the contract (from retention rate).
-     * @return amountUDS3 The expected amount of underlying tokens in UDS3 format
+     * @return amount The expected amount of underlying tokens
      */
-    function getExpectedRetainedUDS3() public view returns (uint256 amountUDS3) {
-        uint256 totalSupplyUDS3 = UDS3.scaleUp(totalSupply());
-        return (totalSupplyUDS3 * retentionRateUDS3) / UDS3.to(100, decimals());
+    function getExpectedRetained() public view returns (uint256 amount) {
+        return (totalSupply() * ud3ToDecimals(retentionRateUD3)) / toDecimals(100);
     }
 
     function _transferExceedingToFund() internal {
-        // Retrieve expected and currently amounts of underlying tokens as UDS3.
-        uint256 expectedRetainedUDS3 = getExpectedRetainedUDS3();
-        uint256 currentlyRetainedUDS3 = UDS3.scaleUp(realTotalUnderlyingSupply());
+        // Calculate the difference between expected and current amounts of underlying tokens
+        int256 difference = int256(getExpectedRetained()) - int256(realTotalUnderlyingSupply());
 
-        // Calculate the difference between those
-        int256 differenceSDS3 = int256(expectedRetainedUDS3) - int256(currentlyRetainedUDS3);
-
-        // If the amount of underlying tokens exceed the retention rate
-        if (differenceSDS3 > 0) {
-            // And if more than 10000 underlying tokens are exceeding
-            uint256 difference = UDS3.scaleDown(uint256(differenceSDS3));
-            if (difference > UDS3.to(10000, decimals())) {
-                // Transfer the exceeding amount to the fund wallet
-                transferUnderlyingToFund(uint256(difference));
-            }
+        // If more than 10000 underlying tokens exceed the retention rate
+        if (difference > 0 && uint256(difference) > toDecimals(10000)) {
+            // Transfer the exceeding amount to the fund wallet
+            transferUnderlyingToFund(uint256(difference));
         }
     }
 
@@ -340,21 +339,12 @@ contract LToken is
         return true;
     }
 
-    function calculateFees(uint256 amount) public view returns (uint256 fees) {
-        // Convert amount to UDS3
-        uint256 amountUDS3 = UDS3.scaleUp(amount);
-
-        // Calculate fees and update the amount of unclaimed fees;
-        uint256 feesUDS3 = (amountUDS3 * feesRateUDS3) / UDS3.to(100, decimals());
-        fees = UDS3.scaleDown(feesUDS3);
-    }
-
     function _withdrawTo(address account, uint256 amount) internal returns (bool) {
         // Reset investment period of account
         _resetInvestmentPeriodOf(account);
 
         // Calculate withdrawal fees and update the amount of unclaimed fees
-        uint256 fees = calculateFees(amount);
+        uint256 fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
         unclaimedFees += fees;
 
         // Calculate the final withdrawn amount and update the total deposited underlying tokens
@@ -446,10 +436,7 @@ contract LToken is
         uint256 newBalance = underlying().balanceOf(address(this)) + amount;
 
         // Ensure the new balance doesn't exceed the retention rate
-        require(
-            newBalance <= UDS3.scaleDown(getExpectedRetainedUDS3()),
-            "Retained underlying limit exceeded"
-        );
+        require(newBalance <= getExpectedRetained(), "Retained underlying limit exceeded");
 
         // Transfer amount from fundWallet wallet to contract
         transferUnderlyingFromFund(amount);
@@ -468,12 +455,5 @@ contract LToken is
     // */
     function getDifference() public view returns (int256 difference) {
         difference = int256(totalSupply()) - int256(underlyingBalance());
-    }
-
-    function recoverUnderlying() public onlyOwner endsHealthy {
-        int256 difference = getDifference();
-        if (difference > 0) underlying().safeTransfer(owner(), uint256(difference));
-        else if (difference == 0) revert("There is nothing to recover");
-        else pause();
     }
 }

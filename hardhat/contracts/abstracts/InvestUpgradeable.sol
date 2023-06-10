@@ -15,6 +15,7 @@ pragma solidity ^0.8.18;
  *   account.
  */
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "../libs/APRCheckpoints.sol";
@@ -43,6 +44,15 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         return _invested;
     }
 
+    function toDecimals(uint256 n) internal view returns (uint256) {
+        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
+        return n * 10 ** decimals;
+    }
+
+    function ud3ToDecimals(uint256 nUD3) internal view returns (uint256) {
+        return toDecimals(nUD3) / 10 ** 3;
+    }
+
     /**
      * @dev This function calculates the rewards generate during a given period, considering a given deposited amount and APR.
      * @param beginTimestamp The beginning of the period.
@@ -56,22 +66,15 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         uint16 aprUD3,
         uint256 depositedAmount
     ) public view returns (uint256 rewards) {
-        // Retrieve staked token decimals
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
+        // Calculate elapsed years
+        uint256 elaspedTimeUD3 = UDS3.scaleUp(endTimestamp - beginTimestamp);
+        uint256 elapsedYearsUD3 = (elaspedTimeUD3 * UDS3.scaleUp(1)) / UDS3.scaleUp(365 days);
 
-        // Calculate elapsed years as UDS3 number
-        uint256 elapsedTimeUDS3 = UDS3.to(endTimestamp - beginTimestamp, decimals);
-        uint256 secondsPerYearUDS3 = UDS3.to(365 days, decimals);
-        uint256 elapsedYearsUDS3 = (elapsedTimeUDS3 * UDS3.to(1, decimals)) / secondsPerYearUDS3;
+        // Calculate amount growth
+        uint256 growthUD3 = (elapsedYearsUD3 * aprUD3) / UDS3.scaleUp(100);
 
-        // Calculate amount growth as UDS3 number
-        uint256 aprUDS3 = aprUD3 * 10 ** decimals; // See: "Rates and UD3" section of whitepaper
-        uint256 rewardsRateUDS3 = (elapsedYearsUDS3 * aprUDS3) / UDS3.to(1, decimals);
-
-        // Calculate rewards as UDS3 number and return it scaled down
-        uint256 amountUDS3 = UDS3.scaleUp(depositedAmount);
-        uint256 rewardsUDS3 = (amountUDS3 * rewardsRateUDS3) / UDS3.to(100, decimals);
-        return UDS3.scaleDown(rewardsUDS3);
+        // Calculate and return rewards
+        rewards = (depositedAmount * ud3ToDecimals(growthUD3)) / toDecimals(100);
     }
 
     /**
