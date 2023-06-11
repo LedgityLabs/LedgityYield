@@ -58,7 +58,10 @@ jobs:
           NEW_RELEASE: ${{ steps.semantic-release.outputs.NEW_RELEASE }}
         run: |
           if [ $NEW_RELEASE -eq 1 ]; then
-            curl --fail -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }} || exit 1
+            # If changes are not on hardhat related stuff
+            if git diff --quiet HEAD^ HEAD -- . ':!hardhat' ':!hardhat.config.ts'; then
+              curl --fail -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }} || exit 1
+            fi
           else
             echo "No new release, pass."
           fi
