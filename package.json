@@ -1,6 +1,6 @@
 {
   "name": "ledgity-defi",
-  "version": "1.58.0",
+  "version": "1.58.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -27,7 +27,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "20.1.2",
-    "@types/react": "18.2.9",
+    "@types/react": "18.2.11",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "conventional-changelog-conventionalcommits": "^6.0.0",
