@@ -13,8 +13,8 @@ import "../libs/UDS3.sol";
  * @title InvestUpgradeable
  * @author Lila Rest (lila@ledgity.com)
  * @notice This contract provides a bunch of investment utilities shared between LToken
- * and LTYStaking contracts. This includes invested token, investment periods, rewards
- * calculations, and auto-compounding.
+ * and LTYStaking contracts. This includes invested token, investment periods, virtual
+ * balances, rewards calculations, and auto-compounding.
  * @dev For more details see "InvestmentUpgradeable" section of whitepaper.
  * Children contract must:
  *  - Set invested token (during initialization or later using _setInvested()).
@@ -26,16 +26,25 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
-     * @dev Represents investment information of an account (a.k.a investor or user).
-     * @param depositCheckpointReference The APR checkpoint's referecence of the last
-     * investment period.
+     * @dev Represents an investment period. See "InvestUpgradeable > Investment periods"
+     * section of whitepaper for more details.
+     * @param beginTimestamp The timestamp at which started the investment period
+     * @param checkpointRef The APR checkpoint's referecence at which start the period.
      * @param depositTimestamp The timestamp at which the account deposited.
+     */
+    struct InvestmentPeriod {
+        uint40 timestamp; // Allows datetime up to 20/02/36812
+        APRC.Reference ref;
+    }
+
+    /**
+     * @dev Represents investment information of an account (a.k.a investor or user).
+     * @param period The current investment period of the account.
      * @param virtualBalance May hold a part of account rewards until they are claimed
      * (see _resetInvestmentPeriodOf())
      */
     struct AccountInfos {
-        APRC.Reference depositCheckpointReference;
-        uint40 depositTimestamp; // Allows datetime up to 20/02/36812
+        InvestmentPeriod period;
         uint88 virtualBalance;
     }
 
@@ -65,20 +74,21 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
     }
 
     /**
-     * @dev Returns the invested token contract.
+     * @dev Invested token contract getter.
+     * @return The invested token contract.
      */
     function invested() public view returns (IERC20Upgradeable) {
         return _invested;
     }
 
     /**
-     * Function to be optionally implemented by child contracts. If implemented, it should
-     * return true. If it returns false, the rewards will be added to the account's unclaimed
-     * balance, to be claimed later.
+     * @dev Function to be optionally implemented by child contracts. If implemented, it
+     * should return true to indicate a successful claiming. If it returns false, the
+     * rewards will be added to the account's virtual balance, to be claimed later.
      * @param account The account to claim the rewards of.
      * @param amount The amount of rewards to claim.
      */
-    function claimRewardsOf(address account, uint256 amount) internal virtual returns (bool) {
+    function _claimRewardsOf(address account, uint256 amount) internal virtual returns (bool) {
         return false;
     }
 
@@ -87,7 +97,7 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
      * invested tokens a given account has deposited.
      * @param account The account to get the investment of.
      */
-    function investmentOf(address account) internal view virtual returns (uint256) {
+    function _investmentOf(address account) internal view virtual returns (uint256) {
         return 0;
     }
 
@@ -121,12 +131,12 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
      * @param aprUD3 The APR of the period, in UD3 format.
      * @param depositedAmount The amount deposited during the period.
      */
-    function calculatePeriodRewards(
+    function _calculatePeriodRewards(
         uint40 beginTimestamp,
         uint40 endTimestamp,
         uint16 aprUD3,
         uint256 depositedAmount
-    ) public view returns (uint256 rewards) {
+    ) private view returns (uint256 rewards) {
         // Calculate elapsed years
         uint256 elaspedTimeUD3 = UDS3.scaleUp(endTimestamp - beginTimestamp);
         uint256 elapsedYearsUD3 = (elaspedTimeUD3 * UDS3.scaleUp(1)) / UDS3.scaleUp(365 days);
@@ -144,30 +154,33 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
      * @param account The account to calculate the rewards of.
      * @param autocompound Whether to autocompound the rewards or not.
      */
-    function rewardsOf(address account, bool autocompound) internal view returns (uint256 rewards) {
+    function _rewardsOf(address account, bool autocompound) internal view returns (uint256 rewards) {
         // Retrieve account infos and its deposited amount
         AccountInfos memory infos = accountsInfos[account];
-        uint256 depositedAmount = investmentOf(account);
+        uint256 depositedAmount = _investmentOf(account);
+
+        // Fill rewards with virtual balance (rewards that were not claimed yet)
+        // See "InvestUpgradeable > Rewards calculation > 1)" section of the whitepaper
         rewards = infos.virtualBalance;
 
         // Retrieve deposit checkpoint and the one right after it
-        APRC.Reference memory ref = infos.depositCheckpointReference;
+        APRC.Reference memory ref = infos.period.ref;
         APRC.Checkpoint memory checkpoint = APRC.getFromReference(packedAPRCheckpoints, ref);
         APRC.Reference memory nextRef = APRC.incrementReference(ref);
         APRC.Checkpoint memory nextCheckpoint = APRC.getFromReference(packedAPRCheckpoints, nextRef);
 
         if (nextCheckpoint.timestamp != 0) {
             // Calculate rewards from deposit to next checkpoint
-            // See "InvestUpgradeable > Rewards calculation > 1)" section of the whitepaper
-            rewards += calculatePeriodRewards(
-                infos.depositTimestamp,
+            // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
+            rewards += _calculatePeriodRewards(
+                infos.period.timestamp,
                 nextCheckpoint.timestamp,
                 checkpoint.aprUD3,
-                depositedAmount
+                depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
 
             // Calculate rewards for each pair of checkpoints
-            // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
+            // See "InvestUpgradeable > Rewards calculation > 3)" section of the whitepaper
             ref = nextRef;
             checkpoint = nextCheckpoint;
             while (true) {
@@ -179,7 +192,7 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
                 if (nextCheckpoint.timestamp == 0) break;
 
                 // Calculate rewards for the current pair of checkpoints
-                rewards += calculatePeriodRewards(
+                rewards += _calculatePeriodRewards(
                     checkpoint.timestamp,
                     nextCheckpoint.timestamp,
                     checkpoint.aprUD3,
@@ -193,8 +206,8 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         }
 
         // Calculate rewards from the last checkpoint to now
-        // See "InvestUpgradeable > Rewards calculation > 3)" section of the whitepaper
-        rewards += calculatePeriodRewards(
+        // See "InvestUpgradeable > Rewards calculation > 4)" section of the whitepaper
+        rewards += _calculatePeriodRewards(
             checkpoint.timestamp,
             uint40(block.timestamp),
             checkpoint.aprUD3,
@@ -202,17 +215,20 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         );
     }
 
+    /**
+     * @dev Claim/Store the current rewards of an account and reset its investment period.
+     * @param account The account to reset the investment period of.
+     * @param autocompound Whether to autocompound the rewards or not.
+     */
     function _resetInvestmentPeriodOf(address account, bool autocompound) internal {
         // Claim user rewards using claimRewardsOf() if it has been implemented by child
         // contract (returns true), else compound them in virtualBalance.
-        uint256 rewards = rewardsOf(account, autocompound);
-        if (!claimRewardsOf(account, rewards)) accountsInfos[account].virtualBalance = uint88(rewards);
+        uint256 rewards = _rewardsOf(account, autocompound);
+        if (!_claimRewardsOf(account, rewards)) accountsInfos[account].virtualBalance = uint88(rewards);
 
         // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
-        accountsInfos[account].depositTimestamp = uint40(block.timestamp);
-        accountsInfos[account].depositCheckpointReference = APRC.getLatestReference(
-            packedAPRCheckpoints
-        );
+        accountsInfos[account].period.timestamp = uint40(block.timestamp);
+        accountsInfos[account].period.ref = APRC.getLatestReference(packedAPRCheckpoints);
     }
 
     /**

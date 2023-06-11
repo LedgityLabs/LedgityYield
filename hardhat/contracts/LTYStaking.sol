@@ -42,7 +42,7 @@ contract LTYStaking is
         __Pausable_init();
         __Ownable_init();
         __UUPSUpgradeable_init();
-        __Invest_init(IERC20Upgradeable(address(0)));
+        __Invest_init(address(0));
     }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
@@ -73,7 +73,7 @@ contract LTYStaking is
         APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
     }
 
-    function investmentOf(address account) internal view override returns (uint256) {
+    function _investmentOf(address account) internal view override returns (uint256) {
         return stakeOf[account];
     }
 
@@ -85,5 +85,5 @@ contract LTYStaking is
         return tiers[tierIndex] >= stakeOf[account];
     }
 
-    function stake(uint256 amount) external whenNotPaused notBlacklisted {}
+    function stake(uint256 amount) external whenNotPaused notBlacklisted(_msgSender()) {}
 }

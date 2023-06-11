@@ -99,7 +99,7 @@ contract LToken is
         __Ownable2Step_init();
         __Pausable_init();
         __UUPSUpgradeable_init();
-        __Invest_init(this);
+        __Invest_init(address(this));
     }
 
     /**
@@ -152,7 +152,7 @@ contract LToken is
      * @dev Implementation of InvestUpgradeable.claimRewards(). Required by parent contract to use non-discrete rewards tracking. In this contract claiming rewards results in minting new LTokens to the user. However this function is not to be called publicly and is called each time the investment period is reset.
      * @inheritdoc InvestUpgradeable
      */
-    function claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
+    function _claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
         // Mint rewarded L-Tokens to account
         _mint(account, amount);
 
@@ -163,7 +163,7 @@ contract LToken is
     /**
      * @inheritdoc InvestUpgradeable
      */
-    function investmentOf(address account) internal view override returns (uint256) {
+    function _investmentOf(address account) internal view override returns (uint256) {
         return realBalanceOf(account);
     }
 
@@ -202,7 +202,7 @@ contract LToken is
      * @inheritdoc ERC20Upgradeable
      */
     function balanceOf(address account) public view override returns (uint256) {
-        return realBalanceOf(account) + rewardsOf(account);
+        return realBalanceOf(account) + rewardsOf(account, true);
     }
 
     /**
@@ -259,7 +259,7 @@ contract LToken is
         address from,
         address to,
         uint256 amount
-    ) internal override whenNotPaused notBlacklisted(_msgSender()) endsHealthy {
+    ) internal override whenNotPaused notBlacklisted(from) notBlacklisted(to) endsHealthy {
         super._beforeTokenTransfer(from, to, amount);
 
         // If this is a wallet-to-wallet transfer (not a burn or a mint)
@@ -334,7 +334,7 @@ contract LToken is
         uint256 amount
     ) public override whenNotPaused notBlacklisted(_msgSender()) endsHealthy returns (bool) {
         // Reset investment period of account
-        _resetInvestmentPeriodOf(account);
+        _resetInvestmentPeriodOf(account, true);
 
         // Receive deposited underlying token and mint L-Token to the account in a 1:1 ratio
         super.depositFor(account, amount);
@@ -349,7 +349,7 @@ contract LToken is
 
     function _withdrawTo(address account, uint256 amount) internal returns (bool) {
         // Reset investment period of account
-        _resetInvestmentPeriodOf(account);
+        _resetInvestmentPeriodOf(account, true);
 
         // Calculate withdrawal fees and update the amount of unclaimed fees
         uint256 fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
@@ -454,7 +454,7 @@ contract LToken is
     }
 
     function claimFees() public onlyOwner endsHealthy {
-        _resetInvestmentPeriodOf(_msgSender());
+        _resetInvestmentPeriodOf(_msgSender(), true);
         _mint(_msgSender(), unclaimedFees);
         unclaimedFees = 0;
     }
