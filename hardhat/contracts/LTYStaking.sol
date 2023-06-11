@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -12,9 +12,15 @@ import "./abstracts/RestrictedUpgradeable.sol";
 import "./abstracts/RecoverUpgradeable.sol";
 
 /**
- * Note that AccountInfos.unclaimedBalance (uint88) allows storing up to 309,485,009 $LTY which is far enough because it represents ~1/9 of the max supply.
+ * @title LToken
+ * @author Lila Rest (lila@ledgity.com)
+ * @notice
+ * @dev For more details see "LTYStaking" section of whitepaper.
+ * Note that InvestmentUpgradeable.AccountInfos.virtualBalance (uint88) allows storing up
+ * to 309,485,009 $LTY which is far enough because it represents ~1/9 of the max supply and
+ * the amount of accumulated rewards is very unlikely to exceed 1/9 of the max supply.
+ * @custom:security-contact security@ledgity.com
  */
-/// @custom:security-contact security@ledgity.com
 contract LTYStaking is
     Initializable,
     PausableUpgradeable,

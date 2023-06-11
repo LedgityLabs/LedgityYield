@@ -1,9 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
+/**
+ * @title RecoverUpgradeable
+ * @author Lila Rest (lila@ledgity.com)
+ * @notice This abstract contract provides helpers functions to recover assets accidentally
+ * sent to the contract.
+ * @dev For more details see "RecoverUpgradeable" section of whitepaper.
+ * @custom:security-contact security@ledgity.com
+ */
 abstract contract RecoverUpgradeable is ContextUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 

@@ -1,23 +1,29 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
-
-/**
- * @title RestrictedUpgradeable
- * @author Lila Rest (lila@ledgity.com)
- * @notice Children contracts must implement the _setBlacklistContract() function.
- */
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "../Blacklist.sol";
 
-abstract contract RestrictedUpgradeable is ContextUpgradeable {
-    Blacklist private _list;
+/**
+ * @title RestrictedUpgradeable
+ * @author Lila Rest (lila@ledgity.com)
+ * @notice This abstract contract provides a modifier called `notBlacklisted` allowing
+ * to restrict some functions based on whether an account is blacklisted by the defined
+ * `Blacklist` contract.
+ * @dev For more details see "RestrictedUpgradeable" section of whitepaper.
+ * Children contracts must implement the _setBlacklistContract() function.
+ * @custom:security-contact security@ledgity.com
+ */
+abstract contract RestrictedUpgradeable {
+    /// @dev The Blacklist contract.
+    Blacklist private _blacklist;
 
     /**
      * @dev Throws if called by an account blacklisted by the Blacklist contract.
+     * @param account The address to check against the Blacklist contract.
      */
-    modifier notBlacklisted() {
-        require(_list.isBlacklisted(_msgSender()) == false, "Account blacklisted");
+    modifier notBlacklisted(address account) {
+        require(_blacklist.isBlacklisted(account) == false, "Account blacklisted");
         _;
     }
 
@@ -26,7 +32,7 @@ abstract contract RestrictedUpgradeable is ContextUpgradeable {
      * @param contractAddress The address of the blacklist contract
      */
     function _setBlacklistContract(address contractAddress) internal {
-        _list = Blacklist(contractAddress);
+        _blacklist = Blacklist(contractAddress);
     }
 
     /**

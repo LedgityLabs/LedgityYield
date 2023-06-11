@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
- * @title
- * @author
  * @notice Used for testing purposes only.
- * It represents FIAT-based stablecoin when used to test the LToken contract, or
- * the $LTY token when used to test the LTYStaking contract.
+ * It represents:
+ * - a FIAT-based stablecoin when used to test the LToken contract,
+ * - the $LTY token when used to test the LTYStaking contract.
  * This contract accept decimals as constructor argument, so it can be used to to
  * easily test different decimals scenarios.
  */

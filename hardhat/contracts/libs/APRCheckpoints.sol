@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 /**
  * @title UDS3
  * @author Lila Rest (lila@ledgity.com)
- * @notice This library provides utilities to create and interact with APR checkpoints.
- * Which are basically a way to efficiently store history of APRs on chain.
- * See "APRCheckpoints library" section of whitepaper for more details.
+ * @notice This library provides utilities to create and interact with APR checkpoints,
+ * which are basically a way to efficiently store on chain an history of APRs .
+ * @dev For more details see "APRCheckpoints" section of whitepaper.
+ * @custom:security-contact security@ledgity.com
  */
 library APRCheckpoints {
     /**
@@ -50,9 +51,7 @@ library APRCheckpoints {
      * @param ref The reference to be incremented
      * @return The incremented reference
      */
-    function incrementCheckpointReference(
-        Reference memory ref
-    ) internal pure returns (Reference memory) {
+    function incrementReference(Reference memory ref) internal pure returns (Reference memory) {
         // If this is the last checkpoint slot of the pack
         if (ref.cursorIndex == 4) {
             // Increment the pack index and reset the cursor index
@@ -70,7 +69,7 @@ library APRCheckpoints {
      * @param ref The reference to the checkpoint to extract
      * @return checkpoint The extracted checkpoint data
      */
-    function getCheckpointFromReference(
+    function getFromReference(
         Pack[] storage packs,
         Reference memory ref
     ) internal view returns (Checkpoint memory checkpoint) {
@@ -90,9 +89,7 @@ library APRCheckpoints {
      * @param packs The array of packs to compute the reference from
      * @return The reference of the latest checkpoint
      */
-    function getLatestCheckpointReference(
-        Pack[] storage packs
-    ) internal view returns (Reference memory) {
+    function getLatestReference(Pack[] storage packs) internal view returns (Reference memory) {
         uint256 packLength = packs.length;
         uint64 latestPackIndex = uint64(packLength > 0 ? packs.length - 1 : 0);
         uint8 latestWrittenCursor = uint8(packs[latestPackIndex].cursor - 1);
@@ -121,7 +118,7 @@ library APRCheckpoints {
      */
     function setAPR(Pack[] storage packs, uint16 aprUD3) internal {
         // Retrieve the reference of the checkpoint to be written and the pack it belongs to
-        Reference memory ref = incrementCheckpointReference(getLatestCheckpointReference(packs));
+        Reference memory ref = incrementReference(getLatestReference(packs));
 
         // If the pack doesn't exist yet, create it
         if (packs.length - 1 != ref.packIndex) _newBlankPack(packs);

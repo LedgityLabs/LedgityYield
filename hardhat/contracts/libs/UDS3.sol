@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 /**
  * @title UDS3
  * @author Lila Rest (lila@ledgity.com)
  * @notice This library provides utilities to perform precise calculation on unsigned decimal
- * fixed point numbers. See "UDS3 library" section of whitepaper for more details.
+ * fixed point numbers.
+ * @dev For more details see "UDS3" section of whitepaper.
+ * @custom:security-contact security@ledgity.com
  */
 library UDS3 {
     /**

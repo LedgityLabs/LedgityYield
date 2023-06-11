@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
@@ -16,7 +16,13 @@ import "./abstracts/InvestUpgradeable.sol";
 import "./abstracts/RecoverUpgradeable.sol";
 import "./LTYStaking.sol";
 
-/// @custom:security-contact security@ledgity.com
+/**
+ * @title LToken
+ * @author Lila Rest (lila@ledgity.com)
+ * @notice
+ * @dev For more details see "LToken" section of whitepaper.
+ * @custom:security-contact security@ledgity.com
+ */
 contract LToken is
     Initializable,
     ERC20Upgradeable,
@@ -253,15 +259,15 @@ contract LToken is
         address from,
         address to,
         uint256 amount
-    ) internal override whenNotPaused notBlacklisted endsHealthy {
+    ) internal override whenNotPaused notBlacklisted(_msgSender()) endsHealthy {
         super._beforeTokenTransfer(from, to, amount);
 
         // If this is a wallet-to-wallet transfer (not a burn or a mint)
         // See: https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20-_beforeTokenTransfer-address-address-uint256-
         if (from != address(0) && to != address(0)) {
             // Reset investment period of both sender and recipient before their balances are mutated
-            _resetInvestmentPeriodOf(from);
-            _resetInvestmentPeriodOf(to);
+            _resetInvestmentPeriodOf(from, true);
+            _resetInvestmentPeriodOf(to, true);
         }
     }
 
@@ -326,7 +332,7 @@ contract LToken is
     function depositFor(
         address account,
         uint256 amount
-    ) public override whenNotPaused notBlacklisted endsHealthy returns (bool) {
+    ) public override whenNotPaused notBlacklisted(_msgSender()) endsHealthy returns (bool) {
         // Reset investment period of account
         _resetInvestmentPeriodOf(account);
 
@@ -372,7 +378,7 @@ contract LToken is
 
     function emitWithdrawalRequest(
         uint256 amount
-    ) public payable whenNotPaused notBlacklisted endsHealthy {
+    ) public payable whenNotPaused notBlacklisted(_msgSender()) endsHealthy {
         // Ensure the account has enough fundWallets to withdraw
         require(amount <= balanceOf(_msgSender()), "You don't have enough fundWallet to withdraw");
 
@@ -401,7 +407,9 @@ contract LToken is
         }
     }
 
-    function removeWithdrawalRequest(uint256 requestId) public whenNotPaused notBlacklisted endsHealthy {
+    function removeWithdrawalRequest(
+        uint256 requestId
+    ) public whenNotPaused notBlacklisted(_msgSender()) endsHealthy {
         // Retrieve request and ensure it belongs to sender
         WithdrawalRequest memory request = withdrawalQueue[requestId];
         require(request.account == _msgSender(), "This withdrawal request doesn't belong to you");
