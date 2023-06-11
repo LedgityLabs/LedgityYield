@@ -1,3 +1,15 @@
+## [1.59.0](https://github.com/ledgity-labs/dapp/compare/v1.58.1...v1.59.0) (2023-06-11)
+
+
+### Features
+
+* huge contract docs cleanup + rewrite of some code to improve readability and/or efficiency ([29f74bf](https://github.com/ledgity-labs/dapp/commit/29f74bf53537d868f7921418c14dcd6902c83175))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.11 ([152e4d0](https://github.com/ledgity-labs/dapp/commit/152e4d00849879a9e869f8fdbd22c8c27f46e266))
+
 ## [1.58.1](https://github.com/ledgity-labs/dapp/compare/v1.58.0...v1.58.1) (2023-06-10)
 
 
