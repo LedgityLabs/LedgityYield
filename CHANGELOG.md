@@ -1,3 +1,15 @@
+## [1.60.0](https://github.com/ledgity-labs/dapp/compare/v1.59.0...v1.60.0) (2023-06-11)
+
+
+### Features
+
+* **investupgradeable:** rename some entities, improve code readability and documentation ([c7c1163](https://github.com/ledgity-labs/dapp/commit/c7c1163fac6d0721cdd92e99c80f9a9a32baaca2))
+
+
+### Others
+
+* prevent releases that only change hardhat related stuff to trigger a Vercel deploy ([ac4c2b3](https://github.com/ledgity-labs/dapp/commit/ac4c2b38891f189d1f2261885e13db2b337cfe12))
+
 ## [1.59.0](https://github.com/ledgity-labs/dapp/compare/v1.58.1...v1.59.0) (2023-06-11)
 
 
