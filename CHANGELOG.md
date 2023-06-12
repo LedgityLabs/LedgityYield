@@ -1,3 +1,15 @@
+## [1.62.0](https://github.com/ledgity-labs/dapp/compare/v1.61.0...v1.62.0) (2023-06-12)
+
+
+### Features
+
+* ends a first version of LTYStaking contract by implementing stake() and unstake() as well as ([afdfe75](https://github.com/ledgity-labs/dapp/commit/afdfe7550c849d4b744d309a530814ce973b7fae))
+
+
+### Docs
+
+* fix missing new functions documentation in contracts ([f15b7cf](https://github.com/ledgity-labs/dapp/commit/f15b7cf24b478840a9dfa5db6f58a56fe94d16d7))
+
 ## [1.61.0](https://github.com/ledgity-labs/dapp/compare/v1.60.0...v1.61.0) (2023-06-12)
 
 
