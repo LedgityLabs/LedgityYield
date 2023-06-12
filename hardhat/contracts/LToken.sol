@@ -134,7 +134,7 @@ contract LToken is
     /**
      * @dev Implements a bunch of parent contract functions reserved to owner
      * See parent contracts for further details.
-     * @inheritdoc UUPSUpgradeable
+     * See UUPSUpgradeable and PausableUpgradeable for more details about those.
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
@@ -148,8 +148,6 @@ contract LToken is
 
     /**
      * @dev A bunch states setters.
-     * For more infos about UD3, see: Whitepaper "Rates and UD3" section.
-     * For more infos about each state, see states declaration at the top of the contract.
      */
     function setBlacklistContract(address _contract) external onlyOwner {
         _setBlacklistContract(_contract);
@@ -167,7 +165,7 @@ contract LToken is
         ltyStaking = LTYStaking(_contract);
     }
 
-    function setwithdrawer(address payable _withdrawer) public onlyOwner {
+    function setWithdrawer(address payable _withdrawer) public onlyOwner {
         withdrawer = _withdrawer;
     }
 
@@ -229,29 +227,25 @@ contract LToken is
     }
 
     /**
-     * @dev Allows recovering accidentally deposited underlying token. To prevent contract
+     * @dev Allows recovering underlying token accidentaly sent to contract. To prevent
      * owner from draining funds from the contract, this function only allows recovering
      * "unusable" underlying tokens, i.e., tokens that have not been deposited through
      * legit ways. See "LToken > Underlying token recovery" section of whitepaper.
      */
     function recoverUnderlying() external onlyOwner {
-        uint256 unusable = getUnusableUnderlying();
-        if (unusable > 0) super.recoverERC20(address(underlying()), unusable);
+        // Compute the usable balance of the contract by making the difference between
+        // contract's underlying balance and the usable balance.
+        uint256 unusableBalance = underlying().balanceOf(address(this)) - usableBalance;
+
+        // If there are some unusable funds, recover them, else revert
+        if (unusableBalance > 0) super.recoverERC20(address(underlying()), unusableBalance);
         else revert("There is nothing to recover");
     }
 
     /**
-     * @dev Returns the difference between contract underlying balance and the usable balance.
-     * Those funds are called "unusable" and have not been deposited through legit ways.
-     * They should be recovered by the contract owner.
-     * @return The unusable underlying balance
-     */
-    function getUnusableUnderlying() public view returns (uint256) {
-        return underlying().balanceOf(address(this)) - usableBalance;
-    }
-
-    /**
-     * @dev Implementation of InvestUpgradeable.claimRewards(). Required by parent contract to use non-discrete rewards tracking. In this contract claiming rewards results in minting new LTokens to the user. However this function is not to be called publicly and is called each time the investment period is reset.
+     * @dev Implementation of InvestUpgradeable._claimRewards(). If implemented the parent
+     * contract will use it to claim rewards before each period reset. See the function
+     * documentation in the parent contract for more details.
      * @inheritdoc InvestUpgradeable
      */
     function _claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
@@ -263,6 +257,9 @@ contract LToken is
     }
 
     /**
+     * @dev Implementation of InvestUpgradeable._investmentOf(). Required by parent contract
+     * to calculate rewards of an account. In this contract the investment of an account is
+     * equal to its real balance (excluding not yet claimed rewards).
      * @inheritdoc InvestUpgradeable
      */
     function _investmentOf(address account) internal view override returns (uint256) {
