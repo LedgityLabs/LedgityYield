@@ -19,7 +19,12 @@
     ".env.local": true,
     ".env.local.template": true,
     "README.md": true,
-    "LICENSE": true
+    "LICENSE": true,
+    "hardhat.config.ts": true,
+    ".prettierrc.js": true,
+    "typechain-types": true,
+    "hardhat/artifacts": true,
+    "hardhat/cache": true
   },
   // Required because of a bug with pnpm and prettier plugins.
   // See: https://github.com/prettier-solidity/prettier-plugin-solidity#pnpm
