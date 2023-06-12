@@ -1,3 +1,15 @@
+## [1.62.1](https://github.com/ledgity-labs/dapp/compare/v1.62.0...v1.62.1) (2023-06-12)
+
+
+### Fixes
+
+* fix typo and move setAPR() to InvestUpgradeable abstract contract ([44106ca](https://github.com/ledgity-labs/dapp/commit/44106ca72454a53deabf688663166a9a821c3be3))
+
+
+### Others
+
+* hide new files and folders in settings.json ([5dca8c9](https://github.com/ledgity-labs/dapp/commit/5dca8c9e5f35b25c465139115f5128ed03d14c8e))
+
 ## [1.62.0](https://github.com/ledgity-labs/dapp/compare/v1.61.0...v1.62.0) (2023-06-12)
 
 
