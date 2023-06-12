@@ -1,3 +1,15 @@
+## [1.61.0](https://github.com/ledgity-labs/dapp/compare/v1.60.0...v1.61.0) (2023-06-12)
+
+
+### Features
+
+* ton of update mostly about LToken, see long description ([95633bf](https://github.com/ledgity-labs/dapp/commit/95633bf4623aa383c4acbd858f46f2fdca8742f2))
+
+
+### Others
+
+* **deps:** update nextjs monorepo to v13.4.5 ([6fa3d4e](https://github.com/ledgity-labs/dapp/commit/6fa3d4ef3a6ef5c065fda5cf8bdb36d96edb96be))
+
 ## [1.60.0](https://github.com/ledgity-labs/dapp/compare/v1.59.0...v1.60.0) (2023-06-11)
 
 
