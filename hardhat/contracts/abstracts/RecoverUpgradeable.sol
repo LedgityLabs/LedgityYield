@@ -21,7 +21,7 @@ abstract contract RecoverUpgradeable is ContextUpgradeable {
      * @param tokenAddress The address of the token to recover
      * @param amount The amount of token to recover
      */
-    function _recoverERC20(address tokenAddress, uint256 amount) internal {
+    function recoverERC20(address tokenAddress, uint256 amount) public virtual {
         // Retrieve token contract
         IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 

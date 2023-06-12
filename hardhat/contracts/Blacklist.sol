@@ -26,6 +26,9 @@ contract Blacklist is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         __UUPSUpgradeable_init();
     }
 
+    /**
+     * @inheritdoc UUPSUpgradeable
+     */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**

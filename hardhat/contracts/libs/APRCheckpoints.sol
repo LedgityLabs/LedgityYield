@@ -13,7 +13,7 @@ library APRCheckpoints {
     /**
      * @dev High-level representation of an APR checkpoint. It doesn't represent how
      * checkpoints are stored on-chain (see "Pack" instead).
-     * @param aprUD3 The APR in UD3 format (3 digit fixed point number, e.g., 12.345% = 12345)
+     * @param aprUD3 The APR in UD3 format (3 digits fixed point number, e.g., 12.345% = 12345)
      * @param timestamp The timestamp of the checkpoint
      */
     struct Checkpoint {

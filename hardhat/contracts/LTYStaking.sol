@@ -63,10 +63,16 @@ contract LTYStaking is
         _setInvested(tokenAddress);
     }
 
-    function recoverERC20(address tokenAddress, uint256 amount) external onlyOwner {
+    /**
+     * @dev Override of RecoverUpgradeable.recoverERC20() that ensures:
+     * - the caller is the owner
+     * - the token recovered token is not the invested token
+     * @inheritdoc RecoverUpgradeable
+     */
+    function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the staked token
         require(tokenAddress != address(invested()), "Use recoverStaked() instead");
-        _recoverERC20(tokenAddress, amount);
+        super.recoverERC20(tokenAddress, amount);
     }
 
     function setAPR(uint16 aprUD3) public onlyOwner {
@@ -83,6 +89,15 @@ contract LTYStaking is
 
     function isEligibleTo(uint256 tierIndex, address account) public view returns (bool) {
         return tiers[tierIndex] >= stakeOf[account];
+    }
+
+    /**
+     * @dev Public implementation of the InvestmentUpgradeable.-rewardsOf() function.
+     * @param account The account to check the rewards of
+     * @return The amount of unclaimed rewards of the account
+     */
+    function rewardsOf(address account) public view returns (uint256) {
+        return _rewardsOf(account, false);
     }
 
     function stake(uint256 amount) external whenNotPaused notBlacklisted(_msgSender()) {}

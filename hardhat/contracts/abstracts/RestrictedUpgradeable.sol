@@ -35,6 +35,10 @@ abstract contract RestrictedUpgradeable {
         _blacklist = Blacklist(contractAddress);
     }
 
+    function isBlacklisted(address account) internal view returns (bool) {
+        return _blacklist.isBlacklisted(account);
+    }
+
     /**
      * @dev This empty reserved space is put in place to allow future versions to add
      * new variables without shifting down storage in the inheritance chain.

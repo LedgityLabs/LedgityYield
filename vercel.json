@@ -4,6 +4,5 @@
     "deploymentEnabled": {
       "main": false
     }
-  },
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':!hardhat' ':!hardhat.config.ts' "
+  }
 }

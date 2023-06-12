@@ -67,33 +67,18 @@ contract LToken is
     /// @dev Holds the amount of L-Tokens current in the withdrawal queue.
     uint256 totalQueued;
 
-    /**
-     * @dev Holds the amount of underlying tokens that are usable by the contract (i.e,
-     * not accidentally deposited or else)
-     */
-    uint256 usableBalance;
+    /// @dev Holds the amount of underlying tokens detained by the fund wallet
+    uint256 fundBalance;
 
     /// @dev Holds an ordered list of withdrawal requests.
     WithdrawalRequest[] withdrawalQueue;
 
-    /**
-     * @dev Emitted each time the invested balance of an account changes
-     * It is used off-chain to properly display capital growth trough time.
-     * @param account The account whose invested balance changed.
-     * @param balance The new invested balance of the account.
-     */
     event balanceMutation(address account, uint256 balance);
-
-    /**
-     * @dev Emitted to indicate that a withdrawal request has been queued or removed
-     * from the queue. This is used by the withdrawal server to keep track of requests.
-     * @param index The index of the withdrawal request in the queue.
-     */
     event queuedWithdrawalRequest(uint256 index);
     event removedWithdrawalRequest(uint256 index);
 
     /**
-     * @dev Restrict targeted function to the withdrawal server's wallet (a.k.a withdrawer).
+     * @dev Restrict selected function to the withdrawal server's wallet (a.k.a withdrawer).
      */
     modifier onlyWithdrawer() {
         require(_msgSender() == withdrawer, "Only server can execute this function");
@@ -101,10 +86,21 @@ contract LToken is
     }
 
     /**
-     * @dev Restrict targeted function to the fund wallet (detained by financial team).
+     * @dev Restrict selected function to the fund wallet (detained by financial team).
      */
     modifier onlyFund() {
         require(_msgSender() == fund, "Only fund can execute this function");
+        _;
+    }
+
+    modifier endsHealthy() {
+        _;
+        // If some funds are missing after the transaction, revert it.
+        if (getDifference() < 0) revert("The contract ends unhealthy, not permitted.");
+    }
+
+    modifier forbidden() {
+        revert("Forbidden");
         _;
     }
 
@@ -159,31 +155,22 @@ contract LToken is
     }
 
     /**
-     * @dev Override of RecoverUpgradeable.recoverERC20() that ensures:
+     * @dev Implementation of Recoverable._recoverERC20() that ensures:
      * - the caller is the owner
      * - the token recovered token is not the underlying token
-     * @inheritdoc RecoverUpgradeable
+     * @param tokenAddress See Recoverable contract
+     * @param amount See Recoverable contract
      */
     function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the underlying token
         require(tokenAddress != address(underlying()), "Use recoverUnderlying() instead");
-        super.recoverERC20(tokenAddress, amount);
+        recoverERC20(tokenAddress, amount);
     }
 
-    /**
-     * @dev Allows recovering accidentally deposited underlying token. To prevent contract
-     * owner from draining funds from the contract, this function only allows recovering
-     * "unusable" underlying tokens, i.e., tokens that have not been deposited through
-     * legit ways. See "LToken > Underlying token recovery" section of whitepaper.
-     */
-    function recoverUnderlying() external onlyOwner {
-        uint256 unusable = getUnusableUnderlying();
-        if (unusable > 0) super.recoverERC20(address(underlying()), unusable);
+    function recoverUnderlying() public onlyOwner endsHealthy {
+        int256 difference = getDifference();
+        if (difference > 0) recoverERC20(address(underlying()), uint256(difference));
         else revert("There is nothing to recover");
-    }
-
-    function getUnusableUnderlying() public view returns (uint256) {
-        return underlying().balanceOf(address(this)) - usableBalance;
     }
 
     /**
@@ -218,7 +205,7 @@ contract LToken is
         retentionRateUD3 = _retentionRateUD3;
     }
 
-    function setLTYStaking(address _contract) public onlyOwner {
+    function setltyStaking(address _contract) public onlyOwner {
         ltyStaking = LTYStaking(_contract);
     }
 
@@ -235,9 +222,8 @@ contract LToken is
     }
 
     /**
-     * @dev Override of ERC20Upgradeable.balanceOf() that returns the total amount of
-     * L-Tokens that belong to the account, including its unclaimed rewards.
-     * See : TODO
+     * Override of ERC20.balanceOf() that returns the total amount of L-Token that belong to
+     * the account, including not yet minted rewards.
      * @inheritdoc ERC20Upgradeable
      */
     function balanceOf(address account) public view override returns (uint256) {
@@ -254,48 +240,98 @@ contract LToken is
     }
 
     /**
-     * @dev Override of ERC20Upgradeable.totalSupply() that also consider L-Tokens
-     * currently queued in the withdrawal queue and not yet minted owner's withdrawal
-     * fees.
+     * @dev Returns the L-Token total supply, including not yet minted rewards and queued tokens.
      * @inheritdoc ERC20Upgradeable
      */
     function totalSupply() public view override returns (uint256) {
-        return super.totalSupply() + totalQueued + unclaimedFees;
+        return realTotalSupply() + totalQueued + unclaimedFees;
+    }
+
+    /**
+     * @dev Returns the L-Token real total supply, i.e., only really minted tokens.
+     * @return The real total supply of L-Token
+     */
+    function realTotalSupply() public view returns (uint256) {
+        return super.totalSupply();
+    }
+
+    /**
+     * @dev Returns the amount of underlying token ever deposited on the contract. This includes
+     * the ones currently held by the contract, as well as the one that have been sent to the
+     * fund wallet.
+     * @return The total supply of underlying token
+     */
+    function underlyingBalance() public view returns (uint256) {
+        return realTotalUnderlyingSupply() + fundBalance;
+    }
+
+    /**
+     * @dev Returns the real amount of underlying token currently held by the contract.
+     * @return The balance of the contract in underlying token
+     */
+    function realTotalUnderlyingSupply() public view returns (uint256) {
+        return underlying().balanceOf(address(this));
     }
 
     /**
      * @dev Override of ERC20.beforeTokenTransfer() hook, that ensures:
-     *  - the contract is not paused,
-     *  - the sender and reicipient are not blacklisted
-     *  - investment periods are properly reset for each implied wallet that is not the
-     *    zero wallet
+     * - the contract is not paused,
+     * - the sender is not blacklisted
+     * - that the contract ends healthy afterreseting investment period of both sender and recipient.
      * @inheritdoc ERC20Upgradeable
      */
     function _beforeTokenTransfer(
         address from,
         address to,
         uint256 amount
-    ) internal override whenNotPaused notBlacklisted(from) notBlacklisted(to) {
+    ) internal override whenNotPaused notBlacklisted(from) notBlacklisted(to) endsHealthy {
         super._beforeTokenTransfer(from, to, amount);
-        if (from != address(0)) _resetInvestmentPeriodOf(from, true);
-        if (to != address(0)) _resetInvestmentPeriodOf(to, true);
+
+        // If this is a wallet-to-wallet transfer (not a burn or a mint)
+        // See: https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20-_beforeTokenTransfer-address-address-uint256-
+        if (from != address(0) && to != address(0)) {
+            // Reset investment period of both sender and recipient before their balances are mutated
+            _resetInvestmentPeriodOf(from, true);
+            _resetInvestmentPeriodOf(to, true);
+        }
     }
 
     /**
-     * @dev Override of ERC20._afterTokenTransfer() hook that emits events indicating
-     * mutations of implied accounts' balances. This is used off-chain to draw a precise
-     * investment growth.
+     * @dev Override of ERC20._afterTokenTransfer() hook, that emit events to indicates accounts balance
      * mutation and that ensures the contract ends healthy after each transfer.
      * @inheritdoc ERC20Upgradeable
      */
-    function _afterTokenTransfer(address from, address to, uint256 amount) internal override {
+    function _afterTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override endsHealthy {
         super._afterTokenTransfer(from, to, amount);
+
+        // Emit events to indicate accounts balance mutation
         if (from != address(0)) emit balanceMutation(from, balanceOf(from));
         if (to != address(0)) emit balanceMutation(to, balanceOf(to));
     }
 
     /**
-     * @dev Calculates the amount of underlying token that is expected to be retained on
+     * @dev Function used to transferring underlying token from or to the fund wallet while
+     * keeping track of the fund balance. This allows the contract to be aware of the fund
+     * wallet holding and so being able to figure unhealthy situations. (See "Healthyness"
+     * section of the whitepaper for more details)
+     * @param amount Amount of underlying to transfer from or to fund wallet
+     */
+    function transferUnderlyingFromFund(uint256 amount) internal {
+        fundBalance -= amount;
+        underlying().safeTransferFrom(fund, address(this), amount);
+    }
+
+    function transferUnderlyingToFund(uint256 amount) internal {
+        fundBalance += amount;
+        underlying().safeTransferFrom(address(this), fund, amount);
+    }
+
+    /**
+     * @dev Calculates the expected amount of underlying token that is expected to be retained on
      * the contract (from retention rate).
      * @return amount The expected amount of underlying tokens
      */
@@ -303,48 +339,30 @@ contract LToken is
         return (totalSupply() * ud3ToDecimals(retentionRateUD3)) / toDecimals(100);
     }
 
-    /**
-     * @dev Transfers every underlying token exceeding the retention rate to the fund wallet.
-     * Note that there is a 10000 underlying tokens threshold to avoid transferring small
-     * amounts and save a consequent amount of gas to contract's users.
-     */
     function _transferExceedingToFund() internal {
-        // Calculate the difference between expected and current amounts of usable underlying tokens
-        int256 difference = int256(getExpectedRetained()) - int256(usableBalance);
+        // Calculate the difference between expected and current amounts of underlying tokens
+        int256 difference = int256(getExpectedRetained()) - int256(realTotalUnderlyingSupply());
 
         // If more than 10000 underlying tokens exceed the retention rate
         if (difference > 0 && uint256(difference) > toDecimals(10000)) {
             // Transfer the exceeding amount to the fund wallet
-            underlying().safeTransferFrom(address(this), fund, uint256(difference));
-            usableBalance -= uint256(difference);
+            transferUnderlyingToFund(uint256(difference));
         }
     }
 
     /**
-     * @dev Overrides of ERC20WrapperUpgradeable.withdrawTo() and depositFor() functions
-     * that prevents any usage of it (forbidden). Use _withdrawTo() internally instead or
-     * withdraw() and deposit() externally.
+     * Override of ERC20Wrapper.depositFor() method
      * @inheritdoc ERC20WrapperUpgradeable
      */
-    function withdrawTo(address account, uint256 amount) public override returns (bool) {
-        revert("Forbidden, use withdraw() instead");
-    }
+    function depositFor(
+        address account,
+        uint256 amount
+    ) public override whenNotPaused notBlacklisted(_msgSender()) endsHealthy returns (bool) {
+        // Reset investment period of account
+        _resetInvestmentPeriodOf(account, true);
 
-    function depositFor(address account, uint256 amount) public override returns (bool) {
-        revert("Forbidden, use deposit() instead");
-    }
-
-    /**
-     * @dev Override of ERC20Wrapper.depositFor() support reset of investment period and
-     * transfer of underlying tokens exceeding the retention
-     * @param amount The amount of underlying tokens to deposit
-     */
-    function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) returns (bool) {
-        _resetInvestmentPeriodOf(_msgSender(), true);
-
-        // Receive deposited underlying tokens and mint L-Token to the account in a 1:1 ratio
-        super.depositFor(_msgSender(), amount);
-        usableBalance += amount;
+        // Receive deposited underlying token and mint L-Token to the account in a 1:1 ratio
+        super.depositFor(account, amount);
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
@@ -354,34 +372,19 @@ contract LToken is
         return true;
     }
 
-    /**
-     * @dev Implementation of ERC20Wrapper.withdrawTo() supporting reset of investment
-     * period, withdrawal fees, and transfer of underlying tokens exceeding the retention
-     * rate.
-     * @param account The account to withdraw tokens for
-     * @param amount The amount of tokens to withdraw
-     */
-    function _withdrawTo(address account, uint256 amount, bool fromFund) internal returns (bool) {
+    function _withdrawTo(address account, uint256 amount) internal returns (bool) {
+        // Reset investment period of account
         _resetInvestmentPeriodOf(account, true);
 
         // Calculate withdrawal fees and update the amount of unclaimed fees
         uint256 fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
         unclaimedFees += fees;
 
-        // Remove fees from the requested amount to obtain the amount to withdraw
+        // Calculate the final withdrawn amount and update the total deposited underlying tokens
         uint256 withdrawnAmount = amount - fees;
 
-        // If not a big request filled from fund reserve
-        if (!fromFund) {
-            // Process to withdraw (burns withdrawn L-Tokens amount and transfers underlying tokens in a 1:1 ratio)
-            super.withdrawTo(account, withdrawnAmount);
-            usableBalance -= withdrawnAmount;
-        }
-        // Else transfer underlying tokens from fund reserve
-        else {
-            approve(address(this), withdrawnAmount);
-            transferFrom(fund, account, withdrawnAmount);
-        }
+        // Process to withdraw by burning the withdrawn L-Token amount and transfering an equivalent amount in underlying tokens
+        super.withdrawTo(account, withdrawnAmount);
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
@@ -392,66 +395,46 @@ contract LToken is
     }
 
     /**
-     * @dev Try to withdraw a given amount of underlying tokens. The request will be
-     * processed immediatelly if conditions are met, otherwise this function will
-     * revert.
-     * @param amount The amount of tokens to withdraw
+     * @dev Override of ERC20WrapperUpgradeable.withdrawTo() function that prevents any usage of it
+     * (forbidden). Use _withdrawTo() internally instead.
+     * @inheritdoc ERC20WrapperUpgradeable
      */
-    function withdraw(uint256 amount) external payable whenNotPaused notBlacklisted(_msgSender()) {
-        // Ensure the account has enough funds to withdraw
-        require(amount <= balanceOf(_msgSender()), "You don't have enough fund to withdraw");
+    function withdrawTo(address account, uint256 amount) public override forbidden returns (bool) {}
 
-        /* 
-        Process request immediately if the contract holds enough underlying tokens to:
-         - cover current request + amount in queue 
-         - OR to cover current request and the sender is eligible to 1st staking tier
-        Else revert.
-        */
-        uint256 _usableBalance = usableBalance;
-        if (totalQueued + amount <= _usableBalance) _withdrawTo(_msgSender(), amount, false);
-        else if (amount <= _usableBalance && ltyStaking.isEligibleTo(1, _msgSender()))
-            _withdrawTo(_msgSender(), amount, false);
-        else revert("Can't process request immediatelly, please queue your request");
-    }
-
-    /**
-     * @dev Put a withdrawal request in the queue. The sender must attach 0.005 ETH to
-     * pre-pay the processing gas fees.
-     * @param amount The amount of tokens to withdraw
-     */
-    function addQueuedWithdrawalRequest(
+    function emitWithdrawalRequest(
         uint256 amount
-    ) public payable whenNotPaused notBlacklisted(_msgSender()) {
+    ) public payable whenNotPaused notBlacklisted(_msgSender()) endsHealthy {
         // Ensure the account has enough funds to withdraw
         require(amount <= balanceOf(_msgSender()), "You don't have enough fund to withdraw");
 
-        // Ensure the sender attached pre-paid processing gas fees
+        // Ensure the sender attached pre-paid queue fees and forward them to server wallet
         require(msg.value != 0.005 * 10 ** 18, "You must attach 0.005 ETH to the request");
-
-        // Forward pre-paid processing gas fees to the withdrawer
         (bool sent, ) = withdrawer.call{value: msg.value}("");
         require(sent, "Failed to forward Ethers to withdrawer");
 
-        // Reset investment period of account and burn withdrawn L-Tokens amount
-        _resetInvestmentPeriodOf(_msgSender(), true);
-        _burn(_msgSender(), amount);
+        // Retrieve the current amount of underlying tokens on the contract
+        uint256 uBalance = realTotalUnderlyingSupply();
 
-        // Add the withdrawal request to the queue and update the total amount in queue
-        withdrawalQueue.push(WithdrawalRequest({account: _msgSender(), amount: uint120(amount)}));
-        totalQueued += amount;
+        // If there is enough funds to cover requests in queue + the current request, process to withdrawal
+        if (totalQueued + amount <= uBalance)
+            _withdrawTo(_msgSender(), amount);
 
-        // Finally emit an event to notify the request addition
-        emit queuedWithdrawalRequest(withdrawalQueue.length - 1);
+            // Else if there is enough funds to cover the current request and the sender is eligible to staking tier one
+        else if (amount <= uBalance && ltyStaking.isEligibleTo(1, msg.sender))
+            _withdrawTo(_msgSender(), amount);
+
+            // Else burn accounts tokens and put the request in queue
+        else {
+            _burn(_msgSender(), amount);
+            withdrawalQueue.push(WithdrawalRequest({account: _msgSender(), amount: uint120(amount)}));
+            totalQueued += amount;
+            emit queuedWithdrawalRequest(withdrawalQueue.length - 1);
+        }
     }
 
-    /**
-     * @dev Removes a withdrawal request from the queue and sends back L-Tokens to the
-     * request emitter.
-     * @param requestId The index of the withdrawal request to remove
-     */
-    function removeQueuedWithdrawalRequest(
+    function removeWithdrawalRequest(
         uint256 requestId
-    ) public whenNotPaused notBlacklisted(_msgSender()) {
+    ) public whenNotPaused notBlacklisted(_msgSender()) endsHealthy {
         // Retrieve request and ensure it belongs to sender
         WithdrawalRequest memory request = withdrawalQueue[requestId];
         require(request.account == _msgSender(), "This withdrawal request doesn't belong to you");
@@ -469,73 +452,46 @@ contract LToken is
         emit removedWithdrawalRequest(requestId);
     }
 
-    /**
-     * @dev Processes a given queued withdrawal request. This function is reserved to
-     * the withdrawer server. See "LToken > Withdrawals" section of whitepaper for more
-     * details.
-     * @param requestId The index of the withdrawal request to process
-     */
-    function processQueuedWithdrawalRequest(uint256 requestId) external onlyWithdrawer whenNotPaused {
+    function processWithdrawalRequest(
+        uint256 requestId
+    ) public onlyWithdrawer whenNotPaused endsHealthy {
         // Retrieve request and ensure it exists and has not been processed yet or cancelled
         WithdrawalRequest memory request = withdrawalQueue[requestId];
 
-        // Ensure the request emitter has not been blacklisted since request emission
-        require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
-
         // Mint back L-Tokens to account + remove withdrawal requests
-        removeQueuedWithdrawalRequest(requestId);
+        removeWithdrawalRequest(requestId);
 
         // Proceed to withdrawal by sending the requested amount to request's account
-        _withdrawTo(request.account, request.amount, false);
+        _withdrawTo(request.account, request.amount);
     }
 
     /**
-     * @dev Processes a given big queued withdrawal request (that exceeds the retention rate).
-     * In contrast to non-big requests, this function fill the request with contract's funds
-     * but instead directly uses underlying tokens of the fund wallet. This allows
-     * processing requests that are bigger than the retention rate without ever exceeding
-     * the retention rate on the contract.
-     * @param requestId The index of the big request to process
+     * This function allows fund wallet to fund this contract while protecting from exceeding the current retention rate.
+     * This protects from accidentally transfering more funds than expected to the contract.
      */
-    function processBigQueuedWithdrawalRequest(uint256 requestId) external onlyFund whenNotPaused {
-        // Retrieve request and ensure it exists and has not been processed yet or cancelled
-        WithdrawalRequest memory request = withdrawalQueue[requestId];
-
-        // Ensure the request emitter has not been blacklisted since request emission
-        require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
-
-        // Ensure this is a big request
-        require(request.amount > getExpectedRetained() / 2, "Not a big request");
-
-        // Mint back L-Tokens to account + remove withdrawal requests
-        removeQueuedWithdrawalRequest(requestId);
-
-        // Proceed to withdrawal by transferring the requested amount from fund wallet to request's emitter
-        _withdrawTo(request.account, request.amount, true);
-    }
-
-    /**
-     * @dev This function allows fund wallet to send underlying tokens to this contract.
-     * It prevents from exceeding the current retention rate.
-     * @param amount The amount of underlying tokens to send
-     */
-    function fundContract(uint256 amount) external onlyFund whenNotPaused {
+    function fundContract(uint256 amount) public onlyFund whenNotPaused endsHealthy {
         // Calculate new balance
-        uint256 newBalance = usableBalance + amount;
+        uint256 newBalance = underlying().balanceOf(address(this)) + amount;
 
         // Ensure the new balance doesn't exceed the retention rate
         require(newBalance <= getExpectedRetained(), "Retained underlying limit exceeded");
 
         // Transfer amount from fund wallet to contract
-        underlying().safeTransferFrom(fund, address(this), amount);
-        usableBalance += amount;
+        transferUnderlyingFromFund(amount);
     }
 
-    /**
-     * @dev Claims withdrawal fees by minting them to contract owner.
-     */
-    function claimFees() external onlyOwner {
-        unclaimedFees = 0;
+    function claimFees() public onlyOwner endsHealthy {
+        _resetInvestmentPeriodOf(_msgSender(), true);
         _mint(_msgSender(), unclaimedFees);
+        unclaimedFees = 0;
+    }
+
+    /*
+        0  : perfect match between underlying and L-Token amounts
+        >0 : there is more underlying tokens than L-Tokens (to be recovered)
+        <0 : there is more L-Tokens than underlying tokens (!! contract breach !!)
+    // */
+    function getDifference() public view returns (int256 difference) {
+        difference = int256(totalSupply()) - int256(underlyingBalance());
     }
 }
