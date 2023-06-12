@@ -73,6 +73,10 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         _invested = IERC20Upgradeable(tokenAddress);
     }
 
+    function setAPR(uint16 aprUD3) public virtual {
+        APRC.setAPR(packedAPRCheckpoints, aprUD3);
+    }
+
     /**
      * @dev Invested token contract getter.
      * @return The invested token contract.

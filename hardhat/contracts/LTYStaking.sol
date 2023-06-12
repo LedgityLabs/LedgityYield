@@ -6,7 +6,6 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "./libs/APRCheckpoints.sol";
 import "./abstracts/InvestUpgradeable.sol";
 import "./abstracts/RestrictedUpgradeable.sol";
 import "./abstracts/RecoverUpgradeable.sol";
@@ -65,19 +64,20 @@ contract LTYStaking is
         _unpause();
     }
 
-    /**
-     * @dev A bunch states setters.
-     */
     function setBlacklistContract(address _contract) external onlyOwner {
         _setBlacklistContract(_contract);
     }
 
-    function setInvested(address tokenAddress) external onlyOwner {
-        _setInvested(tokenAddress);
+    function setAPR(uint16 aprUD3) public override onlyOwner {
+        super.setAPR(aprUD3);
     }
 
-    function setAPR(uint16 aprUD3) public onlyOwner {
-        APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
+    /**
+     * @dev A bunch states setters.
+     */
+
+    function setInvested(address tokenAddress) external onlyOwner {
+        _setInvested(tokenAddress);
     }
 
     function setTier(uint256 tierIndex, uint256 amountUD18) public onlyOwner {

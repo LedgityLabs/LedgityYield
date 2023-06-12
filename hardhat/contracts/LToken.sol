@@ -10,7 +10,6 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
-import "./libs/APRCheckpoints.sol";
 import "./abstracts/RestrictedUpgradeable.sol";
 import "./abstracts/InvestUpgradeable.sol";
 import "./abstracts/RecoverUpgradeable.sol";
@@ -146,18 +145,24 @@ contract LToken is
         _unpause();
     }
 
-    /**
-     * @dev A bunch states setters.
-     */
     function setBlacklistContract(address _contract) external onlyOwner {
         _setBlacklistContract(_contract);
     }
+
+    function setAPR(uint16 aprUD3) public override onlyOwner {
+        super.setAPR(aprUD3);
+    }
+
+    /**
+     * @dev A bunch states setters.
+     */
 
     function setFeesRate(uint256 _feesRateUD3) public onlyOwner {
         feesRateUD3 = _feesRateUD3;
     }
 
     function setRetentionRate(uint256 _retentionRateUD3) public onlyOwner {
+        require(_retentionRateUD3 <= 10000, "Retention rate must be <= 10%");
         retentionRateUD3 = _retentionRateUD3;
     }
 
@@ -169,12 +174,8 @@ contract LToken is
         withdrawer = _withdrawer;
     }
 
-    function setfund(address payable _fund) public onlyOwner {
+    function setFund(address payable _fund) public onlyOwner {
         fund = _fund;
-    }
-
-    function setAPR(uint16 aprUD3) public onlyOwner {
-        APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
     }
 
     /**
@@ -227,7 +228,7 @@ contract LToken is
     }
 
     /**
-     * @dev Allows recovering underlying token accidentaly sent to contract. To prevent
+     * @dev Allows recovering underlying token accidentally sent to contract. To prevent
      * owner from draining funds from the contract, this function only allows recovering
      * "unusable" underlying tokens, i.e., tokens that have not been deposited through
      * legit ways. See "LToken > Underlying token recovery" section of whitepaper.
