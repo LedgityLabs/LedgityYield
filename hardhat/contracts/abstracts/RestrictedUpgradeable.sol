@@ -35,6 +35,10 @@ abstract contract RestrictedUpgradeable {
         _blacklist = Blacklist(contractAddress);
     }
 
+    /**
+     * @dev Return whether a given account is blacklisted.
+     * @param account The account to check
+     */
     function isBlacklisted(address account) internal view returns (bool) {
         return _blacklist.isBlacklisted(account);
     }

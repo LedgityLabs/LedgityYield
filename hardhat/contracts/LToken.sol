@@ -146,70 +146,15 @@ contract LToken is
         _unpause();
     }
 
-    function setBlacklistContract(address _contract) external onlyOwner {
-        _setBlacklistContract(_contract);
-    }
-
-    /**
-     * @dev Mirrors decimals of the underlying token using ERC20WrapperUpgradeable.decimals().
-     * @inheritdoc ERC20WrapperUpgradeable
-     */
-    function decimals() public view override(ERC20Upgradeable, ERC20WrapperUpgradeable) returns (uint8) {
-        return ERC20WrapperUpgradeable.decimals();
-    }
-
-    /**
-     * @dev Override of RecoverUpgradeable.recoverERC20() that ensures:
-     * - the caller is the owner
-     * - the token recovered token is not the underlying token
-     * @inheritdoc RecoverUpgradeable
-     */
-    function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
-        // Ensure the token is not the underlying token
-        require(tokenAddress != address(underlying()), "Use recoverUnderlying() instead");
-        super.recoverERC20(tokenAddress, amount);
-    }
-
-    /**
-     * @dev Allows recovering accidentally deposited underlying token. To prevent contract
-     * owner from draining funds from the contract, this function only allows recovering
-     * "unusable" underlying tokens, i.e., tokens that have not been deposited through
-     * legit ways. See "LToken > Underlying token recovery" section of whitepaper.
-     */
-    function recoverUnderlying() external onlyOwner {
-        uint256 unusable = getUnusableUnderlying();
-        if (unusable > 0) super.recoverERC20(address(underlying()), unusable);
-        else revert("There is nothing to recover");
-    }
-
-    function getUnusableUnderlying() public view returns (uint256) {
-        return underlying().balanceOf(address(this)) - usableBalance;
-    }
-
-    /**
-     * @dev Implementation of InvestUpgradeable.claimRewards(). Required by parent contract to use non-discrete rewards tracking. In this contract claiming rewards results in minting new LTokens to the user. However this function is not to be called publicly and is called each time the investment period is reset.
-     * @inheritdoc InvestUpgradeable
-     */
-    function _claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
-        // Mint rewarded L-Tokens to account
-        _mint(account, amount);
-
-        // Return true indicating to InvestUpgradeable that the rewards have been claimed
-        return true;
-    }
-
-    /**
-     * @inheritdoc InvestUpgradeable
-     */
-    function _investmentOf(address account) internal view override returns (uint256) {
-        return realBalanceOf(account);
-    }
-
     /**
      * @dev A bunch states setters.
      * For more infos about UD3, see: Whitepaper "Rates and UD3" section.
      * For more infos about each state, see states declaration at the top of the contract.
      */
+    function setBlacklistContract(address _contract) external onlyOwner {
+        _setBlacklistContract(_contract);
+    }
+
     function setFeesRate(uint256 _feesRateUD3) public onlyOwner {
         feesRateUD3 = _feesRateUD3;
     }
@@ -232,6 +177,14 @@ contract LToken is
 
     function setAPR(uint16 aprUD3) public onlyOwner {
         APRCheckpoints.setAPR(packedAPRCheckpoints, aprUD3);
+    }
+
+    /**
+     * @dev Mirrors decimals of the underlying token using ERC20WrapperUpgradeable.decimals().
+     * @inheritdoc ERC20WrapperUpgradeable
+     */
+    function decimals() public view override(ERC20Upgradeable, ERC20WrapperUpgradeable) returns (uint8) {
+        return ERC20WrapperUpgradeable.decimals();
     }
 
     /**
@@ -261,6 +214,59 @@ contract LToken is
      */
     function totalSupply() public view override returns (uint256) {
         return super.totalSupply() + totalQueued + unclaimedFees;
+    }
+
+    /**
+     * @dev Override of RecoverUpgradeable.recoverERC20() that ensures:
+     * - the caller is the owner
+     * - the token recovered token is not the underlying token
+     * @inheritdoc RecoverUpgradeable
+     */
+    function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
+        // Ensure the token is not the underlying token
+        require(tokenAddress != address(underlying()), "Use recoverUnderlying() instead");
+        super.recoverERC20(tokenAddress, amount);
+    }
+
+    /**
+     * @dev Allows recovering accidentally deposited underlying token. To prevent contract
+     * owner from draining funds from the contract, this function only allows recovering
+     * "unusable" underlying tokens, i.e., tokens that have not been deposited through
+     * legit ways. See "LToken > Underlying token recovery" section of whitepaper.
+     */
+    function recoverUnderlying() external onlyOwner {
+        uint256 unusable = getUnusableUnderlying();
+        if (unusable > 0) super.recoverERC20(address(underlying()), unusable);
+        else revert("There is nothing to recover");
+    }
+
+    /**
+     * @dev Returns the difference between contract underlying balance and the usable balance.
+     * Those funds are called "unusable" and have not been deposited through legit ways.
+     * They should be recovered by the contract owner.
+     * @return The unusable underlying balance
+     */
+    function getUnusableUnderlying() public view returns (uint256) {
+        return underlying().balanceOf(address(this)) - usableBalance;
+    }
+
+    /**
+     * @dev Implementation of InvestUpgradeable.claimRewards(). Required by parent contract to use non-discrete rewards tracking. In this contract claiming rewards results in minting new LTokens to the user. However this function is not to be called publicly and is called each time the investment period is reset.
+     * @inheritdoc InvestUpgradeable
+     */
+    function _claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
+        // Mint rewarded L-Tokens to account
+        _mint(account, amount);
+
+        // Return true indicating to InvestUpgradeable that the rewards have been claimed
+        return true;
+    }
+
+    /**
+     * @inheritdoc InvestUpgradeable
+     */
+    function _investmentOf(address account) internal view override returns (uint256) {
+        return realBalanceOf(account);
     }
 
     /**
@@ -322,8 +328,9 @@ contract LToken is
 
     /**
      * @dev Overrides of ERC20WrapperUpgradeable.withdrawTo() and depositFor() functions
-     * that prevents any usage of it (forbidden). Use _withdrawTo() internally instead or
-     * withdraw() and deposit() externally.
+     * that prevents any usage of them (forbidden).
+     * Instead, use _withdrawTo() and super.depositFor() internally or withdraw() and
+     * deposit() externally.
      * @inheritdoc ERC20WrapperUpgradeable
      */
     function withdrawTo(address account, uint256 amount) public override returns (bool) {
