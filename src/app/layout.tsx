@@ -1,30 +1,14 @@
 import "@/styles/globals.css";
-import { Poppins, Inter } from "next/font/google";
 import { type NextPage } from "next";
 import Header from "@/components/Header";
 import { CardsHelper } from "@/components/ui";
 import Footer from "@/components/Footer";
-import clsx from "clsx";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Script from "next/script";
+import { fonts } from "@/lib/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const poppins = Poppins({
-  weight: ["600", "700", "800"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-});
-const inter = Inter({
-  weight: ["300", "400", "600", "700"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 const name = "Ledgity DeFi";
 const description =
@@ -74,7 +58,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
     <>
       <html lang="en">
         <CardsHelper />
-        <body className={clsx(`${inter.variable} ${poppins.variable}`, "")}>
+        <body className={fonts}>
           <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">
             <Header />
             <main>{children}</main>
