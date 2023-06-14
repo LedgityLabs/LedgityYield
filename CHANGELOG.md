@@ -1,3 +1,15 @@
+## [1.62.2](https://github.com/ledgity-labs/dapp/compare/v1.62.1...v1.62.2) (2023-06-14)
+
+
+### Others
+
+* **deps:** update react monorepo ([667a8b8](https://github.com/ledgity-labs/dapp/commit/667a8b8600a10b664a1f3335cb3f1420978d2471))
+
+
+### Fixes
+
+* remove old version of LToken contract ([af44a2b](https://github.com/ledgity-labs/dapp/commit/af44a2b5261229016f3ac83daf3e5d342b91a25d))
+
 ## [1.62.1](https://github.com/ledgity-labs/dapp/compare/v1.62.0...v1.62.1) (2023-06-12)
 
 
