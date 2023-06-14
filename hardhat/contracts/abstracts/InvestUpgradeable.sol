@@ -149,7 +149,9 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         uint256 growthUD3 = (elapsedYearsUD3 * aprUD3) / UDS3.scaleUp(100);
 
         // Calculate and return rewards
-        rewards = toDecimals(100) / (depositedAmount * ud3ToDecimals(growthUD3));
+        uint rewardsUDS3 = (UDS3.scaleUp(depositedAmount) * toDecimals(growthUD3)) /
+            UDS3.scaleUp(toDecimals(100));
+        rewards = UDS3.scaleDown(rewardsUDS3);
     }
 
     /**

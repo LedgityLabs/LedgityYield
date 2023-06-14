@@ -8,9 +8,5 @@ const nextConfig = {
   experimental: {
     typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
   },
-  experimental: {
-    // Offload and execute scripts in a web worker with Partytown
-    nextScriptWorkers: true,
-  },
 };
 export default nextConfig;
