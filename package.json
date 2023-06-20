@@ -41,7 +41,7 @@
     "conventional-changelog-conventionalcommits": "^6.1.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.43.0",
-    "eslint-config-next": "13.4.5",
+    "eslint-config-next": "13.4.6",
     "hardhat": "^2.15.0",
     "pino-pretty": "^10.0.0",
     "postcss": "8.4.24",
