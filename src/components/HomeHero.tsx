@@ -1,6 +1,6 @@
 "use client";
-import { FC, useLayoutEffect, useRef } from "react";
-import { Button, Scroller, Card, Cube, FadeIn } from "@/components/ui";
+import React, { FC, useLayoutEffect, useRef } from "react";
+import { Button, Scroller, Card, Cube } from "@/components/ui";
 import { clsx } from "clsx";
 import { gsap } from "@/lib/gsap";
 import { twMerge } from "tailwind-merge";
@@ -11,28 +11,29 @@ const HomeHero: FC<Props> = ({ className }) => {
   const heroSection = useRef(null);
 
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      if (window.innerWidth >= 640) {
+    if (window.innerWidth >= 640) {
+      const ctx = gsap.context(() => {
         gsap.to(heroSection.current, {
           yPercent: -40,
           opacity: 0,
           scale: 1.4,
           scrollTrigger: {
             trigger: heroSection.current,
-            start: "top top", // when the top of the trigger hits the top of the viewport
-            end: "80% top", // when the 80% from to of the trigger hits the top of the viewport
-            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+            start: "top top",
+            end: "80% top",
+            scrub: 1,
           },
         });
-      }
-    });
-    return () => ctx.revert(); // cleanup
+      });
+      return () => ctx.revert();
+    }
+    return () => {};
   });
 
   return (
     <section
       className={twMerge(
-        "relative min-h-[140vh]",
+        "relative min-h-[140vh] will-change-[transform,opacity]",
         "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_30%_bottom_0%]",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0",
@@ -41,7 +42,7 @@ const HomeHero: FC<Props> = ({ className }) => {
     >
       <div
         ref={heroSection}
-        className="relative flex -mt-[92px]  flex-col min-h-screen justify-center items-center gap-[7vh]"
+        className="relative flex -mt-[92px]  flex-col min-h-screen justify-center items-center gap-[7.5vh]"
       >
         <Cube size="tiny" className="right-12" />
         <Cube size="small" className="right-80 top-[35%] 2xl:block hidden" />
@@ -71,7 +72,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         </h2>
         <section>
           <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+            <Card className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 7%
               </p>
@@ -79,7 +80,10 @@ const HomeHero: FC<Props> = ({ className }) => {
                 APY
               </h3>
             </Card>
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+            <Card
+              defaultGradient={false}
+              className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
+            >
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 ±0.1%
               </p>
@@ -87,7 +91,7 @@ const HomeHero: FC<Props> = ({ className }) => {
                 1Y stability
               </h3>
             </Card>
-            <Card className="relative flex bg-bg/[0.85] lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+            <Card className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 $8k
               </p>
@@ -127,7 +131,7 @@ const HomeHero: FC<Props> = ({ className }) => {
             </Card>
           </div>
         </section>
-        <div className="flex flex-row flex-wrap px-8 justify-center items-center gap-8">
+        <div className="flex flex-row flex-wrap px-8 justify-center items-center gap-14">
           <Button
             size="large"
             data-tf-popup="J2ENFK9t"

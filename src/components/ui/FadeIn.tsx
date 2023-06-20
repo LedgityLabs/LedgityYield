@@ -8,8 +8,8 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
   const container = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      if (container.current && window.innerWidth >= 640) {
+    if (container.current && window.innerWidth >= 640) {
+      const ctx = gsap.context(() => {
         gsap.from(container.current, {
           y: "200px",
           scale: 1.4,
@@ -21,13 +21,14 @@ export const FadeIn: FC<FadeInProps> = ({ children, ...props }) => {
             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
           },
         });
-      }
-    });
-    return () => ctx.revert(); // cleanup
+      });
+      return () => ctx.revert();
+    }
+    return () => {};
   });
 
   return (
-    <div ref={container} className="" {...props}>
+    <div ref={container} className="will-change-[transform,opacity]" {...props}>
       {children}
     </div>
   );

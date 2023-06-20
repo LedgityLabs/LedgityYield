@@ -1,0 +1,135 @@
+"use client";
+/**
+ * This file initializes Wagmi and Web3Modal and exports a DApp component that should wrap the part of
+ * the app that requires access to Wagmi hooks and Connect Wallet button.
+ */
+import "@rainbow-me/rainbowkit/styles.css";
+import { env } from "../../env.mjs";
+import React, { FC } from "react";
+import merge from "lodash.merge";
+import { WagmiConfig, configureChains, createConfig } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import {
+  RainbowKitProvider,
+  lightTheme,
+  Theme,
+  AvatarComponent,
+  DisclaimerComponent,
+} from "@rainbow-me/rainbowkit";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  argentWallet,
+  bitskiWallet,
+  braveWallet,
+  coinbaseWallet,
+  dawnWallet,
+  ledgerWallet,
+  imTokenWallet,
+  metaMaskWallet,
+  okxWallet,
+  omniWallet,
+  phantomWallet,
+  rabbyWallet,
+  safeWallet,
+  tahoWallet,
+  trustWallet,
+  xdefiWallet,
+  zerionWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import { chains } from "@/lib/chains";
+import { DAppProvider } from "@/contexts";
+import { WalletAvatar } from "./WalletAvatar";
+
+//
+const projectId = env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+const connectors = connectorsForWallets([
+  {
+    groupName: "Popular",
+    wallets: [
+      metaMaskWallet({ projectId, chains }),
+      rainbowWallet({ projectId, chains }),
+      safeWallet({ chains }), //
+      ledgerWallet({ projectId, chains }),
+      trustWallet({ projectId, chains }),
+      phantomWallet({ chains }),
+      coinbaseWallet({ appName: "Ledgity DeFi", chains }),
+      braveWallet({ chains }),
+      argentWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
+      injectedWallet({ chains }),
+    ],
+  },
+  {
+    groupName: "Others",
+    wallets: [
+      okxWallet({ projectId, chains }),
+      bitskiWallet({ chains }),
+      dawnWallet({ chains }), //
+      imTokenWallet({ projectId, chains }),
+      omniWallet({ projectId, chains }),
+      rabbyWallet({ chains }),
+      tahoWallet({ chains }),
+      xdefiWallet({ chains }),
+      zerionWallet({ projectId, chains }),
+    ],
+  },
+]);
+
+// Retrieve public clients and setup Wagmi config
+const { publicClient, webSocketPublicClient } = configureChains(chains, [publicProvider()]);
+const config = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+  webSocketPublicClient,
+});
+
+// Built RainbowKit theme
+const ledgityTheme: Theme = merge(lightTheme(), {
+  colors: {
+    accentColor: "rgb(var(--primary-bg))",
+    accentColorForeground: "rgb(var(--primary-fg))",
+    profileForeground: "#eef2ff",
+  },
+  blurs: {
+    modalOverlay: "blur(5px)",
+  },
+  fonts: {
+    body: "var(--font-body)",
+  },
+} as Partial<Theme>);
+
+const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
+  <Text>
+    By connecting your wallet, you agree to <br />
+    our&nbsp;
+    <Link href="/legal/terms-of-service">Terms of Service</Link> and&nbsp;
+    <Link href="/legal/privacy-policy">Privacy Policy</Link>.
+  </Text>
+);
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export const DApp: FC<Props> = ({ children }) => {
+  return (
+    <WagmiConfig config={config}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={ledgityTheme}
+        avatar={WalletAvatar as AvatarComponent}
+        appInfo={{
+          appName: "Ledgity DeFi",
+          disclaimer: Disclaimer,
+        }}
+        showRecentTransactions={true}
+      >
+        <DAppProvider>{children}</DAppProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
+  );
+};

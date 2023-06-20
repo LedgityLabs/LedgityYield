@@ -7,18 +7,21 @@ export type CardRadius = (typeof cardRadiuses)[number];
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   radius?: CardRadius;
   defaultGradient?: boolean;
+  animated?: boolean;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, radius = "default", defaultGradient = false, ...props }, ref) => {
+  (
+    { className, children, radius = "default", defaultGradient = false, animated = true, ...props },
+    ref
+  ) => {
     return (
       <>
         <article
           className={twMerge(
-            !defaultGradient && "bg-card-border",
-            defaultGradient && "bg-card-border-default",
-            "card", // Used by <CardsHelper />
-            "shadow-slate-200 p-[2px] shadow-sm h-min",
+            animated && "card", // Used by <CardsHelper />
+            defaultGradient ? "bg-card-border-default" : "bg-card-border",
+            "shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-[2px] h-min ",
 
             // Radiuses
             {
@@ -29,8 +32,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         >
           <div
             className={twMerge(
-              "card", // Used by <CardsHelper />
-              "bg-indigo-50 bg-opacity-90",
+              animated && "card", // Used by <CardsHelper />
+              "bg-bg",
 
               // Radiuses
               {

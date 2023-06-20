@@ -1,19 +1,19 @@
 import clsx from "clsx";
 import { Poppins, Inter } from "next/font/google";
 
-const poppins = Poppins({
+const headingFont = Poppins({
   weight: ["600", "700", "800"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-poppins",
+  variable: "--font-heading",
 });
-const inter = Inter({
-  weight: ["300", "400", "600", "700"],
+const bodyFont = Inter({
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-body",
 });
 
-export const fonts = clsx(poppins.variable, inter.variable);
+export const fonts = clsx(headingFont.variable, bodyFont.variable);

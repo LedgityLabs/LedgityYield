@@ -19,7 +19,7 @@ export const Scroller: FC<ScrollerProps> = ({ className, ...props }) => {
   return (
     <div
       style={{ opacity: opacity }}
-      className={twMerge("border-4 rounded-lg border-fg/50 border-solid h-10 w-6 p-1", className)}
+      className={twMerge("border-4 rounded-3xl border-fg/50 border-solid h-10 w-6 p-1", className)}
       {...props}
     >
       <div className="animate-roll bg-fg/60 w-2 h-2 rounded-full"></div>

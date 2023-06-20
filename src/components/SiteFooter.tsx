@@ -1,14 +1,10 @@
 "use client";
 import { FC } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Logo from "./Logo";
-import { FadeIn } from "./ui";
 
-const Footer: FC = () => {
-  const path = usePathname();
-  if (path.startsWith("/app")) return null;
+const SiteFooter: FC = () => {
   return (
     <footer
       className={clsx(
@@ -19,12 +15,12 @@ const Footer: FC = () => {
         <article className="text-bg flex lg:justify-start justify-center items-center lg:row-start-1 row-start-3">
           <ul className="flex xl:gap-8 gap-6">
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
-              <Link href="" target="_blank" className="whitespace-nowrap">
+              <Link href="/" target="_blank" className="whitespace-nowrap">
                 Terms & Conditions
               </Link>
             </li>
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
-              <Link href="" target="_blank" className="whitespace-nowrap">
+              <Link href="/" target="_blank" className="whitespace-nowrap">
                 Privacy Policy
               </Link>
             </li>
@@ -121,4 +117,4 @@ const Footer: FC = () => {
     </footer>
   );
 };
-export default Footer;
+export default SiteFooter;

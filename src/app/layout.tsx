@@ -1,12 +1,11 @@
 import "@/styles/globals.css";
+import "remixicon/fonts/remixicon.css";
 import { type NextPage } from "next";
-import Header from "@/components/Header";
 import { CardsHelper } from "@/components/ui";
-import Footer from "@/components/Footer";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Script from "next/script";
 import { fonts } from "@/lib/fonts";
+import { set } from "zod";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +16,7 @@ export const metadata = {
   applicationName: name,
   referrer: "origin",
   title: {
-    template: `${name} | %s`,
+    template: `${name} • %s`,
     default: "Untitled Page",
   },
   colorScheme: "light",
@@ -55,19 +54,12 @@ interface Props {
 
 const RootLayout: NextPage<Props> = ({ children }) => {
   return (
-    <>
-      <html lang="en">
-        <CardsHelper />
-        <body className={fonts}>
-          <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <Script src="//embed.typeform.com/next/embed.js" defer async></Script>
-          </div>
-        </body>
-      </html>
-    </>
+    <html lang="en">
+      <CardsHelper />
+      <body className={fonts}>
+        <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">{children}</div>
+      </body>
+    </html>
   );
 };
 

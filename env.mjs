@@ -8,10 +8,12 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_THEGRAPH_API_KEY: z.string().min(1),
+    NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),
   },
   runtimeEnv: {
     SCORECHAIN_API_URL: process.env.SCORECHAIN_API_URL,
     SCORECHAIN_API_KEY: process.env.SCORECHAIN_API_KEY,
     NEXT_PUBLIC_THEGRAPH_API_KEY: process.env.NEXT_PUBLIC_THEGRAPH_API_KEY,
+    NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
   },
 });

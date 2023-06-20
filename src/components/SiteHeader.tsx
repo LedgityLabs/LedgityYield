@@ -1,15 +1,12 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui";
-import { usePathname } from "next/navigation";
-import { clsx } from "clsx";
 import Logo from "./Logo";
+import { twMerge } from "tailwind-merge";
 
-const Header: FC = () => {
-  const path = usePathname();
+const SiteHeader: FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => setScrollY(window.scrollY);
-
   useEffect(() => {
     handleScroll();
     document.addEventListener("scroll", handleScroll);
@@ -19,15 +16,13 @@ const Header: FC = () => {
   return (
     <header className="pb-[92px] relative z-50">
       <nav
-        className={clsx(
-          "fixed flex sm:justify-between justify-center items-center px-8 py-6 w-screen sm:backdrop-blur-md",
+        className={twMerge(
+          "fixed flex items-center px-8 py-6 w-screen sm:backdrop-blur-md sm:justify-between justify-center",
           scrollY > 0 && "backdrop-blur-md"
         )}
       >
         <Logo />
-
-        {!path.startsWith("/app") && (
-          // <Link href="/app" className="sm:block hidden">
+        <div className="flex gap-6">
           <Button
             data-tf-popup="J2ENFK9t"
             data-tf-opacity="100"
@@ -40,10 +35,12 @@ const Header: FC = () => {
           >
             Enter app
           </Button>
-          // </Link>
-        )}
+          <Button className="flex justify-center items-center font-bold w-12" variant="outline">
+            <i className="ri-more-2-fill text-2xl "></i>
+          </Button>
+        </div>
       </nav>
     </header>
   );
 };
-export default Header;
+export default SiteHeader;
