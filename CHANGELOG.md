@@ -1,3 +1,15 @@
+## [1.63.0](https://github.com/ledgity-labs/dapp/compare/v1.62.2...v1.63.0) (2023-06-20)
+
+
+### Features
+
+* a ton of updates, see long description ([4684576](https://github.com/ledgity-labs/dapp/commit/46845761fec0b9577b259f303b1ef523a381219a))
+
+
+### Others
+
+* move fonts declarations to their own file ([a7c797a](https://github.com/ledgity-labs/dapp/commit/a7c797a2dcb5be3dce81ff81a2f949443947002b))
+
 ## [1.62.2](https://github.com/ledgity-labs/dapp/compare/v1.62.1...v1.62.2) (2023-06-14)
 
 
