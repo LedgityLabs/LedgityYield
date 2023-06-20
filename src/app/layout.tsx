@@ -13,6 +13,7 @@ const name = "Ledgity DeFi";
 const description =
   "Earn up to 7% APY on your stablecoins backed by Real World Assets (RWA). Access low-risk & stable yield directly from your wallet.";
 export const metadata = {
+  metadataBase: new URL("https://ledgity.finance"),
   applicationName: name,
   referrer: "origin",
   title: {
@@ -22,7 +23,7 @@ export const metadata = {
   colorScheme: "light",
   themeColor: "rgb(var(--bg))",
   description: description,
-  keywords: ["stablecoins", "yield", "DeFi", "crypto", "rwa", "real world assets"],
+  keywords: ["stablecoins", "yield", "DeFi", "crypto", "rwa", "real world assets", "CeFi"],
   viewport: {
     width: "device-width",
     initialScale: 1,
