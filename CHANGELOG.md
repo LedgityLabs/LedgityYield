@@ -1,3 +1,15 @@
+## [1.64.0](https://github.com/ledgity-labs/dapp/compare/v1.63.1...v1.64.0) (2023-06-21)
+
+
+### Features
+
+* create a LazyDApp component that prevents preloading of DApp from other layouts ([ff65d4f](https://github.com/ledgity-labs/dapp/commit/ff65d4f6ba4cf71084e48dd630418863c3af96b9))
+
+
+### Fixes
+
+* add missing NextJS metadataBase url ([9dc1bf5](https://github.com/ledgity-labs/dapp/commit/9dc1bf52bbd881123b3bc65b0033b85ee2c95acc))
+
 ## [1.63.1](https://github.com/ledgity-labs/dapp/compare/v1.63.0...v1.63.1) (2023-06-20)
 
 
