@@ -16,7 +16,7 @@ const AppLayout: NextPage<Props> = async ({ children }) => {
     <LazyDApp>
       <AppHeader />
       <main>{children}</main>
-      <AppFooter />
+      {/* <AppFooter /> */}
     </LazyDApp>
   );
 };

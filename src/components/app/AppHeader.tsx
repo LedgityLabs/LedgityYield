@@ -5,7 +5,7 @@ import { ConnectButton } from "@/components/app/ConnectButton";
 
 const AppHeader: FC = () => {
   return (
-    <header className="pb-[92px] relative z-50">
+    <header className="pb-[97px] relative z-50">
       <nav className="fixed flex items-center px-6 py-6 w-screen sm:backdrop-blur-md justify-between">
         <Logo className="flex [@media(max-width:500px)]:hidden ml-2" />
         <Logo className="[@media(max-width:500px)]:flex hidden ml-2" noText={true} />

@@ -14,7 +14,7 @@ const SiteHeader: FC = () => {
   });
 
   return (
-    <header className="pb-[92px] relative z-50">
+    <header className="pb-[97px] relative z-50">
       <nav
         className={twMerge(
           "fixed flex items-center px-6 py-6 w-screen sm:backdrop-blur-md sm:justify-between justify-center",
