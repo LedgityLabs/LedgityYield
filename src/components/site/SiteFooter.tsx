@@ -1,8 +1,7 @@
-"use client";
 import { FC } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import Logo from "./Logo";
+import Logo from "../ui/Logo";
 
 const SiteFooter: FC = () => {
   return (

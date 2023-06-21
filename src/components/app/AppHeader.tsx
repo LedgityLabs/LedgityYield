@@ -1,8 +1,7 @@
-"use client";
 import { FC } from "react";
 import { Button } from "@/components/ui";
-import Logo from "./Logo";
-import { ConnectButton } from "@/components/ConnectButton";
+import Logo from "@/components/ui/Logo";
+import { ConnectButton } from "@/components/app/ConnectButton";
 
 const AppHeader: FC = () => {
   return (

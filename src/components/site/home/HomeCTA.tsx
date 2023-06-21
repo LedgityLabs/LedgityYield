@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, Card, Cube, FadeIn } from "./ui";
+import { Button, Cube, FadeIn } from "@/components/ui";
 
 const HomeCTA: FC = () => {
   return (

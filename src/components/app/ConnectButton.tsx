@@ -1,3 +1,4 @@
+"use client";
 import {
   ConnectButton as _ConnectButton,
   useAccountModal,
@@ -6,7 +7,7 @@ import {
 import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
 import { chains, chainsIcons } from "@/lib/chains";
-import { WalletAvatar } from "@/components/WalletAvatar";
+import { WalletAvatar } from "./WalletAvatar";
 import clsx from "clsx";
 import { useDApp } from "@/hooks";
 import { Button } from "@/components/ui";

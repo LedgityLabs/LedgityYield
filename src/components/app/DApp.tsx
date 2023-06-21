@@ -1,10 +1,9 @@
-"use client";
 /**
  * This file initializes Wagmi and Web3Modal and exports a DApp component that should wrap the part of
  * the app that requires access to Wagmi hooks and Connect Wallet button.
  */
 import "@rainbow-me/rainbowkit/styles.css";
-import { env } from "../../env.mjs";
+import { env } from "../../../env.mjs";
 import React, { FC } from "react";
 import merge from "lodash.merge";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";

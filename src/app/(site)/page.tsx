@@ -1,15 +1,15 @@
 import { type NextPage } from "next";
-import HomeHero from "@/components/HomeHero";
-import HomePartners from "@/components/HomePartners";
-import HomeHowItWorks from "@/components/HomeHowItWorks";
-import HomeFeatures from "@/components/HomeFeatures";
-import HomeCTA from "@/components/HomeCTA";
+import HomeHero from "@/components/site/home/HomeHero";
+import HomePartners from "@/components/site/home/HomePartners";
+import HomeHowItWorks from "@/components/site/home/HomeHowItWorks";
+import HomeFeatures from "@/components/site/home/HomeFeatures";
+import HomeCTA from "@/components/site/home/HomeCTA";
 
 export const metadata = {
   title: "Stable Yield For Stablecoins",
 };
 
-const Page: NextPage = () => {
+const Page: NextPage = async () => {
   return (
     <>
       <HomeHero className="absolute top-0 left-0 right-0 h-screen bottom-" />

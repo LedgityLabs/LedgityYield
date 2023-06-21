@@ -1,7 +1,7 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import { Button } from "@/components/ui";
-import Logo from "./Logo";
+import Logo from "@/components/ui/Logo";
 import { twMerge } from "tailwind-merge";
 
 const SiteHeader: FC = () => {

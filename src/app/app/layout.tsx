@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
-import AppHeader from "@/components/AppHeader";
-import AppFooter from "@/components/AppFooter";
-import { LazyDApp } from "@/components/LazyDApp";
+import AppHeader from "@/components/app/AppHeader";
+import AppFooter from "@/components/app/AppFooter";
+import { LazyDApp } from "@/components/app/LazyDApp";
 
 interface Props {
   children: React.ReactNode;

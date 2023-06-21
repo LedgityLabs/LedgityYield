@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { Cube, FadeIn } from "./ui";
+import { Cube, FadeIn } from "@/components/ui";
 import Link from "next/link";
 import foundersoneLogo from "~/assets/partners/foundersone.png";
 import delubacLogo from "~/assets/partners/delubac.png";
