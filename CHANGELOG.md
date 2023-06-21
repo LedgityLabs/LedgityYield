@@ -1,3 +1,11 @@
+## [1.66.0](https://github.com/ledgity-labs/dapp/compare/v1.65.0...v1.66.0) (2023-06-21)
+
+
+### Features
+
+* **app:** first structure of invest tab + cleaner rewrite of Card component ([bdffbe4](https://github.com/ledgity-labs/dapp/commit/bdffbe4ba4334cd3b8187bcb0454d94dccda573d))
+* create 3 empty components for the 3 app's tabs + implement those in the app page.tsx ([7a4b279](https://github.com/ledgity-labs/dapp/commit/7a4b279e607c42fef969dda7ffac8577bca3dd5d))
+
 ## [1.65.0](https://github.com/ledgity-labs/dapp/compare/v1.64.1...v1.65.0) (2023-06-21)
 
 
