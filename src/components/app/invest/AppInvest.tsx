@@ -14,6 +14,7 @@ import usdcTokenLogo from "~/assets/tokens/usdc.png";
 import eurocTokenLogo from "~/assets/tokens/euroc.png";
 import { twMerge } from "tailwind-merge";
 import * as d3 from "d3-format";
+import clsx from "clsx";
 
 const tokensLogos = {
   USDC: usdcTokenLogo,
@@ -124,7 +125,7 @@ export const AppInvest: FC = () => {
           </Card>
         </article>
         <article className="col-span-3">
-          <div className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] font-semibold mb-3 px-3 text-fg/80">
+          <div className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] font-semibold mb-3 px-6 text-fg/80">
             {headerGroup.headers.map((header, index) => {
               return (
                 <div
@@ -132,7 +133,10 @@ export const AppInvest: FC = () => {
                   style={{
                     gridColumnStart: index + 1,
                   }}
-                  className="flex justify-center items-center"
+                  className={twMerge(
+                    "flex justify-center items-center",
+                    header.column.id === "name" && "justify-start pl-6"
+                  )}
                 >
                   {(() => {
                     const content = flexRender(header.column.columnDef.header, header.getContext());
@@ -178,7 +182,6 @@ export const AppInvest: FC = () => {
                     key={cell.id}
                     className={twMerge(
                       "flex items-center",
-                      cell.column.id !== "name" && "justify-center",
                       cell.column.id !== "name" && "justify-center",
                       cell.column.id === "actions" && "justify-end",
                       cell.column.id === "apy" && "text-indigo-800 font-bold"
