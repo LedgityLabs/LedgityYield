@@ -1,3 +1,10 @@
+## [1.64.1](https://github.com/ledgity-labs/dapp/compare/v1.64.0...v1.64.1) (2023-06-21)
+
+
+### Fixes
+
+* **home:** fix more button position on xs screens ([017770b](https://github.com/ledgity-labs/dapp/commit/017770b2992442306596176691779f704634b763))
+
 ## [1.64.0](https://github.com/ledgity-labs/dapp/compare/v1.63.1...v1.64.0) (2023-06-21)
 
 
