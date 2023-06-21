@@ -1,3 +1,15 @@
+## [1.65.0](https://github.com/ledgity-labs/dapp/compare/v1.64.1...v1.65.0) (2023-06-21)
+
+
+### Features
+
+* **app:** new Tabs component + implements app tabs and temporarily hide app footer ([f802834](https://github.com/ledgity-labs/dapp/commit/f8028347efc243140a96e9e338db48056a1bb605))
+
+
+### Others
+
+* re-organize components/ folder and prepare folders and file for the app + fix app loader ([60bb301](https://github.com/ledgity-labs/dapp/commit/60bb30105d71a1877875fc81fd53f305badba293))
+
 ## [1.64.1](https://github.com/ledgity-labs/dapp/compare/v1.64.0...v1.64.1) (2023-06-21)
 
 
