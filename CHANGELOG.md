@@ -1,3 +1,17 @@
+## [1.63.1](https://github.com/ledgity-labs/dapp/compare/v1.63.0...v1.63.1) (2023-06-20)
+
+
+### Fixes
+
+* **ci:** remove changed files check ([5bb4ec1](https://github.com/ledgity-labs/dapp/commit/5bb4ec15b2885975bf2caead04feedfc88e9a535))
+
+
+### Others
+
+* **deps:** update dependency eslint to v8.43.0 ([01b73f4](https://github.com/ledgity-labs/dapp/commit/01b73f4ccca75eeb6e4cb53b08244e28e9310d08))
+* **deps:** update dependency eslint-config-next to v13.4.6 ([b150ae0](https://github.com/ledgity-labs/dapp/commit/b150ae09d1013d9b1300f61368f71dac47a25aea))
+* **deps:** update react monorepo ([ddb116e](https://github.com/ledgity-labs/dapp/commit/ddb116e947b45fb4edcb4c48396a58048006cf95))
+
 ## [1.63.0](https://github.com/ledgity-labs/dapp/compare/v1.62.2...v1.63.0) (2023-06-20)
 
 
