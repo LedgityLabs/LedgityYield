@@ -17,12 +17,12 @@ const SiteHeader: FC = () => {
     <header className="pb-[92px] relative z-50">
       <nav
         className={twMerge(
-          "fixed flex items-center px-8 py-6 w-screen sm:backdrop-blur-md sm:justify-between justify-center",
+          "fixed flex items-center px-6 py-6 w-screen sm:backdrop-blur-md sm:justify-between justify-center",
           scrollY > 0 && "backdrop-blur-md"
         )}
       >
-        <Logo />
-        <div className="flex gap-6">
+        <Logo className="sm:ml-0 ml-2" />
+        <div className="static flex gap-6">
           <Button
             data-tf-popup="J2ENFK9t"
             data-tf-opacity="100"
@@ -35,7 +35,10 @@ const SiteHeader: FC = () => {
           >
             Enter app
           </Button>
-          <Button className="flex justify-center items-center font-bold w-12" variant="outline">
+          <Button
+            className="flex justify-center items-center font-bold w-12 sm:static absolute top-6 right-6"
+            variant="outline"
+          >
             <i className="ri-more-2-fill text-2xl "></i>
           </Button>
         </div>
