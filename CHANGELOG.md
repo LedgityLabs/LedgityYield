@@ -1,3 +1,11 @@
+## [1.67.0](https://github.com/ledgity-labs/dapp/compare/v1.66.1...v1.67.0) (2023-06-21)
+
+
+### Features
+
+* **app:** base desktop layouts for dashboard and staking tabs ([448f04f](https://github.com/ledgity-labs/dapp/commit/448f04fdd212b4b398b50bf11b1209d1fdb7264f))
+* **app:** start populating the staking tab ([c81f1e1](https://github.com/ledgity-labs/dapp/commit/c81f1e1fef771747c02de99cef53edf7af6ba2fd))
+
 ## [1.66.1](https://github.com/ledgity-labs/dapp/compare/v1.66.0...v1.66.1) (2023-06-21)
 
 
