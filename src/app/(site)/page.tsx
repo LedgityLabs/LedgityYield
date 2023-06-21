@@ -9,7 +9,7 @@ export const metadata = {
   title: "Stable Yield For Stablecoins",
 };
 
-const Page: NextPage = async () => {
+const Page: NextPage = () => {
   return (
     <>
       <HomeHero className="absolute top-0 left-0 right-0 h-screen bottom-" />

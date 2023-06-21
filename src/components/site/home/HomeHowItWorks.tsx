@@ -15,7 +15,7 @@ const HomeHowItWorks: FC = () => {
               <div className="absolute -left-4 -top-5">
                 <Card
                   radius="full"
-                  className="text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
+                  className="text-xl h-10 w-10 before:bg-card-border-default rounded-full flex justify-center items-center"
                 >
                   <span className="text-primary-fg font-bold">1</span>
                 </Card>
@@ -31,7 +31,7 @@ const HomeHowItWorks: FC = () => {
               <div className="absolute -left-4 -top-5">
                 <Card
                   radius="full"
-                  className="text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
+                  className="text-xl h-10 w-10 before:bg-card-border-default rounded-full flex justify-center items-center"
                 >
                   <span className="text-primary-fg font-bold">2</span>
                 </Card>
@@ -47,7 +47,7 @@ const HomeHowItWorks: FC = () => {
               <div className="absolute -left-4 -top-5">
                 <Card
                   radius="full"
-                  className=" text-xl h-10 w-10 bg-card-border-default rounded-full flex justify-center items-center"
+                  className=" text-xl h-10 w-10 before:bg-card-border-default rounded-full flex justify-center items-center"
                 >
                   <span className="text-primary-fg font-bold">3</span>
                 </Card>

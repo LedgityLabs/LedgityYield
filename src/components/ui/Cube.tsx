@@ -38,7 +38,7 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
       <Card
         defaultGradient={true}
         className={twMerge(
-          "opacity-[28%]",
+          "before:opacity-[28%]",
           {
             tiny: "w-24 h-24",
             small: "w-32 h-32",

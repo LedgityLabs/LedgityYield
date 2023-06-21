@@ -11,7 +11,7 @@ export const metadata = {
   title: "App",
 };
 
-const AppLayout: NextPage<Props> = async ({ children }) => {
+const AppLayout: NextPage<Props> = ({ children }) => {
   return (
     <LazyDApp>
       <AppHeader />

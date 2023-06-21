@@ -12,7 +12,7 @@ const HomeFeatures: FC = () => {
         <div className="flex flex-wrap justify-center gap-12 px-8 max-w-[calc(24rem*3+3rem*3+2*2rem)]">
           <Card
             defaultGradient={true}
-            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Long term stability
@@ -33,7 +33,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               High efficiency
@@ -54,7 +54,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Diversification
@@ -75,7 +75,7 @@ const HomeFeatures: FC = () => {
 
           <Card
             defaultGradient={true}
-            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Multi-chains
@@ -96,7 +96,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               No liquidation
@@ -116,7 +116,7 @@ const HomeFeatures: FC = () => {
           </Card>
           <Card
             defaultGradient={true}
-            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative opacity-90"
+            className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
             <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
               Analytics

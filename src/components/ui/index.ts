@@ -6,3 +6,4 @@ export * from "./Cube";
 export * from "./FadeIn";
 export * from "./Select";
 export * from "./Tabs";
+export * from "./Table";

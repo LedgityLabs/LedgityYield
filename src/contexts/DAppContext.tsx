@@ -28,7 +28,7 @@ interface DAppProviderProps {
   children?: React.ReactNode;
 }
 
-export const DAppProvider: FC<DAppProviderProps> = async ({ children }) => {
+export const DAppProvider: FC<DAppProviderProps> = ({ children }) => {
   // Initialize network state
   const [walletClient, setWalletClient] = useState<WalletClient | null>();
   const __chain = getNetwork().chain;

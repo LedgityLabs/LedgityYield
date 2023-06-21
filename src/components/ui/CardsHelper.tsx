@@ -20,9 +20,15 @@ export const CardsHelper: FC = () => {
 
   useEffect(() => {
     if (window.innerWidth >= 640) {
-      cards.current = document.querySelectorAll<HTMLDivElement>(".card");
+      const tim = setInterval(() => {
+        cards.current = document.querySelectorAll<HTMLDivElement>(".card");
+      }, 1000);
       document.body.addEventListener("mousemove", handleMouseMove);
-      return () => document.body.removeEventListener("mousemove", handleMouseMove);
+
+      return () => {
+        document.body.removeEventListener("mousemove", handleMouseMove);
+        clearInterval(tim);
+      };
     }
   }, [path]);
   return null;

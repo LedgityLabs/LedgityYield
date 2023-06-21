@@ -7,8 +7,8 @@ import { type NextPage } from "next";
 
 const Page: NextPage = () => {
   return (
-    <Tabs defaultValue="invest" className="flex flex-col justify-center w-screen items-center">
-      <TabsList>
+    <Tabs defaultValue="invest" className="flex flex-col gap-10 justify-center w-screen items-center">
+      <TabsList className="mt-16 mb-6">
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="invest">Invest</TabsTrigger>
         <TabsTrigger value="staking">Staking</TabsTrigger>
