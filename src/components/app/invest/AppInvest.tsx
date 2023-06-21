@@ -153,9 +153,9 @@ export const AppInvest: FC = () => {
                             {(() => {
                               switch (header.column.getIsSorted()) {
                                 case "asc":
-                                  return <i className="ri-sort-asc"></i>;
-                                case "desc":
                                   return <i className="ri-sort-desc"></i>;
+                                case "desc":
+                                  return <i className="ri-sort-asc"></i>;
                                 default:
                                   return <i className="ri-expand-up-down-fill"></i>;
                               }
