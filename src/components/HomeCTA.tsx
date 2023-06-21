@@ -9,7 +9,6 @@ const HomeCTA: FC = () => {
         <h3 className="text-center font-semibold text-4xl pb-16 px-10 font-heading ">
           Ready to get <span className="whitespace-nowrap">started ?</span>
         </h3>
-        {/* <Link href="/app"> */}
         <Button
           data-tf-popup="J2ENFK9t"
           data-tf-opacity="100"
@@ -21,7 +20,6 @@ const HomeCTA: FC = () => {
         >
           Take me to the app
         </Button>
-        {/* </Link> */}
       </section>
     </FadeIn>
   );

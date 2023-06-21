@@ -9,7 +9,6 @@ import {
   watchWalletClient,
   watchNetwork,
 } from "@wagmi/core";
-import { useMounted } from "@/hooks";
 
 interface Chain extends _Chain {
   unsupported?: boolean | undefined;
@@ -30,9 +29,6 @@ interface DAppProviderProps {
 }
 
 export const DAppProvider: FC<DAppProviderProps> = async ({ children }) => {
-  // Retrieve mounted state
-  const mounted = useMounted();
-
   // Initialize network state
   const [walletClient, setWalletClient] = useState<WalletClient | null>();
   const __chain = getNetwork().chain;
@@ -43,7 +39,6 @@ export const DAppProvider: FC<DAppProviderProps> = async ({ children }) => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (!mounted) return;
     getWalletClient().then((w) => {
       setWalletClient(w);
       setInitialized(true);
@@ -55,7 +50,7 @@ export const DAppProvider: FC<DAppProviderProps> = async ({ children }) => {
       unwatch1();
       unwatch2();
     };
-  }, [mounted]);
+  }, []);
 
   const handleChange = async (_network: number = 0) => {
     const _walletClient = await getWalletClient();

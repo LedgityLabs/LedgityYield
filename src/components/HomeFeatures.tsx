@@ -136,7 +136,6 @@ const HomeFeatures: FC = () => {
             </p>
           </Card>
         </div>
-        {/* <Link href="/app"> */}
         <Button
           data-tf-popup="J2ENFK9t"
           data-tf-opacity="100"
@@ -149,7 +148,6 @@ const HomeFeatures: FC = () => {
         >
           Browse available yields
         </Button>
-        {/* </Link> */}
       </section>
     </FadeIn>
   );

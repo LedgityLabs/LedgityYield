@@ -5,7 +5,6 @@ import { CardsHelper } from "@/components/ui";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fonts } from "@/lib/fonts";
-import { set } from "zod";
 
 gsap.registerPlugin(ScrollTrigger);
 

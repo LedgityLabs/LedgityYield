@@ -63,7 +63,6 @@ const HomeHowItWorks: FC = () => {
           <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-slate-300">
             Want to learn more ?
           </p>
-          {/* <Link href="/"> */}
           <Button
             data-tf-popup="J2ENFK9t"
             data-tf-opacity="100"
@@ -76,7 +75,6 @@ const HomeHowItWorks: FC = () => {
           >
             Read our whitepaper
           </Button>
-          {/* </Link> */}
         </div>
       </section>
     </FadeIn>

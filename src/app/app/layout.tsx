@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import AppHeader from "@/components/AppHeader";
 import AppFooter from "@/components/AppFooter";
-import { DApp } from "@/components/DApp";
+import { LazyDApp } from "@/components/LazyDApp";
 
 interface Props {
   children: React.ReactNode;
@@ -11,15 +11,13 @@ export const metadata = {
   title: "App",
 };
 
-const AppLayout: NextPage<Props> = ({ children }) => {
+const AppLayout: NextPage<Props> = async ({ children }) => {
   return (
-    <>
-      <DApp>
-        <AppHeader />
-        <main>{children}</main>
-        <AppFooter />
-      </DApp>
-    </>
+    <LazyDApp>
+      <AppHeader />
+      <main>{children}</main>
+      <AppFooter />
+    </LazyDApp>
   );
 };
 

@@ -10,13 +10,13 @@ import merge from "lodash.merge";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import {
-  RainbowKitProvider,
   lightTheme,
-  Theme,
-  AvatarComponent,
-  DisclaimerComponent,
+  type Theme,
+  connectorsForWallets,
+  type AvatarComponent,
+  type DisclaimerComponent,
+  RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   injectedWallet,
   rainbowWallet,
@@ -133,3 +133,4 @@ export const DApp: FC<Props> = ({ children }) => {
     </WagmiConfig>
   );
 };
+export default DApp;
