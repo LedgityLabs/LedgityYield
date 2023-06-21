@@ -1,3 +1,6 @@
+import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
+import { AppInvest } from "@/components/app/invest/AppInvest";
+import { AppStaking } from "@/components/app/staking/AppStaking";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 
 import { type NextPage } from "next";
@@ -10,14 +13,14 @@ const Page: NextPage = () => {
         <TabsTrigger value="invest">Invest</TabsTrigger>
         <TabsTrigger value="staking">Staking</TabsTrigger>
       </TabsList>
-      <TabsContent value="dashboard" className="flex justify-center">
-        <p className="mt-8">DASHBOARD</p>
+      <TabsContent value="dashboard">
+        <AppDashboard />
       </TabsContent>
-      <TabsContent value="invest" className="flex justify-center">
-        <p className="mt-8">INVEST</p>
+      <TabsContent value="invest">
+        <AppInvest />
       </TabsContent>
-      <TabsContent value="staking" className="flex justify-center">
-        <p className="mt-8">STAKING</p>
+      <TabsContent value="staking">
+        <AppStaking />
       </TabsContent>
     </Tabs>
   );
