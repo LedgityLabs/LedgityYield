@@ -32,7 +32,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={twMerge(
           animated && "card", // Used by <CardsHelper />
           defaultGradient ? "bg-card-border-default" : "bg-card-border",
-          "relative shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-[2px] h-min",
+          "relative shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-[2px]",
           "before:absolute before:inset-[2px] before:-z-1",
           defaultGradient ? "before:bg-card-content-default" : "before:bg-card-content",
 

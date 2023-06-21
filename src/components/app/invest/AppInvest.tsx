@@ -67,11 +67,11 @@ export const AppInvest: FC = () => {
       header: "APY",
     }),
     columnHelper.accessor("tvl", {
-      cell: (info) => d3.format(".2s")(info.getValue()),
+      cell: (info) => d3.format(".3s")(info.getValue()),
       header: "TVL",
     }),
     columnHelper.accessor("invested", {
-      cell: (info) => d3.format(".2s")(info.getValue()),
+      cell: (info) => d3.format(".3s")(info.getValue()),
 
       header: "Invested",
     }),
@@ -107,7 +107,7 @@ export const AppInvest: FC = () => {
   const headerGroup = table.getHeaderGroups()[0];
 
   return (
-    <div className="flex flex-col justify-center items-center w-[50vw] min-w-[900px]">
+    <div className="flex flex-col justify-center items-center w-[900px]">
       <section className="grid grid-cols-3 w-full gap-10 mb-10">
         <article>
           <Card className="h-52 flex justify-center items-center">
