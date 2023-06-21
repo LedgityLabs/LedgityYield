@@ -1,3 +1,10 @@
+## [1.66.1](https://github.com/ledgity-labs/dapp/compare/v1.66.0...v1.66.1) (2023-06-21)
+
+
+### Fixes
+
+* **app:** alignment adjustments on invest tab ([dc24e0f](https://github.com/ledgity-labs/dapp/commit/dc24e0f95875ce03fc03157d54c7d39a8df9681b))
+
 ## [1.66.0](https://github.com/ledgity-labs/dapp/compare/v1.65.0...v1.66.0) (2023-06-21)
 
 
