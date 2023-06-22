@@ -1,3 +1,10 @@
+## [1.68.0](https://github.com/ledgity-labs/dapp/compare/v1.67.0...v1.68.0) (2023-06-22)
+
+
+### Features
+
+* **app:** populate stats boxes, empty titles and coming soon charts in the app ([3881d86](https://github.com/ledgity-labs/dapp/commit/3881d86f6548db899122394cb68bedfab6760468))
+
 ## [1.67.0](https://github.com/ledgity-labs/dapp/compare/v1.66.1...v1.67.0) (2023-06-21)
 
 
