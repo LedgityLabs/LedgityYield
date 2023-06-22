@@ -1,3 +1,10 @@
+## [1.73.0](https://github.com/ledgity-labs/dapp/compare/v1.72.0...v1.73.0) (2023-06-22)
+
+
+### Features
+
+* adjust site's footer size on <xl screens + fix footer paddings ([ef2348a](https://github.com/ledgity-labs/dapp/commit/ef2348a18ce4e087a4a047001a25810eab0b7e64))
+
 ## [1.72.0](https://github.com/ledgity-labs/dapp/compare/v1.71.0...v1.72.0) (2023-06-22)
 
 
