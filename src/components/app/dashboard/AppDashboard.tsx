@@ -21,7 +21,7 @@ export const AppDashboard: FC = () => {
           Chart (coming soon)
         </div>
         <div className="flex flex-col gap-5 justify-center items center mt-10">
-          <div className="flex gap-3 justify-center items-center text-lg font-semibold">
+          <div className="flex gap-3 justify-center items-center text-base font-semibold">
             <p>Revenue ($)</p>
             <Switch />
             <p>Growth (%)</p>

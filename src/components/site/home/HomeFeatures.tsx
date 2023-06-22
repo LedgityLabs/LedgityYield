@@ -14,7 +14,7 @@ const HomeFeatures: FC = () => {
             defaultGradient={true}
             className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
-            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
+            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md p-1">
               Long term stability
             </h3>
             <div
@@ -26,7 +26,7 @@ const HomeFeatures: FC = () => {
                 WebkitMaskPosition: "top center",
               }}
             ></div>
-            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
               Benefit from stability of an institutional set up and a protocol backed by Real World
               Assets (RWA).
             </p>
@@ -35,7 +35,7 @@ const HomeFeatures: FC = () => {
             defaultGradient={true}
             className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
-            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
+            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md p-1">
               High efficiency
             </h3>
             <div
@@ -47,7 +47,7 @@ const HomeFeatures: FC = () => {
                 WebkitMaskPosition: "top center",
               }}
             ></div>
-            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
               Our team of experts provide financial engineering to achieve the best risk-adjusted return
               from RWA.
             </p>
@@ -56,7 +56,7 @@ const HomeFeatures: FC = () => {
             defaultGradient={true}
             className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
-            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
+            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md p-1">
               Diversification
             </h3>
             <div
@@ -68,7 +68,7 @@ const HomeFeatures: FC = () => {
                 WebkitMaskPosition: "top center",
               }}
             ></div>
-            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
               The collateralized portoflio of RWA is allocated accross hundreds of yield opportunities.
             </p>
           </Card>
@@ -77,7 +77,7 @@ const HomeFeatures: FC = () => {
             defaultGradient={true}
             className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
-            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
+            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md p-1">
               Multi-chains
             </h3>
             <div
@@ -89,7 +89,7 @@ const HomeFeatures: FC = () => {
                 WebkitMaskPosition: "top center",
               }}
             ></div>
-            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
               The protocol aims to be available on most EVM chains to bring stable yield to every
               stablecoin holders.
             </p>
@@ -98,7 +98,7 @@ const HomeFeatures: FC = () => {
             defaultGradient={true}
             className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
-            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
+            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md p-1">
               No liquidation
             </h3>
             <div
@@ -110,7 +110,7 @@ const HomeFeatures: FC = () => {
                 WebkitMaskPosition: "top center",
               }}
             ></div>{" "}
-            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
               Our protocol does not implement any liquidation mechanism and fees at borrowing time.
             </p>
           </Card>
@@ -118,7 +118,7 @@ const HomeFeatures: FC = () => {
             defaultGradient={true}
             className="w-96 max-w-[95vw] h-[360px] flex justify-between items-center flex-col overflow-hidden relative"
           >
-            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent p-1">
+            <h3 className="text-center text-fg/80 z-10 font-bold text-2xl font-heading absolute top-6 bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md p-1">
               Analytics
             </h3>
             <div
@@ -130,7 +130,7 @@ const HomeFeatures: FC = () => {
                 WebkitMaskPosition: "top center",
               }}
             ></div>
-            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent">
+            <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
               The app provides you with detailed charts and statistics about your investment and the
               protocol itself.
             </p>

@@ -72,7 +72,10 @@ const HomeHero: FC<Props> = ({ className }) => {
         </h2>
         <section>
           <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
-            <Card className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+            <Card
+              circleSize={150}
+              className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
+            >
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 7%
               </p>
@@ -81,6 +84,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               </h3>
             </Card>
             <Card
+              circleSize={150}
               defaultGradient={false}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
@@ -91,7 +95,10 @@ const HomeHero: FC<Props> = ({ className }) => {
                 1Y stability
               </h3>
             </Card>
-            <Card className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6">
+            <Card
+              circleSize={150}
+              className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
+            >
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 $8k
               </p>

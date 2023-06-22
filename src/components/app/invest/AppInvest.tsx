@@ -127,7 +127,7 @@ export const AppInvest: FC = () => {
         </article>
         <article>
           <Card className="h-52 flex-col justify-center items-center py-4 px-10 col-start-4 row-span-2">
-            <h2 className="text-center text-lg font-medium text-indigo-900/80">1 year variations</h2>
+            <h2 className="text-center text-lg font-medium text-indigo-900/80">1 year variation</h2>
             <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
               ±0.08%
             </div>
