@@ -7,10 +7,10 @@ const SiteFooter: FC = () => {
   return (
     <footer
       className={clsx(
-        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative  w-screen overflow-hidden"
+        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative  w-screen overflow-hidden rounded-t-[2.2rem]"
       )}
     >
-      <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full">
+      <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full ">
         <article className="text-bg flex lg:justify-start justify-center items-center lg:row-start-1 row-start-3">
           <ul className="flex xl:gap-8 gap-6">
             <li className="font-semibold text-bg/70 underline hover:text-bg/90 transition">
