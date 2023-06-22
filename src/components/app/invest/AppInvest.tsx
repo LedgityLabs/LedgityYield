@@ -110,18 +110,27 @@ export const AppInvest: FC = () => {
     <div className="flex flex-col justify-center items-center w-[900px]">
       <section className="grid grid-cols-3 w-full gap-10 mb-10">
         <article>
-          <Card className="h-52 flex justify-center items-center">
-            <p>TVL</p>
+          <Card className="h-52 flex-col justify-center items-center py-4 px-10 col-start-4 row-span-2">
+            <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
+            <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
+              {"$" + d3.format(".3s")(19487512)}
+            </div>
           </Card>
         </article>
         <article>
-          <Card className="h-52 flex justify-center items-center">
-            <p>Rewards</p>
+          <Card className="h-52 flex-col justify-center items-center py-4 px-10 col-start-4 row-span-2">
+            <h2 className="text-center text-lg font-medium text-indigo-900/80">Distributed rewards</h2>
+            <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
+              {"$" + d3.format(".3s")(945512)}
+            </div>
           </Card>
         </article>
         <article>
-          <Card className="h-52 flex justify-center items-center">
-            <p>Stability</p>
+          <Card className="h-52 flex-col justify-center items-center py-4 px-10 col-start-4 row-span-2">
+            <h2 className="text-center text-lg font-medium text-indigo-900/80">1 year variations</h2>
+            <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
+              ±0.08%
+            </div>
           </Card>
         </article>
         <article className="col-span-3">

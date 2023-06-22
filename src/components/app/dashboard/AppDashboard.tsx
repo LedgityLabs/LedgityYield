@@ -3,18 +3,27 @@ import { FC } from "react";
 
 export const AppDashboard: FC = () => {
   return (
-    <section className="grid grid-cols-5 grid-rows-3 w-[1200px] h-[630px] gap-10">
+    <section className="grid grid-cols-[repeat(5,1fr)] grid-rows-[repeat(4,1fr)] w-[1200px] h-[900px] gap-10 pb-10">
       <Card className="flex justify-center items-center ">
         <p>Holding</p>
       </Card>
-      <Card className="flex justify-center items-center ">
-        <p>Total profits</p>
+      <Card className="lex-col justify-center items-center py-4 px-4">
+        <h2 className="text-center text-lg font-medium text-indigo-900/80">Total profits</h2>
+        <div className="h-full -mt-5 flex justify-center items-center text-4xl font-heavy font-heading text-green-600">
+          +133.14%
+        </div>
       </Card>
-      <Card className="flex justify-center items-center row-start-2 row-span-2 col-span-2">
+      <Card className="flex justify-center items-center row-start-2 row-span-3 col-span-2">
         <p>Activity</p>
       </Card>
-      <Card className="flex justify-center items-center row-span-3 col-span-3">
-        <p>Charts</p>
+      <Card className="flex flex-col justify-center items-center row-span-3 col-span-3 p-10">
+        <div className="h-full w-full bg-primary/10 rounded-3xl flex justify-center items-center">
+          Chart (coming soon)
+        </div>
+        <div className="h-20">Selectors</div>
+      </Card>
+      <Card className="flex justify-center items-center col-start-3 col-span-3">
+        <p>Get support</p>
       </Card>
     </section>
   );
