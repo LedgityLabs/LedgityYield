@@ -1,3 +1,13 @@
+## [1.70.0](https://github.com/ledgity-labs/dapp/compare/v1.69.0...v1.70.0) (2023-06-22)
+
+
+### Features
+
+* **home:** ton of adjustments, bolder headings, improved "How it works?" section ([4f97af5](https://github.com/ledgity-labs/dapp/commit/4f97af5f40be02101fe58869d872e7998bb92d26))
+* improve cards glows so they are less likely to conflict with content + per card circle size ([58a9e9d](https://github.com/ledgity-labs/dapp/commit/58a9e9d4c15337a21e2bd0f7bede64a33e5c91cb))
+* make top of site footer rounded ([f9dde3c](https://github.com/ledgity-labs/dapp/commit/f9dde3cadd7ee731591ed82d26f1b4c290d6a209))
+* the site footer is now a floating island ([a7cbdf7](https://github.com/ledgity-labs/dapp/commit/a7cbdf72cb2a26d2f5cfc16e20da956b73dfe784))
+
 ## [1.69.0](https://github.com/ledgity-labs/dapp/compare/v1.68.0...v1.69.0) (2023-06-22)
 
 
