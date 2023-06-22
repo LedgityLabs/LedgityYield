@@ -17,6 +17,6 @@
 
   body {
     /* Style - Apply default font, text color and background */
-    @apply font-body text-fg bg-bg transition-colors !duration-300;
+    @apply relative font-body text-fg bg-bg transition-colors !duration-300;
   }
 }

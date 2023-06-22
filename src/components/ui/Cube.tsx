@@ -16,7 +16,7 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
   return (
     <div
       className={twMerge(
-        "absolute backdrop-blur-md bg-primary rounded-[2rem] opacity-[28%] blur-[1.5px] hover:blur-none",
+        "absolute backdrop-blur-md rounded-[2rem] opacity-[35%] blur-[1.5px] hover:blur-none",
         !reverse &&
           {
             tiny: "animate-[spin_19s_ease-in-out_infinite]",
@@ -38,7 +38,7 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
       <Card
         defaultGradient={true}
         className={twMerge(
-          "before:opacity-[28%]",
+          "before:opacity-[35%] bg-card-illustrations",
           {
             tiny: "w-24 h-24",
             small: "w-32 h-32",

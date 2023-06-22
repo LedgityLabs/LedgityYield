@@ -5,6 +5,7 @@ import { CardsHelper } from "@/components/ui";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fonts } from "@/lib/fonts";
+import clsx from "clsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,7 +57,12 @@ const RootLayout: NextPage<Props> = ({ children }) => {
   return (
     <html lang="en">
       <CardsHelper />
-      <body className={fonts}>
+      <body
+        className={clsx(
+          fonts,
+          "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200"
+        )}
+      >
         <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">{children}</div>
       </body>
     </html>
