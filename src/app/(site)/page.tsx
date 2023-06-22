@@ -16,7 +16,7 @@ const Page: NextPage = () => {
       <div className="relative bg-[url('/assets/other-glow.webp')] bg-cover md:bg-top bg-[left_30%_top_30%] md:top-[90vh] top-[100vh] md:pb-[90vh] pb-[100vh]">
         <HomeFeatures />
         <HomeHowItWorks />
-        <HomeCTA />
+        {/* <HomeCTA /> */}
         <HomePartners />
       </div>
     </>

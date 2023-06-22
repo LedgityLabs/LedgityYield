@@ -21,7 +21,7 @@ const SiteHeader: FC = () => {
           scrollY > 0 && "backdrop-blur-md"
         )}
       >
-        <Logo className="sm:ml-0 ml-2" />
+        <Logo className="sm:ml-2 ml-0" />
         <div className="static flex gap-6">
           <Button
             data-tf-popup="J2ENFK9t"

@@ -11,10 +11,10 @@ import circleLogo from "~/assets/partners/circle.png";
 const HomePartners: FC = () => {
   return (
     <FadeIn>
-      <section className="relative  pb-36 flex flex-col items-center">
+      <section className="relative  pb-56 flex flex-col items-center">
         <Cube size="medium" className="left-16 -bottom-40" />
 
-        <h3 className="text-center font-semibold text-4xl pb-16 font-heading ">Our partners</h3>
+        <h3 className="text-center font-bold text-4xl pb-16 font-heading text-fg/90">Our partners</h3>
         <ul className="flex flex-wrap justify-center gap-16 px-16">
           <li>
             <Link

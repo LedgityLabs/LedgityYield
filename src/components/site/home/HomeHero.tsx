@@ -62,7 +62,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         />
         <Cube size="small" className="left-[30%] -bottom-4 2xl:block hidden" />
 
-        <h2 className="text-center leading-none font-heading xl:text-[7rem] lg:text-[6rem] md:text-[10vw] sm:text-[11vw] text-[14vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
+        <h2 className="text-center leading-none font-heading xl:text-[7.1rem] lg:text-[6rem] md:text-[10vw] sm:text-[11vw] text-[14vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
           Stable
           <span> yield for</span>
           <br className="hidden sm:block" />
@@ -73,7 +73,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         <section>
           <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
             <Card
-              circleSize={150}
+              circleSize={160}
               defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
@@ -85,7 +85,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               </h3>
             </Card>
             <Card
-              circleSize={150}
+              circleSize={160}
               defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
@@ -97,7 +97,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               </h3>
             </Card>
             <Card
-              circleSize={150}
+              circleSize={160}
               defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
@@ -156,7 +156,7 @@ const HomeHero: FC<Props> = ({ className }) => {
             className="sm:block hidden"
             variant="outline"
             size="large"
-            onClick={() => scrollTo(0, (window.innerHeight * 90) / 100)}
+            onClick={() => scrollTo(0, window.innerHeight - 97.4 - 50)}
           >
             Learn more
           </Button>

@@ -4,9 +4,9 @@ import { Button, Cube, FadeIn } from "@/components/ui";
 const HomeCTA: FC = () => {
   return (
     <FadeIn>
-      <section className="relative pb-64 flex flex-col items-center">
+      <section className="relative pb-52 flex justify-center gap-8 items-center px-10 flex-wrap">
         <Cube size="large" className="right-48 bottom-[10%]" />
-        <h3 className="text-center font-semibold text-4xl pb-16 px-10 font-heading ">
+        <h3 className="text-center font-semibold text-4xl font-heading ">
           Ready to get <span className="whitespace-nowrap">started ?</span>
         </h3>
         <Button

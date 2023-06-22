@@ -3,8 +3,8 @@ import { Button, Card, Cube, FadeIn } from "@/components/ui";
 
 const HomeFeatures: FC = () => {
   return (
-    <FadeIn>
-      <section className="relative flex flex-col justify-center items-center">
+    <FadeIn yOffset={200}>
+      <section className="relative flex flex-col justify-center items-center -top-10">
         <Cube size="medium" className="left-72 -top-16" />
         <Cube size="large" className="-right-16 bottom-[35%]" />
         <Cube size="small" className="left-8 bottom-[15%]" />
