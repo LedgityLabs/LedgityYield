@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui";
+import { Card, Switch } from "@/components/ui";
 import { FC } from "react";
 
 export const AppDashboard: FC = () => {
@@ -20,7 +20,13 @@ export const AppDashboard: FC = () => {
         <div className="h-full w-full bg-primary/10 rounded-3xl flex justify-center items-center">
           Chart (coming soon)
         </div>
-        <div className="h-20">Selectors</div>
+        <div className=" mt-10">
+          <div className="flex gap-3 justify-center items-center font-medium">
+            <p>Revenue ($)</p>
+            <Switch />
+            <p>Growth (%)</p>
+          </div>
+        </div>
       </Card>
       <Card className="flex justify-center items-center col-start-3 col-span-3">
         <p>Get support</p>

@@ -7,3 +7,5 @@ export * from "./FadeIn";
 export * from "./Select";
 export * from "./Tabs";
 export * from "./Table";
+export * from "./Switch";
+export * from "./RadioGroup";
