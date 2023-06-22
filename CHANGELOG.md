@@ -1,3 +1,11 @@
+## [1.69.0](https://github.com/ledgity-labs/dapp/compare/v1.68.0...v1.69.0) (2023-06-22)
+
+
+### Features
+
+* **app:** add dashboard chart switch ([b6b8511](https://github.com/ledgity-labs/dapp/commit/b6b8511d94b5910da3bfe02738487b1f250088da))
+* **app:** add period radio group to dashboard chart box ([5f89a78](https://github.com/ledgity-labs/dapp/commit/5f89a782068ba4fb5197a93deab92c412cbbd02d))
+
 ## [1.68.0](https://github.com/ledgity-labs/dapp/compare/v1.67.0...v1.68.0) (2023-06-22)
 
 
