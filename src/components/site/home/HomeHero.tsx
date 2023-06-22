@@ -74,35 +74,37 @@ const HomeHero: FC<Props> = ({ className }) => {
           <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
             <Card
               circleSize={150}
+              defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 7%
               </p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+              <h3 className="absolute bottom-3 sm:text-lg text-[0.92rem] font-semibold text-primary/50 font-heading">
                 APY
               </h3>
             </Card>
             <Card
               circleSize={150}
-              defaultGradient={false}
+              defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 ±0.1%
               </p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+              <h3 className="absolute bottom-3 sm:text-lg text-[0.92rem] font-semibold text-primary/50 font-heading">
                 1Y stability
               </h3>
             </Card>
             <Card
               circleSize={150}
+              defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
               <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
                 $8k
               </p>
-              <h3 className="absolute bottom-3 sm:text-lg text-sm font-semibold text-primary/50 font-heading">
+              <h3 className="absolute bottom-3 sm:text-lg text-[0.92rem] font-semibold text-primary/50 font-heading">
                 TVL
               </h3>
             </Card>
@@ -112,7 +114,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               <ul className="flex justify-around h-28">
                 <li className="relative flex items-center justify-center px-[7vw]">
                   <p className="mb-3 text-4xl font-bold text-fg/80">7%</p>
-                  <h3 className="absolute bottom-3 text-sm font-semibold text-primary/50 font-heading">
+                  <h3 className="absolute bottom-3 text-[0.92rem] font-semibold text-primary/50 font-heading">
                     APY
                   </h3>
                 </li>
@@ -121,7 +123,7 @@ const HomeHero: FC<Props> = ({ className }) => {
                   <p className="mb-3 text-4xl font-bold text-fg/80">±0.1%</p>
                   <h3
                     className={clsx(
-                      "absolute bottom-3 text-sm font-semibold text-primary/50 font-heading",
+                      "absolute bottom-3 text-[0.92rem] font-semibold text-primary/50 font-heading",
                       "whitespace-nowrap"
                     )}
                   >

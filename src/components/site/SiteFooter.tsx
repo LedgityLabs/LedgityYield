@@ -7,7 +7,7 @@ const SiteFooter: FC = () => {
   return (
     <footer
       className={clsx(
-        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative  w-screen overflow-hidden rounded-t-[2.2rem]"
+        "bg-fg xl:p-24 px-10 py-20 flex flex-col justify-center items-center relative overflow-hidden rounded-3xl m-5 shadow-[0px_4px_12px_rgba(0,0,0,0.11)]"
       )}
     >
       <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full ">
