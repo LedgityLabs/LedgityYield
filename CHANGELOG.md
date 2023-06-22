@@ -1,3 +1,16 @@
+## [1.71.0](https://github.com/ledgity-labs/dapp/compare/v1.70.0...v1.71.0) (2023-06-22)
+
+
+### Features
+
+* add grainy noise effect to whole website ([70d2da4](https://github.com/ledgity-labs/dapp/commit/70d2da49bfebf2c08d0c59df9675ce5ee36486f6))
+* automate cards circle size calculation ([69e6238](https://github.com/ledgity-labs/dapp/commit/69e6238cbdd9f0b7710f4b3bdbfd8ce1a1ee184b))
+
+
+### Fixes
+
+* fix cubes display after changes to Card component ([71f4435](https://github.com/ledgity-labs/dapp/commit/71f44356bae49db696b4781b77661729959e6dd5))
+
 ## [1.70.0](https://github.com/ledgity-labs/dapp/compare/v1.69.0...v1.70.0) (2023-06-22)
 
 
