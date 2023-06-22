@@ -1,3 +1,10 @@
+## [1.72.0](https://github.com/ledgity-labs/dapp/compare/v1.71.0...v1.72.0) (2023-06-22)
+
+
+### Features
+
+* increase shadow of site's footer ([bbad6d2](https://github.com/ledgity-labs/dapp/commit/bbad6d205e9af80b4d0ad1e55c3737303a57866a))
+
 ## [1.71.0](https://github.com/ledgity-labs/dapp/compare/v1.70.0...v1.71.0) (2023-06-22)
 
 
