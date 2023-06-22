@@ -73,7 +73,6 @@ const HomeHero: FC<Props> = ({ className }) => {
         <section>
           <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
             <Card
-              circleSize={160}
               defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
@@ -85,7 +84,6 @@ const HomeHero: FC<Props> = ({ className }) => {
               </h3>
             </Card>
             <Card
-              circleSize={160}
               defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >
@@ -97,7 +95,6 @@ const HomeHero: FC<Props> = ({ className }) => {
               </h3>
             </Card>
             <Card
-              circleSize={160}
               defaultGradient={true}
               className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
             >

@@ -13,7 +13,7 @@ const HomeHowItWorks: FC = () => {
         </h3>
         <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
           <li className="flex flex-col justify-center">
-            <Card circleSize={100} defaultGradient={true} className="relative w-[250px] py-5">
+            <Card defaultGradient={true} className="relative w-[250px] py-5">
               <div className="absolute -left-3 -top-3">
                 <Card
                   radius="full"
@@ -29,7 +29,7 @@ const HomeHowItWorks: FC = () => {
             </p>
           </li>
           <li className="flex flex-col justify-center">
-            <Card circleSize={100} defaultGradient={true} className="relative w-[250px] py-5">
+            <Card defaultGradient={true} className="relative w-[250px] py-5">
               <div className="absolute -left-2 -top-3">
                 <Card
                   radius="full"
@@ -45,7 +45,7 @@ const HomeHowItWorks: FC = () => {
             </p>
           </li>
           <li className="flex flex-col justify-center">
-            <Card circleSize={100} defaultGradient={true} className="relative w-[250px] py-5">
+            <Card defaultGradient={true} className="relative w-[250px] py-5">
               <div className="absolute -left-2 -top-3">
                 <Card
                   radius="full"

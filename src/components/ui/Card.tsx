@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Slot } from "@radix-ui/react-slot";
 
@@ -11,7 +11,6 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultGradient?: boolean;
   animated?: boolean;
   asChild?: boolean;
-  circleSize?: number;
 }
 
 export const Card: FC<CardProps> = ({
@@ -21,14 +20,17 @@ export const Card: FC<CardProps> = ({
   defaultGradient = false,
   animated = true,
   asChild = false,
-  circleSize = 300,
   ...props
 }) => {
   const Comp = asChild ? Slot : "article";
   const card = useRef<HTMLElement>();
+  const [circleSize, setCircleSize] = useState(100);
   useEffect(() => {
-    card.current?.style.setProperty("--circle-size", `${circleSize}px`);
-  });
+    if (card.current) {
+      setCircleSize((card.current.offsetHeight + card.current.offsetWidth) / 2.2);
+      card.current.style.setProperty("--circle-size", `${circleSize}px`);
+    }
+  }, [card, card.current]);
   return (
     <Comp
       //@ts-ignore

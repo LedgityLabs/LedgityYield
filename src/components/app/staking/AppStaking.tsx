@@ -83,15 +83,15 @@ export const AppStaking: FC = () => {
       </Card>
       <Card className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2">
         <h2 className="font-heading text-xl w-24">Stake</h2>
-        <div className="bg-primary/20 w-full h-full"></div>
+        <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
       </Card>
       <Card className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2">
         <h2 className="font-heading text-xl w-24">Claim</h2>
-        <div className="bg-primary/20 w-full h-full"></div>
+        <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
       </Card>
       <Card className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2">
         <h2 className="font-heading text-xl w-24">Withdraw</h2>
-        <div className="bg-primary/20 w-full h-full"></div>
+        <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
       </Card>
     </section>
   );
