@@ -9,3 +9,4 @@ export * from "./Tabs";
 export * from "./Table";
 export * from "./Switch";
 export * from "./RadioGroup";
+export * from "./Amount";

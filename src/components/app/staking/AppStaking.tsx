@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui";
+import { Amount, Card } from "@/components/ui";
 import { FC } from "react";
 import * as d3 from "d3-format";
 
@@ -12,7 +12,7 @@ export const AppStaking: FC = () => {
         <div className="flex h-full flex-col justify-center items-center ">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">Total staked</h2>
           <div className="h-full flex justify-center items-center text-5xl font-heavy font-heading">
-            {d3.format(".3s")(2388684841).replace("G", "B")}
+            <Amount value={2388684841} />
           </div>
         </div>
         <div className="flex justify-center items-center w-full h-full ml-10 bg-primary/10 rounded-3xl text-center">
@@ -81,7 +81,7 @@ export const AppStaking: FC = () => {
       >
         <h2 className="text-center text-lg font-medium text-indigo-900/80">Your stake</h2>
         <div className="h-full flex justify-center items-center text-6xl font-heavy font-heading">
-          {d3.format(".3s")(1487512)}
+          <Amount value={1487512} />
         </div>
       </Card>
       <Card

@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card } from "@/components/ui";
+import { Amount, Button, Card } from "@/components/ui";
 import React, { FC } from "react";
 import {
   createColumnHelper,
@@ -10,17 +10,11 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import Image from "next/image";
-import usdcTokenLogo from "~/assets/tokens/usdc.png";
-import eurocTokenLogo from "~/assets/tokens/euroc.png";
+
 import { twMerge } from "tailwind-merge";
 import * as d3 from "d3-format";
-import clsx from "clsx";
-
-const tokensLogos = {
-  USDC: usdcTokenLogo,
-  EUROC: eurocTokenLogo,
-};
-type TokenSymbol = keyof typeof tokensLogos;
+import { TokenSymbol, tokens } from "@/lib/tokens";
+import { TokenLogo } from "../TokenLogo";
 
 interface Pool {
   tokenSymbol: TokenSymbol;
@@ -56,7 +50,7 @@ export const AppInvest: FC = () => {
         const tokenSymbol = row.getValue("tokenSymbol") as TokenSymbol;
         return (
           <div className="flex gap-3 items-center">
-            <Image src={tokensLogos[tokenSymbol]} alt={`${tokenSymbol}'s logo`} width={35} height={35} />
+            <TokenLogo symbol={tokenSymbol} size={35} />
             <p>{tokenSymbol}</p>
           </div>
         );
@@ -67,11 +61,11 @@ export const AppInvest: FC = () => {
       header: "APY",
     }),
     columnHelper.accessor("tvl", {
-      cell: (info) => d3.format(".3s")(info.getValue()),
+      cell: (info) => <Amount value={info.getValue()} />,
       header: "TVL",
     }),
     columnHelper.accessor("invested", {
-      cell: (info) => d3.format(".3s")(info.getValue()),
+      cell: (info) => <Amount value={info.getValue()} />,
 
       header: "Invested",
     }),
@@ -116,7 +110,7 @@ export const AppInvest: FC = () => {
           >
             <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
             <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
-              {"$" + d3.format(".3s")(19487512)}
+              $<Amount value={19487512} />
             </div>
           </Card>
         </article>
@@ -127,7 +121,7 @@ export const AppInvest: FC = () => {
           >
             <h2 className="text-center text-lg font-medium text-indigo-900/80">Distributed rewards</h2>
             <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
-              {"$" + d3.format(".3s")(945512)}
+              $<Amount value={945512} />
             </div>
           </Card>
         </article>

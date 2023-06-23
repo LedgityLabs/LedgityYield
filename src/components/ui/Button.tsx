@@ -30,7 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         // Sizes
         {
-          tiny: "h-9 px-3 text-sm",
+          tiny: clsx("px-3 text-sm", variant === "outline" ? "h-[calc(2.25rem+3px)]" : "h-9"),
           small: "h-10 py-2 px-4 text-base",
           // +2px is used to balance the visual height of the button between outline and default variants
           medium: clsx("px-4 text-lg", variant === "outline" ? "h-[calc(2.9rem+3px)]" : "h-[2.9rem]"),

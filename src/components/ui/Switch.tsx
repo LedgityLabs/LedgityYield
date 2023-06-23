@@ -10,7 +10,7 @@ export const Switch: FC<React.ComponentPropsWithoutRef<typeof SwitchPrimitives.R
 }) => (
   <SwitchPrimitives.Root
     className={twMerge(
-      "inline-flex h-[2rem] w-[4rem] cursor-pointer  shadow-[0px_4px_12px_rgba(0,0,0,0.07)] rounded-3xl bg-fg/10 p-1.5",
+      "inline-flex h-[2rem] w-[4rem] cursor-pointer shadow-[0px_4px_12px_rgba(0,0,0,0.07)] rounded-3xl bg-fg/10 p-1.5",
       className
     )}
     {...props}

@@ -1,13 +1,51 @@
-import { Card, Switch } from "@/components/ui";
+import { Amount, Button, Card, Switch } from "@/components/ui";
 import { FC } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui";
+import { TokenLogo } from "../TokenLogo";
+import { TokenSymbol } from "@/lib/tokens";
+
 export const AppDashboard: FC = () => {
+  const data = [
+    {
+      symbol: "LUSDC",
+      wrappedSymbol: "USDC" as TokenSymbol,
+      balance: 87330,
+    },
+    {
+      symbol: "LEUROC",
+      wrappedSymbol: "EUROC" as TokenSymbol,
+      balance: 0,
+    },
+  ];
+
   return (
-    <section className="grid grid-cols-[repeat(5,1fr)] grid-rows-[repeat(4,1fr)] w-[1200px] h-[900px] gap-10 pb-10">
-      <Card circleIntensity={0.07} className="flex justify-center items-center ">
-        <p>Holding</p>
+    <section className="grid grid-cols-[repeat(6,1fr)] grid-rows-[repeat(4,1fr)] w-[1200px] h-[900px] gap-10 pb-10">
+      <Card
+        circleIntensity={0.07}
+        className="flex flex-col justify-center items-center p-4 col-start-1 col-span-2"
+      >
+        <h2 className="text-center text-lg font-medium text-indigo-900/80">L-Tokens balances</h2>
+        <ul className="w-full h-full flex flex-col justify-center gap-5 pl-4 pr-2">
+          {data.map((token) => (
+            <li key={token.symbol} className="flex justify-between  items-center w-full ">
+              <div className="flex gap-2 items-center font-medium">
+                <TokenLogo symbol={token.wrappedSymbol} wrapped={true} size={30} />
+                {token.symbol}
+              </div>
+              <div className="flex gap-2 items-center">
+                <Amount value={token.balance} className="font-bold pr-2" />
+                <Button size="tiny" className="w-8 h-8">
+                  <i className="ri-inbox-archive-fill text-lg"></i>
+                </Button>
+                <Button variant="outline" size="tiny" className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]">
+                  <i className="ri-inbox-unarchive-fill text-lg"></i>
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </Card>
-      <Card circleIntensity={0.07} className="lex-col justify-center items-center py-4 px-4">
+      <Card circleIntensity={0.07} className="flex flex-col justify-center items-center py-4 px-10">
         <h2 className="text-center text-lg font-medium text-indigo-900/80">Total profits</h2>
         <div className="h-full -mt-5 flex justify-center items-center text-4xl font-heavy font-heading text-green-600">
           +133.14%
@@ -15,13 +53,7 @@ export const AppDashboard: FC = () => {
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-center items-center row-start-2 row-span-3 col-span-2"
-      >
-        <p>Activity</p>
-      </Card>
-      <Card
-        circleIntensity={0.07}
-        className="flex flex-col justify-center items-center row-span-3 col-span-3 p-10"
+        className="flex flex-col justify-center items-center row-start-2 row-span-3 col-span-3 p-7 pb-10"
       >
         <div className="h-full w-full bg-primary/10 rounded-3xl flex justify-center items-center">
           Chart (coming soon)
@@ -81,7 +113,10 @@ export const AppDashboard: FC = () => {
           </RadioGroup>
         </div>
       </Card>
-      <Card circleIntensity={0.07} className="flex justify-center items-center col-start-3 col-span-3">
+      <Card circleIntensity={0.07} className="flex justify-center items-center row-span-3 col-span-3">
+        <p>Activity</p>
+      </Card>
+      <Card circleIntensity={0.07} className="flex justify-center items-center col-start-4 col-span-3">
         <p>Get support</p>
       </Card>
     </section>

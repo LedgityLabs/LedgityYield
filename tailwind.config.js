@@ -85,14 +85,26 @@ export const theme = {
       // Used by <Scroller/> UI component
       roll: {
         "0%": { opacity: 0 },
-        "20%": { marginTop: "0", opacity: 1 },
-        "80%": { marginTop: "16px", opacity: 1 },
+        "20%": { opacity: 1 },
+        "80%": { opacity: 1 },
         "100%": { opacity: 0 },
+      },
+      // Used by <Accordion*/> UI components
+      "accordion-down": {
+        from: { height: 0 },
+        to: { height: "var(--radix-accordion-content-height)" },
+      },
+      "accordion-up": {
+        from: { height: "var(--radix-accordion-content-height)" },
+        to: { height: 0 },
       },
     },
     animation: {
       // Used by <Scroller/> UI component
       roll: "2s infinite normal roll ease",
+      // Used by <Accordion*/> UI components
+      "accordion-down": "accordion-down 0.2s linear",
+      "accordion-up": "accordion-up 0.2s linear",
     },
   },
 };

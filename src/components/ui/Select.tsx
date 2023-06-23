@@ -15,10 +15,7 @@ export const SelectTrigger: FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger & typeof Button>
 > = ({ className, children, ...props }) => (
   <SelectPrimitive.Trigger className={twMerge("flex", className)} {...props} asChild>
-    <Button variant="outline">
-      {children}
-      {/* <SelectPrimitive.Icon /> */}
-    </Button>
+    <Button variant="outline">{children}</Button>
   </SelectPrimitive.Trigger>
 );
 

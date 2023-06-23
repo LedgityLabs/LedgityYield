@@ -19,7 +19,7 @@ export const RadioGroupItem: FC<React.ComponentPropsWithoutRef<typeof RadioGroup
   return (
     <RadioGroupPrimitive.Item
       className={twMerge(
-        "w-5 h-5 rounded-full border-2 border-border shadow-[0px_4px_12px_rgba(0,0,0,0.07)] bg-fg/5 [&[data-state='checked']]:bg-accent text-primary [&[data-state='unchecked']]:text-fg/50 font-medium [&[data-state='checked']]:font-semibold",
+        "w-5 h-5 rounded-full border-2 border-border shadow-[0px_4px_12px_rgba(0,0,0,0.07)] bg-fg/[0.07] [&[data-state='checked']]:bg-accent text-primary [&[data-state='unchecked']]:text-fg/50 font-medium [&[data-state='checked']]:font-semibold",
         className
       )}
       {...props}
