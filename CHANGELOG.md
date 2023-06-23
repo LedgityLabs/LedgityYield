@@ -1,3 +1,10 @@
+## [1.76.0](https://github.com/ledgity-labs/dapp/compare/v1.75.0...v1.76.0) (2023-06-23)
+
+
+### Features
+
+* **app:** add Tooltip components, add tooltips to dashboard balances buttons + change their icons ([f030c0e](https://github.com/ledgity-labs/dapp/commit/f030c0e4d03c1a9b249389b5b2c4959ba56e7307))
+
 ## [1.75.0](https://github.com/ledgity-labs/dapp/compare/v1.74.0...v1.75.0) (2023-06-23)
 
 
