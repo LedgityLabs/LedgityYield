@@ -5,7 +5,10 @@ import * as d3 from "d3-format";
 export const AppStaking: FC = () => {
   return (
     <section className="grid grid-cols-[repeat(5,1fr)] grid-rows-[repeat(8,1fr)] w-[1200px] h-[900px] gap-10 mb-10">
-      <Card className="flex justify-center items-center p-4 pl-10 col-span-2 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex justify-center items-center p-4 pl-10 col-span-2 row-span-2"
+      >
         <div className="flex h-full flex-col justify-center items-center ">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">Total staked</h2>
           <div className="h-full flex justify-center items-center text-5xl font-heavy font-heading">
@@ -18,7 +21,7 @@ export const AppStaking: FC = () => {
           (coming soon)
         </div>
       </Card>
-      <Card className="flex flex-col row-start-3 row-span-6 col-span-2 p-8">
+      <Card circleIntensity={0.07} className="flex flex-col row-start-3 row-span-6 col-span-2 p-8">
         <div>
           <h2 className="text-xl font-bold text-fg/80 mb-4 font-heading">What is LTY token?</h2>
           <p className="ml-4">
@@ -63,33 +66,51 @@ export const AppStaking: FC = () => {
           </div>
         </div>
       </Card>
-      <Card className="flex flex-col justify-center items-center py-4 px-10 col-start-3 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex flex-col justify-center items-center py-4 px-10 col-start-3 row-span-2"
+      >
         <h2 className="text-center text-lg font-medium text-indigo-900/80">Current APR</h2>
         <div className="h-full flex justify-center items-center text-6xl font-heavy font-heading">
           20%
         </div>
       </Card>
-      <Card className="flex flex-col justify-center items-center py-4 px-10 col-start-4 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex flex-col justify-center items-center py-4 px-10 col-start-4 row-span-2"
+      >
         <h2 className="text-center text-lg font-medium text-indigo-900/80">Your stake</h2>
         <div className="h-full flex justify-center items-center text-6xl font-heavy font-heading">
           {d3.format(".3s")(1487512)}
         </div>
       </Card>
-      <Card className="flex flex-col justify-center items-center py-4 px-10 col-start-5 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex flex-col justify-center items-center py-4 px-10 col-start-5 row-span-2"
+      >
         <h2 className="text-center text-lg font-medium text-indigo-900/80 whitespace-nowrap">
           Eligible to tier
         </h2>
         <div className="h-full flex justify-center items-center text-6xl font-heavy font-heading">2</div>
       </Card>
-      <Card className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2"
+      >
         <h2 className="font-heading text-xl w-24">Stake</h2>
         <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
       </Card>
-      <Card className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2"
+      >
         <h2 className="font-heading text-xl w-24">Claim</h2>
         <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
       </Card>
-      <Card className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2">
+      <Card
+        circleIntensity={0.07}
+        className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2"
+      >
         <h2 className="font-heading text-xl w-24">Withdraw</h2>
         <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
       </Card>

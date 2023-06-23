@@ -56,9 +56,9 @@ export const theme = {
       "card-border-default": `
         radial-gradient(var(--circle-size) circle at 50% 100%, rgb(var(--primary-bg) / 0.5), transparent), radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent), linear-gradient(rgb(var(--border) / 0.8), rgb(var(--border) / 0.8))`,
 
-      "card-content": `radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.003), transparent), linear-gradient(rgb(var(--accent-bg) / 0.8), rgb(var(--accent-bg) / 0.8))`,
+      "card-content": `radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / var(--circle-intensity)), transparent), linear-gradient(rgb(var(--accent-bg)), rgb(var(--accent-bg)))`,
       "card-content-default": `
-        radial-gradient(var(--circle-size) circle at 50% 100%, rgb(var(--primary-bg) / 0.05), transparent), radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.002), transparent), linear-gradient(rgb(var(--accent-bg) / 0.8), rgb(var(--accent-bg) / 0.8))`,
+        radial-gradient(var(--circle-size) circle at 50% 100%, rgb(var(--primary-bg) / var(--circle-intensity)), transparent), radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / var(--circle-intensity)), transparent), linear-gradient(rgb(var(--accent-bg)), rgb(var(--accent-bg)))`,
 
       "card-illustrations": `
         radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg)), transparent), radial-gradient(300px circle at 50% 60%, rgb(var(--primary-bg) / 0.5), transparent)`,

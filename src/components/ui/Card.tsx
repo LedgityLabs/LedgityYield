@@ -11,6 +11,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultGradient?: boolean;
   animated?: boolean;
   asChild?: boolean;
+  circleIntensity?: number;
 }
 
 export const Card: FC<CardProps> = ({
@@ -19,6 +20,7 @@ export const Card: FC<CardProps> = ({
   radius = "default",
   defaultGradient = false,
   animated = true,
+  circleIntensity = 0.15,
   asChild = false,
   ...props
 }) => {
@@ -29,6 +31,7 @@ export const Card: FC<CardProps> = ({
     if (card.current) {
       setCircleSize((card.current.offsetHeight + card.current.offsetWidth) / 2.2);
       card.current.style.setProperty("--circle-size", `${circleSize}px`);
+      card.current.style.setProperty("--circle-intensity", circleIntensity.toString());
     }
   }, [card, card.current]);
   return (
