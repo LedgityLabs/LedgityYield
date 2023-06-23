@@ -1,3 +1,10 @@
+## [1.74.0](https://github.com/ledgity-labs/dapp/compare/v1.73.0...v1.74.0) (2023-06-23)
+
+
+### Features
+
+* allow cards' circles intensity to be configured. Set a lower intensity app's cards to improve ([3e3464a](https://github.com/ledgity-labs/dapp/commit/3e3464a0531d971fddeed2cba5800239812ebfb7))
+
 ## [1.73.0](https://github.com/ledgity-labs/dapp/compare/v1.72.0...v1.73.0) (2023-06-22)
 
 
