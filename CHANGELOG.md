@@ -1,3 +1,11 @@
+## [1.77.0](https://github.com/ledgity-labs/dapp/compare/v1.76.0...v1.77.0) (2023-06-23)
+
+
+### Features
+
+* **app:** first version of dashboard activity card ([21bc440](https://github.com/ledgity-labs/dapp/commit/21bc440fd1d77749080ca33f30533ab86c4d670d))
+* **app:** improve version of activity logs ([f73cf42](https://github.com/ledgity-labs/dapp/commit/f73cf422f44a52debba82cd6cc8bf5a8c8c743d2))
+
 ## [1.76.0](https://github.com/ledgity-labs/dapp/compare/v1.75.0...v1.76.0) (2023-06-23)
 
 
