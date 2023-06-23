@@ -7,13 +7,23 @@ export const TooltipProvider = TooltipPrimitive.Provider;
 
 export const Tooltip = TooltipPrimitive.Root;
 
-export const TooltipTrigger = TooltipPrimitive.Trigger;
+export const TooltipTrigger: FC<TooltipPrimitive.TooltipTriggerProps> = ({
+  children,
+  className,
+  ...props
+}) => (
+  <TooltipPrimitive.Trigger className={twMerge("cursor-help", className)} {...props}>
+    {children}
+  </TooltipPrimitive.Trigger>
+);
 
 export const TooltipArrow = TooltipPrimitive.Arrow;
 
-interface Props extends TooltipPrimitive.TooltipContentProps {}
-
-export const TooltipContent: FC<Props> = ({ className, children, ...props }) => (
+export const TooltipContent: FC<TooltipPrimitive.TooltipContentProps> = ({
+  className,
+  children,
+  ...props
+}) => (
   <TooltipPrimitive.Content
     className={twMerge("bg-fg text-sm text-bg px-2 py-1 z-50 rounded-lg", className)}
     sideOffset={12}

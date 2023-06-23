@@ -1,6 +1,6 @@
 "use client";
 import { Amount, Button, Card } from "@/components/ui";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -9,11 +9,8 @@ import {
   SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import Image from "next/image";
-
 import { twMerge } from "tailwind-merge";
-import * as d3 from "d3-format";
-import { TokenSymbol, tokens } from "@/lib/tokens";
+import { TokenSymbol } from "@/lib/tokens";
 import { TokenLogo } from "../TokenLogo";
 
 interface Pool {
@@ -38,16 +35,14 @@ const data: Pool[] = [
 ];
 
 export const AppInvest: FC = () => {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
 
   const columns = [
-    columnHelper.accessor("tokenSymbol", {}),
-    columnHelper.display({
-      id: "name",
+    columnHelper.accessor("tokenSymbol", {
       header: "Name",
-      cell: ({ row }) => {
-        const tokenSymbol = row.getValue("tokenSymbol") as TokenSymbol;
+      cell: (info) => {
+        const tokenSymbol = info.getValue() as TokenSymbol;
         return (
           <div className="flex gap-3 items-center">
             <TokenLogo symbol={tokenSymbol} size={35} />
@@ -88,9 +83,6 @@ export const AppInvest: FC = () => {
     data,
     columns,
     state: {
-      columnVisibility: {
-        tokenSymbol: false,
-      },
       sorting,
     },
     onSortingChange: setSorting,
@@ -147,7 +139,7 @@ export const AppInvest: FC = () => {
                   }}
                   className={twMerge(
                     "flex justify-center items-center",
-                    header.column.id === "name" && "justify-start pl-6"
+                    header.column.id === "tokenSymbol" && "justify-start pl-6"
                   )}
                 >
                   {(() => {
@@ -195,7 +187,7 @@ export const AppInvest: FC = () => {
                     key={cell.id}
                     className={twMerge(
                       "flex items-center",
-                      cell.column.id !== "name" && "justify-center",
+                      cell.column.id !== "tokenSymbol" && "justify-center",
                       cell.column.id === "actions" && "justify-end",
                       cell.column.id === "apy" && "text-indigo-800 font-bold"
                     )}

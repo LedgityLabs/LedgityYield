@@ -1,23 +1,176 @@
-import { Amount, Button, Card, Switch } from "@/components/ui";
-import { FC } from "react";
+"use client";
+import { Amount, Button, Card, DateTime, Switch } from "@/components/ui";
+import { FC, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui";
 import { TokenLogo } from "../TokenLogo";
 import { TokenSymbol } from "@/lib/tokens";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui";
+import {
+  SortingState,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import clsx from "clsx";
+
+const investmentData = [
+  {
+    symbol: "LUSDC",
+    wrappedSymbol: "USDC" as TokenSymbol,
+    balance: 87330,
+  },
+  {
+    symbol: "LEUROC",
+    wrappedSymbol: "EUROC" as TokenSymbol,
+    balance: 0,
+  },
+];
+
+interface ActivityData {
+  datetime: number;
+  action: "deposit" | "withdraw";
+  amount: number;
+  token: TokenSymbol;
+  status: "success" | "fulfilled" | "cancelled" | "queued";
+}
+
+const activityData: ActivityData[] = [
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 189874654,
+    token: "USDC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 798421,
+    token: "USDC",
+    status: "cancelled",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 95473,
+    token: "EUROC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 1024,
+    token: "EUROC",
+    status: "fulfilled",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 46245000,
+    token: "USDC",
+    status: "queued",
+  },
+];
 
 export const AppDashboard: FC = () => {
-  const data = [
-    {
-      symbol: "LUSDC",
-      wrappedSymbol: "USDC" as TokenSymbol,
-      balance: 87330,
-    },
-    {
-      symbol: "LEUROC",
-      wrappedSymbol: "EUROC" as TokenSymbol,
-      balance: 0,
-    },
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const columnHelper = createColumnHelper<ActivityData>();
+
+  const activityColumns = [
+    columnHelper.accessor("datetime", {
+      header: "Date",
+      cell: (info) => (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <DateTime timestamp={info.getValue()} output="date" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <DateTime timestamp={info.getValue()} output="time" />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ),
+    }),
+    columnHelper.accessor("action", {
+      header: "Action",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("token", {
+      header: "Token",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("amount", {
+      header: "Amount",
+      cell: (info) => (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Amount value={info.getValue()} />
+            </TooltipTrigger>
+            <TooltipContent>{info.getValue().toLocaleString()}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ),
+    }),
+
+    columnHelper.accessor("status", {
+      header: "Status",
+      cell: (info) => {
+        const status = info.getValue();
+        return (
+          <div className="inline-flex gap-1.5 justify-center items-center">
+            <div
+              className={clsx(
+                "w-3 h-3 border-2 rounded-full",
+                ["fulfilled", "success"].includes(status) && "bg-green-200 border-green-500",
+                status === "queued" && "bg-yellow-300 border-orange-400",
+                status === "cancelled" && "bg-red-200 border-red-500"
+              )}
+            />
+            <div
+              className={clsx(
+                "font-semibold",
+                ["fulfilled", "success"].includes(status) && "text-green-500",
+                status === "queued" && "text-orange-500",
+                status === "cancelled" && "text-red-500"
+              )}
+            >
+              {status}
+            </div>
+            {status === "queued" && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button size="tiny" variant="destructive" className="w-5 h-5 p-0 rounded-lg">
+                      <i className="ri-close-fill text-[1.02rem]"></i>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Cancel withdrawal request</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+        );
+      },
+    }),
   ];
+  const sortableColumns = ["datetime", "action", "amount", "token", "status"];
+
+  const table = useReactTable({
+    data: activityData,
+    columns: activityColumns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  const headerGroup = table.getHeaderGroups()[0];
 
   return (
     <section className="grid grid-cols-[repeat(6,1fr)] grid-rows-[repeat(4,1fr)] w-[1200px] h-[900px] gap-10 pb-10">
@@ -27,7 +180,7 @@ export const AppDashboard: FC = () => {
       >
         <h2 className="text-center text-lg font-medium text-indigo-900/80">L-Tokens balances</h2>
         <ul className="w-full h-full flex flex-col justify-center gap-5 pl-4 pr-2">
-          {data.map((token) => (
+          {investmentData.map((token) => (
             <li key={token.symbol} className="flex justify-between  items-center w-full ">
               <div className="flex gap-2 items-center font-medium text-fg/[0.85]">
                 <TokenLogo symbol={token.wrappedSymbol} wrapped={true} size={30} />
@@ -137,8 +290,66 @@ export const AppDashboard: FC = () => {
           </RadioGroup>
         </div>
       </Card>
-      <Card circleIntensity={0.07} className="flex justify-center items-center row-span-3 col-span-3">
-        <p>Activity</p>
+      <Card
+        circleIntensity={0.07}
+        className="flex flex-col items-center row-span-3 col-span-3 px-4 py-8"
+      >
+        <h2 className="text-center font-bold text-2xl pb-8 font-heading text-fg/90">Activity</h2>
+
+        <div className="w-full grid grid-cols-5 text-sm overflow-y-scroll -mr-5 pr-5 font-medium">
+          {headerGroup.headers.map((header) => {
+            const content = flexRender(header.column.columnDef.header, header.getContext());
+            return (
+              <div key={header.column.id} className="px-2 py-3">
+                {(sortableColumns.includes(header.column.id) && (
+                  <button
+                    onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
+                    className="flex gap-1 font-semibold text-fg/80"
+                  >
+                    {content}
+                    <span className="text-fg/60">
+                      {(() => {
+                        switch (header.column.getIsSorted()) {
+                          case "asc":
+                            return <i className="ri-sort-desc"></i>;
+                          case "desc":
+                            return <i className="ri-sort-asc"></i>;
+                          default:
+                            return <i className="ri-expand-up-down-fill"></i>;
+                        }
+                      })()}
+                    </span>
+                  </button>
+                )) ||
+                  content}
+              </div>
+            );
+          })}
+          {(() => {
+            const tableRows = table.getRowModel().rows;
+            if (tableRows.length === 0) return <p>No results.</p>;
+            else {
+              return tableRows.map((row, rowIndex) =>
+                row.getVisibleCells().map((cell, cellIndex) => (
+                  <div
+                    key={cell.id}
+                    style={{
+                      gridColumnStart: cellIndex + 1,
+                    }}
+                    className={clsx(
+                      "py-3 px-2",
+                      rowIndex % 2 === 0 && "bg-fg/5",
+                      cellIndex === 0 && "rounded-l-md",
+                      cellIndex === 4 && "rounded-r-md"
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </div>
+                ))
+              );
+            }
+          })()}
+        </div>
       </Card>
       <Card circleIntensity={0.07} className="flex justify-center items-center col-start-4 col-span-3">
         <p>Get support</p>
