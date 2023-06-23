@@ -3,6 +3,7 @@ import { FC } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui";
 import { TokenLogo } from "../TokenLogo";
 import { TokenSymbol } from "@/lib/tokens";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui";
 
 export const AppDashboard: FC = () => {
   const data = [
@@ -28,18 +29,41 @@ export const AppDashboard: FC = () => {
         <ul className="w-full h-full flex flex-col justify-center gap-5 pl-4 pr-2">
           {data.map((token) => (
             <li key={token.symbol} className="flex justify-between  items-center w-full ">
-              <div className="flex gap-2 items-center font-medium">
+              <div className="flex gap-2 items-center font-medium text-fg/[0.85]">
                 <TokenLogo symbol={token.wrappedSymbol} wrapped={true} size={30} />
                 {token.symbol}
               </div>
               <div className="flex gap-2 items-center">
-                <Amount value={token.balance} className="font-bold pr-2" />
-                <Button size="tiny" className="w-8 h-8">
-                  <i className="ri-inbox-archive-fill text-lg"></i>
-                </Button>
-                <Button variant="outline" size="tiny" className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]">
-                  <i className="ri-inbox-unarchive-fill text-lg"></i>
-                </Button>
+                <Amount value={token.balance} className="font-bold pr-4" />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button size="tiny" className="w-8 h-8">
+                        <i className="ri-add-fill text-lg"></i>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Deposit {token.wrappedSymbol} against {token.symbol}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="outline"
+                        size="tiny"
+                        className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
+                      >
+                        <i className="ri-subtract-fill text-lg"></i>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Withdraw {token.wrappedSymbol} from {token.symbol}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </li>
           ))}

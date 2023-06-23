@@ -18,14 +18,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, disabled = false, variant = "primary", size = "medium", ...props }, ref) => (
     <button
       className={twMerge(
-        "relative inline-flex items-center justify-center rounded-[0.8rem] font-semibold transition-colors hover:bg-opacity-80 shadow-[0px_4px_12px_rgba(0,0,0,0.11)] overflow-hidden",
+        "relative inline-flex items-center justify-center rounded-[0.8rem] font-semibold transition-colors hover:bg-opacity-80  overflow-hidden",
 
         // Variants
         {
           primary: "bg-primary text-primary-fg ",
           destructive: "bg-destructive text-destructive-fg ",
-          outline:
-            "bg-accent text-fg/80 hover:bg-bg border-2 border-border shadow-[0px_4px_12px_rgba(0,0,0,0.07)] rounded-[0.85rem]",
+          outline: "bg-accent text-fg/80 hover:bg-bg border-2 border-border rounded-[0.85rem]",
         }[variant],
 
         // Sizes
@@ -36,6 +35,26 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           medium: clsx("px-4 text-lg", variant === "outline" ? "h-[calc(2.9rem+3px)]" : "h-[2.9rem]"),
           large: clsx("px-7 text-lg", variant === "outline" ? "h-[calc(2.9rem+3px)]" : "h-[2.9rem]"),
         }[size],
+
+        // Shadow
+        {
+          tiny: {
+            default: "shadow-[0px_4px_12px_rgba(0,0,0,0.03)]",
+            outline: "shadow-[0px_4px_12px_rgba(0,0,0,0.07)]",
+          },
+          small: {
+            default: "shadow-[0px_4px_12px_rgba(0,0,0,0.11)]",
+            outline: "shadow-[0px_4px_12px_rgba(0,0,0,0.07)]",
+          },
+          medium: {
+            default: "shadow-[0px_4px_12px_rgba(0,0,0,0.11)]",
+            outline: "shadow-[0px_4px_12px_rgba(0,0,0,0.07)]",
+          },
+          large: {
+            default: "shadow-[0px_4px_12px_rgba(0,0,0,0.11)]",
+            outline: "shadow-[0px_4px_12px_rgba(0,0,0,0.07)]",
+          },
+        }[size][variant === "outline" ? "outline" : "default"],
 
         // Custom classes
         className
