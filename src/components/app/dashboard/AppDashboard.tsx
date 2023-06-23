@@ -260,36 +260,41 @@ export const AppDashboard: FC = () => {
       cell: (info) => {
         const status = info.getValue();
         return (
-          <div className="relative flex items-center gap-1.5 [&:hover_>_div:nth-of-type(3)]:opacity-100">
+          <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
             <div
               className={clsx(
-                "block w-3 h-3 border-2 rounded-full",
+                "block w-3 h-3 aspect-square border-2 rounded-full",
                 ["fulfilled", "success"].includes(status) && "bg-green-200 border-green-500",
-                status === "queued" && "bg-yellow-300 border-orange-400",
+                status === "queued" && "bg-yellow-200 border-orange-400",
                 status === "cancelled" && "bg-red-200 border-red-500"
               )}
             ></div>
-            <p
+            <div
               className={clsx(
-                "font-semibold flex gap-2",
+                "font-semibold flex gap-2 justify-center items-center",
                 ["fulfilled", "success"].includes(status) && "text-green-500",
                 status === "queued" && "text-orange-500",
                 status === "cancelled" && "text-red-500"
               )}
             >
-              {status}
-              {/* {status === "queued" && (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Button size="tiny" variant="destructive" className="w-4 h-4 p-0 rounded-lg">
-                      <i className="ri-close-fill text-[1.02rem]"></i>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Cancel withdrawal request</TooltipContent>
-                </Tooltip>
-              )} */}
-            </p>
-            {/* <div className="absolute inset-0 opacity-0 transition-opacity"></div> */}
+              <p>{status}</p>
+            </div>
+            {/* <div className="absolute inset-0  transition-opacity"> */}
+            {status === "queued" && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="tiny"
+                    variant="destructive"
+                    className="absolute w-full rounded-md opacity-0 transition-opacity flex justify-center items-center hover:bg-opacity-100"
+                  >
+                    <i className="ri-close-fill text-xl"></i>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Cancel withdrawal request</TooltipContent>
+              </Tooltip>
+            )}
+            {/* </div> */}
           </div>
         );
       },
@@ -429,7 +434,7 @@ export const AppDashboard: FC = () => {
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex flex-col items-center row-span-3 col-span-3 px-2 py-8"
+        className="flex flex-col items-center row-span-3 col-span-3 px-4 pt-8 pb-6"
       >
         <h2 className="text-center font-bold text-2xl pb-8 font-heading text-fg/90">Activity</h2>
 
@@ -439,7 +444,7 @@ export const AppDashboard: FC = () => {
           className="mx-2 inline-block w-64 mb-2 self-start"
         /> */}
 
-        <div className="w-full grid grid-cols-[repeat(5,minmax(0,200px))] text-sm overflow-y-scroll font-medium px-2">
+        <div className="w-full grid grid-cols-[repeat(5,minmax(0,200px))] text-sm overflow-y-scroll font-medium rounded-3xl px-2">
           {headerGroup.headers.map((header, cellIndex) => {
             const content = flexRender(header.column.columnDef.header, header.getContext());
             return (
