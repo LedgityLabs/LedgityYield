@@ -1,3 +1,16 @@
+## [1.75.0](https://github.com/ledgity-labs/dapp/compare/v1.74.0...v1.75.0) (2023-06-23)
+
+
+### Features
+
+* **app:** add L-Tokens balances to user dashboard ([c17bf2e](https://github.com/ledgity-labs/dapp/commit/c17bf2e780cdb4020cea810d55c58fdbf250a4ad))
+
+
+### Others
+
+* add og image to README file ([05bf52f](https://github.com/ledgity-labs/dapp/commit/05bf52f7b9422f47c9dbf32f7a455f4c4a52d267))
+* **deps:** update nextjs monorepo to v13.4.7 ([b664d4f](https://github.com/ledgity-labs/dapp/commit/b664d4f9dcb80bebd4c3c6abd289cfd26c9b12db))
+
 ## [1.74.0](https://github.com/ledgity-labs/dapp/compare/v1.73.0...v1.74.0) (2023-06-23)
 
 
