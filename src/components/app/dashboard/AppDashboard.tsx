@@ -6,10 +6,12 @@ import { TokenLogo } from "../TokenLogo";
 import { TokenSymbol } from "@/lib/tokens";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui";
 import {
+  ColumnFiltersState,
   SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -72,26 +74,165 @@ const activityData: ActivityData[] = [
     token: "USDC",
     status: "queued",
   },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 189874654,
+    token: "USDC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 798421,
+    token: "USDC",
+    status: "cancelled",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 95473,
+    token: "EUROC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 1024,
+    token: "EUROC",
+    status: "fulfilled",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 46245000,
+    token: "USDC",
+    status: "queued",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 189874654,
+    token: "USDC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 798421,
+    token: "USDC",
+    status: "cancelled",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 95473,
+    token: "EUROC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 1024,
+    token: "EUROC",
+    status: "fulfilled",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 46245000,
+    token: "USDC",
+    status: "queued",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 189874654,
+    token: "USDC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 798421,
+    token: "USDC",
+    status: "cancelled",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 95473,
+    token: "EUROC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 1024,
+    token: "EUROC",
+    status: "fulfilled",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 46245000,
+    token: "USDC",
+    status: "queued",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 189874654,
+    token: "USDC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 798421,
+    token: "USDC",
+    status: "cancelled",
+  },
+  {
+    datetime: Date.now(),
+    action: "deposit",
+    amount: 95473,
+    token: "EUROC",
+    status: "success",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 1024,
+    token: "EUROC",
+    status: "fulfilled",
+  },
+  {
+    datetime: Date.now(),
+    action: "withdraw",
+    amount: 46245000,
+    token: "USDC",
+    status: "queued",
+  },
 ];
 
 export const AppDashboard: FC = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const columnHelper = createColumnHelper<ActivityData>();
 
   const activityColumns = [
     columnHelper.accessor("datetime", {
       header: "Date",
       cell: (info) => (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <DateTime timestamp={info.getValue()} output="date" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <DateTime timestamp={info.getValue()} output="time" />
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger className="cursor-help text-fg/50 font-normal">
+            <DateTime timestamp={info.getValue()} output="date" />
+          </TooltipTrigger>
+          <TooltipContent>
+            <DateTime timestamp={info.getValue()} output="time" />
+          </TooltipContent>
+        </Tooltip>
       ),
     }),
     columnHelper.accessor("action", {
@@ -105,14 +246,12 @@ export const AppDashboard: FC = () => {
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Amount value={info.getValue()} />
-            </TooltipTrigger>
-            <TooltipContent>{info.getValue().toLocaleString()}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger className="cursor-help">
+            <Amount value={info.getValue()} />
+          </TooltipTrigger>
+          <TooltipContent>{info.getValue().toLocaleString()}</TooltipContent>
+        </Tooltip>
       ),
     }),
 
@@ -121,37 +260,36 @@ export const AppDashboard: FC = () => {
       cell: (info) => {
         const status = info.getValue();
         return (
-          <div className="inline-flex gap-1.5 justify-center items-center">
+          <div className="relative flex items-center gap-1.5 [&:hover_>_div:nth-of-type(3)]:opacity-100">
             <div
               className={clsx(
-                "w-3 h-3 border-2 rounded-full",
+                "block w-3 h-3 border-2 rounded-full",
                 ["fulfilled", "success"].includes(status) && "bg-green-200 border-green-500",
                 status === "queued" && "bg-yellow-300 border-orange-400",
                 status === "cancelled" && "bg-red-200 border-red-500"
               )}
-            />
-            <div
+            ></div>
+            <p
               className={clsx(
-                "font-semibold",
+                "font-semibold flex gap-2",
                 ["fulfilled", "success"].includes(status) && "text-green-500",
                 status === "queued" && "text-orange-500",
                 status === "cancelled" && "text-red-500"
               )}
             >
               {status}
-            </div>
-            {status === "queued" && (
-              <TooltipProvider>
+              {/* {status === "queued" && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <Button size="tiny" variant="destructive" className="w-5 h-5 p-0 rounded-lg">
+                    <Button size="tiny" variant="destructive" className="w-4 h-4 p-0 rounded-lg">
                       <i className="ri-close-fill text-[1.02rem]"></i>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>Cancel withdrawal request</TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
-            )}
+              )} */}
+            </p>
+            {/* <div className="absolute inset-0 opacity-0 transition-opacity"></div> */}
           </div>
         );
       },
@@ -164,8 +302,11 @@ export const AppDashboard: FC = () => {
     columns: activityColumns,
     state: {
       sorting,
+      columnFilters,
     },
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
   });
@@ -188,35 +329,31 @@ export const AppDashboard: FC = () => {
               </div>
               <div className="flex gap-2 items-center">
                 <Amount value={token.balance} className="font-bold pr-4" />
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Button size="tiny" className="w-8 h-8">
-                        <i className="ri-add-fill text-lg"></i>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      Deposit {token.wrappedSymbol} against {token.symbol}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button size="tiny" className="w-8 h-8">
+                      <i className="ri-add-fill text-lg"></i>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Deposit {token.wrappedSymbol} against {token.symbol}
+                  </TooltipContent>
+                </Tooltip>
 
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Button
-                        variant="outline"
-                        size="tiny"
-                        className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
-                      >
-                        <i className="ri-subtract-fill text-lg"></i>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      Withdraw {token.wrappedSymbol} from {token.symbol}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      variant="outline"
+                      size="tiny"
+                      className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
+                    >
+                      <i className="ri-subtract-fill text-lg"></i>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Withdraw {token.wrappedSymbol} from {token.symbol}
+                  </TooltipContent>
+                </Tooltip>
               </div>
             </li>
           ))}
@@ -292,22 +429,31 @@ export const AppDashboard: FC = () => {
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex flex-col items-center row-span-3 col-span-3 px-4 py-8"
+        className="flex flex-col items-center row-span-3 col-span-3 px-2 py-8"
       >
         <h2 className="text-center font-bold text-2xl pb-8 font-heading text-fg/90">Activity</h2>
 
-        <div className="w-full grid grid-cols-5 text-sm overflow-y-scroll -mr-5 pr-5 font-medium">
-          {headerGroup.headers.map((header) => {
+        {/* <Input
+          placeholder="Search for activity..."
+          onChange={(event) => table.setGlobalFilter(event.target.value)}
+          className="mx-2 inline-block w-64 mb-2 self-start"
+        /> */}
+
+        <div className="w-full grid grid-cols-[repeat(5,minmax(0,200px))] text-sm overflow-y-scroll font-medium px-2">
+          {headerGroup.headers.map((header, cellIndex) => {
             const content = flexRender(header.column.columnDef.header, header.getContext());
             return (
-              <div key={header.column.id} className="px-2 py-3">
+              <div
+                key={header.column.id}
+                className={clsx("py-4", cellIndex === 0 && "pl-4", cellIndex === 4 && "pr-4")}
+              >
                 {(sortableColumns.includes(header.column.id) && (
                   <button
                     onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
-                    className="flex gap-1 font-semibold text-fg/80"
+                    className="flex gap-1 font-semibold text-fg/50"
                   >
                     {content}
-                    <span className="text-fg/60">
+                    <span className="text-fg/30">
                       {(() => {
                         switch (header.column.getIsSorted()) {
                           case "asc":
@@ -337,10 +483,10 @@ export const AppDashboard: FC = () => {
                       gridColumnStart: cellIndex + 1,
                     }}
                     className={clsx(
-                      "py-3 px-2",
+                      "py-4 font-medium",
                       rowIndex % 2 === 0 && "bg-fg/5",
-                      cellIndex === 0 && "rounded-l-md",
-                      cellIndex === 4 && "rounded-r-md"
+                      cellIndex === 0 && "rounded-l-md pl-4",
+                      cellIndex === 4 && "rounded-r-md pr-4"
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

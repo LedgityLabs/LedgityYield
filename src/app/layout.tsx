@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import "remixicon/fonts/remixicon.css";
 import { type NextPage } from "next";
-import { CardsHelper } from "@/components/ui";
+import { CardsHelper, TooltipProvider } from "@/components/ui";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fonts } from "@/lib/fonts";
@@ -63,7 +63,9 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200"
         )}
       >
-        <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">{children}</div>
+        <TooltipProvider delayDuration={400}>
+          <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">{children}</div>
+        </TooltipProvider>
       </body>
     </html>
   );

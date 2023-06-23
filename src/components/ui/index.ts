@@ -12,3 +12,4 @@ export * from "./RadioGroup";
 export * from "./Amount";
 export * from "./Tooltip";
 export * from "./DateTime";
+export * from "./Input";

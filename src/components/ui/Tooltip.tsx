@@ -12,7 +12,7 @@ export const TooltipTrigger: FC<TooltipPrimitive.TooltipTriggerProps> = ({
   className,
   ...props
 }) => (
-  <TooltipPrimitive.Trigger className={twMerge("cursor-help", className)} {...props}>
+  <TooltipPrimitive.Trigger className={className} {...props}>
     {children}
   </TooltipPrimitive.Trigger>
 );
