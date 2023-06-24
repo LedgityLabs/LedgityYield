@@ -1,7 +1,14 @@
-import { Amount, Button, Card, DateTime } from "@/components/ui";
+import {
+  Amount,
+  Button,
+  Card,
+  DateTime,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui";
 import {
   ColumnFiltersState,
   SortingState,
@@ -210,14 +217,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     columnHelper.accessor("datetime", {
       header: "Date",
       cell: (info) => (
-        <Tooltip>
-          <TooltipTrigger className="cursor-help text-fg/50 font-normal">
-            <DateTime timestamp={info.getValue()} output="date" />
-          </TooltipTrigger>
-          <TooltipContent>
-            <DateTime timestamp={info.getValue()} output="time" />
-          </TooltipContent>
-        </Tooltip>
+        <DateTime
+          timestamp={info.getValue()}
+          output="date"
+          className="cursor-help text-fg/50 font-normal"
+        />
       ),
     }),
     columnHelper.accessor("action", {
@@ -230,14 +234,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     }),
     columnHelper.accessor("amount", {
       header: "Amount",
-      cell: (info) => (
-        <Tooltip>
-          <TooltipTrigger className="cursor-help">
-            <Amount value={info.getValue()} />
-          </TooltipTrigger>
-          <TooltipContent>{info.getValue().toLocaleString()}</TooltipContent>
-        </Tooltip>
-      ),
+      cell: (info) => <Amount value={info.getValue()} />,
     }),
 
     columnHelper.accessor("status", {
