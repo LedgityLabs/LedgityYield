@@ -7,7 +7,7 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
     <Card
       circleIntensity={0.07}
       className={twMerge(
-        "flex flex-col justify-between items-center py-4 px-6 [&:hover_>_span:last-of-type]:opacity-100 [&:hover_>_span:first-of-type]:opacity-50",
+        "flex flex-col justify-between items-center py-4 px-7 [&:hover_>_span:last-of-type]:opacity-100 [&:hover_>_span:first-of-type]:opacity-50",
         className
       )}
     >

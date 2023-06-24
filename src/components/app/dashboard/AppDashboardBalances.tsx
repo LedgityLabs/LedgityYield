@@ -31,7 +31,7 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
       className={twMerge("flex flex-col justify-center items-center p-4", className)}
     >
       <h2 className="text-center text-lg font-medium text-indigo-900/80">L-Tokens balances</h2>
-      <ul className="w-full h-full flex flex-col justify-center gap-5 pl-4 pr-2">
+      <ul className="w-full h-full flex flex-col justify-center gap-5 pl-3 pr-2">
         {investmentData.map((token) => (
           <li key={token.symbol} className="flex justify-between  items-center w-full ">
             <div className="flex gap-2 items-center font-medium text-fg/[0.85]">
@@ -39,7 +39,7 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
               {token.symbol}
             </div>
             <div className="flex gap-2 items-center">
-              <Amount value={token.balance} className="font-bold pr-4" />
+              <Amount value={token.balance} className="font-bold pr-2" />
               <Tooltip>
                 <TooltipTrigger>
                   <Button size="tiny" className="w-8 h-8">
