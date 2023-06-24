@@ -11,17 +11,24 @@ import {
 import { TokenSymbol } from "@/lib/tokens";
 import React from "react";
 import { twMerge } from "tailwind-merge";
+import { DepositDialog } from "../DepositDialog";
+import { WithdrawDialog } from "../WithdrawDialog";
 
 export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ className }) => {
-  const investmentData = [
+  interface InvestmentData {
+    symbol: `L${TokenSymbol}`;
+    wrappedSymbol: TokenSymbol;
+    balance: number;
+  }
+  const investmentData: InvestmentData[] = [
     {
       symbol: "LUSDC",
-      wrappedSymbol: "USDC" as TokenSymbol,
+      wrappedSymbol: "USDC",
       balance: 87330,
     },
     {
       symbol: "LEUROC",
-      wrappedSymbol: "EUROC" as TokenSymbol,
+      wrappedSymbol: "EUROC",
       balance: 0,
     },
   ];
@@ -43,9 +50,11 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
               <Amount value={token.balance} className="font-bold pr-2" />
               <Tooltip>
                 <TooltipTrigger>
-                  <Button size="tiny" className="w-8 h-8">
-                    <i className="ri-add-fill text-lg"></i>
-                  </Button>
+                  <DepositDialog tokenSymbol={token.wrappedSymbol}>
+                    <Button size="tiny" className="w-8 h-8">
+                      <i className="ri-add-fill text-lg"></i>
+                    </Button>
+                  </DepositDialog>
                 </TooltipTrigger>
                 <TooltipContent>
                   Deposit {token.wrappedSymbol} against {token.symbol}
@@ -54,13 +63,15 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
 
               <Tooltip>
                 <TooltipTrigger>
-                  <Button
-                    variant="outline"
-                    size="tiny"
-                    className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
-                  >
-                    <i className="ri-subtract-fill text-lg"></i>
-                  </Button>
+                  <WithdrawDialog tokenSymbol={token.wrappedSymbol}>
+                    <Button
+                      variant="outline"
+                      size="tiny"
+                      className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
+                    >
+                      <i className="ri-subtract-fill text-lg"></i>
+                    </Button>
+                  </WithdrawDialog>
                 </TooltipTrigger>
                 <TooltipContent>
                   Withdraw {token.wrappedSymbol} from {token.symbol}

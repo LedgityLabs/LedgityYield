@@ -42,11 +42,11 @@ export const AlertDialogContent: FC<
   </AlertDialogPortal>
 );
 
-export const AlertDialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+export const AlertDialogHeader: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
   <div className={twMerge("flex flex-col gap-4 text-center sm:text-left", className)} {...props} />
 );
 
-export const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+export const AlertDialogFooter: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
   <div
     className={twMerge("flex sm:justify-end justify-center items-center flex-wrap gap-4", className)}
     {...props}
@@ -63,9 +63,7 @@ export const AlertDialogTitle: FC<React.ComponentPropsWithoutRef<typeof AlertDia
   />
 );
 
-export const AlertDialogDescription: FC<
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
-> = ({ className, ...props }) => <AlertDialogPrimitive.Description className={className} {...props} />;
+export const AlertDialogDescription = AlertDialogPrimitive.Description;
 
 interface AlertDialogActionProps
   extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action> {

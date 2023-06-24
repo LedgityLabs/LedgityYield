@@ -12,6 +12,8 @@ import {
 import { twMerge } from "tailwind-merge";
 import { TokenSymbol } from "@/lib/tokens";
 import { TokenLogo } from "../../ui/TokenLogo";
+import { DepositDialog } from "../DepositDialog";
+import { WithdrawDialog } from "../WithdrawDialog";
 
 interface Pool {
   tokenSymbol: TokenSymbol;
@@ -67,14 +69,21 @@ export const AppInvest: FC = () => {
     columnHelper.display({
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => (
-        <div className="inline-flex gap-4">
-          <Button size="small">Deposit</Button>
-          <Button size="small" variant="outline">
-            Withdraw
-          </Button>
-        </div>
-      ),
+      cell: ({ row }) => {
+        const tokenSymbol = row.getValue("tokenSymbol") as TokenSymbol;
+        return (
+          <div className="inline-flex gap-4">
+            <DepositDialog tokenSymbol={tokenSymbol}>
+              <Button size="small">Deposit</Button>
+            </DepositDialog>
+            <WithdrawDialog tokenSymbol={tokenSymbol}>
+              <Button size="small" variant="outline">
+                Withdraw
+              </Button>
+            </WithdrawDialog>
+          </div>
+        );
+      },
     }),
   ];
   const sortableColumns = ["apy", "tvl", "invested"];
