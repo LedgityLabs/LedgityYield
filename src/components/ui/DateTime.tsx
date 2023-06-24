@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   timestamp: number;
@@ -7,18 +8,36 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   tooltip?: boolean;
 }
 
-export const DateTime: FC<Props> = ({ timestamp, output = "both", tooltip = true, ...props }) => {
+export const DateTime: FC<Props> = ({
+  timestamp,
+  className,
+  output = "both",
+  tooltip = true,
+  ...props
+}) => {
   const date = new Date(timestamp);
-  if (output === "both") return <span {...props}>{date.toLocaleString()}</span>;
+  if (output === "both")
+    return (
+      <span className={className} {...props}>
+        {date.toLocaleString()}
+      </span>
+    );
   else {
     const visibleContent = output === "date" ? date.toLocaleDateString() : date.toLocaleTimeString();
-    if (!tooltip) return <span {...props}>{visibleContent}</span>;
+    if (!tooltip)
+      return (
+        <span className={className} {...props}>
+          {visibleContent}
+        </span>
+      );
     else {
       const tooltipContent = output === "date" ? date.toLocaleTimeString() : date.toLocaleDateString();
       return (
         <Tooltip>
-          <TooltipTrigger className="cursor-help" asChild>
-            <span {...props}>{visibleContent}</span>
+          <TooltipTrigger asChild>
+            <span className={twMerge("cursor-help", className)} {...props}>
+              {visibleContent}
+            </span>
           </TooltipTrigger>
           <TooltipContent>{tooltipContent}</TooltipContent>
         </Tooltip>
