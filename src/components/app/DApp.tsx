@@ -92,9 +92,10 @@ const ledgityTheme: Theme = merge(lightTheme(), {
     accentColor: "rgb(var(--primary-bg))",
     accentColorForeground: "rgb(var(--primary-fg))",
     profileForeground: "#eef2ff",
+    modalBackdrop: "var(--modal-backdrop)",
   },
   blurs: {
-    modalOverlay: "blur(5px)",
+    modalOverlay: "blur(12px)",
   },
   fonts: {
     body: "var(--font-body)",

@@ -14,3 +14,4 @@ export * from "./Tooltip";
 export * from "./DateTime";
 export * from "./Input";
 export * from "./TokenLogo";
+export * from "./AlertDialog";

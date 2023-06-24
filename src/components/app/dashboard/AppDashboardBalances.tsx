@@ -1,3 +1,4 @@
+"use client";
 import {
   Amount,
   Card,
@@ -8,7 +9,7 @@ import {
   Button,
 } from "@/components/ui";
 import { TokenSymbol } from "@/lib/tokens";
-import React, { FC } from "react";
+import React from "react";
 import { twMerge } from "tailwind-merge";
 
 export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ className }) => {

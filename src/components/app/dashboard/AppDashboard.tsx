@@ -1,5 +1,3 @@
-"use client";
-import { Card } from "@/components/ui";
 import { FC } from "react";
 import { AppDashboardBalances } from "./AppDashboardBalances";
 import { AppDashboardProfits } from "./AppDashboardProfits";

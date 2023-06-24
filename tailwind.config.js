@@ -35,6 +35,11 @@ const vars = {
 
     // Focus ring color
     "--ring": toRGB(colors.indigo[300]),
+
+    // Used by <DApp/> component to customize backdrop color of Rainbox kit modals
+    // It is required because Rainbow kit theme doesn't support direct values like "rgb(var(--fg)/0.5)"
+    // and will parse them as "rgb(var(--fg)0.5)", which breaks the color.
+    "--modal-backdrop": "rgb(var(--fg)/0.5)",
   },
   ".dark": {},
 };
@@ -90,22 +95,22 @@ export const theme = {
         "100%": { opacity: 0 },
       },
       // Used by <Accordion*/> UI components
-      "accordion-down": {
-        from: { height: 0 },
-        to: { height: "var(--radix-accordion-content-height)" },
-      },
-      "accordion-up": {
-        from: { height: "var(--radix-accordion-content-height)" },
-        to: { height: 0 },
-      },
+      // "accordion-down": {
+      //   from: { height: 0 },
+      //   to: { height: "var(--radix-accordion-content-height)" },
+      // },
+      // "accordion-up": {
+      //   from: { height: "var(--radix-accordion-content-height)" },
+      //   to: { height: 0 },
+      // },
     },
     animation: {
       // Used by <Scroller/> UI component
       roll: "2s infinite normal roll ease",
       // Used by <Accordion*/> UI components
-      "accordion-down": "accordion-down 0.2s linear",
-      "accordion-up": "accordion-up 0.2s linear",
+      // "accordion-down": "accordion-down 0.2s linear",
+      // "accordion-up": "accordion-up 0.2s linear",
     },
   },
 };
-export const plugins = [plugin(({ addBase }) => addBase(vars))];
+export const plugins = [plugin(({ addBase }) => addBase(vars)), require("tailwindcss-animate")];

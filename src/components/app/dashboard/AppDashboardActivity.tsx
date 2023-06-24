@@ -1,3 +1,4 @@
+"use client";
 import {
   Amount,
   Button,
@@ -6,16 +7,23 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui";
 import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
-  ColumnFiltersState,
   SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -210,7 +218,6 @@ const activityData: ActivityData[] = [
 
 export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ className }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const columnHelper = createColumnHelper<ActivityData>();
 
   const activityColumns = [
@@ -241,6 +248,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Status",
       cell: (info) => {
         const status = info.getValue();
+        const amount = info.row.getValue("amount") as number;
+        const token = info.row.getValue("token");
         return (
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
             <div
@@ -261,22 +270,45 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             >
               <p>{status}</p>
             </div>
-            {/* <div className="absolute inset-0  transition-opacity"> */}
             {status === "queued" && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="tiny"
-                    variant="destructive"
-                    className="absolute w-full rounded-md opacity-0 transition-opacity flex justify-center items-center hover:bg-opacity-100"
-                  >
-                    <i className="ri-close-fill text-xl"></i>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Cancel withdrawal request</TooltipContent>
-              </Tooltip>
+              <AlertDialog>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        size="tiny"
+                        variant="destructive"
+                        className="absolute w-full rounded-lg opacity-0 transition-opacity flex justify-center items-center hover:bg-opacity-100"
+                      >
+                        <i className="ri-close-fill text-xl"></i>
+                      </Button>
+                    </AlertDialogTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>Cancel withdrawal request</TooltipContent>
+                </Tooltip>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone and{" "}
+                      <span className="font-semibold">you will loose your current position</span> in the
+                      withdrawal queue.
+                      <br />
+                      <br />
+                      By cancelling this request{" "}
+                      <span className="font-semibold">
+                        you will receive your <Amount value={amount} /> {"L" + token}{" "}
+                      </span>
+                      tokens back to your wallet.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogAction variant="destructive">Cancel this request</AlertDialogAction>
+                    <AlertDialogCancel />
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
-            {/* </div> */}
           </div>
         );
       },
@@ -289,11 +321,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     columns: activityColumns,
     state: {
       sorting,
-      columnFilters,
     },
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
   });
@@ -305,12 +334,6 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       className={twMerge("flex flex-col items-center px-4 pt-10 pb-6", className)}
     >
       <h2 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">Activity</h2>
-
-      {/* <Input
-          placeholder="Search for activity..."
-          onChange={(event) => table.setGlobalFilter(event.target.value)}
-          className="mx-2 inline-block w-64 mb-2 self-start"
-        /> */}
 
       <div className="w-full grid grid-cols-[repeat(5,minmax(0,200px))] text-sm overflow-y-scroll font-medium rounded-3xl px-2">
         {headerGroup.headers.map((header, cellIndex) => {
