@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-table";
 import { twMerge } from "tailwind-merge";
 import { TokenSymbol } from "@/lib/tokens";
-import { TokenLogo } from "../TokenLogo";
+import { TokenLogo } from "../../ui/TokenLogo";
 
 interface Pool {
   tokenSymbol: TokenSymbol;
