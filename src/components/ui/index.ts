@@ -16,3 +16,6 @@ export * from "./Input";
 export * from "./TokenLogo";
 export * from "./AlertDialog";
 export * from "./Dialog";
+export * from "./AmountInput";
+export * from "./WalletAvatar";
+export * from "./WalletName";

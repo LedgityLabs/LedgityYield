@@ -1,4 +1,4 @@
-import { Amount, Card } from "@/components/ui";
+import { Amount, AmountInput, Card } from "@/components/ui";
 import { FC } from "react";
 import * as d3 from "d3-format";
 
@@ -95,24 +95,24 @@ export const AppStaking: FC = () => {
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2"
+        className="flex justify-between items-stretch p-10 gap-10 col-span-3 row-span-2"
       >
         <h2 className="font-heading text-xl w-24">Stake</h2>
-        <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
+        <AmountInput maxValue={71324654} />
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2"
+        className="flex justify-between items-stretch p-10 gap-10 col-span-3 row-span-2"
       >
         <h2 className="font-heading text-xl w-24">Claim</h2>
-        <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
+        <AmountInput maxValue={71324654} maxName="Unclaimed rewards" />
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-center items-center p-10 gap-10 col-span-3 row-span-2"
+        className="flex justify-between items-stretch p-10 gap-10 col-span-3 row-span-2"
       >
         <h2 className="font-heading text-xl w-24">Withdraw</h2>
-        <div className="bg-primary/10 w-full h-full rounded-3xl"></div>
+        <AmountInput maxValue={71324654} maxName="Deposited" />
       </Card>
     </section>
   );

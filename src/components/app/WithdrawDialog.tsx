@@ -1,8 +1,11 @@
 import { FC } from "react";
 import {
+  AmountInput,
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -37,6 +40,12 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
             )}
           </DialogDescription>
         </DialogHeader>
+        <DialogFooter className="items-end mt-8">
+          <AmountInput maxValue={71324654} />
+          <Button size="medium" className="relative -top-[1.5px]">
+            Withdraw
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

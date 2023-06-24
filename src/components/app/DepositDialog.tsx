@@ -1,8 +1,11 @@
 import { FC } from "react";
 import {
+  AmountInput,
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -33,6 +36,12 @@ export const DepositDialog: FC<Props> = ({ children, tokenSymbol }) => {
             in a 1:1 ratio.
           </DialogDescription>
         </DialogHeader>
+        <DialogFooter className="items-end mt-8">
+          <AmountInput maxValue={1874654} />
+          <Button size="medium" className="relative -top-[1.5px]">
+            Deposit
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

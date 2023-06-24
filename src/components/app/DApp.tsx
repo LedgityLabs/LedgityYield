@@ -40,7 +40,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { chains } from "@/lib/chains";
 import { DAppProvider } from "@/contexts";
-import { WalletAvatar } from "./WalletAvatar";
+import { WalletAvatar } from "@/components/ui";
 
 //
 const projectId = env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;

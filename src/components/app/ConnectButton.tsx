@@ -5,13 +5,19 @@ import {
   useConnectModal,
 } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui";
+import {
+  Button,
+  WalletName,
+  WalletAvatar,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui";
 import { chains, chainsIcons } from "@/lib/chains";
-import { WalletAvatar } from "./WalletAvatar";
 import clsx from "clsx";
 import { useDApp } from "@/hooks";
-import { Button } from "@/components/ui";
-import { WalletName } from "./WalletName";
 import { useSwitchNetwork } from "@/hooks/useSwitchNetwork";
 import React from "react";
 
