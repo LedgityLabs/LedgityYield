@@ -1,3 +1,10 @@
+## [1.83.0](https://github.com/ledgity-labs/dapp/compare/v1.82.0...v1.83.0) (2023-06-24)
+
+
+### Features
+
+* **app:** improve Withdrawal dialog explanations ([4f370a4](https://github.com/ledgity-labs/dapp/commit/4f370a458f41c6f9f69856789fe564271a5821c3))
+
 ## [1.82.0](https://github.com/ledgity-labs/dapp/compare/v1.81.0...v1.82.0) (2023-06-24)
 
 
