@@ -1,3 +1,10 @@
+## [1.82.0](https://github.com/ledgity-labs/dapp/compare/v1.81.0...v1.82.0) (2023-06-24)
+
+
+### Features
+
+* new AmountInput component. Implemented it in deposit/withdrawal dialogs + staking page ([a44612e](https://github.com/ledgity-labs/dapp/commit/a44612e70bfd65c5cc130175b9e2d12162e2d740))
+
 ## [1.81.0](https://github.com/ledgity-labs/dapp/compare/v1.80.0...v1.81.0) (2023-06-24)
 
 
