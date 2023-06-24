@@ -12,10 +12,10 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
       )}
     >
       <h2 className="text-center text-lg font-medium text-indigo-900/80">Total profits</h2>
-      <span className="text-center text-4xl font-heavy font-heading text-green-600 transition-opacity">
+      <span className="text-center text-4xl font-heavy font-heading text-emerald-500 transition-opacity">
         +133.14%
       </span>
-      <span className="text-center text-xl font-heavy font-heading text-green-600 opacity-50 transition-opacity">
+      <span className="text-center text-xl font-heavy font-heading text-emerald-500 opacity-50 transition-opacity">
         <span className="text-fg/20">(</span>
         +$
         <Amount value={157789} />

@@ -255,16 +255,16 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             <div
               className={clsx(
                 "block w-3 h-3 aspect-square border-2 rounded-full",
-                ["fulfilled", "success"].includes(status) && "bg-green-200 border-green-500",
-                status === "queued" && "bg-yellow-200 border-orange-400",
+                ["fulfilled", "success"].includes(status) && "bg-emerald-200 border-emerald-500",
+                status === "queued" && "bg-amber-200 border-amber-500",
                 status === "cancelled" && "bg-red-200 border-red-500"
               )}
             ></div>
             <div
               className={clsx(
                 "font-semibold flex gap-2 justify-center items-center",
-                ["fulfilled", "success"].includes(status) && "text-green-500",
-                status === "queued" && "text-orange-500",
+                ["fulfilled", "success"].includes(status) && "text-emerald-500",
+                status === "queued" && "text-amber-500",
                 status === "cancelled" && "text-red-500"
               )}
             >

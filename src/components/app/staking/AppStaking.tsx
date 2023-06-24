@@ -95,25 +95,28 @@ export const AppStaking: FC = () => {
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-between items-stretch p-10 gap-10 col-span-3 row-span-2"
+        className="flex flex-col justify-between items-stretch p-10 col-span-2 row-span-2"
       >
-        <h2 className="font-heading text-xl w-24">Stake</h2>
+        <h2 className="font-heading text-2xl w-24">Stake</h2>
         <AmountInput maxValue={71324654} />
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-between items-stretch p-10 gap-10 col-span-3 row-span-2"
+        className="flex flex-col justify-between items-stretch p-10 col-span-2 row-span-2"
       >
-        <h2 className="font-heading text-xl w-24">Claim</h2>
+        <h2 className="font-heading text-2xl w-24">Claim</h2>
         <AmountInput maxValue={71324654} maxName="Unclaimed rewards" />
       </Card>
       <Card
         circleIntensity={0.07}
-        className="flex justify-between items-stretch p-10 gap-10 col-span-3 row-span-2"
+        className="flex flex-col justify-between items-stretch p-10 col-span-2 row-span-2"
       >
-        <h2 className="font-heading text-xl w-24">Withdraw</h2>
+        <h2 className="font-heading text-2xl w-24">Withdraw</h2>
         <AmountInput maxValue={71324654} maxName="Deposited" />
       </Card>
+      {/* <Card circleIntensity={0.07} className="col-start-5 row-start-2 row-span-3">
+        <p>Empty slot</p>
+      </Card> */}
     </section>
   );
 };
