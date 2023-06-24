@@ -1,3 +1,15 @@
+## [1.80.0](https://github.com/ledgity-labs/dapp/compare/v1.79.2...v1.80.0) (2023-06-24)
+
+
+### Features
+
+* new AlertDialog component + add alert dialog when cancelling a withdrawal request ([a107bcd](https://github.com/ledgity-labs/dapp/commit/a107bcd4c0fba38c18db08d69ce04d526a8ea425))
+
+
+### Others
+
+* **deps:** update dependencies ([2df07b0](https://github.com/ledgity-labs/dapp/commit/2df07b03ea5ca233b3d7d48840f508d784ffe43c))
+
 ## [1.79.2](https://github.com/ledgity-labs/dapp/compare/v1.79.1...v1.79.2) (2023-06-24)
 
 
