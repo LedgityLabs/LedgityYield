@@ -1,3 +1,15 @@
+## [1.79.2](https://github.com/ledgity-labs/dapp/compare/v1.79.1...v1.79.2) (2023-06-24)
+
+
+### Fixes
+
+* fix missing className forwarding in <Amount/> + improve it in <Datetime/> ([38096cd](https://github.com/ledgity-labs/dapp/commit/38096cd4f55c360e43c9324487b35c1a6a504b70))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.14 ([f6f1e79](https://github.com/ledgity-labs/dapp/commit/f6f1e7935fc5a90af2e37e46a4122f7905510155))
+
 ## [1.79.1](https://github.com/ledgity-labs/dapp/compare/v1.79.0...v1.79.1) (2023-06-24)
 
 
