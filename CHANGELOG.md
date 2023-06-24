@@ -1,3 +1,10 @@
+## [1.78.0](https://github.com/ledgity-labs/dapp/compare/v1.77.0...v1.78.0) (2023-06-23)
+
+
+### Features
+
+* **app:** add cancel request button on queued status hover + fix activity table padding ([7ad074b](https://github.com/ledgity-labs/dapp/commit/7ad074bd6a6cbd154f7110a1ff035f2b870351c5))
+
 ## [1.77.0](https://github.com/ledgity-labs/dapp/compare/v1.76.0...v1.77.0) (2023-06-23)
 
 
