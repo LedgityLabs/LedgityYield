@@ -1,3 +1,10 @@
+## [1.79.0](https://github.com/ledgity-labs/dapp/compare/v1.78.0...v1.79.0) (2023-06-24)
+
+
+### Features
+
+* **app>dashboard:** add amount to total profits, switch chart and activity, refactor each card in ([15f6174](https://github.com/ledgity-labs/dapp/commit/15f6174dda01348267f0184bd63ea1639889bf6c))
+
 ## [1.78.0](https://github.com/ledgity-labs/dapp/compare/v1.77.0...v1.78.0) (2023-06-23)
 
 
