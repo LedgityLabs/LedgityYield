@@ -1,3 +1,10 @@
+## [1.81.0](https://github.com/ledgity-labs/dapp/compare/v1.80.0...v1.81.0) (2023-06-24)
+
+
+### Features
+
+* add <Dialog/> component as well as first version of <DepositDialog/> and <WithdrawDialog/> ([329ef89](https://github.com/ledgity-labs/dapp/commit/329ef89e92c4469bbfc8fe3c7729b24798d56421))
+
 ## [1.80.0](https://github.com/ledgity-labs/dapp/compare/v1.79.2...v1.80.0) (2023-06-24)
 
 
