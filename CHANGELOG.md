@@ -1,3 +1,15 @@
+## [1.79.1](https://github.com/ledgity-labs/dapp/compare/v1.79.0...v1.79.1) (2023-06-24)
+
+
+### Fixes
+
+* **app>dashboard:** adjust balances card paddings ([7c5dd09](https://github.com/ledgity-labs/dapp/commit/7c5dd09d1ef766be23c4c9f4444ffb9f2c1cd043))
+
+
+### Others
+
+* move amount and date tooltips to <Amount/> and <DateTime/> components directly ([96de906](https://github.com/ledgity-labs/dapp/commit/96de906377c9ceeee8d2a5433c3af97b14499957))
+
 ## [1.79.0](https://github.com/ledgity-labs/dapp/compare/v1.78.0...v1.79.0) (2023-06-24)
 
 
