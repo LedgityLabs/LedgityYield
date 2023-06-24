@@ -18,7 +18,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, disabled = false, variant = "primary", size = "medium", ...props }, ref) => (
     <button
       className={twMerge(
-        "relative inline-flex items-center justify-center rounded-[0.8rem] font-semibold transition-colors hover:bg-opacity-80  overflow-hidden",
+        "relative inline-flex items-center justify-center rounded-[0.8rem] font-semibold transition-colors hover:bg-opacity-80  overflow-hidden whitespace-nowrap",
 
         // Variants
         {
