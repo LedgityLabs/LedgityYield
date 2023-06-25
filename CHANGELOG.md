@@ -1,3 +1,10 @@
+## [1.84.0](https://github.com/ledgity-labs/dapp/compare/v1.83.0...v1.84.0) (2023-06-24)
+
+
+### Features
+
+* adjust staking actions boxes + dashboard activity status colors ([5681773](https://github.com/ledgity-labs/dapp/commit/568177362b137c6d26201681293b8587c579aac1))
+
 ## [1.83.0](https://github.com/ledgity-labs/dapp/compare/v1.82.0...v1.83.0) (2023-06-24)
 
 
