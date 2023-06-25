@@ -1,3 +1,11 @@
+## [1.85.0](https://github.com/ledgity-labs/dapp/compare/v1.84.0...v1.85.0) (2023-06-25)
+
+
+### Features
+
+* **contracts:** first version of deploy scripts ([57f2ab7](https://github.com/ledgity-labs/dapp/commit/57f2ab7890e78b6e6caae7cc9b0641b14b3c147b))
+* **ltoken:** rework withdrawal functions to fit new withdrawal process design ([85b52a8](https://github.com/ledgity-labs/dapp/commit/85b52a814a60861cf0720b1c4e418c0746e99d86))
+
 ## [1.84.0](https://github.com/ledgity-labs/dapp/compare/v1.83.0...v1.84.0) (2023-06-24)
 
 
