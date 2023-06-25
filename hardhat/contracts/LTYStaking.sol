@@ -134,11 +134,11 @@ contract LTYStaking is
 
     /**
      * @dev Return whether an account is eligible to a given staking tier.
-     * @param tierIndex The index of the tier
+     * @param tierIndex The tier number (not its index in the array)
      * @param account The account to check the eligibility of
      */
     function isEligibleTo(uint256 tierIndex, address account) public view returns (bool) {
-        return tiers[tierIndex] >= stakeOf[account];
+        return tiers[tierIndex - 1] >= stakeOf[account];
     }
 
     /**

@@ -41,8 +41,8 @@ contract LToken is
      * @param amount The amount of underlying requested
      */
     struct WithdrawalRequest {
-        address account;
-        uint128 amount;
+        address account; // 20 bytes
+        uint96 amount; // 12 bytes
     }
 
     /// @dev Holds address of the LTYStaking contract
@@ -88,8 +88,9 @@ contract LToken is
      * from the queue. This is used by the withdrawal server to keep track of requests.
      * @param index The index of the withdrawal request in the queue.
      */
-    event queuedWithdrawalRequest(uint256 index);
-    event removedWithdrawalRequest(uint256 index);
+    event addedQueuedWithdrawalRequest(uint256 index);
+    event cancelledQueuedWithdrawalRequest(uint256 index);
+    event proceededQueuedWithdrawalRequests(uint256[] indexes);
 
     /**
      * @dev Restrict targeted function to the withdrawal server's wallet (a.k.a withdrawer).
@@ -332,7 +333,7 @@ contract LToken is
      * @inheritdoc ERC20WrapperUpgradeable
      */
     function withdrawTo(address account, uint256 amount) public override returns (bool) {
-        revert("Forbidden, use withdraw() instead");
+        revert("Forbidden, use instantWithdraw() or addQueuedWithdrawalRequest() instead");
     }
 
     function depositFor(address account, uint256 amount) public override returns (bool) {
@@ -344,7 +345,7 @@ contract LToken is
      * transfer of underlying tokens exceeding the retention
      * @param amount The amount of underlying tokens to deposit
      */
-    function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) returns (bool) {
+    function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
         _resetInvestmentPeriodOf(_msgSender(), true);
 
         // Receive deposited underlying tokens and mint L-Token to the account in a 1:1 ratio
@@ -353,70 +354,155 @@ contract LToken is
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
-
-        // Returns true as required by the overriden parent function.
-        // See: https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20Wrapper-depositFor-address-uint256-
-        return true;
     }
 
-    /**
-     * @dev Implementation of ERC20Wrapper.withdrawTo() supporting reset of investment
+    /* @dev Implementation of ERC20Wrapper.withdrawTo() supporting reset of investment
      * period, withdrawal fees, and transfer of underlying tokens exceeding the retention
      * rate.
      * @param account The account to withdraw tokens for
      * @param amount The amount of tokens to withdraw
      */
-    function _withdrawTo(address account, uint256 amount, bool fromFund) internal returns (bool) {
+    function _withdrawTo(address account, uint256 amount, bool fromFund) internal {}
+
+    /**
+     * @dev This function serves as a common base for all below withdrawal functions.
+     * It resets the investment period of the account, and outputs the withdrawn amount
+     * after fees.
+     * @param account The account to withdraw tokens for
+     * @param amount The amount of tokens to withdraw
+     * @param updateUnclaimedFees Whether to update the amount of unclaimed fees
+     * This last param is set to false in batchQueuedWithdraw(), which saves a
+     * ton of gas by writing unclaimedFees after the loop.
+     *
+     */
+    function _baseWithdraw(
+        address account,
+        uint256 amount,
+        bool updateUnclaimedFees
+    ) internal returns (uint256 withdrawnAmount) {
+        // Reset the investment period of the account and mint its rewards
         _resetInvestmentPeriodOf(account, true);
 
         // Calculate withdrawal fees and update the amount of unclaimed fees
         uint256 fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
-        unclaimedFees += fees;
+        if (updateUnclaimedFees) unclaimedFees += fees;
 
         // Remove fees from the requested amount to obtain the amount to withdraw
-        uint256 withdrawnAmount = amount - fees;
-
-        // If not a big request filled from fund reserve
-        if (!fromFund) {
-            // Process to withdraw (burns withdrawn L-Tokens amount and transfers underlying tokens in a 1:1 ratio)
-            super.withdrawTo(account, withdrawnAmount);
-            usableBalance -= withdrawnAmount;
-        }
-        // Else transfer underlying tokens from fund reserve
-        else {
-            approve(address(this), withdrawnAmount);
-            transferFrom(fund, account, withdrawnAmount);
-        }
-
-        // Transfer funds exceeding the retention rate to fund wallet
-        _transferExceedingToFund();
-
-        // Returns true as required by the overriden parent function.
-        // See: https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20Wrapper-withdrawTo-address-uint256-
-        return true;
+        withdrawnAmount = amount - fees;
     }
 
     /**
      * @dev Try to withdraw a given amount of underlying tokens. The request will be
      * processed immediatelly if conditions are met, otherwise this function will
-     * revert.
+     * revert. In order to save users' gas, this function must be proposed in the
+     * frontend only if the request can be indeed processed immediatelly.
      * @param amount The amount of tokens to withdraw
      */
-    function withdraw(uint256 amount) external payable whenNotPaused notBlacklisted(_msgSender()) {
+    function instantWithdraw(uint256 amount) external whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough funds to withdraw
         require(amount <= balanceOf(_msgSender()), "You don't have enough fund to withdraw");
 
         /* 
-        Process request immediately if the contract holds enough underlying tokens to:
-         - cover current request + amount in queue 
-         - OR to cover current request and the sender is eligible to 1st staking tier
+        Continue if the contract holds enough underlying tokens to:
+         - (cond1) cover this request + already queued requests
+         - OR (cond2) to cover current request and the sender is eligible to 2nd staking tier
         Else revert.
         */
         uint256 _usableBalance = usableBalance;
-        if (totalQueued + amount <= _usableBalance) _withdrawTo(_msgSender(), amount, false);
-        else if (amount <= _usableBalance && ltyStaking.isEligibleTo(1, _msgSender()))
-            _withdrawTo(_msgSender(), amount, false);
-        else revert("Can't process request immediatelly, please queue your request");
+        bool cond1 = totalQueued + amount <= _usableBalance;
+        bool cond2 = amount <= _usableBalance && ltyStaking.isEligibleTo(2, _msgSender());
+        if (!(cond1 || cond2)) revert("Can't process request immediatelly, please queue your request");
+
+        // Reset investment period and retrieve the amount to withdraw (i.e., excluding fees)
+        uint256 withdrawnAmount = _baseWithdraw(_msgSender(), amount, true);
+
+        // Process to withdraw (burns withdrawn L-Tokens amount and transfers underlying tokens in a 1:1 ratio)
+        super.withdrawTo(_msgSender(), withdrawnAmount);
+        usableBalance -= amount;
+
+        // Transfer funds exceeding the retention rate to fund wallet
+        _transferExceedingToFund();
+    }
+
+    /**
+     * @dev Processes a given queued withdrawal request. This function is reserved to
+     * the withdrawer server. See "LToken > Withdrawals" section of whitepaper for more
+     * details.
+     * @param requestIds The indexes of the withdrawal requests to process
+     */
+    function batchQueuedWithdraw(uint256[] calldata requestIds) external onlyWithdrawer whenNotPaused {
+        //
+        uint256 cumulatedFees = 0;
+        uint256 cumulatedAmount = 0;
+
+        // Iterate over the given request indexes
+        for (uint256 i = 0; i < requestIds.length; i++) {
+            uint256 requestId = requestIds[i];
+            WithdrawalRequest memory request = withdrawalQueue[requestId];
+
+            // Ensure the request emitter has not been blacklisted since request emission
+            require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
+
+            // Reset investment period and retrieve the amount to withdraw (i.e., excluding fees)
+            uint256 withdrawnAmount = _baseWithdraw(request.account, request.amount, false);
+
+            // Cumulate fees so they'll be written on-chain only once after the loop
+            cumulatedFees += request.amount - withdrawnAmount;
+
+            // Transfer underlying tokens to the account in a 1:1 ratio
+            // Note that we don't use `_withdrawTo()` here because L-Tokens were already burned
+            // while adding request to queue, so we just need to transfer underlying tokens.
+            SafeERC20Upgradeable.safeTransfer(underlying(), request.account, withdrawnAmount);
+
+            // Remove request
+            delete withdrawalQueue[requestId];
+            cumulatedAmount += request.amount;
+        }
+
+        //
+        unclaimedFees += cumulatedFees;
+        totalQueued -= cumulatedAmount;
+
+        // Transfer funds exceeding the retention rate to fund wallet
+        _transferExceedingToFund();
+
+        // Finally emit an event to notify the processing of those requests
+        emit proceededQueuedWithdrawalRequests(requestIds);
+    }
+
+    /**
+     * @dev Processes a given big queued withdrawal request (that exceeds the retention rate).
+     * In contrast to non-big requests, this function fill the request with contract's funds
+     * but instead directly uses underlying tokens of the fund wallet. This allows
+     * processing requests that are bigger than the retention rate without ever exceeding
+     * the retention rate on the contract.
+     * @param requestId The index of the big request to process
+     */
+    function bigQueuedWithdraw(uint256 requestId) external onlyFund whenNotPaused {
+        // Retrieve request and ensure it exists and has not been processed yet or cancelled
+        WithdrawalRequest memory request = withdrawalQueue[requestId];
+
+        // Ensure the request emitter has not been blacklisted since request emission
+        require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
+
+        // Ensure this is a big request
+        require(request.amount > getExpectedRetained() / 2, "Not a big request");
+
+        // Reset investment period and retrieve the amount to withdraw (i.e., excluding fees)
+        uint256 withdrawnAmount = _baseWithdraw(request.account, request.amount, true);
+
+        // Mint back L-Tokens to account + remove withdrawal requests
+
+        // Remove eueued request
+        delete withdrawalQueue[requestId];
+        totalQueued -= request.amount;
+
+        // Approve and transfer underlying tokens from fund reserve
+        approve(address(this), withdrawnAmount);
+        transferFrom(fund, request.account, withdrawnAmount);
+
+        // Transfer funds exceeding the retention rate to fund wallet
+        _transferExceedingToFund();
     }
 
     /**
@@ -424,14 +510,14 @@ contract LToken is
      * pre-pay the processing gas fees.
      * @param amount The amount of tokens to withdraw
      */
-    function addQueuedWithdrawalRequest(
+    function requestWithdrawal(
         uint256 amount
     ) public payable whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough funds to withdraw
         require(amount <= balanceOf(_msgSender()), "You don't have enough fund to withdraw");
 
         // Ensure the sender attached pre-paid processing gas fees
-        require(msg.value != 0.005 * 10 ** 18, "You must attach 0.005 ETH to the request");
+        require(msg.value != 0.004 * 10 ** 18, "You must attach 0.004 ETH to the request");
 
         // Forward pre-paid processing gas fees to the withdrawer
         (bool sent, ) = withdrawer.call{value: msg.value}("");
@@ -442,24 +528,24 @@ contract LToken is
         _burn(_msgSender(), amount);
 
         // Add the withdrawal request to the queue and update the total amount in queue
-        withdrawalQueue.push(WithdrawalRequest({account: _msgSender(), amount: uint120(amount)}));
+        withdrawalQueue.push(WithdrawalRequest({account: _msgSender(), amount: uint96(amount)}));
         totalQueued += amount;
 
         // Finally emit an event to notify the request addition
-        emit queuedWithdrawalRequest(withdrawalQueue.length - 1);
+        emit addedQueuedWithdrawalRequest(withdrawalQueue.length - 1);
     }
 
     /**
-     * @dev Removes a withdrawal request from the queue and sends back L-Tokens to the
+     * @dev Cancel a withdrawal request from the queue and sends back L-Tokens to the
      * request emitter.
      * @param requestId The index of the withdrawal request to remove
      */
-    function removeQueuedWithdrawalRequest(
+    function cancelWithdrawalRequest(
         uint256 requestId
     ) public whenNotPaused notBlacklisted(_msgSender()) {
         // Retrieve request and ensure it belongs to sender
         WithdrawalRequest memory request = withdrawalQueue[requestId];
-        require(request.account == _msgSender(), "This withdrawal request doesn't belong to you");
+        require(_msgSender() == request.account, "This withdrawal request doesn't belong to you");
 
         // Send back L-Tokens to account
         _mint(_msgSender(), uint256(request.amount));
@@ -471,52 +557,7 @@ contract LToken is
         delete withdrawalQueue[requestId];
 
         // Finally emit an event to notify the request removal
-        emit removedWithdrawalRequest(requestId);
-    }
-
-    /**
-     * @dev Processes a given queued withdrawal request. This function is reserved to
-     * the withdrawer server. See "LToken > Withdrawals" section of whitepaper for more
-     * details.
-     * @param requestId The index of the withdrawal request to process
-     */
-    function processQueuedWithdrawalRequest(uint256 requestId) external onlyWithdrawer whenNotPaused {
-        // Retrieve request and ensure it exists and has not been processed yet or cancelled
-        WithdrawalRequest memory request = withdrawalQueue[requestId];
-
-        // Ensure the request emitter has not been blacklisted since request emission
-        require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
-
-        // Mint back L-Tokens to account + remove withdrawal requests
-        removeQueuedWithdrawalRequest(requestId);
-
-        // Proceed to withdrawal by sending the requested amount to request's account
-        _withdrawTo(request.account, request.amount, false);
-    }
-
-    /**
-     * @dev Processes a given big queued withdrawal request (that exceeds the retention rate).
-     * In contrast to non-big requests, this function fill the request with contract's funds
-     * but instead directly uses underlying tokens of the fund wallet. This allows
-     * processing requests that are bigger than the retention rate without ever exceeding
-     * the retention rate on the contract.
-     * @param requestId The index of the big request to process
-     */
-    function processBigQueuedWithdrawalRequest(uint256 requestId) external onlyFund whenNotPaused {
-        // Retrieve request and ensure it exists and has not been processed yet or cancelled
-        WithdrawalRequest memory request = withdrawalQueue[requestId];
-
-        // Ensure the request emitter has not been blacklisted since request emission
-        require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
-
-        // Ensure this is a big request
-        require(request.amount > getExpectedRetained() / 2, "Not a big request");
-
-        // Mint back L-Tokens to account + remove withdrawal requests
-        removeQueuedWithdrawalRequest(requestId);
-
-        // Proceed to withdrawal by transferring the requested amount from fund wallet to request's emitter
-        _withdrawTo(request.account, request.amount, true);
+        emit cancelledQueuedWithdrawalRequest(requestId);
     }
 
     /**
@@ -540,7 +581,7 @@ contract LToken is
      * @dev Claims withdrawal fees by minting them to contract owner.
      */
     function claimFees() external onlyOwner {
-        unclaimedFees = 0;
         _mint(_msgSender(), unclaimedFees);
+        unclaimedFees = 0;
     }
 }

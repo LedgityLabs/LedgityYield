@@ -43,7 +43,7 @@ contract Blacklist is Initializable, OwnableUpgradeable, UUPSUpgradeable {
      * @dev Remove given account from blacklist.
      * @param account The account to unblacklist
      */
-    function unBacklist(address account) external onlyOwner {
+    function unBlacklist(address account) external onlyOwner {
         _list[account] = false;
     }
 

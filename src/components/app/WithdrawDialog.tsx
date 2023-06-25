@@ -36,11 +36,11 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
                 <p>
                   Only a small portion of deposited funds are kept on the contract as they are invested
                   off-chain. Actually, the contract doesn&apos;t hold enough funds to cover your request
-                  plus ones before you in the queue.
+                  plus already queued ones.
                   <br />
                   <br />
-                  Your request will so be queued and then automatically processed as soon as the Ledgity
-                  financial team would have repatriated required funds on the contract.
+                  Once a request has been queued, it will be automatically processed as soon as the
+                  Ledgity financial team would have repatriated required funds on the contract.
                   <br />
                   <br />
                   <span className="font-semibold">
