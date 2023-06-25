@@ -18,6 +18,13 @@ const config: HardhatUserConfig = {
     cache: "./hardhat/cache",
     artifacts: "./hardhat/artifacts",
   },
+  networks: {
+    hardhat: {},
+    localhost: {
+      chainId: 31337,
+    },
+  },
+  defaultNetwork: "hardhat",
 };
 
 export default config;

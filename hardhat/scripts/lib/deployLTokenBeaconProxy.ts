@@ -3,31 +3,40 @@ import { network } from "hardhat";
 import { deploy } from "./deploy";
 import { deployBeaconProxy } from "./deployBeaconProxy";
 import { contracts } from "../../contracts";
+import { getChainId } from "./getChainId";
 
 export async function deployLTokenBeaconProxy(underlyingSymbol: string) {
+  // Retrieve current chainId
+  const chainId = getChainId();
+
+  // Retrive underlying token address
   let underlyingAddress: string;
-  // If this is a local deployment, deploy a fake EUROC token
-  if (network.name === "localhost") {
-    const eurocContract = await deploy("GenericStableToken", ["Fake EUROC", "EUROC", 6]);
-    underlyingAddress = await eurocContract.getAddress();
+  // If this is a local deployment, deploy a fake underlying token token
+  if (chainId === 31337) {
+    const underlyingContract = await deploy("GenericStableToken", [
+      `Fake ${underlyingSymbol}`,
+      underlyingSymbol,
+      6,
+    ]);
+    underlyingAddress = await underlyingContract.getAddress();
   }
   // Else try retrieving the real underlying token contract address
   else {
     try {
-      underlyingAddress = contracts[network.name][underlyingSymbol].address!;
+      underlyingAddress = contracts[chainId][underlyingSymbol].address!;
     } catch (e) {
       throw new Error(
-        `Address for underlying token '${underlyingSymbol}' for network '${network.name}' not found in contracts.ts file.`
+        `Address for underlying token '${underlyingSymbol}' for network '${network.name} (${chainId})' not found in contracts.ts file.`
       );
     }
   }
 
   let lTokenBeacon: string;
   try {
-    lTokenBeacon = contracts[network.name].LToken.address!;
+    lTokenBeacon = contracts[chainId].LToken.address!;
   } catch (e) {
     throw new Error(
-      `Address for LToken beacon for network '${network.name}' not found in contracts.ts file.`
+      `Address for LToken beacon for network '${network.name} (${chainId})' not found in contracts.ts file.`
     );
   }
   return deployBeaconProxy(lTokenBeacon, "LToken", [underlyingAddress]);

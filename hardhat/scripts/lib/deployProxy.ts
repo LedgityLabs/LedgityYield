@@ -1,15 +1,16 @@
 import { ethers, network, upgrades } from "hardhat";
 import { contracts } from "../../contracts";
+import { getChainId } from "./getChainId";
 
 export async function deployUpgradeable(contractName: string, args?: any[]) {
-  const UpgradeableContract = await ethers.getContractFactory(contractName);
+  // Retrieve current chain Id
+  const chainId = getChainId();
 
   // Try to upgrade the contract in case it has already been deployed
+  const UpgradeableContract = await ethers.getContractFactory(contractName);
   try {
     const proxyAddress =
-      contracts[network.name] &&
-      contracts[network.name][contractName] &&
-      contracts[network.name][contractName].address;
+      contracts[chainId] && contracts[chainId][contractName] && contracts[chainId][contractName].address;
     if (!proxyAddress) throw new Error("Address not found");
     const contract = await upgrades.upgradeProxy(proxyAddress, UpgradeableContract);
     const address = await contract.getAddress();
