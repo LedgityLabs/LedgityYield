@@ -392,10 +392,12 @@ contract LToken is
     }
 
     /**
-     * @dev Try to withdraw a given amount of underlying tokens. The request will be
-     * processed immediatelly if conditions are met, otherwise this function will
-     * revert. In order to save users' gas, this function must be proposed in the
-     * frontend only if the request can be indeed processed immediatelly.
+     * @dev This withdrawal function is to be called by DApp users directly and will try
+     * to instaneously withdraw a given amount of underlying tokens. If conditions are
+     * no met to do so,this function will revert.
+     * IMPORTANT: In order to save gas to user, this function must be proposed in the
+     * frontend only when it has been verfied off-chain that the request can be indeed processed
+     * immediatelly.
      * @param amount The amount of tokens to withdraw
      */
     function instantWithdraw(uint256 amount) external whenNotPaused notBlacklisted(_msgSender()) {
@@ -425,10 +427,11 @@ contract LToken is
     }
 
     /**
-     * @dev Processes a given queued withdrawal request. This function is reserved to
-     * the withdrawer server. See "LToken > Withdrawals" section of whitepaper for more
-     * details.
-     * @param requestIds The indexes of the withdrawal requests to process
+     * @dev This withdrawal function is to be called by the withdrawer server and is used
+     * to batch process a given array of withdrawal requests IDs. Processes a given queued
+     * withdrawal request.
+     * See "LToken > Withdrawals" section of whitepaper for more details.
+     * @param requestIds The indexes of withdrawal requests to process
      */
     function batchQueuedWithdraw(uint256[] calldata requestIds) external onlyWithdrawer whenNotPaused {
         //
@@ -471,11 +474,13 @@ contract LToken is
     }
 
     /**
-     * @dev Processes a given big queued withdrawal request (that exceeds the retention rate).
-     * In contrast to non-big requests, this function fill the request with contract's funds
-     * but instead directly uses underlying tokens of the fund wallet. This allows
-     * processing requests that are bigger than the retention rate without ever exceeding
-     * the retention rate on the contract.
+     * @dev This withdrawal function is to be called by the fund wallet (financial team)
+     * to manually process a given big queued withdrawal request (that exceeds half of
+     * the retention rate).
+     * In contrast to non-big requests processing, this function will fill the request
+     * from fund wallet balance directly.
+     * This allows processing requests that are bigger than the retention rate without
+     * ever exceeding the retention rate on the contract.
      * @param requestId The index of the big request to process
      */
     function bigQueuedWithdraw(uint256 requestId) external onlyFund whenNotPaused {
