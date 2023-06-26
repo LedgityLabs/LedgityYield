@@ -1,3 +1,11 @@
+## [1.86.0](https://github.com/ledgity-labs/dapp/compare/v1.85.0...v1.86.0) (2023-06-26)
+
+
+### Features
+
+* **contracts:** improve deploy scripts by tracking networks by chain ID instead of Hardhat name ([908e04a](https://github.com/ledgity-labs/dapp/commit/908e04a39428ab2b57642b2d7a744beda08be2ff))
+* implement Wagmi CLI, improve contract deployment, improve AmountInput component ([0e7b076](https://github.com/ledgity-labs/dapp/commit/0e7b0769782301b26b08bb55eaa4ac67cd104722))
+
 ## [1.85.0](https://github.com/ledgity-labs/dapp/compare/v1.84.0...v1.85.0) (2023-06-25)
 
 
