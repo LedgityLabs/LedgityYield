@@ -4,25 +4,29 @@
 // import { main as deployLUSDC } from "./deploy-LUSDC";
 // import { main as deployLEUROC } from "./deploy-LEUROC";
 export const main = async () => {
-  await (
-    await import("./deploy-Blacklist")
-  ).default;
-
-  await (
-    await import("./deploy-LTYStaking")
-  ).default;
-
+  const blacklist = await (await import("./deploy-Blacklist")).default;
+  const ltyStaking = await (await import("./deploy-LTYStaking")).default;
   await (
     await import("./deploy-LToken")
   ).default;
 
-  await (
-    await import("./deploy-LUSDC")
-  ).default;
+  let lTokens = [
+    await (await import("./deploy-LUSDC")).default,
+    await (await import("./deploy-LEUROC")).default,
+  ];
 
-  await (
-    await import("./deploy-LEUROC")
-  ).default;
+  ltyStaking!.setBlacklist(await blacklist!.getAddress());
+  ltyStaking!.setAPR(0);
+
+  for (let lToken of lTokens) {
+    lToken!.setBlacklist(await blacklist!.getAddress());
+    lToken!.setLTYStaking(await ltyStaking!.getAddress());
+    lToken!.setAPR(0);
+    lToken!.setFeesRate(0);
+    lToken!.setRetentionRate(5000);
+    lToken!.setFund("0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
+    lToken!.setWithdrawer("0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC");
+  }
 };
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -29,7 +29,7 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
             <br />
             <br />
             {!instantWithdrawAvailable && (
-              <div className="bg-blue-100 rounded-2xl p-6 pt-4">
+              <span className="bg-blue-100 rounded-2xl p-6 pt-4">
                 <h4 className="text-blue-500 text-lg font-semibold mb-2">
                   <i className="ri-information-line"></i> Your request will be queued
                 </h4>
@@ -49,7 +49,7 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
                   fee to cover the gas cost of the transaction that will process your withdrawal when the
                   time comes.
                 </p>
-              </div>
+              </span>
             )}
           </DialogDescription>
         </DialogHeader>

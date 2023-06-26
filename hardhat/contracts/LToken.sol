@@ -146,8 +146,8 @@ contract LToken is
         _unpause();
     }
 
-    function setBlacklistContract(address _contract) external onlyOwner {
-        _setBlacklistContract(_contract);
+    function setBlacklist(address _contract) external onlyOwner {
+        _setBlacklist(_contract);
     }
 
     function setAPR(uint16 aprUD3) public override onlyOwner {

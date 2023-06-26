@@ -2,10 +2,10 @@
 import { network } from "hardhat";
 import { deploy } from "./deploy";
 import { deployBeaconProxy } from "./deployBeaconProxy";
-import { contracts } from "../../contracts";
+import { ContractId, contracts } from "../../contracts";
 import { getChainId } from "./getChainId";
 
-export async function deployLTokenBeaconProxy(underlyingSymbol: string) {
+export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
   // Retrieve current chainId
   const chainId = getChainId();
 
@@ -23,7 +23,7 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: string) {
   // Else try retrieving the real underlying token contract address
   else {
     try {
-      underlyingAddress = contracts[chainId][underlyingSymbol].address!;
+      underlyingAddress = contracts[underlyingSymbol].address[chainId]!;
     } catch (e) {
       throw new Error(
         `Address for underlying token '${underlyingSymbol}' for network '${network.name} (${chainId})' not found in contracts.ts file.`
@@ -33,7 +33,7 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: string) {
 
   let lTokenBeacon: string;
   try {
-    lTokenBeacon = contracts[chainId].LToken.address!;
+    lTokenBeacon = contracts.LToken.address[chainId];
   } catch (e) {
     throw new Error(
       `Address for LToken beacon for network '${network.name} (${chainId})' not found in contracts.ts file.`

@@ -91,9 +91,11 @@ library APRCheckpoints {
      */
     function getLatestReference(Pack[] storage packs) internal view returns (Reference memory) {
         uint256 packLength = packs.length;
-        uint64 latestPackIndex = uint64(packLength > 0 ? packs.length - 1 : 0);
-        uint8 latestWrittenCursor = uint8(packs[latestPackIndex].cursor - 1);
-        return Reference({packIndex: latestPackIndex, cursorIndex: latestWrittenCursor});
+        return
+            Reference({
+                packIndex: uint64(packLength - 1),
+                cursorIndex: uint8(packs[packLength - 1].cursor - 1)
+            });
     }
 
     /**
@@ -117,11 +119,18 @@ library APRCheckpoints {
      * @param aprUD3 The new APR in UD3 format
      */
     function setAPR(Pack[] storage packs, uint16 aprUD3) internal {
-        // Retrieve the reference of the checkpoint to be written and the pack it belongs to
-        Reference memory ref = incrementReference(getLatestReference(packs));
+        uint256 packLength = packs.length;
 
-        // If the pack doesn't exist yet, create it
-        if (packs.length - 1 != ref.packIndex) _newBlankPack(packs);
+        Reference memory ref;
+
+        // Retrieve the reference of the checkpoint to be written, and create its pack if it doesn't exist yet
+        if (packLength == 0) {
+            ref = Reference(0, 0);
+            _newBlankPack(packs);
+        } else {
+            ref = incrementReference(getLatestReference(packs));
+            if (packs.length - 1 != ref.packIndex) _newBlankPack(packs);
+        }
 
         // Retrieve the pack to write the checkpoint in
         Pack memory pack = packs[ref.packIndex];

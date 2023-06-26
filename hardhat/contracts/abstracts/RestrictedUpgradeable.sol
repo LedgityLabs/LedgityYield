@@ -31,7 +31,7 @@ abstract contract RestrictedUpgradeable {
      * @dev Set the blacklist contract address
      * @param contractAddress The address of the blacklist contract
      */
-    function _setBlacklistContract(address contractAddress) internal {
+    function _setBlacklist(address contractAddress) internal {
         _blacklist = Blacklist(contractAddress);
     }
 

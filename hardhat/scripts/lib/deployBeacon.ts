@@ -1,8 +1,8 @@
-import { ethers, network, upgrades } from "hardhat";
-import { contracts } from "../../contracts";
+import { ethers, upgrades } from "hardhat";
+import { AnyContractId, contracts } from "../../contracts";
 import { getChainId } from "./getChainId";
 
-export async function deployBeacon(contractName: string) {
+export async function deployBeacon(contractName: AnyContractId) {
   // Retrieve current chain Id
   const chainId = getChainId();
 
@@ -10,11 +10,13 @@ export async function deployBeacon(contractName: string) {
   const BeaconContract = await ethers.getContractFactory(contractName);
   try {
     const beaconAddress =
-      contracts[chainId] && contracts[chainId][contractName] && contracts[chainId][contractName].address;
+      contracts[contractName] &&
+      contracts[contractName].address &&
+      contracts[contractName].address[chainId];
     if (!beaconAddress) throw new Error("Address not found");
     const contract = await upgrades.upgradeBeacon(beaconAddress, BeaconContract);
     const address = await contract.getAddress();
-    console.log(`Beacon ${contractName} upgraded at: ${address}`);
+    console.log(`Beacon '${contractName}' upgraded at: ${address}`);
     return contract;
   } catch (e) {
     // Else if proxy is address is missing or invalid, deploy a new contract

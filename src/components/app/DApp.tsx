@@ -50,7 +50,7 @@ const connectors = connectorsForWallets([
     wallets: [
       metaMaskWallet({ projectId, chains }),
       rainbowWallet({ projectId, chains }),
-      safeWallet({ chains }), //
+      safeWallet({ chains }),
       ledgerWallet({ projectId, chains }),
       trustWallet({ projectId, chains }),
       phantomWallet({ chains }),
