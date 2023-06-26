@@ -3,7 +3,7 @@
   "version": "1.86.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "hardhat compile && next build",
     "start": "next start",
     "lint": "next lint"
   },
