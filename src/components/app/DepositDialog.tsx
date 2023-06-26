@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useRef, useState } from "react";
 import {
   AmountInput,
   Button,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui";
 import { TokenSymbol } from "@/lib/tokens";
 import * as generated from "../../generated";
+import { useContractWrite } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   tokenSymbol: TokenSymbol;
@@ -19,11 +20,12 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
 
 export const DepositDialog: FC<Props> = ({ children, tokenSymbol }) => {
   const [value, setValue] = useState(0);
+  const inputEl = useRef<HTMLInputElement>(null);
 
   // const { status, config, data } = generated.usePrepareLeurocInstantWithdraw({
   //   args: [BigInt(value)],
   // });
-  const { write, data } = generated.useLeurocInstantWithdraw();
+  const { write, data } = useContractWrite({});
   // console.log(data);
 
   //   useContractWrite({
@@ -36,7 +38,12 @@ export const DepositDialog: FC<Props> = ({ children, tokenSymbol }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          inputEl.current?.focus();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Deposit {tokenSymbol}</DialogTitle>
           <DialogDescription>
@@ -54,10 +61,12 @@ export const DepositDialog: FC<Props> = ({ children, tokenSymbol }) => {
         </DialogHeader>
         <DialogFooter className="items-end mt-8">
           <AmountInput
+            ref={inputEl}
             maxValue={1874654}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(Number.parseInt(e.target.value))}
           />
           <Button
+            // loading={true}
             size="medium"
             className="relative -top-[1.5px]"
             onClick={() =>

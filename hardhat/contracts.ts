@@ -36,6 +36,7 @@ const _contracts = {
   USDC: {
     abi: ERC20JSON.abi,
     address: {
+      1: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       31337: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
     },
   },
@@ -49,6 +50,7 @@ const _contracts = {
   EUROC: {
     abi: ERC20JSON.abi,
     address: {
+      1: "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
       31337: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
     },
   },

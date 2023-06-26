@@ -11,30 +11,37 @@ export const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 
 export const AlertDialogPortal = AlertDialogPrimitive.Portal;
 
-export const AlertDialogOverlay: FC<
+// Forward ref is required here, else overlay will note fade out
+const AlertDialogOverlay = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
-> = ({ className, children, ...props }) => (
+>(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
+    ref={ref}
     className={twMerge(
-      "fixed inset-0 z-[10000] bg-fg/50 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-[10000] bg-fg/50 backdrop-blur-md data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut",
       className
     )}
     {...props}
   />
-);
+));
+AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 
 export const AlertDialogContent: FC<
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 > = ({ className, children, ...props }) => (
   <AlertDialogPortal>
     <AlertDialogOverlay />
-    <AlertDialogPrimitive.Content {...props} asChild>
+    <AlertDialogPrimitive.Content
+      {...props}
+      className="fixed inset-0 z-[10001] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
+    >
       <Card
-        circleIntensity={0.07}
         className={twMerge(
-          "fixed left-[50%] top-[50%] z-[10001] grid w-[calc(100%-2rem)] max-w-lg translate-x-[-50%] translate-y-[-50%] gap-6 p-8 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+          "grid w-[calc(100%-2rem)] max-w-lg  gap-6 p-8 pointer-events-auto",
           className
         )}
+        {...props}
       >
         {children}
       </Card>

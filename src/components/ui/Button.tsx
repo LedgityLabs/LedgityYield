@@ -12,13 +12,26 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, disabled = false, variant = "primary", size = "medium", ...props }, ref) => (
+  (
+    {
+      className,
+      children,
+      variant = "primary",
+      size = "medium",
+      disabled = false,
+      loading = false,
+      ...props
+    },
+    ref
+  ) => (
     <button
       className={twMerge(
-        "relative inline-flex items-center justify-center rounded-[0.8rem] font-semibold transition-colors hover:bg-opacity-80  overflow-hidden whitespace-nowrap",
+        "relative inline-flex items-center justify-center rounded-[0.8rem] font-semibold transition-colors  overflow-hidden whitespace-nowrap",
+        !disabled && !loading && "hover:bg-opacity-80",
 
         // Variants
         {
@@ -58,15 +71,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             outline: "shadow-[0px_4px_12px_rgba(0,0,0,0.07)]",
           },
         }[size][variant === "outline" ? "outline" : "default"],
+        loading && "after:",
 
         // Custom classes
         className
       )}
-      disabled={disabled}
+      disabled={disabled || loading}
       {...props}
       ref={ref}
     >
       {children}
+      <span
+        className={twMerge("hidden absolute inset-0 justify-center items-center", loading && "flex")}
+      >
+        <span className="inline-flex items-center justify-center w-6 h-6 min-h-min min-w-min max-w-min max-h-6 aspect-square rounded-full backdrop-blur-xl animate-spin">
+          <i className="ri-loader-4-line text-lg text-fg"></i>
+        </span>
+      </span>
     </button>
   )
 );

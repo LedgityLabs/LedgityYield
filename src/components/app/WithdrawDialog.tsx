@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import {
   AmountInput,
   Button,
@@ -18,10 +18,17 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
 
 export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
   const instantWithdrawAvailable = false;
+  const inputEl = useRef<HTMLInputElement>(null);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          inputEl.current?.focus();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Witdhraw {tokenSymbol}</DialogTitle>
           <DialogDescription>
@@ -29,7 +36,7 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
             <br />
             <br />
             {!instantWithdrawAvailable && (
-              <span className="bg-blue-100 rounded-2xl p-6 pt-4">
+              <span className="inline-block bg-blue-100 rounded-2xl p-6 pt-4">
                 <h4 className="text-blue-500 text-lg font-semibold mb-2">
                   <i className="ri-information-line"></i> Your request will be queued
                 </h4>
@@ -54,7 +61,7 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="items-end mt-8 flex-nowrap">
-          <AmountInput maxValue={71324654} />
+          <AmountInput ref={inputEl} maxValue={71324654} />
           <Button size="medium" className="relative -top-[1.5px]">
             {instantWithdrawAvailable ? "Withdraw" : "Request"}
           </Button>

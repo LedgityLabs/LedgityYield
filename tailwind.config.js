@@ -94,23 +94,32 @@ export const theme = {
         "80%": { opacity: 1 },
         "100%": { opacity: 0 },
       },
-      // Used by <Accordion*/> UI components
-      // "accordion-down": {
-      //   from: { height: 0 },
-      //   to: { height: "var(--radix-accordion-content-height)" },
-      // },
-      // "accordion-up": {
-      //   from: { height: "var(--radix-accordion-content-height)" },
-      //   to: { height: 0 },
-      // },
+      fadeIn: {
+        "0%": { opacity: 0 },
+        "100%": { opacity: 1 },
+      },
+      fadeOut: {
+        "0%": { opacity: 1 },
+        "100%": { opacity: 0 },
+      },
+      fadeAndMoveIn: {
+        "0%": { opacity: 0, transform: "scale(0.95) translateY(5%)" },
+        "100%": { opacity: 1, transform: "scale(1) translateY(0)" },
+      },
+      fadeAndMoveOut: {
+        "0%": { opacity: 1, transform: "scale(1) translateY(0)" },
+        "100%": { opacity: 0, transform: "scale(0.95) translateY(5%)" },
+      },
     },
     animation: {
       // Used by <Scroller/> UI component
       roll: "2s infinite normal roll ease",
-      // Used by <Accordion*/> UI components
-      // "accordion-down": "accordion-down 0.2s linear",
-      // "accordion-up": "accordion-up 0.2s linear",
+      // Used by <Dialog/> and <AlertDialog/>
+      fadeIn: "0.2s ease-in-out forwards fadeIn",
+      fadeOut: "0.2s ease-in-out forwards fadeOut",
+      fadeAndMoveIn: "0.2s ease-in-out forwards fadeAndMoveIn",
+      fadeAndMoveOut: "0.2s ease-in-out forwards fadeAndMoveOut",
     },
   },
 };
-export const plugins = [plugin(({ addBase }) => addBase(vars)), require("tailwindcss-animate")];
+export const plugins = [plugin(({ addBase }) => addBase(vars))];

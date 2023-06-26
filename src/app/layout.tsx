@@ -60,6 +60,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
       <body
         className={clsx(
           fonts,
+          "min-h-screen",
           "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200"
         )}
       >
