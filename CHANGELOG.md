@@ -1,3 +1,15 @@
+## [1.87.1](https://github.com/ledgity-labs/dapp/compare/v1.87.0...v1.87.1) (2023-06-26)
+
+
+### Fixes
+
+* **deps:** update dependency @t3-oss/env-nextjs to ^0.6.0 ([9ca0ab8](https://github.com/ledgity-labs/dapp/commit/9ca0ab8c5b70f116ac09da93e49ad90647749fb4))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.3.1 ([6f419c2](https://github.com/ledgity-labs/dapp/commit/6f419c2f042077b69635299f46db08a97266eecb))
+
 ## [1.87.0](https://github.com/ledgity-labs/dapp/compare/v1.86.0...v1.87.0) (2023-06-26)
 
 
