@@ -1,3 +1,10 @@
+## [1.87.0](https://github.com/ledgity-labs/dapp/compare/v1.86.0...v1.87.0) (2023-06-26)
+
+
+### Features
+
+* replace tailwind-animate by handwritten animations to fix durations and animation durations ([81ed5db](https://github.com/ledgity-labs/dapp/commit/81ed5db00e3e624b57c966bef56ec460a1c488fc))
+
 ## [1.86.0](https://github.com/ledgity-labs/dapp/compare/v1.85.0...v1.86.0) (2023-06-26)
 
 
