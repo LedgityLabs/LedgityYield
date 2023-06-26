@@ -1,3 +1,10 @@
+## [1.88.0](https://github.com/ledgity-labs/dapp/compare/v1.87.2...v1.88.0) (2023-06-26)
+
+
+### Features
+
+* **app:** start working on admin route, create empty components for each page and add page switcher ([ebd9bde](https://github.com/ledgity-labs/dapp/commit/ebd9bdedacbde9ad0a7ab3b8c9f59ea35df3f124))
+
 ## [1.87.2](https://github.com/ledgity-labs/dapp/compare/v1.87.1...v1.87.2) (2023-06-26)
 
 
