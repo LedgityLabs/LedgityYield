@@ -1,3 +1,10 @@
+## [1.87.2](https://github.com/ledgity-labs/dapp/compare/v1.87.1...v1.87.2) (2023-06-26)
+
+
+### Fixes
+
+* fix build command to include contracts compilation ([be4f730](https://github.com/ledgity-labs/dapp/commit/be4f73070033cdb22546896cac564c588daf07c4))
+
 ## [1.87.1](https://github.com/ledgity-labs/dapp/compare/v1.87.0...v1.87.1) (2023-06-26)
 
 
