@@ -1,5 +1,5 @@
 import { FC, useState, createContext, useEffect } from "react";
-import { contracts as _contracts } from "../../hardhat/contracts";
+import { contracts as _contracts } from "../../hardhat/deployments";
 import {
   type Chain as _Chain,
   WalletClient,

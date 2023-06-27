@@ -1,5 +1,5 @@
 import { ethers, upgrades } from "hardhat";
-import { ContractId, contracts } from "../../contracts";
+import { ContractId, contracts } from "../../deployments";
 import { getChainId } from "./getChainId";
 
 export async function deployUpgradeable(contractName: ContractId, args?: any[]) {

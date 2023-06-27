@@ -30,10 +30,14 @@ export const Card: FC<CardProps> = ({
   useEffect(() => {
     if (card.current) {
       setCircleSize((card.current.offsetHeight + card.current.offsetWidth) / 2.2);
+    }
+  }, [card]);
+  useEffect(() => {
+    if (card.current) {
       card.current.style.setProperty("--circle-size", `${circleSize}px`);
       card.current.style.setProperty("--circle-intensity", circleIntensity.toString());
     }
-  }, [card, card.current]);
+  }, [circleSize, circleIntensity]);
   return (
     <Comp
       //@ts-ignore

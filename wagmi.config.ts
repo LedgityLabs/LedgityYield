@@ -1,6 +1,6 @@
 import { defineConfig } from "@wagmi/cli";
-import { hardhat, react } from "@wagmi/cli/plugins";
-import { contracts } from "./hardhat/contracts";
+import { hardhat, react, erc } from "@wagmi/cli/plugins";
+import { contracts } from "./hardhat/deployments";
 
 export default defineConfig({
   out: "src/generated.ts",
@@ -17,7 +17,7 @@ export default defineConfig({
         }
       ),
       include: ["hardhat/contracts/**"],
-      exclude: ["hardhat/contracts/abstracts/**", "hardhat/contracts/LToken.sol/**"],
+      exclude: ["hardhat/contracts/abstracts/**"],
     }),
     react({
       useContractRead: true,

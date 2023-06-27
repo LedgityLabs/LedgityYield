@@ -4,6 +4,12 @@ import LTYStakingJSON from "./artifacts/hardhat/contracts/LTYStaking.sol/LTYStak
 import LTokenJSON from "./artifacts/hardhat/contracts/LToken.sol/LToken.json";
 import ERC20JSON from "./artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json";
 
+export const testnetIds = [
+  31337, // Hardhat
+  11155111, // Sepolia
+  80001, // Mumbai
+];
+
 interface Contract {
   contractName?: string;
   beacon?: boolean;
@@ -63,17 +69,24 @@ const _contracts = {
   },
 } as const;
 
-// Holds a disjunction of all contracts IDs. Especially used in Hardhat tasks.
-export type AnyContractId = keyof typeof _contracts;
+// Holds a disjunction of all contracts IDs.
+export type ContractId = keyof typeof _contracts;
+
+// Export a typed version of _contracts object
+export const contracts = _contracts as Record<ContractId, Contract>;
+
+export type LTokenId = {
+  [K in ContractId]: (typeof _contracts)[K] extends { contractName: "LToken" } ? K : never;
+}[ContractId];
+
+// Holds a disjunction of all L-Token contracts IDs (excluding beacon one).
+export const lTokensIds = Object.keys(contracts).filter((key) => {
+  return contracts[key as ContractId].contractName === "LToken";
+}) as LTokenId[];
 
 // Holds a disjunction of all contracts IDs that are not beacons. Especially used in frontend
 // which doesn't interact with beacons.
-type ExcludeBeacon<T> = {
-  [K in keyof T]: T[K] extends { beacon: true } ? never : K;
-}[keyof T];
-export type ContractId = ExcludeBeacon<typeof _contracts>;
-
-type Contracts = {
-  [key in AnyContractId]: Contract;
-};
-export const contracts = _contracts as Contracts;
+// type ExcludeBeacon<T> = {
+//   [K in keyof T]: T[K] extends { beacon: true } ? never : K;
+// }[keyof T];
+// export type ContractId = ExcludeBeacon<typeof _contracts>;

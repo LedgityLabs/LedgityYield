@@ -2,7 +2,7 @@
 import { network } from "hardhat";
 import { deploy } from "./deploy";
 import { deployBeaconProxy } from "./deployBeaconProxy";
-import { ContractId, contracts } from "../../contracts";
+import { ContractId, contracts, testnetIds } from "../../deployments";
 import { getChainId } from "./getChainId";
 
 export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
@@ -11,8 +11,9 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
 
   // Retrive underlying token address
   let underlyingAddress: string;
-  // If this is a local deployment, deploy a fake underlying token token
-  if (chainId === 31337) {
+
+  // If this is a testnet deployment, deploy a fake underlying token
+  if (testnetIds.includes(chainId)) {
     const underlyingContract = await deploy("GenericStableToken", [
       `Fake ${underlyingSymbol}`,
       underlyingSymbol,
@@ -20,7 +21,8 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
     ]);
     underlyingAddress = await underlyingContract.getAddress();
   }
-  // Else try retrieving the real underlying token contract address
+
+  // Else try retrieving the real underlying token contract address, error if not found
   else {
     try {
       underlyingAddress = contracts[underlyingSymbol].address[chainId]!;
@@ -31,6 +33,7 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
     }
   }
 
+  // Now try to retrieve the LToken beacon address for that network, error if not found
   let lTokenBeacon: string;
   try {
     lTokenBeacon = contracts.LToken.address[chainId];
@@ -39,5 +42,11 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
       `Address for LToken beacon for network '${network.name} (${chainId})' not found in contracts.ts file.`
     );
   }
-  return deployBeaconProxy(lTokenBeacon, "LToken", [underlyingAddress]);
+
+  // Finally deploy the LToken beacon proxy
+  console.log("UNDERLYING ADDRESS");
+  console.log(underlyingAddress);
+  const proxyContract = await deployBeaconProxy(lTokenBeacon, "LToken", [underlyingAddress]);
+  console.log(await proxyContract.underlying());
+  return proxyContract;
 }
