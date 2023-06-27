@@ -13,15 +13,17 @@ const Page: NextPage = () => {
         <TabsTrigger value="invest">Invest</TabsTrigger>
         <TabsTrigger value="staking">Staking</TabsTrigger>
       </TabsList>
-      <TabsContent value="dashboard">
-        <AppDashboard />
-      </TabsContent>
-      <TabsContent value="invest">
-        <AppInvest />
-      </TabsContent>
-      <TabsContent value="staking">
-        <AppStaking />
-      </TabsContent>
+      <div className="[&_>_*]:animate-fadeAndMoveIn">
+        <TabsContent value="dashboard">
+          <AppDashboard />
+        </TabsContent>
+        <TabsContent value="invest">
+          <AppInvest />
+        </TabsContent>
+        <TabsContent value="staking">
+          <AppStaking />
+        </TabsContent>
+      </div>
     </Tabs>
   );
 };

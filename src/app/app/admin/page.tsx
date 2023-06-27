@@ -35,27 +35,28 @@ const Page: NextPage = () => {
             </TabsTrigger>
           )}
         </TabsList>
-
-        <TabsContent value="dashboard">
-          <AdminDashboard />
-        </TabsContent>
-        <TabsContent value="ltokens">
-          <AdminLTokens />
-        </TabsContent>
-        <TabsContent value="staking">
-          <AdminStaking />
-        </TabsContent>
-        <TabsContent value="blacklist">
-          <AdminBlacklist />
-        </TabsContent>
-        <TabsContent value="recover">
-          <AdminRecover />
-        </TabsContent>
-        {isTestnet && (
-          <TabsContent value="testing">
-            <AdminTesting />
+        <div className="[&_>_*]:animate-fadeAndMoveIn">
+          <TabsContent value="dashboard">
+            <AdminDashboard />
           </TabsContent>
-        )}
+          <TabsContent value="ltokens">
+            <AdminLTokens />
+          </TabsContent>
+          <TabsContent value="staking">
+            <AdminStaking />
+          </TabsContent>
+          <TabsContent value="blacklist">
+            <AdminBlacklist />
+          </TabsContent>
+          <TabsContent value="recover">
+            <AdminRecover />
+          </TabsContent>
+          {isTestnet && (
+            <TabsContent value="testing">
+              <AdminTesting />
+            </TabsContent>
+          )}
+        </div>
       </Tabs>
     </>
   );

@@ -15,7 +15,6 @@ import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { useDApp } from "@/hooks";
 import { readGenericStableToken, readLToken } from "@/generated";
-import { fetchToken } from "@wagmi/core";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getLTokenAddress } from "@/lib/getLTokenAddress";
 import { Spinner } from "@/components/ui/Spinner";
@@ -28,7 +27,7 @@ interface Pool {
   invested: bigint;
 }
 
-export const AppInvest: FC = () => {
+export const AppInvest: FC = React.memo(() => {
   const { walletClient, chain } = useDApp();
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
@@ -138,7 +137,7 @@ export const AppInvest: FC = () => {
   }, [chain, walletClient]);
 
   return (
-    <div className="flex flex-col justify-center items-center w-[900px]">
+    <div className="flex flex-col justify-center items-center w-[900px] ">
       <section className="grid grid-cols-3 w-full gap-10 mb-10">
         <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
@@ -244,4 +243,5 @@ export const AppInvest: FC = () => {
       </section>
     </div>
   );
-};
+});
+AppInvest.displayName = "AppInvest";
