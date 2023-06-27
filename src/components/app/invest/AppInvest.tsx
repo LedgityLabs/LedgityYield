@@ -1,6 +1,6 @@
 "use client";
 import { Amount, Button, Card } from "@/components/ui";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -27,7 +27,7 @@ interface Pool {
   invested: bigint;
 }
 
-export const AppInvest: FC = React.memo(() => {
+export const AppInvest: FC = () => {
   const { walletClient, chain } = useDApp();
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
@@ -100,7 +100,7 @@ export const AppInvest: FC = React.memo(() => {
 
   const headerGroup = table.getHeaderGroups()[0];
 
-  const fetchTableData = async () => {
+  const fetchTableData = useCallback(async () => {
     const _tableData: Pool[] = [];
     for (const lTokenId of lTokens) {
       const address = getLTokenAddress(lTokenId, chain.id);
@@ -129,7 +129,7 @@ export const AppInvest: FC = React.memo(() => {
     }
     setTableData(_tableData);
     setInitialFetch(true);
-  };
+  }, [chain, walletClient]);
 
   useEffect(() => {
     setInitialFetch(false);
@@ -243,5 +243,4 @@ export const AppInvest: FC = React.memo(() => {
       </section>
     </div>
   );
-});
-AppInvest.displayName = "AppInvest";
+};

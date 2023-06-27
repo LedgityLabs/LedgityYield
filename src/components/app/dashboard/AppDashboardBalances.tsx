@@ -13,14 +13,14 @@ import { twMerge } from "tailwind-merge";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
-import { useLToken } from "@/hooks/useLTokenAddress";
+import { useLTokenAddress } from "@/hooks/useLTokenAddress";
 import { useLTokenBalanceOf, useLTokenDecimals, useLTokenUnderlying } from "@/generated";
 import { useDApp } from "@/hooks";
 import { LTokenId } from "../../../../hardhat/deployments";
 
 const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
   const { walletClient } = useDApp();
-  const address = useLToken(lTokenId);
+  const address = useLTokenAddress(lTokenId);
   const { data: balance } = useLTokenBalanceOf({
     address: address,
     args: [walletClient ? walletClient.account.address : "0x0"],

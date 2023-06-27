@@ -2,13 +2,6 @@ import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { useGenericStableTokenDecimals, useGenericStableTokenSymbol } from "@/generated";
 
-interface Props {
-  address: `0x${string}`;
-  copyable?: boolean;
-  addToWallet?: boolean;
-  tooltip?: boolean;
-}
-
 const AddToWallet = ({ address }: { address: `0x${string}` }) => {
   const { data: tokenSymbol } = useGenericStableTokenSymbol({ address: address });
   const { data: tokenDecimals } = useGenericStableTokenDecimals({ address: address });
@@ -39,12 +32,20 @@ const AddToWallet = ({ address }: { address: `0x${string}` }) => {
   );
 };
 
+interface Props {
+  address: `0x${string}` | undefined;
+  copyable?: boolean;
+  addToWallet?: boolean;
+  tooltip?: boolean;
+}
+
 export const Address: FC<Props> = ({
   address,
   copyable = false,
   addToWallet = false,
   tooltip = false,
 }) => {
+  if (!address) return <span>Guest</span>;
   const formattedAddress = address.slice(0, 5) + "..." + address.slice(-4);
   return (
     <span className="inline-flex gap-2">

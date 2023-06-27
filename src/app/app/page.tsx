@@ -13,7 +13,7 @@ const Page: NextPage = () => {
         <TabsTrigger value="invest">Invest</TabsTrigger>
         <TabsTrigger value="staking">Staking</TabsTrigger>
       </TabsList>
-      <div className="[&_>_*]:animate-fadeAndMoveIn">
+      <div className="[&_>_*]:animate-fadeAndMoveIn [animation-duration:1000ms]">
         <TabsContent value="dashboard">
           <AppDashboard />
         </TabsContent>

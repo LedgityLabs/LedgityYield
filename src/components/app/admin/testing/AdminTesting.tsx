@@ -4,8 +4,10 @@ import {
   useGenericStableTokenDecimals,
   usePrepareGenericStableTokenMint,
   useGenericStableTokenBalanceOf,
+  useLTokenUnderlying,
+  useGenericStableTokenSymbol,
 } from "@/generated";
-import { useLToken } from "@/hooks/useLTokenAddress";
+import { useLTokenAddress } from "@/hooks/useLTokenAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { LTokenId } from "../../../../../hardhat/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
@@ -15,7 +17,9 @@ import { formatUnits } from "viem";
 
 const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
   const { walletClient } = useDApp();
-  const { underlyingAddress, underlyingSymbol } = useLToken(lTokenId);
+  const address = useLTokenAddress(lTokenId);
+  const { data: underlyingAddress } = useLTokenUnderlying({ address: address });
+  const { data: underlyingSymbol } = useGenericStableTokenSymbol({ address: address });
   const { data: underlyingName } = useGenericStableTokenName({ address: underlyingAddress });
   const { data: underlyingDecimals } = useGenericStableTokenDecimals({ address: underlyingAddress });
   const { data: underlyingBalance } = useGenericStableTokenBalanceOf({

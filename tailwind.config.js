@@ -103,22 +103,22 @@ export const theme = {
         "100%": { opacity: 0 },
       },
       fadeAndMoveIn: {
-        "0%": { opacity: 0, transform: "scale(0.95) translateY(5%)" },
+        "0%": { opacity: 0, transform: "scale(0.95) translateY(75px)" },
         "100%": { opacity: 1, transform: "scale(1) translateY(0)" },
       },
       fadeAndMoveOut: {
         "0%": { opacity: 1, transform: "scale(1) translateY(0)" },
-        "100%": { opacity: 0, transform: "scale(0.95) translateY(5%)" },
+        "100%": { opacity: 0, transform: "scale(0.95) translateY(75px)" },
       },
     },
     animation: {
       // Used by <Scroller/> UI component
       roll: "2s infinite normal roll ease",
       // Used by <Dialog/> and <AlertDialog/>
-      fadeIn: "0.2s ease-in-out forwards fadeIn",
-      fadeOut: "0.2s ease-in-out forwards fadeOut",
-      fadeAndMoveIn: "0.2s ease-in-out forwards fadeAndMoveIn",
-      fadeAndMoveOut: "0.2s ease-in-out forwards fadeAndMoveOut",
+      fadeIn: "ease-in-out forwards fadeIn",
+      fadeOut: "ease-in-out forwards fadeOut",
+      fadeAndMoveIn: "ease-in-out forwards fadeAndMoveIn",
+      fadeAndMoveOut: "ease-in-out forwards fadeAndMoveOut",
     },
   },
 };
