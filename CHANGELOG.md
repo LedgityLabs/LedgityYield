@@ -1,3 +1,10 @@
+## [1.90.0](https://github.com/ledgity-labs/dapp/compare/v1.89.0...v1.90.0) (2023-06-27)
+
+
+### Features
+
+* **app:** improve admin underlying tokens testing + new <Address/> component to display addresses ([fe5a3ac](https://github.com/ledgity-labs/dapp/commit/fe5a3acf4d0e9f16681c3560b0deeb8b92c12128))
+
 ## [1.89.0](https://github.com/ledgity-labs/dapp/compare/v1.88.0...v1.89.0) (2023-06-27)
 
 
