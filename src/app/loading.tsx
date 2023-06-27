@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logoIconDark from "~/assets/logo/iconDark.png";
 import clsx from "clsx";
+import { Spinner } from "@/components/ui/Spinner";
 
 const Page = () => {
   const [opacity, setOpacity] = useState(0);
@@ -25,7 +26,7 @@ const Page = () => {
         width={45}
         className="animate-pulse duration-[2000ms]"
       />
-      <i className="ri-loader-4-line animate-spin text-xl"></i>
+      <Spinner />
     </main>
   );
 };

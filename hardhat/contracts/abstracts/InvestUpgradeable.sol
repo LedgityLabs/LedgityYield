@@ -55,7 +55,7 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
     mapping(address => AccountInfos) accountsInfos;
 
     /// @dev Holds APR checkpoints (see APRCheckpoints.sol)
-    APRC.Pack[] packedAPRCheckpoints;
+    APRC.Pack[] private packedAPRCheckpoints;
 
     /**
      * @dev Initializer function allowing to set invested token contract at deploy time.
@@ -75,6 +75,10 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
 
     function setAPR(uint16 aprUD3) public virtual {
         APRC.setAPR(packedAPRCheckpoints, aprUD3);
+    }
+
+    function getApr() public view returns (uint16) {
+        return APRC.getAPR(packedAPRCheckpoints);
     }
 
     /**

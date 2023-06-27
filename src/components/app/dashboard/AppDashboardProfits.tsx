@@ -3,6 +3,9 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 
 export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ className }) => {
+  const rewards = 157789123456n;
+  const decimals = 6;
+
   return (
     <Card
       circleIntensity={0.07}
@@ -18,7 +21,7 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
       <span className="text-center text-xl font-heavy font-heading text-emerald-500 opacity-50 transition-opacity">
         <span className="text-fg/20">(</span>
         +$
-        <Amount value={157789} />
+        <Amount value={rewards} decimals={decimals} />
         <span className="text-fg/20">)</span>
       </span>
     </Card>

@@ -27,14 +27,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { TokenSymbol } from "@/lib/tokens";
 import clsx from "clsx";
 
 interface ActivityData {
   datetime: number;
   action: "deposit" | "withdraw";
-  amount: number;
-  token: TokenSymbol;
+  amount: [bigint, number]; // [amount, decimals]
+  token: string;
   status: "success" | "fulfilled" | "cancelled" | "queued";
 }
 
@@ -42,175 +41,175 @@ const activityData: ActivityData[] = [
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 189874654,
+    amount: [189874654984002n, 6],
     token: "USDC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 798421,
+    amount: [798421984002n, 6],
     token: "USDC",
     status: "cancelled",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 95473,
+    amount: [95473984002n, 6],
     token: "EUROC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 1024,
+    amount: [1024984002n, 6],
     token: "EUROC",
     status: "fulfilled",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 46245000,
+    amount: [46245000984002n, 6],
     token: "USDC",
     status: "queued",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 189874654,
+    amount: [189874654984002n, 6],
     token: "USDC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 798421,
+    amount: [798421984002n, 6],
     token: "USDC",
     status: "cancelled",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 95473,
+    amount: [95473984002n, 6],
     token: "EUROC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 1024,
+    amount: [1024984002n, 6],
     token: "EUROC",
     status: "fulfilled",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 46245000,
+    amount: [46245000984002n, 6],
     token: "USDC",
     status: "queued",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 189874654,
+    amount: [189874654984002n, 6],
     token: "USDC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 798421,
+    amount: [798421984002n, 6],
     token: "USDC",
     status: "cancelled",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 95473,
+    amount: [95473984002n, 6],
     token: "EUROC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 1024,
+    amount: [1024984002n, 6],
     token: "EUROC",
     status: "fulfilled",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 46245000,
+    amount: [46245000984002n, 6],
     token: "USDC",
     status: "queued",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 189874654,
+    amount: [189874654984002n, 6],
     token: "USDC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 798421,
+    amount: [798421984002n, 6],
     token: "USDC",
     status: "cancelled",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 95473,
+    amount: [95473984002n, 6],
     token: "EUROC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 1024,
+    amount: [1024984002n, 6],
     token: "EUROC",
     status: "fulfilled",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 46245000,
+    amount: [46245000984002n, 6],
     token: "USDC",
     status: "queued",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 189874654,
+    amount: [189874654984002n, 6],
     token: "USDC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 798421,
+    amount: [798421984002n, 6],
     token: "USDC",
     status: "cancelled",
   },
   {
     datetime: Date.now(),
     action: "deposit",
-    amount: 95473,
+    amount: [95473984002n, 6],
     token: "EUROC",
     status: "success",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 1024,
+    amount: [1024984002n, 6],
     token: "EUROC",
     status: "fulfilled",
   },
   {
     datetime: Date.now(),
     action: "withdraw",
-    amount: 46245000,
+    amount: [46245000984002n, 6],
     token: "USDC",
     status: "queued",
   },
@@ -241,14 +240,17 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     }),
     columnHelper.accessor("amount", {
       header: "Amount",
-      cell: (info) => <Amount value={info.getValue()} />,
+      cell: (info) => {
+        const [amount, decimals] = info.getValue();
+        return <Amount value={amount} decimals={decimals} />;
+      },
     }),
 
     columnHelper.accessor("status", {
       header: "Status",
       cell: (info) => {
         const status = info.getValue();
-        const amount = info.row.getValue("amount") as number;
+        const [amount, decimals] = info.row.getValue("amount") as [bigint, number];
         const token = info.row.getValue("token");
         return (
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
@@ -297,7 +299,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                       <br />
                       By cancelling this request{" "}
                       <span className="font-semibold">
-                        you will receive your <Amount value={amount} /> {"L" + token}{" "}
+                        you will receive your <Amount value={amount} decimals={decimals} /> {"L" + token}{" "}
                       </span>
                       tokens back to your wallet.
                     </AlertDialogDescription>

@@ -5,7 +5,7 @@ import {
   usePrepareGenericStableTokenMint,
   useGenericStableTokenBalanceOf,
 } from "@/generated";
-import { useLToken } from "@/hooks/useLToken";
+import { useLToken } from "@/hooks/useLTokenAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { LTokenId } from "../../../../../hardhat/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";

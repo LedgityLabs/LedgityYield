@@ -3,17 +3,16 @@ import * as d3 from "d3-format";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
 import { formatUnits } from "viem";
-import { constants } from "buffer";
 
 interface Props extends React.HTMLAttributes<HTMLSpanElement> {
-  value: bigint;
+  value: bigint | undefined;
   decimals?: number;
   tooltip?: boolean;
 }
 
 export const Amount: FC<Props> = ({ className, value, decimals = 0, tooltip = true, ...props }) => {
-  const numberValue = Number(formatUnits(value, decimals));
-  let formattedAmount = numberValue < 1 ? value.toLocaleString() : d3.format(".3s")(numberValue);
+  const numberValue = Number(formatUnits(value || 0n, decimals));
+  let formattedAmount = numberValue < 1 ? numberValue.toLocaleString() : d3.format(".3s")(numberValue);
   formattedAmount = formattedAmount.replace("G", "B");
   if (!tooltip)
     return (
@@ -25,7 +24,7 @@ export const Amount: FC<Props> = ({ className, value, decimals = 0, tooltip = tr
     return (
       <Tooltip>
         <TooltipTrigger className={twMerge("cursor-help", className)}>{formattedAmount}</TooltipTrigger>
-        <TooltipContent>{value.toLocaleString()}</TooltipContent>
+        <TooltipContent>{numberValue.toLocaleString()}</TooltipContent>
       </Tooltip>
     );
 };

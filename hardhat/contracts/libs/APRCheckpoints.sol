@@ -145,4 +145,10 @@ library APRCheckpoints {
         // Store the updated pack
         packs[packs.length - 1] = pack;
     }
+
+    function getAPR(Pack[] storage packs) internal view returns (uint16) {
+        Reference memory ref = getLatestReference(packs);
+        Checkpoint memory data = getFromReference(packs, ref);
+        return data.aprUD3;
+    }
 }

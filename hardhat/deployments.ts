@@ -84,9 +84,6 @@ export const lTokensIds = Object.keys(contracts).filter((key) => {
   return contracts[key as ContractId].contractName === "LToken";
 }) as LTokenId[];
 
-// Holds a disjunction of all contracts IDs that are not beacons. Especially used in frontend
-// which doesn't interact with beacons.
-// type ExcludeBeacon<T> = {
-//   [K in keyof T]: T[K] extends { beacon: true } ? never : K;
-// }[keyof T];
-// export type ContractId = ExcludeBeacon<typeof _contracts>;
+// export type UnderlyingTokenId = {
+
+// }

@@ -1,3 +1,4 @@
+import { useBlacklistIsBlacklisted } from "@/generated";
 import { ContractId, contracts, lTokensIds } from "../../hardhat/deployments";
 import { useDApp } from "./useDApp";
 
