@@ -48,7 +48,7 @@ const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) 
           <h5 className="font-bold text-fg/60">Your balance</h5>
           <span>
             {underlyingBalance && underlyingDecimals ? (
-              <Amount value={Number(formatUnits(underlyingBalance, underlyingDecimals))} />
+              <Amount value={underlyingBalance} decimals={underlyingDecimals} />
             ) : (
               0
             )}
