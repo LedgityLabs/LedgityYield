@@ -1,7 +1,7 @@
-import { ContractId, contracts } from "../../hardhat/deployments";
+import { ContractId, LTokenId, contracts } from "../../hardhat/deployments";
 import { useDApp } from "./useDApp";
 
-export const useLToken = (symbol: ContractId) => {
+export const useLToken = (symbol: LTokenId) => {
   const { chain } = useDApp();
   return {
     address: contracts[symbol].address[chain.id],

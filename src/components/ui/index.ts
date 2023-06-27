@@ -19,3 +19,4 @@ export * from "./Dialog";
 export * from "./AmountInput";
 export * from "./WalletAvatar";
 export * from "./WalletName";
+export * from "./Address";

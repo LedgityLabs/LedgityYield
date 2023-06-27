@@ -9,7 +9,9 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Amount: FC<Props> = ({ value, className, tooltip = true, ...props }) => {
-  let formattedAmount = d3.format(".3s")(value);
+  let formattedAmount = value < 1 ? value.toLocaleString() : d3.format(".3s")(value);
+
+  console.log(value, formattedAmount);
   formattedAmount = formattedAmount.replace("G", "B");
   if (!tooltip)
     return (
