@@ -1,35 +1,38 @@
 import { Address, Amount, AmountInput, Card } from "@/components/ui";
 import {
-  useGenericStableTokenName,
-  useGenericStableTokenDecimals,
-  usePrepareGenericStableTokenMint,
-  useGenericStableTokenBalanceOf,
+  useGenericErc20Name,
+  useGenericErc20Decimals,
+  usePrepareGenericErc20Mint,
+  useGenericErc20BalanceOf,
   useLTokenUnderlying,
-  useGenericStableTokenSymbol,
+  useGenericErc20Symbol,
 } from "@/generated";
-import { useLTokenAddress } from "@/hooks/useLTokenAddress";
+import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { LTokenId } from "../../../../../hardhat/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
 import { useDApp } from "@/hooks";
-import { formatUnits } from "viem";
+import { parseUnits } from "viem";
 
 const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
   const { walletClient } = useDApp();
-  const address = useLTokenAddress(lTokenId);
+  const address = useContractAddress(lTokenId);
   const { data: underlyingAddress } = useLTokenUnderlying({ address: address });
-  const { data: underlyingSymbol } = useGenericStableTokenSymbol({ address: address });
-  const { data: underlyingName } = useGenericStableTokenName({ address: underlyingAddress });
-  const { data: underlyingDecimals } = useGenericStableTokenDecimals({ address: underlyingAddress });
-  const { data: underlyingBalance } = useGenericStableTokenBalanceOf({
+  const { data: underlyingSymbol } = useGenericErc20Symbol({ address: address });
+  const { data: underlyingName } = useGenericErc20Name({ address: underlyingAddress });
+  const { data: underlyingDecimals } = useGenericErc20Decimals({
+    address: underlyingAddress,
+  });
+  const { data: underlyingBalance } = useGenericErc20BalanceOf({
     address: underlyingAddress,
     args: [walletClient ? walletClient.account.address : "0x0"],
+    watch: true,
   });
-  const [value, setValue] = useState(0);
-  const preparation = usePrepareGenericStableTokenMint({
+  const [mintedAmount, setMintedAmount] = useState(0n);
+  const preparation = usePrepareGenericErc20Mint({
     address: underlyingAddress,
-    args: [BigInt(value)],
+    args: [mintedAmount],
   });
 
   return (
@@ -63,8 +66,11 @@ const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) 
           <div className="flex justify-end items-end gap-4">
             <AmountInput
               maxName="Max"
-              maxValue={9999999}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(Number.parseInt(e.target.value))}
+              maxValue={parseUnits("9999999", underlyingDecimals!)}
+              decimals={underlyingDecimals}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setMintedAmount(parseUnits(e.target.value, underlyingDecimals!))
+              }
             />
             <TxButton size="medium" preparation={preparation}>
               Mint

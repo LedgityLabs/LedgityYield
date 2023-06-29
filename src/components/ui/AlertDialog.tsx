@@ -2,7 +2,8 @@
 
 import React, { FC } from "react";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
-import { Button, Card } from "@/components/ui";
+import { Button } from "./Button";
+import { Card } from "./Card";
 import { twMerge } from "tailwind-merge";
 
 export const AlertDialog = AlertDialogPrimitive.Root;

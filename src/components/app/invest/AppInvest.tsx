@@ -1,6 +1,6 @@
 "use client";
-import { Amount, Button, Card } from "@/components/ui";
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { Amount, Button, Card, Rate } from "@/components/ui";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -14,19 +14,49 @@ import { TokenLogo } from "../../ui/TokenLogo";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { useDApp } from "@/hooks";
-import { readGenericStableToken, readLToken } from "@/generated";
+import { getGenericErc20, getLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
-import { getLTokenAddress } from "@/lib/getLTokenAddress";
+import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
+import { zeroAddress } from "viem";
+import { watchReadContracts } from "@wagmi/core";
+import { ContractId } from "../../../../hardhat/deployments";
+import clsx from "clsx";
+
+/**
+ * This function splits an array into chunks of the given size. E.g., [1,2,3,4,5,6] with chunk size 2
+ * will result in [[1,2],[3,4],[5,6]]
+ *
+ * @param array The array to split
+ * @param chunkSize The size of each chunk
+ * @returns The array split into chunks
+ */
+function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+  return Array.from({ length: Math.ceil(array.length / chunkSize) }, (_, i) =>
+    array.slice(i * chunkSize, i * chunkSize + chunkSize)
+  );
+}
 
 interface Pool {
   tokenSymbol: string;
-  decimals: number;
   apr: number;
-  tvl: bigint;
-  invested: bigint;
+  tvl: [bigint, number];
+  invested: [bigint, number];
 }
 
+/**
+ * About 'tableData', 'futureTableData' and 'isActionsDialogOpen': As the table is automatically
+ * refreshed when on-chain data changes, and while DepositDialog and WithdrawDialog contained in the
+ * table, if the data changes while the dialog is open, the dialog will be closed. This incurs a bad user
+ * experience. To prevent this:
+ *
+ * 1. We track if any actions dialog is opened in 'isActionsDialogOpen' ref
+ * 2. When new data are received, if not actions dialog are opened -> call setTableData() instantly
+ * 3. Else we store the new data into 'futureTableData' ref to prevent causing a re-render of the table
+ *    while the user is in deposit/withdraw modals
+ * 4. Finally, when the user closes the action modal, we call 'setTableData(futureTableData)' to provides it
+ *    with most up to date data.
+ */
 export const AppInvest: FC = () => {
   const { walletClient, chain } = useDApp();
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -34,6 +64,8 @@ export const AppInvest: FC = () => {
   const lTokens = useAvailableLTokens();
   const [tableData, setTableData] = useState<Pool[]>([]);
   const [initialFetch, setInitialFetch] = useState(false);
+  let isActionsDialogOpen = useRef(false);
+  let futureTableData = useRef<Pool[]>([]);
 
   const tvl = 19487512123456n;
   const distrubutedRewards = 945512123456n;
@@ -53,29 +85,54 @@ export const AppInvest: FC = () => {
       },
     }),
     columnHelper.accessor("apr", {
-      cell: (info) => info.getValue() + "%",
+      cell: (info) => <Rate value={info.getValue()} />,
       header: "APR",
     }),
     columnHelper.accessor("tvl", {
-      cell: (info) => <Amount value={info.getValue()} />,
+      cell: (info) => {
+        const [amount, decimals] = info.getValue() as [bigint, number];
+        const tokenSymbol = info.row.getValue("tokenSymbol") as string;
+        return <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />;
+      },
       header: "TVL",
     }),
     columnHelper.accessor("invested", {
-      cell: (info) => <Amount value={info.getValue()} />,
-
+      cell: (info) => {
+        const [amount, decimals] = info.getValue() as [bigint, number];
+        const tokenSymbol = info.row.getValue("tokenSymbol") as string;
+        return <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />;
+      },
       header: "Invested",
     }),
     columnHelper.display({
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
-        const tokenSymbol = row.getValue("tokenSymbol");
+        const tokenSymbol = row.getValue("tokenSymbol") as string;
         return (
           <div className="inline-flex gap-4">
-            <DepositDialog tokenSymbol={tokenSymbol}>
+            <DepositDialog
+              underlyingSymbol={tokenSymbol}
+              onOpenChange={(o) => {
+                isActionsDialogOpen.current = o;
+                if (o === false && futureTableData.current.length > 0) {
+                  setTableData(futureTableData.current);
+                  futureTableData.current = [];
+                }
+              }}
+            >
               <Button size="small">Deposit</Button>
             </DepositDialog>
-            <WithdrawDialog tokenSymbol={tokenSymbol}>
+            <WithdrawDialog
+              underlyingSymbol={tokenSymbol}
+              onOpenChange={(o) => {
+                isActionsDialogOpen.current = o;
+                if (o === false && futureTableData.current.length > 0) {
+                  setTableData(futureTableData.current);
+                  futureTableData.current = [];
+                }
+              }}
+            >
               <Button size="small" variant="outline">
                 Withdraw
               </Button>
@@ -100,41 +157,81 @@ export const AppInvest: FC = () => {
 
   const headerGroup = table.getHeaderGroups()[0];
 
-  const fetchTableData = useCallback(async () => {
-    const _tableData: Pool[] = [];
+  function watchData() {
+    let reads: Parameters<typeof watchReadContracts>[0]["contracts"] = [];
     for (const lTokenId of lTokens) {
-      const address = getLTokenAddress(lTokenId, chain.id);
-      const decimals = await readLToken({ address: address, functionName: "decimals" });
-      const totalSupply = await readLToken({ address: address, functionName: "totalSupply" });
-      const balance = walletClient
-        ? await readLToken({
-            address: address,
-            functionName: "balanceOf",
-            args: [walletClient.account.address],
-          })
-        : 0n;
-      const apr = await readLToken({ address: address, functionName: "getApr" });
-      const underlyingAddress = await readLToken({ address: address, functionName: "underlying" });
-      const underlyingSymbol = await readGenericStableToken({
-        address: underlyingAddress,
-        functionName: "symbol",
-      });
-      _tableData.push({
-        tokenSymbol: underlyingSymbol,
-        invested: balance,
-        decimals: decimals,
-        tvl: totalSupply,
-        apr: apr,
-      });
+      let lTokenContract: ReturnType<typeof getLToken>;
+      let underlyingContract: ReturnType<typeof getGenericErc20>;
+      try {
+        lTokenContract = getLToken({ address: getContractAddress(lTokenId, chain.id) });
+        underlyingContract = getGenericErc20({
+          address: getContractAddress(lTokenId.slice(1) as ContractId, chain.id),
+        });
+      } catch (e) {
+        console.error("Some contracts addresses are missing for the current chain. Cannot watch data.");
+        setInitialFetch(true);
+        continue;
+      }
+      reads = [
+        ...reads,
+        {
+          address: underlyingContract.address,
+          abi: underlyingContract.abi,
+          functionName: "symbol",
+        },
+        {
+          address: lTokenContract.address,
+          abi: lTokenContract.abi,
+          functionName: "balanceOf",
+          args: [walletClient ? walletClient.account.address : zeroAddress],
+        },
+        {
+          address: lTokenContract.address,
+          abi: lTokenContract.abi,
+          functionName: "decimals",
+        },
+        {
+          address: lTokenContract.address,
+          abi: lTokenContract.abi,
+          functionName: "totalSupply",
+        },
+        {
+          address: lTokenContract.address,
+          abi: lTokenContract.abi,
+          functionName: "getApr",
+        },
+      ];
     }
-    setTableData(_tableData);
-    setInitialFetch(true);
-  }, [chain, walletClient]);
+    if (reads.length === 0) setInitialFetch(true);
+    else {
+      return watchReadContracts(
+        {
+          contracts: reads,
+          listenToBlock: true,
+        },
+        (data) => {
+          const _tableData: Pool[] = [];
+
+          for (const rowData of chunkArray(data, 5)) {
+            _tableData.push({
+              tokenSymbol: rowData[0].result! as string,
+              invested: [rowData[1].result!, rowData[2].result!] as [bigint, number],
+              tvl: [rowData[3].result!, rowData[2].result!] as [bigint, number],
+              apr: rowData[4].result! as number,
+            });
+          }
+          if (!isActionsDialogOpen.current) setTableData(_tableData);
+          else futureTableData.current = _tableData;
+          setInitialFetch(true);
+        }
+      );
+    }
+  }
 
   useEffect(() => {
     setInitialFetch(false);
-    fetchTableData();
-  }, [chain, walletClient]);
+    return watchData();
+  }, [walletClient, chain]);
 
   return (
     <div className="flex flex-col justify-center items-center w-[900px] ">
@@ -142,19 +239,19 @@ export const AppInvest: FC = () => {
         <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
           <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
-            $<Amount value={tvl} decimals={decimals} />
+            <Amount prefix="$" value={tvl} decimals={decimals} />
           </div>
         </Card>
         <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">Distributed rewards</h2>
           <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
-            $<Amount value={distrubutedRewards} decimals={decimals} />
+            <Amount prefix="$" value={distrubutedRewards} decimals={decimals} />
           </div>
         </Card>
         <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">1 year variation</h2>
           <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
-            ±0.08%
+            <Rate value={137} prefix={"±"} />
           </div>
         </Card>
         <article className="col-span-3">
@@ -179,10 +276,15 @@ export const AppInvest: FC = () => {
                           onClick={() =>
                             header.column.toggleSorting(header.column.getIsSorted() === "asc")
                           }
-                          className="flex gap-1"
+                          className="relative flex items-center gap-1"
                         >
                           {content}
-                          <span className="text-fg/60">
+                          <span
+                            className={clsx(
+                              "text-fg/60",
+                              header.column.id !== "apr" && "absolute -right-5"
+                            )}
+                          >
                             {(() => {
                               switch (header.column.getIsSorted()) {
                                 case "asc":
@@ -214,7 +316,7 @@ export const AppInvest: FC = () => {
                     key={row.id}
                     circleIntensity={0.07}
                     data-state={row.getIsSelected() && "selected"}
-                    className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] mb-4 py-6 px-6 font-medium text-base"
+                    className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] mb-4 py-6 px-6 font-medium text-base animate-fadeAndMoveIn"
                   >
                     {row.getVisibleCells().map((cell, index) => (
                       <div

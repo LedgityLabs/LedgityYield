@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logoIconDark from "~/assets/logo/iconDark.png";
 import clsx from "clsx";
-import { Spinner } from "@/components/ui/Spinner";
+import { Spinner } from "@/components/ui";
 
 const Page = () => {
   const [opacity, setOpacity] = useState(0);

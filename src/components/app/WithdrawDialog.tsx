@@ -1,7 +1,6 @@
-import { FC, useRef } from "react";
+import { ChangeEvent, FC, useRef, useState } from "react";
 import {
   AmountInput,
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -10,18 +9,47 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui";
-import { TokenSymbol } from "@/lib/tokens";
+import { useDApp } from "@/hooks";
+import {
+  useLTokenBalanceOf,
+  useLTokenDecimals,
+  usePrepareLTokenInstantWithdraw,
+  usePrepareLTokenRequestWithdrawal,
+} from "@/generated";
+import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
+import { LTokenId } from "../../../hardhat/deployments";
+import { useContractAddress } from "@/hooks/useContractAddress";
+import { TxButton } from "../ui/TxButton";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  tokenSymbol: TokenSymbol;
+  underlyingSymbol: string;
+  onOpenChange?: React.ComponentPropsWithoutRef<typeof Dialog>["onOpenChange"];
 }
 
-export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
-  const instantWithdrawAvailable = false;
+export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
+  const { walletClient } = useDApp();
+  const lTokenAddress = useContractAddress(`L${underlyingSymbol}` as LTokenId);
+  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
+  const { data: balance } = useLTokenBalanceOf({
+    address: lTokenAddress,
+    args: [walletClient?.account.address || zeroAddress],
+    watch: true,
+  });
+
   const inputEl = useRef<HTMLInputElement>(null);
+  const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
+  const instantWithdrawalPreparation = usePrepareLTokenInstantWithdraw({
+    address: lTokenAddress,
+    args: [withdrawnAmount],
+  });
+  const requestWithdrawalPreparation = usePrepareLTokenRequestWithdrawal({
+    address: lTokenAddress,
+    args: [withdrawnAmount],
+    value: parseEther("0.004"),
+  });
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onOpenAutoFocus={(e) => {
@@ -30,12 +58,13 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
         }}
       >
         <DialogHeader>
-          <DialogTitle>Witdhraw {tokenSymbol}</DialogTitle>
+          <DialogTitle>Witdhraw {underlyingSymbol}</DialogTitle>
           <DialogDescription>
-            You will receive {tokenSymbol} in a 1:1 ratio.
+            You will receive {underlyingSymbol} in a 1:1 ratio.
             <br />
             <br />
-            {!instantWithdrawAvailable && (
+            {/* If instant withdrawal is not posssible actually, display info message */}
+            {instantWithdrawalPreparation.isError && (
               <span className="inline-block bg-blue-100 rounded-2xl p-6 pt-4">
                 <h4 className="text-blue-500 text-lg font-semibold mb-2">
                   <i className="ri-information-line"></i> Your request will be queued
@@ -61,10 +90,46 @@ export const WithdrawDialog: FC<Props> = ({ children, tokenSymbol }) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="items-end mt-8 flex-nowrap">
-          <AmountInput ref={inputEl} maxValue={71324654} />
-          <Button size="medium" className="relative -top-[1.5px]">
-            {instantWithdrawAvailable ? "Withdraw" : "Request"}
-          </Button>
+          <AmountInput
+            ref={inputEl}
+            maxValue={balance}
+            decimals={decimals}
+            symbol={`L${underlyingSymbol}`}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setWithdrawnAmount(parseUnits(e.target.value, decimals!))
+            }
+          />
+          {/* If instant withdrawal is possible actually */}
+          {(!instantWithdrawalPreparation.isError && (
+            <TxButton
+              size="medium"
+              preparation={instantWithdrawalPreparation}
+              className="relative -top-[1.5px]"
+              transactionSummary={
+                <p>
+                  Withdraw {formatUnits(withdrawnAmount, decimals!)} L{underlyingSymbol} against{" "}
+                  {formatUnits(withdrawnAmount, decimals!)} {underlyingSymbol}
+                </p>
+              }
+            >
+              Withdraw
+            </TxButton>
+          )) || (
+            <TxButton
+              size="medium"
+              //@ts-ignore
+              preparation={requestWithdrawalPreparation}
+              className="relative -top-[1.5px]"
+              transactionSummary={
+                <p>
+                  Withdraw {formatUnits(withdrawnAmount, decimals!)} L{underlyingSymbol} against{" "}
+                  {formatUnits(withdrawnAmount, decimals!)} {underlyingSymbol}
+                </p>
+              }
+            >
+              Request
+            </TxButton>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

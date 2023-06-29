@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  * This contract accept decimals as constructor argument, so it can be used to to
  * easily test different decimals scenarios.
  */
-contract GenericStableToken is ERC20 {
+contract GenericERC20 is ERC20 {
     uint8 private _decimals;
 
     constructor(string memory name, string memory symbol, uint8 decimals_) ERC20(name, symbol) {

@@ -20,3 +20,7 @@ export * from "./AmountInput";
 export * from "./WalletAvatar";
 export * from "./WalletName";
 export * from "./Address";
+export * from "./TxButton";
+export * from "./AllowanceTxButton";
+export * from "./Spinner";
+export * from "./Rate";

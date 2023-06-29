@@ -33,7 +33,7 @@ contract LTYStaking is
     mapping(address => uint256) public stakeOf;
 
     /// @dev Holds amount of $LTY to be elligible to staking tier
-    uint256[] public tiers;
+    uint256[] private _tiers;
 
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
@@ -78,10 +78,6 @@ contract LTYStaking is
 
     function setInvested(address tokenAddress) external onlyOwner {
         _setInvested(tokenAddress);
-    }
-
-    function setTier(uint256 tierIndex, uint256 amountUD18) public onlyOwner {
-        tiers[tierIndex] = amountUD18;
     }
 
     /**
@@ -132,13 +128,40 @@ contract LTYStaking is
         return _rewardsOf(account, false);
     }
 
+    function setTier(uint256 tier, uint256 amountUD18) public onlyOwner {
+        require(tier > 0, "Tier must be > 0");
+
+        // Create missing tiers
+        for (uint256 i = _tiers.length; i < tier; i++) {
+            _tiers.push(0);
+        }
+
+        // Set the tier
+        _tiers[tier - 1] = amountUD18;
+    }
+
+    function getTier(uint256 tier) public view returns (uint256) {
+        require(tier > 0, "Tier must be > 0");
+        if (_tiers.length < tier) return 0;
+        else return _tiers[tier - 1];
+    }
+
     /**
      * @dev Return whether an account is eligible to a given staking tier.
-     * @param tierIndex The tier number (not its index in the array)
+     * @param tier The tier number (not its index in the array)
      * @param account The account to check the eligibility of
      */
-    function isEligibleTo(uint256 tierIndex, address account) public view returns (bool) {
-        return tiers[tierIndex - 1] >= stakeOf[account];
+    function isEligibleTo(uint256 tier, address account) public view returns (bool) {
+        require(tier > 0, "Tier must be > 0");
+        if (_tiers.length < tier) return false;
+        uint256 tierIndex = tier - 1;
+        return _tiers[tierIndex - 1] >= stakeOf[account];
+    }
+
+    function getTierOf(address account) external view returns (uint256 tier) {
+        tier = 1;
+        while (isEligibleTo(tier, account)) tier++;
+        tier -= 1;
     }
 
     /**
@@ -178,5 +201,20 @@ contract LTYStaking is
 
         // Transfer withdrawn $LTY tokens to the account
         invested().transfer(_msgSender(), amount);
+    }
+
+    /**
+     * @dev
+     */
+    function claim() external whenNotPaused notBlacklisted(_msgSender()) {
+        // Reset account investment period. This will compound current rewards into virtual balance.
+        _resetInvestmentPeriodOf(_msgSender(), false);
+
+        // Retrieve and reset account's unclaimed rewards
+        uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
+        accountsInfos[_msgSender()].virtualBalance = 0;
+
+        // Transfer rewards to the account
+        invested().transfer(_msgSender(), rewards);
     }
 }

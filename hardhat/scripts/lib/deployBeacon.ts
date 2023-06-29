@@ -1,8 +1,8 @@
 import { ethers, upgrades } from "hardhat";
-import { AnyContractId, contracts } from "../../deployments";
+import { ContractId, contracts } from "../../deployments";
 import { getChainId } from "./getChainId";
 
-export async function deployBeacon(contractName: AnyContractId) {
+export async function deployBeacon(contractName: ContractId) {
   // Retrieve current chain Id
   const chainId = getChainId();
 

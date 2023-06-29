@@ -15,7 +15,7 @@ const description =
 export const metadata = {
   metadataBase: new URL("https://ledgity.finance"),
   applicationName: name,
-  referrer: "origin",
+  // referrer: "origin",
   title: {
     template: `${name} • %s`,
     default: "Untitled Page",

@@ -242,7 +242,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Amount",
       cell: (info) => {
         const [amount, decimals] = info.getValue();
-        return <Amount value={amount} decimals={decimals} />;
+        const tokenSymbol = info.row.getValue("token") as string;
+        return <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />;
       },
     }),
 
@@ -275,12 +276,12 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             {status === "queued" && (
               <AlertDialog>
                 <Tooltip>
-                  <TooltipTrigger asChild>
+                  <TooltipTrigger asChild className="absolute -inset-y-1 inset-x-0">
                     <AlertDialogTrigger asChild>
                       <Button
                         size="tiny"
                         variant="destructive"
-                        className="absolute w-full rounded-lg opacity-0 transition-opacity flex justify-center items-center hover:bg-opacity-100"
+                        className="w-full h-full rounded-lg opacity-0 transition-opacity flex justify-center items-center hover:opacity-100 hover:bg-opacity-100"
                       >
                         <i className="ri-close-fill text-xl"></i>
                       </Button>

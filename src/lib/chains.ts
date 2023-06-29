@@ -40,4 +40,5 @@ if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 // Build chain lists for each environment, and export chains for the current one
 const prodChains = [mainnet, polygon, arbitrum, avalanche, hederaChain];
 const devChains = [...prodChains, sepolia, hardhat];
-export const chains = chainsEnv === "prod" ? prodChains : devChains;
+// export const chains = chainsEnv === "prod" ? prodChains : devChains;
+export const chains = devChains;

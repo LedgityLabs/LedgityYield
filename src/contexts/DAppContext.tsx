@@ -1,3 +1,4 @@
+"use client";
 import { FC, useState, createContext, useEffect } from "react";
 import { contracts as _contracts } from "../../hardhat/deployments";
 import {

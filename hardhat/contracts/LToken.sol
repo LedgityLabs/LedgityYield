@@ -4,11 +4,11 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
 import "./abstracts/RestrictedUpgradeable.sol";
 import "./abstracts/InvestUpgradeable.sol";
@@ -26,7 +26,7 @@ contract LToken is
     Initializable,
     ERC20Upgradeable,
     ERC20WrapperUpgradeable,
-    PausableUpgradeable,
+    ERC20PausableUpgradeable,
     Ownable2StepUpgradeable,
     UUPSUpgradeable,
     RestrictedUpgradeable,
@@ -125,8 +125,8 @@ contract LToken is
             string(abi.encodePacked("L", underlyingMetadata.symbol()))
         );
         __ERC20Wrapper_init(underlyingToken);
+        __ERC20Pausable_init();
         __Ownable2Step_init();
-        __Pausable_init();
         __UUPSUpgradeable_init();
         __Invest_init(address(this));
     }
@@ -280,8 +280,14 @@ contract LToken is
         address from,
         address to,
         uint256 amount
-    ) internal override whenNotPaused notBlacklisted(from) notBlacklisted(to) {
-        super._beforeTokenTransfer(from, to, amount);
+    )
+        internal
+        override(ERC20Upgradeable, ERC20PausableUpgradeable)
+        whenNotPaused
+        notBlacklisted(from)
+        notBlacklisted(to)
+    {
+        ERC20Upgradeable._beforeTokenTransfer(from, to, amount);
         if (from != address(0)) _resetInvestmentPeriodOf(from, true);
         if (to != address(0)) _resetInvestmentPeriodOf(to, true);
     }
@@ -346,9 +352,10 @@ contract LToken is
      * @param amount The amount of underlying tokens to deposit
      */
     function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
-        _resetInvestmentPeriodOf(_msgSender(), true);
+        // _resetInvestmentPeriodOf(_msgSender(), true);
 
         // Receive deposited underlying tokens and mint L-Token to the account in a 1:1 ratio
+        underlying().approve(address(this), amount);
         super.depositFor(_msgSender(), amount);
         usableBalance += amount;
 
@@ -365,29 +372,21 @@ contract LToken is
     function _withdrawTo(address account, uint256 amount, bool fromFund) internal {}
 
     /**
-     * @dev This function serves as a common base for all below withdrawal functions.
-     * It resets the investment period of the account, and outputs the withdrawn amount
-     * after fees.
+     * @dev This function computes withdrawal fees and withdrawn amount for a given account
+     * and amount requested.
      * @param account The account to withdraw tokens for
      * @param amount The amount of tokens to withdraw
-     * @param updateUnclaimedFees Whether to update the amount of unclaimed fees
-     * This last param is set to false in batchQueuedWithdraw(), which saves a
-     * ton of gas by writing unclaimedFees after the loop.
      *
      */
-    function _baseWithdraw(
+    function getWithdrawanAmountAndFees(
         address account,
-        uint256 amount,
-        bool updateUnclaimedFees
-    ) internal returns (uint256 withdrawnAmount) {
-        // Reset the investment period of the account and mint its rewards
-        _resetInvestmentPeriodOf(account, true);
+        uint256 amount
+    ) public view returns (uint256 withdrawnAmount, uint256 fees) {
+        // If the account is eligible to staking tier 2, no fees are applied
+        if (ltyStaking.isEligibleTo(2, account)) return (amount, 0);
 
-        // Calculate withdrawal fees and update the amount of unclaimed fees
-        uint256 fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
-        if (updateUnclaimedFees) unclaimedFees += fees;
-
-        // Remove fees from the requested amount to obtain the amount to withdraw
+        // Else calculate withdrawal fees as well as final withdrawn amount
+        fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
         withdrawnAmount = amount - fees;
     }
 
@@ -415,8 +414,11 @@ contract LToken is
         bool cond2 = amount <= _usableBalance && ltyStaking.isEligibleTo(2, _msgSender());
         if (!(cond1 || cond2)) revert("Can't process request immediatelly, please queue your request");
 
-        // Reset investment period and retrieve the amount to withdraw (i.e., excluding fees)
-        uint256 withdrawnAmount = _baseWithdraw(_msgSender(), amount, true);
+        // Retrieve withdrawal fees and amount (excluding fees).
+        (uint256 withdrawnAmount, uint256 fees) = getWithdrawanAmountAndFees(_msgSender(), amount);
+
+        // Update the total unclaimed fees
+        unclaimedFees += fees;
 
         // Process to withdraw (burns withdrawn L-Tokens amount and transfers underlying tokens in a 1:1 ratio)
         super.withdrawTo(_msgSender(), withdrawnAmount);
@@ -447,10 +449,13 @@ contract LToken is
             require(!isBlacklisted(request.account), "Request emitter has been blacklisted");
 
             // Reset investment period and retrieve the amount to withdraw (i.e., excluding fees)
-            uint256 withdrawnAmount = _baseWithdraw(request.account, request.amount, false);
+            (uint256 withdrawnAmount, uint256 fees) = getWithdrawanAmountAndFees(
+                request.account,
+                request.amount
+            );
 
             // Cumulate fees so they'll be written on-chain only once after the loop
-            cumulatedFees += request.amount - withdrawnAmount;
+            cumulatedFees += fees;
 
             // Transfer underlying tokens to the account in a 1:1 ratio
             // Note that we don't use `_withdrawTo()` here because L-Tokens were already burned
@@ -494,16 +499,19 @@ contract LToken is
         require(request.amount > getExpectedRetained() / 2, "Not a big request");
 
         // Reset investment period and retrieve the amount to withdraw (i.e., excluding fees)
-        uint256 withdrawnAmount = _baseWithdraw(request.account, request.amount, true);
+        (uint256 withdrawnAmount, uint256 fees) = getWithdrawanAmountAndFees(
+            request.account,
+            request.amount
+        );
 
-        // Mint back L-Tokens to account + remove withdrawal requests
+        // Update amount of unclaimed fees
+        unclaimedFees += fees;
 
-        // Remove eueued request
+        // Remove qeueued request
         delete withdrawalQueue[requestId];
         totalQueued -= request.amount;
 
-        // Approve and transfer underlying tokens from fund reserve
-        approve(address(this), withdrawnAmount);
+        // Transfer underlying tokens from fund reserve to request account
         transferFrom(fund, request.account, withdrawnAmount);
 
         // Transfer funds exceeding the retention rate to fund wallet
@@ -522,14 +530,14 @@ contract LToken is
         require(amount <= balanceOf(_msgSender()), "You don't have enough fund to withdraw");
 
         // Ensure the sender attached pre-paid processing gas fees
-        require(msg.value != 0.004 * 10 ** 18, "You must attach 0.004 ETH to the request");
+        require(msg.value == 0.004 * 10 ** 18, "You must attach 0.004 ETH to the request");
 
         // Forward pre-paid processing gas fees to the withdrawer
         (bool sent, ) = withdrawer.call{value: msg.value}("");
         require(sent, "Failed to forward Ethers to withdrawer");
 
         // Reset investment period of account and burn withdrawn L-Tokens amount
-        _resetInvestmentPeriodOf(_msgSender(), true);
+        // _resetInvestmentPeriodOf(_msgSender(), true);
         _burn(_msgSender(), amount);
 
         // Add the withdrawal request to the queue and update the total amount in queue
@@ -578,6 +586,7 @@ contract LToken is
         require(newBalance <= getExpectedRetained(), "Retained underlying limit exceeded");
 
         // Transfer amount from fund wallet to contract
+        underlying().approve(address(this), amount);
         underlying().safeTransferFrom(fund, address(this), amount);
         usableBalance += amount;
     }

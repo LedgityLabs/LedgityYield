@@ -115,10 +115,10 @@ export const theme = {
       // Used by <Scroller/> UI component
       roll: "2s infinite normal roll ease",
       // Used by <Dialog/> and <AlertDialog/>
-      fadeIn: "ease-in-out forwards fadeIn",
-      fadeOut: "ease-in-out forwards fadeOut",
-      fadeAndMoveIn: "ease-in-out forwards fadeAndMoveIn",
-      fadeAndMoveOut: "ease-in-out forwards fadeAndMoveOut",
+      fadeIn: "300ms ease-in-out forwards fadeIn",
+      fadeOut: "300ms ease-in-out forwards fadeOut",
+      fadeAndMoveIn: "300ms ease-in-out forwards fadeAndMoveIn",
+      fadeAndMoveOut: "300ms ease-in-out forwards fadeAndMoveOut",
     },
   },
 };

@@ -1,10 +1,10 @@
-/** Variant of deployUpgradeable() that is specific to LTokens deployment. */
 import { network } from "hardhat";
 import { deploy } from "./deploy";
 import { deployBeaconProxy } from "./deployBeaconProxy";
 import { ContractId, contracts, testnetIds } from "../../deployments";
 import { getChainId } from "./getChainId";
 
+/** Variant of deployUpgradeable() that is specific to LTokens deployment. */
 export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
   // Retrieve current chainId
   const chainId = getChainId();
@@ -14,7 +14,7 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
 
   // If this is a testnet deployment, deploy a fake underlying token
   if (testnetIds.includes(chainId)) {
-    const underlyingContract = await deploy("GenericStableToken", [
+    const underlyingContract = await deploy("GenericERC20", [
       `Fake ${underlyingSymbol}`,
       underlyingSymbol,
       6,
@@ -44,9 +44,6 @@ export async function deployLTokenBeaconProxy(underlyingSymbol: ContractId) {
   }
 
   // Finally deploy the LToken beacon proxy
-  console.log("UNDERLYING ADDRESS");
-  console.log(underlyingAddress);
   const proxyContract = await deployBeaconProxy(lTokenBeacon, "LToken", [underlyingAddress]);
-  console.log(await proxyContract.underlying());
   return proxyContract;
 }

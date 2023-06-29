@@ -13,14 +13,14 @@ import { twMerge } from "tailwind-merge";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
-import { useLTokenAddress } from "@/hooks/useLTokenAddress";
+import { useContractAddress } from "@/hooks/useContractAddress";
 import { useLTokenBalanceOf, useLTokenDecimals, useLTokenUnderlying } from "@/generated";
 import { useDApp } from "@/hooks";
 import { LTokenId } from "../../../../hardhat/deployments";
 
 const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
   const { walletClient } = useDApp();
-  const address = useLTokenAddress(lTokenId);
+  const address = useContractAddress(lTokenId);
   const { data: balance } = useLTokenBalanceOf({
     address: address,
     args: [walletClient ? walletClient.account.address : "0x0"],
@@ -35,10 +35,16 @@ const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
         {lTokenId}
       </div>
       <div className="flex gap-2 items-center">
-        <Amount value={balance!} decimals={decimals} className="font-bold pr-2" />
+        <Amount
+          value={balance!}
+          decimals={decimals}
+          className="font-bold pr-2"
+          suffix={lTokenId}
+          displaySymbol={false}
+        />
         <Tooltip>
           <TooltipTrigger>
-            <DepositDialog tokenSymbol={underlyingSymbol}>
+            <DepositDialog underlyingSymbol={underlyingSymbol}>
               <Button size="tiny" className="w-8 h-8">
                 <i className="ri-add-fill text-lg"></i>
               </Button>
@@ -51,7 +57,7 @@ const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
 
         <Tooltip>
           <TooltipTrigger>
-            <WithdrawDialog tokenSymbol={underlyingSymbol}>
+            <WithdrawDialog underlyingSymbol={underlyingSymbol}>
               <Button variant="outline" size="tiny" className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]">
                 <i className="ri-subtract-fill text-lg"></i>
               </Button>

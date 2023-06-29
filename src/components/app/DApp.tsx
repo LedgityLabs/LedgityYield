@@ -83,7 +83,7 @@ const config = createConfig({
   autoConnect: true,
   connectors,
   publicClient,
-  webSocketPublicClient,
+  // webSocketPublicClient,
 });
 
 // Built RainbowKit theme

@@ -12,7 +12,7 @@
 
   * {
     /* Accessibility - Apply focus ring */
-    @apply relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors !duration-300 ![animation-duration:300ms];
+    @apply relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors !duration-300;
   }
 
   body {

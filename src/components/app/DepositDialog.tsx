@@ -1,7 +1,7 @@
-import { ChangeEvent, FC, useRef, useState } from "react";
+"use client";
+import { ChangeEvent, FC, useRef, useState, memo } from "react";
 import {
   AmountInput,
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -9,34 +9,44 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  AllowanceTxButton,
 } from "@/components/ui";
-import { TokenSymbol } from "@/lib/tokens";
-import * as generated from "../../generated";
-import { useContractWrite } from "wagmi";
+import {
+  useGenericErc20BalanceOf,
+  useLTokenDecimals,
+  useLTokenUnderlying,
+  usePrepareLTokenDeposit,
+} from "../../generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
+import { LTokenId } from "../../../hardhat/deployments";
+import { formatUnits, parseUnits, zeroAddress } from "viem";
+import { useDApp } from "@/hooks";
 
-interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
-  tokenSymbol: TokenSymbol;
+interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
+  underlyingSymbol: string;
+  onOpenChange?: React.ComponentPropsWithoutRef<typeof Dialog>["onOpenChange"];
 }
 
-export const DepositDialog: FC<Props> = ({ children, tokenSymbol }) => {
-  const [value, setValue] = useState(0);
+export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
+  const { walletClient } = useDApp();
+  const lTokenAddress = useContractAddress(`L${underlyingSymbol}` as LTokenId);
+  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
+  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress });
+  const { data: underlyingBalance } = useGenericErc20BalanceOf({
+    address: underlyingAddress,
+    args: [walletClient?.account.address || zeroAddress],
+    watch: true,
+  });
+
   const inputEl = useRef<HTMLInputElement>(null);
-
-  // const { status, config, data } = generated.usePrepareLeurocInstantWithdraw({
-  //   args: [BigInt(value)],
-  // });
-  const { write, data } = useContractWrite({});
-  // console.log(data);
-
-  //   useContractWrite({
-  //   ...contracts[`L${tokenSymbol}`],
-  //   functionName: "",
-  //   args: [123456789],
-  // });
-  // console.log(contracts[`L${tokenSymbol}`]);
+  const [depositedAmount, setDepositedAmount] = useState(0n);
+  const preparation = usePrepareLTokenDeposit({
+    address: lTokenAddress,
+    args: [depositedAmount],
+  });
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onOpenAutoFocus={(e) => {
@@ -45,39 +55,46 @@ export const DepositDialog: FC<Props> = ({ children, tokenSymbol }) => {
         }}
       >
         <DialogHeader>
-          <DialogTitle>Deposit {tokenSymbol}</DialogTitle>
+          <DialogTitle>Deposit {underlyingSymbol}</DialogTitle>
           <DialogDescription>
-            You will receive L{tokenSymbol} in a 1:1 ratio.
+            You will receive L{underlyingSymbol} in a 1:1 ratio.
             <br />
             <br />
-            As soon as you hold some L{tokenSymbol}, you start earning annouced yields on those. There is
-            no need to stake or else, your balance will magically grow through time. Note that your
-            rewards are auto-compounded.
+            As soon as you hold some L{underlyingSymbol}, you start earning annouced yields on those.
+            There is no need to stake or else, your balance will magically grow through time. Note that
+            your rewards are auto-compounded.
             <br />
             <br />
-            At any time, you&apos;ll be able to withdraw your L{tokenSymbol} tokens against {tokenSymbol}{" "}
-            in a 1:1 ratio.
+            At any time, you&apos;ll be able to withdraw your L{underlyingSymbol} tokens against{" "}
+            {underlyingSymbol} in a 1:1 ratio.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="items-end mt-8">
           <AmountInput
             ref={inputEl}
-            maxValue={1874654}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(Number.parseInt(e.target.value))}
-          />
-          <Button
-            // loading={true}
-            size="medium"
-            className="relative -top-[1.5px]"
-            onClick={() =>
-              write &&
-              write({
-                args: [BigInt(value)],
-              })
+            maxValue={underlyingBalance}
+            decimals={decimals}
+            symbol={underlyingSymbol}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setDepositedAmount(parseUnits(e.target.value, decimals!))
             }
+          />
+          <AllowanceTxButton
+            size="medium"
+            preparation={preparation}
+            token={underlyingAddress!}
+            spender={lTokenAddress}
+            amount={depositedAmount}
+            transactionSummary={`Deposit ${formatUnits(
+              depositedAmount,
+              decimals!
+            )} ${underlyingSymbol} against ${formatUnits(
+              depositedAmount,
+              decimals!
+            )} L${underlyingSymbol}`}
           >
             Deposit
-          </Button>
+          </AllowanceTxButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

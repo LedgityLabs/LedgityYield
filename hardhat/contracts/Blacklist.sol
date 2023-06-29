@@ -53,6 +53,9 @@ contract Blacklist is Initializable, OwnableUpgradeable, UUPSUpgradeable {
      * @return 'true' if the account is blacklisted, 'false' otherwise
      */
     function isBlacklisted(address account) external view returns (bool) {
+        // Avoir reading chain storage if account is the zero address
+        if (account == address(0)) return false;
+        // Else return current blacklist status of account
         return _list[account];
     }
 }

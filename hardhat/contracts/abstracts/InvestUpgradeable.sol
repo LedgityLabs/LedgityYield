@@ -234,7 +234,10 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         // Claim user rewards using claimRewardsOf() if it has been implemented by child
         // contract (returns true), else compound them in virtualBalance.
         uint256 rewards = _rewardsOf(account, autocompound);
-        if (!_claimRewardsOf(account, rewards)) accountsInfos[account].virtualBalance = uint88(rewards);
+        if (rewards > 0) {
+            if (!_claimRewardsOf(account, rewards))
+                accountsInfos[account].virtualBalance = uint88(rewards);
+        }
 
         // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
         accountsInfos[account].period.timestamp = uint40(block.timestamp);

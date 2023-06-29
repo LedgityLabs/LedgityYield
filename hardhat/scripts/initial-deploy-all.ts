@@ -1,23 +1,31 @@
-// import { main as deployBlacklist } from "./deploy-Blacklist";
-// import { main as deployLToken } from "./deploy-LToken";
-// import { main as deployLTYStaking } from "./deploy-LTYStaking";
-// import { main as deployLUSDC } from "./deploy-LUSDC";
-// import { main as deployLEUROC } from "./deploy-LEUROC";
+import { parseUnits } from "viem";
+
 export const main = async () => {
+  // Deploy contracts
   const blacklist = await (await import("./deploy-Blacklist")).default;
+  const lty = await (await import("./deploy-LTY")).default;
   const ltyStaking = await (await import("./deploy-LTYStaking")).default;
   await (
     await import("./deploy-LToken")
   ).default;
-
   let lTokens = [
     await (await import("./deploy-LUSDC")).default,
     await (await import("./deploy-LEUROC")).default,
   ];
 
-  ltyStaking!.setBlacklist(await blacklist!.getAddress());
-  ltyStaking!.setAPR(0);
+  // Initialize LTY contract data
+  lty!.setBlacklist(await blacklist!.getAddress());
 
+  // Initialize LTYStaking contract data
+  ltyStaking!.setBlacklist(await blacklist!.getAddress());
+  ltyStaking!.setInvested(await lty!.getAddress());
+  ltyStaking!.setAPR(parseUnits("20", 3));
+
+  ltyStaking!.setTier(1, 0);
+  ltyStaking!.setTier(2, parseUnits("2000000", 18));
+  ltyStaking!.setTier(3, parseUnits("10000000", 18));
+
+  // Initialize L-Tokens contracts data
   for (let lToken of lTokens) {
     lToken!.setBlacklist(await blacklist!.getAddress());
     lToken!.setLTYStaking(await ltyStaking!.getAddress());
@@ -29,8 +37,6 @@ export const main = async () => {
   }
 };
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
-import { useGenericStableTokenDecimals, useGenericStableTokenSymbol } from "@/generated";
+import { useGenericErc20Decimals, useGenericErc20Symbol } from "@/generated";
 
 const AddToWallet = ({ address }: { address: `0x${string}` }) => {
-  const { data: tokenSymbol } = useGenericStableTokenSymbol({ address: address });
-  const { data: tokenDecimals } = useGenericStableTokenDecimals({ address: address });
+  const { data: tokenSymbol } = useGenericErc20Symbol({ address: address });
+  const { data: tokenDecimals } = useGenericErc20Decimals({ address: address });
 
   return (
     <button
