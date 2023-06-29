@@ -43,7 +43,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {
             primary: "bg-primary text-primary-fg ",
             destructive: "bg-destructive text-destructive-fg ",
-            outline: "bg-accent text-fg/80 hover:bg-bg border-2 border-border rounded-[0.85rem]",
+            outline: clsx(
+              "bg-accent text-fg/80 border-2 border-border rounded-[0.85rem]",
+              !isDisabled && "hover:bg-bg"
+            ),
           }[variant],
 
           // Sizes

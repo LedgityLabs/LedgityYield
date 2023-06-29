@@ -1,11 +1,12 @@
 import { Amount, Card } from "@/components/ui";
-import { useLtyStakingTotalStaked } from "@/generated";
+import { useLtyDecimals, useLtyStakingTotalStaked } from "@/generated";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingTotalStaked: FC<Props> = ({ className }) => {
+  const { data: ltyDecimals } = useLtyDecimals();
   const { data: totalStaked } = useLtyStakingTotalStaked({
     watch: true,
   });
@@ -19,7 +20,7 @@ export const AppStakingTotalStaked: FC<Props> = ({ className }) => {
           Total staked
         </h2>
         <div className="h-full flex justify-center items-center text-5xl font-heavy font-heading">
-          <Amount value={totalStaked} />
+          <Amount value={totalStaked} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
         </div>
       </div>
       <div className="flex justify-center items-center w-full h-full ml-10 bg-primary/10 rounded-3xl text-center">

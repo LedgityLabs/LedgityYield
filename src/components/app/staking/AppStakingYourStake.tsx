@@ -22,7 +22,7 @@ export const AppStakingYourStake: FC<Props> = ({ className }) => {
     >
       <h2 className="text-center text-lg font-medium text-indigo-900/80">Your stake</h2>
       <div className="h-full flex justify-center items-center text-6xl font-heavy font-heading">
-        <Amount value={stake} decimals={ltyDecimals} />
+        <Amount value={stake} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
       </div>
     </Card>
   );

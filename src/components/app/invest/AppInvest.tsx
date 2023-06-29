@@ -227,7 +227,6 @@ export const AppInvest: FC = () => {
                 .then((data) => {
                   // Extract the USD rate
                   const usdRate = data.data.rates.USD;
-                  console.log("USD rate:", usdRate);
                   _tableData.push({
                     tokenSymbol: tokenSymbol,
                     invested: [rowData[1].result!, rowData[2].result!] as [bigint, number],
