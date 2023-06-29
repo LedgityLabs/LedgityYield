@@ -1,16 +1,13 @@
 "use client";
-import { AdminBlacklist } from "@/components/app/admin/blacklist/AdminBlacklist";
 import { AdminDashboard } from "@/components/app/admin/dashboard/AdminDashboard";
+import { AdminLTY } from "@/components/app/admin/lty/AdminLTY";
 import { AdminLTokens } from "@/components/app/admin/ltokens/AdminLTokens";
-import { AdminRecover } from "@/components/app/admin/recover/AdminRecover";
 import { AdminStaking } from "@/components/app/admin/staking/AdminStaking";
+import { AdminBlacklist } from "@/components/app/admin/blacklist/AdminBlacklist";
+import { AdminRecover } from "@/components/app/admin/recover/AdminRecover";
 import { AdminTesting } from "@/components/app/admin/testing/AdminTesting";
-import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
-import { AppInvest } from "@/components/app/invest/AppInvest";
-import { AppStaking } from "@/components/app/staking/AppStaking";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { useDApp } from "@/hooks";
-
 import { type NextPage } from "next";
 
 const Page: NextPage = () => {
@@ -26,6 +23,7 @@ const Page: NextPage = () => {
         <TabsList className="mt-6 mb-6">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="ltokens">L-Tokens</TabsTrigger>
+          <TabsTrigger value="lty">LTY</TabsTrigger>
           <TabsTrigger value="staking">Staking</TabsTrigger>
           <TabsTrigger value="blacklist">Blacklist</TabsTrigger>
           <TabsTrigger value="recover">Recover</TabsTrigger>
@@ -41,6 +39,9 @@ const Page: NextPage = () => {
           </TabsContent>
           <TabsContent value="ltokens">
             <AdminLTokens />
+          </TabsContent>
+          <TabsContent value="lty">
+            <AdminLTY />
           </TabsContent>
           <TabsContent value="staking">
             <AdminStaking />

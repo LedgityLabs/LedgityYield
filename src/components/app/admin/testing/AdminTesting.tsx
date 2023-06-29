@@ -85,7 +85,7 @@ export const AdminTesting: FC = () => {
   const lTokens = useAvailableLTokens();
 
   return (
-    <section className="grid grid-cols-[repeat(3,1fr)] grid-flow-row w-[1200px] h-[900px] gap-10 pb-10">
+    <section className="grid grid-cols-[repeat(3,1fr)] grid-flow-row w-[1200px] gap-10 pb-10">
       <Card circleIntensity={0.07} className="p-8">
         <h3 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">
           Underlying tokens
