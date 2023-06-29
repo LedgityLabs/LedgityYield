@@ -1,3 +1,17 @@
+## [1.92.0](https://github.com/ledgity-labs/dapp/compare/v1.91.0...v1.92.0) (2023-06-29)
+
+
+### Features
+
+* **app>invest:** use coinbase exchanges rates API to provides dollar-based TVL ([fe6d325](https://github.com/ledgity-labs/dapp/commit/fe6d325316ad7e343252ad03ce1b26463a91de66))
+* **app:** add "LTY" admin with token infos and mint form ([b0d70a8](https://github.com/ledgity-labs/dapp/commit/b0d70a88c18b3a4896985204d2fe9e6287316372))
+* **app:** enable watching for many data in app>staking so they're updated in real-time ([cb46f6e](https://github.com/ledgity-labs/dapp/commit/cb46f6efdb279e59a7f66e2b16db555b97a5c6b3))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.3.2 ([92f2cd9](https://github.com/ledgity-labs/dapp/commit/92f2cd95990879ee45c771a1e7cd3e590b42934c))
+
 ## [1.91.0](https://github.com/ledgity-labs/dapp/compare/v1.90.0...v1.91.0) (2023-06-29)
 
 
