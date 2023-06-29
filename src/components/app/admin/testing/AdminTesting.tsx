@@ -19,7 +19,7 @@ const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) 
   const { walletClient } = useDApp();
   const address = useContractAddress(lTokenId);
   const { data: underlyingAddress } = useLTokenUnderlying({ address: address });
-  const { data: underlyingSymbol } = useGenericErc20Symbol({ address: address });
+  const { data: underlyingSymbol } = useGenericErc20Symbol({ address: underlyingAddress });
   const { data: underlyingName } = useGenericErc20Name({ address: underlyingAddress });
   const { data: underlyingDecimals } = useGenericErc20Decimals({
     address: underlyingAddress,

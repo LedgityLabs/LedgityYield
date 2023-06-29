@@ -18,7 +18,7 @@ import { getGenericErc20, getLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
-import { zeroAddress } from "viem";
+import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
 import { ContractId } from "../../../../hardhat/deployments";
 import clsx from "clsx";
@@ -41,6 +41,7 @@ interface Pool {
   tokenSymbol: string;
   apr: number;
   tvl: [bigint, number];
+  tvlUsd: bigint;
   invested: [bigint, number];
 }
 
@@ -67,7 +68,11 @@ export const AppInvest: FC = () => {
   let isActionsDialogOpen = useRef(false);
   let futureTableData = useRef<Pool[]>([]);
 
-  const tvl = 19487512123456n;
+  let tvl = 0n;
+  for (const tableRow of tableData) {
+    tvl += tableRow.tvlUsd;
+  }
+
   const distrubutedRewards = 945512123456n;
   const decimals = 6;
 
@@ -211,18 +216,36 @@ export const AppInvest: FC = () => {
         },
         (data) => {
           const _tableData: Pool[] = [];
-
+          const proms: Promise<void>[] = [];
           for (const rowData of chunkArray(data, 5)) {
-            _tableData.push({
-              tokenSymbol: rowData[0].result! as string,
-              invested: [rowData[1].result!, rowData[2].result!] as [bigint, number],
-              tvl: [rowData[3].result!, rowData[2].result!] as [bigint, number],
-              apr: rowData[4].result! as number,
-            });
+            const tokenSymbol = rowData[0].result! as string;
+            const tvl = [rowData[3].result!, rowData[2].result!] as [bigint, number];
+
+            proms.push(
+              fetch(`https://api.coinbase.com/v2/exchange-rates?currency=${tokenSymbol}`)
+                .then((response) => response.json()) // Parse the JSON from the response
+                .then((data) => {
+                  // Extract the USD rate
+                  const usdRate = data.data.rates.USD;
+                  console.log("USD rate:", usdRate);
+                  _tableData.push({
+                    tokenSymbol: tokenSymbol,
+                    invested: [rowData[1].result!, rowData[2].result!] as [bigint, number],
+                    tvl: tvl,
+                    tvlUsd: parseUnits((usdRate * Number(formatUnits(tvl[0], tvl[1]))).toString(), 6),
+                    apr: rowData[4].result! as number,
+                  });
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                })
+            );
           }
-          if (!isActionsDialogOpen.current) setTableData(_tableData);
-          else futureTableData.current = _tableData;
-          setInitialFetch(true);
+          Promise.all(proms).then(() => {
+            if (!isActionsDialogOpen.current) setTableData(_tableData);
+            else futureTableData.current = _tableData;
+            setInitialFetch(true);
+          });
         }
       );
     }
@@ -239,7 +262,7 @@ export const AppInvest: FC = () => {
         <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
           <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
           <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
-            <Amount prefix="$" value={tvl} decimals={decimals} />
+            <Amount prefix="$" value={tvl} decimals={6} />
           </div>
         </Card>
         <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
