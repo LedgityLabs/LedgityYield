@@ -1,3 +1,24 @@
+## [1.91.0](https://github.com/ledgity-labs/dapp/compare/v1.90.0...v1.91.0) (2023-06-29)
+
+
+### Features
+
+* **app:** add fade and move in animation to app and admin tabs ([5816e18](https://github.com/ledgity-labs/dapp/commit/5816e18ed9f26b510356f3b436d71254974f8b48))
+* **app:** link invested tokens to contracts data, update components to fit new <Amount/> behaviors+ ([e2eee59](https://github.com/ledgity-labs/dapp/commit/e2eee59c45f810664c14c783f13f7b07ba5ca997))
+* **app:** the frontend is now fully connected to contracts. See long description ([bae8b26](https://github.com/ledgity-labs/dapp/commit/bae8b268b280836443d088eee98d0ce64003cc01))
+* improve <Amount/> component so it directly accepts bigint and performs required formatting ([c4d0992](https://github.com/ledgity-labs/dapp/commit/c4d09924751cf103faa8f8710e9cfac65ef54d7d))
+
+
+### Fixes
+
+* a bunch of tiny values, typos, animations improvements and fixes ([8c08b91](https://github.com/ledgity-labs/dapp/commit/8c08b913525c5ec3e082c4d368ab0e5c0f7a2857))
+
+
+### Others
+
+* **deps:** update dependency typescript to v5.1.6 ([373a4ac](https://github.com/ledgity-labs/dapp/commit/373a4ac0a1ff492c51df72886c6eacd498cae2ee))
+* **deps:** upgrade deps ([ccbfe1b](https://github.com/ledgity-labs/dapp/commit/ccbfe1b18add3c9647ce27a7d2eebd51fb8ef0bc))
+
 ## [1.90.0](https://github.com/ledgity-labs/dapp/compare/v1.89.0...v1.90.0) (2023-06-27)
 
 
