@@ -6,7 +6,9 @@ import { twMerge } from "tailwind-merge";
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingTotalStaked: FC<Props> = ({ className }) => {
-  const { data: totalStaked } = useLtyStakingTotalStaked();
+  const { data: totalStaked } = useLtyStakingTotalStaked({
+    watch: true,
+  });
   return (
     <Card
       circleIntensity={0.07}

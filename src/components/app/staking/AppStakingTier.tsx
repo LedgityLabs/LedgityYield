@@ -11,6 +11,7 @@ export const AppStakingTier: FC<Props> = ({ className }) => {
   const { walletClient } = useDApp();
   const { data: tier } = useLtyStakingGetTierOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
+    watch: true,
   });
 
   return (

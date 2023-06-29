@@ -24,6 +24,7 @@ const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
   const { data: balance } = useLTokenBalanceOf({
     address: address,
     args: [walletClient ? walletClient.account.address : "0x0"],
+    watch: true,
   });
   const { data: decimals } = useLTokenDecimals({ address: address });
   const underlyingSymbol = lTokenId.slice(1);

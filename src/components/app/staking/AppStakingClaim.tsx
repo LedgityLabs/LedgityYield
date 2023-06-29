@@ -12,6 +12,7 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
   const { data: ltyDecimals } = useLtyDecimals();
   const { data: unclaimedRewards } = useLtyStakingRewardsOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
+    watch: true,
   });
   const preparation = usePrepareLtyStakingClaim();
 

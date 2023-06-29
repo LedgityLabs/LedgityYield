@@ -23,9 +23,11 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
   const { data: ltyDecimals } = useLtyDecimals();
   const { data: ltyBalance } = useLtyBalanceOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
+    watch: true,
   });
   const { data: stakedAmount } = useLtyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
+    watch: true,
   });
 
   const [depositedAmount, setDepositedAmount] = useState(0n);

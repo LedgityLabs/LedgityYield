@@ -1,5 +1,5 @@
-import { Amount, Card, Rate } from "@/components/ui";
-import { useLtyDecimals, useLtyStakingGetApr, useLtyStakingStakeOf } from "@/generated";
+import { Amount, Card } from "@/components/ui";
+import { useLtyDecimals, useLtyStakingStakeOf } from "@/generated";
 import { useDApp } from "@/hooks";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -11,6 +11,7 @@ export const AppStakingYourStake: FC<Props> = ({ className }) => {
   const { walletClient } = useDApp();
   const { data: stake } = useLtyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
+    watch: true,
   });
   const { data: ltyDecimals } = useLtyDecimals();
 
