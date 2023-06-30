@@ -23,13 +23,13 @@ const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
   });
 
   return (
-    <div className="py-6 flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <h4 className="font-bold text-xl text-fg">Tier {tierId}</h4>
       <p>
         Current value:{" "}
         <Amount value={tierAmount} decimals={ltyDecimals} suffix="LTY" className="font-bold" />
       </p>
-      <div className="flex justify-center items-end gap-3">
+      <div className="flex justify-center items-end gap-3 pt-3">
         <AmountInput
           maxName="Max"
           maxValue={ltyCap}
@@ -51,9 +51,11 @@ export const AdminStaking: FC = () => {
     <section className="grid grid-cols-[repeat(3,1fr)] grid-flow-row w-[1200px] gap-10 pb-10">
       <Card circleIntensity={0.07} className="p-8">
         <h3 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">Tiers</h3>
-        {tiersIds.map((tierId) => (
-          <TierSetter key={tierId} tierId={tierId} />
-        ))}
+        <div className="flex flex-col gap-16 pt-6">
+          {tiersIds.map((tierId) => (
+            <TierSetter key={tierId} tierId={tierId} />
+          ))}
+        </div>
       </Card>
     </section>
   );
