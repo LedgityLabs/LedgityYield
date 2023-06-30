@@ -1,3 +1,10 @@
+## [1.92.1](https://github.com/ledgity-labs/dapp/compare/v1.92.0...v1.92.1) (2023-06-29)
+
+
+### Fixes
+
+* **app): many fixes (see long description:** fixed staking "total staked" and "eligible to tier" ([0bb75a7](https://github.com/ledgity-labs/dapp/commit/0bb75a7bc686e2278cbb36378350863cdb9431ca))
+
 ## [1.92.0](https://github.com/ledgity-labs/dapp/compare/v1.91.0...v1.92.0) (2023-06-29)
 
 
