@@ -13,7 +13,6 @@ export const AppStakingTier: FC<Props> = ({ className }) => {
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
-  console.log(tier);
 
   return (
     <Card

@@ -12,7 +12,7 @@ interface Props {
 const Page: NextPage<Props> = ({ error, reset }) => {
   return (
     <main className="flex justify-center items-center min-h-screen">
-      <div className="w-[90vw] max-w-[380px] flex flex-col justify-center items-center gap-16 transform scale-90 sm:scale-100 ">
+      <div className="w-[90vw] max-w-[380px] flex flex-col justify-center items-center gap-16 transform scale-90 sm:scale-100 animate-fadeAndMoveIn">
         <h1 className="text-8xl font-extrabold font-heading text-center text-primary">
           Render
           <br />
@@ -25,7 +25,7 @@ const Page: NextPage<Props> = ({ error, reset }) => {
             this page, with the following reason:
           </p>
           <code className="p-8 bg-fg text-bg font-['monospace'] rounded-3xl ">
-            {error.message || "Unknown error"}
+            {error.name} {error.message || "Unknown error"}
           </code>
         </div>
         <div className="flex gap-6 justify-center items-center">

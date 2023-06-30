@@ -73,15 +73,23 @@ library APRCheckpoints {
         Pack[] storage packs,
         Reference memory ref
     ) internal view returns (Checkpoint memory checkpoint) {
-        // Extract pack containing the checkpoint
-        Pack memory pack = packs[ref.packIndex];
+        // If the checkpoint's pack exists
+        if (packs.length > ref.packIndex) {
+            // Extract its data
+            Pack memory pack = packs[ref.packIndex];
 
-        // Build and return the checkpoint data
-        return
-            Checkpoint({
-                aprUD3: pack.aprsUD3[ref.cursorIndex],
-                timestamp: pack.timestamps[ref.cursorIndex]
-            });
+            // Build and return the checkpoint data
+            // Note that there is no need to check if the cursor index has been written
+            // as they are all initialized to 0 in _newBlankPack() function, so will
+            // by default return 0 if not written
+            return
+                Checkpoint({
+                    aprUD3: pack.aprsUD3[ref.cursorIndex],
+                    timestamp: pack.timestamps[ref.cursorIndex]
+                });
+        }
+        // Else retruns  empty Checkpoint if the reference is out of bounds
+        return Checkpoint(0, 0);
     }
 
     /**

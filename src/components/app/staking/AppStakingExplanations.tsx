@@ -20,10 +20,16 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
           to stake their LTY tokens against juicy advantages classified by tiers.
         </p>
         <h2 className="text-xl font-bold text-fg/80 mb-6 mt-9 font-heading">Staking tiers</h2>
-        <div className="grid grid-cols-[80px,auto] gap-y-7 ml-2">
-          <h3 className="flex justify-center items-center text-lg font-bold font-heading text-fg/90 bg-primary/20 rounded-l-2xl rounded-r-sm">
+        <div className="grid grid-cols-[130px,auto] gap-y-7 ml-2">
+          <h3 className="flex justify-center items-center text-3xl font-bold font-heading text-primary/80 bg-primary/20 rounded-l-2xl rounded-r-sm">
             &gt;
-            <Amount value={tier1Amount} decimals={ltyDecimals} />
+            <Amount
+              value={tier1Amount}
+              decimals={ltyDecimals}
+              suffix="LTY"
+              displaySymbol={false}
+              discardLeadingZeroes={true}
+            />
           </h3>
           <div className="pl-3">
             <ul className="pl-4 list-disc">
@@ -32,22 +38,34 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
               <li>Community support</li>
             </ul>
           </div>
-          <h3 className="flex justify-center items-center text-lg font-bold font-heading text-fg/90 bg-primary/20 rounded-l-2xl rounded-r-sm">
+          <h3 className="flex justify-center items-center text-3xl font-bold font-heading text-primary/80 bg-primary/20 rounded-l-2xl rounded-r-sm">
             &gt;
-            <Amount value={tier2Amount} decimals={ltyDecimals} />
+            <Amount
+              value={tier2Amount}
+              decimals={ltyDecimals}
+              suffix="LTY"
+              displaySymbol={false}
+              discardLeadingZeroes={true}
+            />
           </h3>
           <div className="pl-3">
             <p className="italic">Previous tiers advantages, plus:</p>
             <ul className="pl-5 list-disc">
-              <li>Top priority in withdrawal queue</li>
+              <li>Free and top priority withdrawal requests</li>
               <li>Entry to private holders&apos; event</li>
               <li>Email support</li>
             </ul>
           </div>
 
-          <h3 className="flex justify-center items-center text-lg font-bold font-heading text-fg/90 bg-primary/20 rounded-l-2xl rounded-r-sm">
+          <h3 className="flex justify-center items-center text-3xl font-bold font-heading text-primary/80 bg-primary/20 rounded-l-2xl rounded-r-sm">
             &gt;
-            <Amount value={tier3Amount} decimals={ltyDecimals} />
+            <Amount
+              value={tier3Amount}
+              decimals={ltyDecimals}
+              suffix="LTY"
+              displaySymbol={false}
+              discardLeadingZeroes={true}
+            />
           </h3>
           <div className="pl-3">
             <p className="italic">Previous tiers advantages, plus:</p>

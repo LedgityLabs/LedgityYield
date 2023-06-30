@@ -18,8 +18,8 @@ import "../libs/UDS3.sol";
  * @dev For more details see "InvestmentUpgradeable" section of whitepaper.
  * Children contract must:
  *  - Set invested token (during initialization or later using _setInvested()).
- *  - Implement investmentOf() function
- *  - Implement claimRewardsOf() function (optional)
+ *  - Implement _investmentOf() function
+ *  - Implement _claimRewardsOf() function (optional)
  * @custom:security-contact security@ledgity.com
  */
 abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
@@ -120,6 +120,10 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         return n * 10 ** decimals;
     }
 
+    function toUDS3(uint256 n) internal view returns (uint256) {
+        return UDS3.scaleUp(toDecimals(n));
+    }
+
     /**
      * @dev Converts a given number from UD3 format into unsigned decimal fixed point number
      * with the same number of decimals than the invested token.
@@ -134,6 +138,10 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
      * @dev This function calculates the rewards generated during a given period of time,
      * considering a given deposited amount and APR.
      * For more details see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
+     * About usage of UDS3: Note that usage of UDS3 is not required here to retain precision of
+     * amounts as we are only using multiplication before division. However, we use it to support
+     * scenario where the invested token decimals are < 3. In that case, as the APR is stored in UD3
+     * it would be shrinked and so would lead to a loss of precision.
      * @param beginTimestamp The beginning of the period.
      * @param endTimestamp The end of the period.
      * @param aprUD3 The APR of the period, in UD3 format.
@@ -146,15 +154,16 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
         uint256 depositedAmount
     ) private view returns (uint256 rewards) {
         // Calculate elapsed years
-        uint256 elaspedTimeUD3 = UDS3.scaleUp(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsUD3 = (elaspedTimeUD3 * UDS3.scaleUp(1)) / UDS3.scaleUp(365 days);
+        uint256 elaspedTimeUDS3 = toUDS3(endTimestamp - beginTimestamp);
+        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * toUDS3(1)) / toUDS3(365 days);
 
         // Calculate deposited amount growth (because of rewards)
-        uint256 growthUD3 = (elapsedYearsUD3 * aprUD3) / UDS3.scaleUp(100);
+        uint256 aprUDS3 = toDecimals(aprUD3);
+        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / toUDS3(100);
 
         // Calculate and return rewards
-        uint rewardsUDS3 = (UDS3.scaleUp(depositedAmount) * toDecimals(growthUD3)) /
-            UDS3.scaleUp(toDecimals(100));
+        uint256 depositedAmountUDS3 = UDS3.scaleUp(depositedAmount);
+        uint256 rewardsUDS3 = (depositedAmountUDS3 * growthUDS3) / toUDS3(100);
         rewards = UDS3.scaleDown(rewardsUDS3);
     }
 
@@ -213,16 +222,25 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
                 ref = nextRef;
                 checkpoint = nextCheckpoint;
             }
-        }
 
-        // Calculate rewards from the last checkpoint to now
-        // See "InvestUpgradeable > Rewards calculation > 4)" section of the whitepaper
-        rewards += _calculatePeriodRewards(
-            checkpoint.timestamp,
-            uint40(block.timestamp),
-            checkpoint.aprUD3,
-            depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
-        );
+            // Calculate rewards from the last checkpoint to now
+            // See "InvestUpgradeable > Rewards calculation > 4)" section of the whitepaper
+            rewards += _calculatePeriodRewards(
+                checkpoint.timestamp,
+                uint40(block.timestamp),
+                checkpoint.aprUD3,
+                depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
+            );
+        } else {
+            // Calculate rewards from the last checkpoint to now
+            // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
+            rewards += _calculatePeriodRewards(
+                infos.period.timestamp,
+                uint40(block.timestamp),
+                checkpoint.aprUD3,
+                depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
+            );
+        }
     }
 
     /**

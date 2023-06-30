@@ -168,7 +168,7 @@ contract LTYStaking is
      * @dev Allows staking a given amount of $LTY tokens.
      * @param amount The amount of $LTY tokens to stake
      */
-    function stake(uint256 amount) external whenNotPaused notBlacklisted(_msgSender()) {
+    function stake(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough $LTY tokens to stake
         require(invested().balanceOf(_msgSender()) >= amount, "Insufficient balance");
 
@@ -180,7 +180,6 @@ contract LTYStaking is
         totalStaked += amount;
 
         // Transfer staked $LTY tokens to the contract
-        invested().approve(_msgSender(), amount);
         invested().transferFrom(_msgSender(), address(this), amount);
     }
 
@@ -206,7 +205,7 @@ contract LTYStaking is
     /**
      * @dev
      */
-    function claim() external whenNotPaused notBlacklisted(_msgSender()) {
+    function claim() public whenNotPaused notBlacklisted(_msgSender()) {
         // Reset account investment period. This will compound current rewards into virtual balance.
         _resetInvestmentPeriodOf(_msgSender(), false);
 
@@ -216,5 +215,18 @@ contract LTYStaking is
 
         // Transfer rewards to the account
         invested().transfer(_msgSender(), rewards);
+    }
+
+    function compound() external whenNotPaused notBlacklisted(_msgSender()) {
+        // Reset account investment period. This will compound current rewards into virtual balance.
+        _resetInvestmentPeriodOf(_msgSender(), false);
+
+        // Retrieve and reset account's unclaimed rewards
+        uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
+        accountsInfos[_msgSender()].virtualBalance = 0;
+
+        // Increment staked and total staked amounts with those rewards
+        stakeOf[_msgSender()] += rewards;
+        totalStaked += rewards;
     }
 }

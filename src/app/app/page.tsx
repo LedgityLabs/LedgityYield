@@ -6,9 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { type NextPage } from "next";
 
 const Page: NextPage = () => {
-  throw new Error(
-    "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet"
-  );
   return (
     <Tabs defaultValue="invest" className="flex flex-col gap-10 justify-center w-screen items-center">
       <TabsList className="mt-12 mb-6">
