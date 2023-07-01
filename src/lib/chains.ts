@@ -24,12 +24,14 @@ const hederaChain: Chain = {
 
 const hardhat: Chain = {
   ..._hardhat,
-  contracts: {
-    multicall3: {
-      address: getContractAddress("Multicall3", 31337),
-    },
-  },
 };
+const hardhatMulticall3Address = getContractAddress("Multicall3", 31337);
+if (hardhatMulticall3Address)
+  hardhat.contracts = {
+    multicall3: {
+      address: hardhatMulticall3Address,
+    },
+  };
 
 // Build chain icons map
 export const chainsIcons = {

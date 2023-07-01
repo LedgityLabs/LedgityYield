@@ -231,6 +231,7 @@ export const AppInvest: FC = () => {
                 fetch(`https://api.coinbase.com/v2/exchange-rates?currency=${tokenSymbol}`)
                   .then((response) => response.json()) // Parse the JSON from the response
                   .then((ratesData) => {
+                    console.log(ratesData);
                     // Extract the USD rate
                     const usdRate = ratesData.data.rates.USD;
                     _tableData.push({
