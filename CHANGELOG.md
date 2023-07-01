@@ -1,3 +1,10 @@
+## [1.94.0](https://github.com/ledgity-labs/dapp/compare/v1.93.0...v1.94.0) (2023-07-01)
+
+
+### Features
+
+* **app:** entire rewrite of network switching system, make many UI element reacting to chain switch ([8691531](https://github.com/ledgity-labs/dapp/commit/8691531edd80c1198939f9703c0966b590d8ffc2))
+
 ## [1.93.0](https://github.com/ledgity-labs/dapp/compare/v1.92.1...v1.93.0) (2023-06-30)
 
 
