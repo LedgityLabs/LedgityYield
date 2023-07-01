@@ -1,1 +1,1 @@
-export * from "./DAppContext";
+export * from "./SwitchNetworkContext";

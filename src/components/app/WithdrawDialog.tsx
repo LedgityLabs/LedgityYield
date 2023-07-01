@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui";
-import { useDApp } from "@/hooks";
 import {
   useLTokenBalanceOf,
   useLTokenDecimals,
@@ -20,6 +19,7 @@ import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
 import { LTokenId } from "../../../hardhat/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { TxButton } from "../ui/TxButton";
+import { useWalletClient } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   underlyingSymbol: string;
@@ -27,11 +27,11 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
 }
 
 export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}` as LTokenId);
-  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
+  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress! });
   const { data: balance } = useLTokenBalanceOf({
-    address: lTokenAddress,
+    address: lTokenAddress!,
     args: [walletClient?.account.address || zeroAddress],
     watch: true,
   });
@@ -39,15 +39,16 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
   const instantWithdrawalPreparation = usePrepareLTokenInstantWithdraw({
-    address: lTokenAddress,
+    address: lTokenAddress!,
     args: [withdrawnAmount],
   });
   const requestWithdrawalPreparation = usePrepareLTokenRequestWithdrawal({
-    address: lTokenAddress,
+    address: lTokenAddress!,
     args: [withdrawnAmount],
     value: parseEther("0.004"),
   });
 
+  if (!lTokenAddress) return null;
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>

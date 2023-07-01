@@ -1,12 +1,11 @@
 import { FC } from "react";
-import { usePrepareContractWrite } from "wagmi";
+import { usePrepareContractWrite, useWalletClient } from "wagmi";
 import {
   useGenericErc20Allowance,
   useGenericErc20Decimals,
   useGenericErc20Symbol,
   usePrepareGenericErc20Approve,
 } from "@/generated";
-import { useDApp } from "@/hooks";
 import { formatUnits, zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
 
@@ -29,7 +28,7 @@ export const AllowanceTxButton: FC<Props> = ({
   transactionSummary = "",
   ...props
 }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const { data: symbol } = useGenericErc20Symbol({ address: token });
   const { data: decimals } = useGenericErc20Decimals({ address: token });
   const { data: allowance } = useGenericErc20Allowance({

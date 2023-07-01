@@ -1,1 +1,1 @@
-export * from "./useDApp";
+export * from "./useSwitchNetwork";

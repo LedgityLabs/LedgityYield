@@ -155,7 +155,10 @@ contract LTYStaking is
         require(tier > 0, "Tier must be > 0");
         if (_tiers.length < tier) return false;
         uint256 tierIndex = tier - 1;
-        return stakeOf[account] >= _tiers[tierIndex];
+        uint256 accountStake = stakeOf[account];
+        // Returning false if account has no stake allows to offer a tier 1 at >0 $LTY and other tiers >=x $LTY
+        if (accountStake == 0) return false;
+        return accountStake >= _tiers[tierIndex];
     }
 
     function getTierOf(address account) external view returns (uint256 tier) {

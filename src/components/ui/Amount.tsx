@@ -1,6 +1,6 @@
 import { FC } from "react";
 import * as d3 from "d3-format";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { twMerge } from "tailwind-merge";
 import { formatUnits } from "viem";
 

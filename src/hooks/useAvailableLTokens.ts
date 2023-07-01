@@ -1,9 +1,10 @@
 import { useBlacklistIsBlacklisted } from "@/generated";
 import { ContractId, contracts, lTokensIds } from "../../hardhat/deployments";
-import { useDApp } from "./useDApp";
+import { usePublicClient } from "wagmi";
 
 export const useAvailableLTokens = () => {
-  const { chain } = useDApp();
-  const availableLTokensIds = lTokensIds.filter((id) => contracts[id].address[chain.id]);
+  const publicClient = usePublicClient();
+  if (!publicClient.chain) return [];
+  const availableLTokensIds = lTokensIds.filter((id) => contracts[id].address[publicClient.chain.id]);
   return availableLTokensIds;
 };

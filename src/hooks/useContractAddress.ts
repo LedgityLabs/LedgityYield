@@ -1,8 +1,9 @@
 import { getContractAddress } from "@/lib/getContractAddress";
 import { ContractId } from "../../hardhat/deployments";
-import { useDApp } from "./useDApp";
+import { usePublicClient } from "wagmi";
 
 export const useContractAddress = (contractId: ContractId) => {
-  const { chain } = useDApp();
-  return getContractAddress(contractId, chain.id);
+  const publicClient = usePublicClient();
+  if (!publicClient.chain) return null;
+  return getContractAddress(contractId, publicClient.chain.id);
 };

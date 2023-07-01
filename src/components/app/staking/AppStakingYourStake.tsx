@@ -1,14 +1,14 @@
 import { Amount, Card } from "@/components/ui";
 import { useLtyDecimals, useLtyStakingStakeOf } from "@/generated";
-import { useDApp } from "@/hooks";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { zeroAddress } from "viem";
+import { useWalletClient } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingYourStake: FC<Props> = ({ className }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const { data: stake } = useLtyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,

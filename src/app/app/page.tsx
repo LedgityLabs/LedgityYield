@@ -1,3 +1,4 @@
+"use client";
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppInvest } from "@/components/app/invest/AppInvest";
 import { AppStaking } from "@/components/app/staking/AppStaking";

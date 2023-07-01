@@ -13,15 +13,15 @@ import { twMerge } from "tailwind-merge";
 import { TokenLogo } from "../../ui/TokenLogo";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
-import { useDApp } from "@/hooks";
 import { getGenericErc20, getLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
-import { formatUnits, parseUnits, zeroAddress } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import { watchReadContracts } from "@wagmi/core";
 import { ContractId } from "../../../../hardhat/deployments";
 import clsx from "clsx";
+import { usePublicClient, useWalletClient } from "wagmi";
 
 /**
  * This function splits an array into chunks of the given size. E.g., [1,2,3,4,5,6] with chunk size 2
@@ -59,7 +59,8 @@ interface Pool {
  *    with most up to date data.
  */
 export const AppInvest: FC = () => {
-  const { walletClient, chain } = useDApp();
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
   const lTokens = useAvailableLTokens();
@@ -163,97 +164,103 @@ export const AppInvest: FC = () => {
   const headerGroup = table.getHeaderGroups()[0];
 
   function watchData() {
-    let reads: Parameters<typeof watchReadContracts>[0]["contracts"] = [];
-    for (const lTokenId of lTokens) {
-      let lTokenContract: ReturnType<typeof getLToken>;
-      let underlyingContract: ReturnType<typeof getGenericErc20>;
-      try {
-        lTokenContract = getLToken({ address: getContractAddress(lTokenId, chain.id) });
-        underlyingContract = getGenericErc20({
-          address: getContractAddress(lTokenId.slice(1) as ContractId, chain.id),
-        });
-      } catch (e) {
-        console.error("Some contracts addresses are missing for the current chain. Cannot watch data.");
-        setInitialFetch(true);
-        continue;
-      }
-      reads = [
-        ...reads,
-        {
-          address: underlyingContract.address,
-          abi: underlyingContract.abi,
-          functionName: "symbol",
-        },
-        {
-          address: lTokenContract.address,
-          abi: lTokenContract.abi,
-          functionName: "balanceOf",
-          args: [walletClient ? walletClient.account.address : zeroAddress],
-        },
-        {
-          address: lTokenContract.address,
-          abi: lTokenContract.abi,
-          functionName: "decimals",
-        },
-        {
-          address: lTokenContract.address,
-          abi: lTokenContract.abi,
-          functionName: "totalSupply",
-        },
-        {
-          address: lTokenContract.address,
-          abi: lTokenContract.abi,
-          functionName: "getApr",
-        },
-      ];
-    }
-    if (reads.length === 0) setInitialFetch(true);
-    else {
-      return watchReadContracts(
-        {
-          contracts: reads,
-          listenToBlock: true,
-        },
-        (data) => {
-          const _tableData: Pool[] = [];
-          const proms: Promise<void>[] = [];
-          for (const rowData of chunkArray(data, 5)) {
-            const tokenSymbol = rowData[0].result! as string;
-            const tvl = [rowData[3].result!, rowData[2].result!] as [bigint, number];
-
-            proms.push(
-              fetch(`https://api.coinbase.com/v2/exchange-rates?currency=${tokenSymbol}`)
-                .then((response) => response.json()) // Parse the JSON from the response
-                .then((data) => {
-                  // Extract the USD rate
-                  const usdRate = data.data.rates.USD;
-                  _tableData.push({
-                    tokenSymbol: tokenSymbol,
-                    invested: [rowData[1].result!, rowData[2].result!] as [bigint, number],
-                    tvl: tvl,
-                    tvlUsd: parseUnits((usdRate * Number(formatUnits(tvl[0], tvl[1]))).toString(), 6),
-                    apr: rowData[4].result! as number,
-                  });
-                })
-                .catch((error) => {
-                  console.error("Error:", error);
-                })
-            );
-          }
-          Promise.all(proms).then(() => {
-            if (!isActionsDialogOpen.current) setTableData(_tableData);
-            else futureTableData.current = _tableData;
-            setInitialFetch(true);
-          });
+    if (publicClient.chain) {
+      let reads: Parameters<typeof watchReadContracts>[0]["contracts"] = [];
+      for (const lTokenId of lTokens) {
+        const lTokenContractAddress = getContractAddress(lTokenId, publicClient.chain.id);
+        const underlyingContractAddress = getContractAddress(
+          lTokenId.slice(1) as ContractId,
+          publicClient.chain.id
+        );
+        if (!lTokenContractAddress || !underlyingContractAddress)
+          console.error(
+            "Some contracts addresses are missing for the current chain. Cannot watch data."
+          );
+        else {
+          const lTokenContract = getLToken({ address: lTokenContractAddress });
+          const underlyingContract = getGenericErc20({ address: underlyingContractAddress });
+          reads = [
+            ...reads,
+            {
+              address: underlyingContract.address,
+              abi: underlyingContract.abi,
+              functionName: "symbol",
+            },
+            {
+              address: lTokenContract.address,
+              abi: lTokenContract.abi,
+              functionName: "symbol",
+              // args: [walletClient ? walletClient.account.address : zeroAddress],
+            },
+            {
+              address: lTokenContract.address,
+              abi: lTokenContract.abi,
+              functionName: "decimals",
+            },
+            {
+              address: lTokenContract.address,
+              abi: lTokenContract.abi,
+              functionName: "totalSupply",
+            },
+            {
+              address: lTokenContract.address,
+              abi: lTokenContract.abi,
+              functionName: "getApr",
+            },
+          ];
         }
-      );
-    }
+      }
+
+      // If there are nothing to read, set initial fetch to true
+      if (reads.length === 0) setInitialFetch(true);
+      // Else, watch array of function reads
+      else {
+        return watchReadContracts(
+          {
+            contracts: reads,
+            listenToBlock: true,
+          },
+          (data) => {
+            const _tableData: Pool[] = [];
+            const proms: Promise<void>[] = [];
+            for (const rowData of chunkArray(data, 5)) {
+              const tokenSymbol = rowData[0].result! as string;
+              const tvl = [rowData[3].result!, rowData[2].result!] as [bigint, number];
+
+              proms.push(
+                fetch(`https://api.coinbase.com/v2/exchange-rates?currency=${tokenSymbol}`)
+                  .then((response) => response.json()) // Parse the JSON from the response
+                  .then((ratesData) => {
+                    // Extract the USD rate
+                    const usdRate = ratesData.data.rates.USD;
+                    _tableData.push({
+                      tokenSymbol: tokenSymbol,
+                      invested: [0n, rowData[2].result!] as [bigint, number],
+                      tvl: tvl,
+                      tvlUsd: parseUnits((usdRate * Number(formatUnits(tvl[0], tvl[1]))).toString(), 6),
+                      apr: rowData[4].result! as number,
+                    });
+                  })
+                  .catch((error) => {
+                    console.error(`Error while fetching USD rate of ${tokenSymbol}:`, error);
+                  })
+              );
+            }
+            Promise.all(proms).then(() => {
+              if (!isActionsDialogOpen.current) setTableData(_tableData);
+              else futureTableData.current = _tableData;
+              setInitialFetch(true);
+            });
+          }
+        );
+      }
+    } else setInitialFetch(true);
   }
 
   useEffect(() => {
     setInitialFetch(false);
     return watchData();
-  }, [walletClient, chain]);
+  }, [walletClient, publicClient.chain]);
 
   return (
     <div className="flex flex-col justify-center items-center w-[900px] ">

@@ -1,5 +1,6 @@
 import { Chain } from "wagmi";
-import { arbitrum, avalanche, hardhat, mainnet, polygon, sepolia } from "wagmi/chains";
+import { arbitrum, avalanche, hardhat as _hardhat, mainnet, polygon, sepolia } from "wagmi/chains";
+import { getContractAddress } from "./getContractAddress";
 
 // Custom chains
 const hederaChain: Chain = {
@@ -18,6 +19,15 @@ const hederaChain: Chain = {
   blockExplorers: {
     hashscan: { name: "HashScan", url: "https://hashscan.io/" },
     default: { name: "HashScan", url: "https://hashscan.io/" },
+  },
+};
+
+const hardhat: Chain = {
+  ..._hardhat,
+  contracts: {
+    multicall3: {
+      address: getContractAddress("Multicall3", 31337),
+    },
   },
 };
 

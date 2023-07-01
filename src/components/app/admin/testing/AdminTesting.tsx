@@ -12,13 +12,13 @@ import { ChangeEvent, FC, useState } from "react";
 import { LTokenId } from "../../../../../hardhat/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
-import { useDApp } from "@/hooks";
 import { parseUnits } from "viem";
+import { useWalletClient } from "wagmi";
 
 const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const address = useContractAddress(lTokenId);
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: address });
+  const { data: underlyingAddress } = useLTokenUnderlying({ address: address! });
   const { data: underlyingSymbol } = useGenericErc20Symbol({ address: underlyingAddress });
   const { data: underlyingName } = useGenericErc20Name({ address: underlyingAddress });
   const { data: underlyingDecimals } = useGenericErc20Decimals({

@@ -5,15 +5,15 @@ import {
   usePrepareLtyStakingClaim,
   usePrepareLtyStakingCompound,
 } from "@/generated";
-import { useDApp } from "@/hooks";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
+import { useWalletClient } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingClaim: FC<Props> = ({ className }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const { data: ltyDecimals } = useLtyDecimals();
   const { data: unclaimedRewards } = useLtyStakingRewardsOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],

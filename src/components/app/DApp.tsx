@@ -1,8 +1,8 @@
+"use client";
 /**
- * This file initializes Wagmi and Web3Modal and exports a DApp component that should wrap the part of
+ * This file initializes Wagmi and RainbowKit and exports a DApp component that should wrap the part of
  * the app that requires access to Wagmi hooks and Connect Wallet button.
  */
-import "@rainbow-me/rainbowkit/styles.css";
 import { env } from "../../../env.mjs";
 import React, { FC } from "react";
 import merge from "lodash.merge";
@@ -39,8 +39,8 @@ import {
   zerionWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { chains } from "@/lib/chains";
-import { DAppProvider } from "@/contexts";
-import { WalletAvatar } from "@/components/ui";
+import { WalletAvatar } from "@/components/ui/WalletAvatar";
+import { SwitchNetworkProvider } from "@/contexts";
 
 //
 const projectId = env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
@@ -78,12 +78,13 @@ const connectors = connectorsForWallets([
 ]);
 
 // Retrieve public clients and setup Wagmi config
-const { publicClient, webSocketPublicClient } = configureChains(chains, [publicProvider()]);
+export const { publicClient: chainAwarePublicClient } = configureChains(chains, [publicProvider()], {
+  rank: true,
+});
 const config = createConfig({
   autoConnect: true,
   connectors,
-  publicClient,
-  // webSocketPublicClient,
+  publicClient: chainAwarePublicClient,
 });
 
 // Built RainbowKit theme
@@ -115,7 +116,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const DApp: FC<Props> = ({ children }) => {
+export const DApp: FC<Props> = async ({ children }) => {
   return (
     <WagmiConfig config={config}>
       <RainbowKitProvider
@@ -128,7 +129,7 @@ export const DApp: FC<Props> = ({ children }) => {
         }}
         showRecentTransactions={true}
       >
-        <DAppProvider>{children}</DAppProvider>
+        <SwitchNetworkProvider>{children}</SwitchNetworkProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

@@ -20,7 +20,7 @@ import {
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { LTokenId } from "../../../hardhat/deployments";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
-import { useDApp } from "@/hooks";
+import { useWalletClient } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
   underlyingSymbol: string;
@@ -28,10 +28,10 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
 }
 
 export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}` as LTokenId);
-  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress });
+  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress! });
+  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
   const { data: underlyingBalance } = useGenericErc20BalanceOf({
     address: underlyingAddress,
     args: [walletClient?.account.address || zeroAddress],
@@ -41,10 +41,11 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const preparation = usePrepareLTokenDeposit({
-    address: lTokenAddress,
+    address: lTokenAddress!,
     args: [depositedAmount],
   });
 
+  if (!lTokenAddress) return null;
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>

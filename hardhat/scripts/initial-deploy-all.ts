@@ -12,6 +12,9 @@ export const main = async () => {
     await (await import("./deploy-LUSDC")).default,
     await (await import("./deploy-LEUROC")).default,
   ];
+  await (
+    await import("./deploy-Multicall3")
+  ).default;
 
   // Initialize LTY contract data
   lty!.setBlacklist(await blacklist!.getAddress());

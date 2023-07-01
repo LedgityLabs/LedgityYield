@@ -7,17 +7,17 @@ import {
   usePrepareLtyStakingStake,
   usePrepareLtyStakingUnstake,
 } from "@/generated";
-import { useDApp } from "@/hooks";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { ChangeEvent, FC, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits, zeroAddress } from "viem";
+import { useWalletClient } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingStake: FC<Props> = ({ className }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const ltyAddress = useContractAddress("LTY");
   const ltyStakingAddress = useContractAddress("LTYStaking");
   const { data: ltyDecimals } = useLtyDecimals();
@@ -49,7 +49,7 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
             }
           />
           <AllowanceTxButton
-            token={ltyAddress}
+            token={ltyAddress!}
             spender={ltyStakingAddress!}
             amount={depositedAmount}
             preparation={stakePreparation}

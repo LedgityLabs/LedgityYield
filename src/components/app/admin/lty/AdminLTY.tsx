@@ -9,10 +9,10 @@ import {
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { TxButton } from "@/components/ui/TxButton";
-import { useDApp } from "@/hooks";
 import { parseUnits } from "viem";
+import { useWalletClient } from "wagmi";
 export const AdminLTY: FC = () => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const ltyAddress = useContractAddress("LTY");
   const { data: ltyName } = useLtyName();
   const { data: ltySymbol } = useLtySymbol();

@@ -7,12 +7,13 @@ import { AdminBlacklist } from "@/components/app/admin/blacklist/AdminBlacklist"
 import { AdminRecover } from "@/components/app/admin/recover/AdminRecover";
 import { AdminTesting } from "@/components/app/admin/testing/AdminTesting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
-import { useDApp } from "@/hooks";
 import { type NextPage } from "next";
+import { usePublicClient } from "wagmi";
 
 const Page: NextPage = () => {
-  const { chain } = useDApp();
-  const isTestnet = chain?.testnet || chain.id == 31337;
+  const publicClient = usePublicClient();
+  if (!publicClient.chain) return null;
+  const isTestnet = !publicClient.chain?.testnet || !(publicClient.chain.id === 31337);
   return (
     <>
       <h2 className="text-center font-bold text-4xl font-heading text-fg/90">Admin</h2>

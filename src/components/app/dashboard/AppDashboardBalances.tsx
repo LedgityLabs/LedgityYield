@@ -15,18 +15,18 @@ import { WithdrawDialog } from "../WithdrawDialog";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { useLTokenBalanceOf, useLTokenDecimals, useLTokenUnderlying } from "@/generated";
-import { useDApp } from "@/hooks";
 import { LTokenId } from "../../../../hardhat/deployments";
+import { useWalletClient } from "wagmi";
 
 const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
-  const { walletClient } = useDApp();
+  const { data: walletClient } = useWalletClient();
   const address = useContractAddress(lTokenId);
   const { data: balance } = useLTokenBalanceOf({
-    address: address,
+    address: address!,
     args: [walletClient ? walletClient.account.address : "0x0"],
     watch: true,
   });
-  const { data: decimals } = useLTokenDecimals({ address: address });
+  const { data: decimals } = useLTokenDecimals({ address: address! });
   const underlyingSymbol = lTokenId.slice(1);
 
   return (
@@ -81,11 +81,14 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
       className={twMerge("flex flex-col justify-center items-center p-4", className)}
     >
       <h2 className="text-center text-lg font-medium text-indigo-900/80">L-Tokens balances</h2>
-      <ul className="w-full h-full flex flex-col justify-center gap-5 pl-3 pr-2">
-        {lTokens.map((lToken) => (
-          <LTokenBalance key={lToken} lTokenId={lToken} />
-        ))}
-      </ul>
+      {(lTokens.length !== 0 && (
+        <ul className="w-full h-full flex flex-col justify-center gap-5 pl-3 pr-2">
+          {lTokens.map((lToken) => (
+            <LTokenBalance key={lToken} lTokenId={lToken} />
+          ))}
+        </ul>
+      )) ||
+        "No L-Tokens available"}
     </Card>
   );
 };

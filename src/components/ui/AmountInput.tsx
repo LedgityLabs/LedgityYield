@@ -44,6 +44,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
             placeholder="Amount"
             min={0}
             max={formatUnits(maxValue, decimals)}
+            className="pr-12"
             {...props}
           />
           <Button

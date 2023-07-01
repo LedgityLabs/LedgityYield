@@ -56,7 +56,6 @@ interface Props {
 const RootLayout: NextPage<Props> = ({ children }) => {
   return (
     <html lang="en">
-      <CardsHelper />
       <body
         className={clsx(
           fonts,
@@ -64,6 +63,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200"
         )}
       >
+        <CardsHelper />
         <TooltipProvider delayDuration={400}>
           <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">{children}</div>
         </TooltipProvider>

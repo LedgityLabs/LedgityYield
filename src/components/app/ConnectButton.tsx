@@ -17,24 +17,29 @@ import {
 } from "@/components/ui";
 import { chains, chainsIcons } from "@/lib/chains";
 import clsx from "clsx";
-import { useDApp } from "@/hooks";
 import { useSwitchNetwork } from "@/hooks/useSwitchNetwork";
 import React from "react";
+import { useNetwork, usePublicClient, useWalletClient } from "wagmi";
 
 // Used as select value when no network or a wrong one is selected
 const placeholder = <p>Select a network...</p>;
 
 export const ConnectButton = () => {
-  const { chain, wrongNetwork, walletClient } = useDApp();
-  const { switchNetwork, switching } = useSwitchNetwork();
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
+  const { chain: walletChain } = useNetwork();
+  const { switchNetwork, isSwitching } = useSwitchNetwork();
   const { openAccountModal } = useAccountModal();
   const { openConnectModal } = useConnectModal();
+  const chain = walletChain || publicClient.chain;
+  //@ts-ignore
+  const wrongNetwork = !chain.id || chain.unsupported! ? true : false;
 
   return (
     <div className="flex gap-6 justify-center items-center">
-      <Select onValueChange={switchNetwork} value={chain.id.toString()}>
-        <SelectTrigger disabled={switching}>
-          {(wrongNetwork && placeholder) || <SelectValue placeholder={placeholder} />}
+      <Select onValueChange={switchNetwork} value={chain?.id.toString()}>
+        <SelectTrigger isLoading={isSwitching}>
+          {wrongNetwork ? placeholder : <SelectValue placeholder={placeholder} />}
         </SelectTrigger>
         <SelectContent>
           {chains.map((_chain) => (
@@ -55,7 +60,7 @@ export const ConnectButton = () => {
       </Select>
       {(walletClient && walletClient.account && (
         <Button
-          disabled={wrongNetwork || switching}
+          disabled={wrongNetwork || isSwitching}
           onClick={openAccountModal}
           size="medium"
           variant={wrongNetwork ? "destructive" : "primary"}
@@ -75,7 +80,7 @@ export const ConnectButton = () => {
           )) || <p>Wrong network</p>}
         </Button>
       )) || (
-        <Button size="large" onClick={openConnectModal}>
+        <Button disabled={wrongNetwork || isSwitching} size="large" onClick={openConnectModal}>
           Connect Wallet
         </Button>
       )}

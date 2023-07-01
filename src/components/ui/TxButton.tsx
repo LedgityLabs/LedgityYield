@@ -1,19 +1,18 @@
 "use client";
 import { FC, type ReactNode, useEffect } from "react";
+import { Button } from "./Button";
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Spinner,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+} from "./Dialog";
+import { Spinner } from "./Spinner";
+import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
+import { useContractWrite, usePrepareContractWrite, useWalletClient } from "wagmi";
+import { useSwitchNetwork } from "@/hooks";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: ReturnType<typeof usePrepareContractWrite>;
@@ -21,6 +20,8 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
 }
 
 export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disabled, ...props }) => {
+  const { isSwitching } = useSwitchNetwork();
+  const { data: walletClient } = useWalletClient();
   const {
     write,
     isLoading: txIsLoading,
@@ -29,36 +30,56 @@ export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disa
     error: txError,
   } = useContractWrite(preparation.config);
   useEffect(() => {
-    preparation.refetch();
-  }, []);
+    if (walletClient) preparation.refetch();
+  }, [walletClient]);
   const isLoading = preparation.isFetching || preparation.isLoading || txIsLoading;
+
+  // Build tooltip message and error state
+  let tooltipMessage = "";
+  let tooltipIsError = false;
+  if (isLoading) tooltipMessage = "Loading...";
+  else if (isSwitching) tooltipMessage = "Switching network...";
+  else if (!walletClient) {
+    tooltipMessage = "No wallet connected";
+    tooltipIsError = true;
+  } else if (preparation.error) {
+    // @ts-ignore
+    tooltipMessage = preparation.error.details
+      ? // @ts-ignore
+        preparation.error.details!.split("'")[1]
+      : preparation.error.message;
+    tooltipIsError = true;
+  }
+
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <div className="relative flex flex-col">
-          <Tooltip open={preparation.isError}>
-            <TooltipTrigger>
+      <div className="relative flex flex-col">
+        <Tooltip
+          open={walletClient && preparation.isError && !isLoading && !isSwitching ? true : undefined}
+        >
+          <TooltipTrigger>
+            <DialogTrigger asChild>
               <Button
                 {...props}
-                disabled={disabled || !write}
+                disabled={disabled || !walletClient || !write || isSwitching}
                 isLoading={isLoading}
                 isError={isError}
                 isSuccess={isSuccess}
                 onClick={() => write!()}
               />
-            </TooltipTrigger>
-            {!isLoading && preparation.error && (
-              <TooltipContent variant="destructive" side="bottom" sideOffset={4}>
-                {/* @ts-ignore */}
-                {preparation.error.details
-                  ? // @ts-ignore
-                    preparation.error.details!.split("'")[1]
-                  : preparation.error.message}
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </div>
-      </DialogTrigger>
+            </DialogTrigger>
+          </TooltipTrigger>
+          {tooltipMessage && (
+            <TooltipContent
+              variant={tooltipIsError ? "destructive" : "primary"}
+              side="bottom"
+              sideOffset={4}
+            >
+              {tooltipMessage}
+            </TooltipContent>
+          )}
+        </Tooltip>
+      </div>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Approve transaction in your wallet</DialogTitle>
