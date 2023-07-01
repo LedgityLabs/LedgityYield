@@ -40,15 +40,11 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
         <div className="relative">
           <Input
             ref={inputEl}
-            type="number"
             placeholder="Amount"
-            min={0}
-            max={formatUnits(maxValue, decimals)}
-            step={1}
             onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
               if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();
             }}
-            className="pr-12"
+            className="pr-14"
             {...props}
           />
           <Button

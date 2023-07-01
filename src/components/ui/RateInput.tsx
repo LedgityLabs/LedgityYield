@@ -22,16 +22,14 @@ export const RateInput = forwardRef<HTMLInputElement, Props>(({ ...props }, ref)
       <div className="relative">
         <Input
           ref={inputEl}
-          type="number"
-          placeholder="Amount"
-          min={0}
-          step={0.001}
+          placeholder="Rate"
           onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
             if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();
           }}
+          className="pr-8"
           {...props}
         />
-        <span className="absolute right-6 top-0 h-0 w-min text-lg font-bold inline-flex justify-center items-center ">
+        <span className="absolute right-3 top-0 bottom-0 w-min text-lg font-bold inline-flex justify-center items-center ">
           %
         </span>
       </div>
