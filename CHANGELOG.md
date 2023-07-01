@@ -1,3 +1,17 @@
+## [1.93.0](https://github.com/ledgity-labs/dapp/compare/v1.92.1...v1.93.0) (2023-06-30)
+
+
+### Features
+
+* **admin>staking:** add a "Tiers" card allowing to change staking tiers caps ([3c2504e](https://github.com/ledgity-labs/dapp/commit/3c2504ed9778394145bda36306065027c99f4130))
+* give some style to error page ([d15deba](https://github.com/ledgity-labs/dapp/commit/d15deba29077dc2de51843d566de3e7d97c6eaca))
+* support leading zeroes discarding in Amount component, fix rewards calculation in InvestUpgrad ([2ac3975](https://github.com/ledgity-labs/dapp/commit/2ac3975973f832a31ada258afa7c06430fe97209))
+
+
+### Fixes
+
+* **admin>staking:** graphical adjustements ([f07b3e9](https://github.com/ledgity-labs/dapp/commit/f07b3e9abbe66f32f8bed719d21f2c9973faac65))
+
 ## [1.92.1](https://github.com/ledgity-labs/dapp/compare/v1.92.0...v1.92.1) (2023-06-29)
 
 
