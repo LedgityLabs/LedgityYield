@@ -13,6 +13,7 @@ import { Spinner } from "./Spinner";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
 import { useContractWrite, usePrepareContractWrite, useWalletClient } from "wagmi";
 import { useSwitchNetwork } from "@/hooks";
+import { prettyContractsErrors } from "@/lib/exceptions";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: ReturnType<typeof usePrepareContractWrite>;
@@ -48,6 +49,9 @@ export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disa
       ? // @ts-ignore
         preparation.error.details!.split("'")[1]
       : preparation.error.message;
+    const prettyError = prettyContractsErrors[tooltipMessage];
+    if (prettyError) tooltipMessage = prettyError;
+
     tooltipIsError = true;
   }
 

@@ -34,7 +34,7 @@ export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true,
           {prefix}
           {formattedValue}%
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="font-heading font-bold">
           {prefix}
           {floatValue}%
         </TooltipContent>

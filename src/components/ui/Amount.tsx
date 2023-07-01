@@ -54,7 +54,7 @@ export const Amount: FC<Props> = ({
           {formattedAmount}
           {displaySymbol && suffix}
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="font-heading font-bold">
           {prefix}
           {d3.format(",")(numberValue)}
           {suffix}
