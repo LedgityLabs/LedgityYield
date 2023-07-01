@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { KeyboardEvent, forwardRef, useImperativeHandle, useRef } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Amount } from "./Amount";
@@ -44,6 +44,10 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
             placeholder="Amount"
             min={0}
             max={formatUnits(maxValue, decimals)}
+            step={1}
+            onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+              if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();
+            }}
             className="pr-12"
             {...props}
           />

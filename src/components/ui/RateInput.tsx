@@ -1,5 +1,12 @@
 "use client";
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Amount } from "./Amount";
@@ -13,8 +20,20 @@ export const RateInput = forwardRef<HTMLInputElement, Props>(({ ...props }, ref)
   return (
     <div className="flex flex-col justify-center items-end">
       <div className="relative">
-        <Input ref={inputEl} type="number" placeholder="Amount" min={0} step={0.001} {...props} />
-        <span className="absolute right-3 bottom-[calc(50%-1.25rem/2+1px)] w-min text-[0.8rem]">%</span>
+        <Input
+          ref={inputEl}
+          type="number"
+          placeholder="Amount"
+          min={0}
+          step={0.001}
+          onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
+            if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();
+          }}
+          {...props}
+        />
+        <span className="absolute right-6 top-0 h-0 w-min text-lg font-bold inline-flex justify-center items-center ">
+          %
+        </span>
       </div>
     </div>
   );
