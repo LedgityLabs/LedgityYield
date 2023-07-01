@@ -1,3 +1,16 @@
+## [1.94.1](https://github.com/ledgity-labs/dapp/compare/v1.94.0...v1.94.1) (2023-07-01)
+
+
+### Fixes
+
+* fix typeerror in chain.ts due to change in getContractAddress() API ([ab27953](https://github.com/ledgity-labs/dapp/commit/ab2795361dd73a0ede9b7219e49914c76b993dd8))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.3.3 ([0c215d3](https://github.com/ledgity-labs/dapp/commit/0c215d32cd26d09bf5345f811809c277b9801fc2))
+* **deps:** update dependency eslint to v8.44.0 ([def0085](https://github.com/ledgity-labs/dapp/commit/def00852422bb41015eec1e0e896578f109ca7c1))
+
 ## [1.94.0](https://github.com/ledgity-labs/dapp/compare/v1.93.0...v1.94.0) (2023-07-01)
 
 
