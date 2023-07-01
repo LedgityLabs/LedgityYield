@@ -51,7 +51,7 @@
     "autoprefixer": "10.4.14",
     "conventional-changelog-conventionalcommits": "^6.1.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "8.43.0",
+    "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",
     "ethers": "^6.6.2",
     "hardhat": "^2.16.1",
