@@ -1,3 +1,10 @@
+## [1.97.0](https://github.com/ledgity-labs/dapp/compare/v1.96.0...v1.97.0) (2023-07-02)
+
+
+### Features
+
+* **contracts:** make all globally owned contracts accepting globalOwner address during init + ([5f33116](https://github.com/ledgity-labs/dapp/commit/5f33116f76dd5c827a0081717cc8a40beecc012b))
+
 ## [1.96.0](https://github.com/ledgity-labs/dapp/compare/v1.95.0...v1.96.0) (2023-07-02)
 
 
