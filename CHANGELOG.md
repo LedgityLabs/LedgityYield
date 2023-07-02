@@ -1,3 +1,10 @@
+## [1.99.0](https://github.com/ledgity-labs/dapp/compare/v1.98.0...v1.99.0) (2023-07-02)
+
+
+### Features
+
+* **contracts:** add unlock() function to LTYStaking contract allowing to prematurely unlock a stake ([631f48d](https://github.com/ledgity-labs/dapp/commit/631f48d942f35551556317173ee73cb928bd2e67))
+
 ## [1.98.0](https://github.com/ledgity-labs/dapp/compare/v1.97.0...v1.98.0) (2023-07-02)
 
 
