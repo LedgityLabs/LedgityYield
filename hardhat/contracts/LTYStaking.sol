@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 import "./abstracts/base/BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
+import {LTY} from "./LTY.sol";
 
 /**
  * @title LTYStaking
@@ -19,6 +20,7 @@ import {UDS3} from "./libs/UDS3.sol";
  */
 contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     uint40 public stakeLockDuration;
+    uint unlockFeesRateUD3;
 
     struct AccountStake {
         uint216 amount;
@@ -117,6 +119,24 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         if (accountStake.amount == 0) return uint40(block.timestamp) + stakeLockDuration;
         // Or if the account increases a previous stake, add a proportional duration
         else return accountStake.lockEnd + getLockEndIncrease(account, addedAmount);
+    }
+
+    function unlock() external {
+        // Retrieve account stake
+        AccountStake memory accountStake = accountsStakes[_msgSender()];
+
+        // Ensure the account has a locked stake
+        require(accountStake.lockEnd > block.timestamp, "Nothing to unlock");
+
+        // Set unlock time to now
+        accountStake.lockEnd = uint40(block.timestamp);
+
+        // Calculate unlock fees and update account stake accordingly
+        uint256 fees = (accountStake.amount * ud3ToDecimals(unlockFeesRateUD3)) / toDecimals(100);
+        accountStake.amount -= uint216(fees);
+
+        // Burn unlock fees
+        LTY(address(invested())).burn(fees);
     }
 
     /**
