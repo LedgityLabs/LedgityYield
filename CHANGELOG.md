@@ -1,3 +1,11 @@
+## [1.98.0](https://github.com/ledgity-labs/dapp/compare/v1.97.0...v1.98.0) (2023-07-02)
+
+
+### Features
+
+* **contracts:** make LTY token non-ownable, pausable, upgradeable and  restrictable ([2f98e9a](https://github.com/ledgity-labs/dapp/commit/2f98e9ad30e6abbaa6b10920243f0a38ad8ef198))
+* **contracts:** update subsequent deploy all script to match new contracts architecture ([7adeac8](https://github.com/ledgity-labs/dapp/commit/7adeac868a94b2f2b8eecbf7d6dae7192ae231d3))
+
 ## [1.97.0](https://github.com/ledgity-labs/dapp/compare/v1.96.0...v1.97.0) (2023-07-02)
 
 
