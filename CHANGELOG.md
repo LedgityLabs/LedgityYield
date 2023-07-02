@@ -1,3 +1,10 @@
+## [1.96.0](https://github.com/ledgity-labs/dapp/compare/v1.95.0...v1.96.0) (2023-07-02)
+
+
+### Features
+
+* **contracts:** add stake locking to LTYStaking contract ([508c557](https://github.com/ledgity-labs/dapp/commit/508c557bb7a1ee23829de28f816329550c1634a1))
+
 ## [1.95.0](https://github.com/ledgity-labs/dapp/compare/v1.94.1...v1.95.0) (2023-07-02)
 
 
