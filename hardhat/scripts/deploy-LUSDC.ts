@@ -1,6 +1,6 @@
 import { deployLTokenBeaconProxy } from "./lib/deployLTokenBeaconProxy";
 
-const main = async () => await deployLTokenBeaconProxy("USDC");
+const main = async () => await deployLTokenBeaconProxy("USDC", true);
 
 export default main().catch((error) => {
   console.error(error);

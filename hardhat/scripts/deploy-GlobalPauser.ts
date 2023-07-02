@@ -1,6 +1,6 @@
 import { deployProxy } from "./lib/deployProxy";
 
-const main = async () => await deployProxy("GlobalPauser");
+const main = async () => await deployProxy("GlobalPauser", true);
 
 export default main().catch((error) => {
   console.error(error);

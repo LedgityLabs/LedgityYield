@@ -2,7 +2,9 @@ import { parseUnits } from "viem";
 
 export const main = async () => {
   // Deploy contracts
-  const globalOwner = await (await import("./deploy-GlobalOwner")).default;
+  await (
+    await import("./deploy-GlobalOwner")
+  ).default;
   const globalPauser = await (await import("./deploy-GlobalPauser")).default;
   const globalBlacklist = await (await import("./deploy-GlobalBlacklist")).default;
   const lty = await (await import("./deploy-LTY")).default;
@@ -19,12 +21,10 @@ export const main = async () => {
   ).default;
 
   // Initialize LTY contract data
-  lty!.setGlobalOwner(await globalOwner!.getAddress());
   lty!.setGlobalPauser(await globalPauser!.getAddress());
   lty!.setGlobalBlacklist(await globalBlacklist!.getAddress());
 
   // Initialize LTYStaking contract data
-  ltyStaking!.setGlobalOwner(await globalOwner!.getAddress());
   ltyStaking!.setGlobalPauser(await globalPauser!.getAddress());
   ltyStaking!.setGlobalBlacklist(await globalBlacklist!.getAddress());
   ltyStaking!.setInvested(await lty!.getAddress());
@@ -35,7 +35,6 @@ export const main = async () => {
 
   // Initialize L-Tokens contracts data
   for (let lToken of lTokens) {
-    lToken!.setGlobalOwner(await globalOwner!.getAddress());
     lToken!.setGlobalPauser(await globalPauser!.getAddress());
     lToken!.setGlobalBlacklist(await globalBlacklist!.getAddress());
     lToken!.setLTYStaking(await ltyStaking!.getAddress());

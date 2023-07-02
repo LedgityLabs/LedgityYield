@@ -95,7 +95,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         _;
     }
 
-    function initialize(IERC20Upgradeable underlyingToken) public initializer {
+    function initialize(address _globalOwner, IERC20Upgradeable underlyingToken) public initializer {
         // Retrieve underlying token metadata
         IERC20MetadataUpgradeable underlyingMetadata = IERC20MetadataUpgradeable(
             address(underlyingToken)
@@ -103,6 +103,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Initialize ancestors contracts
         __ERC20Base_init(
+            _globalOwner,
             string(abi.encodePacked("Ledgity ", underlyingMetadata.name())),
             string(abi.encodePacked("L", underlyingMetadata.symbol()))
         );
@@ -294,11 +295,15 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * deposit() externally.
      * @inheritdoc ERC20WrapperUpgradeable
      */
-    function withdrawTo(address account, uint256 amount) public override returns (bool) {
+    function withdrawTo(address account, uint256 amount) public pure override returns (bool) {
+        account; // Silence unused variable compiler warning
+        amount;
         revert("Forbidden, use instantWithdraw() or addQueuedWithdrawalRequest() instead");
     }
 
-    function depositFor(address account, uint256 amount) public override returns (bool) {
+    function depositFor(address account, uint256 amount) public pure override returns (bool) {
+        account; // Silence unused variable compiler warning
+        amount;
         revert("Forbidden, use deposit() instead");
     }
 
@@ -339,7 +344,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         uint256 amount
     ) public view returns (uint256 withdrawnAmount, uint256 fees) {
         // If the account is eligible to staking tier 2, no fees are applied
-        if (ltyStaking.isEligibleTo(2, account)) return (amount, 0);
+        if (ltyStaking.tierOf(account) >= 2) return (amount, 0);
 
         // Else calculate withdrawal fees as well as final withdrawn amount
         fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
@@ -367,7 +372,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         */
         uint256 _usableBalance = usableBalance;
         bool cond1 = totalQueued + amount <= _usableBalance;
-        bool cond2 = amount <= _usableBalance && ltyStaking.isEligibleTo(2, _msgSender());
+        bool cond2 = amount <= _usableBalance && ltyStaking.tierOf(_msgSender()) >= 2;
         if (!(cond1 || cond2)) revert("Can't process request immediatelly, please queue your request");
 
         // Retrieve withdrawal fees and amount (excluding fees).

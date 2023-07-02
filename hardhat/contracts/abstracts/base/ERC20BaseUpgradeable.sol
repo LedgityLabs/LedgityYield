@@ -9,8 +9,12 @@ abstract contract ERC20BaseUpgradeable is BaseUpgradeable, ERC20Upgradeable, ERC
     /**
      * @dev Initializer function ...
      */
-    function __ERC20Base_init(string memory name_, string memory symbol_) internal onlyInitializing {
-        __Base_init();
+    function __ERC20Base_init(
+        address _globalOwner,
+        string memory name_,
+        string memory symbol_
+    ) internal onlyInitializing {
+        __Base_init(_globalOwner);
         __ERC20_init(name_, symbol_);
     }
 

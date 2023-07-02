@@ -100,6 +100,8 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @param amount The amount of rewards to claim.
      */
     function _claimRewardsOf(address account, uint256 amount) internal virtual returns (bool) {
+        account; // Silence unused variable warning
+        amount;
         return false;
     }
 
@@ -109,6 +111,7 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @param account The account to get the investment of.
      */
     function _investmentOf(address account) internal view virtual returns (uint256) {
+        account; // Silence unused variable warning
         return 0;
     }
 

@@ -18,7 +18,7 @@ import {UDS3} from "./libs/UDS3.sol";
  * @custom:security-contact security@ledgity.com
  */
 contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
-    uint40 public stakeLockDuration = 90 days;
+    uint40 public stakeLockDuration;
 
     struct AccountStake {
         uint216 amount;
@@ -33,9 +33,11 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
 
-    function initialize() public initializer {
-        __Base_init();
+    function initialize(address _globalOwner) public initializer {
+        __Base_init(_globalOwner);
         __Invest_init(address(0));
+
+        stakeLockDuration = 90 days;
     }
 
     /**

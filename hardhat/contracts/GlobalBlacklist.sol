@@ -26,8 +26,8 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         _disableInitializers();
     }
 
-    function initialize() public initializer {
-        __Ownable_init();
+    function initialize(address _globalOwner) public initializer {
+        __Ownable_init(_globalOwner);
         __UUPSUpgradeable_init();
     }
 

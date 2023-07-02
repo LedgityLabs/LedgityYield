@@ -12,8 +12,8 @@ contract GlobalPauser is Initializable, UUPSUpgradeable, OwnableUpgradeable, Pau
         _disableInitializers();
     }
 
-    function initialize() public initializer {
-        __Ownable_init();
+    function initialize(address _globalOwner) public initializer {
+        __Ownable_init(_globalOwner);
         __Pausable_init();
         __UUPSUpgradeable_init();
     }

@@ -24,10 +24,10 @@ abstract contract BaseUpgradeable is
     /**
      * @dev Initializer function ...
      */
-    function __Base_init() internal onlyInitializing {
-        __UUPSUpgradeable_init_unchained();
-        __Pausable_init_unchained();
-        __Ownable_init_unchained();
+    function __Base_init(address _globalOwner) internal onlyInitializing {
+        __UUPSUpgradeable_init();
+        __Pausable_init();
+        __Ownable_init(_globalOwner);
     }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}

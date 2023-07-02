@@ -10,8 +10,8 @@ import {ERC20BaseUpgradeable} from "./abstracts/base/ERC20BaseUpgradeable.sol";
  * @dev
  */
 contract LTY is ERC20BaseUpgradeable, ERC20BurnableUpgradeable, ERC20CappedUpgradeable {
-    function initialize() public initializer {
-        __ERC20Base_init("Ledgity Token", "LTY");
+    function initialize(address _globalOwner) public initializer {
+        __ERC20Base_init(_globalOwner, "Ledgity Token", "LTY");
         __ERC20Burnable_init();
         __ERC20Capped_init(100_000_000 * 10 ** 18);
     }

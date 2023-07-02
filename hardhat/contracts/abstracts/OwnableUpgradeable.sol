@@ -16,6 +16,14 @@ abstract contract OwnableUpgradeable is _OwnableUpgradeable {
     GlobalOwner public globalOwner;
 
     /**
+     * @dev Initializer function
+     * @param _globalOwner The globzl owner contract address.
+     */
+    function __Ownable_init(address _globalOwner) internal onlyInitializing {
+        globalOwner = GlobalOwner(_globalOwner);
+    }
+
+    /**
      * @dev Set the pause contract address
      * @param contractAddress The address of the blacklist contract
      */
@@ -27,7 +35,8 @@ abstract contract OwnableUpgradeable is _OwnableUpgradeable {
         return globalOwner.owner();
     }
 
-    function transferOwnership(address newOwner) public override onlyOwner {
+    function transferOwnership(address newOwner) public view override onlyOwner {
+        newOwner;
         revert("Can't change local owner. Change global owner instead.");
     }
 
