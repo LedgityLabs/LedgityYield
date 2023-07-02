@@ -36,7 +36,7 @@ abstract contract OwnableUpgradeable is _OwnableUpgradeable {
     }
 
     function transferOwnership(address newOwner) public view override onlyOwner {
-        newOwner;
+        newOwner; // Silence unused variable compiler warning
         revert("Can't change local owner. Change global owner instead.");
     }
 

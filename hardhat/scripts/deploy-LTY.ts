@@ -1,6 +1,6 @@
-import { deployProxy } from "./lib/deployProxy";
+import { deploy } from "./lib/deploy";
 
-const main = async () => await deployProxy("LTY", true);
+const main = async () => await deploy("LTY");
 
 export default main().catch((error) => {
   console.error(error);

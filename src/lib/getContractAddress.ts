@@ -6,5 +6,5 @@ export const getContractAddress = (contractId: ContractId, networkId: number) =>
     const address = contract.address[networkId];
     if (address) return address;
   }
-  return null;
+  return undefined;
 };

@@ -9,6 +9,7 @@ export async function deployProxy(contractName: ContractId, globalOwner: boolean
   // Try to upgrade the contract in case it has already been deployed
   try {
     const proxyAddress = getContractAddress(contractName);
+    console.log("PROXY ADDRESS", proxyAddress);
     const contract = await upgrades.upgradeProxy(proxyAddress, UpgradeableContract);
     const address = await contract.getAddress();
     console.log(`Upgradeable '${contractName}' upgraded at: ${address}`);
@@ -18,7 +19,7 @@ export async function deployProxy(contractName: ContractId, globalOwner: boolean
     if (e instanceof Error) {
       if (
         e.message.includes("doesn't look like an ERC 1967 proxy with a logic contract address") ||
-        e.message.includes("Address not found")
+        e.message.includes("not found")
       ) {
         if (globalOwner) {
           const globalOwnerContractAddress = getContractAddress("GlobalOwner");
