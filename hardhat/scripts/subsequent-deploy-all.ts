@@ -1,5 +1,11 @@
 export const main = async () => {
   await (
+    await import("./deploy-GlobalOwner")
+  ).default;
+  await (
+    await import("./deploy-GlobalPauser")
+  ).default;
+  await (
     await import("./deploy-GlobalBlacklist")
   ).default;
   await (
