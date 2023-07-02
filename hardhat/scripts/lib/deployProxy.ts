@@ -2,7 +2,7 @@ import { ethers, upgrades } from "hardhat";
 import { ContractId, contracts } from "../../deployments";
 import { getChainId } from "./getChainId";
 
-export async function deployUpgradeable(contractName: ContractId, args?: any[]) {
+export async function deployProxy(contractName: ContractId, args?: any[]) {
   // Retrieve current chain Id
   const chainId = getChainId();
 

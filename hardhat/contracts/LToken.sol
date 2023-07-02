@@ -1,19 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PausableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
-import "./abstracts/RestrictedUpgradeable.sol";
-import "./abstracts/InvestUpgradeable.sol";
-import "./abstracts/RecoverUpgradeable.sol";
-import "./LTYStaking.sol";
+// Contracts
+import "./abstracts/base/ERC20BaseUpgradeable.sol";
+import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
+import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
+import {LTYStaking} from "./LTYStaking.sol";
+
+// Libraries & interfaces
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 
 /**
  * @title LToken
@@ -22,17 +19,7 @@ import "./LTYStaking.sol";
  * @dev For more details see "LToken" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-contract LToken is
-    Initializable,
-    ERC20Upgradeable,
-    ERC20WrapperUpgradeable,
-    ERC20PausableUpgradeable,
-    Ownable2StepUpgradeable,
-    UUPSUpgradeable,
-    RestrictedUpgradeable,
-    InvestUpgradeable,
-    RecoverUpgradeable
-{
+contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
@@ -108,11 +95,6 @@ contract LToken is
         _;
     }
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
-
     function initialize(IERC20Upgradeable underlyingToken) public initializer {
         // Retrieve underlying token metadata
         IERC20MetadataUpgradeable underlyingMetadata = IERC20MetadataUpgradeable(
@@ -120,38 +102,12 @@ contract LToken is
         );
 
         // Initialize ancestors contracts
-        __ERC20_init(
+        __ERC20Base_init(
             string(abi.encodePacked("Ledgity ", underlyingMetadata.name())),
             string(abi.encodePacked("L", underlyingMetadata.symbol()))
         );
         __ERC20Wrapper_init(underlyingToken);
-        __ERC20Pausable_init();
-        __Ownable2Step_init();
-        __UUPSUpgradeable_init();
         __Invest_init(address(this));
-    }
-
-    /**
-     * @dev Implements a bunch of parent contract functions reserved to owner
-     * See parent contracts for further details.
-     * See UUPSUpgradeable and PausableUpgradeable for more details about those.
-     */
-    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
-
-    function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
-    }
-
-    function setBlacklist(address _contract) external onlyOwner {
-        _setBlacklist(_contract);
-    }
-
-    function setAPR(uint16 aprUD3) public override onlyOwner {
-        super.setAPR(aprUD3);
     }
 
     /**
@@ -179,10 +135,10 @@ contract LToken is
         fund = _fund;
     }
 
-    /**
-     * @dev Mirrors decimals of the underlying token using ERC20WrapperUpgradeable.decimals().
-     * @inheritdoc ERC20WrapperUpgradeable
-     */
+    // /**
+    //  * @dev Mirrors decimals of the underlying token using ERC20WrapperUpgradeable.decimals().
+    //  * @inheritdoc ERC20WrapperUpgradeable
+    //  */
     function decimals() public view override(ERC20Upgradeable, ERC20WrapperUpgradeable) returns (uint8) {
         return ERC20WrapperUpgradeable.decimals();
     }
@@ -217,10 +173,10 @@ contract LToken is
     }
 
     /**
-     * @dev Override of RecoverUpgradeable.recoverERC20() that ensures:
+     * @dev Override of RecoverableUpgradeable.recoverERC20() that ensures:
      * - the caller is the owner
      * - the token recovered token is not the underlying token
-     * @inheritdoc RecoverUpgradeable
+     * @inheritdoc RecoverableUpgradeable
      */
     function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the underlying token
@@ -274,7 +230,7 @@ contract LToken is
      *  - the sender and reicipient are not blacklisted
      *  - investment periods are properly reset for each implied wallet that is not the
      *    zero wallet
-     * @inheritdoc ERC20Upgradeable
+     * @inheritdoc ERC20BaseUpgradeable
      */
     function _beforeTokenTransfer(
         address from,
@@ -282,12 +238,12 @@ contract LToken is
         uint256 amount
     )
         internal
-        override(ERC20Upgradeable, ERC20PausableUpgradeable)
+        override(ERC20Upgradeable, ERC20BaseUpgradeable)
         whenNotPaused
         notBlacklisted(from)
         notBlacklisted(to)
     {
-        ERC20Upgradeable._beforeTokenTransfer(from, to, amount);
+        ERC20BaseUpgradeable._beforeTokenTransfer(from, to, amount);
         if (from != address(0)) _resetInvestmentPeriodOf(from, true);
         if (to != address(0)) _resetInvestmentPeriodOf(to, true);
     }

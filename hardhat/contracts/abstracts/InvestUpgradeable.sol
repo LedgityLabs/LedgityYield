@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+// Contracts
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
+
+// Libraries & interfaces
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
+import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
-import "../libs/UDS3.sol";
+import {UDS3} from "../libs/UDS3.sol";
 
 /**
  * @title InvestUpgradeable
@@ -22,7 +25,7 @@ import "../libs/UDS3.sol";
  *  - Implement _claimRewardsOf() function (optional)
  * @custom:security-contact security@ledgity.com
  */
-abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
+abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
@@ -62,18 +65,18 @@ abstract contract InvestUpgradeable is Initializable, ContextUpgradeable {
      * @param invested_ The invested token's contract address.
      */
     function __Invest_init(address invested_) internal onlyInitializing {
-        _setInvested(invested_);
+        setInvested(invested_);
     }
 
     /**
      * @dev Sets the invested token contract.
      * @param tokenAddress The address of the invested token.
      */
-    function _setInvested(address tokenAddress) internal {
+    function setInvested(address tokenAddress) public onlyOwner {
         _invested = IERC20Upgradeable(tokenAddress);
     }
 
-    function setAPR(uint16 aprUD3) public virtual {
+    function setAPR(uint16 aprUD3) public onlyOwner {
         APRC.setAPR(packedAPRCheckpoints, aprUD3);
     }
 

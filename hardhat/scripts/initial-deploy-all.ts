@@ -2,7 +2,9 @@ import { parseUnits } from "viem";
 
 export const main = async () => {
   // Deploy contracts
-  const blacklist = await (await import("./deploy-Blacklist")).default;
+  const globalOwner = await (await import("./deploy-GlobalOwner")).default;
+  const globalPauser = await (await import("./deploy-GlobalPauser")).default;
+  const globalBlacklist = await (await import("./deploy-GlobalBlacklist")).default;
   const lty = await (await import("./deploy-LTY")).default;
   const ltyStaking = await (await import("./deploy-LTYStaking")).default;
   await (
@@ -17,20 +19,25 @@ export const main = async () => {
   ).default;
 
   // Initialize LTY contract data
-  lty!.setBlacklist(await blacklist!.getAddress());
+  lty!.setGlobalOwner(await globalOwner!.getAddress());
+  lty!.setGlobalPauser(await globalPauser!.getAddress());
+  lty!.setGlobalBlacklist(await globalBlacklist!.getAddress());
 
   // Initialize LTYStaking contract data
-  ltyStaking!.setBlacklist(await blacklist!.getAddress());
+  ltyStaking!.setGlobalOwner(await globalOwner!.getAddress());
+  ltyStaking!.setGlobalPauser(await globalPauser!.getAddress());
+  ltyStaking!.setGlobalBlacklist(await globalBlacklist!.getAddress());
   ltyStaking!.setInvested(await lty!.getAddress());
   ltyStaking!.setAPR(parseUnits("20", 3));
-
   ltyStaking!.setTier(1, 0);
   ltyStaking!.setTier(2, parseUnits("2000000", 18));
   ltyStaking!.setTier(3, parseUnits("10000000", 18));
 
   // Initialize L-Tokens contracts data
   for (let lToken of lTokens) {
-    lToken!.setBlacklist(await blacklist!.getAddress());
+    lToken!.setGlobalOwner(await globalOwner!.getAddress());
+    lToken!.setGlobalPauser(await globalPauser!.getAddress());
+    lToken!.setGlobalBlacklist(await globalBlacklist!.getAddress());
     lToken!.setLTYStaking(await ltyStaking!.getAddress());
     lToken!.setAPR(0);
     lToken!.setFeesRate(0);

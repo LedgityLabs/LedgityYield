@@ -1,19 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {OwnableUpgradeable} from "./abstracts/OwnableUpgradeable.sol";
 
 /**
- * @title Blacklist
+ * @title GlobalBlacklist
  * @author Lila Rest (lila@ledgity.com)
  * @notice This contract provides a way to maintain a mapping of blacklisted accounts
  * on chain.
- * @dev For more details see "Blacklist" section of whitepaper.
+ * @dev For more details see "GlobalBlacklist" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-contract Blacklist is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+contract GlobalBlacklist is Initializable, UUPSUpgradeable, OwnableUpgradeable {
+    /**
+     * @dev This mapping is made private and the getter function isBlacklisted() function is
+     * used instead to read it. This helps saving gas in some scenario. See isBlacklisted()
+     * documentation for more details.
+     */
     mapping(address => bool) private _list;
 
     /// @custom:oz-upgrades-unsafe-allow constructor

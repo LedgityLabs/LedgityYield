@@ -1,6 +1,6 @@
 export const main = async () => {
   await (
-    await import("./deploy-Blacklist")
+    await import("./deploy-GlobalBlacklist")
   ).default;
   await (
     await import("./deploy-LTY")

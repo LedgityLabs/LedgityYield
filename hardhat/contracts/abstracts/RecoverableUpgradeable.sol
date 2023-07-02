@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
+
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
 /**
- * @title RecoverUpgradeable
+ * @title RecoverableUpgradeable
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract provides helpers functions to recover assets accidentally
  * sent to the contract.
- * @dev For more details see "RecoverUpgradeable" section of whitepaper.
+ * @dev For more details see "RecoverableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract RecoverUpgradeable is ContextUpgradeable {
+abstract contract RecoverableUpgradeable is OwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
@@ -21,7 +23,7 @@ abstract contract RecoverUpgradeable is ContextUpgradeable {
      * @param tokenAddress The address of the token to recover
      * @param amount The amount of token to recover
      */
-    function recoverERC20(address tokenAddress, uint256 amount) public virtual {
+    function recoverERC20(address tokenAddress, uint256 amount) public virtual onlyOwner {
         // Retrieve token contract
         IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 
@@ -29,7 +31,7 @@ abstract contract RecoverUpgradeable is ContextUpgradeable {
         require(tokenContract.balanceOf(address(this)) >= amount, "Not enough tokens to recover.");
 
         // Transfer recovered ERC20 tokens to sender
-        tokenContract.safeTransfer(_msgSender(), amount);
+        tokenContract.safeTransfer(owner(), amount);
     }
 
     /**

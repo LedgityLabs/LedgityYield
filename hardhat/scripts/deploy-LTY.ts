@@ -1,6 +1,6 @@
-import { deployUpgradeable } from "./lib/deployProxy";
+import { deployProxy } from "./lib/deployProxy";
 
-const main = async () => await deployUpgradeable("LTY");
+const main = async () => await deployProxy("LTY");
 
 export default main().catch((error) => {
   console.error(error);

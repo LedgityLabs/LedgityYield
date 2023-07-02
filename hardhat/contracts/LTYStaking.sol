@@ -1,17 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "./abstracts/InvestUpgradeable.sol";
-import "./abstracts/RestrictedUpgradeable.sol";
-import "./abstracts/RecoverUpgradeable.sol";
+import "./abstracts/base/BaseUpgradeable.sol";
+import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 
 /**
- * @title LToken
+ * @title LTYStaking
  * @author Lila Rest (lila@ledgity.com)
  * @notice
  * @dev For more details see "LTYStaking" section of whitepaper.
@@ -20,15 +14,7 @@ import "./abstracts/RecoverUpgradeable.sol";
  * the amount of accumulated rewards is very unlikely to exceed 1/9 of the max supply.
  * @custom:security-contact security@ledgity.com
  */
-contract LTYStaking is
-    Initializable,
-    PausableUpgradeable,
-    Ownable2StepUpgradeable,
-    UUPSUpgradeable,
-    RestrictedUpgradeable,
-    InvestUpgradeable,
-    RecoverUpgradeable
-{
+contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /// @dev Holds the amount staked per account
     mapping(address => uint256) public stakeOf;
 
@@ -38,53 +24,16 @@ contract LTYStaking is
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
-
     function initialize() public initializer {
-        __Pausable_init();
-        __Ownable2Step_init();
-        __UUPSUpgradeable_init();
+        __Base_init();
         __Invest_init(address(0));
     }
 
     /**
-     * @dev Implements a bunch of parent contract functions reserved to owner
-     * See UUPSUpgradeable and PausableUpgradeable for more details about those.
-     */
-    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
-
-    function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
-    }
-
-    function setBlacklist(address _contract) external onlyOwner {
-        _setBlacklist(_contract);
-    }
-
-    function setAPR(uint16 aprUD3) public override onlyOwner {
-        super.setAPR(aprUD3);
-    }
-
-    /**
-     * @dev A bunch states setters.
-     */
-
-    function setInvested(address tokenAddress) external onlyOwner {
-        _setInvested(tokenAddress);
-    }
-
-    /**
-     * @dev Override of RecoverUpgradeable.recoverERC20() that ensures:
+     * @dev Override of RecoverableUpgradeable.recoverERC20() that ensures:
      * - the caller is the owner
      * - the token recovered token is not the invested token
-     * @inheritdoc RecoverUpgradeable
+     * @inheritdoc RecoverableUpgradeable
      */
     function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the $LTY token
