@@ -24,8 +24,11 @@ abstract contract OwnableUpgradeable is _OwnableUpgradeable {
     }
 
     function owner() public view override returns (address) {
-        if (globalOwner != GlobalOwner(address(0))) return globalOwner.owner();
-        return super.owner();
+        return globalOwner.owner();
+    }
+
+    function transferOwnership(address newOwner) public override onlyOwner {
+        revert("Can't change local owner. Change global owner instead.");
     }
 
     /**

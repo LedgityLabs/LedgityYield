@@ -6,9 +6,9 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
 
 // Libraries & interfaces
+import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
 import {UDS3} from "../libs/UDS3.sol";
 
@@ -123,8 +123,17 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
         return n * 10 ** decimals;
     }
 
+    function fromDecimals(uint256 n) internal view returns (uint256) {
+        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
+        return n / 10 ** decimals;
+    }
+
     function toUDS3(uint256 n) internal view returns (uint256) {
         return UDS3.scaleUp(toDecimals(n));
+    }
+
+    function fromUDS3(uint256 nUDS3) internal view returns (uint256) {
+        return UDS3.scaleDown(fromDecimals(nUDS3));
     }
 
     /**
@@ -251,7 +260,7 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @param account The account to reset the investment period of.
      * @param autocompound Whether to autocompound the rewards or not.
      */
-    function _resetInvestmentPeriodOf(address account, bool autocompound) internal {
+    function _resetInvestmentPeriodOf(address account, bool autocompound) internal virtual {
         // Claim user rewards using claimRewardsOf() if it has been implemented by child
         // contract (returns true), else compound them in virtualBalance.
         uint256 rewards = _rewardsOf(account, autocompound);
