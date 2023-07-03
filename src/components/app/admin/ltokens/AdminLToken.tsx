@@ -3,6 +3,7 @@ import { LTokenId } from "../../../../../hardhat/deployments";
 import { AdminLTokenAPR } from "./AdminLTokenAPR";
 import { AdminLTokenRetentionRate } from "./AdminLTokenRetentionRate";
 import { AdminMasonry } from "../AdminMasonry";
+import { AdminLTokenClaimFees } from "./AdminLTokenClaimFees";
 
 interface Props {
   lTokenId: LTokenId;
@@ -13,13 +14,13 @@ export const AdminLToken: FC<Props> = ({ lTokenId }) => {
     <AdminMasonry>
       <AdminLTokenAPR lTokenId={lTokenId} />
       <AdminLTokenRetentionRate lTokenId={lTokenId} />
-      {/* Rentention rate */}
+      <AdminLTokenClaimFees lTokenId={lTokenId} />
       {/* Claim fees */}
-      {/* Set fund address */}
-      {/* Set withdrawer address */}
       {/* Set staking address */}
       {/* Process big queued */}
       {/* Fund contract */}
+      {/* Set fund address */}
+      {/* Set withdrawer address */}
     </AdminMasonry>
   );
 };
