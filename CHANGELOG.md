@@ -1,3 +1,15 @@
+## [1.100.0](https://github.com/ledgity-labs/dapp/compare/v1.99.0...v1.100.0) (2023-07-03)
+
+
+### Features
+
+* remove admin "LTY" section and move $LTY infos to "Staking" one + fix contract deployments ([28f8e58](https://github.com/ledgity-labs/dapp/commit/28f8e581f8f8adcdbbd66a36ae7101be380685c8))
+
+
+### Others
+
+* LTY token contract have been moved to https://github.com/ledgity-labs/LTY-token ([972dcc1](https://github.com/ledgity-labs/dapp/commit/972dcc1d5c2b1b3acc5735adc4cf5d7404459e2f))
+
 ## [1.99.0](https://github.com/ledgity-labs/dapp/compare/v1.98.0...v1.99.0) (2023-07-02)
 
 
