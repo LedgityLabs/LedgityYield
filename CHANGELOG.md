@@ -1,3 +1,10 @@
+## [1.103.0](https://github.com/ledgity-labs/dapp/compare/v1.102.0...v1.103.0) (2023-07-03)
+
+
+### Features
+
+* **admin:** allow setting Stake lock duration in "Staking" section ([57f8a21](https://github.com/ledgity-labs/dapp/commit/57f8a21d5e4040ed43f7fde8a2ce408dfb6eadf1))
+
 ## [1.102.0](https://github.com/ledgity-labs/dapp/compare/v1.101.0...v1.102.0) (2023-07-03)
 
 
