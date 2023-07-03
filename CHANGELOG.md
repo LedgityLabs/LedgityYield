@@ -1,3 +1,13 @@
+## [1.104.0](https://github.com/ledgity-labs/dapp/compare/v1.103.0...v1.104.0) (2023-07-03)
+
+
+### Features
+
+* **admin:** add "Fund contract" card to L-Token admin ([f5aeec1](https://github.com/ledgity-labs/dapp/commit/f5aeec138c66bac3c151b873207e684c484de2b9))
+* **admin:** add addresses setter card to L-Token admin + new <AdminAddressSetter/> component ([8a49426](https://github.com/ledgity-labs/dapp/commit/8a49426c628111cc6e7db52c90eb3a466173cca7))
+* **admin:** add claim fees card to L-Token admin ([184d8ab](https://github.com/ledgity-labs/dapp/commit/184d8ab89db3c5e3a429fdd61b00d4cafaa05b13))
+* **admin:** add process big queued request card to L-Token admin ([9d6c6f1](https://github.com/ledgity-labs/dapp/commit/9d6c6f109bdbd6c6e2a40122527c041eeaf4997e))
+
 ## [1.103.0](https://github.com/ledgity-labs/dapp/compare/v1.102.0...v1.103.0) (2023-07-03)
 
 
