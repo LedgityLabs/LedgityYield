@@ -1,18 +1,23 @@
 import { Amount, AmountInput, Card, TxButton } from "@/components/ui";
 import {
-  useLtyCap,
-  useLtyDecimals,
+  useGenericErc20Decimals,
+  useGenericErc20TotalSupply,
   useLtyStakingGetTier,
-  useLtyTotalSupply,
   usePrepareLtyStakingSetTier,
 } from "@/generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
 
 const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
-  const { data: ltyDecimals } = useLtyDecimals();
-  const { data: ltyCap } = useLtyCap();
+  const ltyAddress = useContractAddress("LTY");
+  const { data: ltyDecimals } = useGenericErc20Decimals({
+    address: ltyAddress,
+  });
+  const { data: ltySupply } = useGenericErc20TotalSupply({
+    address: ltyAddress,
+  });
   const { data: tierAmount } = useLtyStakingGetTier({
     args: [BigInt(tierId)],
     watch: true,
@@ -33,7 +38,7 @@ const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
       <div className="flex justify-center items-end gap-3 pt-3">
         <AmountInput
           maxName="Max"
-          maxValue={ltyCap}
+          maxValue={ltySupply}
           decimals={ltyDecimals}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNewTierAmount(parseUnits(e.target.value, ltyDecimals!))

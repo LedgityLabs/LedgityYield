@@ -1,5 +1,10 @@
 import { Address, Amount, Card } from "@/components/ui";
-import { useLtyBalanceOf, useLtyDecimals, useLtyName, useLtySymbol } from "@/generated";
+import {
+  useGenericErc20BalanceOf,
+  useGenericErc20Decimals,
+  useGenericErc20Name,
+  useGenericErc20Symbol,
+} from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -8,10 +13,17 @@ import { useWalletClient } from "wagmi";
 export const AdminStakingLTYInfos: FC<React.ComponentPropsWithRef<typeof Card>> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
   const ltyAddress = useContractAddress("LTY");
-  const { data: ltyName } = useLtyName();
-  const { data: ltySymbol } = useLtySymbol();
-  const { data: ltyDecimals } = useLtyDecimals();
-  const { data: ltyBalance } = useLtyBalanceOf({
+  const { data: ltyName } = useGenericErc20Name({
+    address: ltyAddress,
+  });
+  const { data: ltySymbol } = useGenericErc20Symbol({
+    address: ltyAddress,
+  });
+  const { data: ltyDecimals } = useGenericErc20Decimals({
+    address: ltyAddress,
+  });
+  const { data: ltyBalance } = useGenericErc20BalanceOf({
+    address: ltyAddress,
     args: [walletClient ? walletClient.account.address : "0x0"],
     watch: true,
   });

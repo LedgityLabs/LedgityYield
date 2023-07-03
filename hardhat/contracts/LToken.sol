@@ -33,31 +33,31 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     }
 
     /// @dev Holds address of the LTYStaking contract
-    LTYStaking ltyStaking;
+    LTYStaking public ltyStaking;
 
     /// @dev Holds address of withdrawer wallet (managed by withdrawal server)
-    address payable withdrawer;
+    address payable public withdrawer;
 
     /// @dev Holds address of fund wallet (managed by financial team)
-    address fund;
+    address public fund;
 
     /// @dev Holds the withdrawal fee rate in UD3 format (3 digits fixed point, e.g., 0.350% = 350)
-    uint256 feesRateUD3;
-
-    /// @dev Holds withdrawal fees not claimed yet by contract owner.
-    uint256 unclaimedFees;
+    uint32 public feesRateUD3;
 
     /// @dev Holds the retention rate in UD3 format. See "Retention rate" section of whitepaper.
-    uint256 retentionRateUD3;
+    uint32 public retentionRateUD3;
+
+    /// @dev Holds withdrawal fees not claimed yet by contract owner.
+    uint256 public unclaimedFees;
 
     /// @dev Holds the amount of L-Tokens current in the withdrawal queue.
-    uint256 totalQueued;
+    uint256 public totalQueued;
 
     /**
      * @dev Holds the amount of underlying tokens that are usable by the contract (i.e,
      * not accidentally deposited or else)
      */
-    uint256 usableBalance;
+    uint256 public usableBalance;
 
     /// @dev Holds an ordered list of withdrawal requests.
     WithdrawalRequest[] withdrawalQueue;
@@ -115,11 +115,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @dev A bunch states setters.
      */
 
-    function setFeesRate(uint256 _feesRateUD3) public onlyOwner {
+    function setFeesRate(uint32 _feesRateUD3) public onlyOwner {
         feesRateUD3 = _feesRateUD3;
     }
 
-    function setRetentionRate(uint256 _retentionRateUD3) public onlyOwner {
+    function setRetentionRate(uint32 _retentionRateUD3) public onlyOwner {
         require(_retentionRateUD3 <= 10000, "Retention rate must be <= 10%");
         retentionRateUD3 = _retentionRateUD3;
     }

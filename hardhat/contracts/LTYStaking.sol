@@ -20,7 +20,7 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
  */
 contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     uint40 public stakeLockDuration;
-    uint unlockFeesRateUD3;
+    uint32 public unlockFeesRateUD3;
 
     struct AccountStake {
         uint216 amount;
@@ -119,6 +119,14 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         if (accountStake.amount == 0) return uint40(block.timestamp) + stakeLockDuration;
         // Or if the account increases a previous stake, add a proportional duration
         else return accountStake.lockEnd + getLockEndIncrease(account, addedAmount);
+    }
+
+    function setUnlockFeesRate(uint32 _unlockFeesRateUD3) public onlyOwner {
+        unlockFeesRateUD3 = _unlockFeesRateUD3;
+    }
+
+    function setStaleLockDuration(uint40 _stakeLockDuration) public onlyOwner {
+        stakeLockDuration = _stakeLockDuration;
     }
 
     function unlock() external {
