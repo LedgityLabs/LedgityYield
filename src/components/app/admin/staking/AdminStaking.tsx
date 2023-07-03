@@ -5,6 +5,7 @@ import { AdminStakingLTYInfos } from "./AdminStakingLTYInfos";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { AdminStakingUnlockFeesRate } from "./AdminStakingUnlockFees";
 import { AdminMasonry } from "../AdminMasonry";
+import { AdminStakingLockDuration } from "./AdminStakingLockDuration";
 
 export const AdminStaking: FC = () => {
   const ltyAddress = useContractAddress("LTY");
@@ -17,6 +18,7 @@ export const AdminStaking: FC = () => {
       <AdminStakingLTYInfos />
       <AdminStakingAPR />
       <AdminStakingUnlockFeesRate />
+      <AdminStakingLockDuration />
       <AdminStakingTiers />
     </AdminMasonry>
   );
