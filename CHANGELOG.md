@@ -1,3 +1,10 @@
+## [1.105.0](https://github.com/ledgity-labs/dapp/compare/v1.104.0...v1.105.0) (2023-07-03)
+
+
+### Features
+
+* populate "Ownership" admin section with UI to transfer ownership in two steps ([e7e19b0](https://github.com/ledgity-labs/dapp/commit/e7e19b06ac0d6f523e63253732792abe7a51c374))
+
 ## [1.104.0](https://github.com/ledgity-labs/dapp/compare/v1.103.0...v1.104.0) (2023-07-03)
 
 
