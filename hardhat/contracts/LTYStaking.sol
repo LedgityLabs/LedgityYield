@@ -125,7 +125,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         unlockFeesRateUD3 = _unlockFeesRateUD3;
     }
 
-    function setStaleLockDuration(uint40 _stakeLockDuration) public onlyOwner {
+    function setStakeLockDuration(uint40 _stakeLockDuration) public onlyOwner {
         stakeLockDuration = _stakeLockDuration;
     }
 

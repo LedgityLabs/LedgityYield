@@ -6,6 +6,7 @@ import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
 import { LTokenId } from "../../../../../hardhat/deployments";
+import { AdminBrick } from "../AdminBrick";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenId: LTokenId;
@@ -25,8 +26,7 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenId }) => 
   });
 
   return (
-    <Card circleIntensity={0.07} className={twMerge("p-8 h-min flex flex-col gap-5", className)}>
-      <h3 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">Retention rate</h3>
+    <AdminBrick title="Retention rate">
       <p>
         This rate corresponds to the target and maximal amount of {underlyingTokenName} to retain on the
         contract.
@@ -44,6 +44,6 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenId }) => 
           Set
         </TxButton>
       </div>
-    </Card>
+    </AdminBrick>
   );
 };

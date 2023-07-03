@@ -9,6 +9,7 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { useWalletClient } from "wagmi";
+import { AdminBrick } from "../AdminBrick";
 
 export const AdminStakingLTYInfos: FC<React.ComponentPropsWithRef<typeof Card>> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
@@ -29,9 +30,8 @@ export const AdminStakingLTYInfos: FC<React.ComponentPropsWithRef<typeof Card>> 
   });
 
   return (
-    <Card circleIntensity={0.07} className={twMerge("p-8 h-min", className)}>
-      <h3 className="text-center font-bold text-2xl pb-8 font-heading text-fg/90">$LTY Infos</h3>
-      <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
+    <AdminBrick title="$LTY infos">
+      <ul className="pl-4 flex flex-col gap-2 list-disc">
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Address</h5>
           <Address address={ltyAddress} copyable={true} addToWallet={true} tooltip={true} />
@@ -55,6 +55,6 @@ export const AdminStakingLTYInfos: FC<React.ComponentPropsWithRef<typeof Card>> 
           </span>
         </li>
       </ul>
-    </Card>
+    </AdminBrick>
   );
 };

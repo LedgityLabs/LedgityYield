@@ -9,6 +9,7 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
+import { AdminBrick } from "../AdminBrick";
 
 const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
   const ltyAddress = useContractAddress("LTY");
@@ -56,13 +57,12 @@ export const AdminStakingTiers: FC<React.ComponentPropsWithRef<typeof Card>> = (
   const tiersIds = [1, 2, 3];
 
   return (
-    <Card circleIntensity={0.07} className={twMerge("p-8", className)}>
-      <h3 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">Tiers</h3>
-      <div className="flex flex-col gap-16 pt-6">
+    <AdminBrick title="Tiers">
+      <div className="flex flex-col gap-16">
         {tiersIds.map((tierId) => (
           <TierSetter key={tierId} tierId={tierId} />
         ))}
       </div>
-    </Card>
+    </AdminBrick>
   );
 };

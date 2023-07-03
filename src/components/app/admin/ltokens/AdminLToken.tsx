@@ -2,6 +2,7 @@ import { FC } from "react";
 import { LTokenId } from "../../../../../hardhat/deployments";
 import { AdminLTokenAPR } from "./AdminLTokenAPR";
 import { AdminLTokenRetentionRate } from "./AdminLTokenRetentionRate";
+import { AdminMasonry } from "../AdminMasonry";
 
 interface Props {
   lTokenId: LTokenId;
@@ -9,7 +10,7 @@ interface Props {
 
 export const AdminLToken: FC<Props> = ({ lTokenId }) => {
   return (
-    <section className="grid grid-cols-[repeat(3,1fr)] grid-flow-row w-[1200px] gap-10 pb-10">
+    <AdminMasonry>
       <AdminLTokenAPR lTokenId={lTokenId} />
       <AdminLTokenRetentionRate lTokenId={lTokenId} />
       {/* Rentention rate */}
@@ -19,6 +20,6 @@ export const AdminLToken: FC<Props> = ({ lTokenId }) => {
       {/* Set staking address */}
       {/* Process big queued */}
       {/* Fund contract */}
-    </section>
+    </AdminMasonry>
   );
 };

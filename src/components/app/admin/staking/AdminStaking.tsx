@@ -3,6 +3,8 @@ import { AdminStakingTiers } from "./AdminStakingTiers";
 import { AdminStakingAPR } from "./AdminStakingAPR";
 import { AdminStakingLTYInfos } from "./AdminStakingLTYInfos";
 import { useContractAddress } from "@/hooks/useContractAddress";
+import { AdminStakingUnlockFeesRate } from "./AdminStakingUnlockFees";
+import { AdminMasonry } from "../AdminMasonry";
 
 export const AdminStaking: FC = () => {
   const ltyAddress = useContractAddress("LTY");
@@ -11,10 +13,11 @@ export const AdminStaking: FC = () => {
   if (!ltyStakingAddress) return <p>Oops, LTYStaking contract not available on this network.</p>;
 
   return (
-    <section className="grid grid-cols-[repeat(3,1fr)] grid-flow-row w-[1200px] gap-10 pb-10">
-      <AdminStakingTiers />
-      <AdminStakingAPR />
+    <AdminMasonry>
       <AdminStakingLTYInfos />
-    </section>
+      <AdminStakingAPR />
+      <AdminStakingUnlockFeesRate />
+      <AdminStakingTiers />
+    </AdminMasonry>
   );
 };

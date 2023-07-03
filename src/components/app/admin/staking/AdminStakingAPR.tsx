@@ -4,6 +4,7 @@ import { useLtyStakingGetApr, usePrepareLtyStakingSetApr } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
+import { AdminBrick } from "../AdminBrick";
 
 export const AdminStakingAPR: FC<React.ComponentPropsWithRef<typeof Card>> = ({ className }) => {
   const { data: apr } = useLtyStakingGetApr({
@@ -13,12 +14,11 @@ export const AdminStakingAPR: FC<React.ComponentPropsWithRef<typeof Card>> = ({ 
   const preparation = usePrepareLtyStakingSetApr({ args: [newApr] });
 
   return (
-    <Card circleIntensity={0.07} className={twMerge("p-8 h-min", className)}>
-      <h3 className="text-center font-bold text-2xl pb-8 font-heading text-fg/90">APR</h3>
+    <AdminBrick title="APR">
       <p>
         Current value: <Rate value={apr} className="font-bold" />
       </p>
-      <div className="flex justify-center items-end gap-3 mt-4">
+      <div className="flex justify-center items-end gap-3">
         <RateInput
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNewApr(Number(parseUnits(e.target.value, 3)))
@@ -28,6 +28,6 @@ export const AdminStakingAPR: FC<React.ComponentPropsWithRef<typeof Card>> = ({ 
           Set
         </TxButton>
       </div>
-    </Card>
+    </AdminBrick>
   );
 };

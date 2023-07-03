@@ -14,6 +14,8 @@ import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
 import { parseUnits } from "viem";
 import { useWalletClient } from "wagmi";
+import { AdminMasonry } from "../AdminMasonry";
+import { AdminBrick } from "../AdminBrick";
 
 const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
   const { data: walletClient } = useWalletClient();
@@ -85,11 +87,8 @@ export const AdminTesting: FC = () => {
   const lTokens = useAvailableLTokens();
 
   return (
-    <section className="grid grid-cols-[repeat(3,1fr)] grid-flow-row w-[1200px] gap-10 pb-10">
-      <Card circleIntensity={0.07} className="p-8">
-        <h3 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">
-          Underlying tokens
-        </h3>
+    <AdminMasonry>
+      <AdminBrick title="Underlying tokens">
         <p>
           When Ledgity DeFi is deployed locally or on a testnet, fake stablecoins contracts are also
           automatically deployed to mimic mainnets&apos; ones.
@@ -99,7 +98,7 @@ export const AdminTesting: FC = () => {
         {lTokens.map((lToken) => (
           <MintFakeUnderlying key={lToken} lTokenId={lToken} />
         ))}
-      </Card>
-    </section>
+      </AdminBrick>
+    </AdminMasonry>
   );
 };
