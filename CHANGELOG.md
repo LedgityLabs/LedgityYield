@@ -1,3 +1,10 @@
+## [1.102.0](https://github.com/ledgity-labs/dapp/compare/v1.101.0...v1.102.0) (2023-07-03)
+
+
+### Features
+
+* **admin:** add AdminMasonry and AdminBrick components to normalize admin pages layouts ([1091252](https://github.com/ledgity-labs/dapp/commit/109125237d63e8edd2ef19600d06f4319456a6ca))
+
 ## [1.101.0](https://github.com/ledgity-labs/dapp/compare/v1.100.0...v1.101.0) (2023-07-03)
 
 
