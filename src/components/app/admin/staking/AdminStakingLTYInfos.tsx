@@ -1,0 +1,48 @@
+import { Address, Amount, Card } from "@/components/ui";
+import { useLtyBalanceOf, useLtyDecimals, useLtyName, useLtySymbol } from "@/generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
+import { FC } from "react";
+import { twMerge } from "tailwind-merge";
+import { useWalletClient } from "wagmi";
+
+export const AdminStakingLTYInfos: FC<React.ComponentPropsWithRef<typeof Card>> = ({ className }) => {
+  const { data: walletClient } = useWalletClient();
+  const ltyAddress = useContractAddress("LTY");
+  const { data: ltyName } = useLtyName();
+  const { data: ltySymbol } = useLtySymbol();
+  const { data: ltyDecimals } = useLtyDecimals();
+  const { data: ltyBalance } = useLtyBalanceOf({
+    args: [walletClient ? walletClient.account.address : "0x0"],
+    watch: true,
+  });
+
+  return (
+    <Card circleIntensity={0.07} className={twMerge("p-8 h-min", className)}>
+      <h3 className="text-center font-bold text-2xl pb-8 font-heading text-fg/90">$LTY Infos</h3>
+      <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
+        <li className="flex gap-3 items-center">
+          <h5 className="font-bold text-fg/60">Address</h5>
+          <Address address={ltyAddress} copyable={true} addToWallet={true} tooltip={true} />
+        </li>
+        <li className="flex gap-3 items-center">
+          <h5 className="font-bold text-fg/60">Name</h5>
+          <span>{ltyName}</span>
+        </li>
+        <li className="flex gap-3 items-center">
+          <h5 className="font-bold text-fg/60">Symbol</h5>
+          <span>{ltySymbol}</span>
+        </li>
+        <li className="flex gap-3 items-center">
+          <h5 className="font-bold text-fg/60">Decimals</h5>
+          <span>{ltyDecimals}</span>
+        </li>
+        <li className="flex gap-3 items-center">
+          <h5 className="font-bold text-fg/60">Your balance</h5>
+          <span>
+            {ltyBalance && ltyDecimals ? <Amount value={ltyBalance} decimals={ltyDecimals} /> : 0}
+          </span>
+        </li>
+      </ul>
+    </Card>
+  );
+};

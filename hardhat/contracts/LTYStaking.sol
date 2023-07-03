@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "./abstracts/base/BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
-import {LTY} from "./LTY.sol";
+import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 /**
  * @title LTYStaking
@@ -136,7 +136,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         accountStake.amount -= uint216(fees);
 
         // Burn unlock fees
-        LTY(address(invested())).burn(fees);
+        ERC20Burnable(address(invested())).burn(fees);
     }
 
     /**

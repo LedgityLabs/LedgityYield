@@ -1,6 +1,5 @@
 "use client";
 import { AdminDashboard } from "@/components/app/admin/dashboard/AdminDashboard";
-import { AdminLTY } from "@/components/app/admin/lty/AdminLTY";
 import { AdminLTokens } from "@/components/app/admin/ltokens/AdminLTokens";
 import { AdminStaking } from "@/components/app/admin/staking/AdminStaking";
 import { AdminBlacklist } from "@/components/app/admin/blacklist/AdminBlacklist";
@@ -26,7 +25,6 @@ const Page: NextPage = () => {
         <TabsList className="mt-6 mb-6">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="ltokens">L-Tokens</TabsTrigger>
-          <TabsTrigger value="lty">LTY</TabsTrigger>
           <TabsTrigger value="staking">Staking</TabsTrigger>
           <TabsTrigger value="recover">Recover</TabsTrigger>
           <TabsTrigger value="ownership">Ownership</TabsTrigger>
@@ -45,10 +43,6 @@ const Page: NextPage = () => {
 
           <TabsContent value="ltokens">
             <AdminLTokens />
-          </TabsContent>
-
-          <TabsContent value="lty">
-            <AdminLTY />
           </TabsContent>
 
           <TabsContent value="staking">

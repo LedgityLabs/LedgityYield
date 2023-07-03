@@ -9,7 +9,6 @@ export async function deployProxy(contractName: ContractId, globalOwner: boolean
   // Try to upgrade the contract in case it has already been deployed
   try {
     const proxyAddress = getContractAddress(contractName);
-    console.log("PROXY ADDRESS", proxyAddress);
     const contract = await upgrades.upgradeProxy(proxyAddress, UpgradeableContract);
     const address = await contract.getAddress();
     console.log(`Upgradeable '${contractName}' upgraded at: ${address}`);

@@ -1,8 +1,17 @@
 import { parseUnits } from "viem";
+import { testnetIds } from "../deployments";
+import { getChainId } from "./lib/getChainId";
+import { deploy } from "./lib/deploy";
+import { getContractAddress } from "./lib/getContractAddress";
 
 export const main = async () => {
+  // Retrieve current chainId and whether this is a testnet
+  const chainId = getChainId();
+  const isTestnet = testnetIds.includes(chainId);
+
   // Deploy contracts
-  const lty = await (await import("./deploy-LTY")).default;
+  // If testnet, deploy a fake $LTY token
+  if (isTestnet) await deploy("GenericERC20", ["Fake LTY", "LTY", 18]);
   await (
     await import("./deploy-GlobalOwner")
   ).default;
@@ -12,6 +21,11 @@ export const main = async () => {
   await (
     await import("./deploy-LToken")
   ).default;
+  // If testnet, deploy a fake $USDC and $EUROC tokens
+  if (isTestnet) {
+    await deploy("GenericERC20", ["Fake USDC", "USDC", 6]);
+    await deploy("GenericERC20", ["Fake EUROC", "EUROC", 6]);
+  }
   let lTokens = [
     await (await import("./deploy-LUSDC")).default,
     await (await import("./deploy-LEUROC")).default,
@@ -21,9 +35,10 @@ export const main = async () => {
   ).default;
 
   // Initialize LTYStaking contract data
+  const ltyAddress = getContractAddress("LTY");
   ltyStaking!.setGlobalPauser(await globalPauser!.getAddress());
   ltyStaking!.setGlobalBlacklist(await globalBlacklist!.getAddress());
-  ltyStaking!.setInvested(await lty!.getAddress());
+  ltyStaking!.setInvested(ltyAddress);
   ltyStaking!.setAPR(parseUnits("20", 3));
   ltyStaking!.setTier(1, 0);
   ltyStaking!.setTier(2, parseUnits("2000000", 18));

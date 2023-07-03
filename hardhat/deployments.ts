@@ -67,17 +67,17 @@ const _contracts = {
       31337: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
     },
   },
-  LUSDC: {
-    contractName: "LToken",
-    abi: LTokenJSON.abi,
-    address: {
-      31337: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
-    },
-  },
   EUROC: {
     abi: ERC20JSON.abi,
     address: {
       1: "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
+      31337: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+    },
+  },
+  LUSDC: {
+    contractName: "LToken",
+    abi: LTokenJSON.abi,
+    address: {
       31337: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
     },
   },
