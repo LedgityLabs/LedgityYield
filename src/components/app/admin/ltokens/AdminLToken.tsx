@@ -5,6 +5,7 @@ import { AdminLTokenRetentionRate } from "./AdminLTokenRetentionRate";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminLTokenClaimFees } from "./AdminLTokenClaimFees";
 import { AdminLTokenProcessBigQueued } from "./AdminLTokenProcessBigQueued";
+import { AdminLTokenFundContract } from "./AdminLTokenFundContract";
 
 interface Props {
   lTokenId: LTokenId;
@@ -17,8 +18,7 @@ export const AdminLToken: FC<Props> = ({ lTokenId }) => {
       <AdminLTokenRetentionRate lTokenId={lTokenId} />
       <AdminLTokenClaimFees lTokenId={lTokenId} />
       <AdminLTokenProcessBigQueued lTokenId={lTokenId} />
-      {/* Process big queued */}
-      {/* Fund contract */}
+      <AdminLTokenFundContract lTokenId={lTokenId} />
       {/* Set fund address */}
       {/* Set staking address */}
       {/* Set withdrawer address */}
