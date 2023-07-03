@@ -1,3 +1,10 @@
+## [1.101.0](https://github.com/ledgity-labs/dapp/compare/v1.100.0...v1.101.0) (2023-07-03)
+
+
+### Features
+
+* **admin:** add L-Tokens retention rate setter + fix LTYStaking missing functions ([dce9d78](https://github.com/ledgity-labs/dapp/commit/dce9d783eeeaa29711c186e8c582dce430285ba0))
+
 ## [1.100.0](https://github.com/ledgity-labs/dapp/compare/v1.99.0...v1.100.0) (2023-07-03)
 
 
