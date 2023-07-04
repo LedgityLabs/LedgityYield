@@ -1,4 +1,5 @@
-import { FC } from "react";
+"use client";
+import { FC, useEffect } from "react";
 import { usePrepareContractWrite, useWalletClient } from "wagmi";
 import {
   useGenericErc20Allowance,
@@ -34,11 +35,15 @@ export const AllowanceTxButton: FC<Props> = ({
   const { data: allowance } = useGenericErc20Allowance({
     address: token,
     args: [walletClient?.account.address || zeroAddress, spender],
+    watch: true,
   });
   const allowancePreparation = usePrepareGenericErc20Approve({
     address: token,
     args: [spender, amount],
   });
+  useEffect(() => {
+    preparation.refetch();
+  }, [allowance]);
 
   if (allowance && allowance >= amount) {
     return <TxButton preparation={preparation} transactionSummary={transactionSummary} {...props} />;
