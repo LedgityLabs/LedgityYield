@@ -1,5 +1,5 @@
 import { Card, Rate } from "@/components/ui";
-import { useLtyStakingGetApr, useLtyStakingTotalStaked } from "@/generated";
+import { useLtyStakingGetApr } from "@/generated";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
