@@ -1,15 +1,13 @@
 import { AllowanceTxButton, AmountInput, Card, TxButton } from "@/components/ui";
 import {
-  useLtyBalanceOf,
-  useLtyDecimals,
-  useLtyStakingRewardsOf,
+  useGenericErc20BalanceOf,
+  useGenericErc20Decimals,
   useLtyStakingStakeOf,
   usePrepareLtyStakingStake,
   usePrepareLtyStakingUnstake,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { getContractAddress } from "@/lib/getContractAddress";
-import { ChangeEvent, FC, useRef, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits, zeroAddress } from "viem";
 import { useWalletClient } from "wagmi";
@@ -20,8 +18,11 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
   const ltyAddress = useContractAddress("LTY");
   const ltyStakingAddress = useContractAddress("LTYStaking");
-  const { data: ltyDecimals } = useLtyDecimals();
-  const { data: ltyBalance } = useLtyBalanceOf({
+  const { data: ltyDecimals } = useGenericErc20Decimals({
+    address: ltyAddress,
+  });
+  const { data: ltyBalance } = useGenericErc20BalanceOf({
+    address: ltyAddress,
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });

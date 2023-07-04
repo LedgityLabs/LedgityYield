@@ -1,5 +1,6 @@
 import { Amount, Card } from "@/components/ui";
-import { useLtyDecimals, useLtyStakingStakeOf } from "@/generated";
+import { useGenericErc20Decimals, useLtyStakingStakeOf } from "@/generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { zeroAddress } from "viem";
@@ -9,11 +10,14 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingYourStake: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
+  const ltyAddress = useContractAddress("LTY");
+  const { data: ltyDecimals } = useGenericErc20Decimals({
+    address: ltyAddress,
+  });
   const { data: stake } = useLtyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
-  const { data: ltyDecimals } = useLtyDecimals();
 
   return (
     <Card

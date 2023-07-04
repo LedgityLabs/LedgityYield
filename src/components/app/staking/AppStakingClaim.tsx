@@ -1,20 +1,24 @@
-import { AmountInput, Card, Amount, TxButton } from "@/components/ui";
+import { Card, Amount, TxButton } from "@/components/ui";
 import {
-  useLtyDecimals,
+  useGenericErc20Decimals,
   useLtyStakingRewardsOf,
   usePrepareLtyStakingClaim,
   usePrepareLtyStakingCompound,
 } from "@/generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
-import { formatUnits, parseUnits, zeroAddress } from "viem";
+import { formatUnits, zeroAddress } from "viem";
 import { useWalletClient } from "wagmi";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingClaim: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
-  const { data: ltyDecimals } = useLtyDecimals();
+  const ltyAddress = useContractAddress("LTY");
+  const { data: ltyDecimals } = useGenericErc20Decimals({
+    address: ltyAddress,
+  });
   const { data: unclaimedRewards } = useLtyStakingRewardsOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,

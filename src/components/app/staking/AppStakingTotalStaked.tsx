@@ -1,12 +1,16 @@
 import { Amount, Card } from "@/components/ui";
-import { useLtyDecimals, useLtyStakingTotalStaked } from "@/generated";
+import { useGenericErc20Decimals, useLtyStakingTotalStaked } from "@/generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingTotalStaked: FC<Props> = ({ className }) => {
-  const { data: ltyDecimals } = useLtyDecimals();
+  const ltyAddress = useContractAddress("LTY");
+  const { data: ltyDecimals } = useGenericErc20Decimals({
+    address: ltyAddress,
+  });
   const { data: totalStaked } = useLtyStakingTotalStaked({
     watch: true,
   });
