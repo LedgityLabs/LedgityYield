@@ -24,3 +24,4 @@ export * from "./TxButton";
 export * from "./AllowanceTxButton";
 export * from "./Spinner";
 export * from "./Rate";
+export * from "./RateInput";

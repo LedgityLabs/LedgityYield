@@ -101,16 +101,18 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     function getLockEndIncrease(address account, uint256 addedAmount) public view returns (uint40) {
         AccountStake memory accountStake = accountsStakes[account];
         if (accountStake.amount == 0) return 0;
-        else {
-            uint256 growthRateUDS3 = (UDS3.scaleUp(addedAmount) * toUDS3(1)) /
-                UDS3.scaleUp(accountStake.amount);
-            uint256 growthUDS3 = (toUDS3(stakeLockDuration) * growthRateUDS3) / toUDS3(100);
-            uint40 lockEndIncrease = uint40(fromUDS3(growthUDS3));
-            return
-                lockEndIncrease + accountStake.lockEnd > stakeLockDuration
-                    ? stakeLockDuration - accountStake.lockEnd
-                    : lockEndIncrease;
-        }
+
+        uint256 growthRateUDS3 = (UDS3.scaleUp(addedAmount) * toUDS3(1)) /
+            UDS3.scaleUp(accountStake.amount);
+        uint256 growthUDS3 = (toUDS3(stakeLockDuration) * growthRateUDS3) / toUDS3(100);
+        uint40 lockEndIncrease = uint40(fromUDS3(growthUDS3));
+        uint40 remainingLockDuration = accountStake.lockEnd < uint40(block.timestamp)
+            ? 0
+            : accountStake.lockEnd - uint40(block.timestamp);
+        return
+            (lockEndIncrease + remainingLockDuration) > stakeLockDuration
+                ? stakeLockDuration - remainingLockDuration
+                : lockEndIncrease;
     }
 
     function _getNewLockEnd(address account, uint216 addedAmount) internal view returns (uint40) {
