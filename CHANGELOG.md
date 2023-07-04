@@ -1,3 +1,24 @@
+## [1.106.0](https://github.com/ledgity-labs/dapp/compare/v1.105.0...v1.106.0) (2023-07-04)
+
+
+### Features
+
+* add fake LTY minting to "Testing" admin section + refresh pause preparation on pause change ([b099b74](https://github.com/ledgity-labs/dapp/commit/b099b74bbda8ca5cd0e876b2de9dc7e0ec66dc08))
+* **admin:** populate the "Pause" section with buttons to global pause and unpause the contracts ([c559fd6](https://github.com/ledgity-labs/dapp/commit/c559fd675288bf793ef8e396004e8741634494a5))
+* **app:** refresh preparation on allowance change in AllowanceTxButton component ([85d990c](https://github.com/ledgity-labs/dapp/commit/85d990cba88f5cbc1c855942dace328064ec9110))
+* improve display of TxButton modal + pretty error formatting ([ab8f359](https://github.com/ledgity-labs/dapp/commit/ab8f359c6a47acac8346fb15f921a6ec95ff6e8f))
+
+
+### Fixes
+
+* **app:** staking page was still relying on old LTY wagmi functions ([a8ef33e](https://github.com/ledgity-labs/dapp/commit/a8ef33e4866b831e3ab1c448ccd9cb28260746a6))
+* lTYStaking.tierOf() shouldn't return 1 when staking is == 0 ([8b7b3cd](https://github.com/ledgity-labs/dapp/commit/8b7b3cda9fee45e62fcf6027e97d614b682eda0b))
+
+
+### Others
+
+* upgrade deps ([e8db5f4](https://github.com/ledgity-labs/dapp/commit/e8db5f4a0cef334c12aba19792f24d26df0917b2))
+
 ## [1.105.0](https://github.com/ledgity-labs/dapp/compare/v1.104.0...v1.105.0) (2023-07-03)
 
 
