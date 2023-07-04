@@ -145,6 +145,9 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 fees = (accountStake.amount * ud3ToDecimals(unlockFeesRateUD3)) / toDecimals(100);
         accountStake.amount -= uint216(fees);
 
+        // Write the new account stake
+        accountsStakes[_msgSender()] = accountStake;
+
         // Burn unlock fees
         ERC20Burnable(address(invested())).burn(fees);
     }

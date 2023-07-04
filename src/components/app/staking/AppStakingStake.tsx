@@ -1,15 +1,18 @@
-import { AllowanceTxButton, AmountInput, Card, TxButton } from "@/components/ui";
+import { AllowanceTxButton, AmountInput, Card, DateTime, Rate, TxButton } from "@/components/ui";
 import {
   useGenericErc20BalanceOf,
   useGenericErc20Decimals,
   useLtyStakingGetLockEndIncrease,
+  useLtyStakingLockEndOf,
   useLtyStakingStakeOf,
+  useLtyStakingUnlockFeesRateUd3,
   usePrepareLtyStakingStake,
+  usePrepareLtyStakingUnlock,
   usePrepareLtyStakingUnstake,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import Link from "next/link";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { useWalletClient } from "wagmi";
@@ -34,14 +37,31 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
+  const { data: lockEnd } = useLtyStakingLockEndOf({
+    args: [walletClient ? walletClient.account.address : zeroAddress],
+    watch: true,
+  });
 
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
   const { data: lockPeriodIncrease } = useLtyStakingGetLockEndIncrease({
     args: [walletClient ? walletClient.account.address : zeroAddress, depositedAmount],
   });
+  const { data: unlockFees } = useLtyStakingUnlockFeesRateUd3();
+
   const stakePreparation = usePrepareLtyStakingStake({ args: [depositedAmount] });
   const unstakePreparation = usePrepareLtyStakingUnstake({ args: [withdrawnAmount] });
+  const unlockNowPreparation = usePrepareLtyStakingUnlock();
+
+  useEffect(() => {
+    stakePreparation.refetch();
+    unstakePreparation.refetch();
+    unlockNowPreparation.refetch();
+  }, [stakedAmount, lockEnd]);
+
+  const lockEndDays = lockEnd
+    ? ((lockEnd * 1000 - Date.now()) / (1000 * secondsPerDay)).toFixed(0)
+    : "0";
   const lockPeriodDaysIncrease = lockPeriodIncrease
     ? (lockPeriodIncrease / secondsPerDay).toFixed(1)
     : "0.0";
@@ -80,24 +100,43 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
             <p></p>
           )}
         </div>
-        <div className="flex items-end gap-3">
-          <AmountInput
-            maxName="Staked"
-            maxValue={stakedAmount}
-            decimals={ltyDecimals}
-            symbol="LTY"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setWithdrawnAmount(parseUnits(e.target.value, ltyDecimals!))
-            }
-          />
-          <TxButton
-            preparation={unstakePreparation}
-            disabled={!withdrawnAmount || withdrawnAmount == 0n}
-            variant="outline"
-            size="medium"
-          >
-            Unstake
-          </TxButton>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-end gap-3">
+            <AmountInput
+              maxName="Staked"
+              maxValue={stakedAmount}
+              decimals={ltyDecimals}
+              symbol="LTY"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setWithdrawnAmount(parseUnits(e.target.value, ltyDecimals!))
+              }
+            />
+            <TxButton
+              preparation={unstakePreparation}
+              disabled={!withdrawnAmount || withdrawnAmount == 0n}
+              variant="outline"
+              size="medium"
+            >
+              Unstake
+            </TxButton>
+          </div>
+          {(lockEnd && lockEnd * 1000 > Date.now() && (
+            <p>
+              Your stake is locked until{" "}
+              <DateTime className="font-semibold" timestamp={lockEnd * 1000} output="date" /> (in{" "}
+              <span className="font-semibold">{lockEndDays} days</span>)
+              <br />
+              <span className="pt-4 inline-flex flex-col justify-center items-center gap-3">
+                <span className="text-center">
+                  But you can prematurely unlock it by burning <Rate value={unlockFees} /> of your stake.
+                </span>
+                <TxButton preparation={unlockNowPreparation} className="inline" size="tiny">
+                  Unlock now
+                </TxButton>
+              </span>
+            </p>
+          )) ||
+            ""}
         </div>
       </div>
     </Card>
