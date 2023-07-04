@@ -13,7 +13,7 @@ export const AdminOwnership: FC = () => {
   });
   const preparation = usePrepareGlobalOwnerAcceptOwnership();
   return (
-    <AdminMasonry className="columns-2 w-[900px]">
+    <AdminMasonry className="!columns-2 w-[900px]">
       <AdminBrick title="Transfer global ownership">
         <AdminAddressSetter
           contractName="GlobalOwner"

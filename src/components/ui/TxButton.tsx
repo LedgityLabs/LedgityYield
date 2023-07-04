@@ -67,8 +67,8 @@ export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disa
                 {...props}
                 disabled={disabled || !walletClient || !write || isSwitching}
                 isLoading={isLoading}
-                isError={isError}
-                isSuccess={isSuccess}
+                // isError={isError}
+                // isSuccess={isSuccess}
                 onClick={() => write!()}
               />
             </DialogTrigger>

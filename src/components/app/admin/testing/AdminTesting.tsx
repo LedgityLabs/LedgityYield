@@ -9,7 +9,7 @@ import {
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { ContractId } from "../../../../../hardhat/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
 import { parseUnits } from "viem";
@@ -17,47 +17,46 @@ import { useWalletClient } from "wagmi";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 
-const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
+const MintFakeToken: FC<{ contractId: ContractId }> = ({ contractId, ...props }) => {
   const { data: walletClient } = useWalletClient();
-  const address = useContractAddress(lTokenId);
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: address! });
-  const { data: underlyingSymbol } = useGenericErc20Symbol({ address: underlyingAddress });
-  const { data: underlyingName } = useGenericErc20Name({ address: underlyingAddress });
-  const { data: underlyingDecimals } = useGenericErc20Decimals({
-    address: underlyingAddress,
+  const address = useContractAddress(contractId);
+  const { data: tokenSymbol } = useGenericErc20Symbol({ address: address });
+  const { data: tokenName } = useGenericErc20Name({ address: address });
+  const { data: tokenDecimals } = useGenericErc20Decimals({
+    address: address,
   });
-  const { data: underlyingBalance } = useGenericErc20BalanceOf({
-    address: underlyingAddress,
+  const { data: tokenBalance } = useGenericErc20BalanceOf({
+    address: address,
     args: [walletClient ? walletClient.account.address : "0x0"],
     watch: true,
   });
   const [mintedAmount, setMintedAmount] = useState(0n);
   const preparation = usePrepareGenericErc20Mint({
-    address: underlyingAddress,
+    address: address,
     args: [mintedAmount],
   });
 
   return (
     <div {...props} className="mt-8">
-      <h4 className="text-lg font-semibold">{underlyingName}</h4>
+      <h4 className="text-lg font-semibold">{tokenName}</h4>
       <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Address</h5>
-          <Address address={underlyingAddress} copyable={true} addToWallet={true} tooltip={true} />
+          <Address address={address} copyable={true} addToWallet={true} tooltip={true} />
         </li>
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Symbol</h5>
-          <span>{underlyingSymbol}</span>
+          <span>{tokenSymbol}</span>
         </li>
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Decimals</h5>
-          <span>{underlyingDecimals}</span>
+          <span>{tokenDecimals}</span>
         </li>
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Your balance</h5>
           <span>
-            {underlyingBalance && underlyingDecimals ? (
-              <Amount value={underlyingBalance} decimals={underlyingDecimals} />
+            {tokenBalance && tokenDecimals ? (
+              <Amount value={tokenBalance} decimals={tokenDecimals} />
             ) : (
               0
             )}
@@ -68,10 +67,10 @@ const MintFakeUnderlying: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) 
           <div className="flex justify-end items-end gap-4">
             <AmountInput
               maxName="Max"
-              maxValue={parseUnits("9999999", underlyingDecimals!)}
-              decimals={underlyingDecimals}
+              maxValue={parseUnits("9999999", tokenDecimals!)}
+              decimals={tokenDecimals}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setMintedAmount(parseUnits(e.target.value, underlyingDecimals!))
+                setMintedAmount(parseUnits(e.target.value, tokenDecimals!))
               }
             />
             <TxButton size="medium" preparation={preparation}>
@@ -87,7 +86,7 @@ export const AdminTesting: FC = () => {
   const lTokens = useAvailableLTokens();
 
   return (
-    <AdminMasonry>
+    <AdminMasonry className="!columns-2 w-[800px]">
       <AdminBrick title="Underlying tokens">
         <p>
           When Ledgity DeFi is deployed locally or on a testnet, fake stablecoins contracts are also
@@ -96,8 +95,17 @@ export const AdminTesting: FC = () => {
           Here are those for the current test network:
         </p>
         {lTokens.map((lToken) => (
-          <MintFakeUnderlying key={lToken} lTokenId={lToken} />
+          <MintFakeToken key={lToken} contractId={lToken.slice(1) as ContractId} />
         ))}
+      </AdminBrick>
+      <AdminBrick title="LTY token">
+        <p>
+          When Ledgity DeFi is deployed locally or on a testnet, a fake $LTY token contract is also
+          automatically deployed to mimic the mainnets one.
+          <br />
+          Here is the one for the current test network:
+        </p>
+        <MintFakeToken contractId="LTY" />
       </AdminBrick>
     </AdminMasonry>
   );
