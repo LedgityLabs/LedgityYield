@@ -1,3 +1,11 @@
+## [1.107.0](https://github.com/ledgity-labs/dapp/compare/v1.106.0...v1.107.0) (2023-07-04)
+
+
+### Features
+
+* **app>staking:** add remaining lock time + unlock button ([3c6c72f](https://github.com/ledgity-labs/dapp/commit/3c6c72fa47fe13b0b0f6d45805dcd0892b3a3dda))
+* **app>staking:** add stake lock period increase message when a user extends its stake ([a6e1679](https://github.com/ledgity-labs/dapp/commit/a6e16790e2d3fa7ad4767089c47b5a5629672a6e))
+
 ## [1.106.0](https://github.com/ledgity-labs/dapp/compare/v1.105.0...v1.106.0) (2023-07-04)
 
 
