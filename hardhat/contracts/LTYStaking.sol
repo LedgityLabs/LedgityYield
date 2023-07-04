@@ -272,6 +272,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @param account The account to check the tier of
      */
     function tierOf(address account) public view returns (uint256 tier) {
+        if (stakeOf(account) == 0) return 0;
         while (tier < _tiers.length && stakeOf(account) >= _tiers[tier]) tier++;
     }
 }
