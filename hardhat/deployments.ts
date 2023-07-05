@@ -92,13 +92,13 @@ const _contracts = {
   LTokenSignaler: {
     abi: LTokenSignalerJSON.abi,
     address: {
-      31337: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      31337: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
     },
   },
   Multicall3: {
     abi: Multicall3JSON.abi,
     address: {
-      31337: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
+      31337: "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
     },
   },
 } as const;
