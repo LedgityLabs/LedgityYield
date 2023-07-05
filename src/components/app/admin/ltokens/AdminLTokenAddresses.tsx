@@ -2,8 +2,9 @@ import { FC } from "react";
 import { LTokenId } from "../../../../../hardhat/deployments";
 import { AdminBrick } from "../AdminBrick";
 import { AdminAddressSetter } from "../AdminAddressSetter";
+import { Card } from "@/components/ui";
 
-interface Props extends React.ComponentPropsWithRef<typeof AdminBrick> {
+interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenId: LTokenId;
 }
 

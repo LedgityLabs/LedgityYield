@@ -1,11 +1,5 @@
 import { AmountInput, Card, Input, TxButton } from "@/components/ui";
-import {
-  useLTokenDecimals,
-  useLtyStakingStakeLockDuration,
-  usePrepareLTokenBigQueuedWithdraw,
-  usePrepareLTokenFundContract,
-  usePrepareLtyStakingSetStakeLockDuration,
-} from "@/generated";
+import { useLTokenDecimals, usePrepareLTokenFundContract } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { LTokenId } from "../../../../../hardhat/deployments";
@@ -27,7 +21,7 @@ export const AdminLTokenFundContract: FC<Props> = ({ lTokenId }) => {
   return (
     <AdminBrick title="Fund contract">
       <p>
-        This utility can only be called by the fund wallet and will safely transfer a given amount of
+        This utility can only be called by the fund wallet and will safely transfer a given amount of{" "}
         {lTokenId.slice(1)} from fund to {lTokenId} contract.
       </p>
       <div className="flex justify-center items-end gap-3">

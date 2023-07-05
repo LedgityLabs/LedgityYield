@@ -1,5 +1,4 @@
-import { useBlacklistIsBlacklisted } from "@/generated";
-import { ContractId, contracts, lTokensIds } from "../../hardhat/deployments";
+import { contracts, lTokensIds } from "../../hardhat/deployments";
 import { usePublicClient } from "wagmi";
 
 export const useAvailableLTokens = () => {
