@@ -1,3 +1,10 @@
+## [1.108.0](https://github.com/ledgity-labs/dapp/compare/v1.107.0...v1.108.0) (2023-07-05)
+
+
+### Features
+
+* implement TheGraph subgraph and local node, ABI extractor script, new LTokenSignaler contract ([0257158](https://github.com/ledgity-labs/dapp/commit/02571586695792fe1fc2db23dd3bf933f3f49d34))
+
 ## [1.107.0](https://github.com/ledgity-labs/dapp/compare/v1.106.0...v1.107.0) (2023-07-04)
 
 
