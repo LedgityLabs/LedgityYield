@@ -23,7 +23,7 @@
     "@rainbow-me/rainbowkit": "^1.0.4",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-table": "^8.9.3",
-    "@wagmi/core": "^1.3.4",
+    "@wagmi/core": "^1.3.6",
     "clsx": "^1.2.1",
     "d3-format": "^3.1.0",
     "gsap": "^3.12.2",
@@ -35,7 +35,7 @@
     "remixicon": "^3.4.0",
     "sharp": "^0.32.1",
     "viem": "^1.2.9",
-    "wagmi": "^1.3.5",
+    "wagmi": "^1.3.7",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -60,12 +60,12 @@
     "eslint-config-next": "13.4.7",
     "ethers": "^6.6.2",
     "hardhat": "^2.16.1",
-    "pino-pretty": "^10.0.0",
+    "pino-pretty": "^10.0.1",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-jsdoc": "^0.4.2",
     "prettier-plugin-solidity": "^1.1.3",
-    "semantic-release": "^21.0.6",
+    "semantic-release": "^21.0.7",
     "tailwind-merge": "^1.13.2",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
