@@ -31,6 +31,9 @@ export const main = async () => {
     await (await import("./deploy-LEUROC")).default,
   ];
   await (
+    await import("./deploy-LTokenSignaler")
+  ).default;
+  await (
     await import("./deploy-Multicall3")
   ).default;
 

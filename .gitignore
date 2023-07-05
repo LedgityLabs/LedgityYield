@@ -42,3 +42,8 @@ typechain
 typechain-types
 hardhat/cache
 hardhat/artifacts
+
+# TheGraph
+thegraph/build
+thegraph/generated
+thegraph/local-node/data

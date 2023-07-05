@@ -22,6 +22,17 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
 contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
+    enum Action {
+        Withdraw,
+        Deposit
+    }
+
+    enum Status {
+        Success,
+        Cancelled,
+        Queued
+    }
+
     /**
      * @dev Represents a withdrawal request.
      * @param account The account that emitted the request
@@ -63,21 +74,28 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     WithdrawalRequest[] withdrawalQueue;
 
     /**
-     * @dev Emitted each time the invested balance of an account changes
-     * It is used off-chain to properly display capital growth trough time.
-     * @param account The account whose invested balance changed.
-     * @param balance The new invested balance of the account.
+     * @dev Called each time the total supply and so indirectly the TVL of the contract
+     * changes.
      */
-    event balanceMutation(address account, uint256 balance);
+    event TVLUpdateEvent(uint256 newTVL);
 
     /**
-     * @dev Emitted to indicate that a withdrawal request has been queued or removed
-     * from the queue. This is used by the withdrawal server to keep track of requests.
-     * @param index The index of the withdrawal request in the queue.
+     * @dev Emitted to indicate a state change related to deposit and withdrawals.
+     * @param id (optional) Used to dedup withdrawal requests events while indexing. Else -1.
+     * @param account The account concerned by the activity.
+     * @param action The action that triggered the event.
+     * @param amount The amount of underlying tokens involved in the activity.
+     * @param newStatus The new status of the activity.
      */
-    event addedQueuedWithdrawalRequest(uint256 index);
-    event cancelledQueuedWithdrawalRequest(uint256 index);
-    event proceededQueuedWithdrawalRequests(uint256[] indexes);
+    event ActivityEvent(
+        int256 indexed id,
+        address indexed account,
+        Action indexed action,
+        uint256 amount,
+        Status newStatus
+    );
+
+    event MintedRewardsEvent(address indexed account, uint256 balanceBefore, uint256 rewards);
 
     /**
      * @dev Restrict targeted function to the withdrawal server's wallet (a.k.a withdrawer).
@@ -208,8 +226,14 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @inheritdoc InvestUpgradeable
      */
     function _claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
+        // Retrieve balance before minting rewards
+        uint256 balanceBefore = realBalanceOf(account);
+
         // Mint rewarded L-Tokens to account
         _mint(account, amount);
+
+        // Inform of the rewards minting
+        emit MintedRewardsEvent(account, balanceBefore, amount);
 
         // Return true indicating to InvestUpgradeable that the rewards have been claimed
         return true;
@@ -247,19 +271,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         ERC20BaseUpgradeable._beforeTokenTransfer(from, to, amount);
         if (from != address(0)) _resetInvestmentPeriodOf(from, true);
         if (to != address(0)) _resetInvestmentPeriodOf(to, true);
-    }
 
-    /**
-     * @dev Override of ERC20._afterTokenTransfer() hook that emits events indicating
-     * mutations of implied accounts' balances. This is used off-chain to draw a precise
-     * investment growth.
-     * mutation and that ensures the contract ends healthy after each transfer.
-     * @inheritdoc ERC20Upgradeable
-     */
-    function _afterTokenTransfer(address from, address to, uint256 amount) internal override {
-        super._afterTokenTransfer(from, to, amount);
-        if (from != address(0)) emit balanceMutation(from, balanceOf(from));
-        if (to != address(0)) emit balanceMutation(to, balanceOf(to));
+        // In some L-Token are burned or minted, inform of TVL change
+        if (from == address(0) || to == address(0)) emit TVLUpdateEvent(totalSupply());
     }
 
     /**
@@ -313,12 +327,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param amount The amount of underlying tokens to deposit
      */
     function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
-        // _resetInvestmentPeriodOf(_msgSender(), true);
-
         // Receive deposited underlying tokens and mint L-Token to the account in a 1:1 ratio
         underlying().approve(address(this), amount);
         super.depositFor(_msgSender(), amount);
         usableBalance += amount;
+
+        // Emit activity event to inform of the deposit
+        emit ActivityEvent(-1, _msgSender(), Action.Deposit, amount, Status.Success);
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
@@ -385,6 +400,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         super.withdrawTo(_msgSender(), withdrawnAmount);
         usableBalance -= amount;
 
+        // Emit activity event to inform of the instant withdrawal
+        emit ActivityEvent(-1, _msgSender(), Action.Withdraw, withdrawnAmount, Status.Success);
+
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
     }
@@ -423,6 +441,15 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             // while adding request to queue, so we just need to transfer underlying tokens.
             SafeERC20Upgradeable.safeTransfer(underlying(), request.account, withdrawnAmount);
 
+            // Emit activity event to inform of the withdrawal processing
+            emit ActivityEvent(
+                int256(requestId),
+                request.account,
+                Action.Withdraw,
+                withdrawnAmount,
+                Status.Success
+            );
+
             // Remove request
             delete withdrawalQueue[requestId];
             cumulatedAmount += request.amount;
@@ -434,9 +461,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
-
-        // Finally emit an event to notify the processing of those requests
-        emit proceededQueuedWithdrawalRequests(requestIds);
     }
 
     /**
@@ -475,6 +499,15 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Transfer underlying tokens from fund reserve to request account
         transferFrom(fund, request.account, withdrawnAmount);
 
+        // Emit activity event to inform of the instant withdrawal
+        emit ActivityEvent(
+            int256(requestId),
+            request.account,
+            Action.Withdraw,
+            withdrawnAmount,
+            Status.Success
+        );
+
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
     }
@@ -497,16 +530,21 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         (bool sent, ) = withdrawer.call{value: msg.value}("");
         require(sent, "Failed to forward Ethers to withdrawer");
 
-        // Reset investment period of account and burn withdrawn L-Tokens amount
-        // _resetInvestmentPeriodOf(_msgSender(), true);
+        // Burn withdrawn L-Tokens amount
         _burn(_msgSender(), amount);
 
         // Add the withdrawal request to the queue and update the total amount in queue
         withdrawalQueue.push(WithdrawalRequest({account: _msgSender(), amount: uint96(amount)}));
         totalQueued += amount;
 
-        // Finally emit an event to notify the request addition
-        emit addedQueuedWithdrawalRequest(withdrawalQueue.length - 1);
+        // Emit activity event to inform of the withdrawal request
+        emit ActivityEvent(
+            int256(withdrawalQueue.length - 1),
+            _msgSender(),
+            Action.Withdraw,
+            amount,
+            Status.Queued
+        );
     }
 
     /**
@@ -530,8 +568,14 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Delete the withdrawal request from queue
         delete withdrawalQueue[requestId];
 
-        // Finally emit an event to notify the request removal
-        emit cancelledQueuedWithdrawalRequest(requestId);
+        // Emit activity event to inform of the withdrawal cancel
+        emit ActivityEvent(
+            int256(requestId),
+            _msgSender(),
+            Action.Withdraw,
+            request.amount,
+            Status.Cancelled
+        );
     }
 
     /**

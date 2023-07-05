@@ -35,6 +35,8 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
 
+    event TotalStakedUpdateEvent(uint256 newTotalStaked);
+
     function initialize(address _globalOwner) public initializer {
         __Base_init(_globalOwner);
         __Invest_init(address(0));
@@ -169,6 +171,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         // Update the amount staked by the account and the total amount staked
         accountStake.amount += amount;
         totalStaked += amount;
+        emit TotalStakedUpdateEvent(totalStaked);
 
         // Update the end of the lock period
         accountStake.lockEnd = _getNewLockEnd(_msgSender(), amount);
@@ -200,6 +203,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         // Update the amount staked by the account and the total amount staked
         accountStake.amount -= amount;
         totalStaked -= amount;
+        emit TotalStakedUpdateEvent(totalStaked);
 
         // Write the new account stake
         accountsStakes[_msgSender()] = accountStake;
@@ -242,6 +246,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         // Update the amount staked by the account and the total amount staked
         accountStake.amount += uint216(rewards);
         totalStaked += rewards;
+        emit TotalStakedUpdateEvent(totalStaked);
 
         // Write the new account stake
         accountsStakes[_msgSender()] = accountStake;

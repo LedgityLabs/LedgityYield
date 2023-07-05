@@ -2,12 +2,16 @@ import { FC } from "react";
 import Image, { type StaticImageData } from "next/image";
 import iconDark from "~/assets/logo/iconDark.png";
 import usdcTokenLogo from "~/assets/tokens/usdc.png";
+import lusdcTokenLogo from "~/assets/tokens/lusdc.png";
 import eurocTokenLogo from "~/assets/tokens/euroc.png";
+import leurocTokenLogo from "~/assets/tokens/leuroc.png";
 import unknownTokenLogo from "~/assets/tokens/unknown.svg";
 
 export const tokensLogos: Record<string, StaticImageData> = {
   USDC: usdcTokenLogo,
   EUROC: eurocTokenLogo,
+  LEUROC: leurocTokenLogo,
+  LUSDC: lusdcTokenLogo,
 };
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {

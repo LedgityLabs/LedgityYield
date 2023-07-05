@@ -61,6 +61,12 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
     APRC.Pack[] private packedAPRCheckpoints;
 
     /**
+     * @dev Called each time the total supply and so indirectly the TVL of the contract
+     * changes.
+     */
+    event APRUpdateEvent(uint16 newAPR);
+
+    /**
      * @dev Initializer function allowing to set invested token contract at deploy time.
      * @param invested_ The invested token's contract address.
      */
@@ -78,6 +84,7 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
 
     function setAPR(uint16 aprUD3) public onlyOwner {
         APRC.setAPR(packedAPRCheckpoints, aprUD3);
+        emit APRUpdateEvent(aprUD3);
     }
 
     function getApr() public view returns (uint16) {

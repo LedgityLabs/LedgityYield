@@ -1,0 +1,78 @@
+specVersion: 0.0.6
+description: A subgraph of Ledgity DeFi data
+repository: https://github.com/ledgity-labs/dapp
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: LTYStaking
+    network: mainnet
+    source:
+      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+      abi: LTYStaking
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LTYStaking
+        - TotalStakedUpdate
+      abis:
+        - name: LTYStaking
+          file: ../hardhat/abis/LTYStaking.json
+      eventHandlers:
+        - event: TotalStakedUpdateEvent(uint256)
+          handler: handleTotalStakedEvent
+
+  - kind: ethereum/contract
+    name: LTokenSignaler
+    network: mainnet
+    source:
+      address: "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
+      abi: LTokenSignaler
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LToken
+      abis:
+        - name: LTokenSignaler
+          file: ../hardhat/abis/LTokenSignaler.json
+      eventHandlers:
+        - event: LTokenSignalEvent(indexed address)
+          handler: handleSignaledLToken
+
+templates:
+  - kind: ethereum/contract
+    name: LToken
+    network: mainnet
+    source:
+      abi: LToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LToken
+        - TVLUpdate
+        - APRUpdate
+        - Activity
+        - RewardsMint
+      abis:
+        - name: LToken
+          file: ../hardhat/abis/LToken.json
+      eventHandlers:
+        - event: TVLUpdateEvent(uint256)
+          handler: handleTVLUpdateEvent
+        - event: APRUpdateEvent(uint16)
+          handler: handleAPRUpdateEvent
+        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint8)
+          handler: handleActivityEvent
+        - event: MintedRewardsEvent(indexed address,uint256,uint256)
+          handler: handleMintedRewardsEvent

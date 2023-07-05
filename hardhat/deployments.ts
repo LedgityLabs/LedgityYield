@@ -5,7 +5,8 @@ import GlobalBlacklistJSON from "./artifacts/hardhat/contracts/GlobalBlacklist.s
 import LTYStakingJSON from "./artifacts/hardhat/contracts/LTYStaking.sol/LTYStaking.json";
 import LTokenJSON from "./artifacts/hardhat/contracts/LToken.sol/LToken.json";
 import ERC20JSON from "./artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json";
-import Multicall3Json from "./artifacts/hardhat/contracts/Multicall3.sol/Multicall3.json";
+import LTokenSignalerJSON from "./artifacts/hardhat/contracts/LTokenSignaler.sol/LTokenSignaler.json";
+import Multicall3JSON from "./artifacts/hardhat/contracts/Multicall3.sol/Multicall3.json";
 
 export const testnetIds = [
   31337, // Hardhat
@@ -88,10 +89,16 @@ const _contracts = {
       31337: "0x9A676e781A523b5d0C0e43731313A708CB607508",
     },
   },
-  Multicall3: {
-    abi: Multicall3Json.abi,
+  LTokenSignaler: {
+    abi: LTokenSignalerJSON.abi,
     address: {
       31337: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+    },
+  },
+  Multicall3: {
+    abi: Multicall3JSON.abi,
+    address: {
+      31337: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
     },
   },
 } as const;
