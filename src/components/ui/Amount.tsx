@@ -59,7 +59,8 @@ export const Amount: FC<Props> = ({
         <TooltipContent className="font-heading font-bold inline-flex flex-col justify-center items-center gap-2">
           <span>
             {prefix}
-            {d3.format(",")(numberValue)}
+            {numberValue.toLocaleString()}
+            {/* {d3.format(",")(numberValue)} */}
             {suffix}
           </span>
           {tooltipChildren}

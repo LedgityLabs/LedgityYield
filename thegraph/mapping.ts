@@ -149,6 +149,7 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
       growth = rewards.div(balanceBefore);
     }
     rewardsMint.growth = growth;
+    ltoken.totalMintedRewards = ltoken.totalMintedRewards.plus(rewards);
 
     rewardsMint.save();
     ltoken.save();
