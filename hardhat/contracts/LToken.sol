@@ -23,14 +23,14 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     enum Action {
-        Withdraw,
-        Deposit
+        Deposit,
+        Withdraw
     }
 
     enum Status {
-        Success,
+        Queued,
         Cancelled,
-        Queued
+        Success
     }
 
     /**
@@ -328,7 +328,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      */
     function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
         // Receive deposited underlying tokens and mint L-Token to the account in a 1:1 ratio
-        underlying().approve(address(this), amount);
         super.depositFor(_msgSender(), amount);
         usableBalance += amount;
 
@@ -591,7 +590,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(newBalance <= getExpectedRetained(), "Retained underlying limit exceeded");
 
         // Transfer amount from fund wallet to contract
-        underlying().approve(address(this), amount);
         underlying().safeTransferFrom(fund, address(this), amount);
         usableBalance += amount;
     }

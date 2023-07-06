@@ -113,10 +113,10 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 );
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-export const DApp: FC<Props> = async ({ children }) => {
+export const DApp: FC<Props> = async (props?: Props) => {
   return (
     <WagmiConfig config={config}>
       <RainbowKitProvider
@@ -129,7 +129,7 @@ export const DApp: FC<Props> = async ({ children }) => {
         }}
         showRecentTransactions={true}
       >
-        <SwitchNetworkProvider>{children}</SwitchNetworkProvider>
+        <SwitchNetworkProvider>{props && props.children}</SwitchNetworkProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

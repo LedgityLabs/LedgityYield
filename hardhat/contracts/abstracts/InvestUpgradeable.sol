@@ -11,6 +11,7 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
 import {UDS3} from "../libs/UDS3.sol";
+import "hardhat/console.sol";
 
 /**
  * @title InvestUpgradeable
@@ -59,6 +60,9 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
 
     /// @dev Holds APR checkpoints (see APRCheckpoints.sol)
     APRC.Pack[] private packedAPRCheckpoints;
+
+    /// @dev Prevent claim re-entrancy / infinite loop
+    bool private _isClaiming;
 
     /**
      * @dev Called each time the total supply and so indirectly the TVL of the contract
@@ -129,7 +133,9 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @return The converted number.
      */
     function toDecimals(uint256 n) internal view returns (uint256) {
+        console.log("toDecimals");
         uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
+        console.log("decimals: ", decimals);
         return n * 10 ** decimals;
     }
 
@@ -271,17 +277,22 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @param autocompound Whether to autocompound the rewards or not.
      */
     function _resetInvestmentPeriodOf(address account, bool autocompound) internal virtual {
-        // Claim user rewards using claimRewardsOf() if it has been implemented by child
-        // contract (returns true), else compound them in virtualBalance.
-        uint256 rewards = _rewardsOf(account, autocompound);
-        if (rewards > 0) {
-            if (!_claimRewardsOf(account, rewards))
-                accountsInfos[account].virtualBalance = uint88(rewards);
-        }
+        if (!_isClaiming) {
+            console.log("RESET INVESTMENT PERIOD!");
+            // Claim user rewards using claimRewardsOf() if it has been implemented by child
+            // contract (returns true), else compound them in virtualBalance.
+            uint256 rewards = _rewardsOf(account, autocompound);
+            if (rewards > 0 && rewards > accountsInfos[account].virtualBalance) {
+                _isClaiming = true;
+                if (!_claimRewardsOf(account, rewards))
+                    accountsInfos[account].virtualBalance = uint88(rewards);
+                _isClaiming = false;
+            }
 
-        // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
-        accountsInfos[account].period.timestamp = uint40(block.timestamp);
-        accountsInfos[account].period.ref = APRC.getLatestReference(packedAPRCheckpoints);
+            // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
+            accountsInfos[account].period.timestamp = uint40(block.timestamp);
+            accountsInfos[account].period.ref = APRC.getLatestReference(packedAPRCheckpoints);
+        }
     }
 
     /**

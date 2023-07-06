@@ -1,5 +1,6 @@
 type LToken @entity {
-  id: ID! # Token symbol
+  id: ID! # Token address
+  symbol: String!
   tvlUpdates: [TVLUpdate!] @derivedFrom(field: "ltoken")
   aprUpdates: [APRUpdate!] @derivedFrom(field: "ltoken")
   activities: [Activity!] @derivedFrom(field: "ltoken")
@@ -22,14 +23,15 @@ type APRUpdate @entity(immutable: true) {
 }
 
 enum ActivityAction {
-  WITHDRAW
-  DEPOSIT
+  Deposit
+  Withdraw
 }
 
 enum ActivityStatus {
-  SUCCESS
-  CANCELLED
-  QUEUED
+  Queued
+  Cancelled
+  Success # Sucess for deposits
+  Fulfilled # Success for withdrawals
 }
 
 type Activity @entity {

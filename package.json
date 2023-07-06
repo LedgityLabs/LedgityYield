@@ -43,6 +43,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@graphprotocol/client-cli": "^3.0.0",
     "@graphprotocol/graph-ts": "^0.31.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
