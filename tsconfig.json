@@ -21,7 +21,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "~/*": ["./public/*"]
+      "~/*": ["./public/*"],
+      "graphclient": ["./.graphclient/"]
     }
   },
   "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "~/src/env.mjs"],

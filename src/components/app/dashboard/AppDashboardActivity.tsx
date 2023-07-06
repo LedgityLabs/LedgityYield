@@ -16,8 +16,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  Spinner,
 } from "@/components/ui";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   SortingState,
@@ -28,222 +29,277 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
+import { Activity, execute } from "graphclient";
+import { useWalletClient } from "wagmi";
 
-interface ActivityData {
-  datetime: number;
-  action: "deposit" | "withdraw";
-  amount: [bigint, number]; // [amount, decimals]
-  token: string;
-  status: "success" | "fulfilled" | "cancelled" | "queued";
+interface FormattedActivity extends Omit<Activity, "ltoken"> {
+  ltoken: [string, number]; // [token, decimals]
+  // decimals: number;
 }
 
-const activityData: ActivityData[] = [
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [189874654984002n, 6],
-    token: "USDC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [798421984002n, 6],
-    token: "USDC",
-    status: "cancelled",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [95473984002n, 6],
-    token: "EUROC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [1024984002n, 6],
-    token: "EUROC",
-    status: "fulfilled",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [46245000984002n, 6],
-    token: "USDC",
-    status: "queued",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [189874654984002n, 6],
-    token: "USDC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [798421984002n, 6],
-    token: "USDC",
-    status: "cancelled",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [95473984002n, 6],
-    token: "EUROC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [1024984002n, 6],
-    token: "EUROC",
-    status: "fulfilled",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [46245000984002n, 6],
-    token: "USDC",
-    status: "queued",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [189874654984002n, 6],
-    token: "USDC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [798421984002n, 6],
-    token: "USDC",
-    status: "cancelled",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [95473984002n, 6],
-    token: "EUROC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [1024984002n, 6],
-    token: "EUROC",
-    status: "fulfilled",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [46245000984002n, 6],
-    token: "USDC",
-    status: "queued",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [189874654984002n, 6],
-    token: "USDC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [798421984002n, 6],
-    token: "USDC",
-    status: "cancelled",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [95473984002n, 6],
-    token: "EUROC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [1024984002n, 6],
-    token: "EUROC",
-    status: "fulfilled",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [46245000984002n, 6],
-    token: "USDC",
-    status: "queued",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [189874654984002n, 6],
-    token: "USDC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [798421984002n, 6],
-    token: "USDC",
-    status: "cancelled",
-  },
-  {
-    datetime: Date.now(),
-    action: "deposit",
-    amount: [95473984002n, 6],
-    token: "EUROC",
-    status: "success",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [1024984002n, 6],
-    token: "EUROC",
-    status: "fulfilled",
-  },
-  {
-    datetime: Date.now(),
-    action: "withdraw",
-    amount: [46245000984002n, 6],
-    token: "USDC",
-    status: "queued",
-  },
-];
+// interface ActivityData {
+//   datetime: number;
+//   action: "deposit" | "withdraw";
+//   amount: [bigint, number]; // [amount, decimals]
+//   token: string;
+//   status: "success" | "fulfilled" | "cancelled" | "queued";
+// }
+
+// const _activityData: ActivityData[] = [
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [189874654984002n, 6],
+//     token: "USDC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [798421984002n, 6],
+//     token: "USDC",
+//     status: "cancelled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [95473984002n, 6],
+//     token: "EUROC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [1024984002n, 6],
+//     token: "EUROC",
+//     status: "fulfilled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [46245000984002n, 6],
+//     token: "USDC",
+//     status: "queued",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [189874654984002n, 6],
+//     token: "USDC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [798421984002n, 6],
+//     token: "USDC",
+//     status: "cancelled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [95473984002n, 6],
+//     token: "EUROC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [1024984002n, 6],
+//     token: "EUROC",
+//     status: "fulfilled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [46245000984002n, 6],
+//     token: "USDC",
+//     status: "queued",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [189874654984002n, 6],
+//     token: "USDC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [798421984002n, 6],
+//     token: "USDC",
+//     status: "cancelled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [95473984002n, 6],
+//     token: "EUROC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [1024984002n, 6],
+//     token: "EUROC",
+//     status: "fulfilled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [46245000984002n, 6],
+//     token: "USDC",
+//     status: "queued",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [189874654984002n, 6],
+//     token: "USDC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [798421984002n, 6],
+//     token: "USDC",
+//     status: "cancelled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [95473984002n, 6],
+//     token: "EUROC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [1024984002n, 6],
+//     token: "EUROC",
+//     status: "fulfilled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [46245000984002n, 6],
+//     token: "USDC",
+//     status: "queued",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [189874654984002n, 6],
+//     token: "USDC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [798421984002n, 6],
+//     token: "USDC",
+//     status: "cancelled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "deposit",
+//     amount: [95473984002n, 6],
+//     token: "EUROC",
+//     status: "success",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [1024984002n, 6],
+//     token: "EUROC",
+//     status: "fulfilled",
+//   },
+//   {
+//     datetime: Date.now(),
+//     action: "withdraw",
+//     amount: [46245000984002n, 6],
+//     token: "USDC",
+//     status: "queued",
+//   },
+// ];
 
 export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ className }) => {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const columnHelper = createColumnHelper<ActivityData>();
+  const { data: walletClient } = useWalletClient();
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "timestamp",
+      desc: true,
+    },
+  ]);
+  const columnHelper = createColumnHelper<FormattedActivity>();
+  const [activityData, setActivityData] = useState<FormattedActivity[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (walletClient) {
+      setIsLoading(true);
+      execute(
+        `
+      {
+        activities(where: { account: "${walletClient.account.address}" }) {
+          id
+          ltoken {
+            symbol
+          }
+          timestamp
+          action
+          amount
+          status
+        }
+      }
+    `,
+        {}
+      ).then(
+        (result: {
+          data: {
+            activities: Activity[];
+          };
+        }) => {
+          const formattedActivities: FormattedActivity[] = result.data.activities.map((activity) => ({
+            ...activity,
+            ltoken: [activity.ltoken.symbol, 6],
+            // decimals: 6,
+          }));
+
+          setActivityData(formattedActivities);
+          setIsLoading(false);
+        }
+      );
+    }
+  }, [setActivityData, walletClient]);
 
   const activityColumns = [
-    columnHelper.accessor("datetime", {
+    columnHelper.accessor("timestamp", {
       header: "Date",
-      cell: (info) => (
-        <DateTime
-          timestamp={info.getValue()}
-          output="date"
-          className="cursor-help text-fg/50 font-normal"
-        />
-      ),
+      cell: (info) => {
+        return (
+          <DateTime
+            timestamp={Number.parseInt(info.getValue()) * 1000}
+            output="date"
+            className="cursor-help text-fg/50 font-normal"
+          />
+        );
+      },
     }),
     columnHelper.accessor("action", {
       header: "Action",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("token", {
+    columnHelper.accessor("ltoken", {
       header: "Token",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue()[0],
     }),
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => {
-        const [amount, decimals] = info.getValue();
-        const tokenSymbol = info.row.getValue("token") as string;
-        return <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />;
+        const amount = info.getValue();
+        const [symbol, decimals] = info.row.getValue("ltoken") as [string, number];
+        return <Amount value={amount} decimals={decimals} suffix={symbol} displaySymbol={false} />;
       },
     }),
 
@@ -258,22 +314,22 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             <div
               className={clsx(
                 "block w-3 h-3 aspect-square border-2 rounded-full",
-                ["fulfilled", "success"].includes(status) && "bg-emerald-200 border-emerald-500",
-                status === "queued" && "bg-amber-200 border-amber-500",
-                status === "cancelled" && "bg-red-200 border-red-500"
+                ["Fulfilled", "Success"].includes(status) && "bg-emerald-200 border-emerald-500",
+                status === "Queued" && "bg-amber-200 border-amber-500",
+                status === "Cancelled" && "bg-red-200 border-red-500"
               )}
             ></div>
             <div
               className={clsx(
                 "font-semibold flex gap-2 justify-center items-center",
-                ["fulfilled", "success"].includes(status) && "text-emerald-500",
-                status === "queued" && "text-amber-500",
-                status === "cancelled" && "text-red-500"
+                ["Fulfilled", "Success"].includes(status) && "text-emerald-500",
+                status === "Queued" && "text-amber-500",
+                status === "Cancelled" && "text-red-500"
               )}
             >
               <p>{status}</p>
             </div>
-            {status === "queued" && (
+            {status === "Queued" && (
               <AlertDialog>
                 <Tooltip>
                   <TooltipTrigger asChild className="absolute -inset-y-1 inset-x-0">
@@ -317,7 +373,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       },
     }),
   ];
-  const sortableColumns = ["datetime", "action", "amount", "token", "status"];
+  const sortableColumns = ["timestamp", "action", "amount", "ltoken", "status"];
 
   const table = useReactTable({
     data: activityData,
@@ -372,7 +428,14 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         })}
         {(() => {
           const tableRows = table.getRowModel().rows;
-          if (tableRows.length === 0) return <p>No results.</p>;
+          if (isLoading)
+            return (
+              <div className="col-span-full py-4 flex justify-center items-center">
+                <Spinner />
+              </div>
+            );
+          else if (tableRows.length === 0)
+            return <p className="col-span-full text-center py-4">Nothing yet.</p>;
           else {
             return tableRows.map((row, rowIndex) =>
               row.getVisibleCells().map((cell, cellIndex) => (

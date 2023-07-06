@@ -1224,7 +1224,7 @@ const schemaAST = {
           "kind": "EnumValueDefinition",
           "name": {
             "kind": "Name",
-            "value": "WITHDRAW"
+            "value": "Deposit"
           },
           "directives": []
         },
@@ -1232,7 +1232,7 @@ const schemaAST = {
           "kind": "EnumValueDefinition",
           "name": {
             "kind": "Name",
-            "value": "DEPOSIT"
+            "value": "Withdraw"
           },
           "directives": []
         }
@@ -1250,7 +1250,7 @@ const schemaAST = {
           "kind": "EnumValueDefinition",
           "name": {
             "kind": "Name",
-            "value": "SUCCESS"
+            "value": "Queued"
           },
           "directives": []
         },
@@ -1258,7 +1258,7 @@ const schemaAST = {
           "kind": "EnumValueDefinition",
           "name": {
             "kind": "Name",
-            "value": "CANCELLED"
+            "value": "Cancelled"
           },
           "directives": []
         },
@@ -1266,7 +1266,15 @@ const schemaAST = {
           "kind": "EnumValueDefinition",
           "name": {
             "kind": "Name",
-            "value": "QUEUED"
+            "value": "Success"
+          },
+          "directives": []
+        },
+        {
+          "kind": "EnumValueDefinition",
+          "name": {
+            "kind": "Name",
+            "value": "Fulfilled"
           },
           "directives": []
         }

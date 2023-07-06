@@ -100,13 +100,14 @@ export type Activity = {
 };
 
 export type ActivityAction =
-  | 'WITHDRAW'
-  | 'DEPOSIT';
+  | 'Deposit'
+  | 'Withdraw';
 
 export type ActivityStatus =
-  | 'SUCCESS'
-  | 'CANCELLED'
-  | 'QUEUED';
+  | 'Queued'
+  | 'Cancelled'
+  | 'Success'
+  | 'Fulfilled';
 
 export type Activity_filter = {
   id?: InputMaybe<Scalars['ID']>;

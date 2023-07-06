@@ -92,14 +92,15 @@ type Activity {
 }
 
 enum ActivityAction {
-  WITHDRAW
-  DEPOSIT
+  Deposit
+  Withdraw
 }
 
 enum ActivityStatus {
-  SUCCESS
-  CANCELLED
-  QUEUED
+  Queued
+  Cancelled
+  Success
+  Fulfilled
 }
 
 input Activity_filter {
