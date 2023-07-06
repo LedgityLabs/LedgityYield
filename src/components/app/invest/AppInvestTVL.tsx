@@ -19,7 +19,7 @@ export const AppInvestTVL: FC<Props> = ({}) => {
   const computeTvlUsd = async () => {
     setIsLoading(true);
     let newTvlUsd = 0n;
-    const proms: Promise<bigint | number>[] = [];
+    const proms: Promise<bigint | string | number>[] = [];
     for (const lTokenId of lTokens) {
       const lTokenAddress = getContractAddress(lTokenId, publicClient.chain.id);
       proms.push(
@@ -28,9 +28,7 @@ export const AppInvestTVL: FC<Props> = ({}) => {
           functionName: "totalSupply",
         })
       );
-      proms.push(
-        getTokenUSDRate(lTokenId.slice(1) as ContractId).then((rate) => parseUnits(rate.toString(), 6))
-      );
+      proms.push(getTokenUSDRate(lTokenId.slice(1) as ContractId).then((rate) => rate.toString()));
       proms.push(
         readLToken({
           address: lTokenAddress!,
@@ -39,9 +37,10 @@ export const AppInvestTVL: FC<Props> = ({}) => {
       );
     }
     Promise.all(proms).then((results) => {
-      const lTokensData = chunkArray(results, 3) as [bigint, bigint, number][];
+      const lTokensData = chunkArray(results, 3) as [bigint, string, number][];
       for (const lTokenData of lTokensData) {
-        newTvlUsd += (lTokenData[0] * lTokenData[1]) / parseUnits("1", lTokenData[2]);
+        newTvlUsd +=
+          (lTokenData[0] * parseUnits(lTokenData[1], lTokenData[2])) / parseUnits("1", lTokenData[2]);
       }
       setTvlUsd(newTvlUsd);
       setIsLoading(false);

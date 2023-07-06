@@ -39,6 +39,7 @@ import {
   useLTokenWithdrawalRequestAmount,
   usePrepareLTokenCancelWithdrawalRequest,
 } from "@/generated";
+import { parseUnits } from "viem";
 
 const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint }> = ({ ltokenId, requestId }) => {
   const ltokenAddress = useContractAddress(ltokenId);
@@ -135,8 +136,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           status
         }
       }
-    `,
-        {}
+    `
       ).then(
         (result: {
           data: {
@@ -174,12 +174,12 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => {
-        const amount = info.getValue();
-        const amountAfterFees = activityData[info.row.index].amountAfterFees;
+        const amount = info.getValue() as string;
+        const amountAfterFees = activityData[info.row.index].amountAfterFees as string;
         const ltoken = info.row.getValue("ltoken") as LToken;
         return (
           <Amount
-            value={amount}
+            value={BigInt(amount)}
             decimals={ltoken.decimals}
             suffix={ltoken.symbol}
             displaySymbol={false}
@@ -189,7 +189,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                   <span className="font-medium opacity-80">Received after fees: </span>
                   <Amount
                     tooltip={false}
-                    value={amountAfterFees}
+                    value={BigInt(amountAfterFees)}
                     decimals={ltoken.decimals}
                     suffix={ltoken.symbol}
                   />{" "}

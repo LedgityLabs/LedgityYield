@@ -29,7 +29,7 @@ export function handleSignaledLToken(event: LTokenSignalEvent): void {
     ltoken = new LTokenSchema(ltokenAddress);
     ltoken.symbol = LToken.bind(event.params.lTokenAddress).symbol();
     ltoken.decimals = LToken.bind(event.params.lTokenAddress).decimals();
-    ltoken.totalMintedRewards = BigDecimal.fromString("0");
+    ltoken.totalMintedRewards = BigDecimal.fromString("1");
     ltoken.save();
   }
 }
@@ -93,7 +93,7 @@ export function handleActivityEvent(event: ActivityEvent): void {
     const activityID =
       event.params.id.toString() +
       "-" +
-      event.params.account.toString() +
+      event.params.account.toHexString() +
       "-" +
       action +
       "-" +

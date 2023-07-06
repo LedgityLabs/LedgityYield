@@ -3783,7 +3783,7 @@ const schemaAST = {
               "kind": "NamedType",
               "name": {
                 "kind": "Name",
-                "value": "BigDecimal"
+                "value": "BigInt"
               }
             }
           },
@@ -4446,7 +4446,7 @@ const schemaAST = {
             "kind": "NamedType",
             "name": {
               "kind": "Name",
-              "value": "BigDecimal"
+              "value": "BigInt"
             }
           },
           "directives": []
@@ -4461,7 +4461,7 @@ const schemaAST = {
             "kind": "NamedType",
             "name": {
               "kind": "Name",
-              "value": "BigDecimal"
+              "value": "BigInt"
             }
           },
           "directives": []
@@ -4476,7 +4476,7 @@ const schemaAST = {
             "kind": "NamedType",
             "name": {
               "kind": "Name",
-              "value": "BigDecimal"
+              "value": "BigInt"
             }
           },
           "directives": []
@@ -4491,7 +4491,7 @@ const schemaAST = {
             "kind": "NamedType",
             "name": {
               "kind": "Name",
-              "value": "BigDecimal"
+              "value": "BigInt"
             }
           },
           "directives": []
@@ -4506,7 +4506,7 @@ const schemaAST = {
             "kind": "NamedType",
             "name": {
               "kind": "Name",
-              "value": "BigDecimal"
+              "value": "BigInt"
             }
           },
           "directives": []
@@ -4521,7 +4521,7 @@ const schemaAST = {
             "kind": "NamedType",
             "name": {
               "kind": "Name",
-              "value": "BigDecimal"
+              "value": "BigInt"
             }
           },
           "directives": []
@@ -4540,7 +4540,7 @@ const schemaAST = {
                 "kind": "NamedType",
                 "name": {
                   "kind": "Name",
-                  "value": "BigDecimal"
+                  "value": "BigInt"
                 }
               }
             }
@@ -4561,7 +4561,7 @@ const schemaAST = {
                 "kind": "NamedType",
                 "name": {
                   "kind": "Name",
-                  "value": "BigDecimal"
+                  "value": "BigInt"
                 }
               }
             }

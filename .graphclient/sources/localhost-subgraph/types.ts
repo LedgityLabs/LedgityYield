@@ -265,7 +265,7 @@ export type LToken = {
   aprUpdates?: Maybe<Array<APRUpdate>>;
   activities?: Maybe<Array<Activity>>;
   rewardsMints?: Maybe<Array<RewardsMint>>;
-  totalMintedRewards: Scalars['BigDecimal'];
+  totalMintedRewards: Scalars['BigInt'];
 };
 
 
@@ -345,14 +345,14 @@ export type LToken_filter = {
   aprUpdates_?: InputMaybe<APRUpdate_filter>;
   activities_?: InputMaybe<Activity_filter>;
   rewardsMints_?: InputMaybe<RewardsMint_filter>;
-  totalMintedRewards?: InputMaybe<Scalars['BigDecimal']>;
-  totalMintedRewards_not?: InputMaybe<Scalars['BigDecimal']>;
-  totalMintedRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
-  totalMintedRewards_lt?: InputMaybe<Scalars['BigDecimal']>;
-  totalMintedRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
-  totalMintedRewards_lte?: InputMaybe<Scalars['BigDecimal']>;
-  totalMintedRewards_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  totalMintedRewards_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalMintedRewards?: InputMaybe<Scalars['BigInt']>;
+  totalMintedRewards_not?: InputMaybe<Scalars['BigInt']>;
+  totalMintedRewards_gt?: InputMaybe<Scalars['BigInt']>;
+  totalMintedRewards_lt?: InputMaybe<Scalars['BigInt']>;
+  totalMintedRewards_gte?: InputMaybe<Scalars['BigInt']>;
+  totalMintedRewards_lte?: InputMaybe<Scalars['BigInt']>;
+  totalMintedRewards_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalMintedRewards_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
   and?: InputMaybe<Array<InputMaybe<LToken_filter>>>;
