@@ -31,7 +31,7 @@ import {
 } from "@tanstack/react-table";
 import clsx from "clsx";
 import { Activity, LToken, execute } from "graphclient";
-import { usePublicClient, useWalletClient } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { LTokenId } from "../../../../hardhat/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
@@ -124,6 +124,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       {
         activities(where: { account: "${walletClient.account.address}" }) {
           id
+          requestId
           ltoken {
             symbol
             decimals
@@ -131,6 +132,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           timestamp
           action
           amount
+          amountAfterFees
           status
         }
       }
@@ -174,6 +176,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Amount",
       cell: (info) => {
         const amount = info.getValue();
+        const amountAfterFees = activityData[info.row.index].amountAfterFees;
         const ltoken = info.row.getValue("ltoken") as LToken;
         return (
           <Amount
@@ -181,6 +184,19 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             decimals={ltoken.decimals}
             suffix={ltoken.symbol}
             displaySymbol={false}
+            tooltipChildren={
+              amount !== amountAfterFees && (
+                <span>
+                  <span className="font-medium opacity-80">Received after fees: </span>
+                  <Amount
+                    tooltip={false}
+                    value={amountAfterFees}
+                    decimals={ltoken.decimals}
+                    suffix={ltoken.symbol}
+                  />{" "}
+                </span>
+              )
+            }
           />
         );
       },
@@ -191,7 +207,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       cell: (info) => {
         const status = info.getValue();
         const ltoken = info.row.getValue("ltoken") as LToken;
-        const requestId = activityData[info.row.index].id;
+        const requestId = activityData[info.row.index].requestId;
         console.log(requestId);
         return (
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">

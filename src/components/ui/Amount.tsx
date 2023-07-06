@@ -12,6 +12,7 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   suffix?: string;
   displaySymbol?: boolean;
   discardLeadingZeroes?: boolean;
+  tooltipChildren?: React.ReactNode;
 }
 
 export const Amount: FC<Props> = ({
@@ -23,6 +24,7 @@ export const Amount: FC<Props> = ({
   decimals = 0,
   tooltip = true,
   discardLeadingZeroes = false,
+  tooltipChildren,
   ...props
 }) => {
   const numberValue = Number(formatUnits(value || 0n, decimals));
@@ -54,10 +56,13 @@ export const Amount: FC<Props> = ({
           {formattedAmount}
           {displaySymbol && suffix}
         </TooltipTrigger>
-        <TooltipContent className="font-heading font-bold">
-          {prefix}
-          {d3.format(",")(numberValue)}
-          {suffix}
+        <TooltipContent className="font-heading font-bold inline-flex flex-col justify-center items-center gap-2">
+          <span>
+            {prefix}
+            {d3.format(",")(numberValue)}
+            {suffix}
+          </span>
+          {tooltipChildren}
         </TooltipContent>
       </Tooltip>
     );

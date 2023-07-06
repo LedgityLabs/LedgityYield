@@ -92,6 +92,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         address indexed account,
         Action indexed action,
         uint256 amount,
+        uint256 amountAfterFees,
         Status newStatus
     );
 
@@ -332,7 +333,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         usableBalance += amount;
 
         // Emit activity event to inform of the deposit
-        emit ActivityEvent(-1, _msgSender(), Action.Deposit, amount, Status.Success);
+        emit ActivityEvent(-1, _msgSender(), Action.Deposit, amount, amount, Status.Success);
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
@@ -400,7 +401,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         usableBalance -= amount;
 
         // Emit activity event to inform of the instant withdrawal
-        emit ActivityEvent(-1, _msgSender(), Action.Withdraw, withdrawnAmount, Status.Success);
+        emit ActivityEvent(-1, _msgSender(), Action.Withdraw, amount, withdrawnAmount, Status.Success);
 
         // Transfer funds exceeding the retention rate to fund wallet
         _transferExceedingToFund();
@@ -445,6 +446,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                 int256(requestId),
                 request.account,
                 Action.Withdraw,
+                request.amount,
                 withdrawnAmount,
                 Status.Success
             );
@@ -503,6 +505,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             int256(requestId),
             request.account,
             Action.Withdraw,
+            request.amount,
             withdrawnAmount,
             Status.Success
         );
@@ -542,6 +545,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             _msgSender(),
             Action.Withdraw,
             amount,
+            amount,
             Status.Queued
         );
     }
@@ -572,6 +576,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             int256(requestId),
             _msgSender(),
             Action.Withdraw,
+            request.amount,
             request.amount,
             Status.Cancelled
         );

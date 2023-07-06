@@ -92,11 +92,13 @@ export type APRUpdate_orderBy =
 
 export type Activity = {
   id: Scalars['ID'];
+  requestId: Scalars['BigInt'];
   ltoken: LToken;
   timestamp: Scalars['BigInt'];
   account: Scalars['Bytes'];
   action: ActivityAction;
   amount: Scalars['BigDecimal'];
+  amountAfterFees: Scalars['BigDecimal'];
   status: ActivityStatus;
 };
 
@@ -119,6 +121,14 @@ export type Activity_filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_in?: InputMaybe<Array<Scalars['ID']>>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  requestId?: InputMaybe<Scalars['BigInt']>;
+  requestId_not?: InputMaybe<Scalars['BigInt']>;
+  requestId_gt?: InputMaybe<Scalars['BigInt']>;
+  requestId_lt?: InputMaybe<Scalars['BigInt']>;
+  requestId_gte?: InputMaybe<Scalars['BigInt']>;
+  requestId_lte?: InputMaybe<Scalars['BigInt']>;
+  requestId_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  requestId_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   ltoken?: InputMaybe<Scalars['String']>;
   ltoken_not?: InputMaybe<Scalars['String']>;
   ltoken_gt?: InputMaybe<Scalars['String']>;
@@ -170,6 +180,14 @@ export type Activity_filter = {
   amount_lte?: InputMaybe<Scalars['BigDecimal']>;
   amount_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   amount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amountAfterFees?: InputMaybe<Scalars['BigDecimal']>;
+  amountAfterFees_not?: InputMaybe<Scalars['BigDecimal']>;
+  amountAfterFees_gt?: InputMaybe<Scalars['BigDecimal']>;
+  amountAfterFees_lt?: InputMaybe<Scalars['BigDecimal']>;
+  amountAfterFees_gte?: InputMaybe<Scalars['BigDecimal']>;
+  amountAfterFees_lte?: InputMaybe<Scalars['BigDecimal']>;
+  amountAfterFees_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amountAfterFees_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   status?: InputMaybe<ActivityStatus>;
   status_not?: InputMaybe<ActivityStatus>;
   status_in?: InputMaybe<Array<ActivityStatus>>;
@@ -182,6 +200,7 @@ export type Activity_filter = {
 
 export type Activity_orderBy =
   | 'id'
+  | 'requestId'
   | 'ltoken'
   | 'ltoken__id'
   | 'ltoken__symbol'
@@ -191,6 +210,7 @@ export type Activity_orderBy =
   | 'account'
   | 'action'
   | 'amount'
+  | 'amountAfterFees'
   | 'status';
 
 export type BlockChangedFilter = {

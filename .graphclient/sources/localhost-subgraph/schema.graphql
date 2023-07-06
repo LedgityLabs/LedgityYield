@@ -84,11 +84,13 @@ enum APRUpdate_orderBy {
 
 type Activity {
   id: ID!
+  requestId: BigInt!
   ltoken: LToken!
   timestamp: BigInt!
   account: Bytes!
   action: ActivityAction!
   amount: BigDecimal!
+  amountAfterFees: BigDecimal!
   status: ActivityStatus!
 }
 
@@ -113,6 +115,14 @@ input Activity_filter {
   id_lte: ID
   id_in: [ID!]
   id_not_in: [ID!]
+  requestId: BigInt
+  requestId_not: BigInt
+  requestId_gt: BigInt
+  requestId_lt: BigInt
+  requestId_gte: BigInt
+  requestId_lte: BigInt
+  requestId_in: [BigInt!]
+  requestId_not_in: [BigInt!]
   ltoken: String
   ltoken_not: String
   ltoken_gt: String
@@ -164,6 +174,14 @@ input Activity_filter {
   amount_lte: BigDecimal
   amount_in: [BigDecimal!]
   amount_not_in: [BigDecimal!]
+  amountAfterFees: BigDecimal
+  amountAfterFees_not: BigDecimal
+  amountAfterFees_gt: BigDecimal
+  amountAfterFees_lt: BigDecimal
+  amountAfterFees_gte: BigDecimal
+  amountAfterFees_lte: BigDecimal
+  amountAfterFees_in: [BigDecimal!]
+  amountAfterFees_not_in: [BigDecimal!]
   status: ActivityStatus
   status_not: ActivityStatus
   status_in: [ActivityStatus!]
@@ -176,6 +194,7 @@ input Activity_filter {
 
 enum Activity_orderBy {
   id
+  requestId
   ltoken
   ltoken__id
   ltoken__symbol
@@ -185,6 +204,7 @@ enum Activity_orderBy {
   account
   action
   amount
+  amountAfterFees
   status
 }
 

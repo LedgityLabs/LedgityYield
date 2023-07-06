@@ -36,12 +36,14 @@ enum ActivityStatus {
 }
 
 type Activity @entity {
-  id: ID! # Witdhrawal request ID, or random ID if not provided in event data
+  id: ID!
+  requestId: BigInt! # Withdrawal request ID, or -1
   ltoken: LToken!
   timestamp: BigInt!
   account: Bytes!
   action: ActivityAction!
   amount: BigDecimal!
+  amountAfterFees: BigDecimal!
   status: ActivityStatus!
 }
 

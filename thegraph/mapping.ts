@@ -78,27 +78,38 @@ class ActivityAction {
 export function handleActivityEvent(event: ActivityEvent): void {
   let ltoken = LTokenSchema.load(event.address.toHexString());
   if (ltoken) {
-    const activityID = event.params.id.equals(BigInt.fromString("-1"))
-      ? event.transaction.hash.toString()
-      : event.params.id.toString();
-    let activity = Activity.load(activityID);
-    if (activity == null) activity = new Activity(activityID);
-    activity.ltoken = ltoken.id;
-    activity.timestamp = event.block.timestamp;
-    activity.account = event.params.account;
+    let action: string = "";
     switch (event.params.action) {
       case 0:
-        activity.action = ActivityAction.Deposit;
+        action = ActivityAction.Deposit;
         break;
       case 1:
-        activity.action = ActivityAction.Withdraw;
+        action = ActivityAction.Withdraw;
         break;
       default:
-        activity.action = "Unknown";
+        action = "Unknown";
         break;
     }
+    const activityID =
+      event.params.id.toString() +
+      "-" +
+      event.params.account.toString() +
+      "-" +
+      action +
+      "-" +
+      event.params.amount.toString() +
+      "-" +
+      ltoken.symbol;
+    let activity = Activity.load(activityID);
+    if (activity == null) activity = new Activity(event.transaction.hash.toHexString());
 
+    activity.ltoken = ltoken.id;
+    activity.requestId = event.params.id;
+    activity.timestamp = event.block.timestamp;
+    activity.account = event.params.account;
+    activity.action = action;
     activity.amount = event.params.amount.toBigDecimal();
+    activity.amountAfterFees = event.params.amountAfterFees.toBigDecimal();
     switch (event.params.newStatus) {
       case 0:
         activity.status = ActivityStatus.Queued;
