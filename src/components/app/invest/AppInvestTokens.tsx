@@ -21,32 +21,17 @@ import { watchReadContracts } from "@wagmi/core";
 import { ContractId } from "../../../../hardhat/deployments";
 import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
-
-/**
- * This function splits an array into chunks of the given size. E.g., [1,2,3,4,5,6] with chunk size 2
- * will result in [[1,2],[3,4],[5,6]]
- *
- * @param array The array to split
- * @param chunkSize The size of each chunk
- * @returns The array split into chunks
- */
-function chunkArray<T>(array: T[], chunkSize: number): T[][] {
-  return Array.from({ length: Math.ceil(array.length / chunkSize) }, (_, i) =>
-    array.slice(i * chunkSize, i * chunkSize + chunkSize)
-  );
-}
+import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
+import { chunkArray } from "@/lib/chunkArray";
 
 interface Pool {
   tokenSymbol: string;
   apr: number;
   tvl: [bigint, number];
-  tvlUsd: bigint;
   invested: [bigint, number];
 }
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  setTvlUsd: (newTvlUsd: bigint) => void;
-}
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 /**
  * About 'tableData', 'futureTableData' and 'isActionsDialogOpen': As the table is automatically
  * refreshed when on-chain data changes, and while DepositDialog and WithdrawDialog contained in the
@@ -60,7 +45,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
  * 4. Finally, when the user closes the action modal, we call 'setTableData(futureTableData)' to provides it
  *    with most up to date data.
  */
-export const AppInvestTokens: FC<Props> = ({ className, setTvlUsd }) => {
+export const AppInvestTokens: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -70,12 +55,6 @@ export const AppInvestTokens: FC<Props> = ({ className, setTvlUsd }) => {
   const [initialFetch, setInitialFetch] = useState(false);
   let isActionsDialogOpen = useRef(false);
   let futureTableData = useRef<Pool[]>([]);
-
-  let newTvlUsd = 0n;
-  for (const tableRow of tableData) {
-    newTvlUsd += tableRow.tvlUsd;
-  }
-  setTvlUsd(newTvlUsd);
 
   const columns = [
     columnHelper.accessor("tokenSymbol", {
@@ -222,7 +201,6 @@ export const AppInvestTokens: FC<Props> = ({ className, setTvlUsd }) => {
           },
           (data) => {
             const _tableData: Pool[] = [];
-            const proms: Promise<void>[] = [];
             for (const rowData of chunkArray(data, 5)) {
               const tokenSymbol = rowData[0].result! as string;
               const investedAmount = rowData[1].result! as bigint;
@@ -230,38 +208,20 @@ export const AppInvestTokens: FC<Props> = ({ className, setTvlUsd }) => {
               const tvl = rowData[3].result! as bigint;
               const apr = rowData[4].result! as number;
 
-              proms.push(
-                fetch(`https://api.coinbase.com/v2/exchange-rates?currency=${tokenSymbol}`)
-                  .then((response) => response.json()) // Parse the JSON from the response
-                  .then((ratesData) => {
-                    // Extract the USD rate
-                    const usdRate = ratesData.data.rates.USD;
-                    const tvlUsd = parseUnits(
-                      (usdRate * Number(formatUnits(tvl, decimals))).toString(),
-                      6
-                    );
-                    _tableData.push({
-                      tokenSymbol: tokenSymbol,
-                      invested: [investedAmount, decimals],
-                      tvl: [tvl, decimals],
-                      tvlUsd: tvlUsd,
-                      apr: apr,
-                    });
-                  })
-                  .catch((error) => {
-                    console.error(`Error while fetching USD rate of ${tokenSymbol}:`, error);
-                  })
-              );
+              _tableData.push({
+                tokenSymbol: tokenSymbol,
+                invested: [investedAmount, decimals],
+                tvl: [tvl, decimals],
+                apr: apr,
+              });
             }
-            Promise.all(proms).then(() => {
-              if (!isActionsDialogOpen.current) setTableData(_tableData);
-              else futureTableData.current = _tableData;
-              setInitialFetch(true);
-            });
+            if (!isActionsDialogOpen.current) setTableData(_tableData);
+            else futureTableData.current = _tableData;
+            setInitialFetch(true);
           }
         );
       }
-    } else setInitialFetch(true);
+    }
   }
 
   useEffect(() => {

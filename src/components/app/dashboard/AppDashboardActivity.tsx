@@ -118,7 +118,6 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   useEffect(() => {
     if (walletClient) {
       setIsLoading(true);
-      const decimalsMap = new Map<string, number>();
       execute(
         `
       {
@@ -208,7 +207,6 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         const status = info.getValue();
         const ltoken = info.row.getValue("ltoken") as LToken;
         const requestId = activityData[info.row.index].requestId;
-        console.log(requestId);
         return (
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
             <div
