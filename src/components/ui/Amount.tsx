@@ -15,6 +15,14 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   tooltipChildren?: React.ReactNode;
 }
 
+export function formatAmount(value: bigint, decimals: number) {
+  const numberValue = Number(formatUnits(value, decimals));
+  let formattedAmount =
+    numberValue < 1 ? numberValue.toFixed(2).toString() : d3.format(".3s")(numberValue);
+  formattedAmount = formattedAmount.replace("G", "B");
+  return formattedAmount;
+}
+
 export const Amount: FC<Props> = ({
   className,
   value,
@@ -27,10 +35,7 @@ export const Amount: FC<Props> = ({
   tooltipChildren,
   ...props
 }) => {
-  const numberValue = Number(formatUnits(value || 0n, decimals));
-  let formattedAmount =
-    numberValue < 1 ? numberValue.toFixed(2).toString() : d3.format(".3s")(numberValue);
-  formattedAmount = formattedAmount.replace("G", "B");
+  let formattedAmount = formatAmount(value || 0n, decimals);
   if (discardLeadingZeroes) {
     const lastChar = formattedAmount.slice(-1);
     const lastCharIsNumber = /[0-9]/.test(lastChar);
@@ -59,7 +64,7 @@ export const Amount: FC<Props> = ({
         <TooltipContent className="font-heading font-bold inline-flex flex-col justify-center items-center gap-2">
           <span>
             {prefix}
-            {numberValue.toLocaleString()}
+            {Number(formatUnits(value || 0n, decimals))}
             {/* {d3.format(",")(numberValue)} */}
             {suffix}
           </span>
