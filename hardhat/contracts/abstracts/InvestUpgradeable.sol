@@ -11,7 +11,6 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
 import {UDS3} from "../libs/UDS3.sol";
-import "hardhat/console.sol";
 
 /**
  * @title InvestUpgradeable
@@ -133,9 +132,7 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @return The converted number.
      */
     function toDecimals(uint256 n) internal view returns (uint256) {
-        console.log("toDecimals");
         uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
-        console.log("decimals: ", decimals);
         return n * 10 ** decimals;
     }
 
@@ -278,7 +275,6 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      */
     function _resetInvestmentPeriodOf(address account, bool autocompound) internal virtual {
         if (!_isClaiming) {
-            console.log("RESET INVESTMENT PERIOD!");
             // Claim user rewards using claimRewardsOf() if it has been implemented by child
             // contract (returns true), else compound them in virtualBalance.
             uint256 rewards = _rewardsOf(account, autocompound);

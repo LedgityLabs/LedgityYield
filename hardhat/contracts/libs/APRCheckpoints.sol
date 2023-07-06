@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "hardhat/console.sol";
+
 /**
  * @title UDS3
  * @author Lila Rest (lila@ledgity.com)
@@ -53,7 +55,7 @@ library APRCheckpoints {
      */
     function incrementReference(Reference memory ref) internal pure returns (Reference memory) {
         // If this is the last checkpoint slot of the pack
-        if (ref.cursorIndex == 4) {
+        if (ref.cursorIndex == 3) {
             // Increment the pack index and reset the cursor index
             ref.packIndex++;
             ref.cursorIndex = 0;
@@ -144,6 +146,7 @@ library APRCheckpoints {
         Pack memory pack = packs[ref.packIndex];
 
         // Write the new checkpoint in the pack
+        console.log("ref.cursorIndex", ref.cursorIndex);
         pack.aprsUD3[ref.cursorIndex] = aprUD3;
         pack.timestamps[ref.cursorIndex] = uint40(block.timestamp);
 
