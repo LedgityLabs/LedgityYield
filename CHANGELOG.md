@@ -1,3 +1,13 @@
+## [1.110.0](https://github.com/ledgity-labs/dapp/compare/v1.109.0...v1.110.0) (2023-07-06)
+
+
+### Features
+
+* add more pnpm commands + fix owner problem with ltokensignaler contract ([31b38eb](https://github.com/ledgity-labs/dapp/commit/31b38eb94cb04a9e49f1d1cb341acb9d81754fa7))
+* **app:** connect subgraph data to dashboard activities ([15bb306](https://github.com/ledgity-labs/dapp/commit/15bb30604a603d2e2c7a49569b2f8c3eaa0e1ff9))
+* **app:** update L-Tokens icons ([1363e9d](https://github.com/ledgity-labs/dapp/commit/1363e9deb8e355205abae5755e73b389c2d7ee7b))
+* fix subgraph mappings, fix InvestUpgradeable infinite re-entrancy, setup graphclient ([3e7c5f6](https://github.com/ledgity-labs/dapp/commit/3e7c5f6c38ef98dae194b5c0bffbbe0350f2f375))
+
 ## [1.109.0](https://github.com/ledgity-labs/dapp/compare/v1.108.0...v1.109.0) (2023-07-05)
 
 
