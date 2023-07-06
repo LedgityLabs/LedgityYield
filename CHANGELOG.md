@@ -1,3 +1,16 @@
+## [1.112.0](https://github.com/ledgity-labs/dapp/compare/v1.111.0...v1.112.0) (2023-07-06)
+
+
+### Features
+
+* **app>invest:** break dependency between AppInvestTVL and AppInvestTokens, start working on reward ([187bebf](https://github.com/ledgity-labs/dapp/commit/187bebf3ca59392d8bf6a2b21cca619d0884319b))
+* connect distributed rewards stat to subgraph data ([85e2c28](https://github.com/ledgity-labs/dapp/commit/85e2c28d3ac030a309e793cfc689caab3259c5a7))
+
+
+### Others
+
+* **app:** split AppInvest into 5 components ([4ae35de](https://github.com/ledgity-labs/dapp/commit/4ae35dec43ca1a7bad1868ddbf4b22cc63ee7110))
+
 ## [1.111.0](https://github.com/ledgity-labs/dapp/compare/v1.110.0...v1.111.0) (2023-07-06)
 
 
