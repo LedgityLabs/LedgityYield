@@ -1,6 +1,7 @@
 type LToken @entity {
   id: ID! # Token address
   symbol: String!
+  decimals: Int!
   tvlUpdates: [TVLUpdate!] @derivedFrom(field: "ltoken")
   aprUpdates: [APRUpdate!] @derivedFrom(field: "ltoken")
   activities: [Activity!] @derivedFrom(field: "ltoken")

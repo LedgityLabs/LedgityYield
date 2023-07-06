@@ -76,6 +76,7 @@ enum APRUpdate_orderBy {
   ltoken
   ltoken__id
   ltoken__symbol
+  ltoken__decimals
   ltoken__totalMintedRewards
   timestamp
   apr
@@ -178,6 +179,7 @@ enum Activity_orderBy {
   ltoken
   ltoken__id
   ltoken__symbol
+  ltoken__decimals
   ltoken__totalMintedRewards
   timestamp
   account
@@ -231,6 +233,7 @@ enum LTYStaking_orderBy {
 type LToken {
   id: ID!
   symbol: String!
+  decimals: Int!
   tvlUpdates(skip: Int = 0, first: Int = 100, orderBy: TVLUpdate_orderBy, orderDirection: OrderDirection, where: TVLUpdate_filter): [TVLUpdate!]
   aprUpdates(skip: Int = 0, first: Int = 100, orderBy: APRUpdate_orderBy, orderDirection: OrderDirection, where: APRUpdate_filter): [APRUpdate!]
   activities(skip: Int = 0, first: Int = 100, orderBy: Activity_orderBy, orderDirection: OrderDirection, where: Activity_filter): [Activity!]
@@ -267,6 +270,14 @@ input LToken_filter {
   symbol_ends_with_nocase: String
   symbol_not_ends_with: String
   symbol_not_ends_with_nocase: String
+  decimals: Int
+  decimals_not: Int
+  decimals_gt: Int
+  decimals_lt: Int
+  decimals_gte: Int
+  decimals_lte: Int
+  decimals_in: [Int!]
+  decimals_not_in: [Int!]
   tvlUpdates_: TVLUpdate_filter
   aprUpdates_: APRUpdate_filter
   activities_: Activity_filter
@@ -288,6 +299,7 @@ input LToken_filter {
 enum LToken_orderBy {
   id
   symbol
+  decimals
   tvlUpdates
   aprUpdates
   activities
@@ -581,6 +593,7 @@ enum RewardsMint_orderBy {
   ltoken
   ltoken__id
   ltoken__symbol
+  ltoken__decimals
   ltoken__totalMintedRewards
   timestamp
   account
@@ -840,6 +853,7 @@ enum TVLUpdate_orderBy {
   ltoken
   ltoken__id
   ltoken__symbol
+  ltoken__decimals
   ltoken__totalMintedRewards
   timestamp
   amount

@@ -35,7 +35,7 @@ export const AlertDialogContent: FC<
     <AlertDialogOverlay />
     <AlertDialogPrimitive.Content
       {...props}
-      className="fixed inset-0 z-[10001] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
+      className="fixed inset-0 z-[10000] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
     >
       <Card
         className={twMerge(
@@ -78,15 +78,19 @@ interface AlertDialogActionProps
   variant?: "primary" | "destructive";
 }
 
-export const AlertDialogAction: FC<AlertDialogActionProps> = ({
+export const AlertDialogAction: FC<AlertDialogActionProps & { customButton?: boolean }> = ({
   children,
   variant = "primary",
+  customButton = false,
   ...props
 }) => (
   <AlertDialogPrimitive.Action asChild>
-    <Button variant={variant} size="small" {...props}>
-      {children || "Proceed"}
-    </Button>
+    {(!customButton && (
+      <Button variant={variant} size="small" {...props}>
+        {children || "Proceed"}
+      </Button>
+    )) ||
+      children}
   </AlertDialogPrimitive.Action>
 );
 

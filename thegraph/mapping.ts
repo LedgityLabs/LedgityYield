@@ -28,6 +28,7 @@ export function handleSignaledLToken(event: LTokenSignalEvent): void {
     LTokenTemplate.create(event.params.lTokenAddress);
     ltoken = new LTokenSchema(ltokenAddress);
     ltoken.symbol = LToken.bind(event.params.lTokenAddress).symbol();
+    ltoken.decimals = LToken.bind(event.params.lTokenAddress).decimals();
     ltoken.totalMintedRewards = BigDecimal.fromString("0");
     ltoken.save();
   }

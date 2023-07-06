@@ -17,8 +17,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Spinner,
+  TxButton,
 } from "@/components/ui";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   SortingState,
@@ -29,199 +30,78 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import { Activity, execute } from "graphclient";
-import { useWalletClient } from "wagmi";
+import { Activity, LToken, execute } from "graphclient";
+import { usePublicClient, useWalletClient } from "wagmi";
+import { LTokenId } from "../../../../hardhat/deployments";
+import { useContractAddress } from "@/hooks/useContractAddress";
+import {
+  useLTokenDecimals,
+  useLTokenWithdrawalRequestAmount,
+  usePrepareLTokenCancelWithdrawalRequest,
+} from "@/generated";
 
-interface FormattedActivity extends Omit<Activity, "ltoken"> {
-  ltoken: [string, number]; // [token, decimals]
-  // decimals: number;
-}
+const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint }> = ({ ltokenId, requestId }) => {
+  const ltokenAddress = useContractAddress(ltokenId);
+  const { data: decimals } = useLTokenDecimals({
+    address: ltokenAddress,
+  });
+  const { data: amount } = useLTokenWithdrawalRequestAmount({
+    address: ltokenAddress,
+    args: [requestId],
+    watch: true,
+  });
+  const preparation = usePrepareLTokenCancelWithdrawalRequest({
+    address: ltokenAddress,
+    args: [requestId],
+  });
 
-// interface ActivityData {
-//   datetime: number;
-//   action: "deposit" | "withdraw";
-//   amount: [bigint, number]; // [amount, decimals]
-//   token: string;
-//   status: "success" | "fulfilled" | "cancelled" | "queued";
-// }
-
-// const _activityData: ActivityData[] = [
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [189874654984002n, 6],
-//     token: "USDC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [798421984002n, 6],
-//     token: "USDC",
-//     status: "cancelled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [95473984002n, 6],
-//     token: "EUROC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [1024984002n, 6],
-//     token: "EUROC",
-//     status: "fulfilled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [46245000984002n, 6],
-//     token: "USDC",
-//     status: "queued",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [189874654984002n, 6],
-//     token: "USDC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [798421984002n, 6],
-//     token: "USDC",
-//     status: "cancelled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [95473984002n, 6],
-//     token: "EUROC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [1024984002n, 6],
-//     token: "EUROC",
-//     status: "fulfilled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [46245000984002n, 6],
-//     token: "USDC",
-//     status: "queued",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [189874654984002n, 6],
-//     token: "USDC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [798421984002n, 6],
-//     token: "USDC",
-//     status: "cancelled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [95473984002n, 6],
-//     token: "EUROC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [1024984002n, 6],
-//     token: "EUROC",
-//     status: "fulfilled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [46245000984002n, 6],
-//     token: "USDC",
-//     status: "queued",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [189874654984002n, 6],
-//     token: "USDC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [798421984002n, 6],
-//     token: "USDC",
-//     status: "cancelled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [95473984002n, 6],
-//     token: "EUROC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [1024984002n, 6],
-//     token: "EUROC",
-//     status: "fulfilled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [46245000984002n, 6],
-//     token: "USDC",
-//     status: "queued",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [189874654984002n, 6],
-//     token: "USDC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [798421984002n, 6],
-//     token: "USDC",
-//     status: "cancelled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "deposit",
-//     amount: [95473984002n, 6],
-//     token: "EUROC",
-//     status: "success",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [1024984002n, 6],
-//     token: "EUROC",
-//     status: "fulfilled",
-//   },
-//   {
-//     datetime: Date.now(),
-//     action: "withdraw",
-//     amount: [46245000984002n, 6],
-//     token: "USDC",
-//     status: "queued",
-//   },
-// ];
+  useEffect(() => {
+    preparation.refetch();
+  }, [amount]);
+  return (
+    <AlertDialog>
+      <Tooltip>
+        <TooltipTrigger asChild className="absolute -inset-y-1 inset-x-0">
+          <AlertDialogTrigger asChild>
+            <Button
+              size="tiny"
+              variant="destructive"
+              className="w-full h-full rounded-lg opacity-0 transition-opacity flex justify-center items-center hover:opacity-100 hover:bg-opacity-100"
+            >
+              <i className="ri-close-fill text-xl"></i>
+            </Button>
+          </AlertDialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Cancel withdrawal request</TooltipContent>
+      </Tooltip>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone and{" "}
+            <span className="font-semibold">you will loose your current position</span> in the withdrawal
+            queue.
+            <br />
+            <br />
+            By cancelling this request{" "}
+            <span className="font-semibold">
+              you will receive your <Amount value={amount} decimals={decimals} /> {ltokenId}{" "}
+            </span>
+            tokens back to your wallet.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction customButton={true}>
+            <TxButton variant="destructive" size="small" preparation={preparation}>
+              Cancel this request
+            </TxButton>
+          </AlertDialogAction>
+          <AlertDialogCancel />
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
 
 export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
@@ -231,13 +111,14 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       desc: true,
     },
   ]);
-  const columnHelper = createColumnHelper<FormattedActivity>();
-  const [activityData, setActivityData] = useState<FormattedActivity[]>([]);
+  const columnHelper = createColumnHelper<Activity>();
+  const [activityData, setActivityData] = useState<Activity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (walletClient) {
       setIsLoading(true);
+      const decimalsMap = new Map<string, number>();
       execute(
         `
       {
@@ -245,6 +126,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           id
           ltoken {
             symbol
+            decimals
           }
           timestamp
           action
@@ -260,13 +142,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             activities: Activity[];
           };
         }) => {
-          const formattedActivities: FormattedActivity[] = result.data.activities.map((activity) => ({
-            ...activity,
-            ltoken: [activity.ltoken.symbol, 6],
-            // decimals: 6,
-          }));
-
-          setActivityData(formattedActivities);
+          setActivityData(result.data.activities);
           setIsLoading(false);
         }
       );
@@ -292,14 +168,21 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     }),
     columnHelper.accessor("ltoken", {
       header: "Token",
-      cell: (info) => info.getValue()[0],
+      cell: (info) => info.getValue().symbol,
     }),
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => {
         const amount = info.getValue();
-        const [symbol, decimals] = info.row.getValue("ltoken") as [string, number];
-        return <Amount value={amount} decimals={decimals} suffix={symbol} displaySymbol={false} />;
+        const ltoken = info.row.getValue("ltoken") as LToken;
+        return (
+          <Amount
+            value={amount}
+            decimals={ltoken.decimals}
+            suffix={ltoken.symbol}
+            displaySymbol={false}
+          />
+        );
       },
     }),
 
@@ -307,8 +190,9 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Status",
       cell: (info) => {
         const status = info.getValue();
-        const [amount, decimals] = info.row.getValue("amount") as [bigint, number];
-        const token = info.row.getValue("token");
+        const ltoken = info.row.getValue("ltoken") as LToken;
+        const requestId = activityData[info.row.index].id;
+        console.log(requestId);
         return (
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
             <div
@@ -330,43 +214,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
               <p>{status}</p>
             </div>
             {status === "Queued" && (
-              <AlertDialog>
-                <Tooltip>
-                  <TooltipTrigger asChild className="absolute -inset-y-1 inset-x-0">
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        size="tiny"
-                        variant="destructive"
-                        className="w-full h-full rounded-lg opacity-0 transition-opacity flex justify-center items-center hover:opacity-100 hover:bg-opacity-100"
-                      >
-                        <i className="ri-close-fill text-xl"></i>
-                      </Button>
-                    </AlertDialogTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>Cancel withdrawal request</TooltipContent>
-                </Tooltip>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone and{" "}
-                      <span className="font-semibold">you will loose your current position</span> in the
-                      withdrawal queue.
-                      <br />
-                      <br />
-                      By cancelling this request{" "}
-                      <span className="font-semibold">
-                        you will receive your <Amount value={amount} decimals={decimals} /> {"L" + token}{" "}
-                      </span>
-                      tokens back to your wallet.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogAction variant="destructive">Cancel this request</AlertDialogAction>
-                    <AlertDialogCancel />
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <CancelButton ltokenId={ltoken.symbol as LTokenId} requestId={BigInt(requestId)} />
             )}
           </div>
         );

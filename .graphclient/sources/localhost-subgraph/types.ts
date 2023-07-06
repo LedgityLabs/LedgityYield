@@ -85,6 +85,7 @@ export type APRUpdate_orderBy =
   | 'ltoken'
   | 'ltoken__id'
   | 'ltoken__symbol'
+  | 'ltoken__decimals'
   | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'apr';
@@ -184,6 +185,7 @@ export type Activity_orderBy =
   | 'ltoken'
   | 'ltoken__id'
   | 'ltoken__symbol'
+  | 'ltoken__decimals'
   | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'account'
@@ -238,6 +240,7 @@ export type LTYStaking_orderBy =
 export type LToken = {
   id: Scalars['ID'];
   symbol: Scalars['String'];
+  decimals: Scalars['Int'];
   tvlUpdates?: Maybe<Array<TVLUpdate>>;
   aprUpdates?: Maybe<Array<APRUpdate>>;
   activities?: Maybe<Array<Activity>>;
@@ -310,6 +313,14 @@ export type LToken_filter = {
   symbol_ends_with_nocase?: InputMaybe<Scalars['String']>;
   symbol_not_ends_with?: InputMaybe<Scalars['String']>;
   symbol_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  decimals?: InputMaybe<Scalars['Int']>;
+  decimals_not?: InputMaybe<Scalars['Int']>;
+  decimals_gt?: InputMaybe<Scalars['Int']>;
+  decimals_lt?: InputMaybe<Scalars['Int']>;
+  decimals_gte?: InputMaybe<Scalars['Int']>;
+  decimals_lte?: InputMaybe<Scalars['Int']>;
+  decimals_in?: InputMaybe<Array<Scalars['Int']>>;
+  decimals_not_in?: InputMaybe<Array<Scalars['Int']>>;
   tvlUpdates_?: InputMaybe<TVLUpdate_filter>;
   aprUpdates_?: InputMaybe<APRUpdate_filter>;
   activities_?: InputMaybe<Activity_filter>;
@@ -331,6 +342,7 @@ export type LToken_filter = {
 export type LToken_orderBy =
   | 'id'
   | 'symbol'
+  | 'decimals'
   | 'tvlUpdates'
   | 'aprUpdates'
   | 'activities'
@@ -585,6 +597,7 @@ export type RewardsMint_orderBy =
   | 'ltoken'
   | 'ltoken__id'
   | 'ltoken__symbol'
+  | 'ltoken__decimals'
   | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'account'
@@ -806,6 +819,7 @@ export type TVLUpdate_orderBy =
   | 'ltoken'
   | 'ltoken__id'
   | 'ltoken__symbol'
+  | 'ltoken__decimals'
   | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'amount';

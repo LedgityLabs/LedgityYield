@@ -577,6 +577,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         );
     }
 
+    function withdrawalRequestAmount(uint256 requestId) external view returns (uint256) {
+        return withdrawalQueue[requestId].amount;
+    }
+
     /**
      * @dev This function allows fund wallet to send underlying tokens to this contract.
      * It prevents from exceeding the current retention rate.
