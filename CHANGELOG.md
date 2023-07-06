@@ -1,3 +1,11 @@
+## [1.113.0](https://github.com/ledgity-labs/dapp/compare/v1.112.0...v1.113.0) (2023-07-06)
+
+
+### Features
+
+* **app>dash:** implement ChartJS and design revenue/growth chart ([d760b14](https://github.com/ledgity-labs/dapp/commit/d760b141d7e389ac8b59924f8083a63772607a5b))
+* connect 1Y variation to subgraph data + fix APRCheckpoints.incrementReference ([71ef237](https://github.com/ledgity-labs/dapp/commit/71ef23740eddbaa034d57bf7ae057de92dacb01b))
+
 ## [1.112.0](https://github.com/ledgity-labs/dapp/compare/v1.111.0...v1.112.0) (2023-07-06)
 
 
