@@ -1,3 +1,16 @@
+## [1.109.0](https://github.com/ledgity-labs/dapp/compare/v1.108.0...v1.109.0) (2023-07-05)
+
+
+### Features
+
+* **app>admin:** add new admin brick to LToken section allowing to signal it + fix build error ([323ab6f](https://github.com/ledgity-labs/dapp/commit/323ab6fea792eab4494f47b4890dfbd2729bb53d))
+
+
+### Others
+
+* **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.0.0 ([b17d3ea](https://github.com/ledgity-labs/dapp/commit/b17d3eaf2f8ac4bca97c3180a4ed6d3547734ee3))
+* **deps:** upgrade dependencies ([f1a4f20](https://github.com/ledgity-labs/dapp/commit/f1a4f20240f3526d6b0c84256cfc54dd2e6b4dc8))
+
 ## [1.108.0](https://github.com/ledgity-labs/dapp/compare/v1.107.0...v1.108.0) (2023-07-05)
 
 
