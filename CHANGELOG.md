@@ -1,3 +1,11 @@
+## [1.111.0](https://github.com/ledgity-labs/dapp/compare/v1.110.0...v1.111.0) (2023-07-06)
+
+
+### Features
+
+* **app,graph:** add amoutAfterFees data,  display it in dashboard + fix non-unique activities ([48badcf](https://github.com/ledgity-labs/dapp/commit/48badcf0467c71e0c9dfac70043410360dd592fc))
+* **app:** make withdrawal request cancelling functionnal ([e795827](https://github.com/ledgity-labs/dapp/commit/e795827d47e78eb64f93cb5c16bafe7dea569dfe))
+
 ## [1.110.0](https://github.com/ledgity-labs/dapp/compare/v1.109.0...v1.110.0) (2023-07-06)
 
 
