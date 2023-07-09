@@ -11,6 +11,7 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
 import {UDS3} from "../libs/UDS3.sol";
+import "hardhat/console.sol";
 
 /**
  * @title InvestUpgradeable
@@ -170,25 +171,25 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @param beginTimestamp The beginning of the period.
      * @param endTimestamp The end of the period.
      * @param aprUD3 The APR of the period, in UD3 format.
-     * @param depositedAmount The amount deposited during the period.
+     * @param investedAmount The amount deposited during the period.
      */
     function _calculatePeriodRewards(
         uint40 beginTimestamp,
         uint40 endTimestamp,
         uint16 aprUD3,
-        uint256 depositedAmount
+        uint256 investedAmount
     ) private view returns (uint256 rewards) {
         // Calculate elapsed years
         uint256 elaspedTimeUDS3 = toUDS3(endTimestamp - beginTimestamp);
         uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * toUDS3(1)) / toUDS3(365 days);
-
         // Calculate deposited amount growth (because of rewards)
-        uint256 aprUDS3 = toDecimals(aprUD3);
-        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / toUDS3(100);
+        uint256 aprUDS3 = toDecimals(aprUD3); // 5000
+        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / toUDS3(1);
 
         // Calculate and return rewards
-        uint256 depositedAmountUDS3 = UDS3.scaleUp(depositedAmount);
-        uint256 rewardsUDS3 = (depositedAmountUDS3 * growthUDS3) / toUDS3(100);
+        uint256 investedAmountUDS3 = UDS3.scaleUp(investedAmount);
+
+        uint256 rewardsUDS3 = (investedAmountUDS3 * growthUDS3) / toUDS3(100);
         rewards = UDS3.scaleDown(rewardsUDS3);
     }
 
