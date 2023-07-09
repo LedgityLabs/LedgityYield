@@ -8,22 +8,46 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   value: number | undefined;
   tooltip?: boolean;
   prefix?: string;
+  isUD3?: boolean;
 }
 
-export function formatRate(value: number | bigint) {
-  const floatValue = typeof value === "number" ? value : Number(formatUnits(BigInt(value), 3));
-  let formattedValue: string;
-  if (floatValue === 0) formattedValue = "0.0";
-  else if (floatValue < 0.01) formattedValue = "<0.01";
-  else if (floatValue < 0.1) formattedValue = d3.format(".1r")(floatValue);
-  else if (floatValue < 1) formattedValue = d3.format(".2r")(floatValue);
-  else if (floatValue < 1000) formattedValue = d3.format(".3r")(floatValue);
-  else formattedValue = ">999";
-  return formattedValue;
+function getFloatValue(value: number | undefined, isUD3: boolean) {
+  if (!value) return 0;
+  return isUD3 ? Number(formatUnits(BigInt(value), 3)) : value;
 }
 
-export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true, ...props }) => {
-  const formattedValue = formatRate(BigInt(value || 0));
+export function formatRate(value: number, isUD3: boolean = false) {
+  const floatValue = getFloatValue(value, isUD3);
+
+  let formattedRate = "";
+  if (floatValue === 0) formattedRate = "0";
+  else if (floatValue < 0.01) formattedRate = "<0.01";
+  else if (floatValue < 1) formattedRate = floatValue.toFixed(2);
+  else if (floatValue < 1000) formattedRate = floatValue.toFixed(1);
+  else formattedRate = ">999";
+  return formattedRate;
+}
+
+function longFormatRate(value: number, isUD3: boolean = false) {
+  const floatValue = getFloatValue(value, isUD3);
+  let longFormattedRate = "";
+  if (floatValue === 0) longFormattedRate = "0";
+  else if (floatValue < 0.00001) longFormattedRate = "<0.00001";
+  if (floatValue < 1) longFormattedRate = d3.format(",.5f")(floatValue);
+  if (floatValue < 1000) longFormattedRate = d3.format(",.4f")(floatValue);
+  else longFormattedRate = d3.format(",.3f")(floatValue);
+  return longFormattedRate;
+}
+
+export const Rate: FC<Props> = ({
+  className,
+  value,
+  prefix = "",
+  tooltip = true,
+  isUD3 = true,
+  ...props
+}) => {
+  const formattedValue = formatRate(value || 0, isUD3);
 
   if (!tooltip)
     return (
@@ -41,7 +65,7 @@ export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true,
         </TooltipTrigger>
         <TooltipContent className="font-heading font-bold">
           {prefix}
-          {Number(formatUnits(BigInt(value || 0), 3))}%
+          {longFormatRate(value || 0, isUD3)}%
         </TooltipContent>
       </Tooltip>
     );

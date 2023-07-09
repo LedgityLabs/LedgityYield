@@ -192,10 +192,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                     value={BigInt(amountAfterFees)}
                     decimals={ltoken.decimals}
                     suffix={ltoken.symbol}
-                  />{" "}
+                  />
                 </span>
               )
             }
+            className="inline-block pl-4"
           />
         );
       },

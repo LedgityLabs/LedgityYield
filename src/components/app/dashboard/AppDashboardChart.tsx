@@ -6,13 +6,12 @@ import {
   formatAmount,
   Spinner,
   formatRate,
+  Amount,
 } from "@/components/ui";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   Chart,
-  ChartConfiguration,
-  ChartConfigurationCustomTypesPerDataset,
   LinearScale,
   CategoryScale,
   BarElement,
@@ -23,14 +22,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import "chartjs-adapter-luxon";
-import { Activity, LToken, RewardsMint, execute } from "../../../../.graphclient";
-import { usePublicClient, useWalletClient } from "wagmi";
-import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
-import { ContractId, LTokenId } from "../../../../hardhat/deployments";
-import { formatUnits, parseUnits } from "viem";
-import { readLToken } from "@/generated";
-import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
-import { getContractAddress } from "@/lib/getContractAddress";
+import { useGrowthRevenueData } from "./useGrowthRevenueData";
 Chart.register(
   BarElement,
   CategoryScale,
@@ -44,25 +36,29 @@ Chart.register(
 const secondsPerDay = 60 * 60 * 24;
 
 export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ className }) => {
-  const lTokens = useAvailableLTokens();
-  const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
   const [period, setPeriod] = useState("90");
   const [type, setType] = useState<"revenue" | "growth">("revenue");
+  const { data, isDataLoading } = useGrowthRevenueData();
   const [labels, setLabels] = useState<Date[]>([]);
   const [revenueData, setRevenueData] = useState<number[]>([]);
   const [growthData, setGrowthData] = useState<number[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   let delayed: boolean;
-  let investmentStarts: Record<string, number> = {};
 
-  const computeLabels = async () => {
+  const computeLabels = () => {
     let _labels: Date[] = [];
     let numberOfDays = 0;
     if (period !== "all") numberOfDays = Number(period);
     else {
-      const oldestInvestmentStart = Math.min(...Object.values(investmentStarts));
+      const investmentStarts: number[] = [];
+      for (const lTokenData of Object.values(data)) {
+        if (lTokenData.length > 0) {
+          investmentStarts.push(lTokenData[0].timestamp);
+        }
+      }
+
+      console.log(investmentStarts);
+      const oldestInvestmentStart = Math.min(...investmentStarts);
       numberOfDays =
         oldestInvestmentStart !== null
           ? (Date.now() / 1000 - oldestInvestmentStart) / secondsPerDay
@@ -92,159 +88,28 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
     };
   };
 
-  const computeData = async () => {
-    console.log("computeData");
-    setIsLoading(true);
-    // ### Build raw data ###
-    const data = {} as Record<
-      string,
-      {
-        timestamp: number;
-        revenue: number;
-        balanceBefore: number;
-        growth: number;
-      }[]
-    >;
-    lTokens.forEach((lToken) => (data[lToken] = []));
+  const computeChartData = () => {
+    // Compute labels (x axis)
+    const { _labels, chunkTime } = computeLabels();
 
-    const investmentStartRequest: {
-      data: {
-        ltokens: LToken[] & {
-          activities: Activity[];
-        };
-      };
-    } = await execute(
-      `
-    {
-      ltokens {
-        symbol
-        activities(where: {account: "${
-          walletClient!.account.address
-        }" }, orderBy: timestamp, orderDirection: asc, first: 1) {
-          timestamp
-        }
-      }
-    }
-    `
-    );
-
-    // Retrive investment start timestamp
-    for (const lToken of investmentStartRequest.data.ltokens) {
-      if (lToken.activities && lToken.activities.length > 0) {
-        investmentStarts[lToken.symbol] = Number(lToken.activities[0].timestamp);
-        data[lToken.symbol].push({
-          timestamp: investmentStarts[lToken.symbol],
-          revenue: 0,
-          balanceBefore: 0,
-          growth: 0,
-        });
-      }
-    }
-
-    const results: {
-      data: {
-        rewardsMints: [
-          RewardsMint & {
-            ltoken: LToken;
-          }
-        ];
-      };
-    } = await await execute(
-      `
-      {
-        rewardsMints(where: { account: "${
-          walletClient!.account.address
-        }" }, orderBy: timestamp, orderDirection: asc) {
-          timestamp
-          revenue
-          growth
-          balanceBefore
-          ltoken {
-            id
-            symbol
-            decimals
-          }
-        }
-      }
-    `
-    );
-    // - Push all rewards mints into raw data
-    for (const rewardsMint of results.data.rewardsMints) {
-      const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1) as ContractId);
-
-      // Convert revenue to decimals and then to USD
-      let revenue = Number(formatUnits(BigInt(rewardsMint.revenue), rewardsMint.ltoken.decimals));
-      revenue = revenue * usdRate;
-
-      // Convert balance before to decimals and then to USD
-      let balanceBefore = Number(
-        formatUnits(BigInt(rewardsMint.balanceBefore), rewardsMint.ltoken.decimals)
-      );
-      balanceBefore = balanceBefore * usdRate;
-
-      data[rewardsMint.ltoken.symbol].push({
-        timestamp: Number(rewardsMint.timestamp),
-        revenue: revenue,
-        balanceBefore: balanceBefore,
-        growth: Number(rewardsMint.growth),
-      });
-    }
-
-    // - Push not yet minted rewards into raw data
-    for (const lToken of lTokens) {
-      const lTokenAddress = getContractAddress(lToken, publicClient.chain.id)!;
-      const decimals = await readLToken({
-        address: lTokenAddress,
-        functionName: "decimals",
-      });
-      const _balanceBefore = await readLToken({
-        address: lTokenAddress,
-        functionName: "realBalanceOf",
-        args: [walletClient!.account.address],
-      });
-      const unclaimedRewards = await readLToken({
-        address: lTokenAddress,
-        functionName: "unmintedRewardsOf",
-        args: [walletClient!.account.address],
-      });
-      const usdRate = await getTokenUSDRate(lToken.slice(1) as ContractId);
-
-      // Convert revenue to decimals and then to USD
-      let revenue = Number(formatUnits(unclaimedRewards, decimals));
-      revenue = revenue * usdRate;
-
-      // Convert balance before to decimals and then to USD
-      let balanceBefore = Number(formatUnits(_balanceBefore, decimals));
-      balanceBefore = balanceBefore * usdRate;
-
-      data[lToken].push({
-        timestamp: Math.floor(Date.now() / 1000),
-        revenue: revenue,
-        balanceBefore: balanceBefore,
-        growth: balanceBefore ? revenue / balanceBefore : 0,
-      });
-    }
-
-    // ### Compute labels (x) ###
-    const { _labels, chunkTime } = await computeLabels();
-
-    // ### Build growth and revenue data (y) ###
+    // Compute growth and revenue data (y axis)
     let _growthData: number[] = new Array(_labels.length).fill(0);
     let _revenueData: number[] = new Array(_labels.length).fill(0);
 
     // Reverse data and label array so the most recent data is first
-    for (const lToken of lTokens) {
-      data[lToken].reverse();
+    const reversedData = JSON.parse(JSON.stringify(data));
+    for (const key of Object.keys(reversedData)) {
+      reversedData[key].reverse();
     }
     const reversedLabels = [..._labels].reverse();
 
     const emptyGrowthData: Record<string, [number, number]> = {};
-    lTokens.forEach((lToken) => (emptyGrowthData[lToken] = [0, 0]));
+    Object.keys(reversedData).forEach((lToken) => (emptyGrowthData[lToken] = [0, 0]));
     const perLabelGrowthData: Record<string, [number, number]>[] = new Array(_labels.length)
       .fill(null)
       .map(() => JSON.parse(JSON.stringify(emptyGrowthData)));
 
-    for (const lToken of lTokens) {
+    for (const lToken of Object.keys(reversedData)) {
       let currentLabelIndex = 0;
       let currentLabel = reversedLabels[currentLabelIndex];
       let nextLabel = reversedLabels[currentLabelIndex + 1];
@@ -278,9 +143,9 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
       }
 
       // Note that we iterate from newest to oldest data (as the data array is reversed)
-      for (let i = 0; i < data[lToken].length; i++) {
-        const dataPoint = data[lToken][i];
-        const nextDataPoint = data[lToken][i + 1];
+      for (let i = 0; i < reversedData[lToken].length; i++) {
+        const dataPoint = reversedData[lToken][i];
+        const nextDataPoint = reversedData[lToken][i + 1];
 
         // If there is no next data point
         if (!nextDataPoint) {
@@ -357,7 +222,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
 
     for (let i = 0; i < _labels.length; i++) {
       const combinedData: [number, number][] = [];
-      for (const lToken of lTokens) {
+      for (const lToken of Object.keys(perLabelGrowthData[i])) {
         combinedData.push([perLabelGrowthData[i][lToken][0], perLabelGrowthData[i][lToken][1]]);
       }
       let total_weight = combinedData.reduce((acc, val) => acc + val[0], 0);
@@ -370,12 +235,11 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
     setLabels(_labels);
     setGrowthData(_growthData.reverse());
     setRevenueData(_revenueData.reverse());
-    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (walletClient) computeData();
-  }, [period, walletClient]);
+    if (!isDataLoading) computeChartData();
+  }, [data, isDataLoading, period]);
 
   return (
     <Card
@@ -384,7 +248,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
     >
       <div className="h-full w-full bg-primary/10 rounded-3xl flex justify-center items-end">
         <div className="p-4 w-full h-full ">
-          {isLoading ? (
+          {isDataLoading ? (
             <div className="w-full h-full flex justify-center items-center bg/primary-10 animate-fadeIn">
               <Spinner />
             </div>
@@ -418,7 +282,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
                         title: function (tooltipItems) {
                           if (type === "revenue")
                             return `Revenue:  $${formatAmount(tooltipItems[0].parsed.y)}`;
-                          else return `Growth:  ${formatRate(tooltipItems[0].parsed.y * 100)}%`;
+                          else return `Growth:  ${formatRate(tooltipItems[0].parsed.y * 100, false)}%`;
                         },
                         label: function (tooltipItem) {
                           return "";
@@ -499,13 +363,13 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
         <div className="flex gap-3 justify-center items-center text-base font-semibold">
           <p>Revenue ($)</p>
           <Switch
-            disabled={isLoading}
+            disabled={isDataLoading}
             onCheckedChange={(checked) => setType(checked ? "growth" : "revenue")}
           />
           <p>Growth (%)</p>
         </div>
         <RadioGroup
-          disabled={isLoading}
+          disabled={isDataLoading}
           defaultValue="90"
           onValueChange={(value) => setPeriod(value)}
           className="flex gap-3 justify-center items-center"
