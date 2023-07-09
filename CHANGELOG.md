@@ -1,3 +1,10 @@
+## [1.114.0](https://github.com/ledgity-labs/dapp/compare/v1.113.0...v1.114.0) (2023-07-09)
+
+
+### Features
+
+* make growth chart calculation relative to balanceBefore + fix wrong data representation ([011506c](https://github.com/ledgity-labs/dapp/commit/011506cf490a0f2912dbfa22907a7ad2a1e6344a))
+
 ## [1.113.0](https://github.com/ledgity-labs/dapp/compare/v1.112.0...v1.113.0) (2023-07-06)
 
 
