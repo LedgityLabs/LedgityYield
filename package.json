@@ -1,6 +1,6 @@
 {
   "name": "ledgity-defi",
-  "version": "1.114.0",
+  "version": "1.114.1",
   "scripts": {
     "dev": "next dev",
     "build": "hardhat compile && next build",
