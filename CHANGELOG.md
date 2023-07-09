@@ -1,3 +1,10 @@
+## [1.114.1](https://github.com/ledgity-labs/dapp/compare/v1.114.0...v1.114.1) (2023-07-09)
+
+
+### Fixes
+
+* **contracts:** fix period rewards calculation in InvestUpgradeable ([331c068](https://github.com/ledgity-labs/dapp/commit/331c068c50475b390cc0b2f9e4a6c7be7b322541))
+
 ## [1.114.0](https://github.com/ledgity-labs/dapp/compare/v1.113.0...v1.114.0) (2023-07-09)
 
 
