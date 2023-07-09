@@ -10,9 +10,8 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   prefix?: string;
 }
 
-export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true, ...props }) => {
-  value = value || 0;
-  const floatValue = Number(formatUnits(BigInt(value), 3));
+export function formatRate(value: number | bigint) {
+  const floatValue = typeof value === "number" ? value : Number(formatUnits(BigInt(value), 3));
   let formattedValue: string;
   if (floatValue === 0) formattedValue = "0.0";
   else if (floatValue < 0.01) formattedValue = "<0.01";
@@ -20,6 +19,12 @@ export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true,
   else if (floatValue < 1) formattedValue = d3.format(".2r")(floatValue);
   else if (floatValue < 1000) formattedValue = d3.format(".3r")(floatValue);
   else formattedValue = ">999";
+  return formattedValue;
+}
+
+export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true, ...props }) => {
+  const formattedValue = formatRate(BigInt(value || 0));
+
   if (!tooltip)
     return (
       <span className={className} {...props}>
@@ -36,7 +41,7 @@ export const Rate: FC<Props> = ({ className, value, prefix = "", tooltip = true,
         </TooltipTrigger>
         <TooltipContent className="font-heading font-bold">
           {prefix}
-          {floatValue}%
+          {Number(formatUnits(BigInt(value || 0), 3))}%
         </TooltipContent>
       </Tooltip>
     );

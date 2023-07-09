@@ -1,4 +1,12 @@
-import { Card, Switch, RadioGroup, RadioGroupItem, formatAmount, Spinner } from "@/components/ui";
+import {
+  Card,
+  Switch,
+  RadioGroup,
+  RadioGroupItem,
+  formatAmount,
+  Spinner,
+  formatRate,
+} from "@/components/ui";
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
@@ -85,6 +93,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
   };
 
   const computeData = async () => {
+    console.log("computeData");
     setIsLoading(true);
     // ### Build raw data ###
     const data = {} as Record<
@@ -366,7 +375,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
 
   useEffect(() => {
     if (walletClient) computeData();
-  }, [period, type]);
+  }, [period, walletClient]);
 
   return (
     <Card
@@ -383,6 +392,11 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
             <div className="w-full h-full pt-3">
               <Bar
                 options={{
+                  layout: {
+                    padding: {
+                      left: 0,
+                    },
+                  },
                   plugins: {
                     tooltip: {
                       backgroundColor: "rgb(30 41 59)",
@@ -403,11 +417,8 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
                       callbacks: {
                         title: function (tooltipItems) {
                           if (type === "revenue")
-                            return `Revenue:  $${tooltipItems[0].parsed.y.toString()}`;
-                          else
-                            return `Growth:  ${tooltipItems[0].parsed.y * 100}% (raw: ${
-                              tooltipItems[0].parsed.y
-                            }%)`;
+                            return `Revenue:  $${formatAmount(tooltipItems[0].parsed.y)}`;
+                          else return `Growth:  ${formatRate(tooltipItems[0].parsed.y * 100)}%`;
                         },
                         label: function (tooltipItem) {
                           return "";
@@ -433,7 +444,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
                     delay: (context) => {
                       let delay = 0;
                       if (context.type === "data" && context.mode === "default" && !delayed) {
-                        delay = context.dataIndex * 50;
+                        delay = context.dataIndex * 25;
                       }
                       return delay;
                     },
@@ -448,9 +459,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
                   },
                   scales: {
                     y: {
-                      // type: "logarithmic",
                       display: false,
-                      ticks: {},
                     },
                     x: {
                       type: "time",

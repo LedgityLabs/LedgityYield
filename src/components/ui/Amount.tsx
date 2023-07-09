@@ -15,10 +15,10 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   tooltipChildren?: React.ReactNode;
 }
 
-export function formatAmount(value: bigint, decimals: number) {
-  const numberValue = Number(formatUnits(value, decimals));
+export function formatAmount(value: bigint | number, decimals?: number) {
+  const numberValue = typeof value === "number" ? value : Number(formatUnits(value, decimals || 0));
   let formattedAmount =
-    numberValue < 1 ? numberValue.toFixed(2).toString() : d3.format(".3s")(numberValue);
+    numberValue < 1 ? numberValue.toFixed(3).toString() : d3.format(".3s")(numberValue);
   formattedAmount = formattedAmount.replace("G", "B");
   return formattedAmount;
 }
