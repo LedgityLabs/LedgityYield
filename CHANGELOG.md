@@ -1,3 +1,12 @@
+## [1.115.0](https://github.com/ledgity-labs/dapp/compare/v1.114.1...v1.115.0) (2023-07-09)
+
+
+### Features
+
+* **app:** add 10 minutes cache on growth/revenue data from subgraph ([fb2b65d](https://github.com/ledgity-labs/dapp/commit/fb2b65dba12670941cb48d9d691a10cc8547fb2d))
+* **app:** connect dashboard profits stats card to subgraph data + improve rate/amount display ([aeb994e](https://github.com/ledgity-labs/dapp/commit/aeb994e41053574d63f2a463249dee185a5fba34))
+* **app:** improve display of rate and amounts in the revenue/growth chart ([131f074](https://github.com/ledgity-labs/dapp/commit/131f07414009a3aa80389839c0ec91f344ecfb9b))
+
 ## [1.114.1](https://github.com/ledgity-labs/dapp/compare/v1.114.0...v1.114.1) (2023-07-09)
 
 
