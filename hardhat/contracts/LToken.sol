@@ -163,6 +163,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         return ERC20WrapperUpgradeable.decimals();
     }
 
+    function unmintedRewardsOf(address account) public view returns (uint256) {
+        return _rewardsOf(account, true);
+    }
+
     /**
      * @dev Override of ERC20Upgradeable.balanceOf() that returns the total amount of
      * L-Tokens that belong to the account, including its unclaimed rewards.
@@ -170,7 +174,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @inheritdoc ERC20Upgradeable
      */
     function balanceOf(address account) public view override returns (uint256) {
-        return realBalanceOf(account) + _rewardsOf(account, true);
+        return realBalanceOf(account) + unmintedRewardsOf(account);
     }
 
     /**
@@ -302,6 +306,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             usableBalance -= uint256(difference);
         }
     }
+
+    /**
+     * @dev
+     */
 
     /**
      * @dev Overrides of ERC20WrapperUpgradeable.withdrawTo() and depositFor() functions

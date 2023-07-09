@@ -12,11 +12,11 @@
 
   * {
     /* Accessibility - Apply focus ring */
-    @apply relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors !duration-300;
+    @apply relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,text-decoration-color,fill,stroke,opacity] !duration-300;
   }
 
   body {
     /* Style - Apply default font, text color and background */
-    @apply relative font-body text-fg bg-bg transition-colors !duration-300;
+    @apply relative font-body text-fg bg-bg transition-[color,background-color,border-color,text-decoration-color,fill,stroke,opacity] !duration-300;
   }
 }

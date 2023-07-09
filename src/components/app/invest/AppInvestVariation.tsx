@@ -38,7 +38,6 @@ export const AppInvestVariation: FC = () => {
         };
       }) => {
         let newVariation = 0;
-        console.log(result);
         for (const lToken of result.data.ltokens) {
           if (!lToken.latestAprUpdate[0]) continue;
           const latestAprUpdate = Number(lToken.latestAprUpdate[0].apr);
@@ -49,7 +48,6 @@ export const AppInvestVariation: FC = () => {
             newVariation += (aprUpdateOneYearAgo - latestAprUpdate) / aprUpdateOneYearAgo;
         }
         newVariation = newVariation / result.data.ltokens.length;
-        console.log(newVariation);
         // Format variation as UD3 as required by <Rate /> component
         newVariation = Math.round(newVariation * 100 * 1000);
         setVariation(newVariation);

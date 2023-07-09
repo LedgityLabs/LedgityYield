@@ -64,8 +64,8 @@ export const Amount: FC<Props> = ({
         <TooltipContent className="font-heading font-bold inline-flex flex-col justify-center items-center gap-2">
           <span>
             {prefix}
-            {Number(formatUnits(value || 0n, decimals))}
-            {/* {d3.format(",")(numberValue)} */}
+            {/* {Number(formatUnits(value || 0n, decimals))} */}
+            {d3.format(",")(Number(formatUnits(value || 0n, decimals)))}
             {suffix}
           </span>
           {tooltipChildren}

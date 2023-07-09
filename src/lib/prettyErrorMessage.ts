@@ -12,7 +12,6 @@ export const prettyErrorMessage = (error: Error) => {
     if (details.startsWith("[ethjs-query]")) {
       details = details.replace("[ethjs-query] while formatting outputs from RPC '", "");
       details = details.slice(0, -1);
-      console.log(details);
       const errObj = JSON.parse(details);
       prettyError = errObj.value.data.message;
     } else prettyError = details.split("'")[1];

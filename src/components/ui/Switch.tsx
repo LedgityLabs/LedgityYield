@@ -11,6 +11,7 @@ export const Switch: FC<React.ComponentPropsWithoutRef<typeof SwitchPrimitives.R
   <SwitchPrimitives.Root
     className={twMerge(
       "inline-flex h-[2rem] w-[4rem] cursor-pointer shadow-[0px_4px_12px_rgba(0,0,0,0.07)] rounded-3xl bg-fg/[0.15] p-1.5",
+      props.disabled && "cursor-not-allowed",
       className
     )}
     {...props}

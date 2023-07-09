@@ -1,4 +1,4 @@
-import { Address, Amount, AmountInput, Card } from "@/components/ui";
+import { Address, Amount, AmountInput, Button, Card, Input } from "@/components/ui";
 import {
   useGenericErc20Name,
   useGenericErc20Decimals,
@@ -12,10 +12,11 @@ import { ChangeEvent, FC, useState } from "react";
 import { ContractId } from "../../../../../hardhat/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
-import { parseUnits } from "viem";
+import { createTestClient, http, parseUnits } from "viem";
 import { useWalletClient } from "wagmi";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
+import { hardhat } from "wagmi/chains";
 
 const MintFakeToken: FC<{ contractId: ContractId }> = ({ contractId, ...props }) => {
   const { data: walletClient } = useWalletClient();
@@ -84,9 +85,16 @@ const MintFakeToken: FC<{ contractId: ContractId }> = ({ contractId, ...props })
 };
 export const AdminTesting: FC = () => {
   const lTokens = useAvailableLTokens();
+  const [dayForwards, setDayForwards] = useState(0);
+
+  const testClient = createTestClient({
+    chain: hardhat,
+    mode: "hardhat",
+    transport: http(),
+  });
 
   return (
-    <AdminMasonry className="!columns-2 w-[800px]">
+    <AdminMasonry>
       <AdminBrick title="Underlying tokens">
         <p>
           When Ledgity DeFi is deployed locally or on a testnet, fake stablecoins contracts are also
@@ -106,6 +114,34 @@ export const AdminTesting: FC = () => {
           Here is the one for the current test network:
         </p>
         <MintFakeToken contractId="LTY" />
+      </AdminBrick>
+      <AdminBrick title="Increase block time">
+        <div className="flex flex-col justify-center items-center gap-3">
+          <p>
+            Warning: When local chain timestamp is moved forward, the JS `Date.now()` is still at current
+            timestamp. This may produce unwanted results if on-chain timestamps are for example compared
+            to JS ones.
+          </p>
+          <Input
+            type="number"
+            placeholder="Number of days"
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setDayForwards(Number(e.target.value))}
+          />
+          <Button onClick={() => testClient.increaseTime({ seconds: dayForwards * 24 * 60 * 60 })}>
+            Increase time
+          </Button>
+        </div>
+      </AdminBrick>
+      <AdminBrick title="Mint block">
+        <Button
+          onClick={() =>
+            testClient.mine({
+              blocks: 1,
+            })
+          }
+        >
+          Mint one block
+        </Button>
       </AdminBrick>
     </AdminMasonry>
   );

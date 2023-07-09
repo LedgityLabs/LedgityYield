@@ -15,7 +15,7 @@ import {
   LTYStaking,
   TotalStakedUpdate,
 } from "./generated/schema";
-import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import { TotalStakedUpdateEvent } from "./generated/LTYStaking/LTYStaking";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 
@@ -101,7 +101,7 @@ export function handleActivityEvent(event: ActivityEvent): void {
       "-" +
       ltoken.symbol;
     let activity = Activity.load(activityID);
-    if (activity == null) activity = new Activity(event.transaction.hash.toHexString());
+    if (activity == null) activity = new Activity(activityID);
 
     activity.ltoken = ltoken.id;
     activity.requestId = event.params.id;
