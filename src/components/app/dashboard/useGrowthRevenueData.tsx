@@ -18,6 +18,10 @@ type Data = Record<
   }[]
 >;
 
+const dataCacheDuration = 60 * 10; // 10 minutes
+let dataCache: Promise<Data> | null = null;
+let lastCacheTimestamp: number | null = null;
+
 export const useGrowthRevenueData = () => {
   const lTokens = useAvailableLTokens();
   const publicClient = usePublicClient();
@@ -26,6 +30,22 @@ export const useGrowthRevenueData = () => {
   const [isDataLoading, setIsDataLoading] = useState(true);
 
   const computeData = async () => {
+    // If data cache doesn't exist or isn't valid anymore
+    if (
+      lastCacheTimestamp === null ||
+      dataCache === null ||
+      Date.now() / 1000 - lastCacheTimestamp > dataCacheDuration
+    ) {
+      console.log("CACHE MISS");
+      // Populate data cache
+      dataCache = _computeData();
+      lastCacheTimestamp = Date.now() / 1000;
+    } else console.log("CACHE HIT");
+
+    setData(await dataCache);
+  };
+  const _computeData = async () => {
+    // Else compute new data
     const newData: Data = {};
 
     // Initialize empty data keys arrays
@@ -150,7 +170,7 @@ export const useGrowthRevenueData = () => {
         growth: balanceBefore ? revenue / balanceBefore : 0,
       });
     }
-    setData(newData);
+    return newData;
   };
 
   useEffect(() => {
