@@ -7,7 +7,9 @@ import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/
 
 abstract contract ERC20BaseUpgradeable is BaseUpgradeable, ERC20Upgradeable, ERC20PausableUpgradeable {
     /**
-     * @dev Initializer function ...
+     * @dev Initializer function of the contract. It replaces the constructor() function
+     * in context of upgradeable contracts.
+     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      */
     function __ERC20Base_init(
         address _globalOwner,
@@ -18,7 +20,13 @@ abstract contract ERC20BaseUpgradeable is BaseUpgradeable, ERC20Upgradeable, ERC
         __ERC20_init(name_, symbol_);
     }
 
-    // Required override
+    /**
+     * Required override of _beforeTokenTransfer() because the function is implemented
+     * in both ERC20Upgradeable and ERC20PausableUpgradeable contracts.
+     * The ERC20PausableUpgradeable version is used as it prevents tokens transfer
+     * when contract is paused.
+     * @inheritdoc ERC20PausableUpgradeable
+     */
     function _beforeTokenTransfer(
         address from,
         address to,

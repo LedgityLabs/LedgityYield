@@ -25,7 +25,7 @@ abstract contract BaseUpgradeable is
     RecoverableUpgradeable
 {
     /**
-     * @dev Prevent implementation contract from being initialized as recommended by
+     * @dev Prevents implementation contract from being initialized as recommended by
      * OpenZeppelin.
      * See: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Initializable-_disableInitializers--
      * @custom:oz-upgrades-unsafe-allow constructor
@@ -35,7 +35,7 @@ abstract contract BaseUpgradeable is
     }
 
     /**
-     * @dev Initializer function of the contract. It replace the constructor function
+     * @dev Initializer function of the contract. It replaces the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      */
