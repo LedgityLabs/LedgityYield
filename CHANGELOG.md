@@ -1,3 +1,18 @@
+## [1.115.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.115.0...v1.115.1) (2023-07-10)
+
+
+### Fixes
+
+* fix build error (since Amount component API change) ([8cdeb98](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8cdeb983039dbb9766e72853bcf10f56e0749365))
+
+
+### Others
+
+* **contracts:** improve UDS3 and APRCheckpoints docs, code readability and code logic safety ([986b395](https://github.com/ledgity-labs/Ledgity-DeFi/commit/986b39515fb3b09e63a2ba2d85f79937d2a9c584))
+* **deps:** update dependency postcss to v8.4.25 ([91081d7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/91081d7f03b563c088a04072301e3e92fb725740))
+* **deps:** update ipfs/go-ipfs docker tag to v0.21.0 ([8702ab7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8702ab787d399f674d7d80254e7da5ead65a7d90))
+* **deps:** update nextjs monorepo to v13.4.9 ([1f2952c](https://github.com/ledgity-labs/Ledgity-DeFi/commit/1f2952ce341ff9a9dc0417d05e20a7aa35582941))
+
 ## [1.115.0](https://github.com/ledgity-labs/dapp/compare/v1.114.1...v1.115.0) (2023-07-09)
 
 
