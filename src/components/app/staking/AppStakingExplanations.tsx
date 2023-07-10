@@ -27,13 +27,7 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
         <div className="grid grid-cols-[130px,auto] gap-y-7 ml-2">
           <h3 className="flex justify-center items-center text-3xl font-bold font-heading text-emerald-600/80 bg-emerald-600/20 rounded-l-2xl rounded-r-sm">
             <span className="opacity-70 inline-block mr-1">&gt;</span>
-            <Amount
-              value={tier1Amount}
-              decimals={ltyDecimals}
-              suffix="LTY"
-              displaySymbol={false}
-              discardLeadingZeroes={true}
-            />
+            <Amount value={tier1Amount} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
           </h3>
           <div className="pl-3">
             <ul className="pl-4 list-disc">
@@ -45,13 +39,7 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
 
           <h3 className="flex justify-center items-center text-3xl font-bold font-heading text-cyan-600/80 bg-cyan-600/20 rounded-l-2xl rounded-r-sm">
             <span className="opacity-70 inline-block mr-1">&ge;</span>
-            <Amount
-              value={tier2Amount}
-              decimals={ltyDecimals}
-              suffix="LTY"
-              displaySymbol={false}
-              discardLeadingZeroes={true}
-            />
+            <Amount value={tier2Amount} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
           </h3>
           <div className="pl-3">
             <p className="italic">Previous tiers advantages, plus:</p>
@@ -64,13 +52,7 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
 
           <h3 className="flex justify-center items-center text-3xl font-bold font-heading text-orange-600/80 bg-orange-600/20 rounded-l-2xl rounded-r-sm">
             <span className="opacity-70 inline-block mr-1 ">&ge;</span>
-            <Amount
-              value={tier3Amount}
-              decimals={ltyDecimals}
-              suffix="LTY"
-              displaySymbol={false}
-              discardLeadingZeroes={true}
-            />
+            <Amount value={tier3Amount} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
           </h3>
           <div className="pl-3">
             <p className="italic">Previous tiers advantages, plus:</p>
