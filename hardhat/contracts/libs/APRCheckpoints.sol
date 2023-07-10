@@ -6,17 +6,18 @@ import "hardhat/console.sol";
 /**
  * @title UDS3
  * @author Lila Rest (lila@ledgity.com)
- * @notice This library provides utilities to create and interact with APR checkpoints,
- * which are basically a way to efficiently store on chain an history of APRs .
- * @dev For more details see "APRCheckpoints" section of whitepaper.
+ * @notice This library provides utilities to create and interact with APR checkpoints.
+ * APR checkpoints are basically a way to efficiently store an history of APRs on-chain.
+ * @dev For further details, see "APRCheckpoints" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 library APRCheckpoints {
     /**
      * @dev High-level representation of an APR checkpoint. It doesn't represent how
-     * checkpoints are stored on-chain (see "Pack" instead).
-     * @param aprUD3 The APR in UD3 format (3 digits fixed point number, e.g., 12.345% = 12345)
-     * @param timestamp The timestamp of the checkpoint
+     * checkpoints are stored on-chain (see "Pack" instead) but are used to represent
+     * checkpoint data in-memory.
+     * @param aprUD3 APR in UD3 format (3 digits fixed point number, e.g., 12.345% = 12345)
+     * @param timestamp Timestamp of the checkpoint creation
      */
     struct Checkpoint {
         uint16 aprUD3; // Allows up to 65.536% APR (3 digits of precision)
@@ -24,8 +25,9 @@ library APRCheckpoints {
     }
 
     /**
-     * @dev Represents gas-efficient checkpoints storage on-chain. Each pack can hold up to 4
-     * checkpoints. See "APRCheckpoints library" section of whitepaper for more details.
+     * @dev Gas-efficient checkpoints storage on-chain. Each pack can hold up to 4
+     * checkpoints.
+     * For further details, see "APRCheckpoints library" section of whitepaper.
      * @param aprsUD3 Array of checkpoint's APRs
      * @param timestamps Array of checkpoint's timestamps
      * @param cursor Index of the next checkpoint to be written
@@ -37,82 +39,106 @@ library APRCheckpoints {
     }
 
     /**
-     * @dev Represents a reference to an APR checkpoint. A reference allows to identify the APR
-     * checkpoint in an array of packs.
+     * @dev Represents a storage pointer to an APR checkpoint in an array of packs (Pack).
      * @param packIndex Index of the pack the checkpoint belongs to (in the array of packs).
      * @param cursorIndex Index of the checkpoint in this pack (between 0 and 3)
      */
     struct Reference {
-        uint64 packIndex;
-        uint8 cursorIndex;
+        uint256 packIndex;
+        uint32 cursorIndex;
     }
 
     /**
-     * @dev Returns the reference of the checkpoint that follows the checkpoint represented
-     * by the given reference.
+     * @dev From a given checkpoint reference, it returns the reference of the checkpoint that
+     * should come after it in an array of packs.
      * @param ref The reference to be incremented
      * @return The incremented reference
      */
     function incrementReference(Reference memory ref) internal pure returns (Reference memory) {
-        // If this is the last checkpoint slot of the pack
+        // Ensure the given cursor index is in expected range [0, 3]
+        require(ref.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
+
+        // If the given checkpoint is stored in the last slot of its pack
         if (ref.cursorIndex == 3) {
-            // Increment the pack index and reset the cursor index
+            // Increment the pack index by 1 and reset the cursor index
             ref.packIndex++;
             ref.cursorIndex = 0;
         }
-        // Else increment the cursor index
+        // Else, increment the cursor index
         else ref.cursorIndex++;
+
         return ref;
     }
 
     /**
-     * @dev Extacts a checkpoint data from its reference in an array of packs.
+     * @dev Extacts a checkpoint data from its reference in a given array of packs.
      * @param packs The array of packs to extract the checkpoint from
-     * @param ref The reference to the checkpoint to extract
-     * @return checkpoint The extracted checkpoint data
+     * @param ref The reference of the checkpoint to extract
+     * @return checkpoint The extracted checkpoint data (Checkpoint struct)
      */
-    function getFromReference(
+    function getDataFromReference(
         Pack[] storage packs,
         Reference memory ref
     ) internal view returns (Checkpoint memory checkpoint) {
-        // If the checkpoint's pack exists
-        if (packs.length > ref.packIndex) {
-            // Extract its data
-            Pack memory pack = packs[ref.packIndex];
+        // Ensure the given cursor index is in expected range [0, 3]
+        require(ref.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
 
-            // Build and return the checkpoint data
-            // Note that there is no need to check if the cursor index has been written
-            // as they are all initialized to 0 in _newBlankPack() function, so will
-            // by default return 0 if not written
-            return
-                Checkpoint({
-                    aprUD3: pack.aprsUD3[ref.cursorIndex],
-                    timestamp: pack.timestamps[ref.cursorIndex]
-                });
-        }
-        // Else retruns  empty Checkpoint if the reference is out of bounds
-        return Checkpoint(0, 0);
-    }
+        // Ensure the given pack index is not out of bounds
+        require(ref.packIndex < packs.length, "APRCheckpoints: pack index out of bounds");
 
-    /**
-     * @dev Compute and return the reference of the latest checkpoint written in the given array of packs.
-     * @param packs The array of packs to compute the reference from
-     * @return The reference of the latest checkpoint
-     */
-    function getLatestReference(Pack[] storage packs) internal view returns (Reference memory) {
-        uint256 packLength = packs.length;
+        // Retrive pack data
+        Pack memory pack = packs[ref.packIndex];
+
+        // Ensure the given cursor index has been written
+        require(ref.cursorIndex < pack.cursor, "APRCheckpoints: cursor index not written yet");
+
+        // Build and return the high-level representation of the checkpoint data
         return
-            Reference({
-                packIndex: uint64(packLength - 1),
-                cursorIndex: uint8(packs[packLength - 1].cursor - 1)
+            Checkpoint({
+                aprUD3: pack.aprsUD3[ref.cursorIndex],
+                timestamp: pack.timestamps[ref.cursorIndex]
             });
     }
 
     /**
-     * @dev Appends a new empty pack to the given array of packs.
-     * @param packs The array of packs to append the new pack to
+     * @dev Compute and return the reference of the latest checkpoint written in the given
+     * array of packs.
+     * @param packs The array of packs to compute the reference from
+     * @return The reference of the latest checkpoint
      */
-    function _newBlankPack(Pack[] storage packs) private {
+    function getLatestReference(Pack[] storage packs) internal view returns (Reference memory) {
+        // Retrieve latest pack index and its cursor
+        uint256 packIndex = packs.length - 1;
+        uint32 packCursor = packs[packIndex].cursor;
+
+        // Ensure at least one APR checkpoint exists
+        require(packIndex > 0 || packCursor > 0, "APRCheckpoints: no checkpoint yet");
+
+        // If the pack is empty, the latest checkpoint reference is in the previous
+        // pack (packIndex--) and at the last slot of this one (packCursor = 3)
+        if (packCursor == 0) {
+            packIndex--;
+            packCursor = 3;
+        }
+        // Else decrement the cursor to obtain the last written slot index (and not
+        // the "to be written" one)
+        else packCursor--;
+
+        return Reference(packIndex, packCursor);
+    }
+
+    /**
+     * @dev Appends a new empty pack at the end the given array of packs.
+     * @param packs The array of packs to append the new empty pack to
+     */
+    function newBlankPack(Pack[] storage packs) internal {
+        // Retrieve reference of the latest checkpoint in the array of packs
+        Reference memory ref = getLatestReference(packs);
+
+        // Ensure the latest pack is full
+        require(ref.cursorIndex == 3, "APRCheckpoints: latest pack not full yet");
+
+        // Append a new empty pack to the array of packs
         packs.push(
             APRCheckpoints.Pack({
                 aprsUD3: [uint16(0), uint16(0), uint16(0), uint16(0)],
@@ -123,43 +149,60 @@ library APRCheckpoints {
     }
 
     /**
-     * This function allows updating the current APR. Under the hood it writes a new APR checkpoint.
-     * For more details, see "APRCheckpoints library" section of whitepaper.
-     * @param packs The array of packs to append the checkpoint to
+     * @dev Write an new APR checkpoint from a given APR into a given array of packs.
+     * For further details, see "APRCheckpoints library" section of whitepaper.
+     * @param packs The array of packs to write the new checkpoint to
      * @param aprUD3 The new APR in UD3 format
      */
     function setAPR(Pack[] storage packs, uint16 aprUD3) internal {
-        uint256 packLength = packs.length;
+        // Store array of packs length in memory for gas efficiency
+        uint256 packsLength = packs.length;
 
-        Reference memory ref;
+        // In-memory reference that will point to the checkpoint slot to be written
+        Reference memory newRef;
 
-        // Retrieve the reference of the checkpoint to be written, and create its pack if it doesn't exist yet
-        if (packLength == 0) {
-            ref = Reference(0, 0);
-            _newBlankPack(packs);
-        } else {
-            ref = incrementReference(getLatestReference(packs));
-            if (packs.length - 1 != ref.packIndex) _newBlankPack(packs);
+        // If the array of packs is empty, create a first blank pack in it
+        if (packsLength == 0) {
+            newBlankPack(packs);
+            packsLength++;
+            newRef = Reference(0, 0);
+        }
+        // Else retrieve the reference of the latest checkpoint and increment it by 1
+        else newRef = incrementReference(getLatestReference(packs));
+
+        // Create the new checkpoint pack if it doesn't exist yet
+        if (newRef.packIndex > packsLength - 1) {
+            newBlankPack(packs);
+            packsLength++;
         }
 
         // Retrieve the pack to write the checkpoint in
-        Pack memory pack = packs[ref.packIndex];
+        Pack memory pack = packs[newRef.packIndex];
 
         // Write the new checkpoint in the pack
-        console.log("ref.cursorIndex", ref.cursorIndex);
-        pack.aprsUD3[ref.cursorIndex] = aprUD3;
-        pack.timestamps[ref.cursorIndex] = uint40(block.timestamp);
+        pack.aprsUD3[newRef.cursorIndex] = aprUD3;
+        pack.timestamps[newRef.cursorIndex] = uint40(block.timestamp);
 
-        // Increment the pack's cursor
+        // Increment the pack's cursor for the next written APR
         pack.cursor++;
 
         // Store the updated pack
-        packs[packs.length - 1] = pack;
+        packs[packsLength - 1] = pack;
     }
 
+    /**
+     * @dev Returns the latest APR checkpoint written in the given array of packs.
+     * If no checkpoint has been written yet, returns 0.
+     * @param packs The array of packs to retrieve the latest checkpoint from
+     * @return The latest APR checkpoint or 0
+     */
     function getAPR(Pack[] storage packs) internal view returns (uint16) {
+        // Returns 0 if no APR checkpoint has been written yet
+        if (packs.length == 0) return 0;
+
+        // Else retrieve the latest checkpoint and return its APR
         Reference memory ref = getLatestReference(packs);
-        Checkpoint memory data = getFromReference(packs, ref);
+        Checkpoint memory data = getDataFromReference(packs, ref);
         return data.aprUD3;
     }
 }

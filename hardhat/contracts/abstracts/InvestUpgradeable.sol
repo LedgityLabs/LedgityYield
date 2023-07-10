@@ -210,9 +210,9 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
 
         // Retrieve deposit checkpoint and the one right after it
         APRC.Reference memory ref = infos.period.ref;
-        APRC.Checkpoint memory checkpoint = APRC.getFromReference(packedAPRCheckpoints, ref);
+        APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(packedAPRCheckpoints, ref);
         APRC.Reference memory nextRef = APRC.incrementReference(ref);
-        APRC.Checkpoint memory nextCheckpoint = APRC.getFromReference(packedAPRCheckpoints, nextRef);
+        APRC.Checkpoint memory nextCheckpoint = APRC.getDataFromReference(packedAPRCheckpoints, nextRef);
 
         if (nextCheckpoint.timestamp != 0) {
             // Calculate rewards from deposit to next checkpoint
@@ -231,7 +231,7 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
             while (true) {
                 // Retrieve next ref and checkpoint
                 nextRef = APRC.incrementReference(ref);
-                nextCheckpoint = APRC.getFromReference(packedAPRCheckpoints, nextRef);
+                nextCheckpoint = APRC.getDataFromReference(packedAPRCheckpoints, nextRef);
 
                 // Break if next checkpoint doesn't exist
                 if (nextCheckpoint.timestamp == 0) break;

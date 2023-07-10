@@ -4,9 +4,9 @@ pragma solidity ^0.8.20;
 /**
  * @title UDS3
  * @author Lila Rest (lila@ledgity.com)
- * @notice This library provides utilities to perform precise calculation on unsigned decimal
+ * @notice This library provides utilities used to lossless calculation on unsigned decimal
  * fixed point numbers.
- * @dev For more details see "UDS3" section of whitepaper.
+ * @dev For further details, see "UDS3" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 library UDS3 {
@@ -22,7 +22,7 @@ library UDS3 {
     /**
      * @dev Scales down a given UDS3 number by 3 decimals
      * @param nUDS3 The UDS3 number to scale down
-     * @return n The unscaled number
+     * @return n The scaled down number
      */
     function scaleDown(uint256 nUDS3) internal pure returns (uint256 n) {
         return nUDS3 / 10 ** 3;
