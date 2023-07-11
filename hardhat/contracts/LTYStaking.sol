@@ -9,25 +9,38 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
 /**
  * @title LTYStaking
  * @author Lila Rest (lila@ledgity.com)
- * @notice
- * @dev For more details see "LTYStaking" section of whitepaper.
- * Note that InvestmentUpgradeable.AccountInfos.virtualBalance (uint88) allows storing up
- * to 309,485,009 $LTY which is far enough because it represents ~1/9 of the max supply and
- * the amount of accumulated rewards is very unlikely to exceed 1/9 of the max supply.
- * Note2: This contract considers that tiers start at 1, 0 is considered as not elligible
+ * @notice This contract powers the $LTY staking mechanism of the Ledgity DeFi app. It allows
+ * users to stake their $LTY tokens and earn rewards in $LTY.
+ * @dev
+ * Security note: InvestmentUpgradeable.AccountInfos.virtualBalance (uint88) allows storing up
+ * to 309,485,009 $LTY which is far enough because it represents more than 3 times $LTY max
+ * supply.
+ *
+ * Design note: This contract considers that tiers start at 1, 0 is considered as not elligible
  * to any tier.
+ *
+ * For further details, see "LTYStaking" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
-    uint40 public stakeLockDuration;
-    uint32 public unlockFeesRateUD3;
-
+    /**
+     * @dev Represents the stake infos of an account.
+     * @param amount The amount of staked $LTY
+     * @param lockEnd The timestamp at which the stake is unlocked
+     */
     struct AccountStake {
-        uint216 amount;
-        uint40 lockEnd;
+        uint216 amount; // Allows storing more $LTY than its max supply
+        uint40 lockEnd; // Allows datetime up to 20/02/36812
     }
 
-    mapping(address => AccountStake) public accountsStakes;
+    /// @dev Holds the time (in seconds) during which staked $LTY are locked
+    uint40 public stakeLockDuration;
+
+    /// @dev Holds the fees rate (in UDS3 format) taxed when account requests prematurate unlock
+    uint32 public unlockFeesRateUD3;
+
+    /// @dev Holds a mapping of account's stake infos
+    mapping(address => AccountStake) private accountsStakes;
 
     /// @dev Holds amount of $LTY to be elligible to staking tier
     uint256[] private _tiers;
@@ -35,34 +48,46 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
 
+    /**
+     * @dev Emitted to inform of a change in the total amount staked
+     * @param newTotalStaked The new total amount staked
+     */
     event TotalStakedUpdateEvent(uint256 newTotalStaked);
 
+    /**
+     * @dev Replaces the constructor() function in context of an upgradeable contract.
+     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalPauser_ The address of the GlobalPauser contract
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract
+     * @param ltyTokenAddress The address of the $LTY token
+     */
     function initialize(
-        address _globalOwner,
-        address _globalPauser,
-        address _globalBlacklist,
+        address globalOwner_,
+        address globalPauser_,
+        address globalBlacklist_,
         address ltyTokenAddress
     ) public initializer {
-        __Base_init(_globalOwner, _globalPauser, _globalBlacklist);
+        __Base_init(globalOwner_, globalPauser_, globalBlacklist_);
         __Invest_init_unchained(ltyTokenAddress);
 
+        // Initialize stakeLockDuration to 90 days
         stakeLockDuration = 90 days;
     }
 
     /**
-     * @dev Override of RecoverableUpgradeable.recoverERC20() that ensures:
-     * - the caller is the owner
-     * - the token recovered token is not the invested token
+     * @dev Override of RecoverableUpgradeable.recoverERC20() that prevents recovered
+     * token from being the invested $LTY token.
      * @inheritdoc RecoverableUpgradeable
      */
     function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the $LTY token
-        require(tokenAddress != address(invested()), "Use recoverLTY() instead");
+        require(tokenAddress != address(invested()), "LTYStaking: use recoverLTY() instead");
         super.recoverERC20(tokenAddress, amount);
     }
 
     /**
-     * @dev Allows recovering $LTY token accidentally sent to contract. To prevent
+     * @dev Allows recovering $LTY tokenS accidentally sent to this contract. To prevent
      * owner from draining funds from the contract, this function only allows recovering
      * "recoverable" underlying tokens, i.e., tokens that have not been deposited through
      * `stake()` function.
@@ -70,17 +95,17 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     function recoverLTY() public onlyOwner {
         // Compute the amount of $LTY that can be recovered by making the difference
         // between the current balance of the contract and the total amount staked
-        uint256 recoverable = invested().balanceOf(address(this)) - totalStaked;
+        uint256 recoverableAmount = invested().balanceOf(address(this)) - totalStaked;
 
         // If there are some unusable funds, recover them, else revert
-        if (recoverable > 0) super.recoverERC20(address(invested()), recoverable);
-        else revert("There is nothing to recover");
+        if (recoverableAmount > 0) super.recoverERC20(address(invested()), recoverableAmount);
+        else revert("LTYStaking: nothing to recover");
     }
 
     /**
      * @dev Implementation of InvestUpgradeable._investmentOf(). Required by parent contract
      * to calculate rewards of an account. In this contract the investment of an account is
-     * equal to the amount of $LTY it staked.
+     * equal to the amount of $LTY staked by the given account.
      * @inheritdoc InvestUpgradeable
      */
     function _investmentOf(address account) internal view override returns (uint256) {
@@ -88,8 +113,8 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev External implementation of the InvestmentUpgradeable._rewardsOf() allowing
-     * off-chain actors to easily retrieve unclaimed rewards of an account.
+     * @dev External implementation of InvestmentUpgradeable._rewardsOf() allowing
+     * off-chain apps to easily compute the unclaimed rewards of a given account.
      * @param account The account to check the rewards of
      * @return The amount of unclaimed rewards of the account
      */
@@ -97,65 +122,108 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         return _rewardsOf(account, false);
     }
 
+    /**
+     * @dev Getter that reads and return the amount staked by a given account.
+     * @param account The account to check the stake of
+     */
     function stakeOf(address account) public view returns (uint256) {
         return accountsStakes[account].amount;
     }
 
+    /**
+     * @dev Getter that reads and return the lock end of a given account.
+     * @param account The account to check the lock end of
+     */
     function lockEndOf(address account) public view returns (uint40) {
         return accountsStakes[account].lockEnd;
     }
 
-    function getLockEndIncrease(address account, uint256 addedAmount) public view returns (uint40) {
+    /**
+     * @dev Computes the increases of tier lock time for a given account extending
+     * its staking by a given "added amount".
+     * @param account The account to check the lock end increase of
+     * @param addedAmount The amount of $LTY added by the account to its stake
+     */
+    function _getLockDuration(
+        address account,
+        uint256 addedAmount
+    ) internal view returns (uint40 lockEndIncrease) {
+        // Retrieve account's stake infos
         AccountStake memory accountStake = accountsStakes[account];
-        if (accountStake.amount == 0) return 0;
 
-        uint256 growthRateUDS3 = (UDS3.scaleUp(addedAmount) * _toUDS3(1)) /
-            UDS3.scaleUp(accountStake.amount);
+        // If the account has no previous stake, return a full lock duration
+        if (accountStake.amount == 0) return stakeLockDuration;
+
+        // Else, make the lock increase proportional to the added amount compared to previous stake
+        uint256 addedAmountUDS3 = UDS3.scaleUp(addedAmount);
+        uint256 accountStakeUDS3 = UDS3.scaleUp(accountStake.amount);
+        uint256 growthRateUDS3 = (addedAmountUDS3 * _toUDS3(1)) / accountStakeUDS3;
         uint256 lockEndIncreaseUDS3 = (_toUDS3(stakeLockDuration) * growthRateUDS3) / _toUDS3(100);
-        uint40 lockEndIncrease = uint40(_fromUDS3(lockEndIncreaseUDS3));
+        lockEndIncrease = uint40(_fromUDS3(lockEndIncreaseUDS3));
+
+        // Compute the remaining lock duration of the account
+        // If the lock end is in the past, the remaining lock duration is 0
         uint40 remainingLockDuration = accountStake.lockEnd < uint40(block.timestamp)
             ? 0
             : accountStake.lockEnd - uint40(block.timestamp);
-        return
-            (lockEndIncrease + remainingLockDuration) > stakeLockDuration
-                ? stakeLockDuration - remainingLockDuration
-                : lockEndIncrease;
+
+        // Ensure the new lock duration will not exceed the stakeLockDuration
+        lockEndIncrease = lockEndIncrease + remainingLockDuration > stakeLockDuration
+            ? stakeLockDuration - remainingLockDuration
+            : lockEndIncrease;
     }
 
-    function _getNewLockEnd(address account, uint216 addedAmount) internal view returns (uint40) {
-        AccountStake memory accountStake = accountsStakes[account];
-        // If the account has no previous stake, add full stakeLockDuration
-        if (accountStake.amount == 0) return uint40(block.timestamp) + stakeLockDuration;
-        // Or if the account increases a previous stake, add a proportional duration
-        else return accountStake.lockEnd + getLockEndIncrease(account, addedAmount);
+    /**
+     * @dev Computes the new lock end timestamp of a given account and amount added to
+     * its stake.
+     * @param account The account to check the new lock end of
+     * @param addedAmount The amount of $LTY added by the account to its stake
+     */
+    function getNewLockEnd(address account, uint216 addedAmount) public view returns (uint40) {
+        return uint40(block.timestamp) + _getLockDuration(account, addedAmount);
     }
 
+    /**
+     * @dev Setter for the prematurate unlock fees/tax rate. Restricted to owner.
+     * @param _unlockFeesRateUD3  The new unlock fees rate in UD3 format
+     */
     function setUnlockFeesRate(uint32 _unlockFeesRateUD3) public onlyOwner {
         unlockFeesRateUD3 = _unlockFeesRateUD3;
     }
 
+    /**
+     * @dev Setter for the stake lock duration. Restricted to owner.
+     * @param _stakeLockDuration  The new stake lock duration
+     */
     function setStakeLockDuration(uint40 _stakeLockDuration) public onlyOwner {
         stakeLockDuration = _stakeLockDuration;
     }
 
+    /**
+     * @dev Prematurely unlocks the stake of the caller against a fee rate defined
+     * by unlockFeesRateUD3. The entire fee is burned as a way to support the token's
+     * ecosystem.
+     */
     function unlock() external {
-        // Retrieve account stake
+        // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Ensure the account has a locked stake
         require(accountStake.lockEnd > block.timestamp, "Nothing to unlock");
 
-        // Set unlock time to now
+        // Unlock stake by setting lock time to now
         accountStake.lockEnd = uint40(block.timestamp);
 
-        // Calculate unlock fees and update account stake accordingly
+        // Calculate unlock fees/tax
         uint256 amountUDS3 = UDS3.scaleUp(accountStake.amount);
         uint256 unlockFeesRateUDS3 = _toDecimals(unlockFeesRateUD3); // UD3 to UDS3
         uint256 feesUDS3 = (amountUDS3 * unlockFeesRateUDS3) / _toUDS3(100);
         uint256 fees = UDS3.scaleDown(feesUDS3);
+
+        // Remove fees from the account stake
         accountStake.amount -= uint216(fees);
 
-        // Write the new account stake
+        // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
 
         // Burn unlock fees
@@ -163,28 +231,30 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev Allows staking a given amount of $LTY tokens.
+     * @dev Allows a user to stake a given amount of $LTY tokens.
      * @param amount The amount of $LTY tokens to stake
      */
     function stake(uint216 amount) public whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough $LTY tokens to stake
-        require(invested().balanceOf(_msgSender()) >= amount, "Insufficient balance");
+        require(invested().balanceOf(_msgSender()) >= amount, "LTYStaking: insufficient balance");
 
-        // Retrieve account stake
-        AccountStake memory accountStake = accountsStakes[_msgSender()];
-
-        // Reset its investment period
+        // Reset account's investment period
         _resetInvestmentPeriodOf(_msgSender(), false);
+
+        // Retrieve account stake infos
+        AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Update the amount staked by the account and the total amount staked
         accountStake.amount += amount;
         totalStaked += amount;
+
+        // Inform listeners about the change in total staked amount
         emit TotalStakedUpdateEvent(totalStaked);
 
         // Update the end of the lock period
-        accountStake.lockEnd = _getNewLockEnd(_msgSender(), amount);
+        accountStake.lockEnd = getNewLockEnd(_msgSender(), amount);
 
-        // Write the new account stake
+        // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
 
         // Transfer staked $LTY tokens to the contract
@@ -192,14 +262,14 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev Allows unstaking (withdrawing) a given amount of $LTY tokens.
-     * @param amount The amount of $LTY tokens to stake
+     * @dev Allows a user to unstaking (withdraw) a given amount of $LTY tokens.
+     * @param amount The amount of $LTY tokens to unstake
      */
     function unstake(uint216 amount) external whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough $LTY tokens to unstake
-        require(stakeOf(_msgSender()) >= amount, "Insufficient balance");
+        require(stakeOf(_msgSender()) >= amount, "LTYStaking: insufficient balance");
 
-        // Retrieve account stake
+        // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Ensure the account is not in lock period
@@ -211,9 +281,11 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         // Update the amount staked by the account and the total amount staked
         accountStake.amount -= amount;
         totalStaked -= amount;
+
+        // Inform listeners about the change in total staked amount
         emit TotalStakedUpdateEvent(totalStaked);
 
-        // Write the new account stake
+        // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
 
         // Transfer withdrawn $LTY tokens to the account
@@ -221,13 +293,14 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev
+     * @dev Allows the caller to claim its currently unclaimed rewards.
      */
     function claim() public whenNotPaused notBlacklisted(_msgSender()) {
-        // Reset account investment period. This will compound current rewards into virtual balance.
+        // Reset account investment period. This will accumualte current unclaimed
+        // rewards into the account's virtual balance.
         _resetInvestmentPeriodOf(_msgSender(), false);
 
-        // Retrieve and reset account's unclaimed rewards
+        // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
         accountsInfos[_msgSender()].virtualBalance = 0;
 
@@ -236,61 +309,79 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev
-     * Note that we don't update the lock end here, as it applies only to intially
-     * deposited funds.
+     * @dev Allows the caller to compound its currently unclaimed rewards to its stake.
+     * Note that we don't update the lock end here, as it applies only to $LTY deposited
+     * through the stake() function, not rewards.
      */
     function compound() external whenNotPaused notBlacklisted(_msgSender()) {
-        // Retrieve account stake
+        // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
-        // Reset its investment period
+        // Reset account investment period. This will accumualte current unclaimed
+        // rewards into the account's virtual balance.
         _resetInvestmentPeriodOf(_msgSender(), false);
 
-        // Retrieve and reset account's unclaimed rewards
+        // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
         accountsInfos[_msgSender()].virtualBalance = 0;
 
         // Update the amount staked by the account and the total amount staked
         accountStake.amount += uint216(rewards);
         totalStaked += rewards;
+
+        // Inform listeners about the change in total staked amount
         emit TotalStakedUpdateEvent(totalStaked);
 
-        // Write the new account stake
+        // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
     }
 
     /**
-     * @dev
+     * @dev Sets the amount of $LTY tokens that must be staked to be elligible to a given
+     * staking tier.
+     * @param tier The tier number (not its index in the array)
+     * @param amount The amount of $LTY tokens to stake to be elligible to the tier
      */
-    function setTier(uint256 tier, uint256 amountUD18) public onlyOwner {
+    function setTier(uint256 tier, uint256 amount) public onlyOwner {
+        // Ensure the tier is > 0 (as it shouldn't be an index)
         require(tier > 0, "Tier must be > 0");
 
-        // Create missing tiers
+        // Create missing tiers in the tiers array
         for (uint256 i = _tiers.length; i < tier; i++) {
             _tiers.push(0);
         }
 
-        // Set the tier
-        _tiers[tier - 1] = amountUD18;
+        // Set the new tier value
+        _tiers[tier - 1] = amount;
     }
 
     /**
-     * @dev
+     * @dev Returns the amount of $LTY tokens that must be staked to be elligible to a given
+     * staking tier.
      * @param tier The tier number (not its index in the array)
+     * @return The amount of $LTY tokens to stake to be elligible to the tier
      */
     function getTier(uint256 tier) public view returns (uint256) {
+        // Ensure the tier is > 0 (as it shouldn't be an index)
         require(tier > 0, "Tier must be > 0");
-        if (_tiers.length < tier) return 0;
-        else return _tiers[tier - 1];
+
+        // Ensure the staking tier exists
+        require(_tiers.length >= tier, "LTYStaking: tier does not exist");
+
+        // Return the tier value
+        return _tiers[tier - 1];
     }
 
     /**
-     * @dev
+     * @dev Returns the staking a given account is ellible to.
      * @param account The account to check the tier of
+     * @return tier The tier number (not its index in the array)
      */
     function tierOf(address account) public view returns (uint256 tier) {
+        // If the account has no stake, it is not elligible to any tier so returns 0
         if (stakeOf(account) == 0) return 0;
+
+        // Else loop through tiers required amounts to find the highest tier the account is elligible to
         while (tier < _tiers.length && stakeOf(account) >= _tiers[tier]) tier++;
     }
 }

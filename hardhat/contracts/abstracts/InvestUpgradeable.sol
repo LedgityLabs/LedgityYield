@@ -25,7 +25,7 @@ import "hardhat/console.sol";
  *  - Implement _claimRewardsOf() function (optional)
  * Also, note that the contract is not pausable or restrictable as none of its functions
  * are intended to be called externally by non-owner accounts.
- * For more details see "InvestmentUpgradeable" section of whitepaper.
+ * For further details, see "InvestmentUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
@@ -203,7 +203,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
 
     /**
      * @dev Calculates the current unclaimed rewards of a given account.
-     * For more details see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
+     * For further details, see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
      * @param account The account to calculate the rewards of.
      * @param autocompound Whether to autocompound the rewards between APR checkpoints.
      */

@@ -11,7 +11,7 @@ import {Ownable2StepUpgradeable} from "@openzeppelin/contracts-upgradeable/acces
  * @notice This contract is used to maintain an owner account shared by all contracts of this
  * codebase. It is then read by all contracts that inherit from GlobalOwnableUpgradeable abstract
  * contract to restrict access to some functions to owner of this contract.
- * @dev For more details see "GlobalOwner" section of whitepaper.
+ * @dev For further details, see "GlobalOwner" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 contract GlobalOwner is Initializable, UUPSUpgradeable, Ownable2StepUpgradeable {

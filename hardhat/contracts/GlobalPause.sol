@@ -12,7 +12,7 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
  * @notice This contract is used to maintain a pause state shared by all contracts of this
  * codebase. It is then read by all contracts that inherit from GlobalPausableUpgradeable 
  * abstract contract to restrict execution of some functions when this contract is not paused.
- * @dev For more details see "GlobalPause" section of whitepaper.
+ * @dev For further details, see "GlobalPause" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 contract GlobalPause is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeable, PausableUpgradeable {

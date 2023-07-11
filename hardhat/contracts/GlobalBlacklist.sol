@@ -11,7 +11,7 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
  * @notice This contract is used to maintain a mapping of blacklisted accounts on chain.
  * It is then read by all contracts that inherit from GlobalRestrictableUpgradeable abstract
  * contract to restrict access to some functions to non-blacklisted accounts.
- * @dev For more details see "GlobalBlacklist" section of whitepaper.
+ * @dev For further details, see "GlobalBlacklist" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeable {

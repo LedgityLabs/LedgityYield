@@ -11,7 +11,7 @@ import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ER
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract provides helpers functions to recover assets accidentally
  * sent to the contract.
- * @dev For more details see "RecoverableUpgradeable" section of whitepaper.
+ * @dev For further details, see "RecoverableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {

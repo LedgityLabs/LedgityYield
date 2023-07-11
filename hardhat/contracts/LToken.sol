@@ -17,7 +17,7 @@ import {UDS3} from "./libs/UDS3.sol";
  * @title LToken
  * @author Lila Rest (lila@ledgity.com)
  * @notice
- * @dev For more details see "LToken" section of whitepaper.
+ * @dev For further details, see "LToken" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
@@ -115,10 +115,18 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         _;
     }
 
+    /**
+     * @dev Replaces the constructor() function in context of an upgradeable contract.
+     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalPauser_ The address of the GlobalPauser contract
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract
+     * @param underlyingToken The address of the underlying stablecoin
+     */
     function initialize(
-        address _globalOwner,
-        address _globalPauser,
-        address _globalBlacklist,
+        address globalOwner_,
+        address globalPauser_,
+        address globalBlacklist_,
         IERC20Upgradeable underlyingToken
     ) public initializer {
         // Retrieve underlying token metadata
@@ -128,9 +136,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Initialize ancestors contracts
         __ERC20Base_init(
-            _globalOwner,
-            _globalPauser,
-            _globalBlacklist,
+            globalOwner_,
+            globalPauser_,
+            globalBlacklist_,
             string(abi.encodePacked("Ledgity ", underlyingMetadata.name())),
             string(abi.encodePacked("L", underlyingMetadata.symbol()))
         );
