@@ -1,3 +1,11 @@
+## [1.117.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.0...v1.117.1) (2023-07-11)
+
+
+### Fixes
+
+* **contracts:** add missing RecoverableUpgradeable initializer call in BaseUpgradeable.sol ([7c7b18b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7c7b18b279a008d5e176a913bc69bb0b597029eb))
+* **contracts:** fix typo in LToken.getWithdrawnAmountAndFees() ([d96c859](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d96c859e54adcc12756274f62043a70ed473720d))
+
 ## [1.117.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.116.0...v1.117.0) (2023-07-11)
 
 
