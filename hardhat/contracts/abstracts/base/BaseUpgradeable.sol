@@ -41,6 +41,7 @@ abstract contract BaseUpgradeable is
      */
     function __Base_init(address _globalOwner) internal onlyInitializing {
         __UUPSUpgradeable_init();
+        __Pausable_init();
         __GlobalPausable_init_unchained();
         __GlobalOwnable_init(_globalOwner);
     }

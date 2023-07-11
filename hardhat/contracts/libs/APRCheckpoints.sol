@@ -155,39 +155,27 @@ library APRCheckpoints {
      * @param aprUD3 The new APR in UD3 format
      */
     function setAPR(Pack[] storage packs, uint16 aprUD3) internal {
-        // Store array of packs length in memory for gas efficiency
-        uint256 packsLength = packs.length;
-
         // In-memory reference that will point to the checkpoint slot to be written
-        Reference memory newRef;
+        Reference memory newRef = Reference(0, 0);
 
-        // If the array of packs is empty, create a first blank pack in it
-        if (packsLength == 0) {
-            newBlankPack(packs);
-            packsLength++;
-            newRef = Reference(0, 0);
+        // If packs array is not empty, get new checkpoint's ref and create its pack if missing
+        if (packs.length != 0) {
+            newRef = incrementReference(getLatestReference(packs));
+            if (newRef.packIndex > packs.length - 1) newBlankPack(packs);
         }
-        // Else retrieve the reference of the latest checkpoint and increment it by 1
-        else newRef = incrementReference(getLatestReference(packs));
-
-        // Create the new checkpoint pack if it doesn't exist yet
-        if (newRef.packIndex > packsLength - 1) {
-            newBlankPack(packs);
-            packsLength++;
-        }
+        // Else, create a first blank pack in it
+        else newBlankPack(packs);
 
         // Retrieve the pack to write the checkpoint in
         Pack memory pack = packs[newRef.packIndex];
 
-        // Write the new checkpoint in the pack
+        // Write the new checkpoint in the pack and increment its cursor
         pack.aprsUD3[newRef.cursorIndex] = aprUD3;
         pack.timestamps[newRef.cursorIndex] = uint40(block.timestamp);
-
-        // Increment the pack's cursor for the next written APR
         pack.cursor++;
 
         // Store the updated pack
-        packs[packsLength - 1] = pack;
+        packs[newRef.packIndex] = pack;
     }
 
     /**

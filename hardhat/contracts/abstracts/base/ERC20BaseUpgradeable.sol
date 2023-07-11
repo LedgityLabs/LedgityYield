@@ -24,7 +24,7 @@ abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC
     }
 
     /**
-     * @dev Required override of paused() which is implement by both
+     * @dev Required override of paused() which is implemented by both
      * GlobalPausableUpgradeable and PausableUpgradeable parent contracts.
      * The GlobalPausableUpgradeable version is preferred because it checks the pause
      * state from the GlobalPause contract instead of locally.
@@ -41,7 +41,7 @@ abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC
     }
 
     /**
-     * @dev Required override of _beforeTokenTransfer() which is implement by both
+     * @dev Required override of _beforeTokenTransfer() which is implemented by both
      * ERC20PausableUpgradeable and ERC20Upgradeable parent contracts.
      * The ERC20PausableUpgradeable version is preferred because it also checks that
      * the contract is not paused before allowing the transfer.
