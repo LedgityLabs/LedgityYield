@@ -16,26 +16,38 @@ import {GlobalPauser} from "../GlobalPauser.sol";
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, PausableUpgradeable {
-    /// @dev The GlobalPause contract.
-    GlobalPauser public globalPauser;
+    /**
+     * @dev The GlobalPause contract.
+     * This state is private so children contracts cannot change its value.
+     */
+    GlobalPauser private _globalPauser;
 
     /**
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param _globalOwner The address of the GlobalOwner contract
+     * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalPauser_ The address of the GlobalPauser contract
      */
     function __GlobalPausable_init(
-        address _globalOwner,
-        address _globalPauser
+        address globalOwner_,
+        address globalPauser_
     ) internal onlyInitializing {
-        __GlobalOwnable_init(_globalOwner);
+        __GlobalOwnable_init(globalOwner_);
         __Pausable_init();
-        __GlobalPausable_init_unchained(_globalPauser);
+        __GlobalPausable_init_unchained(globalPauser_);
     }
 
-    function __GlobalPausable_init_unchained(address _globalPauser) internal onlyInitializing {
-        globalPauser = GlobalPauser(_globalPauser);
+    function __GlobalPausable_init_unchained(address globalPauser_) internal onlyInitializing {
+        _globalPauser = GlobalPauser(globalPauser_);
+    }
+
+    /**
+     * @dev Getter for the GlobalPauser contract.
+     * @return The address of the GlobalPauser contract
+     */
+    function globalPauser() public view returns (address) {
+        return address(_globalPauser);
     }
 
     /**
@@ -44,7 +56,7 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
      * @return Whether the contract is paused or not
      */
     function paused() public view virtual override returns (bool) {
-        return globalPauser.paused();
+        return _globalPauser.paused();
     }
 
     /**

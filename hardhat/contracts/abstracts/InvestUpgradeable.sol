@@ -19,11 +19,13 @@ import "hardhat/console.sol";
  * @notice This contract provides a bunch of investment utilities shared between LToken
  * and LTYStaking contracts. This includes invested token, investment periods, virtual
  * balances, rewards calculations, and auto-compounding.
- * @dev For more details see "InvestmentUpgradeable" section of whitepaper.
- * Children contract must:
+ * @dev Children contract must:
  *  - Set invested token (during initialization or later using _setInvested()).
  *  - Implement _investmentOf() function
  *  - Implement _claimRewardsOf() function (optional)
+ * Also, note that the contract is not pausable or restrictable as none of its functions
+ * are intended to be called externally by non-owner accounts.
+ * For more details see "InvestmentUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
@@ -53,25 +55,28 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /// @dev Holds reference to invested token contract
-    IERC20Upgradeable private _invested;
+    IERC20Upgradeable public invested;
 
     /// @dev Holds investment information of each account
     mapping(address => AccountInfos) accountsInfos;
 
-    /// @dev Holds APR checkpoints (see APRCheckpoints.sol)
+    /// @dev Holds the history of APR through time (see APRCheckpoints.sol)
     APRC.Pack[] private packedAPRCheckpoints;
 
-    /// @dev Prevent claim re-entrancy / infinite loop
+    /// @dev Prevents claim re-entrancy / infinite loop
     bool private _isClaiming;
 
     /**
-     * @dev Called each time the total supply and so indirectly the TVL of the contract
-     * changes.
+     * @dev Event used to inform about a change in the APR.
+     * @param newAPRUD3 The new APR in UD3 format.
      */
-    event APRUpdateEvent(uint16 newAPR);
+    event APRUpdateEvent(uint16 newAPRUD3);
 
     /**
-     * @dev Initializer function allowing to set invested token contract at deploy time.
+     * @dev Initializer functions of the contract. They replace the constructor() function
+     * in context of upgradeable contracts.
+     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param _globalOwner The address of the GlobalOwner contract
      * @param invested_ The invested token's contract address.
      */
     function __Invest_init(address invested_, address _globalOwner) internal onlyInitializing {
@@ -84,28 +89,28 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /**
-     * @dev Sets the invested token contract.
-     * @param tokenAddress The address of the invested token.
+     * @dev Setter for the invested token contract. Restricted to owner.
+     * @param tokenAddress The address of the new invested token.
      */
     function setInvested(address tokenAddress) public onlyOwner {
-        _invested = IERC20Upgradeable(tokenAddress);
+        invested = IERC20Upgradeable(tokenAddress);
     }
 
+    /**
+     * @dev Setter for the current APR. Restricted to owner.
+     * @param aprUD3 The new APR in UD3 format.
+     */
     function setAPR(uint16 aprUD3) public onlyOwner {
         APRC.setAPR(packedAPRCheckpoints, aprUD3);
         emit APRUpdateEvent(aprUD3);
     }
 
+    /**
+     * @dev Extracts and returns the latest APR from the APR history.
+     * @return The current APR in UD3 format.
+     */
     function getApr() public view returns (uint16) {
         return APRC.getAPR(packedAPRCheckpoints);
-    }
-
-    /**
-     * @dev Invested token contract getter.
-     * @return The invested token contract.
-     */
-    function invested() public view returns (IERC20Upgradeable) {
-        return _invested;
     }
 
     /**
@@ -138,12 +143,12 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @return The converted number.
      */
     function toDecimals(uint256 n) internal view returns (uint256) {
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
+        uint256 decimals = IERC20MetadataUpgradeable(address(invested)).decimals();
         return n * 10 ** decimals;
     }
 
     function fromDecimals(uint256 n) internal view returns (uint256) {
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
+        uint256 decimals = IERC20MetadataUpgradeable(address(invested)).decimals();
         return n / 10 ** decimals;
     }
 

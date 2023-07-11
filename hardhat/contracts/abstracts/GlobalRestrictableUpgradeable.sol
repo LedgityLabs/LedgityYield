@@ -16,24 +16,33 @@ import {GlobalBlacklist} from "../GlobalBlacklist.sol";
  */
 abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
     /// @dev The GlobalBlacklist contract.
-    GlobalBlacklist public globalBlacklist;
+    GlobalBlacklist private _globalBlacklist;
 
     /**
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param _globalOwner The address of the GlobalOwner contract
+     * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract
      */
     function __GlobalRestricted_init(
-        address _globalOwner,
-        address _globalBlacklist
+        address globalOwner_,
+        address globalBlacklist_
     ) internal onlyInitializing {
-        __GlobalOwnable_init(_globalOwner);
-        __GlobalRestricted_init_unchained(_globalBlacklist);
+        __GlobalOwnable_init(globalOwner_);
+        __GlobalRestricted_init_unchained(globalBlacklist_);
     }
 
-    function __GlobalRestricted_init_unchained(address _globalBlacklist) internal onlyInitializing {
-        globalBlacklist = GlobalBlacklist(_globalBlacklist);
+    function __GlobalRestricted_init_unchained(address globalBlacklist_) internal onlyInitializing {
+        _globalBlacklist = GlobalBlacklist(globalBlacklist_);
+    }
+
+    /**
+     * @dev Getter for the GlobalBlacklist contract.
+     * @return The address of the GlobalBlacklist contract
+     */
+    function globalBlacklist() public view returns (address) {
+        return address(_globalBlacklist);
     }
 
     /**
@@ -52,11 +61,7 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
      * @return (true/false) Whether the account is blacklisted
      */
     function isBlacklisted(address account) internal view returns (bool) {
-        require(
-            address(globalBlacklist) != address(0),
-            "GlobalRestrictableUpgradeable: global blacklist not set"
-        );
-        return globalBlacklist.isBlacklisted(account);
+        return _globalBlacklist.isBlacklisted(account);
     }
 
     /**

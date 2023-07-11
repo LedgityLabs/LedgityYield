@@ -15,24 +15,35 @@ import {GlobalOwner} from "../GlobalOwner.sol";
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
-    /// @dev The GlobalOwner contract.
-    GlobalOwner public globalOwner;
+    /**
+     * @dev The GlobalOwner contract.
+     * This state is private so children contracts cannot change its value.
+     */
+    GlobalOwner private _globalOwner;
 
     /**
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param _globalOwner The address of the GlobalOwner contract
+     * @param globalOwner_ The address of the GlobalOwner contract
      */
-    function __GlobalOwnable_init(address _globalOwner) internal onlyInitializing {
-        __GlobalOwnable_init_unchained(_globalOwner);
+    function __GlobalOwnable_init(address globalOwner_) internal onlyInitializing {
+        __GlobalOwnable_init_unchained(globalOwner_);
         // Note that __Ownable_init() doesn't have to be called as the overriden
         // owner() function don't rely anymore on _owner variable. So as __Ownable_init()
         // only set the initial owner, calling it would have no effect.
     }
 
-    function __GlobalOwnable_init_unchained(address _globalOwner) internal onlyInitializing {
-        globalOwner = GlobalOwner(_globalOwner);
+    function __GlobalOwnable_init_unchained(address globalOwner_) internal onlyInitializing {
+        _globalOwner = GlobalOwner(globalOwner_);
+    }
+
+    /**
+     * @dev Getter for the GlobalOwner contract.
+     * @return The address of the GlobalOwner contract
+     */
+    function globalOwner() public view returns (address) {
+        return address(_globalOwner);
     }
 
     /**
@@ -41,8 +52,7 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
      * @return Whether the contract is paused or not
      */
     function owner() public view override returns (address) {
-        require(address(globalOwner) != address(0), "GlobalOwnableUpgradeable: global owner not set");
-        return globalOwner.owner();
+        return _globalOwner.owner();
     }
 
     /**
