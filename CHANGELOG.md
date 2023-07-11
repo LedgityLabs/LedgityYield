@@ -1,3 +1,22 @@
+## [1.117.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.116.0...v1.117.0) (2023-07-11)
+
+
+### Features
+
+* **contracts:** make global contracts addresses states private and offer getter for those + ([8dce56f](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8dce56f4f0e26bf471344453d6b571a40b24e9e1))
+
+
+### Fixes
+
+* some calculation were still using old ud3ToDecimals pattern, which may incur precision loss if ([7bd4cc8](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7bd4cc80173727cb7ec59eb6c5b3cc3bc0c592f8))
+
+
+### Others
+
+* **contracts:** end improving InvestUpgradeable code readability and documentation ([0ba4848](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0ba48489345b93b366dba2503f384da3625f3870))
+* **deps:** update dependency @types/node to v20.4.1 ([068e40b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/068e40b624ac32822f1488d5cb6059c94431bcbb))
+* **deps:** update dependency prettier to v3 ([5739d9f](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5739d9f3bbb8eee9c6a357fec3439b8c1262cd58))
+
 ## [1.116.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.115.1...v1.116.0) (2023-07-11)
 
 
