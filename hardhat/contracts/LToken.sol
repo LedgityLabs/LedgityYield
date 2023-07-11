@@ -383,7 +383,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Else calculate withdrawal fees as well as final withdrawn amount
         uint256 amountUDS3 = UDS3.scaleUp(amount);
         uint256 feesRateUDS3 = _toDecimals(feesRateUD3);
-        uint256 feesUDS3 = (amountUDS3 * feesRateUD3) / _toUDS3(100);
+        uint256 feesUDS3 = (amountUDS3 * feesRateUDS3) / _toUDS3(100);
         fees = UDS3.scaleDown(feesUDS3);
         withdrawnAmount = amount - fees;
     }

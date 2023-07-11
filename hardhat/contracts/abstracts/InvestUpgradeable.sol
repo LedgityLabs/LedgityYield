@@ -85,7 +85,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     function __Invest_init_unchained(address invested_) internal onlyInitializing {
-        setInvested(invested_);
+        _invested = IERC20Upgradeable(invested_);
     }
 
     /**
@@ -94,14 +94,6 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      */
     function invested() public view returns (IERC20Upgradeable) {
         return _invested;
-    }
-
-    /**
-     * @dev Setter for the invested token contract. Restricted to owner.
-     * @param tokenAddress The address of the new invested token.
-     */
-    function setInvested(address tokenAddress) public onlyOwner {
-        _invested = IERC20Upgradeable(tokenAddress);
     }
 
     /**
@@ -294,7 +286,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @param account The account to reset the investment period of.
      * @param autocompound Whether to autocompound the rewards.
      */
-    function _resetInvestmentPeriodOf(address account, bool autocompound) internal virtual {
+    function _resetInvestmentPeriodOf(address account, bool autocompound) internal {
         // As this function is called inside of _beforeTokenTransfer in LToken contract
         // and as claiming implies minting in LToken contract, this state prevents infinite
         // re-entrancy by skipping this function body while a claim is in progress.
