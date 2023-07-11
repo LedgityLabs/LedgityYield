@@ -216,73 +216,74 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @param autocompound Whether to autocompound the rewards between APR checkpoints.
      */
     function _rewardsOf(address account, bool autocompound) internal view returns (uint256 rewards) {
-        // Retrieve account infos and its deposited amount
+        // Retrieve account infos and deposited amount
         AccountInfos memory infos = accountsInfos[account];
         uint256 depositedAmount = _investmentOf(account);
 
-        // Fill rewards with virtual balance (rewards that were not claimed yet)
+        // Initialize variables that will be used in the following computations
+        APRC.Reference memory currRef;
+        APRC.Checkpoint memory currCheckpoint;
+        APRC.Reference memory nextRef;
+        APRC.Checkpoint memory nextCheckpoint;
+
+        // Populate above variables with deposit checkpoint and the one right after it
+        currRef = infos.period.ref;
+        nextRef = APRC.incrementReference(currRef);
+        currCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, currRef);
+        nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
+
+        // 1) Fill rewards with virtual balance (rewards not claimed yet)
         // See "InvestUpgradeable > Rewards calculation > 1)" section of the whitepaper
         rewards = infos.virtualBalance;
 
-        // Retrieve deposit checkpoint and the one right after it
-        APRC.Reference memory ref = infos.period.ref;
-        APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(_packedAPRCheckpoints, ref);
-        APRC.Reference memory nextRef = APRC.incrementReference(ref);
-        APRC.Checkpoint memory nextCheckpoint = APRC.getDataFromReference(
-            _packedAPRCheckpoints,
-            nextRef
-        );
-
         if (nextCheckpoint.timestamp != 0) {
-            // Calculate rewards from deposit to next checkpoint
+            // 2) Calculate rewards from deposit to next checkpoint
             // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
             rewards += _calculatePeriodRewards(
                 infos.period.timestamp,
                 nextCheckpoint.timestamp,
-                checkpoint.aprUD3,
+                currCheckpoint.aprUD3,
                 depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
 
-            // Calculate rewards for each pair of checkpoints
+            // 3) Calculate rewards for each crossed pair of checkpoints
             // See "InvestUpgradeable > Rewards calculation > 3)" section of the whitepaper
-            ref = nextRef;
-            checkpoint = nextCheckpoint;
             while (true) {
-                // Retrieve next ref and checkpoint
-                nextRef = APRC.incrementReference(ref);
+                // Set current checkpoint as the next one
+                currRef = nextRef;
+                currCheckpoint = nextCheckpoint;
+
+                // Retrieve the new next checkpoint
+                nextRef = APRC.incrementReference(currRef);
                 nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
 
                 // Break if next checkpoint doesn't exist
-                if (nextCheckpoint.timestamp == 0) break;
+                if (nextCheckpoint.timestamp != 0) break;
 
                 // Calculate rewards for the current pair of checkpoints
                 rewards += _calculatePeriodRewards(
-                    checkpoint.timestamp,
+                    currCheckpoint.timestamp,
                     nextCheckpoint.timestamp,
-                    checkpoint.aprUD3,
+                    currCheckpoint.aprUD3,
                     depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
                 );
-
-                // Set the nextCheckpoint as the currently processed one
-                ref = nextRef;
-                checkpoint = nextCheckpoint;
             }
 
-            // Calculate rewards from the last checkpoint to now
+            // 4) Calculate rewards from the last checkpoint to now
             // See "InvestUpgradeable > Rewards calculation > 4)" section of the whitepaper
             rewards += _calculatePeriodRewards(
-                checkpoint.timestamp,
+                currCheckpoint.timestamp,
                 uint40(block.timestamp),
-                checkpoint.aprUD3,
+                currCheckpoint.aprUD3,
                 depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
         } else {
-            // Calculate rewards from the last checkpoint to now
+            // 2) Calculate rewards from the last checkpoint to now
             // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
             rewards += _calculatePeriodRewards(
                 infos.period.timestamp,
                 uint40(block.timestamp),
-                checkpoint.aprUD3,
+                currCheckpoint.aprUD3,
                 depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
         }
@@ -291,24 +292,32 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     /**
      * @dev Claim/Store the current rewards of an account and reset its investment period.
      * @param account The account to reset the investment period of.
-     * @param autocompound Whether to autocompound the rewards or not.
+     * @param autocompound Whether to autocompound the rewards.
      */
     function _resetInvestmentPeriodOf(address account, bool autocompound) internal virtual {
-        if (!_isClaiming) {
-            // Claim user rewards using claimRewardsOf() if it has been implemented by child
-            // contract (returns true), else compound them in virtualBalance.
-            uint256 rewards = _rewardsOf(account, autocompound);
-            if (rewards > 0 && rewards > accountsInfos[account].virtualBalance) {
-                _isClaiming = true;
-                if (!_claimRewardsOf(account, rewards))
-                    accountsInfos[account].virtualBalance = uint88(rewards);
-                _isClaiming = false;
-            }
+        // As this function is called inside of _beforeTokenTransfer in LToken contract
+        // and as claiming implies minting in LToken contract, this state prevents infinite
+        // re-entrancy by skipping this function body while a claim is in progress.
+        if (_isClaiming) return;
 
-            // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
-            accountsInfos[account].period.timestamp = uint40(block.timestamp);
-            accountsInfos[account].period.ref = APRC.getLatestReference(_packedAPRCheckpoints);
+        // Retrieve account's unclaimed rewards
+        uint256 rewards = _rewardsOf(account, autocompound);
+
+        // If there are rewards to claim
+        if (rewards > 0) {
+            // Try claiming rewards
+            _isClaiming = true;
+            bool claimed = _claimRewardsOf(account, rewards); // Returns false if not implemented or failed
+            _isClaiming = false;
+
+            // If _claimRewardsOf() is not implemented by child contract or has failed
+            // Accumulate rewards in its virtual balance.
+            if (!claimed) accountsInfos[account].virtualBalance = uint88(rewards);
         }
+
+        // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
+        accountsInfos[account].period.timestamp = uint40(block.timestamp);
+        accountsInfos[account].period.ref = APRC.getLatestReference(_packedAPRCheckpoints);
     }
 
     /**
