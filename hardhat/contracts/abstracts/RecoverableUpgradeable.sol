@@ -26,7 +26,7 @@ abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
 
     /**
      * @dev Recover a given amount of tokens of the given contract address. Will fail
-     * if not enough tokens are held by the contract
+     * if not enough tokens are held by the contract.
      * @param tokenAddress The address of the token to recover
      * @param amount The amount of token to recover
      */
@@ -35,10 +35,10 @@ abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
         IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 
         // Ensure they is enough token to recover
-        require(tokenContract.balanceOf(address(this)) >= amount, "Not enough tokens to recover.");
+        require(tokenContract.balanceOf(address(this)) >= amount, "RecoverableUpgradeable: not enough tokens to recover.");
 
         // Transfer recovered ERC20 tokens to sender
-        tokenContract.safeTransfer(owner(), amount);
+        tokenContract.safeTransfer(_msgSender(), amount);
     }
 
     /**

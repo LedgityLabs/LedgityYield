@@ -52,6 +52,7 @@ abstract contract BaseUpgradeable is
         __GlobalOwnable_init(_globalOwner);
         __GlobalPausable_init_unchained(_globalPauser);
         __GlobalRestricted_init_unchained(_globalBlacklist);
+        __Recoverable_init_unchained();
     }
 
     function __Base_init_unchained() internal onlyInitializing {}
