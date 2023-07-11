@@ -47,6 +47,7 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
      * @return Whether the contract is paused or not
      */
     function owner() public view override returns (address) {
+        require(address(globalOwner) != address(0), "GlobalOwnableUpgradeable: global owner not set");
         return globalOwner.owner();
     }
 

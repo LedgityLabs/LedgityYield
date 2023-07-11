@@ -52,6 +52,10 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
      * @return (true/false) Whether the account is blacklisted
      */
     function isBlacklisted(address account) internal view returns (bool) {
+        require(
+            address(globalBlacklist) != address(0),
+            "GlobalRestrictableUpgradeable: global blacklist not set"
+        );
         return globalBlacklist.isBlacklisted(account);
     }
 

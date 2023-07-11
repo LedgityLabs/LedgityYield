@@ -56,6 +56,7 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
      * @return Whether the contract is paused or not
      */
     function paused() public view virtual override returns (bool) {
+        require(address(globalPauser) != address(0), "GlobalPausableUpgradeable: global pauser not set");
         return globalPauser.paused();
     }
 
