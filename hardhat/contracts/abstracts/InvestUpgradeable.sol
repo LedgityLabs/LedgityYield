@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 // Contracts
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
+import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 
 // Libraries & interfaces
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
@@ -26,7 +26,7 @@ import "hardhat/console.sol";
  *  - Implement _claimRewardsOf() function (optional)
  * @custom:security-contact security@ledgity.com
  */
-abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
+abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
@@ -74,7 +74,12 @@ abstract contract InvestUpgradeable is Initializable, OwnableUpgradeable {
      * @dev Initializer function allowing to set invested token contract at deploy time.
      * @param invested_ The invested token's contract address.
      */
-    function __Invest_init(address invested_) internal onlyInitializing {
+    function __Invest_init(address invested_, address _globalOwner) internal onlyInitializing {
+        __GlobalOwnable_init(_globalOwner);
+        __Invest_init_unchained(invested_);
+    }
+
+    function __Invest_init_unchained(address invested_) internal onlyInitializing {
         setInvested(invested_);
     }
 

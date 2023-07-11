@@ -127,7 +127,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             string(abi.encodePacked("L", underlyingMetadata.symbol()))
         );
         __ERC20Wrapper_init(underlyingToken);
-        __Invest_init(address(this));
+        __Invest_init_unchained(address(this));
     }
 
     /**

@@ -3,10 +3,10 @@ pragma solidity ^0.8.20;
 
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import {RestrictableUpgradeable} from "../RestrictableUpgradeable.sol";
+import {GlobalRestrictableUpgradeable} from "../GlobalRestrictableUpgradeable.sol";
+import {GlobalPausableUpgradeable} from "../GlobalPausableUpgradeable.sol";
+import {GlobalOwnableUpgradeable} from "../GlobalOwnableUpgradeable.sol";
 import {RecoverableUpgradeable} from "../RecoverableUpgradeable.sol";
-import {PausableUpgradeable} from "../pausable/PausableUpgradeable.sol";
-import {OwnableUpgradeable} from "../OwnableUpgradeable.sol";
 
 /**
  * @title BaseUpgradeable
@@ -19,9 +19,9 @@ import {OwnableUpgradeable} from "../OwnableUpgradeable.sol";
 abstract contract BaseUpgradeable is
     Initializable,
     UUPSUpgradeable,
-    OwnableUpgradeable,
-    PausableUpgradeable,
-    RestrictableUpgradeable,
+    GlobalOwnableUpgradeable,
+    GlobalPausableUpgradeable,
+    GlobalRestrictableUpgradeable,
     RecoverableUpgradeable
 {
     /**
@@ -41,8 +41,8 @@ abstract contract BaseUpgradeable is
      */
     function __Base_init(address _globalOwner) internal onlyInitializing {
         __UUPSUpgradeable_init();
-        __Pausable_init();
-        __Ownable_init(_globalOwner);
+        __GlobalPausable_init_unchained();
+        __GlobalOwnable_init(_globalOwner);
     }
 
     /**

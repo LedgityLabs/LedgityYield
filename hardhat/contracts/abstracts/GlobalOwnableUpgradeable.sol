@@ -1,25 +1,32 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {OwnableUpgradeable as _OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {GlobalOwner} from "../GlobalOwner.sol";
 
 /**
- * @title OwnableUpgradeable
+ * @title GlobalOwnableUpgradeable
  * @author Lila Rest (lila@ledgity.com)
  * @notice
- * @dev For more details see "OwnableUpgradeable" section of whitepaper.
+ * @dev For more details see "GlobalOwnableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract OwnableUpgradeable is _OwnableUpgradeable {
-    /// @dev The Pause contract.
+abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
+    /// @dev The GlobalOwner contract.
     GlobalOwner public globalOwner;
 
     /**
      * @dev Initializer function
      * @param _globalOwner The globzl owner contract address.
      */
-    function __Ownable_init(address _globalOwner) internal onlyInitializing {
+    function __GlobalOwnable_init(address _globalOwner) internal onlyInitializing {
+        __GlobalOwnable_init_unchained(_globalOwner);
+        // Note that __Ownable_init() doesn't have to be called as the overriden
+        // owner() function don't rely anymore on _owner variable. So as __Ownable_init()
+        // only set the initial owner, calling it would have no effect.
+    }
+
+    function __GlobalOwnable_init_unchained(address _globalOwner) internal onlyInitializing {
         globalOwner = GlobalOwner(_globalOwner);
     }
 

@@ -1,20 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {OwnableUpgradeable} from "../OwnableUpgradeable.sol";
-import {PausableUpgradeable as _PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
-import {GlobalPauser} from "../../GlobalPauser.sol";
+import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
+import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+import {GlobalPauser} from "../GlobalPauser.sol";
 
 /**
- * @title PausableUpgradeable
+ * @title GlobalPausableUpgradeable
  * @author Lila Rest (lila@ledgity.com)
- * @notice
- * @dev For more details see "PausableUpgradeable" section of whitepaper.
+ * @dev This abstract contract allows inheriting children contracts to be paused and unpaused
+ * following the pause state of the global Pause contract (see GlobalPause.sol).
+ * For more details see "GlobalPausableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract PausableUpgradeable is OwnableUpgradeable, _PausableUpgradeable {
-    /// @dev The Pause contract.
+abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, PausableUpgradeable {
+    /// @dev The GlobalPause contract.
     GlobalPauser public globalPauser;
+
+    function __GlobalPausable_init(address _globalOwner) internal onlyInitializing {
+        __GlobalOwnable_init(_globalOwner);
+        __Pausable_init();
+    }
+
+    function __GlobalPausable_init_unchained() internal onlyInitializing {}
 
     function pause() public onlyOwner {
         _pause();

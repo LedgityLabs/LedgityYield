@@ -1,22 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
+import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 import {GlobalBlacklist} from "../GlobalBlacklist.sol";
 
 /**
- * @title RestrictableUpgradeable
+ * @title GlobalRestrictableUpgradeable
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract provides a modifier called `notBlacklisted` allowing
  * to restrict some functions based on whether an account is blacklisted by the defined
  * `Blacklist` contract.
- * @dev For more details see "RestrictableUpgradeable" section of whitepaper.
- * Children contracts must implement the _setBlacklistContract() function.
+ * @dev For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract RestrictableUpgradeable is OwnableUpgradeable {
-    /// @dev The Blacklist contract.
+abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
+    /// @dev The GlobalBlacklist contract.
     GlobalBlacklist public globalBlacklist;
+
+    function __GlobalRestricted_init(address _globalOwner) internal onlyInitializing {
+        __GlobalOwnable_init(_globalOwner);
+    }
+
+    function __GlobalRestricted_init_unchained() internal onlyInitializing {}
 
     /**
      * @dev Throws if called by an account blacklisted by the Blacklist contract.

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
+import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
@@ -14,8 +14,15 @@ import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ER
  * @dev For more details see "RecoverableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract RecoverableUpgradeable is OwnableUpgradeable {
+abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
+
+    function __Recoverable_init(address _globalOwner) internal onlyInitializing {
+        __GlobalOwnable_init(_globalOwner);
+        __Recoverable_init_unchained();
+    }
+
+    function __Recoverable_init_unchained() internal onlyInitializing {}
 
     /**
      * @dev Recover a given amount of tokens of the given contract address. Will fail

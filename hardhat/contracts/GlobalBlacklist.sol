@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import {OwnableUpgradeable} from "./abstracts/OwnableUpgradeable.sol";
+import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol";
 
 /**
  * @title GlobalBlacklist
@@ -13,7 +13,7 @@ import {OwnableUpgradeable} from "./abstracts/OwnableUpgradeable.sol";
  * @dev For more details see "GlobalBlacklist" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-contract GlobalBlacklist is Initializable, UUPSUpgradeable, OwnableUpgradeable {
+contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeable {
     /**
      * @dev This mapping is made private and the getter function isBlacklisted() function is
      * used instead to read it. This helps saving gas in some scenario. See isBlacklisted()
@@ -27,7 +27,7 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     }
 
     function initialize(address _globalOwner) public initializer {
-        __Ownable_init(_globalOwner);
+        __GlobalOwnable_init(_globalOwner);
         __UUPSUpgradeable_init();
     }
 
