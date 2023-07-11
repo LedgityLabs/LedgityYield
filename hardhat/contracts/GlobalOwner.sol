@@ -35,7 +35,7 @@ contract GlobalOwner is Initializable, UUPSUpgradeable, Ownable2StepUpgradeable 
     }
 
     /**
-     * Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global
+     * @dev Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global
      * owner. Note that this function is called by the proxy contract while upgrading.
      * @param newImplementation The address of the new implementation contract
      */
