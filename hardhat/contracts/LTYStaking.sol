@@ -48,6 +48,9 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
 
+    /// @dev Holds the total amount of $LTY to be distributed as rewards
+    uint256 public rewardsReserve;
+
     /**
      * @dev Emitted to inform of a change in the total amount staked
      * @param newTotalStaked The new total amount staked
@@ -89,13 +92,14 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /**
      * @dev Allows recovering $LTY tokenS accidentally sent to this contract. To prevent
      * owner from draining funds from the contract, this function only allows recovering
-     * "recoverable" underlying tokens, i.e., tokens that have not been deposited through
-     * `stake()` function.
+     * "recoverable" underlying tokens, i.e., tokens that have neither been deposited
+     * through `stake()` function nor through the `fund()` one.
      */
     function recoverLTY() public onlyOwner {
         // Compute the amount of $LTY that can be recovered by making the difference
-        // between the current balance of the contract and the total amount staked
-        uint256 recoverableAmount = invested().balanceOf(address(this)) - totalStaked;
+        // between the current balance of the contract and the total amount staked as well
+        // as the total amount of rewards allocated
+        uint256 recoverableAmount = invested().balanceOf(address(this)) - totalStaked - rewardsReserve;
 
         // If there are some unusable funds, recover them, else revert
         if (recoverableAmount > 0) super.recoverERC20(address(invested()), recoverableAmount);
@@ -200,6 +204,16 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
+     * @dev Allows the owner to deposit $LTY tokens that will be used to reward stakers.
+     * @param amount The amount of $LTY to deposit
+     */
+    function fund(uint256 amount) external onlyOwner {
+        // Transfer $LTY tokens from the caller to this contract
+        invested().transferFrom(_msgSender(), address(this), amount);
+        rewardsReserve += amount;
+    }
+
+    /**
      * @dev Prematurely unlocks the stake of the caller against a fee rate defined
      * by unlockFeesRateUD3. The entire fee is burned as a way to support the token's
      * ecosystem.
@@ -209,7 +223,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Ensure the account has a locked stake
-        require(accountStake.lockEnd > block.timestamp, "Nothing to unlock");
+        require(accountStake.lockEnd > block.timestamp, "LTYStaking: nothing to unlock");
 
         // Unlock stake by setting lock time to now
         accountStake.lockEnd = uint40(block.timestamp);
@@ -304,6 +318,12 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
         accountsInfos[_msgSender()].virtualBalance = 0;
 
+        // Ensure the contract has enough rewards to distribute
+        require(rewardsReserve >= rewards, "LTYStaking: insufficient rewards reserve");
+
+        // Decreases the total amount of remaining rewards to distribute
+        rewardsReserve -= rewards;
+
         // Transfer rewards to the account
         invested().transfer(_msgSender(), rewards);
     }
@@ -325,6 +345,9 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
         accountsInfos[_msgSender()].virtualBalance = 0;
 
+        // Ensure the contract has enough rewards to distribute
+        require(rewardsReserve >= rewards, "LTYStaking: insufficient rewards reserve");
+
         // Update the amount staked by the account and the total amount staked
         accountStake.amount += uint216(rewards);
         totalStaked += rewards;
@@ -334,6 +357,9 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
+
+        // Decreases the total amount of remaining rewards to distribute
+        rewardsReserve -= rewards;
     }
 
     /**
