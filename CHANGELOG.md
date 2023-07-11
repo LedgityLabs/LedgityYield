@@ -1,3 +1,20 @@
+## [1.117.2](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.1...v1.117.2) (2023-07-11)
+
+
+### Fixes
+
+* **contracts:** ensure GlobalBlacklist cannot blacklist zero address ([6e05249](https://github.com/ledgity-labs/Ledgity-DeFi/commit/6e05249199fdb9052ec5153eaad79c7774a14f63))
+
+
+### Docs
+
+* **contracts:** document GlobalBlacklist, GlobalOwner and GlobalPauser contracts ([c2eb5f5](https://github.com/ledgity-labs/Ledgity-DeFi/commit/c2eb5f58ff9729d3120610ef03255b8e72d71bab))
+
+
+### Others
+
+* **contracts:** rename GlobalPauser to GlobalPause ([e28e8d2](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e28e8d238fe9df03497699fccbbf9ddac086d0f6))
+
 ## [1.117.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.0...v1.117.1) (2023-07-11)
 
 
