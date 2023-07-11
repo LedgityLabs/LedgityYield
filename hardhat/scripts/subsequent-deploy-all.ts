@@ -3,7 +3,7 @@ export const main = async () => {
     await import("./deploy-GlobalOwner")
   ).default;
   await (
-    await import("./deploy-GlobalPauser")
+    await import("./deploy-GlobalPause")
   ).default;
   await (
     await import("./deploy-GlobalBlacklist")

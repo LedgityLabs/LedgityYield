@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
-import {GlobalPauser} from "../GlobalPauser.sol";
+import {GlobalPause} from "../GlobalPause.sol";
 
 /**
  * @title GlobalPausableUpgradeable
@@ -20,14 +20,14 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
      * @dev The GlobalPause contract.
      * This state is private so children contracts cannot change its value.
      */
-    GlobalPauser private _globalPauser;
+    GlobalPause private _globalPauser;
 
     /**
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param globalOwner_ The address of the GlobalOwner contract
-     * @param globalPauser_ The address of the GlobalPauser contract
+     * @param globalPauser_ The address of the GlobalPause contract
      */
     function __GlobalPausable_init(
         address globalOwner_,
@@ -39,12 +39,12 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
     }
 
     function __GlobalPausable_init_unchained(address globalPauser_) internal onlyInitializing {
-        _globalPauser = GlobalPauser(globalPauser_);
+        _globalPauser = GlobalPause(globalPauser_);
     }
 
     /**
-     * @dev Getter for the GlobalPauser contract.
-     * @return The address of the GlobalPauser contract
+     * @dev Getter for the GlobalPause contract.
+     * @return The address of the GlobalPause contract
      */
     function globalPauser() public view returns (address) {
         return address(_globalPauser);

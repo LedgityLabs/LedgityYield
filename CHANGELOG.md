@@ -261,7 +261,7 @@
 ### Features
 
 * **admin>staking:** improve appearance of APR card ([2e3ac88](https://github.com/ledgity-labs/dapp/commit/2e3ac880eb5730c0255e6636dd8a8c4ced615ceb))
-* **contracts:** new GlobalPauser and GlobalOwner contracts. New bases & pausables abstracts ([828482a](https://github.com/ledgity-labs/dapp/commit/828482a5744699e1b14500f35a64fbd637d2652f))
+* **contracts:** new GlobalPause and GlobalOwner contracts. New bases & pausables abstracts ([828482a](https://github.com/ledgity-labs/dapp/commit/828482a5744699e1b14500f35a64fbd637d2652f))
 * programatically prevent AmountInput and RateInput to receive NaN characters ([d667e58](https://github.com/ledgity-labs/dapp/commit/d667e58cdac481eee5cd6fcbb803e8dd0d44b7be))
 * remove type="number" to Amount and Rate inputs + adjust right padding to prevent overlap ([8ff76c6](https://github.com/ledgity-labs/dapp/commit/8ff76c6554f62c82e0f8d8650f89e13767c8e63f))
 

@@ -39,7 +39,7 @@ abstract contract BaseUpgradeable is
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param _globalOwner The address of the GlobalOwner contract
-     * @param _globalPauser The address of the GlobalPauser contract
+     * @param _globalPauser The address of the GlobalPause contract
      * @param _globalBlacklist The address of the GlobalBlacklist contract
      */
     function __Base_init(
@@ -59,7 +59,7 @@ abstract contract BaseUpgradeable is
 
     /**
      * Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global
-     * owner. Note that this function is called by the proxy contract when upgrading.
+     * owner. Note that this function is called by the proxy contract while upgrading.
      * @param newImplementation The address of the new implementation contract
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}

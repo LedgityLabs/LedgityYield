@@ -438,7 +438,7 @@ export const globalOwnerAddress = {
 export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwnerABI } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// GlobalPauser
+// GlobalPause
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const globalPauserABI = [
@@ -694,7 +694,7 @@ export const ltyStakingABI = [
     type: 'function',
     inputs: [],
     name: 'globalPauser',
-    outputs: [{ name: '', internalType: 'contract GlobalPauser', type: 'address' }],
+    outputs: [{ name: '', internalType: 'contract GlobalPause', type: 'address' }],
   },
   {
     stateMutability: 'nonpayable',
@@ -1164,7 +1164,7 @@ export const lTokenABI = [
     type: 'function',
     inputs: [],
     name: 'globalPauser',
-    outputs: [{ name: '', internalType: 'contract GlobalPauser', type: 'address' }],
+    outputs: [{ name: '', internalType: 'contract GlobalPause', type: 'address' }],
   },
   {
     stateMutability: 'nonpayable',

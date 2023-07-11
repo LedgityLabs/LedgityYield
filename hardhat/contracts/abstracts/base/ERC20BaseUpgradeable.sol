@@ -21,7 +21,7 @@ abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param _globalOwner The address of the GlobalOwner contract
-     * @param _globalPauser The address of the GlobalPauser contract
+     * @param _globalPauser The address of the GlobalPause contract
      * @param _globalBlacklist The address of the GlobalBlacklist contract
      * @param name_ The display name of the token
      * @param symbol_ The symbol of the token

@@ -15,7 +15,7 @@ export const main = async () => {
   await (
     await import("./deploy-GlobalOwner")
   ).default;
-  const globalPauser = await (await import("./deploy-GlobalPauser")).default;
+  const globalPauser = await (await import("./deploy-GlobalPause")).default;
   const globalBlacklist = await (await import("./deploy-GlobalBlacklist")).default;
   const ltyStaking = await (await import("./deploy-LTYStaking")).default;
   await (

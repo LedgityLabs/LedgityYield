@@ -1,6 +1,6 @@
 import { Abi } from "viem";
 import GlobalOwnerJSON from "./artifacts/hardhat/contracts/GlobalOwner.sol/GlobalOwner.json";
-import GlobalPauserJSON from "./artifacts/hardhat/contracts/GlobalPauser.sol/GlobalPauser.json";
+import GlobalPauserJSON from "./artifacts/hardhat/contracts/GlobalPause.sol/GlobalPause.json";
 import GlobalBlacklistJSON from "./artifacts/hardhat/contracts/GlobalBlacklist.sol/GlobalBlacklist.json";
 import LTYStakingJSON from "./artifacts/hardhat/contracts/LTYStaking.sol/LTYStaking.json";
 import LTokenJSON from "./artifacts/hardhat/contracts/LToken.sol/LToken.json";
@@ -36,7 +36,7 @@ const _contracts = {
       31337: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
     },
   },
-  GlobalPauser: {
+  GlobalPause: {
     abi: GlobalPauserJSON.abi,
     address: {
       31337: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
