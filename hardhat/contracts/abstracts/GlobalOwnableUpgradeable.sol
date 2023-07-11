@@ -9,7 +9,9 @@ import {GlobalOwner} from "../GlobalOwner.sol";
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract allows inheriting children contracts to be owned by the
  * owner of the GlobalOwner contract (see GlobalOwner.sol).
- * @dev For further details, see "GlobalOwnableUpgradeable" section of whitepaper.
+ * @dev Note that children inheriting contract must set the globalOwner at initialization
+ * time. For obvious security reasons, the globalOwner can't be changed afterwards.
+ * For further details, see "GlobalOwnableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
@@ -34,14 +36,6 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     }
 
     /**
-     * @dev Setter for the GlobalOwner contract address
-     * @param contractAddress The new GlobalOwner contract's address
-     */
-    function setGlobalOwner(address contractAddress) public onlyOwner {
-        globalOwner = GlobalOwner(contractAddress);
-    }
-
-    /**
      * @dev Override of OwnableUpgradeable.owner() function that reads the owner address
      * from the GlobalOwner contract instead of doing it locally.
      * @return Whether the contract is paused or not
@@ -53,7 +47,7 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
 
     /**
      * @dev Override of OwnableUpgradeable.transferOwnership() function that prevents any
-     * ownership transfer. Ownership is managed by the GlobalOwner contract
+     * ownership transfer. Ownership is managed by the GlobalOwner contract.
      * (see GlobalOwner.sol).
      */
     function transferOwnership(address newOwner) public view override onlyOwner {

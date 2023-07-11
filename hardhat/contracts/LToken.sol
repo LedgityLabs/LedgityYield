@@ -114,7 +114,12 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         _;
     }
 
-    function initialize(address _globalOwner, IERC20Upgradeable underlyingToken) public initializer {
+    function initialize(
+        address _globalOwner,
+        address _globalPauser,
+        address _globalBlacklist,
+        IERC20Upgradeable underlyingToken
+    ) public initializer {
         // Retrieve underlying token metadata
         IERC20MetadataUpgradeable underlyingMetadata = IERC20MetadataUpgradeable(
             address(underlyingToken)
@@ -123,6 +128,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Initialize ancestors contracts
         __ERC20Base_init(
             _globalOwner,
+            _globalPauser,
+            _globalBlacklist,
             string(abi.encodePacked("Ledgity ", underlyingMetadata.name())),
             string(abi.encodePacked("L", underlyingMetadata.symbol()))
         );

@@ -10,7 +10,9 @@ import {GlobalPauser} from "../GlobalPauser.sol";
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract allows inheriting children contracts to be paused and unpaused
  * following the pause state of the global Pause contract (see GlobalPause.sol).
- * @dev For further details, see "GlobalPausableUpgradeable" section of whitepaper.
+ * @dev Note that children inheriting contract must set the globalPauser at initialization
+ * time. For obvious security reasons, the globalPauser can't be changed afterwards.
+ * For further details, see "GlobalPausableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, PausableUpgradeable {
@@ -23,31 +25,17 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param _globalOwner The address of the GlobalOwner contract
      */
-    function __GlobalPausable_init(address _globalOwner) internal onlyInitializing {
+    function __GlobalPausable_init(
+        address _globalOwner,
+        address _globalPauser
+    ) internal onlyInitializing {
         __GlobalOwnable_init(_globalOwner);
         __Pausable_init();
+        __GlobalPausable_init_unchained(_globalPauser);
     }
 
-    function __GlobalPausable_init_unchained() internal onlyInitializing {}
-
-    /**
-     * @dev Public implementation of PausableUpgradeable's pausing and unpausing functions
-     * but restricted to the contract's owner.
-     */
-    function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
-    }
-
-    /**
-     * @dev Setter for the GlobalPause contract address
-     * @param contractAddress The new GlobalPause contract's address
-     */
-    function setGlobalPauser(address contractAddress) public onlyOwner {
-        globalPauser = GlobalPauser(contractAddress);
+    function __GlobalPausable_init_unchained(address _globalPauser) internal onlyInitializing {
+        globalPauser = GlobalPauser(_globalPauser);
     }
 
     /**
@@ -56,7 +44,6 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
      * @return Whether the contract is paused or not
      */
     function paused() public view virtual override returns (bool) {
-        require(address(globalPauser) != address(0), "GlobalPausableUpgradeable: global pauser not set");
         return globalPauser.paused();
     }
 

@@ -9,7 +9,9 @@ import {GlobalBlacklist} from "../GlobalBlacklist.sol";
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract allows inheriting children contracts to be restricted to
  * addresses non-blacklisted by the GlobalBlacklist contract (see GlobalBlacklist.sol).
- * @dev For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
+ * @dev Note that children inheriting contract must set the globalBlacklist at initialization
+ * time. For obvious security reasons, the globalBlacklist can't be changed afterwards.
+ * For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
@@ -22,11 +24,17 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param _globalOwner The address of the GlobalOwner contract
      */
-    function __GlobalRestricted_init(address _globalOwner) internal onlyInitializing {
+    function __GlobalRestricted_init(
+        address _globalOwner,
+        address _globalBlacklist
+    ) internal onlyInitializing {
         __GlobalOwnable_init(_globalOwner);
+        __GlobalRestricted_init_unchained(_globalBlacklist);
     }
 
-    function __GlobalRestricted_init_unchained() internal onlyInitializing {}
+    function __GlobalRestricted_init_unchained(address _globalBlacklist) internal onlyInitializing {
+        globalBlacklist = GlobalBlacklist(_globalBlacklist);
+    }
 
     /**
      * @dev Modifier that reverts the wrapped function call if called by an account
@@ -36,14 +44,6 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
     modifier notBlacklisted(address account) {
         require(isBlacklisted(account) == false, "GlobalRestrictableUpgradeable: not permitted");
         _;
-    }
-
-    /**
-     * @dev Setter for the GlobalBlacklist contract address
-     * @param contractAddress The new GlobalBlacklist contract's address
-     */
-    function setGlobalBlacklist(address contractAddress) public onlyOwner {
-        globalBlacklist = GlobalBlacklist(contractAddress);
     }
 
     /**

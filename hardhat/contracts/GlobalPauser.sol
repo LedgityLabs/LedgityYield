@@ -18,6 +18,10 @@ contract GlobalPauser is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeabl
         __UUPSUpgradeable_init();
     }
 
+    /**
+     * @dev Public implementation of PausableUpgradeable's pausing and unpausing functions
+     * but restricted to the contract's owner.
+     */
     function pause() public onlyOwner {
         _pause();
     }

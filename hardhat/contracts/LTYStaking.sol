@@ -37,8 +37,12 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
 
     event TotalStakedUpdateEvent(uint256 newTotalStaked);
 
-    function initialize(address _globalOwner) public initializer {
-        __Base_init(_globalOwner);
+    function initialize(
+        address _globalOwner,
+        address _globalPauser,
+        address _globalBlacklist
+    ) public initializer {
+        __Base_init(_globalOwner, _globalPauser, _globalBlacklist);
         __Invest_init_unchained(address(0));
 
         stakeLockDuration = 90 days;
