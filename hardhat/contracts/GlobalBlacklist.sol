@@ -8,8 +8,9 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
 /**
  * @title GlobalBlacklist
  * @author Lila Rest (lila@ledgity.com)
- * @notice This contract provides a way to maintain a mapping of blacklisted accounts
- * on chain.
+ * @notice This contract is used to maintain a mapping of blacklisted accounts on chain.
+ * It is then read by all contracts that inherit from GlobalRestrictableUpgradeable abstract
+ * contract to restrict access to some functions to non-blacklisted accounts.
  * @dev For more details see "GlobalBlacklist" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
@@ -21,46 +22,58 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
      */
     mapping(address => bool) private _list;
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
+    /**
+     * @dev Prevents implementation contract from being initialized as recommended by
+     * OpenZeppelin.
+     * See: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Initializable-_disableInitializers--
+     * @custom:oz-upgrades-unsafe-allow constructor
+     */
     constructor() {
         _disableInitializers();
     }
 
-    function initialize(address _globalOwner) public initializer {
-        __GlobalOwnable_init(_globalOwner);
+    /**
+     * @dev Replaces the constructor() function in context of an upgradeable contract.
+     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalOwner_ The address of the GlobalOwner contract
+     */
+    function initialize(address globalOwner_) public initializer {
+        __GlobalOwnable_init(globalOwner_);
         __UUPSUpgradeable_init();
     }
 
     /**
-     * @inheritdoc UUPSUpgradeable
+     * Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global
+     * owner. Note that this function is called by the proxy contract while upgrading.
+     * @param newImplementation The address of the new implementation contract
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**
-     * @dev Set given account as blacklisted.
-     * @param account The account to blacklist
+     * @dev Sets a given account as blacklisted.
+     * @param account The account's address to blacklist
      */
     function blacklist(address account) external onlyOwner {
         _list[account] = true;
     }
 
     /**
-     * @dev Remove given account from blacklist.
-     * @param account The account to unblacklist
+     * @dev Removes a given account from blacklist.
+     * @param account The account's address to unblacklist
      */
     function unBlacklist(address account) external onlyOwner {
         _list[account] = false;
     }
 
     /**
-     * @dev Check if given account is blacklisted.
+     * @dev Checks if given account is blacklisted.
      * @param account The account to check
      * @return 'true' if the account is blacklisted, 'false' otherwise
      */
     function isBlacklisted(address account) external view returns (bool) {
-        // Avoir reading chain storage if account is the zero address
+        // Avoir reading chain storage if account is the zero address (e.g, during a mint or a burn)
         if (account == address(0)) return false;
-        // Else return current blacklist status of account
+        // Else return current blacklist status of the account
         return _list[account];
     }
 }
