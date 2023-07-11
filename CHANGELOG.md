@@ -1,3 +1,28 @@
+## [1.116.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.115.1...v1.116.0) (2023-07-11)
+
+
+### Features
+
+* **contracts:** security: makes all global contracts addresses immutable after initialization ([37a0765](https://github.com/ledgity-labs/Ledgity-DeFi/commit/37a0765658fba6c3af8d656fc2f36e319d2221fc))
+
+
+### Fixes
+
+* **contracts:** properly and explicitely check in Global abstracts that global contract is set ([34a415a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/34a415a75bd2b97dab85d1418fba6b577780a8cc))
+
+
+### Docs
+
+* **contracts:** document GlobalOwnable, GlobalPausable and GlobalRestrictable contracts ([d312182](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d3121828f32c0006d355e941e831c7525344966d))
+* **contracts:** improve docs of ERC20BaseUpgradeable ([32a33e4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/32a33e495f27dcf7839c985bdf89a3da4386c348))
+* **contracts:** improve documentation of BaseUpgradeable ([ada81b9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/ada81b9fb7c1ce0a0bd5bceaef1008456ecca65f))
+
+
+### Others
+
+* **contracts:** prefix global abstracts by "Global" + strictly follow the unchained pattern ([dacd5b9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/dacd5b9b1db5ae6db2d2ee6bb46af728394b0e21))
+* **contracts:** some readability improvements over performances ([5c57d1e](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5c57d1e765d1db545c44a4ed4f262d5e0a01fbcf))
+
 ## [1.115.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.115.0...v1.115.1) (2023-07-10)
 
 
