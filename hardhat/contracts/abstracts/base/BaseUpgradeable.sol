@@ -35,16 +35,20 @@ abstract contract BaseUpgradeable is
     }
 
     /**
-     * @dev Initializer function of the contract. It replaces the constructor() function
+     * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param _globalOwner The address of the GlobalOwner contract
      */
     function __Base_init(address _globalOwner) internal onlyInitializing {
         __UUPSUpgradeable_init();
         __Pausable_init();
-        __GlobalPausable_init_unchained();
         __GlobalOwnable_init(_globalOwner);
+        __GlobalPausable_init_unchained();
+        __GlobalRestricted_init_unchained();
     }
+
+    function __Base_init_unchained() internal onlyInitializing {}
 
     /**
      * Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global

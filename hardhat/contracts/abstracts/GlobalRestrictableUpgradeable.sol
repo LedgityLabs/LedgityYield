@@ -7,9 +7,8 @@ import {GlobalBlacklist} from "../GlobalBlacklist.sol";
 /**
  * @title GlobalRestrictableUpgradeable
  * @author Lila Rest (lila@ledgity.com)
- * @notice This abstract contract provides a modifier called `notBlacklisted` allowing
- * to restrict some functions based on whether an account is blacklisted by the defined
- * `Blacklist` contract.
+ * @notice This abstract contract allows inheriting children contracts to be restricted to
+ * addresses non-blacklisted by the GlobalBlacklist contract (see GlobalBlacklist.sol).
  * @dev For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
@@ -17,6 +16,12 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
     /// @dev The GlobalBlacklist contract.
     GlobalBlacklist public globalBlacklist;
 
+    /**
+     * @dev Initializer functions of the contract. They replace the constructor() function
+     * in context of upgradeable contracts.
+     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param _globalOwner The address of the GlobalOwner contract
+     */
     function __GlobalRestricted_init(address _globalOwner) internal onlyInitializing {
         __GlobalOwnable_init(_globalOwner);
     }
@@ -24,25 +29,27 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
     function __GlobalRestricted_init_unchained() internal onlyInitializing {}
 
     /**
-     * @dev Throws if called by an account blacklisted by the Blacklist contract.
-     * @param account The address to check against the Blacklist contract.
+     * @dev Modifier that reverts the wrapped function call if called by an account
+     * blacklisted by the GlobalBlacklist contract.
+     * @param account Address to check against the GlobalBlacklist contract.
      */
     modifier notBlacklisted(address account) {
-        require(globalBlacklist.isBlacklisted(account) == false, "Account blacklisted");
+        require(isBlacklisted(account) == false, "GlobalRestrictableUpgradeable: not permitted");
         _;
     }
 
     /**
-     * @dev Set the blacklist contract address
-     * @param contractAddress The address of the blacklist contract
+     * @dev Setter for the GlobalBlacklist contract address
+     * @param contractAddress The new GlobalBlacklist contract's address
      */
     function setGlobalBlacklist(address contractAddress) public onlyOwner {
         globalBlacklist = GlobalBlacklist(contractAddress);
     }
 
     /**
-     * @dev Return whether a given account is blacklisted.
+     * @dev Tests against the GlobalBlacklist whether a given account is blacklisted.
      * @param account The account to check
+     * @return (true/false) Whether the account is blacklisted
      */
     function isBlacklisted(address account) internal view returns (bool) {
         return globalBlacklist.isBlacklisted(account);

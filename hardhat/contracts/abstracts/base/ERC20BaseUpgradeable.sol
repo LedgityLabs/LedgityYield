@@ -7,11 +7,22 @@ import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/
 import {GlobalPausableUpgradeable} from "../GlobalPausableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
+/**
+ * @title ERC20BaseUpgradeable
+ * @author Lila Rest (lila@ledgity.com)
+ * @notice This abstract contracts is an extension of BaseUpgradeable intended to be used
+ * as a base for ERC20 tokens contracts.
+ * @dev For further details, see "ERC20BaseUpgradeable" section of whitepaper.
+ * @custom:security-contact security@ledgity.com
+ */
 abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC20PausableUpgradeable {
     /**
-     * @dev Initializer function of the contract. It replaces the constructor() function
+     * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param _globalOwner The address of the GlobalOwner contract
+     * @param name_ The display name of the token
+     * @param symbol_ The symbol of the token
      */
     function __ERC20Base_init(
         address _globalOwner,
@@ -22,6 +33,8 @@ abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC
         __ERC20_init(name_, symbol_);
         __ERC20Pausable_init_unchained();
     }
+
+    function __ERC20Base_init_unchained() internal onlyInitializing {}
 
     /**
      * @dev Required override of paused() which is implemented by both
