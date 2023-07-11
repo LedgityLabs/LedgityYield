@@ -55,13 +55,13 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /// @dev Holds reference to invested token contract
-    IERC20Upgradeable public invested;
+    IERC20Upgradeable private _invested;
 
     /// @dev Holds investment information of each account
-    mapping(address => AccountInfos) accountsInfos;
+    mapping(address => AccountInfos) internal accountsInfos;
 
     /// @dev Holds the history of APR through time (see APRCheckpoints.sol)
-    APRC.Pack[] private packedAPRCheckpoints;
+    APRC.Pack[] private _packedAPRCheckpoints;
 
     /// @dev Prevents claim re-entrancy / infinite loop
     bool private _isClaiming;
@@ -89,11 +89,19 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /**
+     * @dev Getter for the invested token contract.
+     * @return The invested token contract.
+     */
+    function invested() public view returns (IERC20Upgradeable) {
+        return _invested;
+    }
+
+    /**
      * @dev Setter for the invested token contract. Restricted to owner.
      * @param tokenAddress The address of the new invested token.
      */
     function setInvested(address tokenAddress) public onlyOwner {
-        invested = IERC20Upgradeable(tokenAddress);
+        _invested = IERC20Upgradeable(tokenAddress);
     }
 
     /**
@@ -101,7 +109,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @param aprUD3 The new APR in UD3 format.
      */
     function setAPR(uint16 aprUD3) public onlyOwner {
-        APRC.setAPR(packedAPRCheckpoints, aprUD3);
+        APRC.setAPR(_packedAPRCheckpoints, aprUD3);
         emit APRUpdateEvent(aprUD3);
     }
 
@@ -110,7 +118,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @return The current APR in UD3 format.
      */
     function getApr() public view returns (uint16) {
-        return APRC.getAPR(packedAPRCheckpoints);
+        return APRC.getAPR(_packedAPRCheckpoints);
     }
 
     /**
@@ -128,56 +136,54 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
 
     /**
      * @dev Function to be implemented by child contracts. It should return the amount of
-     * invested tokens a given account has deposited.
+     * invested tokens a given account has deposited/invested.
      * @param account The account to get the investment of.
      */
-    function _investmentOf(address account) internal view virtual returns (uint256) {
-        account; // Silence unused variable warning
-        return 0;
-    }
+    function _investmentOf(address account) internal view virtual returns (uint256);
 
     /**
-     * @dev Converts a given number into unsigned decimal fixed point number with the same
-     * number of decimals than the invested token.
-     * @param n The number to convert.
-     * @return The converted number.
+     * @dev Scales up a given number by the number of decimals of the invested token.
+     * @param n The number to scale up.
+     * @return The scaled up number.
      */
-    function toDecimals(uint256 n) internal view returns (uint256) {
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested)).decimals();
+    function _toDecimals(uint256 n) internal view returns (uint256) {
+        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
         return n * 10 ** decimals;
     }
 
-    function fromDecimals(uint256 n) internal view returns (uint256) {
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested)).decimals();
+    /**
+     * @dev Scales down a given number by the number of decimals of the invested token.
+     * @param n The number to scale down.
+     * @return The scaled down number.
+     */
+    function _fromDecimals(uint256 n) internal view returns (uint256) {
+        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
         return n / 10 ** decimals;
     }
 
-    function toUDS3(uint256 n) internal view returns (uint256) {
-        return UDS3.scaleUp(toDecimals(n));
-    }
-
-    function fromUDS3(uint256 nUDS3) internal view returns (uint256) {
-        return UDS3.scaleDown(fromDecimals(nUDS3));
+    /**
+     * @dev Scale up a given number to UDS3 (invested token decimals + 3 decimals).
+     * @param n The number to scale up.
+     * @return The scaled down number.
+     */
+    function _toUDS3(uint256 n) internal view returns (uint256) {
+        return UDS3.scaleUp(_toDecimals(n));
     }
 
     /**
-     * @dev Converts a given number from UD3 format into unsigned decimal fixed point number
-     * with the same number of decimals than the invested token.
-     * @param nUD3 The UD3 number to convert.
-     * @return The converted number.
+     * @dev Scale down a given number from UDS3 (invested token decimals + 3 decimals).
+     * @param nUDS3 The number to scale down.
+     * @return The scaled down number.
      */
-    function ud3ToDecimals(uint256 nUD3) internal view returns (uint256) {
-        return toDecimals(nUD3) / 10 ** 3;
+    function _fromUDS3(uint256 nUDS3) internal view returns (uint256) {
+        return UDS3.scaleDown(_fromDecimals(nUDS3));
     }
 
     /**
      * @dev This function calculates the rewards generated during a given period of time,
-     * considering a given deposited amount and APR.
-     * For more details see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
-     * About usage of UDS3: Note that usage of UDS3 is not required here to retain precision of
-     * amounts as we are only using multiplication before division. However, we use it to support
-     * scenario where the invested token decimals are < 3. In that case, as the APR is stored in UD3
-     * it would be shrinked and so would lead to a loss of precision.
+     * considering a given deposited amount and the APR during this period.
+     *
+     * For further details, see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
      * @param beginTimestamp The beginning of the period.
      * @param endTimestamp The end of the period.
      * @param aprUD3 The APR of the period, in UD3 format.
@@ -190,24 +196,24 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
         uint256 investedAmount
     ) private view returns (uint256 rewards) {
         // Calculate elapsed years
-        uint256 elaspedTimeUDS3 = toUDS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * toUDS3(1)) / toUDS3(365 days);
-        // Calculate deposited amount growth (because of rewards)
-        uint256 aprUDS3 = toDecimals(aprUD3); // 5000
-        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / toUDS3(1);
+        uint256 elaspedTimeUDS3 = _toUDS3(endTimestamp - beginTimestamp);
+        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * _toUDS3(1)) / _toUDS3(365 days);
+
+        // Calculate deposited amount growth (thanks to rewards)
+        uint256 aprUDS3 = _toDecimals(aprUD3); // UD3 to UDS3
+        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / _toUDS3(1);
 
         // Calculate and return rewards
         uint256 investedAmountUDS3 = UDS3.scaleUp(investedAmount);
-
-        uint256 rewardsUDS3 = (investedAmountUDS3 * growthUDS3) / toUDS3(100);
-        rewards = UDS3.scaleDown(rewardsUDS3);
+        uint256 rewardsUDS3 = (investedAmountUDS3 * growthUDS3) / _toUDS3(100);
+        rewards = UDS3.scaleDown(rewardsUDS3); // UDS3 to invested tokens decimals
     }
 
     /**
      * @dev Calculates the current unclaimed rewards of a given account.
      * For more details see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
      * @param account The account to calculate the rewards of.
-     * @param autocompound Whether to autocompound the rewards or not.
+     * @param autocompound Whether to autocompound the rewards between APR checkpoints.
      */
     function _rewardsOf(address account, bool autocompound) internal view returns (uint256 rewards) {
         // Retrieve account infos and its deposited amount
@@ -220,9 +226,12 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
 
         // Retrieve deposit checkpoint and the one right after it
         APRC.Reference memory ref = infos.period.ref;
-        APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(packedAPRCheckpoints, ref);
+        APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(_packedAPRCheckpoints, ref);
         APRC.Reference memory nextRef = APRC.incrementReference(ref);
-        APRC.Checkpoint memory nextCheckpoint = APRC.getDataFromReference(packedAPRCheckpoints, nextRef);
+        APRC.Checkpoint memory nextCheckpoint = APRC.getDataFromReference(
+            _packedAPRCheckpoints,
+            nextRef
+        );
 
         if (nextCheckpoint.timestamp != 0) {
             // Calculate rewards from deposit to next checkpoint
@@ -241,7 +250,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
             while (true) {
                 // Retrieve next ref and checkpoint
                 nextRef = APRC.incrementReference(ref);
-                nextCheckpoint = APRC.getDataFromReference(packedAPRCheckpoints, nextRef);
+                nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
 
                 // Break if next checkpoint doesn't exist
                 if (nextCheckpoint.timestamp == 0) break;
@@ -298,7 +307,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
 
             // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
             accountsInfos[account].period.timestamp = uint40(block.timestamp);
-            accountsInfos[account].period.ref = APRC.getLatestReference(packedAPRCheckpoints);
+            accountsInfos[account].period.ref = APRC.getLatestReference(_packedAPRCheckpoints);
         }
     }
 

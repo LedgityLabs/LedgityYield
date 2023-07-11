@@ -108,10 +108,10 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         AccountStake memory accountStake = accountsStakes[account];
         if (accountStake.amount == 0) return 0;
 
-        uint256 growthRateUDS3 = (UDS3.scaleUp(addedAmount) * toUDS3(1)) /
+        uint256 growthRateUDS3 = (UDS3.scaleUp(addedAmount) * _toUDS3(1)) /
             UDS3.scaleUp(accountStake.amount);
-        uint256 growthUDS3 = (toUDS3(stakeLockDuration) * growthRateUDS3) / toUDS3(100);
-        uint40 lockEndIncrease = uint40(fromUDS3(growthUDS3));
+        uint256 lockEndIncreaseUDS3 = (_toUDS3(stakeLockDuration) * growthRateUDS3) / _toUDS3(100);
+        uint40 lockEndIncrease = uint40(_fromUDS3(lockEndIncreaseUDS3));
         uint40 remainingLockDuration = accountStake.lockEnd < uint40(block.timestamp)
             ? 0
             : accountStake.lockEnd - uint40(block.timestamp);
@@ -148,7 +148,10 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         accountStake.lockEnd = uint40(block.timestamp);
 
         // Calculate unlock fees and update account stake accordingly
-        uint256 fees = (accountStake.amount * ud3ToDecimals(unlockFeesRateUD3)) / toDecimals(100);
+        uint256 amountUDS3 = UDS3.scaleUp(accountStake.amount);
+        uint256 unlockFeesRateUDS3 = _toDecimals(unlockFeesRateUD3); // UD3 to UDS3
+        uint256 feesUDS3 = (amountUDS3 * unlockFeesRateUDS3) / _toUDS3(100);
+        uint256 fees = UDS3.scaleDown(feesUDS3);
         accountStake.amount -= uint216(fees);
 
         // Write the new account stake

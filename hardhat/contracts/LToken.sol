@@ -11,6 +11,7 @@ import {LTYStaking} from "./LTYStaking.sol";
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
+import {UDS3} from "./libs/UDS3.sol";
 
 /**
  * @title LToken
@@ -294,7 +295,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @return amount The expected amount of underlying tokens
      */
     function getExpectedRetained() public view returns (uint256 amount) {
-        return (totalSupply() * ud3ToDecimals(retentionRateUD3)) / toDecimals(100);
+        uint256 totalSupplyUDS3 = UDS3.scaleUp(totalSupply());
+        uint256 retentionRateUDS3 = _toDecimals(retentionRateUD3);
+        uint256 expectedRetainedUDS3 = (totalSupplyUDS3 * retentionRateUDS3) / _toUDS3(100);
+        return UDS3.scaleDown(expectedRetainedUDS3);
     }
 
     /**
@@ -307,7 +311,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         int256 difference = int256(getExpectedRetained()) - int256(usableBalance);
 
         // If more than 10000 underlying tokens exceed the retention rate
-        if (difference > 0 && uint256(difference) > toDecimals(10000)) {
+        if (difference > 0 && uint256(difference) > _toDecimals(10000)) {
             // Transfer the exceeding amount to the fund wallet
             underlying().safeTransferFrom(address(this), fund, uint256(difference));
             usableBalance -= uint256(difference);
@@ -377,7 +381,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         if (ltyStaking.tierOf(account) >= 2) return (amount, 0);
 
         // Else calculate withdrawal fees as well as final withdrawn amount
-        fees = (amount * ud3ToDecimals(feesRateUD3)) / toDecimals(100);
+        uint256 amountUDS3 = UDS3.scaleUp(amount);
+        uint256 feesRateUDS3 = _toDecimals(feesRateUD3);
+        uint256 feesUDS3 = (amountUDS3 * feesRateUD3) / _toUDS3(100);
+        fees = UDS3.scaleDown(feesUDS3);
         withdrawnAmount = amount - fees;
     }
 
