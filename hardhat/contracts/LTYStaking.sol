@@ -52,7 +52,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     uint256 public rewardsReserve;
 
     /**
-     * @dev Emitted to inform of a change in the total amount staked
+     * @dev Emitted to inform listeners of a change in the total amount staked
      * @param newTotalStaked The new total amount staked
      */
     event TotalStakedUpdateEvent(uint256 newTotalStaked);
@@ -96,14 +96,15 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * through `stake()` function nor through the `fund()` one.
      */
     function recoverLTY() public onlyOwner {
-        // Compute the amount of $LTY that can be recovered by making the difference
-        // between the current balance of the contract and the total amount staked as well
-        // as the total amount of rewards allocated
-        uint256 recoverableAmount = invested().balanceOf(address(this)) - totalStaked - rewardsReserve;
+        // Compute the amount of $LTY that can be recovered by taking the difference between
+        // the contract's $LTY balance and the total amount staked plus the rewards reserve
+        uint256 recoverableAmount = invested().balanceOf(address(this)) - (totalStaked + rewardsReserve);
 
-        // If there are some unusable funds, recover them, else revert
-        if (recoverableAmount > 0) super.recoverERC20(address(invested()), recoverableAmount);
-        else revert("LTYStaking: nothing to recover");
+        // Revert if there are no recoverable $LTY
+        require(recoverableAmount > 0, "LTYStaking: nothing to recover");
+
+        // Else transfer the recoverable $LTY to the owner
+        super.recoverERC20(address(invested()), recoverableAmount);
     }
 
     /**
@@ -204,10 +205,10 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev Allows the owner to deposit $LTY tokens that will be used to reward stakers.
+     * @dev Allows the owner to fill the $LTY rewards reserve (used to reward stakers).
      * @param amount The amount of $LTY to deposit
      */
-    function fund(uint256 amount) external onlyOwner {
+    function fuel(uint256 amount) external onlyOwner {
         // Transfer $LTY tokens from the caller to this contract
         invested().transferFrom(_msgSender(), address(this), amount);
         rewardsReserve += amount;

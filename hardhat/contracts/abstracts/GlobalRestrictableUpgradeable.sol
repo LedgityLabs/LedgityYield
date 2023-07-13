@@ -51,7 +51,7 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
      * @param account Address to check against the GlobalBlacklist contract.
      */
     modifier notBlacklisted(address account) {
-        require(isBlacklisted(account) == false, "GlobalRestrictableUpgradeable: not permitted");
+        require(isBlacklisted(account) == false, "GlobalRestrictableUpgradeable: forbidden");
         _;
     }
 

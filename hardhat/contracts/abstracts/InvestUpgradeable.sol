@@ -67,7 +67,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     bool private _isClaiming;
 
     /**
-     * @dev Event used to inform about a change in the APR.
+     * @dev Emitted to inform listeners about a change in the APR.
      * @param newAPRUD3 The new APR in UD3 format.
      */
     event APRUpdateEvent(uint16 newAPRUD3);

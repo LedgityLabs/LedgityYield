@@ -15,8 +15,7 @@ import {LToken} from "./LToken.sol";
  */
 contract LTokenSignaler is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeable {
     /**
-     * @dev Signal event catched by TheGraph subgraph to discover and start indexing
-     * a L-Token contract.
+     * @dev Emitted to inform subgraph of the existence of a new L-Token contract.
      * @param lTokenAddress The address of the L-Token contract to signal
      */
     event LTokenSignalEvent(address indexed lTokenAddress);

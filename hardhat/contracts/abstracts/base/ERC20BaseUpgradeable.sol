@@ -68,7 +68,14 @@ abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC
         address from,
         address to,
         uint256 amount
-    ) internal virtual override(ERC20PausableUpgradeable, ERC20Upgradeable) {
+    )
+        internal
+        virtual
+        override(ERC20PausableUpgradeable, ERC20Upgradeable)
+        whenNotPaused
+        notBlacklisted(from)
+        notBlacklisted(to)
+    {
         ERC20PausableUpgradeable._beforeTokenTransfer(from, to, amount);
     }
 
