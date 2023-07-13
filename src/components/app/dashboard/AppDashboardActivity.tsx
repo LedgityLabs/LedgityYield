@@ -36,19 +36,23 @@ import { LTokenId } from "../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useLTokenDecimals,
-  useLTokenWithdrawalRequestAmount,
+  useLTokenGetWithdrawanAmountAndFees,
   usePrepareLTokenCancelWithdrawalRequest,
 } from "@/generated";
-import { parseUnits } from "viem";
+import { zeroAddress } from "viem";
 
-const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint }> = ({ ltokenId, requestId }) => {
+const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint; amount: bigint }> = ({
+  ltokenId,
+  requestId,
+}) => {
+  const { data: walletClient } = useWalletClient();
   const ltokenAddress = useContractAddress(ltokenId);
   const { data: decimals } = useLTokenDecimals({
     address: ltokenAddress,
   });
-  const { data: amount } = useLTokenWithdrawalRequestAmount({
+  const { data: amountAndFees } = useLTokenGetWithdrawanAmountAndFees({
     address: ltokenAddress,
-    args: [requestId],
+    args: [walletClient ? walletClient.account.address : zeroAddress, requestId],
     watch: true,
   });
   const preparation = usePrepareLTokenCancelWithdrawalRequest({
@@ -58,7 +62,8 @@ const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint }> = ({ ltokenId,
 
   useEffect(() => {
     preparation.refetch();
-  }, [amount]);
+  }, [amountAndFees]);
+
   return (
     <AlertDialog>
       <Tooltip>
@@ -86,7 +91,8 @@ const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint }> = ({ ltokenId,
             <br />
             By cancelling this request{" "}
             <span className="font-semibold">
-              you will receive your <Amount value={amount} decimals={decimals} /> {ltokenId}{" "}
+              you will receive your{" "}
+              <Amount value={amountAndFees ? amountAndFees[0] : 0n} decimals={decimals} /> {ltokenId}{" "}
             </span>
             tokens back to your wallet.
           </AlertDialogDescription>
@@ -208,6 +214,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         const status = info.getValue();
         const ltoken = info.row.getValue("ltoken") as LToken;
         const requestId = activityData[info.row.index].requestId;
+        const amount = info.row.getValue("amount") as string;
         return (
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
             <div
@@ -229,7 +236,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
               <p>{status}</p>
             </div>
             {status === "Queued" && (
-              <CancelButton ltokenId={ltoken.symbol as LTokenId} requestId={BigInt(requestId)} />
+              <CancelButton
+                ltokenId={ltoken.symbol as LTokenId}
+                requestId={BigInt(requestId)}
+                amount={BigInt(amount)}
+              />
             )}
           </div>
         );

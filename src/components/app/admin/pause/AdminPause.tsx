@@ -2,18 +2,18 @@ import { FC, useEffect } from "react";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 import {
-  useGlobalPauserPaused,
-  usePrepareGlobalPauserPause,
-  usePrepareGlobalPauserUnpause,
+  useGlobalPausePaused,
+  usePrepareGlobalPausePause,
+  usePrepareGlobalPauseUnpause,
 } from "@/generated";
 import { TxButton } from "@/components/ui";
 
 export const AdminPause: FC = () => {
-  const { data: paused } = useGlobalPauserPaused({
+  const { data: paused } = useGlobalPausePaused({
     watch: true,
   });
-  const pausePreparation = usePrepareGlobalPauserPause();
-  const unpausePreparation = usePrepareGlobalPauserUnpause();
+  const pausePreparation = usePrepareGlobalPausePause();
+  const unpausePreparation = usePrepareGlobalPauseUnpause();
   useEffect(() => {
     pausePreparation.refetch();
     unpausePreparation.refetch();
