@@ -1,3 +1,17 @@
+## [1.118.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.118.0...v1.118.1) (2023-07-13)
+
+
+### Fixes
+
+* fix build error ([bf09e61](https://github.com/ledgity-labs/Ledgity-DeFi/commit/bf09e61ca5263b584ea48bf6aa5e04ac8a188ad1))
+
+
+### Others
+
+* **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.0.1 ([8c741ce](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8c741cecda1e9d5329ba269e53d15594b8f39c5a))
+* **deps:** update dependency @types/node to v20.4.2 ([b157a7f](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b157a7ff74543d75834b8d7a257c2a2427a68bbc))
+* **deps:** update dependency @types/react-dom to v18.2.7 ([0680d30](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0680d3097e1c8ba894003f73b2adf6724c6d5ef4))
+
 ## [1.118.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.2...v1.118.0) (2023-07-13)
 
 
