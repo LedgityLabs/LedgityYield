@@ -1,6 +1,6 @@
 import { deployProxy } from "./lib/deployProxy";
 
-const main = async () => await deployProxy("LTokenSignaler", true);
+const main = async () => await deployProxy("LTokenSignaler", true, false, false);
 
 export default main().catch((error) => {
   console.error(error);

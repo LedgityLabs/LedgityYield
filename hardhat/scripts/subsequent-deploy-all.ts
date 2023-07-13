@@ -12,7 +12,10 @@ export const main = async () => {
     await import("./deploy-LTYStaking")
   ).default;
   await (
-    await import("./deploy-LToken")
+    await import("./deploy-LUSDC")
+  ).default;
+  await (
+    await import("./deploy-LEUROC")
   ).default;
 };
 

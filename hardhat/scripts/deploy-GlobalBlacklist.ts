@@ -1,6 +1,6 @@
 import { deployProxy } from "./lib/deployProxy";
 
-const main = async () => await deployProxy("GlobalBlacklist", true);
+const main = async () => await deployProxy("GlobalBlacklist", true, false, false);
 
 export default main().catch((error) => {
   console.error(error);

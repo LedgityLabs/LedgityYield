@@ -8,20 +8,25 @@ export const main = async () => {
   // Retrieve current chainId and whether this is a testnet
   const chainId = getChainId();
   const isTestnet = testnetIds.includes(chainId);
-
-  // Deploy contracts
-  // If testnet, deploy a fake $LTY token
-  if (isTestnet) await deploy("GenericERC20", ["Fake LTY", "LTY", 18]);
+  
+  
+  // ########################
+  // ### Deploy contracts ###
+  // ########################
+  // Deploy GlobalOwner, GlobalPause, GlobalBlacklist
   await (
     await import("./deploy-GlobalOwner")
   ).default;
-  const globalPauser = await (await import("./deploy-GlobalPause")).default;
-  const globalBlacklist = await (await import("./deploy-GlobalBlacklist")).default;
+  await (await import("./deploy-GlobalPause")).default;
+  await (await import("./deploy-GlobalBlacklist")).default;
+
+  // Deploy LTYStaking contract
+  // Note: If testnet, deploy a fake $LTY and token
+  if (isTestnet) await deploy("GenericERC20", ["Fake LTY", "LTY", 18]);
   const ltyStaking = await (await import("./deploy-LTYStaking")).default;
-  await (
-    await import("./deploy-LToken")
-  ).default;
-  // If testnet, deploy a fake $USDC and $EUROC tokens
+  
+  // Deploy L-Tokens contracts
+  // Note: If testnet, deploy a fake underlying tokens
   if (isTestnet) {
     await deploy("GenericERC20", ["Fake USDC", "USDC", 6]);
     await deploy("GenericERC20", ["Fake EUROC", "EUROC", 6]);
@@ -37,20 +42,19 @@ export const main = async () => {
     await import("./deploy-Multicall3")
   ).default;
 
+
+  // ##############################
+  // ### Initialize some states ###
+  // ##############################
+
   // Initialize LTYStaking contract data
-  const ltyAddress = getContractAddress("LTY");
-  ltyStaking!.setGlobalPauser(await globalPauser!.getAddress());
-  ltyStaking!.setGlobalBlacklist(await globalBlacklist!.getAddress());
-  ltyStaking!.setInvested(ltyAddress);
   ltyStaking!.setAPR(parseUnits("20", 3));
   ltyStaking!.setTier(1, 0);
-  ltyStaking!.setTier(2, parseUnits("2000000", 18));
-  ltyStaking!.setTier(3, parseUnits("10000000", 18));
+  ltyStaking!.setTier(2, parseUnits("5000", 18));
+  ltyStaking!.setTier(3, parseUnits("50000", 18));
 
   // Initialize L-Tokens contracts data
   for (let lToken of lTokens) {
-    lToken!.setGlobalPauser(await globalPauser!.getAddress());
-    lToken!.setGlobalBlacklist(await globalBlacklist!.getAddress());
     lToken!.setLTYStaking(await ltyStaking!.getAddress());
     lToken!.setAPR(5000);
     lToken!.setFeesRate(300);

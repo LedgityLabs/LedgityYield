@@ -8,7 +8,7 @@ export function getContractAddress(contractId: ContractId) {
   // Try to retrieve the contract address from the deployments file
   // Error if not found
   const err = new Error(
-    `Address of contract '${contractId}' on '${chainId}' network not found in contracts.ts file.`
+    `Address of contract '${contractId}' on '${chainId}' network not found in deployments.ts file.`
   );
   try {
     contractAddress = contracts[contractId].address[chainId]!;

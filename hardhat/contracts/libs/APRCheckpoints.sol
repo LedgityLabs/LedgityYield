@@ -111,9 +111,6 @@ library APRCheckpoints {
         uint256 packIndex = packs.length - 1;
         uint32 packCursor = packs[packIndex].cursor;
 
-        // Ensure at least one APR checkpoint exists
-        require(packIndex > 0 || packCursor > 0, "APRCheckpoints: no checkpoint yet");
-
         // If the pack is empty, the latest checkpoint reference is in the previous
         // pack (packIndex--) and at the last slot of this one (packCursor = 3)
         if (packCursor == 0) {
@@ -132,11 +129,12 @@ library APRCheckpoints {
      * @param packs The array of packs to append the new empty pack to
      */
     function newBlankPack(Pack[] storage packs) internal {
-        // Retrieve reference of the latest checkpoint in the array of packs
-        Reference memory ref = getLatestReference(packs);
-
-        // Ensure the latest pack is full
-        require(ref.cursorIndex == 3, "APRCheckpoints: latest pack not full yet");
+        // If packs array is not empty, ensure the latest pack is full
+        if (packs.length != 0)
+            require(
+                getLatestReference(packs).cursorIndex == 3,
+                "APRCheckpoints: latest pack not full yet"
+            );
 
         // Append a new empty pack to the array of packs
         packs.push(

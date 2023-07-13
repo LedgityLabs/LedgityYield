@@ -3,7 +3,7 @@ module.exports =
     plugins:
       [
         "prettier-plugin-solidity",
-        "prettier-plugin-jsdoc",
+        // "prettier-plugin-jsdoc",
       ],
 
     // Note that Solidity's Style Guide suggests a maximum line length of 120 characters.
