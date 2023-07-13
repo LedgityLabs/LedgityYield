@@ -1,3 +1,22 @@
+## [1.118.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.2...v1.118.0) (2023-07-13)
+
+
+### Features
+
+* **contracts:** don't rely anymore on Beacon, rewrite deploy scripts to fit new contracts and ([334c0dc](https://github.com/ledgity-labs/Ledgity-DeFi/commit/334c0dceeaf8c67efc19ccfe0782ab584174772a))
+* **contracts:** track and allow funding a rewards reserve in LTYStaking contract ([f172369](https://github.com/ledgity-labs/Ledgity-DeFi/commit/f17236957c57eaa7c5140ec1b172b1c7be57a772))
+
+
+### Docs
+
+* **contracts:** document LTokenSignaler contract ([97e4690](https://github.com/ledgity-labs/Ledgity-DeFi/commit/97e469096c779a82a45d23f52c74d135100e3da1))
+
+
+### Others
+
+* **contracts:** improve docs and code readability of LToken contract ([e97c7e2](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e97c7e2ce7873cf483fce20cce8513e452e3c342))
+* **contracts:** improve docs and code readability of LTYStaking contract ([af15bd9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/af15bd9d5bf087de55a517ce8ee43e05b418181e))
+
 ## [1.117.2](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.1...v1.117.2) (2023-07-11)
 
 
