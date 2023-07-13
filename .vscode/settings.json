@@ -30,7 +30,9 @@
     "wagmi.config.ts": false,
     "tailwind.config.js": false,
     "hardhat/abis": false,
-    "build": false
+    "build": false,
+    "foundry.toml": false,
+    ".gitmodules": false
   },
   // Required because of a bug with pnpm and prettier plugins.
   // See: https://github.com/prettier-solidity/prettier-plugin-solidity#pnpm
