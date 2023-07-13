@@ -1,3 +1,15 @@
+## [1.119.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.118.1...v1.119.0) (2023-07-13)
+
+
+### Features
+
+* **contracts:** setup foundry next to hardhat for unit tests ([f23b851](https://github.com/ledgity-labs/Ledgity-DeFi/commit/f23b851e1a962f9cfe2b8bb63a682688bf8e4626))
+
+
+### Others
+
+* forge init ([b0e44b4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b0e44b4a9f7ff6a2f3d9dd0c79596c6490dc1afa))
+
 ## [1.118.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.118.0...v1.118.1) (2023-07-13)
 
 
