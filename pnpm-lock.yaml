@@ -113,8 +113,8 @@ devDependencies:
     specifier: ^4.9.2
     version: 4.9.2
   '@openzeppelin/hardhat-upgrades':
-    specifier: 2.0.0
-    version: 2.0.0(@nomicfoundation/hardhat-ethers@3.0.3)(@nomicfoundation/hardhat-verify@1.0.3)(ethers@6.6.3)(hardhat@2.16.1)
+    specifier: 2.0.1
+    version: 2.0.1(@nomicfoundation/hardhat-ethers@3.0.3)(@nomicfoundation/hardhat-verify@1.0.3)(ethers@6.6.3)(hardhat@2.16.1)
   '@semantic-release/changelog':
     specifier: ^6.0.3
     version: 6.0.3(semantic-release@21.0.7)
@@ -4173,8 +4173,8 @@ packages:
       - encoding
     dev: true
 
-  /@openzeppelin/hardhat-upgrades@2.0.0(@nomicfoundation/hardhat-ethers@3.0.3)(@nomicfoundation/hardhat-verify@1.0.3)(ethers@6.6.3)(hardhat@2.16.1):
-    resolution: {integrity: sha512-v4xKeWxBUlsdR7hQP2zK9BMqsLMnEswo4Rc7xQMipqc5+GdB/NuS0pUJarHbYXchrsVX2RmA70nXfbpLO3Nn7A==}
+  /@openzeppelin/hardhat-upgrades@2.0.1(@nomicfoundation/hardhat-ethers@3.0.3)(@nomicfoundation/hardhat-verify@1.0.3)(ethers@6.6.3)(hardhat@2.16.1):
+    resolution: {integrity: sha512-8yreWaXKyQ+A6w9D1URCCojt2o10DEox2kZkVIpacpF1inauAvc0sLKLJnqPmbYqrid7m6sRZmH9QByJH2H2nQ==}
     hasBin: true
     peerDependencies:
       '@nomicfoundation/hardhat-ethers': ^3.0.0
@@ -4188,7 +4188,7 @@ packages:
       '@nomicfoundation/hardhat-ethers': 3.0.3(ethers@6.6.3)(hardhat@2.16.1)
       '@nomicfoundation/hardhat-verify': 1.0.3(hardhat@2.16.1)
       '@openzeppelin/defender-base-client': 1.47.0(debug@4.3.4)
-      '@openzeppelin/platform-deploy-client': 0.8.0(debug@4.3.4)
+      '@openzeppelin/platform-deploy-client': 0.9.0(debug@4.3.4)
       '@openzeppelin/upgrades-core': 1.27.3
       chalk: 4.1.2
       debug: 4.3.4(supports-color@8.1.1)
@@ -4201,12 +4201,12 @@ packages:
       - supports-color
     dev: true
 
-  /@openzeppelin/platform-deploy-client@0.8.0(debug@4.3.4):
-    resolution: {integrity: sha512-POx3AsnKwKSV/ZLOU/gheksj0Lq7Is1q2F3pKmcFjGZiibf+4kjGxr4eSMrT+2qgKYZQH1ZLQZ+SkbguD8fTvA==}
+  /@openzeppelin/platform-deploy-client@0.9.0(debug@4.3.4):
+    resolution: {integrity: sha512-VepsNJu5B5xhrKMg//hROFljlxlNhlkcgLSKl8rqapKiRFN/dxXtSVmmpNmySrCFnbbV/6twfhuhYGAZiG7oAw==}
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@openzeppelin/defender-base-client': 1.47.0(debug@4.3.4)
-      axios: 0.21.4(debug@4.3.4)
+      axios: 1.4.0(debug@4.3.4)
       lodash: 4.17.21
       node-fetch: 2.6.12
     transitivePeerDependencies:
@@ -7137,14 +7137,6 @@ packages:
   /axe-core@4.7.2:
     resolution: {integrity: sha512-zIURGIS1E1Q4pcrMjp+nnEh+16G56eG/MUllJH8yEvw7asDo7Ac9uhC9KIH5jzpITueEZolfYglnCGIuSBz39g==}
     engines: {node: '>=4'}
-    dev: true
-
-  /axios@0.21.4(debug@4.3.4):
-    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
-    dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
-    transitivePeerDependencies:
-      - debug
     dev: true
 
   /axios@1.4.0(debug@4.3.4):
