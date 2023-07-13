@@ -4,7 +4,7 @@ import clsx from "clsx";
 // import { useDApp } from "@/hooks";
 import { useBlockNumber } from "wagmi";
 
-const AppFooter: FC = async () => {
+const AppFooter: FC = () => {
   const { data: _blockNumber } = useBlockNumber({
     // chainId: chain.id,
     watch: true,

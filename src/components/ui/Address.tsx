@@ -12,9 +12,9 @@ const AddToWallet = ({ address }: { address: `0x${string}` }) => {
       onClick={() => {
         // @ts-ignore
         if (window.ethereum) {
-          // @ts-ignore
           window.ethereum.request({
             method: "wallet_watchAsset",
+            // @ts-ignore
             params: {
               type: "ERC20", // Initially only supports ERC20, but eventually more!
               options: {

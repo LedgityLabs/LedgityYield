@@ -1,14 +1,11 @@
 import { FC, useEffect } from "react";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
-import { AdminAddressSetter } from "../AdminAddressSetter";
 import {
-  useGlobalOwnerPendingOwner,
   useGlobalPauserPaused,
   usePrepareGlobalPauserPause,
   usePrepareGlobalPauserUnpause,
 } from "@/generated";
-import { useWalletClient } from "wagmi";
 import { TxButton } from "@/components/ui";
 
 export const AdminPause: FC = () => {
