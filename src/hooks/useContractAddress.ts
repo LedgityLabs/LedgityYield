@@ -1,5 +1,5 @@
 import { getContractAddress } from "@/lib/getContractAddress";
-import { ContractId } from "../../hardhat/deployments";
+import { ContractId } from "../../contracts/deployments";
 import { usePublicClient } from "wagmi";
 
 export const useContractAddress = (contractId: ContractId): `0x${string}` | undefined => {

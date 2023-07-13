@@ -1,4 +1,4 @@
-import { ContractId, contracts } from "../../hardhat/deployments";
+import { ContractId, contracts } from "../../contracts/deployments";
 
 export const getContractABI = (contractId: ContractId) => {
   const contract = contracts[contractId];

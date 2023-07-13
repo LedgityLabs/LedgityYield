@@ -18,7 +18,7 @@ import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
-import { ContractId } from "../../../../hardhat/deployments";
+import { ContractId } from "../../../../contracts/deployments";
 import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
@@ -149,11 +149,11 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         const lTokenContractAddress = getContractAddress(lTokenId, publicClient.chain.id);
         const underlyingContractAddress = getContractAddress(
           lTokenId.slice(1) as ContractId,
-          publicClient.chain.id
+          publicClient.chain.id,
         );
         if (!lTokenContractAddress || !underlyingContractAddress)
           console.error(
-            "Some contracts addresses are missing for the current chain. Cannot watch data."
+            "Some contracts addresses are missing for the current chain. Cannot watch data.",
           );
         else {
           const lTokenContract = getLToken({ address: lTokenContractAddress });
@@ -218,7 +218,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             if (!isActionsDialogOpen.current) setTableData(_tableData);
             else futureTableData.current = _tableData;
             setInitialFetch(true);
-          }
+          },
         );
       }
     }
@@ -241,7 +241,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               }}
               className={twMerge(
                 "flex justify-center items-center",
-                header.column.id === "tokenSymbol" && "justify-start pl-6"
+                header.column.id === "tokenSymbol" && "justify-start pl-6",
               )}
             >
               {(() => {
@@ -296,7 +296,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                       "flex items-center",
                       cell.column.id !== "tokenSymbol" && "justify-center",
                       cell.column.id === "actions" && "justify-end",
-                      cell.column.id === "apr" && "text-indigo-800 font-bold"
+                      cell.column.id === "apr" && "text-indigo-800 font-bold",
                     )}
                     style={{
                       gridColumnStart: index + 1,

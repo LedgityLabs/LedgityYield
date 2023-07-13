@@ -1,14 +1,15 @@
 import { ethers, upgrades } from "hardhat";
-import { ContractId } from "../../deployments";
+import { ContractId } from "../../../deployments";
 import { getContractAddress } from "./getContractAddress";
 import { getContractName } from "./getContractName";
 
-export async function deployProxy (
+export async function deployProxy(
   contractId: ContractId,
   globalOwner: boolean = false,
   globalPause: boolean = false,
   globalBlacklist: boolean = false,
-  args: any[] = []) {
+  args: any[] = [],
+) {
   // Retrieve the contract name
   const contractName = getContractName(contractId);
 

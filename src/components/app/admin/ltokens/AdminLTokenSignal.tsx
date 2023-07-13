@@ -2,7 +2,7 @@ import { Card, TxButton } from "@/components/ui";
 import { usePrepareLTokenSignalerSignalLToken } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminBrick } from "../AdminBrick";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {

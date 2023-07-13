@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const extractAbi = async () => {
-  const mainFolder = path.join(__dirname, "./artifacts/hardhat/contracts/");
+  const mainFolder = path.join(__dirname, "./hardhat/artifacts/contracts/src/");
   const abisFolder = path.join(__dirname, "./abis/");
   fs.readdirSync(mainFolder).forEach((folder: string) => {
     if (folder.includes(".sol")) {

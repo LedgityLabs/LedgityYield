@@ -1,4 +1,4 @@
-import { contracts, lTokensIds } from "../../hardhat/deployments";
+import { contracts, lTokensIds } from "../../contracts/deployments";
 import { usePublicClient } from "wagmi";
 
 export const useAvailableLTokens = () => {

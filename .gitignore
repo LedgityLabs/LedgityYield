@@ -40,10 +40,24 @@ coverage
 coverage.json
 typechain
 typechain-types
-hardhat/cache
-hardhat/artifacts
+contracts/hardhat/cache
+contracts/hardhat/artifacts
 
 # TheGraph
 thegraph/build
 thegraph/generated
 thegraph/local-node/data
+
+# Foundry (TOCONTINUE)
+# Compiler files
+contracts/foundry/cache/
+contracts/foundry/out/
+contracts/foundry/lib/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Dotenv file
+.env

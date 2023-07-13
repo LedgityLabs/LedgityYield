@@ -1,5 +1,5 @@
 import { getChainId } from "./getChainId";
-import { contracts, ContractId } from "../../deployments";
+import { contracts, ContractId } from "../../../deployments";
 
 export function getContractAddress(contractId: ContractId) {
   const chainId = getChainId();
@@ -8,7 +8,7 @@ export function getContractAddress(contractId: ContractId) {
   // Try to retrieve the contract address from the deployments file
   // Error if not found
   const err = new Error(
-    `Address of contract '${contractId}' on '${chainId}' network not found in deployments.ts file.`
+    `Address of contract '${contractId}' on '${chainId}' network not found in deployments.ts file.`,
   );
   try {
     contractAddress = contracts[contractId].address[chainId]!;

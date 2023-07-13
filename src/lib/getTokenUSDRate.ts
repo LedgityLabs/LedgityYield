@@ -1,4 +1,4 @@
-import { ContractId } from "../../hardhat/deployments";
+import { ContractId } from "../../contracts/deployments";
 
 const cache = new Map<ContractId, Promise<number>>();
 
@@ -13,7 +13,7 @@ export const getTokenUSDRate = async (tokenId: ContractId) => {
         .catch((error) => {
           console.error(`Error while fetching USD rate of ${tokenId}:`, error);
           throw error;
-        })
+        }),
     );
     return cache.get(tokenId)!;
   }

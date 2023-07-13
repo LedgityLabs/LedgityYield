@@ -9,7 +9,7 @@ import {
 } from "@/components/ui";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { AdminLToken } from "./AdminLToken";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { LTokenId } from "../../../../../contracts/deployments";
 
 export const AdminLTokens: FC = () => {
   const lTokens = useAvailableLTokens();

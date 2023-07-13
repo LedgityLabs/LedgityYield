@@ -1,4 +1,4 @@
-import { ContractId, contracts } from "../../hardhat/deployments";
+import { ContractId, contracts } from "../../contracts/deployments";
 
 export const getContractAddress = (contractId: ContractId, networkId: number) => {
   const contract = contracts[contractId];

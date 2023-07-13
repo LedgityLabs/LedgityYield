@@ -18,7 +18,7 @@ import {
   usePrepareLTokenDeposit,
 } from "../../generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { LTokenId } from "../../../hardhat/deployments";
+import { LTokenId } from "../../../contracts/deployments";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { useWalletClient } from "wagmi";
 
@@ -88,10 +88,10 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             amount={depositedAmount}
             transactionSummary={`Deposit ${formatUnits(
               depositedAmount,
-              decimals!
+              decimals!,
             )} ${underlyingSymbol} against ${formatUnits(
               depositedAmount,
-              decimals!
+              decimals!,
             )} L${underlyingSymbol}`}
           >
             Deposit

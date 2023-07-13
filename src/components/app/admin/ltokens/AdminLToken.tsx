@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminLTokenAPR } from "./AdminLTokenAPR";
 import { AdminLTokenRetentionRate } from "./AdminLTokenRetentionRate";
 import { AdminMasonry } from "../AdminMasonry";

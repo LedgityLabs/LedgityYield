@@ -1,15 +1,13 @@
 import { parseUnits } from "viem";
-import { testnetIds } from "../deployments";
+import { testnetIds } from "../../deployments";
 import { getChainId } from "./lib/getChainId";
 import { deploy } from "./lib/deploy";
-import { getContractAddress } from "./lib/getContractAddress";
 
 export const main = async () => {
   // Retrieve current chainId and whether this is a testnet
   const chainId = getChainId();
   const isTestnet = testnetIds.includes(chainId);
-  
-  
+
   // ########################
   // ### Deploy contracts ###
   // ########################
@@ -17,14 +15,18 @@ export const main = async () => {
   await (
     await import("./deploy-GlobalOwner")
   ).default;
-  await (await import("./deploy-GlobalPause")).default;
-  await (await import("./deploy-GlobalBlacklist")).default;
+  await (
+    await import("./deploy-GlobalPause")
+  ).default;
+  await (
+    await import("./deploy-GlobalBlacklist")
+  ).default;
 
   // Deploy LTYStaking contract
   // Note: If testnet, deploy a fake $LTY and token
   if (isTestnet) await deploy("GenericERC20", ["Fake LTY", "LTY", 18]);
   const ltyStaking = await (await import("./deploy-LTYStaking")).default;
-  
+
   // Deploy L-Tokens contracts
   // Note: If testnet, deploy a fake underlying tokens
   if (isTestnet) {
@@ -41,7 +43,6 @@ export const main = async () => {
   await (
     await import("./deploy-Multicall3")
   ).default;
-
 
   // ##############################
   // ### Initialize some states ###

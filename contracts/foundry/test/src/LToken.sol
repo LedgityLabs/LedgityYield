@@ -484,7 +484,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Iterate over the given request indexes
         for (uint256 i = 0; i < requestIds.length; i++) {
-
             // Retrieve request ID and data
             uint256 requestId = requestIds[i];
             WithdrawalRequest memory request = withdrawalQueue[requestId];
@@ -582,7 +581,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /**
      * @dev This withdrawal function, put the given amount request in queue to be processed
      * as soon as the contract would have enough funds to cover it.
-     * The sender must attach 0.004 ETH to pre-pay the future processing gas fees paid by 
+     * The sender must attach 0.004 ETH to pre-pay the future processing gas fees paid by
      * the withdrawer wallet.
      * @param amount The amount of tokens to withdraw
      */
@@ -618,7 +617,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     }
 
     /**
-     * @dev Allows to cancel a currently queued withdrawal request. The request emitter 
+     * @dev Allows to cancel a currently queued withdrawal request. The request emitter
      * will receive back its L-Tokens and no fees will be charged.
      * @param requestId The index of the withdrawal request to remove
      */
@@ -632,7 +631,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Mint back L-Tokens to account and update total amount queued
         _mint(_msgSender(), uint256(request.amount));
         totalQueued -= request.amount;
-        
+
         // Delete the withdrawal request from queue
         delete withdrawalQueue[requestId];
 
@@ -649,7 +648,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
     /**
      * @dev This function allows fund wallet to send underlying tokens to this contract.
-     * Security note: To ensure this contract will never hold more than the retention 
+     * Security note: To ensure this contract will never hold more than the retention
      * rate, this function will revert if the new contract balance exceeds it.
      * @param amount The amount of underlying tokens to send
      */

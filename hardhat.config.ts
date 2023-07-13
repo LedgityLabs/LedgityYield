@@ -13,10 +13,10 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: "./hardhat/contracts",
-    tests: "./hardhat/test",
-    cache: "./hardhat/cache",
-    artifacts: "./hardhat/artifacts",
+    sources: "./contracts/src",
+    tests: "./contracts/hardhat/test",
+    cache: "./contracts/hardhat/cache",
+    artifacts: "./contracts/hardhat/artifacts",
   },
   networks: {
     hardhat: {},

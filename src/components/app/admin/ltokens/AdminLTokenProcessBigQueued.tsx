@@ -6,7 +6,7 @@ import {
 } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { LTokenId } from "../../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {

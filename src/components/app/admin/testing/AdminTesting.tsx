@@ -9,7 +9,7 @@ import {
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
-import { ContractId } from "../../../../../hardhat/deployments";
+import { ContractId } from "../../../../../contracts/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
 import { createTestClient, http, parseUnits } from "viem";

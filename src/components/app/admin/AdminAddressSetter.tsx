@@ -1,7 +1,7 @@
 import { Address, Input, TxButton } from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
-import { ContractId } from "../../../../hardhat/deployments";
+import { ContractId } from "../../../../contracts/deployments";
 import { useContractRead, usePrepareContractWrite } from "wagmi";
 import { getContractABI } from "@/lib/getContractABI";
 import { zeroAddress } from "viem";

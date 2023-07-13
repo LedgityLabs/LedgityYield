@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminBrick } from "../AdminBrick";
 import { AdminAddressSetter } from "../AdminAddressSetter";
 import { Card } from "@/components/ui";

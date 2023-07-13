@@ -16,7 +16,7 @@ import {
   usePrepareLTokenRequestWithdrawal,
 } from "@/generated";
 import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
-import { LTokenId } from "../../../hardhat/deployments";
+import { LTokenId } from "../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { TxButton } from "../ui/TxButton";
 import { useWalletClient } from "wagmi";

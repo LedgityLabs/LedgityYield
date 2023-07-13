@@ -2,7 +2,7 @@ import { AmountInput, Card, Input, TxButton } from "@/components/ui";
 import { useLTokenDecimals, usePrepareLTokenFundContract } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
-import { LTokenId } from "../../../../../hardhat/deployments";
+import { LTokenId } from "../../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { parseUnits } from "viem";
 

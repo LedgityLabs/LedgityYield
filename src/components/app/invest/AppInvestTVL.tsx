@@ -2,7 +2,7 @@ import { Amount, Card, Spinner } from "@/components/ui";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { FC, useEffect, useState } from "react";
-import { ContractId } from "../../../../hardhat/deployments";
+import { ContractId } from "../../../../contracts/deployments";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { usePublicClient } from "wagmi";
 import { readLToken } from "@/generated";
@@ -26,14 +26,14 @@ export const AppInvestTVL: FC<Props> = ({}) => {
         readLToken({
           address: lTokenAddress!,
           functionName: "totalSupply",
-        })
+        }),
       );
       proms.push(getTokenUSDRate(lTokenId.slice(1) as ContractId).then((rate) => rate.toString()));
       proms.push(
         readLToken({
           address: lTokenAddress!,
           functionName: "decimals",
-        })
+        }),
       );
     }
     Promise.all(proms).then((results) => {

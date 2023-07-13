@@ -1,6 +1,6 @@
 import { usePublicClient, useWalletClient } from "wagmi";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
-import { ContractId } from "../../../../hardhat/deployments";
+import { ContractId } from "../../../../contracts/deployments";
 import { formatUnits } from "viem";
 import { readLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
@@ -70,7 +70,7 @@ export const useGrowthRevenueData = () => {
         }
       }
     }
-    `
+    `,
     );
 
     // Push investment start as first data point
@@ -91,7 +91,7 @@ export const useGrowthRevenueData = () => {
         rewardsMints: [
           RewardsMint & {
             ltoken: LToken;
-          }
+          },
         ];
       };
     } = await await execute(
@@ -111,7 +111,7 @@ export const useGrowthRevenueData = () => {
           }
         }
       }
-    `
+    `,
     );
 
     // Push each reward mint as data point
@@ -124,7 +124,7 @@ export const useGrowthRevenueData = () => {
 
       // Convert balance before to decimals and then to USD
       let balanceBefore = Number(
-        formatUnits(BigInt(rewardsMint.balanceBefore), rewardsMint.ltoken.decimals)
+        formatUnits(BigInt(rewardsMint.balanceBefore), rewardsMint.ltoken.decimals),
       );
       balanceBefore = balanceBefore * usdRate;
 

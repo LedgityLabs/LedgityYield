@@ -15,7 +15,7 @@ import { WithdrawDialog } from "../WithdrawDialog";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { useLTokenBalanceOf, useLTokenDecimals, useLTokenUnderlying } from "@/generated";
-import { LTokenId } from "../../../../hardhat/deployments";
+import { LTokenId } from "../../../../contracts/deployments";
 import { useWalletClient } from "wagmi";
 
 const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {

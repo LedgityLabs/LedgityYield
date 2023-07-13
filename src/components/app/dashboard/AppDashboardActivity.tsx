@@ -32,7 +32,7 @@ import {
 import clsx from "clsx";
 import { Activity, LToken, execute } from "graphclient";
 import { useWalletClient } from "wagmi";
-import { LTokenId } from "../../../../hardhat/deployments";
+import { LTokenId } from "../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useLTokenDecimals,
@@ -136,7 +136,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           status
         }
       }
-    `
+    `,
       ).then(
         (result: {
           data: {
@@ -145,7 +145,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         }) => {
           setActivityData(result.data.activities);
           setIsLoading(false);
-        }
+        },
       );
     }
   }, [setActivityData, walletClient]);
@@ -215,7 +215,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                 "block w-3 h-3 aspect-square border-2 rounded-full",
                 ["Fulfilled", "Success"].includes(status) && "bg-emerald-200 border-emerald-500",
                 status === "Queued" && "bg-amber-200 border-amber-500",
-                status === "Cancelled" && "bg-red-200 border-red-500"
+                status === "Cancelled" && "bg-red-200 border-red-500",
               )}
             ></div>
             <div
@@ -223,7 +223,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                 "font-semibold flex gap-2 justify-center items-center",
                 ["Fulfilled", "Success"].includes(status) && "text-emerald-500",
                 status === "Queued" && "text-amber-500",
-                status === "Cancelled" && "text-red-500"
+                status === "Cancelled" && "text-red-500",
               )}
             >
               <p>{status}</p>
@@ -311,12 +311,12 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                     "py-4 font-medium",
                     rowIndex % 2 === 0 && "bg-fg/5",
                     cellIndex === 0 && "rounded-l-md pl-4",
-                    cellIndex === 4 && "rounded-r-md pr-4"
+                    cellIndex === 4 && "rounded-r-md pr-4",
                   )}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </div>
-              ))
+              )),
             );
           }
         })()}
