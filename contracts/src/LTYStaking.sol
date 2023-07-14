@@ -61,17 +61,17 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @dev Replaces the constructor() function in context of an upgradeable contract.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param globalOwner_ The address of the GlobalOwner contract
-     * @param globalPauser_ The address of the GlobalPauser contract
+     * @param globalPause_ The address of the GlobalPauser contract
      * @param globalBlacklist_ The address of the GlobalBlacklist contract
      * @param ltyTokenAddress The address of the $LTY token
      */
     function initialize(
         address globalOwner_,
-        address globalPauser_,
+        address globalPause_,
         address globalBlacklist_,
         address ltyTokenAddress
     ) public initializer {
-        __Base_init(globalOwner_, globalPauser_, globalBlacklist_);
+        __Base_init(globalOwner_, globalPause_, globalBlacklist_);
         __Invest_init_unchained(ltyTokenAddress);
 
         // Initialize stakeLockDuration to 90 days

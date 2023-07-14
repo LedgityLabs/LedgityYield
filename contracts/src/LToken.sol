@@ -134,13 +134,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @dev Replaces the constructor() function in context of an upgradeable contract.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param globalOwner_ The address of the GlobalOwner contract
-     * @param globalPauser_ The address of the GlobalPauser contract
+     * @param globalPause_ The address of the GlobalPauser contract
      * @param globalBlacklist_ The address of the GlobalBlacklist contract
      * @param underlyingToken The address of the underlying stablecoin
      */
     function initialize(
         address globalOwner_,
-        address globalPauser_,
+        address globalPause_,
         address globalBlacklist_,
         IERC20Upgradeable underlyingToken
     ) public initializer {
@@ -152,7 +152,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Initialize ancestors contracts
         __ERC20Base_init(
             globalOwner_,
-            globalPauser_,
+            globalPause_,
             globalBlacklist_,
             string(abi.encodePacked("Ledgity ", underlyingMetadata.name())),
             string(abi.encodePacked("L", underlyingMetadata.symbol()))

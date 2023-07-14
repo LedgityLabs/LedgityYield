@@ -39,18 +39,18 @@ abstract contract BaseUpgradeable is
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param _globalOwner The address of the GlobalOwner contract
-     * @param _globalPauser The address of the GlobalPause contract
+     * @param _globalPause The address of the GlobalPause contract
      * @param _globalBlacklist The address of the GlobalBlacklist contract
      */
     function __Base_init(
         address _globalOwner,
-        address _globalPauser,
+        address _globalPause,
         address _globalBlacklist
     ) internal onlyInitializing {
         __UUPSUpgradeable_init();
         __Pausable_init();
         __GlobalOwnable_init(_globalOwner);
-        __GlobalPausable_init_unchained(_globalPauser);
+        __GlobalPausable_init_unchained(_globalPause);
         __GlobalRestricted_init_unchained(_globalBlacklist);
         __Recoverable_init_unchained();
     }

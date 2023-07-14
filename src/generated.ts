@@ -9,8 +9,8 @@ import {
   useContractEvent,
   UseContractEventConfig,
   Address,
-} from 'wagmi'
-import { ReadContractResult, WriteContractMode, PrepareWriteContractResult } from 'wagmi/actions'
+} from "wagmi";
+import { ReadContractResult, WriteContractMode, PrepareWriteContractResult } from "wagmi/actions";
 
 import {
   getContract,
@@ -26,7 +26,7 @@ import {
   watchContractEvent,
   WatchContractEventConfig,
   WatchContractEventCallback,
-} from 'wagmi/actions'
+} from "wagmi/actions";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GenericERC20
@@ -34,155 +34,155 @@ import {
 
 export const genericErc20ABI = [
   {
-    stateMutability: 'nonpayable',
-    type: 'constructor',
+    stateMutability: "nonpayable",
+    type: "constructor",
     inputs: [
-      { name: 'name', internalType: 'string', type: 'string' },
-      { name: 'symbol', internalType: 'string', type: 'string' },
-      { name: 'decimals_', internalType: 'uint8', type: 'uint8' },
+      { name: "name", internalType: "string", type: "string" },
+      { name: "symbol", internalType: "string", type: "string" },
+      { name: "decimals_", internalType: "uint8", type: "uint8" },
     ],
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: "owner", internalType: "address", type: "address", indexed: true },
+      { name: "spender", internalType: "address", type: "address", indexed: true },
+      { name: "value", internalType: "uint256", type: "uint256", indexed: false },
     ],
-    name: 'Approval',
+    name: "Approval",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: "from", internalType: "address", type: "address", indexed: true },
+      { name: "to", internalType: "address", type: "address", indexed: true },
+      { name: "value", internalType: "uint256", type: "uint256", indexed: false },
     ],
-    name: 'Transfer',
+    name: "Transfer",
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: "owner", internalType: "address", type: "address" },
+      { name: "spender", internalType: "address", type: "address" },
     ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "allowance",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "spender", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "approve",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'burn',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "burn",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "account", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'burnFrom',
+    name: "burnFrom",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'decimals',
-    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    name: "decimals",
+    outputs: [{ name: "", internalType: "uint8", type: "uint8" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+      { name: "spender", internalType: "address", type: "address" },
+      { name: "subtractedValue", internalType: "uint256", type: "uint256" },
     ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "decreaseAllowance",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+      { name: "spender", internalType: "address", type: "address" },
+      { name: "addedValue", internalType: "uint256", type: "uint256" },
     ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "increaseAllowance",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'mint',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "mint",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    name: "name",
+    outputs: [{ name: "", internalType: "string", type: "string" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    name: "symbol",
+    outputs: [{ name: "", internalType: "string", type: "string" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "totalSupply",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "to", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "transfer",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "from", internalType: "address", type: "address" },
+      { name: "to", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "transferFrom",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
-] as const
+] as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GlobalBlacklist
@@ -192,131 +192,131 @@ export const genericErc20ABI = [
  *
  */
 export const globalBlacklistABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { stateMutability: "nonpayable", type: "constructor", inputs: [] },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      { name: "previousAdmin", internalType: "address", type: "address", indexed: false },
+      { name: "newAdmin", internalType: "address", type: "address", indexed: false },
     ],
-    name: 'AdminChanged',
+    name: "AdminChanged",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
+    inputs: [{ name: "beacon", internalType: "address", type: "address", indexed: true }],
+    name: "BeaconUpgraded",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
+    inputs: [{ name: "version", internalType: "uint8", type: "uint8", indexed: false }],
+    name: "Initialized",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
     ],
-    name: 'OwnershipTransferred',
+    name: "OwnershipTransferred",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
+    inputs: [{ name: "implementation", internalType: "address", type: "address", indexed: true }],
+    name: "Upgraded",
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'blacklist',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "blacklist",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalOwner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'globalOwner_', internalType: 'address', type: 'address' }],
-    name: 'initialize',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "globalOwner_", internalType: "address", type: "address" }],
+    name: "initialize",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'isBlacklisted',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "isBlacklisted",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "owner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    name: "proxiableUUID",
+    outputs: [{ name: "", internalType: "bytes32", type: "bytes32" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [],
-    name: 'renounceOwnership',
+    name: "renounceOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "newOwner", internalType: "address", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'unBlacklist',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "unBlacklist",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newImplementation", internalType: "address", type: "address" }],
+    name: "upgradeTo",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
     inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
+      { name: "newImplementation", internalType: "address", type: "address" },
+      { name: "data", internalType: "bytes", type: "bytes" },
     ],
-    name: 'upgradeToAndCall',
+    name: "upgradeToAndCall",
     outputs: [],
   },
-] as const
+] as const;
 
 /**
  *
  */
 export const globalBlacklistAddress = {
-  31337: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
-} as const
+  31337: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+} as const;
 
 /**
  *
@@ -324,7 +324,7 @@ export const globalBlacklistAddress = {
 export const globalBlacklistConfig = {
   address: globalBlacklistAddress,
   abi: globalBlacklistABI,
-} as const
+} as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GlobalOwner
@@ -334,119 +334,119 @@ export const globalBlacklistConfig = {
  *
  */
 export const globalOwnerABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { stateMutability: "nonpayable", type: "constructor", inputs: [] },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      { name: "previousAdmin", internalType: "address", type: "address", indexed: false },
+      { name: "newAdmin", internalType: "address", type: "address", indexed: false },
     ],
-    name: 'AdminChanged',
+    name: "AdminChanged",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
+    inputs: [{ name: "beacon", internalType: "address", type: "address", indexed: true }],
+    name: "BeaconUpgraded",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
+    inputs: [{ name: "version", internalType: "uint8", type: "uint8", indexed: false }],
+    name: "Initialized",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
     ],
-    name: 'OwnershipTransferStarted',
+    name: "OwnershipTransferStarted",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
     ],
-    name: 'OwnershipTransferred',
+    name: "OwnershipTransferred",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
+    inputs: [{ name: "implementation", internalType: "address", type: "address", indexed: true }],
+    name: "Upgraded",
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'acceptOwnership', outputs: [] },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initialize', outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "acceptOwnership", outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "initialize", outputs: [] },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'pendingOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "owner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    name: "pendingOwner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'renounceOwnership',
+    name: "proxiableUUID",
+    outputs: [{ name: "", internalType: "bytes32", type: "bytes32" }],
+  },
+  {
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [],
+    name: "renounceOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newOwner", internalType: "address", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newImplementation", internalType: "address", type: "address" }],
+    name: "upgradeTo",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
     inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
+      { name: "newImplementation", internalType: "address", type: "address" },
+      { name: "data", internalType: "bytes", type: "bytes" },
     ],
-    name: 'upgradeToAndCall',
+    name: "upgradeToAndCall",
     outputs: [],
   },
-] as const
+] as const;
 
 /**
  *
  */
 export const globalOwnerAddress = {
-  31337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
-} as const
+  31337: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+} as const;
 
 /**
  *
  */
-export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwnerABI } as const
+export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwnerABI } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GlobalPause
@@ -456,136 +456,136 @@ export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwner
  *
  */
 export const globalPauseABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { stateMutability: "nonpayable", type: "constructor", inputs: [] },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      { name: "previousAdmin", internalType: "address", type: "address", indexed: false },
+      { name: "newAdmin", internalType: "address", type: "address", indexed: false },
     ],
-    name: 'AdminChanged',
+    name: "AdminChanged",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
+    inputs: [{ name: "beacon", internalType: "address", type: "address", indexed: true }],
+    name: "BeaconUpgraded",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
+    inputs: [{ name: "version", internalType: "uint8", type: "uint8", indexed: false }],
+    name: "Initialized",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
     ],
-    name: 'OwnershipTransferred',
+    name: "OwnershipTransferred",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Paused',
+    inputs: [{ name: "account", internalType: "address", type: "address", indexed: false }],
+    name: "Paused",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Unpaused',
+    inputs: [{ name: "account", internalType: "address", type: "address", indexed: false }],
+    name: "Unpaused",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
+    inputs: [{ name: "implementation", internalType: "address", type: "address", indexed: true }],
+    name: "Upgraded",
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalOwner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'globalOwner_', internalType: 'address', type: 'address' }],
-    name: 'initialize',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "globalOwner_", internalType: "address", type: "address" }],
+    name: "initialize",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "owner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "pause", outputs: [] },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    name: "paused",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'renounceOwnership',
+    name: "proxiableUUID",
+    outputs: [{ name: "", internalType: "bytes32", type: "bytes32" }],
+  },
+  {
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [],
+    name: "renounceOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "newOwner", internalType: "address", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "unpause", outputs: [] },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newImplementation", internalType: "address", type: "address" }],
+    name: "upgradeTo",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
     inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
+      { name: "newImplementation", internalType: "address", type: "address" },
+      { name: "data", internalType: "bytes", type: "bytes" },
     ],
-    name: 'upgradeToAndCall',
+    name: "upgradeToAndCall",
     outputs: [],
   },
-] as const
+] as const;
 
 /**
  *
  */
 export const globalPauseAddress = {
-  31337: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
-} as const
+  31337: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+} as const;
 
 /**
  *
  */
-export const globalPauseConfig = { address: globalPauseAddress, abi: globalPauseABI } as const
+export const globalPauseConfig = { address: globalPauseAddress, abi: globalPauseABI } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LTYStaking
@@ -596,316 +596,316 @@ export const globalPauseConfig = { address: globalPauseAddress, abi: globalPause
  */
 export const ltyStakingABI = [
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'newAPRUD3', internalType: 'uint16', type: 'uint16', indexed: false }],
-    name: 'APRUpdateEvent',
+    inputs: [{ name: "newAPRUD3", internalType: "uint16", type: "uint16", indexed: false }],
+    name: "APRUpdateEvent",
   },
   {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
-    ],
-    name: 'AdminChanged',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
-  },
-  {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "previousAdmin", internalType: "address", type: "address", indexed: false },
+      { name: "newAdmin", internalType: "address", type: "address", indexed: false },
     ],
-    name: 'OwnershipTransferred',
+    name: "AdminChanged",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Paused',
+    inputs: [{ name: "beacon", internalType: "address", type: "address", indexed: true }],
+    name: "BeaconUpgraded",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'newTotalStaked', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'TotalStakedUpdateEvent',
+    inputs: [{ name: "version", internalType: "uint8", type: "uint8", indexed: false }],
+    name: "Initialized",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Unpaused',
+    inputs: [
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
+    ],
+    name: "OwnershipTransferred",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
+    inputs: [{ name: "account", internalType: "address", type: "address", indexed: false }],
+    name: "Paused",
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'claim', outputs: [] },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'compound', outputs: [] },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'fuel',
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "newTotalStaked", internalType: "uint256", type: "uint256", indexed: false }],
+    name: "TotalStakedUpdateEvent",
+  },
+  {
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "account", internalType: "address", type: "address", indexed: false }],
+    name: "Unpaused",
+  },
+  {
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "implementation", internalType: "address", type: "address", indexed: true }],
+    name: "Upgraded",
+  },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "claim", outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "compound", outputs: [] },
+  {
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "fuel",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'getApr',
-    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
+    name: "getApr",
+    outputs: [{ name: "", internalType: "uint16", type: "uint16" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'addedAmount', internalType: 'uint216', type: 'uint216' },
+      { name: "account", internalType: "address", type: "address" },
+      { name: "addedAmount", internalType: "uint216", type: "uint216" },
     ],
-    name: 'getNewLockEnd',
-    outputs: [{ name: '', internalType: 'uint40', type: 'uint40' }],
+    name: "getNewLockEnd",
+    outputs: [{ name: "", internalType: "uint40", type: "uint40" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'tier', internalType: 'uint256', type: 'uint256' }],
-    name: 'getTier',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "tier", internalType: "uint256", type: "uint256" }],
+    name: "getTier",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalBlacklist',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalBlacklist",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalOwner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalPauser',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalPause",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'globalOwner_', internalType: 'address', type: 'address' },
-      { name: 'globalPauser_', internalType: 'address', type: 'address' },
-      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
-      { name: 'ltyTokenAddress', internalType: 'address', type: 'address' },
+      { name: "globalOwner_", internalType: "address", type: "address" },
+      { name: "globalPause_", internalType: "address", type: "address" },
+      { name: "globalBlacklist_", internalType: "address", type: "address" },
+      { name: "ltyTokenAddress", internalType: "address", type: "address" },
     ],
-    name: 'initialize',
+    name: "initialize",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'invested',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
+    name: "invested",
+    outputs: [{ name: "", internalType: "contract IERC20Upgradeable", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'lockEndOf',
-    outputs: [{ name: '', internalType: 'uint40', type: 'uint40' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "lockEndOf",
+    outputs: [{ name: "", internalType: "uint40", type: "uint40" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "owner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "paused",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    name: "proxiableUUID",
+    outputs: [{ name: "", internalType: "bytes32", type: "bytes32" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'tokenAddress', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "tokenAddress", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'recoverERC20',
+    name: "recoverERC20",
     outputs: [],
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'recoverLTY', outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "recoverLTY", outputs: [] },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [],
-    name: 'renounceOwnership',
+    name: "renounceOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'rewardsOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "rewardsOf",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'rewardsReserve',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "rewardsReserve",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'aprUD3', internalType: 'uint16', type: 'uint16' }],
-    name: 'setAPR',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "aprUD3", internalType: "uint16", type: "uint16" }],
+    name: "setAPR",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_stakeLockDuration', internalType: 'uint40', type: 'uint40' }],
-    name: 'setStakeLockDuration',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_stakeLockDuration", internalType: "uint40", type: "uint40" }],
+    name: "setStakeLockDuration",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'tier', internalType: 'uint256', type: 'uint256' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "tier", internalType: "uint256", type: "uint256" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'setTier',
+    name: "setTier",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_unlockFeesRateUD3', internalType: 'uint32', type: 'uint32' }],
-    name: 'setUnlockFeesRate',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_unlockFeesRateUD3", internalType: "uint32", type: "uint32" }],
+    name: "setUnlockFeesRate",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint216', type: 'uint216' }],
-    name: 'stake',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint216", type: "uint216" }],
+    name: "stake",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'stakeLockDuration',
-    outputs: [{ name: '', internalType: 'uint40', type: 'uint40' }],
+    name: "stakeLockDuration",
+    outputs: [{ name: "", internalType: "uint40", type: "uint40" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'stakeOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "stakeOf",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'tierOf',
-    outputs: [{ name: 'tier', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "tierOf",
+    outputs: [{ name: "tier", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'totalStaked',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "totalStaked",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "newOwner", internalType: "address", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unlock', outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "unlock", outputs: [] },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'unlockFeesRateUD3',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    name: "unlockFeesRateUD3",
+    outputs: [{ name: "", internalType: "uint32", type: "uint32" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint216', type: 'uint216' }],
-    name: 'unstake',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint216", type: "uint216" }],
+    name: "unstake",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newImplementation", internalType: "address", type: "address" }],
+    name: "upgradeTo",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
     inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
+      { name: "newImplementation", internalType: "address", type: "address" },
+      { name: "data", internalType: "bytes", type: "bytes" },
     ],
-    name: 'upgradeToAndCall',
+    name: "upgradeToAndCall",
     outputs: [],
   },
-] as const
+] as const;
 
 /**
  *
  */
 export const ltyStakingAddress = {
-  31337: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
-} as const
+  31337: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+} as const;
 
 /**
  *
  */
-export const ltyStakingConfig = { address: ltyStakingAddress, abi: ltyStakingABI } as const
+export const ltyStakingConfig = { address: ltyStakingAddress, abi: ltyStakingABI } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LToken
@@ -913,530 +913,530 @@ export const ltyStakingConfig = { address: ltyStakingAddress, abi: ltyStakingABI
 
 export const lTokenABI = [
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'newAPRUD3', internalType: 'uint16', type: 'uint16', indexed: false }],
-    name: 'APRUpdateEvent',
+    inputs: [{ name: "newAPRUD3", internalType: "uint16", type: "uint16", indexed: false }],
+    name: "APRUpdateEvent",
   },
   {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'id', internalType: 'int256', type: 'int256', indexed: true },
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'action', internalType: 'enum LToken.Action', type: 'uint8', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'amountAfterFees', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'newStatus', internalType: 'enum LToken.Status', type: 'uint8', indexed: false },
-    ],
-    name: 'ActivityEvent',
-  },
-  {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      { name: "id", internalType: "int256", type: "int256", indexed: true },
+      { name: "account", internalType: "address", type: "address", indexed: true },
+      { name: "action", internalType: "enum LToken.Action", type: "uint8", indexed: true },
+      { name: "amount", internalType: "uint256", type: "uint256", indexed: false },
+      { name: "amountAfterFees", internalType: "uint256", type: "uint256", indexed: false },
+      { name: "newStatus", internalType: "enum LToken.Status", type: "uint8", indexed: false },
     ],
-    name: 'AdminChanged',
+    name: "ActivityEvent",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: "previousAdmin", internalType: "address", type: "address", indexed: false },
+      { name: "newAdmin", internalType: "address", type: "address", indexed: false },
     ],
-    name: 'Approval',
+    name: "AdminChanged",
   },
   {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
-  },
-  {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'balanceBefore', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'rewards', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: "owner", internalType: "address", type: "address", indexed: true },
+      { name: "spender", internalType: "address", type: "address", indexed: true },
+      { name: "value", internalType: "uint256", type: "uint256", indexed: false },
     ],
-    name: 'MintedRewardsEvent',
+    name: "Approval",
   },
   {
-    type: 'event',
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "beacon", internalType: "address", type: "address", indexed: true }],
+    name: "BeaconUpgraded",
+  },
+  {
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "version", internalType: "uint8", type: "uint8", indexed: false }],
+    name: "Initialized",
+  },
+  {
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "account", internalType: "address", type: "address", indexed: true },
+      { name: "balanceBefore", internalType: "uint256", type: "uint256", indexed: false },
+      { name: "rewards", internalType: "uint256", type: "uint256", indexed: false },
     ],
-    name: 'OwnershipTransferred',
+    name: "MintedRewardsEvent",
   },
   {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Paused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newTVL', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'TVLUpdateEvent',
-  },
-  {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
     ],
-    name: 'Transfer',
+    name: "OwnershipTransferred",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Unpaused',
+    inputs: [{ name: "account", internalType: "address", type: "address", indexed: false }],
+    name: "Paused",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
+    inputs: [{ name: "newTVL", internalType: "uint256", type: "uint256", indexed: false }],
+    name: "TVLUpdateEvent",
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    type: "event",
+    anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: "from", internalType: "address", type: "address", indexed: true },
+      { name: "to", internalType: "address", type: "address", indexed: true },
+      { name: "value", internalType: "uint256", type: "uint256", indexed: false },
     ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "Transfer",
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "account", internalType: "address", type: "address", indexed: false }],
+    name: "Unpaused",
+  },
+  {
+    type: "event",
+    anonymous: false,
+    inputs: [{ name: "implementation", internalType: "address", type: "address", indexed: true }],
+    name: "Upgraded",
+  },
+  {
+    stateMutability: "view",
+    type: "function",
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "owner", internalType: "address", type: "address" },
+      { name: "spender", internalType: "address", type: "address" },
     ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "allowance",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [
+      { name: "spender", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
+    ],
+    name: "approve",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'requestIds', internalType: 'uint256[]', type: 'uint256[]' }],
-    name: 'batchQueuedWithdraw',
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
+  },
+  {
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "requestIds", internalType: "uint256[]", type: "uint256[]" }],
+    name: "batchQueuedWithdraw",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
-    name: 'bigQueuedWithdraw',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "requestId", internalType: "uint256", type: "uint256" }],
+    name: "bigQueuedWithdraw",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
-    name: 'cancelWithdrawalRequest',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "requestId", internalType: "uint256", type: "uint256" }],
+    name: "cancelWithdrawalRequest",
     outputs: [],
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'claimFees', outputs: [] },
+  { stateMutability: "nonpayable", type: "function", inputs: [], name: "claimFees", outputs: [] },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'decimals',
-    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    name: "decimals",
+    outputs: [{ name: "", internalType: "uint8", type: "uint8" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+      { name: "spender", internalType: "address", type: "address" },
+      { name: "subtractedValue", internalType: "uint256", type: "uint256" },
     ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "decreaseAllowance",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'deposit',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "deposit",
     outputs: [],
   },
   {
-    stateMutability: 'pure',
-    type: 'function',
+    stateMutability: "pure",
+    type: "function",
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "account", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'depositFor',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "depositFor",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'feesRateUD3',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    name: "feesRateUD3",
+    outputs: [{ name: "", internalType: "uint32", type: "uint32" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'fund',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "fund",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'fundContract',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "fundContract",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'getApr',
-    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
+    name: "getApr",
+    outputs: [{ name: "", internalType: "uint16", type: "uint16" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'getExpectedRetained',
-    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: "getExpectedRetained",
+    outputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "account", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'getWithdrawanAmountAndFees',
+    name: "getWithdrawanAmountAndFees",
     outputs: [
-      { name: 'withdrawnAmount', internalType: 'uint256', type: 'uint256' },
-      { name: 'fees', internalType: 'uint256', type: 'uint256' },
+      { name: "withdrawnAmount", internalType: "uint256", type: "uint256" },
+      { name: "fees", internalType: "uint256", type: "uint256" },
     ],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalBlacklist',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalBlacklist",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalOwner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalPauser',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalPause",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+      { name: "spender", internalType: "address", type: "address" },
+      { name: "addedValue", internalType: "uint256", type: "uint256" },
     ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "increaseAllowance",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'globalOwner_', internalType: 'address', type: 'address' },
-      { name: 'globalPauser_', internalType: 'address', type: 'address' },
-      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
-      { name: 'underlyingToken', internalType: 'contract IERC20Upgradeable', type: 'address' },
+      { name: "globalOwner_", internalType: "address", type: "address" },
+      { name: "globalPause_", internalType: "address", type: "address" },
+      { name: "globalBlacklist_", internalType: "address", type: "address" },
+      { name: "underlyingToken", internalType: "contract IERC20Upgradeable", type: "address" },
     ],
-    name: 'initialize',
+    name: "initialize",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'instantWithdraw',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "instantWithdraw",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'invested',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
+    name: "invested",
+    outputs: [{ name: "", internalType: "contract IERC20Upgradeable", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'ltyStaking',
-    outputs: [{ name: '', internalType: 'contract LTYStaking', type: 'address' }],
+    name: "ltyStaking",
+    outputs: [{ name: "", internalType: "contract LTYStaking", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    name: "name",
+    outputs: [{ name: "", internalType: "string", type: "string" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "owner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "paused",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    name: "proxiableUUID",
+    outputs: [{ name: "", internalType: "bytes32", type: "bytes32" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'realBalanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "realBalanceOf",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'tokenAddress', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "tokenAddress", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'recoverERC20',
+    name: "recoverERC20",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [],
-    name: 'recoverUnderlying',
+    name: "recoverUnderlying",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [],
-    name: 'renounceOwnership',
+    name: "renounceOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'requestWithdrawal',
+    stateMutability: "payable",
+    type: "function",
+    inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
+    name: "requestWithdrawal",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'retentionRateUD3',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    name: "retentionRateUD3",
+    outputs: [{ name: "", internalType: "uint32", type: "uint32" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'aprUD3', internalType: 'uint16', type: 'uint16' }],
-    name: 'setAPR',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "aprUD3", internalType: "uint16", type: "uint16" }],
+    name: "setAPR",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_feesRateUD3', internalType: 'uint32', type: 'uint32' }],
-    name: 'setFeesRate',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_feesRateUD3", internalType: "uint32", type: "uint32" }],
+    name: "setFeesRate",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_fund', internalType: 'address payable', type: 'address' }],
-    name: 'setFund',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_fund", internalType: "address payable", type: "address" }],
+    name: "setFund",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_contract', internalType: 'address', type: 'address' }],
-    name: 'setLTYStaking',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_contract", internalType: "address", type: "address" }],
+    name: "setLTYStaking",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_retentionRateUD3', internalType: 'uint32', type: 'uint32' }],
-    name: 'setRetentionRate',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_retentionRateUD3", internalType: "uint32", type: "uint32" }],
+    name: "setRetentionRate",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_withdrawer', internalType: 'address payable', type: 'address' }],
-    name: 'setWithdrawer',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "_withdrawer", internalType: "address payable", type: "address" }],
+    name: "setWithdrawer",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    name: "symbol",
+    outputs: [{ name: "", internalType: "string", type: "string" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'totalQueued',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "totalQueued",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "totalSupply",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "to", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "transfer",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "from", internalType: "address", type: "address" },
+      { name: "to", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "transferFrom",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "newOwner", internalType: "address", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'unclaimedFees',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "unclaimedFees",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'underlying',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
+    name: "underlying",
+    outputs: [{ name: "", internalType: "contract IERC20Upgradeable", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'unmintedRewardsOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "account", internalType: "address", type: "address" }],
+    name: "unmintedRewardsOf",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newImplementation", internalType: "address", type: "address" }],
+    name: "upgradeTo",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
     inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
+      { name: "newImplementation", internalType: "address", type: "address" },
+      { name: "data", internalType: "bytes", type: "bytes" },
     ],
-    name: 'upgradeToAndCall',
+    name: "upgradeToAndCall",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'usableUnderlyings',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: "usableUnderlyings",
+    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
   },
   {
-    stateMutability: 'pure',
-    type: 'function',
+    stateMutability: "pure",
+    type: "function",
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: "account", internalType: "address", type: "address" },
+      { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: 'withdrawTo',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    name: "withdrawTo",
+    outputs: [{ name: "", internalType: "bool", type: "bool" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'withdrawer',
-    outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+    name: "withdrawer",
+    outputs: [{ name: "", internalType: "address payable", type: "address" }],
   },
-] as const
+] as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LTokenSignaler
@@ -1446,128 +1446,128 @@ export const lTokenABI = [
  *
  */
 export const lTokenSignalerABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { stateMutability: "nonpayable", type: "constructor", inputs: [] },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      { name: "previousAdmin", internalType: "address", type: "address", indexed: false },
+      { name: "newAdmin", internalType: "address", type: "address", indexed: false },
     ],
-    name: 'AdminChanged',
+    name: "AdminChanged",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
+    inputs: [{ name: "beacon", internalType: "address", type: "address", indexed: true }],
+    name: "BeaconUpgraded",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
+    inputs: [{ name: "version", internalType: "uint8", type: "uint8", indexed: false }],
+    name: "Initialized",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'lTokenAddress', internalType: 'address', type: 'address', indexed: true }],
-    name: 'LTokenSignalEvent',
+    inputs: [{ name: "lTokenAddress", internalType: "address", type: "address", indexed: true }],
+    name: "LTokenSignalEvent",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      { name: "previousOwner", internalType: "address", type: "address", indexed: true },
+      { name: "newOwner", internalType: "address", type: "address", indexed: true },
     ],
-    name: 'OwnershipTransferred',
+    name: "OwnershipTransferred",
   },
   {
-    type: 'event',
+    type: "event",
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
+    inputs: [{ name: "implementation", internalType: "address", type: "address", indexed: true }],
+    name: "Upgraded",
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "globalOwner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'globalOwner_', internalType: 'address', type: 'address' }],
-    name: 'initialize',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "globalOwner_", internalType: "address", type: "address" }],
+    name: "initialize",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: "owner",
+    outputs: [{ name: "", internalType: "address", type: "address" }],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
     inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    name: "proxiableUUID",
+    outputs: [{ name: "", internalType: "bytes32", type: "bytes32" }],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
     inputs: [],
-    name: 'renounceOwnership',
+    name: "renounceOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'lTokenAddress', internalType: 'address', type: 'address' }],
-    name: 'signalLToken',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "lTokenAddress", internalType: "address", type: "address" }],
+    name: "signalLToken",
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    stateMutability: "view",
+    type: "function",
+    inputs: [{ name: "newOwner", internalType: "address", type: "address" }],
+    name: "transferOwnership",
     outputs: [],
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [{ name: "newImplementation", internalType: "address", type: "address" }],
+    name: "upgradeTo",
     outputs: [],
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
     inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
+      { name: "newImplementation", internalType: "address", type: "address" },
+      { name: "data", internalType: "bytes", type: "bytes" },
     ],
-    name: 'upgradeToAndCall',
+    name: "upgradeToAndCall",
     outputs: [],
   },
-] as const
+] as const;
 
 /**
  *
  */
 export const lTokenSignalerAddress = {
-  31337: '0x0B306BF915C4d645ff596e518fAf3F9669b97016',
-} as const
+  31337: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+} as const;
 
 /**
  *
  */
-export const lTokenSignalerConfig = { address: lTokenSignalerAddress, abi: lTokenSignalerABI } as const
+export const lTokenSignalerConfig = { address: lTokenSignalerAddress, abi: lTokenSignalerABI } as const;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
@@ -1582,128 +1582,128 @@ export function useGenericErc20Read<
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi'
+    "abi"
   > = {} as any,
 ) {
   return useContractRead({ abi: genericErc20ABI, ...config } as UseContractReadConfig<
     typeof genericErc20ABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"allowance"`.
  */
 export function useGenericErc20Allowance<
-  TFunctionName extends 'allowance',
+  TFunctionName extends "allowance",
   TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: genericErc20ABI,
-    functionName: 'allowance',
+    functionName: "allowance",
     ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"balanceOf"`.
  */
 export function useGenericErc20BalanceOf<
-  TFunctionName extends 'balanceOf',
+  TFunctionName extends "balanceOf",
   TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: genericErc20ABI,
-    functionName: 'balanceOf',
+    functionName: "balanceOf",
     ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"decimals"`.
  */
 export function useGenericErc20Decimals<
-  TFunctionName extends 'decimals',
+  TFunctionName extends "decimals",
   TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: genericErc20ABI,
-    functionName: 'decimals',
+    functionName: "decimals",
     ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"name"`.
  */
 export function useGenericErc20Name<
-  TFunctionName extends 'name',
+  TFunctionName extends "name",
   TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: genericErc20ABI,
-    functionName: 'name',
+    functionName: "name",
     ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"symbol"`.
  */
 export function useGenericErc20Symbol<
-  TFunctionName extends 'symbol',
+  TFunctionName extends "symbol",
   TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: genericErc20ABI,
-    functionName: 'symbol',
+    functionName: "symbol",
     ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"totalSupply"`.
  */
 export function useGenericErc20TotalSupply<
-  TFunctionName extends 'totalSupply',
+  TFunctionName extends "totalSupply",
   TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: genericErc20ABI,
-    functionName: 'totalSupply',
+    functionName: "totalSupply",
     ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -1713,208 +1713,208 @@ export function useGenericErc20Write<
   TFunctionName extends string,
   TMode extends WriteContractMode = undefined,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof genericErc20ABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       >
     : UseContractWriteConfig<typeof genericErc20ABI, TFunctionName, TMode> & {
-        abi?: never
+        abi?: never;
       } = {} as any,
 ) {
   return useContractWrite<typeof genericErc20ABI, TFunctionName, TMode>({
     abi: genericErc20ABI,
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"approve"`.
  */
 export function useGenericErc20Approve<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'approve'>['request']['abi'],
-        'approve',
+        PrepareWriteContractResult<typeof genericErc20ABI, "approve">["request"]["abi"],
+        "approve",
         TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
+      > & { functionName?: "approve" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "approve", TMode> & {
+        abi?: never;
+        functionName?: "approve";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'approve', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "approve", TMode>({
     abi: genericErc20ABI,
-    functionName: 'approve',
+    functionName: "approve",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"burn"`.
  */
 export function useGenericErc20Burn<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'burn'>['request']['abi'],
-        'burn',
+        PrepareWriteContractResult<typeof genericErc20ABI, "burn">["request"]["abi"],
+        "burn",
         TMode
-      > & { functionName?: 'burn' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'burn', TMode> & {
-        abi?: never
-        functionName?: 'burn'
+      > & { functionName?: "burn" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "burn", TMode> & {
+        abi?: never;
+        functionName?: "burn";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'burn', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "burn", TMode>({
     abi: genericErc20ABI,
-    functionName: 'burn',
+    functionName: "burn",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"burnFrom"`.
  */
 export function useGenericErc20BurnFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'burnFrom'>['request']['abi'],
-        'burnFrom',
+        PrepareWriteContractResult<typeof genericErc20ABI, "burnFrom">["request"]["abi"],
+        "burnFrom",
         TMode
-      > & { functionName?: 'burnFrom' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'burnFrom', TMode> & {
-        abi?: never
-        functionName?: 'burnFrom'
+      > & { functionName?: "burnFrom" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "burnFrom", TMode> & {
+        abi?: never;
+        functionName?: "burnFrom";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'burnFrom', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "burnFrom", TMode>({
     abi: genericErc20ABI,
-    functionName: 'burnFrom',
+    functionName: "burnFrom",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"decreaseAllowance"`.
  */
 export function useGenericErc20DecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
+        PrepareWriteContractResult<typeof genericErc20ABI, "decreaseAllowance">["request"]["abi"],
+        "decreaseAllowance",
         TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
+      > & { functionName?: "decreaseAllowance" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "decreaseAllowance", TMode> & {
+        abi?: never;
+        functionName?: "decreaseAllowance";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'decreaseAllowance', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "decreaseAllowance", TMode>({
     abi: genericErc20ABI,
-    functionName: 'decreaseAllowance',
+    functionName: "decreaseAllowance",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"increaseAllowance"`.
  */
 export function useGenericErc20IncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
+        PrepareWriteContractResult<typeof genericErc20ABI, "increaseAllowance">["request"]["abi"],
+        "increaseAllowance",
         TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
+      > & { functionName?: "increaseAllowance" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "increaseAllowance", TMode> & {
+        abi?: never;
+        functionName?: "increaseAllowance";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'increaseAllowance', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "increaseAllowance", TMode>({
     abi: genericErc20ABI,
-    functionName: 'increaseAllowance',
+    functionName: "increaseAllowance",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"mint"`.
  */
 export function useGenericErc20Mint<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'mint'>['request']['abi'],
-        'mint',
+        PrepareWriteContractResult<typeof genericErc20ABI, "mint">["request"]["abi"],
+        "mint",
         TMode
-      > & { functionName?: 'mint' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'mint', TMode> & {
-        abi?: never
-        functionName?: 'mint'
+      > & { functionName?: "mint" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "mint", TMode> & {
+        abi?: never;
+        functionName?: "mint";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'mint', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "mint", TMode>({
     abi: genericErc20ABI,
-    functionName: 'mint',
+    functionName: "mint",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"transfer"`.
  */
 export function useGenericErc20Transfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'transfer'>['request']['abi'],
-        'transfer',
+        PrepareWriteContractResult<typeof genericErc20ABI, "transfer">["request"]["abi"],
+        "transfer",
         TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
+      > & { functionName?: "transfer" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "transfer", TMode> & {
+        abi?: never;
+        functionName?: "transfer";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'transfer', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "transfer", TMode>({
     abi: genericErc20ABI,
-    functionName: 'transfer',
+    functionName: "transfer",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"transferFrom"`.
  */
 export function useGenericErc20TransferFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'transferFrom'>['request']['abi'],
-        'transferFrom',
+        PrepareWriteContractResult<typeof genericErc20ABI, "transferFrom">["request"]["abi"],
+        "transferFrom",
         TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
+      > & { functionName?: "transferFrom" }
+    : UseContractWriteConfig<typeof genericErc20ABI, "transferFrom", TMode> & {
+        abi?: never;
+        functionName?: "transferFrom";
       } = {} as any,
 ) {
-  return useContractWrite<typeof genericErc20ABI, 'transferFrom', TMode>({
+  return useContractWrite<typeof genericErc20ABI, "transferFrom", TMode>({
     abi: genericErc20ABI,
-    functionName: 'transferFrom',
+    functionName: "transferFrom",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__.
  */
 export function usePrepareGenericErc20Write<TFunctionName extends string>(
-  config: Omit<UsePrepareContractWriteConfig<typeof genericErc20ABI, TFunctionName>, 'abi'> = {} as any,
+  config: Omit<UsePrepareContractWriteConfig<typeof genericErc20ABI, TFunctionName>, "abi"> = {} as any,
 ) {
   return usePrepareContractWrite({ abi: genericErc20ABI, ...config } as UsePrepareContractWriteConfig<
     typeof genericErc20ABI,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -1922,15 +1922,15 @@ export function usePrepareGenericErc20Write<TFunctionName extends string>(
  */
 export function usePrepareGenericErc20Approve(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'approve'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "approve">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'approve',
+    functionName: "approve",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'approve'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "approve">);
 }
 
 /**
@@ -1938,15 +1938,15 @@ export function usePrepareGenericErc20Approve(
  */
 export function usePrepareGenericErc20Burn(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burn'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "burn">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'burn',
+    functionName: "burn",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burn'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "burn">);
 }
 
 /**
@@ -1954,15 +1954,15 @@ export function usePrepareGenericErc20Burn(
  */
 export function usePrepareGenericErc20BurnFrom(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burnFrom'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "burnFrom">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'burnFrom',
+    functionName: "burnFrom",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burnFrom'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "burnFrom">);
 }
 
 /**
@@ -1970,15 +1970,15 @@ export function usePrepareGenericErc20BurnFrom(
  */
 export function usePrepareGenericErc20DecreaseAllowance(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "decreaseAllowance">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'decreaseAllowance',
+    functionName: "decreaseAllowance",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'decreaseAllowance'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "decreaseAllowance">);
 }
 
 /**
@@ -1986,15 +1986,15 @@ export function usePrepareGenericErc20DecreaseAllowance(
  */
 export function usePrepareGenericErc20IncreaseAllowance(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "increaseAllowance">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'increaseAllowance',
+    functionName: "increaseAllowance",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'increaseAllowance'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "increaseAllowance">);
 }
 
 /**
@@ -2002,15 +2002,15 @@ export function usePrepareGenericErc20IncreaseAllowance(
  */
 export function usePrepareGenericErc20Mint(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'mint'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "mint">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'mint',
+    functionName: "mint",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'mint'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "mint">);
 }
 
 /**
@@ -2018,15 +2018,15 @@ export function usePrepareGenericErc20Mint(
  */
 export function usePrepareGenericErc20Transfer(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transfer'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "transfer">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'transfer',
+    functionName: "transfer",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transfer'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "transfer">);
 }
 
 /**
@@ -2034,27 +2034,27 @@ export function usePrepareGenericErc20Transfer(
  */
 export function usePrepareGenericErc20TransferFrom(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transferFrom'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof genericErc20ABI, "transferFrom">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: genericErc20ABI,
-    functionName: 'transferFrom',
+    functionName: "transferFrom",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transferFrom'>)
+  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, "transferFrom">);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link genericErc20ABI}__.
  */
 export function useGenericErc20Event<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof genericErc20ABI, TEventName>, 'abi'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof genericErc20ABI, TEventName>, "abi"> = {} as any,
 ) {
   return useContractEvent({ abi: genericErc20ABI, ...config } as UseContractEventConfig<
     typeof genericErc20ABI,
     TEventName
-  >)
+  >);
 }
 
 /**
@@ -2062,15 +2062,15 @@ export function useGenericErc20Event<TEventName extends string>(
  */
 export function useGenericErc20ApprovalEvent(
   config: Omit<
-    UseContractEventConfig<typeof genericErc20ABI, 'Approval'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof genericErc20ABI, "Approval">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: genericErc20ABI,
-    eventName: 'Approval',
+    eventName: "Approval",
     ...config,
-  } as UseContractEventConfig<typeof genericErc20ABI, 'Approval'>)
+  } as UseContractEventConfig<typeof genericErc20ABI, "Approval">);
 }
 
 /**
@@ -2078,15 +2078,15 @@ export function useGenericErc20ApprovalEvent(
  */
 export function useGenericErc20TransferEvent(
   config: Omit<
-    UseContractEventConfig<typeof genericErc20ABI, 'Transfer'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof genericErc20ABI, "Transfer">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: genericErc20ABI,
-    eventName: 'Transfer',
+    eventName: "Transfer",
     ...config,
-  } as UseContractEventConfig<typeof genericErc20ABI, 'Transfer'>)
+  } as UseContractEventConfig<typeof genericErc20ABI, "Transfer">);
 }
 
 /**
@@ -2100,14 +2100,14 @@ export function useGlobalBlacklistRead<
 >(
   config: Omit<
     UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2116,20 +2116,20 @@ export function useGlobalBlacklistRead<
  *
  */
 export function useGlobalBlacklistGlobalOwner<
-  TFunctionName extends 'globalOwner',
+  TFunctionName extends "globalOwner",
   TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'globalOwner',
+    functionName: "globalOwner",
     ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2138,20 +2138,20 @@ export function useGlobalBlacklistGlobalOwner<
  *
  */
 export function useGlobalBlacklistIsBlacklisted<
-  TFunctionName extends 'isBlacklisted',
+  TFunctionName extends "isBlacklisted",
   TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'isBlacklisted',
+    functionName: "isBlacklisted",
     ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2160,20 +2160,20 @@ export function useGlobalBlacklistIsBlacklisted<
  *
  */
 export function useGlobalBlacklistOwner<
-  TFunctionName extends 'owner',
+  TFunctionName extends "owner",
   TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'owner',
+    functionName: "owner",
     ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2182,20 +2182,20 @@ export function useGlobalBlacklistOwner<
  *
  */
 export function useGlobalBlacklistProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
+  TFunctionName extends "proxiableUUID",
   TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'proxiableUUID',
+    functionName: "proxiableUUID",
     ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2204,20 +2204,20 @@ export function useGlobalBlacklistProxiableUuid<
  *
  */
 export function useGlobalBlacklistTransferOwnership<
-  TFunctionName extends 'transferOwnership',
+  TFunctionName extends "transferOwnership",
   TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2230,23 +2230,23 @@ export function useGlobalBlacklistWrite<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof globalBlacklistABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       > & { address?: Address; chainId?: TChainId }
     : UseContractWriteConfig<typeof globalBlacklistABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
       } = {} as any,
 ) {
   return useContractWrite<typeof globalBlacklistABI, TFunctionName, TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2258,25 +2258,25 @@ export function useGlobalBlacklistBlacklist<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'blacklist'>['request']['abi'],
-        'blacklist',
+        PrepareWriteContractResult<typeof globalBlacklistABI, "blacklist">["request"]["abi"],
+        "blacklist",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'blacklist' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'blacklist', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'blacklist'
+      > & { address?: Address; chainId?: TChainId; functionName?: "blacklist" }
+    : UseContractWriteConfig<typeof globalBlacklistABI, "blacklist", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "blacklist";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalBlacklistABI, 'blacklist', TMode>({
+  return useContractWrite<typeof globalBlacklistABI, "blacklist", TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'blacklist',
+    functionName: "blacklist",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2288,25 +2288,25 @@ export function useGlobalBlacklistInitialize<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'initialize'>['request']['abi'],
-        'initialize',
+        PrepareWriteContractResult<typeof globalBlacklistABI, "initialize">["request"]["abi"],
+        "initialize",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
+      > & { address?: Address; chainId?: TChainId; functionName?: "initialize" }
+    : UseContractWriteConfig<typeof globalBlacklistABI, "initialize", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "initialize";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalBlacklistABI, 'initialize', TMode>({
+  return useContractWrite<typeof globalBlacklistABI, "initialize", TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2318,25 +2318,25 @@ export function useGlobalBlacklistRenounceOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
+        PrepareWriteContractResult<typeof globalBlacklistABI, "renounceOwnership">["request"]["abi"],
+        "renounceOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "renounceOwnership" }
+    : UseContractWriteConfig<typeof globalBlacklistABI, "renounceOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "renounceOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalBlacklistABI, 'renounceOwnership', TMode>({
+  return useContractWrite<typeof globalBlacklistABI, "renounceOwnership", TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2348,25 +2348,25 @@ export function useGlobalBlacklistUnBlacklist<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'unBlacklist'>['request']['abi'],
-        'unBlacklist',
+        PrepareWriteContractResult<typeof globalBlacklistABI, "unBlacklist">["request"]["abi"],
+        "unBlacklist",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unBlacklist' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'unBlacklist', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unBlacklist'
+      > & { address?: Address; chainId?: TChainId; functionName?: "unBlacklist" }
+    : UseContractWriteConfig<typeof globalBlacklistABI, "unBlacklist", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "unBlacklist";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalBlacklistABI, 'unBlacklist', TMode>({
+  return useContractWrite<typeof globalBlacklistABI, "unBlacklist", TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'unBlacklist',
+    functionName: "unBlacklist",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2378,25 +2378,25 @@ export function useGlobalBlacklistUpgradeTo<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
+        PrepareWriteContractResult<typeof globalBlacklistABI, "upgradeTo">["request"]["abi"],
+        "upgradeTo",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeTo" }
+    : UseContractWriteConfig<typeof globalBlacklistABI, "upgradeTo", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeTo";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalBlacklistABI, 'upgradeTo', TMode>({
+  return useContractWrite<typeof globalBlacklistABI, "upgradeTo", TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2408,25 +2408,25 @@ export function useGlobalBlacklistUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
+        PrepareWriteContractResult<typeof globalBlacklistABI, "upgradeToAndCall">["request"]["abi"],
+        "upgradeToAndCall",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeToAndCall" }
+    : UseContractWriteConfig<typeof globalBlacklistABI, "upgradeToAndCall", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeToAndCall";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalBlacklistABI, 'upgradeToAndCall', TMode>({
+  return useContractWrite<typeof globalBlacklistABI, "upgradeToAndCall", TMode>({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2437,14 +2437,14 @@ export function useGlobalBlacklistUpgradeToAndCall<
 export function usePrepareGlobalBlacklistWrite<TFunctionName extends string>(
   config: Omit<
     UsePrepareContractWriteConfig<typeof globalBlacklistABI, TFunctionName>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, TFunctionName>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, TFunctionName>);
 }
 
 /**
@@ -2454,16 +2454,16 @@ export function usePrepareGlobalBlacklistWrite<TFunctionName extends string>(
  */
 export function usePrepareGlobalBlacklistBlacklist(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'blacklist'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalBlacklistABI, "blacklist">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'blacklist',
+    functionName: "blacklist",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'blacklist'>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, "blacklist">);
 }
 
 /**
@@ -2473,16 +2473,16 @@ export function usePrepareGlobalBlacklistBlacklist(
  */
 export function usePrepareGlobalBlacklistInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalBlacklistABI, "initialize">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'initialize'>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, "initialize">);
 }
 
 /**
@@ -2492,16 +2492,16 @@ export function usePrepareGlobalBlacklistInitialize(
  */
 export function usePrepareGlobalBlacklistRenounceOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalBlacklistABI, "renounceOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'renounceOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, "renounceOwnership">);
 }
 
 /**
@@ -2511,16 +2511,16 @@ export function usePrepareGlobalBlacklistRenounceOwnership(
  */
 export function usePrepareGlobalBlacklistUnBlacklist(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'unBlacklist'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalBlacklistABI, "unBlacklist">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'unBlacklist',
+    functionName: "unBlacklist",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'unBlacklist'>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, "unBlacklist">);
 }
 
 /**
@@ -2530,16 +2530,16 @@ export function usePrepareGlobalBlacklistUnBlacklist(
  */
 export function usePrepareGlobalBlacklistUpgradeTo(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalBlacklistABI, "upgradeTo">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeTo'>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, "upgradeTo">);
 }
 
 /**
@@ -2549,16 +2549,16 @@ export function usePrepareGlobalBlacklistUpgradeTo(
  */
 export function usePrepareGlobalBlacklistUpgradeToAndCall(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalBlacklistABI, "upgradeToAndCall">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeToAndCall'>)
+  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, "upgradeToAndCall">);
 }
 
 /**
@@ -2567,15 +2567,15 @@ export function usePrepareGlobalBlacklistUpgradeToAndCall(
  *
  */
 export function useGlobalBlacklistEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof globalBlacklistABI, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
+  config: Omit<UseContractEventConfig<typeof globalBlacklistABI, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalBlacklistAddress;
   } = {} as any,
 ) {
   return useContractEvent({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as UseContractEventConfig<typeof globalBlacklistABI, TEventName>)
+  } as UseContractEventConfig<typeof globalBlacklistABI, TEventName>);
 }
 
 /**
@@ -2585,16 +2585,16 @@ export function useGlobalBlacklistEvent<TEventName extends string>(
  */
 export function useGlobalBlacklistAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalBlacklistABI, 'AdminChanged'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalBlacklistABI, "AdminChanged">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    eventName: 'AdminChanged',
+    eventName: "AdminChanged",
     ...config,
-  } as UseContractEventConfig<typeof globalBlacklistABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof globalBlacklistABI, "AdminChanged">);
 }
 
 /**
@@ -2604,16 +2604,16 @@ export function useGlobalBlacklistAdminChangedEvent(
  */
 export function useGlobalBlacklistBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalBlacklistABI, 'BeaconUpgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalBlacklistABI, "BeaconUpgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    eventName: 'BeaconUpgraded',
+    eventName: "BeaconUpgraded",
     ...config,
-  } as UseContractEventConfig<typeof globalBlacklistABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof globalBlacklistABI, "BeaconUpgraded">);
 }
 
 /**
@@ -2623,16 +2623,16 @@ export function useGlobalBlacklistBeaconUpgradedEvent(
  */
 export function useGlobalBlacklistInitializedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalBlacklistABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalBlacklistABI, "Initialized">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    eventName: 'Initialized',
+    eventName: "Initialized",
     ...config,
-  } as UseContractEventConfig<typeof globalBlacklistABI, 'Initialized'>)
+  } as UseContractEventConfig<typeof globalBlacklistABI, "Initialized">);
 }
 
 /**
@@ -2642,16 +2642,16 @@ export function useGlobalBlacklistInitializedEvent(
  */
 export function useGlobalBlacklistOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalBlacklistABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalBlacklistABI, "OwnershipTransferred">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    eventName: 'OwnershipTransferred',
+    eventName: "OwnershipTransferred",
     ...config,
-  } as UseContractEventConfig<typeof globalBlacklistABI, 'OwnershipTransferred'>)
+  } as UseContractEventConfig<typeof globalBlacklistABI, "OwnershipTransferred">);
 }
 
 /**
@@ -2661,16 +2661,16 @@ export function useGlobalBlacklistOwnershipTransferredEvent(
  */
 export function useGlobalBlacklistUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalBlacklistABI, 'Upgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalBlacklistABI, "Upgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
-    eventName: 'Upgraded',
+    eventName: "Upgraded",
     ...config,
-  } as UseContractEventConfig<typeof globalBlacklistABI, 'Upgraded'>)
+  } as UseContractEventConfig<typeof globalBlacklistABI, "Upgraded">);
 }
 
 /**
@@ -2684,14 +2684,14 @@ export function useGlobalOwnerRead<
 >(
   config: Omit<
     UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2700,20 +2700,20 @@ export function useGlobalOwnerRead<
  *
  */
 export function useGlobalOwnerOwner<
-  TFunctionName extends 'owner',
+  TFunctionName extends "owner",
   TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'owner',
+    functionName: "owner",
     ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2722,20 +2722,20 @@ export function useGlobalOwnerOwner<
  *
  */
 export function useGlobalOwnerPendingOwner<
-  TFunctionName extends 'pendingOwner',
+  TFunctionName extends "pendingOwner",
   TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'pendingOwner',
+    functionName: "pendingOwner",
     ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2744,20 +2744,20 @@ export function useGlobalOwnerPendingOwner<
  *
  */
 export function useGlobalOwnerProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
+  TFunctionName extends "proxiableUUID",
   TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'proxiableUUID',
+    functionName: "proxiableUUID",
     ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -2770,23 +2770,23 @@ export function useGlobalOwnerWrite<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof globalOwnerABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       > & { address?: Address; chainId?: TChainId }
     : UseContractWriteConfig<typeof globalOwnerABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
       } = {} as any,
 ) {
   return useContractWrite<typeof globalOwnerABI, TFunctionName, TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2798,25 +2798,25 @@ export function useGlobalOwnerAcceptOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'acceptOwnership'>['request']['abi'],
-        'acceptOwnership',
+        PrepareWriteContractResult<typeof globalOwnerABI, "acceptOwnership">["request"]["abi"],
+        "acceptOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'acceptOwnership' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'acceptOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'acceptOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "acceptOwnership" }
+    : UseContractWriteConfig<typeof globalOwnerABI, "acceptOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "acceptOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalOwnerABI, 'acceptOwnership', TMode>({
+  return useContractWrite<typeof globalOwnerABI, "acceptOwnership", TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'acceptOwnership',
+    functionName: "acceptOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2828,25 +2828,25 @@ export function useGlobalOwnerInitialize<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'initialize'>['request']['abi'],
-        'initialize',
+        PrepareWriteContractResult<typeof globalOwnerABI, "initialize">["request"]["abi"],
+        "initialize",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
+      > & { address?: Address; chainId?: TChainId; functionName?: "initialize" }
+    : UseContractWriteConfig<typeof globalOwnerABI, "initialize", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "initialize";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalOwnerABI, 'initialize', TMode>({
+  return useContractWrite<typeof globalOwnerABI, "initialize", TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2858,25 +2858,25 @@ export function useGlobalOwnerRenounceOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
+        PrepareWriteContractResult<typeof globalOwnerABI, "renounceOwnership">["request"]["abi"],
+        "renounceOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "renounceOwnership" }
+    : UseContractWriteConfig<typeof globalOwnerABI, "renounceOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "renounceOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalOwnerABI, 'renounceOwnership', TMode>({
+  return useContractWrite<typeof globalOwnerABI, "renounceOwnership", TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2888,25 +2888,25 @@ export function useGlobalOwnerTransferOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'transferOwnership'>['request']['abi'],
-        'transferOwnership',
+        PrepareWriteContractResult<typeof globalOwnerABI, "transferOwnership">["request"]["abi"],
+        "transferOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'transferOwnership' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'transferOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "transferOwnership" }
+    : UseContractWriteConfig<typeof globalOwnerABI, "transferOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "transferOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalOwnerABI, 'transferOwnership', TMode>({
+  return useContractWrite<typeof globalOwnerABI, "transferOwnership", TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2918,25 +2918,25 @@ export function useGlobalOwnerUpgradeTo<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
+        PrepareWriteContractResult<typeof globalOwnerABI, "upgradeTo">["request"]["abi"],
+        "upgradeTo",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeTo" }
+    : UseContractWriteConfig<typeof globalOwnerABI, "upgradeTo", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeTo";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalOwnerABI, 'upgradeTo', TMode>({
+  return useContractWrite<typeof globalOwnerABI, "upgradeTo", TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2948,25 +2948,25 @@ export function useGlobalOwnerUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
+        PrepareWriteContractResult<typeof globalOwnerABI, "upgradeToAndCall">["request"]["abi"],
+        "upgradeToAndCall",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeToAndCall" }
+    : UseContractWriteConfig<typeof globalOwnerABI, "upgradeToAndCall", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeToAndCall";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalOwnerABI, 'upgradeToAndCall', TMode>({
+  return useContractWrite<typeof globalOwnerABI, "upgradeToAndCall", TMode>({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -2977,14 +2977,14 @@ export function useGlobalOwnerUpgradeToAndCall<
 export function usePrepareGlobalOwnerWrite<TFunctionName extends string>(
   config: Omit<
     UsePrepareContractWriteConfig<typeof globalOwnerABI, TFunctionName>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, TFunctionName>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, TFunctionName>);
 }
 
 /**
@@ -2994,16 +2994,16 @@ export function usePrepareGlobalOwnerWrite<TFunctionName extends string>(
  */
 export function usePrepareGlobalOwnerAcceptOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'acceptOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalOwnerABI, "acceptOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'acceptOwnership',
+    functionName: "acceptOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'acceptOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, "acceptOwnership">);
 }
 
 /**
@@ -3013,16 +3013,16 @@ export function usePrepareGlobalOwnerAcceptOwnership(
  */
 export function usePrepareGlobalOwnerInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalOwnerABI, "initialize">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'initialize'>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, "initialize">);
 }
 
 /**
@@ -3032,16 +3032,16 @@ export function usePrepareGlobalOwnerInitialize(
  */
 export function usePrepareGlobalOwnerRenounceOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalOwnerABI, "renounceOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'renounceOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, "renounceOwnership">);
 }
 
 /**
@@ -3051,16 +3051,16 @@ export function usePrepareGlobalOwnerRenounceOwnership(
  */
 export function usePrepareGlobalOwnerTransferOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalOwnerABI, "transferOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'transferOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, "transferOwnership">);
 }
 
 /**
@@ -3070,16 +3070,16 @@ export function usePrepareGlobalOwnerTransferOwnership(
  */
 export function usePrepareGlobalOwnerUpgradeTo(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalOwnerABI, "upgradeTo">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeTo'>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, "upgradeTo">);
 }
 
 /**
@@ -3089,16 +3089,16 @@ export function usePrepareGlobalOwnerUpgradeTo(
  */
 export function usePrepareGlobalOwnerUpgradeToAndCall(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalOwnerABI, "upgradeToAndCall">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeToAndCall'>)
+  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, "upgradeToAndCall">);
 }
 
 /**
@@ -3107,15 +3107,15 @@ export function usePrepareGlobalOwnerUpgradeToAndCall(
  *
  */
 export function useGlobalOwnerEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof globalOwnerABI, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalOwnerAddress
+  config: Omit<UseContractEventConfig<typeof globalOwnerABI, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalOwnerAddress;
   } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, TEventName>)
+  } as UseContractEventConfig<typeof globalOwnerABI, TEventName>);
 }
 
 /**
@@ -3125,16 +3125,16 @@ export function useGlobalOwnerEvent<TEventName extends string>(
  */
 export function useGlobalOwnerAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalOwnerABI, 'AdminChanged'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalOwnerABI, "AdminChanged">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    eventName: 'AdminChanged',
+    eventName: "AdminChanged",
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof globalOwnerABI, "AdminChanged">);
 }
 
 /**
@@ -3144,16 +3144,16 @@ export function useGlobalOwnerAdminChangedEvent(
  */
 export function useGlobalOwnerBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalOwnerABI, 'BeaconUpgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalOwnerABI, "BeaconUpgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    eventName: 'BeaconUpgraded',
+    eventName: "BeaconUpgraded",
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof globalOwnerABI, "BeaconUpgraded">);
 }
 
 /**
@@ -3163,16 +3163,16 @@ export function useGlobalOwnerBeaconUpgradedEvent(
  */
 export function useGlobalOwnerInitializedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalOwnerABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalOwnerABI, "Initialized">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    eventName: 'Initialized',
+    eventName: "Initialized",
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, 'Initialized'>)
+  } as UseContractEventConfig<typeof globalOwnerABI, "Initialized">);
 }
 
 /**
@@ -3182,16 +3182,16 @@ export function useGlobalOwnerInitializedEvent(
  */
 export function useGlobalOwnerOwnershipTransferStartedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalOwnerABI, 'OwnershipTransferStarted'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalOwnerABI, "OwnershipTransferStarted">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    eventName: 'OwnershipTransferStarted',
+    eventName: "OwnershipTransferStarted",
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, 'OwnershipTransferStarted'>)
+  } as UseContractEventConfig<typeof globalOwnerABI, "OwnershipTransferStarted">);
 }
 
 /**
@@ -3201,16 +3201,16 @@ export function useGlobalOwnerOwnershipTransferStartedEvent(
  */
 export function useGlobalOwnerOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalOwnerABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalOwnerABI, "OwnershipTransferred">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    eventName: 'OwnershipTransferred',
+    eventName: "OwnershipTransferred",
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, 'OwnershipTransferred'>)
+  } as UseContractEventConfig<typeof globalOwnerABI, "OwnershipTransferred">);
 }
 
 /**
@@ -3220,16 +3220,16 @@ export function useGlobalOwnerOwnershipTransferredEvent(
  */
 export function useGlobalOwnerUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalOwnerABI, 'Upgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalOwnerABI, "Upgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
-    eventName: 'Upgraded',
+    eventName: "Upgraded",
     ...config,
-  } as UseContractEventConfig<typeof globalOwnerABI, 'Upgraded'>)
+  } as UseContractEventConfig<typeof globalOwnerABI, "Upgraded">);
 }
 
 /**
@@ -3243,14 +3243,14 @@ export function useGlobalPauseRead<
 >(
   config: Omit<
     UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3259,20 +3259,20 @@ export function useGlobalPauseRead<
  *
  */
 export function useGlobalPauseGlobalOwner<
-  TFunctionName extends 'globalOwner',
+  TFunctionName extends "globalOwner",
   TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'globalOwner',
+    functionName: "globalOwner",
     ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3281,20 +3281,20 @@ export function useGlobalPauseGlobalOwner<
  *
  */
 export function useGlobalPauseOwner<
-  TFunctionName extends 'owner',
+  TFunctionName extends "owner",
   TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'owner',
+    functionName: "owner",
     ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3303,20 +3303,20 @@ export function useGlobalPauseOwner<
  *
  */
 export function useGlobalPausePaused<
-  TFunctionName extends 'paused',
+  TFunctionName extends "paused",
   TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'paused',
+    functionName: "paused",
     ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3325,20 +3325,20 @@ export function useGlobalPausePaused<
  *
  */
 export function useGlobalPauseProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
+  TFunctionName extends "proxiableUUID",
   TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'proxiableUUID',
+    functionName: "proxiableUUID",
     ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3347,20 +3347,20 @@ export function useGlobalPauseProxiableUuid<
  *
  */
 export function useGlobalPauseTransferOwnership<
-  TFunctionName extends 'transferOwnership',
+  TFunctionName extends "transferOwnership",
   TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractRead({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3373,23 +3373,23 @@ export function useGlobalPauseWrite<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof globalPauseABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       > & { address?: Address; chainId?: TChainId }
     : UseContractWriteConfig<typeof globalPauseABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
       } = {} as any,
 ) {
   return useContractWrite<typeof globalPauseABI, TFunctionName, TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3401,25 +3401,25 @@ export function useGlobalPauseInitialize<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'initialize'>['request']['abi'],
-        'initialize',
+        PrepareWriteContractResult<typeof globalPauseABI, "initialize">["request"]["abi"],
+        "initialize",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
+      > & { address?: Address; chainId?: TChainId; functionName?: "initialize" }
+    : UseContractWriteConfig<typeof globalPauseABI, "initialize", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "initialize";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalPauseABI, 'initialize', TMode>({
+  return useContractWrite<typeof globalPauseABI, "initialize", TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3431,25 +3431,25 @@ export function useGlobalPausePause<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'pause'>['request']['abi'],
-        'pause',
+        PrepareWriteContractResult<typeof globalPauseABI, "pause">["request"]["abi"],
+        "pause",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'pause' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'pause', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'pause'
+      > & { address?: Address; chainId?: TChainId; functionName?: "pause" }
+    : UseContractWriteConfig<typeof globalPauseABI, "pause", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "pause";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalPauseABI, 'pause', TMode>({
+  return useContractWrite<typeof globalPauseABI, "pause", TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'pause',
+    functionName: "pause",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3461,25 +3461,25 @@ export function useGlobalPauseRenounceOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
+        PrepareWriteContractResult<typeof globalPauseABI, "renounceOwnership">["request"]["abi"],
+        "renounceOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "renounceOwnership" }
+    : UseContractWriteConfig<typeof globalPauseABI, "renounceOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "renounceOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalPauseABI, 'renounceOwnership', TMode>({
+  return useContractWrite<typeof globalPauseABI, "renounceOwnership", TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3491,25 +3491,25 @@ export function useGlobalPauseUnpause<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'unpause'>['request']['abi'],
-        'unpause',
+        PrepareWriteContractResult<typeof globalPauseABI, "unpause">["request"]["abi"],
+        "unpause",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unpause' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'unpause', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unpause'
+      > & { address?: Address; chainId?: TChainId; functionName?: "unpause" }
+    : UseContractWriteConfig<typeof globalPauseABI, "unpause", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "unpause";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalPauseABI, 'unpause', TMode>({
+  return useContractWrite<typeof globalPauseABI, "unpause", TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'unpause',
+    functionName: "unpause",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3521,25 +3521,25 @@ export function useGlobalPauseUpgradeTo<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
+        PrepareWriteContractResult<typeof globalPauseABI, "upgradeTo">["request"]["abi"],
+        "upgradeTo",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeTo" }
+    : UseContractWriteConfig<typeof globalPauseABI, "upgradeTo", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeTo";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalPauseABI, 'upgradeTo', TMode>({
+  return useContractWrite<typeof globalPauseABI, "upgradeTo", TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3551,25 +3551,25 @@ export function useGlobalPauseUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
+        PrepareWriteContractResult<typeof globalPauseABI, "upgradeToAndCall">["request"]["abi"],
+        "upgradeToAndCall",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeToAndCall" }
+    : UseContractWriteConfig<typeof globalPauseABI, "upgradeToAndCall", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeToAndCall";
       } = {} as any,
 ) {
-  return useContractWrite<typeof globalPauseABI, 'upgradeToAndCall', TMode>({
+  return useContractWrite<typeof globalPauseABI, "upgradeToAndCall", TMode>({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -3580,14 +3580,14 @@ export function useGlobalPauseUpgradeToAndCall<
 export function usePrepareGlobalPauseWrite<TFunctionName extends string>(
   config: Omit<
     UsePrepareContractWriteConfig<typeof globalPauseABI, TFunctionName>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, TFunctionName>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, TFunctionName>);
 }
 
 /**
@@ -3597,16 +3597,16 @@ export function usePrepareGlobalPauseWrite<TFunctionName extends string>(
  */
 export function usePrepareGlobalPauseInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalPauseABI, "initialize">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'initialize'>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, "initialize">);
 }
 
 /**
@@ -3616,16 +3616,16 @@ export function usePrepareGlobalPauseInitialize(
  */
 export function usePrepareGlobalPausePause(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'pause'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalPauseABI, "pause">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'pause',
+    functionName: "pause",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'pause'>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, "pause">);
 }
 
 /**
@@ -3635,16 +3635,16 @@ export function usePrepareGlobalPausePause(
  */
 export function usePrepareGlobalPauseRenounceOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalPauseABI, "renounceOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'renounceOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, "renounceOwnership">);
 }
 
 /**
@@ -3654,16 +3654,16 @@ export function usePrepareGlobalPauseRenounceOwnership(
  */
 export function usePrepareGlobalPauseUnpause(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'unpause'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalPauseABI, "unpause">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'unpause',
+    functionName: "unpause",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'unpause'>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, "unpause">);
 }
 
 /**
@@ -3673,16 +3673,16 @@ export function usePrepareGlobalPauseUnpause(
  */
 export function usePrepareGlobalPauseUpgradeTo(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalPauseABI, "upgradeTo">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeTo'>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, "upgradeTo">);
 }
 
 /**
@@ -3692,16 +3692,16 @@ export function usePrepareGlobalPauseUpgradeTo(
  */
 export function usePrepareGlobalPauseUpgradeToAndCall(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof globalPauseABI, "upgradeToAndCall">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeToAndCall'>)
+  } as UsePrepareContractWriteConfig<typeof globalPauseABI, "upgradeToAndCall">);
 }
 
 /**
@@ -3710,15 +3710,15 @@ export function usePrepareGlobalPauseUpgradeToAndCall(
  *
  */
 export function useGlobalPauseEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof globalPauseABI, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalPauseAddress
+  config: Omit<UseContractEventConfig<typeof globalPauseABI, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalPauseAddress;
   } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, TEventName>)
+  } as UseContractEventConfig<typeof globalPauseABI, TEventName>);
 }
 
 /**
@@ -3728,16 +3728,16 @@ export function useGlobalPauseEvent<TEventName extends string>(
  */
 export function useGlobalPauseAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'AdminChanged'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "AdminChanged">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'AdminChanged',
+    eventName: "AdminChanged",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "AdminChanged">);
 }
 
 /**
@@ -3747,16 +3747,16 @@ export function useGlobalPauseAdminChangedEvent(
  */
 export function useGlobalPauseBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'BeaconUpgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "BeaconUpgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'BeaconUpgraded',
+    eventName: "BeaconUpgraded",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "BeaconUpgraded">);
 }
 
 /**
@@ -3766,16 +3766,16 @@ export function useGlobalPauseBeaconUpgradedEvent(
  */
 export function useGlobalPauseInitializedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "Initialized">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'Initialized',
+    eventName: "Initialized",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'Initialized'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "Initialized">);
 }
 
 /**
@@ -3785,16 +3785,16 @@ export function useGlobalPauseInitializedEvent(
  */
 export function useGlobalPauseOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "OwnershipTransferred">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'OwnershipTransferred',
+    eventName: "OwnershipTransferred",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'OwnershipTransferred'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "OwnershipTransferred">);
 }
 
 /**
@@ -3804,16 +3804,16 @@ export function useGlobalPauseOwnershipTransferredEvent(
  */
 export function useGlobalPausePausedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'Paused'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "Paused">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'Paused',
+    eventName: "Paused",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'Paused'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "Paused">);
 }
 
 /**
@@ -3823,16 +3823,16 @@ export function useGlobalPausePausedEvent(
  */
 export function useGlobalPauseUnpausedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'Unpaused'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "Unpaused">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'Unpaused',
+    eventName: "Unpaused",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'Unpaused'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "Unpaused">);
 }
 
 /**
@@ -3842,16 +3842,16 @@ export function useGlobalPauseUnpausedEvent(
  */
 export function useGlobalPauseUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof globalPauseABI, 'Upgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof globalPauseABI, "Upgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
-    eventName: 'Upgraded',
+    eventName: "Upgraded",
     ...config,
-  } as UseContractEventConfig<typeof globalPauseABI, 'Upgraded'>)
+  } as UseContractEventConfig<typeof globalPauseABI, "Upgraded">);
 }
 
 /**
@@ -3865,14 +3865,14 @@ export function useLtyStakingRead<
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3881,20 +3881,20 @@ export function useLtyStakingRead<
  *
  */
 export function useLtyStakingGetApr<
-  TFunctionName extends 'getApr',
+  TFunctionName extends "getApr",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'getApr',
+    functionName: "getApr",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3903,20 +3903,20 @@ export function useLtyStakingGetApr<
  *
  */
 export function useLtyStakingGetNewLockEnd<
-  TFunctionName extends 'getNewLockEnd',
+  TFunctionName extends "getNewLockEnd",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'getNewLockEnd',
+    functionName: "getNewLockEnd",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3925,20 +3925,20 @@ export function useLtyStakingGetNewLockEnd<
  *
  */
 export function useLtyStakingGetTier<
-  TFunctionName extends 'getTier',
+  TFunctionName extends "getTier",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'getTier',
+    functionName: "getTier",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3947,20 +3947,20 @@ export function useLtyStakingGetTier<
  *
  */
 export function useLtyStakingGlobalBlacklist<
-  TFunctionName extends 'globalBlacklist',
+  TFunctionName extends "globalBlacklist",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'globalBlacklist',
+    functionName: "globalBlacklist",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -3969,42 +3969,42 @@ export function useLtyStakingGlobalBlacklist<
  *
  */
 export function useLtyStakingGlobalOwner<
-  TFunctionName extends 'globalOwner',
+  TFunctionName extends "globalOwner",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'globalOwner',
+    functionName: "globalOwner",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ltyStakingABI}__ and `functionName` set to `"globalPauser"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ltyStakingABI}__ and `functionName` set to `"globalPause"`.
  *
  *
  */
 export function useLtyStakingGlobalPauser<
-  TFunctionName extends 'globalPauser',
+  TFunctionName extends "globalPause",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'globalPauser',
+    functionName: "globalPause",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4013,20 +4013,20 @@ export function useLtyStakingGlobalPauser<
  *
  */
 export function useLtyStakingInvested<
-  TFunctionName extends 'invested',
+  TFunctionName extends "invested",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'invested',
+    functionName: "invested",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4035,20 +4035,20 @@ export function useLtyStakingInvested<
  *
  */
 export function useLtyStakingLockEndOf<
-  TFunctionName extends 'lockEndOf',
+  TFunctionName extends "lockEndOf",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'lockEndOf',
+    functionName: "lockEndOf",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4057,20 +4057,20 @@ export function useLtyStakingLockEndOf<
  *
  */
 export function useLtyStakingOwner<
-  TFunctionName extends 'owner',
+  TFunctionName extends "owner",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'owner',
+    functionName: "owner",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4079,20 +4079,20 @@ export function useLtyStakingOwner<
  *
  */
 export function useLtyStakingPaused<
-  TFunctionName extends 'paused',
+  TFunctionName extends "paused",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'paused',
+    functionName: "paused",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4101,20 +4101,20 @@ export function useLtyStakingPaused<
  *
  */
 export function useLtyStakingProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
+  TFunctionName extends "proxiableUUID",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'proxiableUUID',
+    functionName: "proxiableUUID",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4123,20 +4123,20 @@ export function useLtyStakingProxiableUuid<
  *
  */
 export function useLtyStakingRewardsOf<
-  TFunctionName extends 'rewardsOf',
+  TFunctionName extends "rewardsOf",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'rewardsOf',
+    functionName: "rewardsOf",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4145,20 +4145,20 @@ export function useLtyStakingRewardsOf<
  *
  */
 export function useLtyStakingRewardsReserve<
-  TFunctionName extends 'rewardsReserve',
+  TFunctionName extends "rewardsReserve",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'rewardsReserve',
+    functionName: "rewardsReserve",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4167,20 +4167,20 @@ export function useLtyStakingRewardsReserve<
  *
  */
 export function useLtyStakingStakeLockDuration<
-  TFunctionName extends 'stakeLockDuration',
+  TFunctionName extends "stakeLockDuration",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'stakeLockDuration',
+    functionName: "stakeLockDuration",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4189,20 +4189,20 @@ export function useLtyStakingStakeLockDuration<
  *
  */
 export function useLtyStakingStakeOf<
-  TFunctionName extends 'stakeOf',
+  TFunctionName extends "stakeOf",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'stakeOf',
+    functionName: "stakeOf",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4211,20 +4211,20 @@ export function useLtyStakingStakeOf<
  *
  */
 export function useLtyStakingTierOf<
-  TFunctionName extends 'tierOf',
+  TFunctionName extends "tierOf",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'tierOf',
+    functionName: "tierOf",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4233,20 +4233,20 @@ export function useLtyStakingTierOf<
  *
  */
 export function useLtyStakingTotalStaked<
-  TFunctionName extends 'totalStaked',
+  TFunctionName extends "totalStaked",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'totalStaked',
+    functionName: "totalStaked",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4255,20 +4255,20 @@ export function useLtyStakingTotalStaked<
  *
  */
 export function useLtyStakingTransferOwnership<
-  TFunctionName extends 'transferOwnership',
+  TFunctionName extends "transferOwnership",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4277,20 +4277,20 @@ export function useLtyStakingTransferOwnership<
  *
  */
 export function useLtyStakingUnlockFeesRateUd3<
-  TFunctionName extends 'unlockFeesRateUD3',
+  TFunctionName extends "unlockFeesRateUD3",
   TSelectData = ReadContractResult<typeof ltyStakingABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractRead({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'unlockFeesRateUD3',
+    functionName: "unlockFeesRateUD3",
     ...config,
-  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ltyStakingABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -4303,23 +4303,23 @@ export function useLtyStakingWrite<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof ltyStakingABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       > & { address?: Address; chainId?: TChainId }
     : UseContractWriteConfig<typeof ltyStakingABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
       } = {} as any,
 ) {
   return useContractWrite<typeof ltyStakingABI, TFunctionName, TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4331,25 +4331,25 @@ export function useLtyStakingClaim<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'claim'>['request']['abi'],
-        'claim',
+        PrepareWriteContractResult<typeof ltyStakingABI, "claim">["request"]["abi"],
+        "claim",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'claim' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'claim', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'claim'
+      > & { address?: Address; chainId?: TChainId; functionName?: "claim" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "claim", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "claim";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'claim', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "claim", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'claim',
+    functionName: "claim",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4361,25 +4361,25 @@ export function useLtyStakingCompound<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'compound'>['request']['abi'],
-        'compound',
+        PrepareWriteContractResult<typeof ltyStakingABI, "compound">["request"]["abi"],
+        "compound",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'compound' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'compound', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'compound'
+      > & { address?: Address; chainId?: TChainId; functionName?: "compound" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "compound", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "compound";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'compound', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "compound", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'compound',
+    functionName: "compound",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4391,25 +4391,25 @@ export function useLtyStakingFuel<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'fuel'>['request']['abi'],
-        'fuel',
+        PrepareWriteContractResult<typeof ltyStakingABI, "fuel">["request"]["abi"],
+        "fuel",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'fuel' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'fuel', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'fuel'
+      > & { address?: Address; chainId?: TChainId; functionName?: "fuel" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "fuel", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "fuel";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'fuel', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "fuel", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'fuel',
+    functionName: "fuel",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4421,25 +4421,25 @@ export function useLtyStakingInitialize<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'initialize'>['request']['abi'],
-        'initialize',
+        PrepareWriteContractResult<typeof ltyStakingABI, "initialize">["request"]["abi"],
+        "initialize",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
+      > & { address?: Address; chainId?: TChainId; functionName?: "initialize" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "initialize", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "initialize";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'initialize', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "initialize", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4451,25 +4451,25 @@ export function useLtyStakingRecoverErc20<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'recoverERC20'>['request']['abi'],
-        'recoverERC20',
+        PrepareWriteContractResult<typeof ltyStakingABI, "recoverERC20">["request"]["abi"],
+        "recoverERC20",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'recoverERC20' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'recoverERC20', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'recoverERC20'
+      > & { address?: Address; chainId?: TChainId; functionName?: "recoverERC20" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "recoverERC20", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "recoverERC20";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'recoverERC20', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "recoverERC20", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'recoverERC20',
+    functionName: "recoverERC20",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4481,25 +4481,25 @@ export function useLtyStakingRecoverLty<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'recoverLTY'>['request']['abi'],
-        'recoverLTY',
+        PrepareWriteContractResult<typeof ltyStakingABI, "recoverLTY">["request"]["abi"],
+        "recoverLTY",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'recoverLTY' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'recoverLTY', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'recoverLTY'
+      > & { address?: Address; chainId?: TChainId; functionName?: "recoverLTY" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "recoverLTY", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "recoverLTY";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'recoverLTY', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "recoverLTY", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'recoverLTY',
+    functionName: "recoverLTY",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4511,25 +4511,25 @@ export function useLtyStakingRenounceOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
+        PrepareWriteContractResult<typeof ltyStakingABI, "renounceOwnership">["request"]["abi"],
+        "renounceOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "renounceOwnership" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "renounceOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "renounceOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'renounceOwnership', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "renounceOwnership", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4541,25 +4541,25 @@ export function useLtyStakingSetApr<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'setAPR'>['request']['abi'],
-        'setAPR',
+        PrepareWriteContractResult<typeof ltyStakingABI, "setAPR">["request"]["abi"],
+        "setAPR",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setAPR' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'setAPR', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setAPR'
+      > & { address?: Address; chainId?: TChainId; functionName?: "setAPR" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "setAPR", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "setAPR";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'setAPR', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "setAPR", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setAPR',
+    functionName: "setAPR",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4571,25 +4571,25 @@ export function useLtyStakingSetStakeLockDuration<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'setStakeLockDuration'>['request']['abi'],
-        'setStakeLockDuration',
+        PrepareWriteContractResult<typeof ltyStakingABI, "setStakeLockDuration">["request"]["abi"],
+        "setStakeLockDuration",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setStakeLockDuration' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'setStakeLockDuration', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setStakeLockDuration'
+      > & { address?: Address; chainId?: TChainId; functionName?: "setStakeLockDuration" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "setStakeLockDuration", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "setStakeLockDuration";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'setStakeLockDuration', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "setStakeLockDuration", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setStakeLockDuration',
+    functionName: "setStakeLockDuration",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4601,25 +4601,25 @@ export function useLtyStakingSetTier<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'setTier'>['request']['abi'],
-        'setTier',
+        PrepareWriteContractResult<typeof ltyStakingABI, "setTier">["request"]["abi"],
+        "setTier",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setTier' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'setTier', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setTier'
+      > & { address?: Address; chainId?: TChainId; functionName?: "setTier" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "setTier", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "setTier";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'setTier', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "setTier", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setTier',
+    functionName: "setTier",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4631,25 +4631,25 @@ export function useLtyStakingSetUnlockFeesRate<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'setUnlockFeesRate'>['request']['abi'],
-        'setUnlockFeesRate',
+        PrepareWriteContractResult<typeof ltyStakingABI, "setUnlockFeesRate">["request"]["abi"],
+        "setUnlockFeesRate",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setUnlockFeesRate' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'setUnlockFeesRate', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setUnlockFeesRate'
+      > & { address?: Address; chainId?: TChainId; functionName?: "setUnlockFeesRate" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "setUnlockFeesRate", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "setUnlockFeesRate";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'setUnlockFeesRate', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "setUnlockFeesRate", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setUnlockFeesRate',
+    functionName: "setUnlockFeesRate",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4661,25 +4661,25 @@ export function useLtyStakingStake<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'stake'>['request']['abi'],
-        'stake',
+        PrepareWriteContractResult<typeof ltyStakingABI, "stake">["request"]["abi"],
+        "stake",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'stake' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'stake', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'stake'
+      > & { address?: Address; chainId?: TChainId; functionName?: "stake" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "stake", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "stake";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'stake', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "stake", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'stake',
+    functionName: "stake",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4691,25 +4691,25 @@ export function useLtyStakingUnlock<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'unlock'>['request']['abi'],
-        'unlock',
+        PrepareWriteContractResult<typeof ltyStakingABI, "unlock">["request"]["abi"],
+        "unlock",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unlock' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'unlock', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unlock'
+      > & { address?: Address; chainId?: TChainId; functionName?: "unlock" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "unlock", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "unlock";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'unlock', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "unlock", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'unlock',
+    functionName: "unlock",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4721,25 +4721,25 @@ export function useLtyStakingUnstake<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'unstake'>['request']['abi'],
-        'unstake',
+        PrepareWriteContractResult<typeof ltyStakingABI, "unstake">["request"]["abi"],
+        "unstake",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unstake' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'unstake', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unstake'
+      > & { address?: Address; chainId?: TChainId; functionName?: "unstake" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "unstake", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "unstake";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'unstake', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "unstake", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'unstake',
+    functionName: "unstake",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4751,25 +4751,25 @@ export function useLtyStakingUpgradeTo<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
+        PrepareWriteContractResult<typeof ltyStakingABI, "upgradeTo">["request"]["abi"],
+        "upgradeTo",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeTo" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "upgradeTo", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeTo";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'upgradeTo', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "upgradeTo", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4781,25 +4781,25 @@ export function useLtyStakingUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ltyStakingABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
+        PrepareWriteContractResult<typeof ltyStakingABI, "upgradeToAndCall">["request"]["abi"],
+        "upgradeToAndCall",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof ltyStakingABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeToAndCall" }
+    : UseContractWriteConfig<typeof ltyStakingABI, "upgradeToAndCall", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeToAndCall";
       } = {} as any,
 ) {
-  return useContractWrite<typeof ltyStakingABI, 'upgradeToAndCall', TMode>({
+  return useContractWrite<typeof ltyStakingABI, "upgradeToAndCall", TMode>({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -4808,15 +4808,15 @@ export function useLtyStakingUpgradeToAndCall<
  *
  */
 export function usePrepareLtyStakingWrite<TFunctionName extends string>(
-  config: Omit<UsePrepareContractWriteConfig<typeof ltyStakingABI, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ltyStakingAddress
+  config: Omit<UsePrepareContractWriteConfig<typeof ltyStakingABI, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof ltyStakingAddress;
   } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, TFunctionName>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, TFunctionName>);
 }
 
 /**
@@ -4826,16 +4826,16 @@ export function usePrepareLtyStakingWrite<TFunctionName extends string>(
  */
 export function usePrepareLtyStakingClaim(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'claim'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "claim">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'claim',
+    functionName: "claim",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'claim'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "claim">);
 }
 
 /**
@@ -4845,16 +4845,16 @@ export function usePrepareLtyStakingClaim(
  */
 export function usePrepareLtyStakingCompound(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'compound'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "compound">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'compound',
+    functionName: "compound",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'compound'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "compound">);
 }
 
 /**
@@ -4864,16 +4864,16 @@ export function usePrepareLtyStakingCompound(
  */
 export function usePrepareLtyStakingFuel(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'fuel'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "fuel">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'fuel',
+    functionName: "fuel",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'fuel'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "fuel">);
 }
 
 /**
@@ -4883,16 +4883,16 @@ export function usePrepareLtyStakingFuel(
  */
 export function usePrepareLtyStakingInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "initialize">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'initialize'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "initialize">);
 }
 
 /**
@@ -4902,16 +4902,16 @@ export function usePrepareLtyStakingInitialize(
  */
 export function usePrepareLtyStakingRecoverErc20(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'recoverERC20'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "recoverERC20">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'recoverERC20',
+    functionName: "recoverERC20",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'recoverERC20'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "recoverERC20">);
 }
 
 /**
@@ -4921,16 +4921,16 @@ export function usePrepareLtyStakingRecoverErc20(
  */
 export function usePrepareLtyStakingRecoverLty(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'recoverLTY'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "recoverLTY">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'recoverLTY',
+    functionName: "recoverLTY",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'recoverLTY'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "recoverLTY">);
 }
 
 /**
@@ -4940,16 +4940,16 @@ export function usePrepareLtyStakingRecoverLty(
  */
 export function usePrepareLtyStakingRenounceOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "renounceOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'renounceOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "renounceOwnership">);
 }
 
 /**
@@ -4959,16 +4959,16 @@ export function usePrepareLtyStakingRenounceOwnership(
  */
 export function usePrepareLtyStakingSetApr(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setAPR'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "setAPR">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setAPR',
+    functionName: "setAPR",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setAPR'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "setAPR">);
 }
 
 /**
@@ -4978,16 +4978,16 @@ export function usePrepareLtyStakingSetApr(
  */
 export function usePrepareLtyStakingSetStakeLockDuration(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setStakeLockDuration'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "setStakeLockDuration">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setStakeLockDuration',
+    functionName: "setStakeLockDuration",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setStakeLockDuration'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "setStakeLockDuration">);
 }
 
 /**
@@ -4997,16 +4997,16 @@ export function usePrepareLtyStakingSetStakeLockDuration(
  */
 export function usePrepareLtyStakingSetTier(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setTier'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "setTier">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setTier',
+    functionName: "setTier",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setTier'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "setTier">);
 }
 
 /**
@@ -5016,16 +5016,16 @@ export function usePrepareLtyStakingSetTier(
  */
 export function usePrepareLtyStakingSetUnlockFeesRate(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setUnlockFeesRate'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "setUnlockFeesRate">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'setUnlockFeesRate',
+    functionName: "setUnlockFeesRate",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'setUnlockFeesRate'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "setUnlockFeesRate">);
 }
 
 /**
@@ -5035,16 +5035,16 @@ export function usePrepareLtyStakingSetUnlockFeesRate(
  */
 export function usePrepareLtyStakingStake(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'stake'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "stake">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'stake',
+    functionName: "stake",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'stake'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "stake">);
 }
 
 /**
@@ -5054,16 +5054,16 @@ export function usePrepareLtyStakingStake(
  */
 export function usePrepareLtyStakingUnlock(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'unlock'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "unlock">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'unlock',
+    functionName: "unlock",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'unlock'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "unlock">);
 }
 
 /**
@@ -5073,16 +5073,16 @@ export function usePrepareLtyStakingUnlock(
  */
 export function usePrepareLtyStakingUnstake(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'unstake'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "unstake">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'unstake',
+    functionName: "unstake",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'unstake'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "unstake">);
 }
 
 /**
@@ -5092,16 +5092,16 @@ export function usePrepareLtyStakingUnstake(
  */
 export function usePrepareLtyStakingUpgradeTo(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "upgradeTo">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'upgradeTo'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "upgradeTo">);
 }
 
 /**
@@ -5111,16 +5111,16 @@ export function usePrepareLtyStakingUpgradeTo(
  */
 export function usePrepareLtyStakingUpgradeToAndCall(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ltyStakingABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof ltyStakingABI, "upgradeToAndCall">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, 'upgradeToAndCall'>)
+  } as UsePrepareContractWriteConfig<typeof ltyStakingABI, "upgradeToAndCall">);
 }
 
 /**
@@ -5129,15 +5129,15 @@ export function usePrepareLtyStakingUpgradeToAndCall(
  *
  */
 export function useLtyStakingEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof ltyStakingABI, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ltyStakingAddress
+  config: Omit<UseContractEventConfig<typeof ltyStakingABI, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof ltyStakingAddress;
   } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, TEventName>)
+  } as UseContractEventConfig<typeof ltyStakingABI, TEventName>);
 }
 
 /**
@@ -5147,16 +5147,16 @@ export function useLtyStakingEvent<TEventName extends string>(
  */
 export function useLtyStakingAprUpdateEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'APRUpdateEvent'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "APRUpdateEvent">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'APRUpdateEvent',
+    eventName: "APRUpdateEvent",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'APRUpdateEvent'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "APRUpdateEvent">);
 }
 
 /**
@@ -5166,16 +5166,16 @@ export function useLtyStakingAprUpdateEventEvent(
  */
 export function useLtyStakingAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'AdminChanged'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "AdminChanged">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'AdminChanged',
+    eventName: "AdminChanged",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "AdminChanged">);
 }
 
 /**
@@ -5185,16 +5185,16 @@ export function useLtyStakingAdminChangedEvent(
  */
 export function useLtyStakingBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'BeaconUpgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "BeaconUpgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'BeaconUpgraded',
+    eventName: "BeaconUpgraded",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "BeaconUpgraded">);
 }
 
 /**
@@ -5204,16 +5204,16 @@ export function useLtyStakingBeaconUpgradedEvent(
  */
 export function useLtyStakingInitializedEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "Initialized">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'Initialized',
+    eventName: "Initialized",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'Initialized'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "Initialized">);
 }
 
 /**
@@ -5223,16 +5223,16 @@ export function useLtyStakingInitializedEvent(
  */
 export function useLtyStakingOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "OwnershipTransferred">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'OwnershipTransferred',
+    eventName: "OwnershipTransferred",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'OwnershipTransferred'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "OwnershipTransferred">);
 }
 
 /**
@@ -5242,16 +5242,16 @@ export function useLtyStakingOwnershipTransferredEvent(
  */
 export function useLtyStakingPausedEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'Paused'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "Paused">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'Paused',
+    eventName: "Paused",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'Paused'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "Paused">);
 }
 
 /**
@@ -5261,16 +5261,16 @@ export function useLtyStakingPausedEvent(
  */
 export function useLtyStakingTotalStakedUpdateEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'TotalStakedUpdateEvent'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "TotalStakedUpdateEvent">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'TotalStakedUpdateEvent',
+    eventName: "TotalStakedUpdateEvent",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'TotalStakedUpdateEvent'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "TotalStakedUpdateEvent">);
 }
 
 /**
@@ -5280,16 +5280,16 @@ export function useLtyStakingTotalStakedUpdateEventEvent(
  */
 export function useLtyStakingUnpausedEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'Unpaused'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "Unpaused">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'Unpaused',
+    eventName: "Unpaused",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'Unpaused'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "Unpaused">);
 }
 
 /**
@@ -5299,16 +5299,16 @@ export function useLtyStakingUnpausedEvent(
  */
 export function useLtyStakingUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof ltyStakingABI, 'Upgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof ltyStakingABI, "Upgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof ltyStakingAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
-    eventName: 'Upgraded',
+    eventName: "Upgraded",
     ...config,
-  } as UseContractEventConfig<typeof ltyStakingABI, 'Upgraded'>)
+  } as UseContractEventConfig<typeof ltyStakingABI, "Upgraded">);
 }
 
 /**
@@ -5317,582 +5317,582 @@ export function useLtyStakingUpgradedEvent(
 export function useLTokenRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(config: Omit<UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+>(config: Omit<UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>, "abi"> = {} as any) {
   return useContractRead({ abi: lTokenABI, ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"allowance"`.
  */
 export function useLTokenAllowance<
-  TFunctionName extends 'allowance',
+  TFunctionName extends "allowance",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'allowance',
+    functionName: "allowance",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"balanceOf"`.
  */
 export function useLTokenBalanceOf<
-  TFunctionName extends 'balanceOf',
+  TFunctionName extends "balanceOf",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'balanceOf',
+    functionName: "balanceOf",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"decimals"`.
  */
 export function useLTokenDecimals<
-  TFunctionName extends 'decimals',
+  TFunctionName extends "decimals",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'decimals',
+    functionName: "decimals",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"depositFor"`.
  */
 export function useLTokenDepositFor<
-  TFunctionName extends 'depositFor',
+  TFunctionName extends "depositFor",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'depositFor',
+    functionName: "depositFor",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"feesRateUD3"`.
  */
 export function useLTokenFeesRateUd3<
-  TFunctionName extends 'feesRateUD3',
+  TFunctionName extends "feesRateUD3",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'feesRateUD3',
+    functionName: "feesRateUD3",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"fund"`.
  */
 export function useLTokenFund<
-  TFunctionName extends 'fund',
+  TFunctionName extends "fund",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
-  return useContractRead({ abi: lTokenABI, functionName: 'fund', ...config } as UseContractReadConfig<
+  return useContractRead({ abi: lTokenABI, functionName: "fund", ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getApr"`.
  */
 export function useLTokenGetApr<
-  TFunctionName extends 'getApr',
+  TFunctionName extends "getApr",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
-  return useContractRead({ abi: lTokenABI, functionName: 'getApr', ...config } as UseContractReadConfig<
+  return useContractRead({ abi: lTokenABI, functionName: "getApr", ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getExpectedRetained"`.
  */
 export function useLTokenGetExpectedRetained<
-  TFunctionName extends 'getExpectedRetained',
+  TFunctionName extends "getExpectedRetained",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'getExpectedRetained',
+    functionName: "getExpectedRetained",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getWithdrawanAmountAndFees"`.
  */
 export function useLTokenGetWithdrawanAmountAndFees<
-  TFunctionName extends 'getWithdrawanAmountAndFees',
+  TFunctionName extends "getWithdrawanAmountAndFees",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'getWithdrawanAmountAndFees',
+    functionName: "getWithdrawanAmountAndFees",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalBlacklist"`.
  */
 export function useLTokenGlobalBlacklist<
-  TFunctionName extends 'globalBlacklist',
+  TFunctionName extends "globalBlacklist",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'globalBlacklist',
+    functionName: "globalBlacklist",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalOwner"`.
  */
 export function useLTokenGlobalOwner<
-  TFunctionName extends 'globalOwner',
+  TFunctionName extends "globalOwner",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'globalOwner',
+    functionName: "globalOwner",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalPauser"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalPause"`.
  */
 export function useLTokenGlobalPauser<
-  TFunctionName extends 'globalPauser',
+  TFunctionName extends "globalPause",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'globalPauser',
+    functionName: "globalPause",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"invested"`.
  */
 export function useLTokenInvested<
-  TFunctionName extends 'invested',
+  TFunctionName extends "invested",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'invested',
+    functionName: "invested",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"ltyStaking"`.
  */
 export function useLTokenLtyStaking<
-  TFunctionName extends 'ltyStaking',
+  TFunctionName extends "ltyStaking",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'ltyStaking',
+    functionName: "ltyStaking",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"name"`.
  */
 export function useLTokenName<
-  TFunctionName extends 'name',
+  TFunctionName extends "name",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
-  return useContractRead({ abi: lTokenABI, functionName: 'name', ...config } as UseContractReadConfig<
+  return useContractRead({ abi: lTokenABI, functionName: "name", ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"owner"`.
  */
 export function useLTokenOwner<
-  TFunctionName extends 'owner',
+  TFunctionName extends "owner",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
-  return useContractRead({ abi: lTokenABI, functionName: 'owner', ...config } as UseContractReadConfig<
+  return useContractRead({ abi: lTokenABI, functionName: "owner", ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"paused"`.
  */
 export function useLTokenPaused<
-  TFunctionName extends 'paused',
+  TFunctionName extends "paused",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
-  return useContractRead({ abi: lTokenABI, functionName: 'paused', ...config } as UseContractReadConfig<
+  return useContractRead({ abi: lTokenABI, functionName: "paused", ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"proxiableUUID"`.
  */
 export function useLTokenProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
+  TFunctionName extends "proxiableUUID",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'proxiableUUID',
+    functionName: "proxiableUUID",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"realBalanceOf"`.
  */
 export function useLTokenRealBalanceOf<
-  TFunctionName extends 'realBalanceOf',
+  TFunctionName extends "realBalanceOf",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'realBalanceOf',
+    functionName: "realBalanceOf",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"retentionRateUD3"`.
  */
 export function useLTokenRetentionRateUd3<
-  TFunctionName extends 'retentionRateUD3',
+  TFunctionName extends "retentionRateUD3",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'retentionRateUD3',
+    functionName: "retentionRateUD3",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"symbol"`.
  */
 export function useLTokenSymbol<
-  TFunctionName extends 'symbol',
+  TFunctionName extends "symbol",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
-  return useContractRead({ abi: lTokenABI, functionName: 'symbol', ...config } as UseContractReadConfig<
+  return useContractRead({ abi: lTokenABI, functionName: "symbol", ...config } as UseContractReadConfig<
     typeof lTokenABI,
     TFunctionName,
     TSelectData
-  >)
+  >);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"totalQueued"`.
  */
 export function useLTokenTotalQueued<
-  TFunctionName extends 'totalQueued',
+  TFunctionName extends "totalQueued",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'totalQueued',
+    functionName: "totalQueued",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"totalSupply"`.
  */
 export function useLTokenTotalSupply<
-  TFunctionName extends 'totalSupply',
+  TFunctionName extends "totalSupply",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'totalSupply',
+    functionName: "totalSupply",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transferOwnership"`.
  */
 export function useLTokenTransferOwnership<
-  TFunctionName extends 'transferOwnership',
+  TFunctionName extends "transferOwnership",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"unclaimedFees"`.
  */
 export function useLTokenUnclaimedFees<
-  TFunctionName extends 'unclaimedFees',
+  TFunctionName extends "unclaimedFees",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'unclaimedFees',
+    functionName: "unclaimedFees",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"underlying"`.
  */
 export function useLTokenUnderlying<
-  TFunctionName extends 'underlying',
+  TFunctionName extends "underlying",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'underlying',
+    functionName: "underlying",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"unmintedRewardsOf"`.
  */
 export function useLTokenUnmintedRewardsOf<
-  TFunctionName extends 'unmintedRewardsOf',
+  TFunctionName extends "unmintedRewardsOf",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'unmintedRewardsOf',
+    functionName: "unmintedRewardsOf",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"usableUnderlyings"`.
  */
 export function useLTokenUsableUnderlyings<
-  TFunctionName extends 'usableUnderlyings',
+  TFunctionName extends "usableUnderlyings",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'usableUnderlyings',
+    functionName: "usableUnderlyings",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"withdrawTo"`.
  */
 export function useLTokenWithdrawTo<
-  TFunctionName extends 'withdrawTo',
+  TFunctionName extends "withdrawTo",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'withdrawTo',
+    functionName: "withdrawTo",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"withdrawer"`.
  */
 export function useLTokenWithdrawer<
-  TFunctionName extends 'withdrawer',
+  TFunctionName extends "withdrawer",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: 'withdrawer',
+    functionName: "withdrawer",
     ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -5902,579 +5902,579 @@ export function useLTokenWrite<
   TFunctionName extends string,
   TMode extends WriteContractMode = undefined,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof lTokenABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       >
     : UseContractWriteConfig<typeof lTokenABI, TFunctionName, TMode> & {
-        abi?: never
+        abi?: never;
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, TFunctionName, TMode>({ abi: lTokenABI, ...config } as any)
+  return useContractWrite<typeof lTokenABI, TFunctionName, TMode>({ abi: lTokenABI, ...config } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"approve"`.
  */
 export function useLTokenApprove<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'approve'>['request']['abi'],
-        'approve',
+        PrepareWriteContractResult<typeof lTokenABI, "approve">["request"]["abi"],
+        "approve",
         TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof lTokenABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
+      > & { functionName?: "approve" }
+    : UseContractWriteConfig<typeof lTokenABI, "approve", TMode> & {
+        abi?: never;
+        functionName?: "approve";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'approve', TMode>({
+  return useContractWrite<typeof lTokenABI, "approve", TMode>({
     abi: lTokenABI,
-    functionName: 'approve',
+    functionName: "approve",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"batchQueuedWithdraw"`.
  */
 export function useLTokenBatchQueuedWithdraw<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'batchQueuedWithdraw'>['request']['abi'],
-        'batchQueuedWithdraw',
+        PrepareWriteContractResult<typeof lTokenABI, "batchQueuedWithdraw">["request"]["abi"],
+        "batchQueuedWithdraw",
         TMode
-      > & { functionName?: 'batchQueuedWithdraw' }
-    : UseContractWriteConfig<typeof lTokenABI, 'batchQueuedWithdraw', TMode> & {
-        abi?: never
-        functionName?: 'batchQueuedWithdraw'
+      > & { functionName?: "batchQueuedWithdraw" }
+    : UseContractWriteConfig<typeof lTokenABI, "batchQueuedWithdraw", TMode> & {
+        abi?: never;
+        functionName?: "batchQueuedWithdraw";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'batchQueuedWithdraw', TMode>({
+  return useContractWrite<typeof lTokenABI, "batchQueuedWithdraw", TMode>({
     abi: lTokenABI,
-    functionName: 'batchQueuedWithdraw',
+    functionName: "batchQueuedWithdraw",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"bigQueuedWithdraw"`.
  */
 export function useLTokenBigQueuedWithdraw<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'bigQueuedWithdraw'>['request']['abi'],
-        'bigQueuedWithdraw',
+        PrepareWriteContractResult<typeof lTokenABI, "bigQueuedWithdraw">["request"]["abi"],
+        "bigQueuedWithdraw",
         TMode
-      > & { functionName?: 'bigQueuedWithdraw' }
-    : UseContractWriteConfig<typeof lTokenABI, 'bigQueuedWithdraw', TMode> & {
-        abi?: never
-        functionName?: 'bigQueuedWithdraw'
+      > & { functionName?: "bigQueuedWithdraw" }
+    : UseContractWriteConfig<typeof lTokenABI, "bigQueuedWithdraw", TMode> & {
+        abi?: never;
+        functionName?: "bigQueuedWithdraw";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'bigQueuedWithdraw', TMode>({
+  return useContractWrite<typeof lTokenABI, "bigQueuedWithdraw", TMode>({
     abi: lTokenABI,
-    functionName: 'bigQueuedWithdraw',
+    functionName: "bigQueuedWithdraw",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"cancelWithdrawalRequest"`.
  */
 export function useLTokenCancelWithdrawalRequest<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'cancelWithdrawalRequest'>['request']['abi'],
-        'cancelWithdrawalRequest',
+        PrepareWriteContractResult<typeof lTokenABI, "cancelWithdrawalRequest">["request"]["abi"],
+        "cancelWithdrawalRequest",
         TMode
-      > & { functionName?: 'cancelWithdrawalRequest' }
-    : UseContractWriteConfig<typeof lTokenABI, 'cancelWithdrawalRequest', TMode> & {
-        abi?: never
-        functionName?: 'cancelWithdrawalRequest'
+      > & { functionName?: "cancelWithdrawalRequest" }
+    : UseContractWriteConfig<typeof lTokenABI, "cancelWithdrawalRequest", TMode> & {
+        abi?: never;
+        functionName?: "cancelWithdrawalRequest";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'cancelWithdrawalRequest', TMode>({
+  return useContractWrite<typeof lTokenABI, "cancelWithdrawalRequest", TMode>({
     abi: lTokenABI,
-    functionName: 'cancelWithdrawalRequest',
+    functionName: "cancelWithdrawalRequest",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"claimFees"`.
  */
 export function useLTokenClaimFees<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'claimFees'>['request']['abi'],
-        'claimFees',
+        PrepareWriteContractResult<typeof lTokenABI, "claimFees">["request"]["abi"],
+        "claimFees",
         TMode
-      > & { functionName?: 'claimFees' }
-    : UseContractWriteConfig<typeof lTokenABI, 'claimFees', TMode> & {
-        abi?: never
-        functionName?: 'claimFees'
+      > & { functionName?: "claimFees" }
+    : UseContractWriteConfig<typeof lTokenABI, "claimFees", TMode> & {
+        abi?: never;
+        functionName?: "claimFees";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'claimFees', TMode>({
+  return useContractWrite<typeof lTokenABI, "claimFees", TMode>({
     abi: lTokenABI,
-    functionName: 'claimFees',
+    functionName: "claimFees",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"decreaseAllowance"`.
  */
 export function useLTokenDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
+        PrepareWriteContractResult<typeof lTokenABI, "decreaseAllowance">["request"]["abi"],
+        "decreaseAllowance",
         TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof lTokenABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
+      > & { functionName?: "decreaseAllowance" }
+    : UseContractWriteConfig<typeof lTokenABI, "decreaseAllowance", TMode> & {
+        abi?: never;
+        functionName?: "decreaseAllowance";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'decreaseAllowance', TMode>({
+  return useContractWrite<typeof lTokenABI, "decreaseAllowance", TMode>({
     abi: lTokenABI,
-    functionName: 'decreaseAllowance',
+    functionName: "decreaseAllowance",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"deposit"`.
  */
 export function useLTokenDeposit<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'deposit'>['request']['abi'],
-        'deposit',
+        PrepareWriteContractResult<typeof lTokenABI, "deposit">["request"]["abi"],
+        "deposit",
         TMode
-      > & { functionName?: 'deposit' }
-    : UseContractWriteConfig<typeof lTokenABI, 'deposit', TMode> & {
-        abi?: never
-        functionName?: 'deposit'
+      > & { functionName?: "deposit" }
+    : UseContractWriteConfig<typeof lTokenABI, "deposit", TMode> & {
+        abi?: never;
+        functionName?: "deposit";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'deposit', TMode>({
+  return useContractWrite<typeof lTokenABI, "deposit", TMode>({
     abi: lTokenABI,
-    functionName: 'deposit',
+    functionName: "deposit",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"fundContract"`.
  */
 export function useLTokenFundContract<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'fundContract'>['request']['abi'],
-        'fundContract',
+        PrepareWriteContractResult<typeof lTokenABI, "fundContract">["request"]["abi"],
+        "fundContract",
         TMode
-      > & { functionName?: 'fundContract' }
-    : UseContractWriteConfig<typeof lTokenABI, 'fundContract', TMode> & {
-        abi?: never
-        functionName?: 'fundContract'
+      > & { functionName?: "fundContract" }
+    : UseContractWriteConfig<typeof lTokenABI, "fundContract", TMode> & {
+        abi?: never;
+        functionName?: "fundContract";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'fundContract', TMode>({
+  return useContractWrite<typeof lTokenABI, "fundContract", TMode>({
     abi: lTokenABI,
-    functionName: 'fundContract',
+    functionName: "fundContract",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"increaseAllowance"`.
  */
 export function useLTokenIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
+        PrepareWriteContractResult<typeof lTokenABI, "increaseAllowance">["request"]["abi"],
+        "increaseAllowance",
         TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof lTokenABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
+      > & { functionName?: "increaseAllowance" }
+    : UseContractWriteConfig<typeof lTokenABI, "increaseAllowance", TMode> & {
+        abi?: never;
+        functionName?: "increaseAllowance";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'increaseAllowance', TMode>({
+  return useContractWrite<typeof lTokenABI, "increaseAllowance", TMode>({
     abi: lTokenABI,
-    functionName: 'increaseAllowance',
+    functionName: "increaseAllowance",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"initialize"`.
  */
 export function useLTokenInitialize<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'initialize'>['request']['abi'],
-        'initialize',
+        PrepareWriteContractResult<typeof lTokenABI, "initialize">["request"]["abi"],
+        "initialize",
         TMode
-      > & { functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof lTokenABI, 'initialize', TMode> & {
-        abi?: never
-        functionName?: 'initialize'
+      > & { functionName?: "initialize" }
+    : UseContractWriteConfig<typeof lTokenABI, "initialize", TMode> & {
+        abi?: never;
+        functionName?: "initialize";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'initialize', TMode>({
+  return useContractWrite<typeof lTokenABI, "initialize", TMode>({
     abi: lTokenABI,
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdraw"`.
  */
 export function useLTokenInstantWithdraw<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'instantWithdraw'>['request']['abi'],
-        'instantWithdraw',
+        PrepareWriteContractResult<typeof lTokenABI, "instantWithdraw">["request"]["abi"],
+        "instantWithdraw",
         TMode
-      > & { functionName?: 'instantWithdraw' }
-    : UseContractWriteConfig<typeof lTokenABI, 'instantWithdraw', TMode> & {
-        abi?: never
-        functionName?: 'instantWithdraw'
+      > & { functionName?: "instantWithdraw" }
+    : UseContractWriteConfig<typeof lTokenABI, "instantWithdraw", TMode> & {
+        abi?: never;
+        functionName?: "instantWithdraw";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'instantWithdraw', TMode>({
+  return useContractWrite<typeof lTokenABI, "instantWithdraw", TMode>({
     abi: lTokenABI,
-    functionName: 'instantWithdraw',
+    functionName: "instantWithdraw",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"recoverERC20"`.
  */
 export function useLTokenRecoverErc20<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'recoverERC20'>['request']['abi'],
-        'recoverERC20',
+        PrepareWriteContractResult<typeof lTokenABI, "recoverERC20">["request"]["abi"],
+        "recoverERC20",
         TMode
-      > & { functionName?: 'recoverERC20' }
-    : UseContractWriteConfig<typeof lTokenABI, 'recoverERC20', TMode> & {
-        abi?: never
-        functionName?: 'recoverERC20'
+      > & { functionName?: "recoverERC20" }
+    : UseContractWriteConfig<typeof lTokenABI, "recoverERC20", TMode> & {
+        abi?: never;
+        functionName?: "recoverERC20";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'recoverERC20', TMode>({
+  return useContractWrite<typeof lTokenABI, "recoverERC20", TMode>({
     abi: lTokenABI,
-    functionName: 'recoverERC20',
+    functionName: "recoverERC20",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"recoverUnderlying"`.
  */
 export function useLTokenRecoverUnderlying<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'recoverUnderlying'>['request']['abi'],
-        'recoverUnderlying',
+        PrepareWriteContractResult<typeof lTokenABI, "recoverUnderlying">["request"]["abi"],
+        "recoverUnderlying",
         TMode
-      > & { functionName?: 'recoverUnderlying' }
-    : UseContractWriteConfig<typeof lTokenABI, 'recoverUnderlying', TMode> & {
-        abi?: never
-        functionName?: 'recoverUnderlying'
+      > & { functionName?: "recoverUnderlying" }
+    : UseContractWriteConfig<typeof lTokenABI, "recoverUnderlying", TMode> & {
+        abi?: never;
+        functionName?: "recoverUnderlying";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'recoverUnderlying', TMode>({
+  return useContractWrite<typeof lTokenABI, "recoverUnderlying", TMode>({
     abi: lTokenABI,
-    functionName: 'recoverUnderlying',
+    functionName: "recoverUnderlying",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"renounceOwnership"`.
  */
 export function useLTokenRenounceOwnership<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
+        PrepareWriteContractResult<typeof lTokenABI, "renounceOwnership">["request"]["abi"],
+        "renounceOwnership",
         TMode
-      > & { functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof lTokenABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        functionName?: 'renounceOwnership'
+      > & { functionName?: "renounceOwnership" }
+    : UseContractWriteConfig<typeof lTokenABI, "renounceOwnership", TMode> & {
+        abi?: never;
+        functionName?: "renounceOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'renounceOwnership', TMode>({
+  return useContractWrite<typeof lTokenABI, "renounceOwnership", TMode>({
     abi: lTokenABI,
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"requestWithdrawal"`.
  */
 export function useLTokenRequestWithdrawal<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'requestWithdrawal'>['request']['abi'],
-        'requestWithdrawal',
+        PrepareWriteContractResult<typeof lTokenABI, "requestWithdrawal">["request"]["abi"],
+        "requestWithdrawal",
         TMode
-      > & { functionName?: 'requestWithdrawal' }
-    : UseContractWriteConfig<typeof lTokenABI, 'requestWithdrawal', TMode> & {
-        abi?: never
-        functionName?: 'requestWithdrawal'
+      > & { functionName?: "requestWithdrawal" }
+    : UseContractWriteConfig<typeof lTokenABI, "requestWithdrawal", TMode> & {
+        abi?: never;
+        functionName?: "requestWithdrawal";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'requestWithdrawal', TMode>({
+  return useContractWrite<typeof lTokenABI, "requestWithdrawal", TMode>({
     abi: lTokenABI,
-    functionName: 'requestWithdrawal',
+    functionName: "requestWithdrawal",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setAPR"`.
  */
 export function useLTokenSetApr<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setAPR'>['request']['abi'],
-        'setAPR',
+        PrepareWriteContractResult<typeof lTokenABI, "setAPR">["request"]["abi"],
+        "setAPR",
         TMode
-      > & { functionName?: 'setAPR' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setAPR', TMode> & {
-        abi?: never
-        functionName?: 'setAPR'
+      > & { functionName?: "setAPR" }
+    : UseContractWriteConfig<typeof lTokenABI, "setAPR", TMode> & {
+        abi?: never;
+        functionName?: "setAPR";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'setAPR', TMode>({
+  return useContractWrite<typeof lTokenABI, "setAPR", TMode>({
     abi: lTokenABI,
-    functionName: 'setAPR',
+    functionName: "setAPR",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setFeesRate"`.
  */
 export function useLTokenSetFeesRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setFeesRate'>['request']['abi'],
-        'setFeesRate',
+        PrepareWriteContractResult<typeof lTokenABI, "setFeesRate">["request"]["abi"],
+        "setFeesRate",
         TMode
-      > & { functionName?: 'setFeesRate' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setFeesRate', TMode> & {
-        abi?: never
-        functionName?: 'setFeesRate'
+      > & { functionName?: "setFeesRate" }
+    : UseContractWriteConfig<typeof lTokenABI, "setFeesRate", TMode> & {
+        abi?: never;
+        functionName?: "setFeesRate";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'setFeesRate', TMode>({
+  return useContractWrite<typeof lTokenABI, "setFeesRate", TMode>({
     abi: lTokenABI,
-    functionName: 'setFeesRate',
+    functionName: "setFeesRate",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setFund"`.
  */
 export function useLTokenSetFund<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setFund'>['request']['abi'],
-        'setFund',
+        PrepareWriteContractResult<typeof lTokenABI, "setFund">["request"]["abi"],
+        "setFund",
         TMode
-      > & { functionName?: 'setFund' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setFund', TMode> & {
-        abi?: never
-        functionName?: 'setFund'
+      > & { functionName?: "setFund" }
+    : UseContractWriteConfig<typeof lTokenABI, "setFund", TMode> & {
+        abi?: never;
+        functionName?: "setFund";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'setFund', TMode>({
+  return useContractWrite<typeof lTokenABI, "setFund", TMode>({
     abi: lTokenABI,
-    functionName: 'setFund',
+    functionName: "setFund",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setLTYStaking"`.
  */
 export function useLTokenSetLtyStaking<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setLTYStaking'>['request']['abi'],
-        'setLTYStaking',
+        PrepareWriteContractResult<typeof lTokenABI, "setLTYStaking">["request"]["abi"],
+        "setLTYStaking",
         TMode
-      > & { functionName?: 'setLTYStaking' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setLTYStaking', TMode> & {
-        abi?: never
-        functionName?: 'setLTYStaking'
+      > & { functionName?: "setLTYStaking" }
+    : UseContractWriteConfig<typeof lTokenABI, "setLTYStaking", TMode> & {
+        abi?: never;
+        functionName?: "setLTYStaking";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'setLTYStaking', TMode>({
+  return useContractWrite<typeof lTokenABI, "setLTYStaking", TMode>({
     abi: lTokenABI,
-    functionName: 'setLTYStaking',
+    functionName: "setLTYStaking",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setRetentionRate"`.
  */
 export function useLTokenSetRetentionRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setRetentionRate'>['request']['abi'],
-        'setRetentionRate',
+        PrepareWriteContractResult<typeof lTokenABI, "setRetentionRate">["request"]["abi"],
+        "setRetentionRate",
         TMode
-      > & { functionName?: 'setRetentionRate' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setRetentionRate', TMode> & {
-        abi?: never
-        functionName?: 'setRetentionRate'
+      > & { functionName?: "setRetentionRate" }
+    : UseContractWriteConfig<typeof lTokenABI, "setRetentionRate", TMode> & {
+        abi?: never;
+        functionName?: "setRetentionRate";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'setRetentionRate', TMode>({
+  return useContractWrite<typeof lTokenABI, "setRetentionRate", TMode>({
     abi: lTokenABI,
-    functionName: 'setRetentionRate',
+    functionName: "setRetentionRate",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setWithdrawer"`.
  */
 export function useLTokenSetWithdrawer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setWithdrawer'>['request']['abi'],
-        'setWithdrawer',
+        PrepareWriteContractResult<typeof lTokenABI, "setWithdrawer">["request"]["abi"],
+        "setWithdrawer",
         TMode
-      > & { functionName?: 'setWithdrawer' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setWithdrawer', TMode> & {
-        abi?: never
-        functionName?: 'setWithdrawer'
+      > & { functionName?: "setWithdrawer" }
+    : UseContractWriteConfig<typeof lTokenABI, "setWithdrawer", TMode> & {
+        abi?: never;
+        functionName?: "setWithdrawer";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'setWithdrawer', TMode>({
+  return useContractWrite<typeof lTokenABI, "setWithdrawer", TMode>({
     abi: lTokenABI,
-    functionName: 'setWithdrawer',
+    functionName: "setWithdrawer",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transfer"`.
  */
 export function useLTokenTransfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'transfer'>['request']['abi'],
-        'transfer',
+        PrepareWriteContractResult<typeof lTokenABI, "transfer">["request"]["abi"],
+        "transfer",
         TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof lTokenABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
+      > & { functionName?: "transfer" }
+    : UseContractWriteConfig<typeof lTokenABI, "transfer", TMode> & {
+        abi?: never;
+        functionName?: "transfer";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'transfer', TMode>({
+  return useContractWrite<typeof lTokenABI, "transfer", TMode>({
     abi: lTokenABI,
-    functionName: 'transfer',
+    functionName: "transfer",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transferFrom"`.
  */
 export function useLTokenTransferFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'transferFrom'>['request']['abi'],
-        'transferFrom',
+        PrepareWriteContractResult<typeof lTokenABI, "transferFrom">["request"]["abi"],
+        "transferFrom",
         TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof lTokenABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
+      > & { functionName?: "transferFrom" }
+    : UseContractWriteConfig<typeof lTokenABI, "transferFrom", TMode> & {
+        abi?: never;
+        functionName?: "transferFrom";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'transferFrom', TMode>({
+  return useContractWrite<typeof lTokenABI, "transferFrom", TMode>({
     abi: lTokenABI,
-    functionName: 'transferFrom',
+    functionName: "transferFrom",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"upgradeTo"`.
  */
 export function useLTokenUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
+        PrepareWriteContractResult<typeof lTokenABI, "upgradeTo">["request"]["abi"],
+        "upgradeTo",
         TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof lTokenABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
+      > & { functionName?: "upgradeTo" }
+    : UseContractWriteConfig<typeof lTokenABI, "upgradeTo", TMode> & {
+        abi?: never;
+        functionName?: "upgradeTo";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'upgradeTo', TMode>({
+  return useContractWrite<typeof lTokenABI, "upgradeTo", TMode>({
     abi: lTokenABI,
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useLTokenUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
+        PrepareWriteContractResult<typeof lTokenABI, "upgradeToAndCall">["request"]["abi"],
+        "upgradeToAndCall",
         TMode
-      > & { functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof lTokenABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        functionName?: 'upgradeToAndCall'
+      > & { functionName?: "upgradeToAndCall" }
+    : UseContractWriteConfig<typeof lTokenABI, "upgradeToAndCall", TMode> & {
+        abi?: never;
+        functionName?: "upgradeToAndCall";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, 'upgradeToAndCall', TMode>({
+  return useContractWrite<typeof lTokenABI, "upgradeToAndCall", TMode>({
     abi: lTokenABI,
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__.
  */
 export function usePrepareLTokenWrite<TFunctionName extends string>(
-  config: Omit<UsePrepareContractWriteConfig<typeof lTokenABI, TFunctionName>, 'abi'> = {} as any,
+  config: Omit<UsePrepareContractWriteConfig<typeof lTokenABI, TFunctionName>, "abi"> = {} as any,
 ) {
   return usePrepareContractWrite({ abi: lTokenABI, ...config } as UsePrepareContractWriteConfig<
     typeof lTokenABI,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -6482,15 +6482,15 @@ export function usePrepareLTokenWrite<TFunctionName extends string>(
  */
 export function usePrepareLTokenApprove(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'approve'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "approve">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'approve',
+    functionName: "approve",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'approve'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "approve">);
 }
 
 /**
@@ -6498,15 +6498,15 @@ export function usePrepareLTokenApprove(
  */
 export function usePrepareLTokenBatchQueuedWithdraw(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'batchQueuedWithdraw'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "batchQueuedWithdraw">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'batchQueuedWithdraw',
+    functionName: "batchQueuedWithdraw",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'batchQueuedWithdraw'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "batchQueuedWithdraw">);
 }
 
 /**
@@ -6514,15 +6514,15 @@ export function usePrepareLTokenBatchQueuedWithdraw(
  */
 export function usePrepareLTokenBigQueuedWithdraw(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'bigQueuedWithdraw'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "bigQueuedWithdraw">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'bigQueuedWithdraw',
+    functionName: "bigQueuedWithdraw",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'bigQueuedWithdraw'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "bigQueuedWithdraw">);
 }
 
 /**
@@ -6530,15 +6530,15 @@ export function usePrepareLTokenBigQueuedWithdraw(
  */
 export function usePrepareLTokenCancelWithdrawalRequest(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'cancelWithdrawalRequest'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "cancelWithdrawalRequest">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'cancelWithdrawalRequest',
+    functionName: "cancelWithdrawalRequest",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'cancelWithdrawalRequest'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "cancelWithdrawalRequest">);
 }
 
 /**
@@ -6546,15 +6546,15 @@ export function usePrepareLTokenCancelWithdrawalRequest(
  */
 export function usePrepareLTokenClaimFees(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'claimFees'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "claimFees">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'claimFees',
+    functionName: "claimFees",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'claimFees'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "claimFees">);
 }
 
 /**
@@ -6562,15 +6562,15 @@ export function usePrepareLTokenClaimFees(
  */
 export function usePrepareLTokenDecreaseAllowance(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "decreaseAllowance">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'decreaseAllowance',
+    functionName: "decreaseAllowance",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'decreaseAllowance'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "decreaseAllowance">);
 }
 
 /**
@@ -6578,15 +6578,15 @@ export function usePrepareLTokenDecreaseAllowance(
  */
 export function usePrepareLTokenDeposit(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'deposit'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "deposit">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'deposit',
+    functionName: "deposit",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'deposit'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "deposit">);
 }
 
 /**
@@ -6594,15 +6594,15 @@ export function usePrepareLTokenDeposit(
  */
 export function usePrepareLTokenFundContract(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'fundContract'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "fundContract">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'fundContract',
+    functionName: "fundContract",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'fundContract'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "fundContract">);
 }
 
 /**
@@ -6610,15 +6610,15 @@ export function usePrepareLTokenFundContract(
  */
 export function usePrepareLTokenIncreaseAllowance(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "increaseAllowance">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'increaseAllowance',
+    functionName: "increaseAllowance",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'increaseAllowance'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "increaseAllowance">);
 }
 
 /**
@@ -6626,15 +6626,15 @@ export function usePrepareLTokenIncreaseAllowance(
  */
 export function usePrepareLTokenInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'initialize'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "initialize">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'initialize'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "initialize">);
 }
 
 /**
@@ -6642,15 +6642,15 @@ export function usePrepareLTokenInitialize(
  */
 export function usePrepareLTokenInstantWithdraw(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'instantWithdraw'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "instantWithdraw">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'instantWithdraw',
+    functionName: "instantWithdraw",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'instantWithdraw'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "instantWithdraw">);
 }
 
 /**
@@ -6658,15 +6658,15 @@ export function usePrepareLTokenInstantWithdraw(
  */
 export function usePrepareLTokenRecoverErc20(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverERC20'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "recoverERC20">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'recoverERC20',
+    functionName: "recoverERC20",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverERC20'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "recoverERC20">);
 }
 
 /**
@@ -6674,15 +6674,15 @@ export function usePrepareLTokenRecoverErc20(
  */
 export function usePrepareLTokenRecoverUnderlying(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverUnderlying'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "recoverUnderlying">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'recoverUnderlying',
+    functionName: "recoverUnderlying",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverUnderlying'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "recoverUnderlying">);
 }
 
 /**
@@ -6690,15 +6690,15 @@ export function usePrepareLTokenRecoverUnderlying(
  */
 export function usePrepareLTokenRenounceOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'renounceOwnership'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "renounceOwnership">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'renounceOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "renounceOwnership">);
 }
 
 /**
@@ -6706,15 +6706,15 @@ export function usePrepareLTokenRenounceOwnership(
  */
 export function usePrepareLTokenRequestWithdrawal(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'requestWithdrawal'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "requestWithdrawal">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'requestWithdrawal',
+    functionName: "requestWithdrawal",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'requestWithdrawal'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "requestWithdrawal">);
 }
 
 /**
@@ -6722,15 +6722,15 @@ export function usePrepareLTokenRequestWithdrawal(
  */
 export function usePrepareLTokenSetApr(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setAPR'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "setAPR">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'setAPR',
+    functionName: "setAPR",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setAPR'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "setAPR">);
 }
 
 /**
@@ -6738,15 +6738,15 @@ export function usePrepareLTokenSetApr(
  */
 export function usePrepareLTokenSetFeesRate(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setFeesRate'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "setFeesRate">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'setFeesRate',
+    functionName: "setFeesRate",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setFeesRate'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "setFeesRate">);
 }
 
 /**
@@ -6754,15 +6754,15 @@ export function usePrepareLTokenSetFeesRate(
  */
 export function usePrepareLTokenSetFund(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setFund'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "setFund">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'setFund',
+    functionName: "setFund",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setFund'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "setFund">);
 }
 
 /**
@@ -6770,15 +6770,15 @@ export function usePrepareLTokenSetFund(
  */
 export function usePrepareLTokenSetLtyStaking(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setLTYStaking'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "setLTYStaking">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'setLTYStaking',
+    functionName: "setLTYStaking",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setLTYStaking'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "setLTYStaking">);
 }
 
 /**
@@ -6786,15 +6786,15 @@ export function usePrepareLTokenSetLtyStaking(
  */
 export function usePrepareLTokenSetRetentionRate(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setRetentionRate'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "setRetentionRate">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'setRetentionRate',
+    functionName: "setRetentionRate",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setRetentionRate'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "setRetentionRate">);
 }
 
 /**
@@ -6802,15 +6802,15 @@ export function usePrepareLTokenSetRetentionRate(
  */
 export function usePrepareLTokenSetWithdrawer(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setWithdrawer'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "setWithdrawer">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'setWithdrawer',
+    functionName: "setWithdrawer",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setWithdrawer'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "setWithdrawer">);
 }
 
 /**
@@ -6818,15 +6818,15 @@ export function usePrepareLTokenSetWithdrawer(
  */
 export function usePrepareLTokenTransfer(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'transfer'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "transfer">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'transfer',
+    functionName: "transfer",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'transfer'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "transfer">);
 }
 
 /**
@@ -6834,15 +6834,15 @@ export function usePrepareLTokenTransfer(
  */
 export function usePrepareLTokenTransferFrom(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'transferFrom'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "transferFrom">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'transferFrom',
+    functionName: "transferFrom",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'transferFrom'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "transferFrom">);
 }
 
 /**
@@ -6850,15 +6850,15 @@ export function usePrepareLTokenTransferFrom(
  */
 export function usePrepareLTokenUpgradeTo(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeTo'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "upgradeTo">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeTo'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "upgradeTo">);
 }
 
 /**
@@ -6866,27 +6866,27 @@ export function usePrepareLTokenUpgradeTo(
  */
 export function usePrepareLTokenUpgradeToAndCall(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeToAndCall'>,
-    'abi' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenABI, "upgradeToAndCall">,
+    "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeToAndCall'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "upgradeToAndCall">);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__.
  */
 export function useLTokenEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, TEventName>, 'abi'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, TEventName>, "abi"> = {} as any,
 ) {
   return useContractEvent({ abi: lTokenABI, ...config } as UseContractEventConfig<
     typeof lTokenABI,
     TEventName
-  >)
+  >);
 }
 
 /**
@@ -6894,15 +6894,15 @@ export function useLTokenEvent<TEventName extends string>(
  */
 export function useLTokenAprUpdateEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'APRUpdateEvent'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "APRUpdateEvent">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'APRUpdateEvent',
+    eventName: "APRUpdateEvent",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'APRUpdateEvent'>)
+  } as UseContractEventConfig<typeof lTokenABI, "APRUpdateEvent">);
 }
 
 /**
@@ -6910,15 +6910,15 @@ export function useLTokenAprUpdateEventEvent(
  */
 export function useLTokenActivityEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'ActivityEvent'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "ActivityEvent">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'ActivityEvent',
+    eventName: "ActivityEvent",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'ActivityEvent'>)
+  } as UseContractEventConfig<typeof lTokenABI, "ActivityEvent">);
 }
 
 /**
@@ -6926,27 +6926,27 @@ export function useLTokenActivityEventEvent(
  */
 export function useLTokenAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'AdminChanged'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "AdminChanged">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'AdminChanged',
+    eventName: "AdminChanged",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof lTokenABI, "AdminChanged">);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__ and `eventName` set to `"Approval"`.
  */
 export function useLTokenApprovalEvent(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, 'Approval'>, 'abi' | 'eventName'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, "Approval">, "abi" | "eventName"> = {} as any,
 ) {
-  return useContractEvent({ abi: lTokenABI, eventName: 'Approval', ...config } as UseContractEventConfig<
+  return useContractEvent({ abi: lTokenABI, eventName: "Approval", ...config } as UseContractEventConfig<
     typeof lTokenABI,
-    'Approval'
-  >)
+    "Approval"
+  >);
 }
 
 /**
@@ -6954,28 +6954,28 @@ export function useLTokenApprovalEvent(
  */
 export function useLTokenBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'BeaconUpgraded'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "BeaconUpgraded">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'BeaconUpgraded',
+    eventName: "BeaconUpgraded",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof lTokenABI, "BeaconUpgraded">);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__ and `eventName` set to `"Initialized"`.
  */
 export function useLTokenInitializedEvent(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, 'Initialized'>, 'abi' | 'eventName'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, "Initialized">, "abi" | "eventName"> = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'Initialized',
+    eventName: "Initialized",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'Initialized'>)
+  } as UseContractEventConfig<typeof lTokenABI, "Initialized">);
 }
 
 /**
@@ -6983,15 +6983,15 @@ export function useLTokenInitializedEvent(
  */
 export function useLTokenMintedRewardsEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'MintedRewardsEvent'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "MintedRewardsEvent">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'MintedRewardsEvent',
+    eventName: "MintedRewardsEvent",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'MintedRewardsEvent'>)
+  } as UseContractEventConfig<typeof lTokenABI, "MintedRewardsEvent">);
 }
 
 /**
@@ -6999,27 +6999,27 @@ export function useLTokenMintedRewardsEventEvent(
  */
 export function useLTokenOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'OwnershipTransferred'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "OwnershipTransferred">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'OwnershipTransferred',
+    eventName: "OwnershipTransferred",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'OwnershipTransferred'>)
+  } as UseContractEventConfig<typeof lTokenABI, "OwnershipTransferred">);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__ and `eventName` set to `"Paused"`.
  */
 export function useLTokenPausedEvent(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, 'Paused'>, 'abi' | 'eventName'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, "Paused">, "abi" | "eventName"> = {} as any,
 ) {
-  return useContractEvent({ abi: lTokenABI, eventName: 'Paused', ...config } as UseContractEventConfig<
+  return useContractEvent({ abi: lTokenABI, eventName: "Paused", ...config } as UseContractEventConfig<
     typeof lTokenABI,
-    'Paused'
-  >)
+    "Paused"
+  >);
 }
 
 /**
@@ -7027,51 +7027,51 @@ export function useLTokenPausedEvent(
  */
 export function useLTokenTvlUpdateEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenABI, 'TVLUpdateEvent'>,
-    'abi' | 'eventName'
+    UseContractEventConfig<typeof lTokenABI, "TVLUpdateEvent">,
+    "abi" | "eventName"
   > = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenABI,
-    eventName: 'TVLUpdateEvent',
+    eventName: "TVLUpdateEvent",
     ...config,
-  } as UseContractEventConfig<typeof lTokenABI, 'TVLUpdateEvent'>)
+  } as UseContractEventConfig<typeof lTokenABI, "TVLUpdateEvent">);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__ and `eventName` set to `"Transfer"`.
  */
 export function useLTokenTransferEvent(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, "Transfer">, "abi" | "eventName"> = {} as any,
 ) {
-  return useContractEvent({ abi: lTokenABI, eventName: 'Transfer', ...config } as UseContractEventConfig<
+  return useContractEvent({ abi: lTokenABI, eventName: "Transfer", ...config } as UseContractEventConfig<
     typeof lTokenABI,
-    'Transfer'
-  >)
+    "Transfer"
+  >);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__ and `eventName` set to `"Unpaused"`.
  */
 export function useLTokenUnpausedEvent(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, 'Unpaused'>, 'abi' | 'eventName'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, "Unpaused">, "abi" | "eventName"> = {} as any,
 ) {
-  return useContractEvent({ abi: lTokenABI, eventName: 'Unpaused', ...config } as UseContractEventConfig<
+  return useContractEvent({ abi: lTokenABI, eventName: "Unpaused", ...config } as UseContractEventConfig<
     typeof lTokenABI,
-    'Unpaused'
-  >)
+    "Unpaused"
+  >);
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link lTokenABI}__ and `eventName` set to `"Upgraded"`.
  */
 export function useLTokenUpgradedEvent(
-  config: Omit<UseContractEventConfig<typeof lTokenABI, 'Upgraded'>, 'abi' | 'eventName'> = {} as any,
+  config: Omit<UseContractEventConfig<typeof lTokenABI, "Upgraded">, "abi" | "eventName"> = {} as any,
 ) {
-  return useContractEvent({ abi: lTokenABI, eventName: 'Upgraded', ...config } as UseContractEventConfig<
+  return useContractEvent({ abi: lTokenABI, eventName: "Upgraded", ...config } as UseContractEventConfig<
     typeof lTokenABI,
-    'Upgraded'
-  >)
+    "Upgraded"
+  >);
 }
 
 /**
@@ -7085,14 +7085,14 @@ export function useLTokenSignalerRead<
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -7101,20 +7101,20 @@ export function useLTokenSignalerRead<
  *
  */
 export function useLTokenSignalerGlobalOwner<
-  TFunctionName extends 'globalOwner',
+  TFunctionName extends "globalOwner",
   TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'globalOwner',
+    functionName: "globalOwner",
     ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -7123,20 +7123,20 @@ export function useLTokenSignalerGlobalOwner<
  *
  */
 export function useLTokenSignalerOwner<
-  TFunctionName extends 'owner',
+  TFunctionName extends "owner",
   TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'owner',
+    functionName: "owner",
     ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -7145,20 +7145,20 @@ export function useLTokenSignalerOwner<
  *
  */
 export function useLTokenSignalerProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
+  TFunctionName extends "proxiableUUID",
   TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'proxiableUUID',
+    functionName: "proxiableUUID",
     ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -7167,20 +7167,20 @@ export function useLTokenSignalerProxiableUuid<
  *
  */
 export function useLTokenSignalerTransferOwnership<
-  TFunctionName extends 'transferOwnership',
+  TFunctionName extends "transferOwnership",
   TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
 >(
   config: Omit<
     UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractRead({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'transferOwnership',
+    functionName: "transferOwnership",
     ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>);
 }
 
 /**
@@ -7193,23 +7193,23 @@ export function useLTokenSignalerWrite<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof lTokenSignalerABI, string>["request"]["abi"],
         TFunctionName,
         TMode
       > & { address?: Address; chainId?: TChainId }
     : UseContractWriteConfig<typeof lTokenSignalerABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
       } = {} as any,
 ) {
   return useContractWrite<typeof lTokenSignalerABI, TFunctionName, TMode>({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -7221,25 +7221,25 @@ export function useLTokenSignalerInitialize<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'initialize'>['request']['abi'],
-        'initialize',
+        PrepareWriteContractResult<typeof lTokenSignalerABI, "initialize">["request"]["abi"],
+        "initialize",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
+      > & { address?: Address; chainId?: TChainId; functionName?: "initialize" }
+    : UseContractWriteConfig<typeof lTokenSignalerABI, "initialize", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "initialize";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenSignalerABI, 'initialize', TMode>({
+  return useContractWrite<typeof lTokenSignalerABI, "initialize", TMode>({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -7251,25 +7251,25 @@ export function useLTokenSignalerRenounceOwnership<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
+        PrepareWriteContractResult<typeof lTokenSignalerABI, "renounceOwnership">["request"]["abi"],
+        "renounceOwnership",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
+      > & { address?: Address; chainId?: TChainId; functionName?: "renounceOwnership" }
+    : UseContractWriteConfig<typeof lTokenSignalerABI, "renounceOwnership", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "renounceOwnership";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenSignalerABI, 'renounceOwnership', TMode>({
+  return useContractWrite<typeof lTokenSignalerABI, "renounceOwnership", TMode>({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -7281,25 +7281,25 @@ export function useLTokenSignalerSignalLToken<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'signalLToken'>['request']['abi'],
-        'signalLToken',
+        PrepareWriteContractResult<typeof lTokenSignalerABI, "signalLToken">["request"]["abi"],
+        "signalLToken",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'signalLToken' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'signalLToken', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'signalLToken'
+      > & { address?: Address; chainId?: TChainId; functionName?: "signalLToken" }
+    : UseContractWriteConfig<typeof lTokenSignalerABI, "signalLToken", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "signalLToken";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenSignalerABI, 'signalLToken', TMode>({
+  return useContractWrite<typeof lTokenSignalerABI, "signalLToken", TMode>({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'signalLToken',
+    functionName: "signalLToken",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -7311,25 +7311,25 @@ export function useLTokenSignalerUpgradeTo<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
+        PrepareWriteContractResult<typeof lTokenSignalerABI, "upgradeTo">["request"]["abi"],
+        "upgradeTo",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeTo" }
+    : UseContractWriteConfig<typeof lTokenSignalerABI, "upgradeTo", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeTo";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenSignalerABI, 'upgradeTo', TMode>({
+  return useContractWrite<typeof lTokenSignalerABI, "upgradeTo", TMode>({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -7341,25 +7341,25 @@ export function useLTokenSignalerUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
-  config: TMode extends 'prepared'
+  config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
+        PrepareWriteContractResult<typeof lTokenSignalerABI, "upgradeToAndCall">["request"]["abi"],
+        "upgradeToAndCall",
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
+      > & { address?: Address; chainId?: TChainId; functionName?: "upgradeToAndCall" }
+    : UseContractWriteConfig<typeof lTokenSignalerABI, "upgradeToAndCall", TMode> & {
+        abi?: never;
+        address?: never;
+        chainId?: TChainId;
+        functionName?: "upgradeToAndCall";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenSignalerABI, 'upgradeToAndCall', TMode>({
+  return useContractWrite<typeof lTokenSignalerABI, "upgradeToAndCall", TMode>({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as any)
+  } as any);
 }
 
 /**
@@ -7370,14 +7370,14 @@ export function useLTokenSignalerUpgradeToAndCall<
 export function usePrepareLTokenSignalerWrite<TFunctionName extends string>(
   config: Omit<
     UsePrepareContractWriteConfig<typeof lTokenSignalerABI, TFunctionName>,
-    'abi' | 'address'
+    "abi" | "address"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, TFunctionName>)
+  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, TFunctionName>);
 }
 
 /**
@@ -7387,16 +7387,16 @@ export function usePrepareLTokenSignalerWrite<TFunctionName extends string>(
  */
 export function usePrepareLTokenSignalerInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "initialize">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'initialize',
+    functionName: "initialize",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'initialize'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "initialize">);
 }
 
 /**
@@ -7406,16 +7406,16 @@ export function usePrepareLTokenSignalerInitialize(
  */
 export function usePrepareLTokenSignalerRenounceOwnership(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "renounceOwnership">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'renounceOwnership',
+    functionName: "renounceOwnership",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'renounceOwnership'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "renounceOwnership">);
 }
 
 /**
@@ -7425,16 +7425,16 @@ export function usePrepareLTokenSignalerRenounceOwnership(
  */
 export function usePrepareLTokenSignalerSignalLToken(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'signalLToken'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "signalLToken">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'signalLToken',
+    functionName: "signalLToken",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'signalLToken'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "signalLToken">);
 }
 
 /**
@@ -7444,16 +7444,16 @@ export function usePrepareLTokenSignalerSignalLToken(
  */
 export function usePrepareLTokenSignalerUpgradeTo(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "upgradeTo">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'upgradeTo',
+    functionName: "upgradeTo",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeTo'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "upgradeTo">);
 }
 
 /**
@@ -7463,16 +7463,16 @@ export function usePrepareLTokenSignalerUpgradeTo(
  */
 export function usePrepareLTokenSignalerUpgradeToAndCall(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
+    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "upgradeToAndCall">,
+    "abi" | "address" | "functionName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    functionName: 'upgradeToAndCall',
+    functionName: "upgradeToAndCall",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeToAndCall'>)
+  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, "upgradeToAndCall">);
 }
 
 /**
@@ -7481,15 +7481,15 @@ export function usePrepareLTokenSignalerUpgradeToAndCall(
  *
  */
 export function useLTokenSignalerEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof lTokenSignalerABI, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
+  config: Omit<UseContractEventConfig<typeof lTokenSignalerABI, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof lTokenSignalerAddress;
   } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, TEventName>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, TEventName>);
 }
 
 /**
@@ -7499,16 +7499,16 @@ export function useLTokenSignalerEvent<TEventName extends string>(
  */
 export function useLTokenSignalerAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenSignalerABI, 'AdminChanged'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof lTokenSignalerABI, "AdminChanged">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    eventName: 'AdminChanged',
+    eventName: "AdminChanged",
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, "AdminChanged">);
 }
 
 /**
@@ -7518,16 +7518,16 @@ export function useLTokenSignalerAdminChangedEvent(
  */
 export function useLTokenSignalerBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenSignalerABI, 'BeaconUpgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof lTokenSignalerABI, "BeaconUpgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    eventName: 'BeaconUpgraded',
+    eventName: "BeaconUpgraded",
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, "BeaconUpgraded">);
 }
 
 /**
@@ -7537,16 +7537,16 @@ export function useLTokenSignalerBeaconUpgradedEvent(
  */
 export function useLTokenSignalerInitializedEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenSignalerABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof lTokenSignalerABI, "Initialized">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    eventName: 'Initialized',
+    eventName: "Initialized",
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, 'Initialized'>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, "Initialized">);
 }
 
 /**
@@ -7556,16 +7556,16 @@ export function useLTokenSignalerInitializedEvent(
  */
 export function useLTokenSignalerLTokenSignalEventEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenSignalerABI, 'LTokenSignalEvent'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof lTokenSignalerABI, "LTokenSignalEvent">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    eventName: 'LTokenSignalEvent',
+    eventName: "LTokenSignalEvent",
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, 'LTokenSignalEvent'>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, "LTokenSignalEvent">);
 }
 
 /**
@@ -7575,16 +7575,16 @@ export function useLTokenSignalerLTokenSignalEventEvent(
  */
 export function useLTokenSignalerOwnershipTransferredEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenSignalerABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof lTokenSignalerABI, "OwnershipTransferred">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    eventName: 'OwnershipTransferred',
+    eventName: "OwnershipTransferred",
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, 'OwnershipTransferred'>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, "OwnershipTransferred">);
 }
 
 /**
@@ -7594,16 +7594,16 @@ export function useLTokenSignalerOwnershipTransferredEvent(
  */
 export function useLTokenSignalerUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof lTokenSignalerABI, 'Upgraded'>,
-    'abi' | 'address' | 'eventName'
+    UseContractEventConfig<typeof lTokenSignalerABI, "Upgraded">,
+    "abi" | "address" | "eventName"
   > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
 ) {
   return useContractEvent({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
-    eventName: 'Upgraded',
+    eventName: "Upgraded",
     ...config,
-  } as UseContractEventConfig<typeof lTokenSignalerABI, 'Upgraded'>)
+  } as UseContractEventConfig<typeof lTokenSignalerABI, "Upgraded">);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7613,8 +7613,8 @@ export function useLTokenSignalerUpgradedEvent(
 /**
  * Wraps __{@link getContract}__ with `abi` set to __{@link genericErc20ABI}__.
  */
-export function getGenericErc20(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: genericErc20ABI, ...config })
+export function getGenericErc20(config: Omit<GetContractArgs, "abi">) {
+  return getContract({ abi: genericErc20ABI, ...config });
 }
 
 /**
@@ -7623,11 +7623,11 @@ export function getGenericErc20(config: Omit<GetContractArgs, 'abi'>) {
 export function readGenericErc20<
   TAbi extends readonly unknown[] = typeof genericErc20ABI,
   TFunctionName extends string = string,
->(config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi'>) {
+>(config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi">) {
   return readContract({ abi: genericErc20ABI, ...config } as unknown as ReadContractConfig<
     TAbi,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -7635,13 +7635,13 @@ export function readGenericErc20<
  */
 export function writeGenericErc20<TFunctionName extends string>(
   config:
-    | Omit<WriteContractPreparedArgs<typeof genericErc20ABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof genericErc20ABI, TFunctionName>, 'abi'>,
+    | Omit<WriteContractPreparedArgs<typeof genericErc20ABI, TFunctionName>, "abi">
+    | Omit<WriteContractUnpreparedArgs<typeof genericErc20ABI, TFunctionName>, "abi">,
 ) {
   return writeContract({ abi: genericErc20ABI, ...config } as unknown as WriteContractArgs<
     typeof genericErc20ABI,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -7650,11 +7650,11 @@ export function writeGenericErc20<TFunctionName extends string>(
 export function prepareWriteGenericErc20<
   TAbi extends readonly unknown[] = typeof genericErc20ABI,
   TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
+>(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi">) {
   return prepareWriteContract({
     abi: genericErc20ABI,
     ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
+  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7664,13 +7664,13 @@ export function watchGenericErc20Event<
   TAbi extends readonly unknown[] = typeof genericErc20ABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi'>,
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi">,
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
   return watchContractEvent(
     { abi: genericErc20ABI, ...config } as WatchContractEventConfig<TAbi, TEventName>,
     callback,
-  )
+  );
 }
 
 /**
@@ -7679,9 +7679,9 @@ export function watchGenericErc20Event<
  *
  */
 export function getGlobalBlacklist(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalBlacklistAddress },
+  config: Omit<GetContractArgs, "abi" | "address"> & { chainId?: keyof typeof globalBlacklistAddress },
 ) {
-  return getContract({ abi: globalBlacklistABI, address: globalBlacklistAddress[31337], ...config })
+  return getContract({ abi: globalBlacklistABI, address: globalBlacklistAddress[31337], ...config });
 }
 
 /**
@@ -7693,15 +7693,15 @@ export function readGlobalBlacklist<
   TAbi extends readonly unknown[] = typeof globalBlacklistABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
+  config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalBlacklistAddress;
   },
 ) {
   return readContract({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
+  } as unknown as ReadContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7715,20 +7715,20 @@ export function writeGlobalBlacklist<
   TChainId extends number = keyof typeof globalBlacklistAddress,
 >(
   config:
-    | (Omit<WriteContractPreparedArgs<typeof globalBlacklistABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalBlacklistAddress
+    | (Omit<WriteContractPreparedArgs<typeof globalBlacklistABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof globalBlacklistAddress;
       })
-    | (Omit<WriteContractUnpreparedArgs<typeof globalBlacklistABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalBlacklistAddress
+    | (Omit<WriteContractUnpreparedArgs<typeof globalBlacklistABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof globalBlacklistAddress;
       }),
 ) {
   return writeContract({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as unknown as WriteContractArgs<typeof globalBlacklistABI, TFunctionName>)
+  } as unknown as WriteContractArgs<typeof globalBlacklistABI, TFunctionName>);
 }
 
 /**
@@ -7740,15 +7740,15 @@ export function prepareWriteGlobalBlacklist<
   TAbi extends readonly unknown[] = typeof globalBlacklistABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
+  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalBlacklistAddress;
   },
 ) {
   return prepareWriteContract({
     abi: globalBlacklistABI,
     address: globalBlacklistAddress[31337],
     ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
+  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7760,8 +7760,8 @@ export function watchGlobalBlacklistEvent<
   TAbi extends readonly unknown[] = typeof globalBlacklistABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalBlacklistAddress;
   },
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
@@ -7772,7 +7772,7 @@ export function watchGlobalBlacklistEvent<
       ...config,
     } as WatchContractEventConfig<TAbi, TEventName>,
     callback,
-  )
+  );
 }
 
 /**
@@ -7781,9 +7781,9 @@ export function watchGlobalBlacklistEvent<
  *
  */
 export function getGlobalOwner(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalOwnerAddress },
+  config: Omit<GetContractArgs, "abi" | "address"> & { chainId?: keyof typeof globalOwnerAddress },
 ) {
-  return getContract({ abi: globalOwnerABI, address: globalOwnerAddress[31337], ...config })
+  return getContract({ abi: globalOwnerABI, address: globalOwnerAddress[31337], ...config });
 }
 
 /**
@@ -7795,15 +7795,15 @@ export function readGlobalOwner<
   TAbi extends readonly unknown[] = typeof globalOwnerABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalOwnerAddress
+  config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalOwnerAddress;
   },
 ) {
   return readContract({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
+  } as unknown as ReadContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7817,20 +7817,20 @@ export function writeGlobalOwner<
   TChainId extends number = keyof typeof globalOwnerAddress,
 >(
   config:
-    | (Omit<WriteContractPreparedArgs<typeof globalOwnerABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalOwnerAddress
+    | (Omit<WriteContractPreparedArgs<typeof globalOwnerABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof globalOwnerAddress;
       })
-    | (Omit<WriteContractUnpreparedArgs<typeof globalOwnerABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalOwnerAddress
+    | (Omit<WriteContractUnpreparedArgs<typeof globalOwnerABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof globalOwnerAddress;
       }),
 ) {
   return writeContract({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as unknown as WriteContractArgs<typeof globalOwnerABI, TFunctionName>)
+  } as unknown as WriteContractArgs<typeof globalOwnerABI, TFunctionName>);
 }
 
 /**
@@ -7842,15 +7842,15 @@ export function prepareWriteGlobalOwner<
   TAbi extends readonly unknown[] = typeof globalOwnerABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalOwnerAddress
+  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalOwnerAddress;
   },
 ) {
   return prepareWriteContract({
     abi: globalOwnerABI,
     address: globalOwnerAddress[31337],
     ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
+  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7862,8 +7862,8 @@ export function watchGlobalOwnerEvent<
   TAbi extends readonly unknown[] = typeof globalOwnerABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalOwnerAddress
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalOwnerAddress;
   },
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
@@ -7873,7 +7873,7 @@ export function watchGlobalOwnerEvent<
       TEventName
     >,
     callback,
-  )
+  );
 }
 
 /**
@@ -7882,9 +7882,9 @@ export function watchGlobalOwnerEvent<
  *
  */
 export function getGlobalPause(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalPauseAddress },
+  config: Omit<GetContractArgs, "abi" | "address"> & { chainId?: keyof typeof globalPauseAddress },
 ) {
-  return getContract({ abi: globalPauseABI, address: globalPauseAddress[31337], ...config })
+  return getContract({ abi: globalPauseABI, address: globalPauseAddress[31337], ...config });
 }
 
 /**
@@ -7896,15 +7896,15 @@ export function readGlobalPause<
   TAbi extends readonly unknown[] = typeof globalPauseABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalPauseAddress
+  config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalPauseAddress;
   },
 ) {
   return readContract({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
+  } as unknown as ReadContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7918,20 +7918,20 @@ export function writeGlobalPause<
   TChainId extends number = keyof typeof globalPauseAddress,
 >(
   config:
-    | (Omit<WriteContractPreparedArgs<typeof globalPauseABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalPauseAddress
+    | (Omit<WriteContractPreparedArgs<typeof globalPauseABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof globalPauseAddress;
       })
-    | (Omit<WriteContractUnpreparedArgs<typeof globalPauseABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalPauseAddress
+    | (Omit<WriteContractUnpreparedArgs<typeof globalPauseABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof globalPauseAddress;
       }),
 ) {
   return writeContract({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as unknown as WriteContractArgs<typeof globalPauseABI, TFunctionName>)
+  } as unknown as WriteContractArgs<typeof globalPauseABI, TFunctionName>);
 }
 
 /**
@@ -7943,15 +7943,15 @@ export function prepareWriteGlobalPause<
   TAbi extends readonly unknown[] = typeof globalPauseABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalPauseAddress
+  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalPauseAddress;
   },
 ) {
   return prepareWriteContract({
     abi: globalPauseABI,
     address: globalPauseAddress[31337],
     ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
+  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -7963,8 +7963,8 @@ export function watchGlobalPauseEvent<
   TAbi extends readonly unknown[] = typeof globalPauseABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalPauseAddress
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof globalPauseAddress;
   },
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
@@ -7974,7 +7974,7 @@ export function watchGlobalPauseEvent<
       TEventName
     >,
     callback,
-  )
+  );
 }
 
 /**
@@ -7983,9 +7983,9 @@ export function watchGlobalPauseEvent<
  *
  */
 export function getLtyStaking(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof ltyStakingAddress },
+  config: Omit<GetContractArgs, "abi" | "address"> & { chainId?: keyof typeof ltyStakingAddress },
 ) {
-  return getContract({ abi: ltyStakingABI, address: ltyStakingAddress[31337], ...config })
+  return getContract({ abi: ltyStakingABI, address: ltyStakingAddress[31337], ...config });
 }
 
 /**
@@ -7997,15 +7997,15 @@ export function readLtyStaking<
   TAbi extends readonly unknown[] = typeof ltyStakingABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ltyStakingAddress
+  config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof ltyStakingAddress;
   },
 ) {
   return readContract({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
+  } as unknown as ReadContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -8019,20 +8019,20 @@ export function writeLtyStaking<
   TChainId extends number = keyof typeof ltyStakingAddress,
 >(
   config:
-    | (Omit<WriteContractPreparedArgs<typeof ltyStakingABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof ltyStakingAddress
+    | (Omit<WriteContractPreparedArgs<typeof ltyStakingABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof ltyStakingAddress;
       })
-    | (Omit<WriteContractUnpreparedArgs<typeof ltyStakingABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof ltyStakingAddress
+    | (Omit<WriteContractUnpreparedArgs<typeof ltyStakingABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof ltyStakingAddress;
       }),
 ) {
   return writeContract({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as unknown as WriteContractArgs<typeof ltyStakingABI, TFunctionName>)
+  } as unknown as WriteContractArgs<typeof ltyStakingABI, TFunctionName>);
 }
 
 /**
@@ -8044,15 +8044,15 @@ export function prepareWriteLtyStaking<
   TAbi extends readonly unknown[] = typeof ltyStakingABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ltyStakingAddress
+  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof ltyStakingAddress;
   },
 ) {
   return prepareWriteContract({
     abi: ltyStakingABI,
     address: ltyStakingAddress[31337],
     ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
+  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -8064,8 +8064,8 @@ export function watchLtyStakingEvent<
   TAbi extends readonly unknown[] = typeof ltyStakingABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ltyStakingAddress
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof ltyStakingAddress;
   },
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
@@ -8075,14 +8075,14 @@ export function watchLtyStakingEvent<
       TEventName
     >,
     callback,
-  )
+  );
 }
 
 /**
  * Wraps __{@link getContract}__ with `abi` set to __{@link lTokenABI}__.
  */
-export function getLToken(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: lTokenABI, ...config })
+export function getLToken(config: Omit<GetContractArgs, "abi">) {
+  return getContract({ abi: lTokenABI, ...config });
 }
 
 /**
@@ -8091,11 +8091,11 @@ export function getLToken(config: Omit<GetContractArgs, 'abi'>) {
 export function readLToken<
   TAbi extends readonly unknown[] = typeof lTokenABI,
   TFunctionName extends string = string,
->(config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi'>) {
+>(config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi">) {
   return readContract({ abi: lTokenABI, ...config } as unknown as ReadContractConfig<
     TAbi,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -8103,13 +8103,13 @@ export function readLToken<
  */
 export function writeLToken<TFunctionName extends string>(
   config:
-    | Omit<WriteContractPreparedArgs<typeof lTokenABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof lTokenABI, TFunctionName>, 'abi'>,
+    | Omit<WriteContractPreparedArgs<typeof lTokenABI, TFunctionName>, "abi">
+    | Omit<WriteContractUnpreparedArgs<typeof lTokenABI, TFunctionName>, "abi">,
 ) {
   return writeContract({ abi: lTokenABI, ...config } as unknown as WriteContractArgs<
     typeof lTokenABI,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -8118,11 +8118,11 @@ export function writeLToken<TFunctionName extends string>(
 export function prepareWriteLToken<
   TAbi extends readonly unknown[] = typeof lTokenABI,
   TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
+>(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi">) {
   return prepareWriteContract({ abi: lTokenABI, ...config } as unknown as PrepareWriteContractConfig<
     TAbi,
     TFunctionName
-  >)
+  >);
 }
 
 /**
@@ -8132,13 +8132,13 @@ export function watchLTokenEvent<
   TAbi extends readonly unknown[] = typeof lTokenABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi'>,
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi">,
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
   return watchContractEvent(
     { abi: lTokenABI, ...config } as WatchContractEventConfig<TAbi, TEventName>,
     callback,
-  )
+  );
 }
 
 /**
@@ -8147,9 +8147,9 @@ export function watchLTokenEvent<
  *
  */
 export function getLTokenSignaler(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof lTokenSignalerAddress },
+  config: Omit<GetContractArgs, "abi" | "address"> & { chainId?: keyof typeof lTokenSignalerAddress },
 ) {
-  return getContract({ abi: lTokenSignalerABI, address: lTokenSignalerAddress[31337], ...config })
+  return getContract({ abi: lTokenSignalerABI, address: lTokenSignalerAddress[31337], ...config });
 }
 
 /**
@@ -8161,15 +8161,15 @@ export function readLTokenSignaler<
   TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
+  config: Omit<ReadContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof lTokenSignalerAddress;
   },
 ) {
   return readContract({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
+  } as unknown as ReadContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -8183,20 +8183,20 @@ export function writeLTokenSignaler<
   TChainId extends number = keyof typeof lTokenSignalerAddress,
 >(
   config:
-    | (Omit<WriteContractPreparedArgs<typeof lTokenSignalerABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof lTokenSignalerAddress
+    | (Omit<WriteContractPreparedArgs<typeof lTokenSignalerABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof lTokenSignalerAddress;
       })
-    | (Omit<WriteContractUnpreparedArgs<typeof lTokenSignalerABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof lTokenSignalerAddress
+    | (Omit<WriteContractUnpreparedArgs<typeof lTokenSignalerABI, TFunctionName>, "abi" | "address"> & {
+        mode: TMode;
+        chainId?: TMode extends "prepared" ? TChainId : keyof typeof lTokenSignalerAddress;
       }),
 ) {
   return writeContract({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as unknown as WriteContractArgs<typeof lTokenSignalerABI, TFunctionName>)
+  } as unknown as WriteContractArgs<typeof lTokenSignalerABI, TFunctionName>);
 }
 
 /**
@@ -8208,15 +8208,15 @@ export function prepareWriteLTokenSignaler<
   TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
   TFunctionName extends string = string,
 >(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
+  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, "abi" | "address"> & {
+    chainId?: keyof typeof lTokenSignalerAddress;
   },
 ) {
   return prepareWriteContract({
     abi: lTokenSignalerABI,
     address: lTokenSignalerAddress[31337],
     ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
+  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>);
 }
 
 /**
@@ -8228,8 +8228,8 @@ export function watchLTokenSignalerEvent<
   TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
   TEventName extends string = string,
 >(
-  config: Omit<WatchContractEventConfig<TAbi, TEventName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
+  config: Omit<WatchContractEventConfig<TAbi, TEventName>, "abi" | "address"> & {
+    chainId?: keyof typeof lTokenSignalerAddress;
   },
   callback: WatchContractEventCallback<TAbi, TEventName>,
 ) {
@@ -8240,5 +8240,5 @@ export function watchLTokenSignalerEvent<
       ...config,
     } as WatchContractEventConfig<TAbi, TEventName>,
     callback,
-  )
+  );
 }
