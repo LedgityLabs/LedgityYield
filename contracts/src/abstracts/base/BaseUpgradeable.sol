@@ -48,10 +48,10 @@ abstract contract BaseUpgradeable is
         address _globalBlacklist
     ) internal onlyInitializing {
         __UUPSUpgradeable_init();
-        __Pausable_init();
         __GlobalOwnable_init(_globalOwner);
+        __Pausable_init();
         __GlobalPausable_init_unchained(_globalPause);
-        __GlobalRestricted_init_unchained(_globalBlacklist);
+        __GlobalRestrictable_init_unchained(_globalBlacklist);
         __Recoverable_init_unchained();
     }
 

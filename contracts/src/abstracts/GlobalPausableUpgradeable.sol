@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import {GlobalPause} from "../GlobalPause.sol";
 
@@ -15,7 +14,7 @@ import {GlobalPause} from "../GlobalPause.sol";
  * For further details, see "GlobalPausableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, PausableUpgradeable {
+abstract contract GlobalPausableUpgradeable is PausableUpgradeable {
     /**
      * @dev The GlobalPause contract.
      * This state is private so children contracts cannot change its value.
@@ -26,14 +25,9 @@ abstract contract GlobalPausableUpgradeable is GlobalOwnableUpgradeable, Pausabl
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalOwner_ The address of the GlobalOwner contract
      * @param globalPause_ The address of the GlobalPause contract
      */
-    function __GlobalPausable_init(
-        address globalOwner_,
-        address globalPause_
-    ) internal onlyInitializing {
-        __GlobalOwnable_init(globalOwner_);
+    function __GlobalPausable_init(address globalPause_) internal onlyInitializing {
         __Pausable_init();
         __GlobalPausable_init_unchained(globalPause_);
     }

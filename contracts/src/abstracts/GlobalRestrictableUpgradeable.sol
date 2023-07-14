@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 import {GlobalBlacklist} from "../GlobalBlacklist.sol";
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
  * @title GlobalRestrictableUpgradeable
@@ -14,7 +14,7 @@ import {GlobalBlacklist} from "../GlobalBlacklist.sol";
  * For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
+abstract contract GlobalRestrictableUpgradeable is Initializable {
     /// @dev The GlobalBlacklist contract.
     GlobalBlacklist private _globalBlacklist;
 
@@ -22,18 +22,13 @@ abstract contract GlobalRestrictableUpgradeable is GlobalOwnableUpgradeable {
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalOwner_ The address of the GlobalOwner contract
      * @param globalBlacklist_ The address of the GlobalBlacklist contract
      */
-    function __GlobalRestricted_init(
-        address globalOwner_,
-        address globalBlacklist_
-    ) internal onlyInitializing {
-        __GlobalOwnable_init(globalOwner_);
-        __GlobalRestricted_init_unchained(globalBlacklist_);
+    function __GlobalRestrictable_init(address globalBlacklist_) internal onlyInitializing {
+        __GlobalRestrictable_init_unchained(globalBlacklist_);
     }
 
-    function __GlobalRestricted_init_unchained(address globalBlacklist_) internal onlyInitializing {
+    function __GlobalRestrictable_init_unchained(address globalBlacklist_) internal onlyInitializing {
         _globalBlacklist = GlobalBlacklist(globalBlacklist_);
     }
 

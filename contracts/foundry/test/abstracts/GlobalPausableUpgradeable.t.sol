@@ -57,7 +57,7 @@ contract Tests is Test, ModifiersExpectations {
     // ==============================
     // === owner() function ===
     function test_owner_1() public {
-        console.log("Should mirror globalOwner.owner()");
+        console.log("Should return globalOwner's owner");
         assertEq(tested.owner(), globalOwner.owner());
 
         // Try transfering the ownsership to ensure that tested.owner() indeed mirrors globalOwner.owner()
