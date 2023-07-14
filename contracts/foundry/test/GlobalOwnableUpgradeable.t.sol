@@ -29,22 +29,21 @@ contract TestedContract is Initializable, UUPSUpgradeable, GlobalOwnableUpgradea
 
 contract Tests is Test, ModifiersExpectations {
     TestedContract tested;
-    address globalOwnerAtInitTime;
+    GlobalOwner globalOwner;
 
     function setUp() public {
         // Deploy GlobalOwner
         GlobalOwner impl = new GlobalOwner();
         ERC1967Proxy proxy = new ERC1967Proxy(address(impl), "");
-        GlobalOwner globalOwner = GlobalOwner(address(proxy));
+        globalOwner = GlobalOwner(address(proxy));
         globalOwner.initialize();
         vm.label(address(globalOwner), "GlobalOwner");
-        globalOwnerAtInitTime = address(globalOwner);
 
         // Deploy tested contract
         TestedContract impl2 = new TestedContract();
         ERC1967Proxy proxy2 = new ERC1967Proxy(address(impl2), "");
         tested = TestedContract(address(proxy2));
-        tested.initialize(globalOwnerAtInitTime);
+        tested.initialize(address(globalOwner));
         vm.label(address(tested), "TestedContract");
     }
 
@@ -52,14 +51,20 @@ contract Tests is Test, ModifiersExpectations {
     // === globalOwner() function ===
     function test_globalOwner_1() public {
         console.log("Should return address given during initialization");
-        assertEq(tested.globalOwner(), globalOwnerAtInitTime);
+        assertEq(tested.globalOwner(), address(globalOwner));
     }
 
     // ==============================
     // === owner() function ===
     function test_owner_1() public {
         console.log("Should return globalOwner's owner");
-        assertEq(tested.owner(), GlobalOwner(globalOwnerAtInitTime).owner());
+        assertEq(tested.owner(), globalOwner.owner());
+
+        // Try transfering the ownsership to ensure that tested.owner() indeed mirrors globalOwner.owner()
+        globalOwner.transferOwnership(address(1234));
+        vm.prank(address(1234));
+        globalOwner.acceptOwnership();
+        assertEq(tested.owner(), address(1234));
     }
 
     // ============================
