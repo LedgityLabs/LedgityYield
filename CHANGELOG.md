@@ -1,3 +1,16 @@
+## [1.120.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.119.1...v1.120.0) (2023-07-14)
+
+
+### Features
+
+* include back foundry lib folder ([65af4fe](https://github.com/ledgity-labs/Ledgity-DeFi/commit/65af4fe72e2e9dc85cf6ca131613bf7f0134f67b))
+
+
+### Others
+
+* test if forge-std has successfully been added as a git submodule ([091270e](https://github.com/ledgity-labs/Ledgity-DeFi/commit/091270e60a628d64a15866364a578692fd9ce993))
+* **tests:** run tests on main branch push ([fa6632e](https://github.com/ledgity-labs/Ledgity-DeFi/commit/fa6632e9ddb0fbd483a9b9e782c6abd3f7ca0454))
+
 ## [1.119.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.119.0...v1.119.1) (2023-07-14)
 
 
