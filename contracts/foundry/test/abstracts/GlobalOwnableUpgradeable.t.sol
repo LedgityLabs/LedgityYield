@@ -60,7 +60,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should mirror globalOwner.owner()");
         assertEq(tested.owner(), globalOwner.owner());
 
-        // Try transfering the ownsership to ensure that tested.owner() indeed mirrors globalOwner.owner()
+        // Transfer the ownsership to ensure that tested.owner() indeed mirrors globalOwner.owner()
         globalOwner.transferOwnership(address(1234));
         vm.prank(address(1234));
         globalOwner.acceptOwnership();
