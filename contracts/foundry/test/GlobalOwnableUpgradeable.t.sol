@@ -2,18 +2,22 @@
 pragma solidity ^0.8.20;
 
 import "../lib/forge-std/src/Test.sol";
+import {ModifiersExpectations} from "./helpers/ModifiersExpectations.sol";
 
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "../../src/abstracts/GlobalOwnableUpgradeable.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract TestedContract is GlobalOwnableUpgradeable {
+contract TestedContract is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeable {
     constructor() {
         _disableInitializers();
     }
 
     function initialize(address globalOwner_) public initializer {
+        __UUPSUpgradeable_init();
         __GlobalOwnable_init(globalOwner_);
     }
 
@@ -24,7 +28,7 @@ contract TestedContract is GlobalOwnableUpgradeable {
     }
 }
 
-contract TestsList is Test {
+contract Tests is Test, ModifiersExpectations {
     TestedContract tested;
     address globalOwnerAtInitTime;
 
@@ -68,7 +72,7 @@ contract TestsList is Test {
 
     function test_onlyOwner_2() public {
         console.log("Should revert calls from non-owner account");
-        vm.expectRevert(bytes("Ownable: caller is not the owner"));
+        expectRevertOnlyOwner();
         vm.prank(address(0));
         tested.restrictedFunction();
     }
