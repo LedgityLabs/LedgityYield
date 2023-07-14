@@ -12,7 +12,7 @@ import {RecoverableUpgradeable} from "../RecoverableUpgradeable.sol";
  * @title BaseUpgradeable
  * @author Lila Rest (lila@ledgity.com)
  * @notice This abstract contract serves as a base for many contract in this code base. It
- * reduces code repetition, makes code more readable and so maintainable.
+ * reduces code repetitions, makes code more readable and so maintainable.
  * @dev For further details, see "Base contracts" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
