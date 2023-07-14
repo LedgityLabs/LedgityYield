@@ -1,18 +1,9 @@
-name: Contracts tests
+on: [push]
 
-on:
-  push:
-    branches:
-      - main
-
-env:
-  FOUNDRY_PROFILE: ci
+name: Run contracts tests
 
 jobs:
   check:
-    strategy:
-      fail-fast: true
-
     name: Foundry project
     runs-on: ubuntu-latest
     steps:
@@ -25,13 +16,5 @@ jobs:
         with:
           version: nightly
 
-      - name: Run Forge build
-        run: |
-          forge --version
-          forge build --sizes
-        id: build
-
-      - name: Run Forge tests
-        run: |
-          forge test -vvv
-        id: test
+      - name: Run tests
+        run: forge test -vvv
