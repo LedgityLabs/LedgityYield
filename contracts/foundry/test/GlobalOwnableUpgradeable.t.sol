@@ -79,9 +79,9 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===========================
     // === transferOwnership() ===
-    function testFuzz_transferOwnership_1() public {
+    function testFuzz_transferOwnership_1(address newOwner) public {
         console.log("Should revert in any case");
         vm.expectRevert(bytes("GlobalOwnableUpgradeable: change global owner instead"));
-        tested.transferOwnership(msg.sender);
+        tested.transferOwnership(newOwner);
     }
 }

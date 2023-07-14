@@ -6,7 +6,7 @@
     "build": "pnpm cc:compile && next build",
     "start": "next start",
     "lint": "next lint",
-    "cc:test": "forge test",
+    "cc:test": "forge test -v",
     "cc:node": "hardhat node --hostname 0.0.0.0",
     "cc:compile": "hardhat compile && wagmi generate && ts-node ./contracts/extract-abis.ts",
     "cc:local-deploy": "npx hardhat run contracts/hardhat/scripts/initial-deploy-all.ts --network localhost",
