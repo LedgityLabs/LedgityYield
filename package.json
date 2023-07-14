@@ -71,7 +71,7 @@
     "ethers": "^6.6.3",
     "hardhat": "^2.16.1",
     "pino-pretty": "^10.0.1",
-    "postcss": "8.4.25",
+    "postcss": "8.4.26",
     "prettier": "^3.0.0",
     "prettier-plugin-jsdoc": "^0.4.2",
     "prettier-plugin-solidity": "^1.1.3",
