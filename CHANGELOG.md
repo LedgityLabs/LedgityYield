@@ -1,3 +1,24 @@
+## [1.119.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.119.0...v1.119.1) (2023-07-14)
+
+
+### Fixes
+
+* restore accidentally deleted contracts sources + fix old contracts functions calls ([d1fb982](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d1fb9820b024e0819527855141883b154a859356))
+
+
+### Tests
+
+* add common modifiers expectations ([641f0f0](https://github.com/ledgity-labs/Ledgity-DeFi/commit/641f0f0697d089591904f724b0a303c289ab25c2))
+* **foundry:** new GlobalOwnableUpgradeable tests units ([b963a1a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b963a1a174e4b1605db138616cdb7e8025e24f90))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.15 ([e31e217](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e31e2177f52edb8af06cbf71680404c3894b82e9))
+* **deps:** update dependency postcss to v8.4.26 ([9f27e0b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9f27e0ba49401a6a6cb5b09fc8a89cd09f648548))
+* **deps:** update dependency tailwindcss to v3.3.3 ([e9dc2b2](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e9dc2b26b9e57305676cff5b892f5be34ea6153c))
+* restrict Renovate to non-working hours ([7f5a873](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7f5a8737316cbf4f28afbddb2349e2eb3d81ee7c))
+
 ## [1.119.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.118.1...v1.119.0) (2023-07-13)
 
 
