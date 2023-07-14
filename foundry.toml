@@ -3,6 +3,7 @@ src = "contracts/src"
 out = "contracts/foundry/out"
 libs = ["node_modules", "contracts/foundry/lib"]
 cache_path = "contracts/foundry/cache"
+test = "contracts/foundry/test"
 optimizer = true
 optimizer_runs = 200
 
