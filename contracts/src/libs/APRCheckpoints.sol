@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "hardhat/console.sol";
-
 /**
  * @title UDS3
  * @author Lila Rest (lila@ledgity.com)
@@ -52,22 +50,23 @@ library APRCheckpoints {
      * @dev From a given checkpoint reference, it returns the reference of the checkpoint that
      * should come after it in an array of packs.
      * @param ref The reference to be incremented
-     * @return The incremented reference
+     * @return newRef The incremented reference
      */
-    function incrementReference(Reference memory ref) internal pure returns (Reference memory) {
+    function incrementReference(Reference memory ref) internal pure returns (Reference memory newRef) {
+        // Copy given reference to avoid mutating it
+        newRef = Reference(ref.packIndex, ref.cursorIndex);
+
         // Ensure the given cursor index is in expected range [0, 3]
-        require(ref.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
+        require(newRef.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
 
         // If the given checkpoint is stored in the last slot of its pack
-        if (ref.cursorIndex == 3) {
+        if (newRef.cursorIndex == 3) {
             // Increment the pack index by 1 and reset the cursor index
-            ref.packIndex++;
-            ref.cursorIndex = 0;
+            newRef.packIndex++;
+            newRef.cursorIndex = 0;
         }
         // Else, increment the cursor index
-        else ref.cursorIndex++;
-
-        return ref;
+        else newRef.cursorIndex++;
     }
 
     /**
@@ -107,9 +106,15 @@ library APRCheckpoints {
      * @return The reference of the latest checkpoint
      */
     function getLatestReference(Pack[] storage packs) internal view returns (Reference memory) {
+        // Ensure the given array of packs is not empty
+        require(packs.length != 0, "APRCheckpoints: no pack yet");
+
         // Retrieve latest pack index and its cursor
         uint256 packIndex = packs.length - 1;
         uint32 packCursor = packs[packIndex].cursor;
+
+        // If first pack ever, ensure at least one checkpoint has been created in it.
+        if (packIndex == 0) require(packCursor != 0, "APRCheckpoints: no checkpoint yet");
 
         // If the pack is empty, the latest checkpoint reference is in the previous
         // pack (packIndex--) and at the last slot of this one (packCursor = 3)
@@ -184,7 +189,7 @@ library APRCheckpoints {
      */
     function getAPR(Pack[] storage packs) internal view returns (uint16) {
         // Returns 0 if no APR checkpoint has been written yet
-        if (packs.length == 0) return 0;
+        if (packs.length == 0 || (packs.length == 1 && packs[0].cursor == 0)) return 0;
 
         // Else retrieve the latest checkpoint and return its APR
         Reference memory ref = getLatestReference(packs);
