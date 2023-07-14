@@ -1,25 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "../lib/forge-std/src/Test.sol";
-import {ModifiersExpectations} from "./helpers/ModifiersExpectations.sol";
+import "../../../lib/forge-std/src/Test.sol";
+import {ModifiersExpectations} from "../../_helpers/ModifiersExpectations.sol";
 
-import {ERC20BaseUpgradeable} from "../../src/abstracts/base/ERC20BaseUpgradeable.sol";
-import {GlobalOwner} from "../../src/GlobalOwner.sol";
-import {GlobalPause} from "../../src/GlobalPause.sol";
-import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
+import {BaseUpgradeable} from "../../../../src/abstracts/base/BaseUpgradeable.sol";
+import {GlobalOwner} from "../../../../src/GlobalOwner.sol";
+import {GlobalPause} from "../../../../src/GlobalPause.sol";
+import {GlobalBlacklist} from "../../../../src/GlobalBlacklist.sol";
 
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
-contract TestedContract is ERC20BaseUpgradeable {
+contract TestedContract is BaseUpgradeable {
     function initialize(
         address globalOwner_,
         address globalPause_,
-        address globalBlacklist_,
-        string memory name_,
-        string memory symbol_
+        address globalBlacklist_
     ) public initializer {
-        __ERC20Base_init(globalOwner_, globalPause_, globalBlacklist_, name_, symbol_);
+        __Base_init(globalOwner_, globalPause_, globalBlacklist_);
     }
 
     function publicAuthorizeUpgrade(address newImplementation) public {
@@ -32,8 +30,6 @@ contract Tests is Test, ModifiersExpectations {
     GlobalOwner globalOwner;
     GlobalPause globalPause;
     GlobalBlacklist globalBlacklist;
-    string nameAtInitTime = "Dummy Token";
-    string symbolAtInitTime = "DUMMY";
 
     function setUp() public {
         // Deploy GlobalOwner
@@ -61,49 +57,39 @@ contract Tests is Test, ModifiersExpectations {
         TestedContract impl4 = new TestedContract();
         ERC1967Proxy proxy4 = new ERC1967Proxy(address(impl4), "");
         tested = TestedContract(address(proxy4));
-        tested.initialize(
-            address(globalOwner),
-            address(globalPause),
-            address(globalBlacklist),
-            nameAtInitTime,
-            symbolAtInitTime
-        );
+        tested.initialize(address(globalOwner), address(globalPause), address(globalBlacklist));
         vm.label(address(tested), "TestedContract");
     }
 
     // =============================
     // === initialize() function ===
     function test_initialize_1() public {
+        console.log("Shouldn't be re-initializable");
+        vm.expectRevert(bytes("Initializable: contract is already initialized"));
+        tested.initialize(address(globalOwner), address(globalPause), address(globalBlacklist));
+    }
+
+    function test_initialize_2() public {
         console.log("Should properly set global owner");
         assertEq(tested.globalOwner(), address(globalOwner));
     }
 
-    function test_initialize_2() public {
+    function test_initialize_3() public {
         console.log("Should properly set global pause");
         assertEq(tested.globalPause(), address(globalPause));
     }
 
-    function test_initialize_3() public {
+    function test_initialize_4() public {
         console.log("Should properly set global blacklist");
         assertEq(tested.globalBlacklist(), address(globalBlacklist));
     }
 
-    function test_initialize_4() public {
-        console.log("Should properly set ERC20 symbol");
-        assertEq(tested.symbol(), symbolAtInitTime);
-    }
-
-    function test_initialize_5() public {
-        console.log("Should properly set ERC20 name");
-        assertEq(tested.name(), nameAtInitTime);
-    }
-
-    // ========================
-    // === Tokens transfers ===
-    function test_transfer_1() public {
-        console.log("Should pause tokens transfers when paused");
-        globalPause.pause();
-        expectRevertPaused();
-        tested.transfer(address(15), 50);
+    // =========================
+    // === _authorizeUpgrade ===
+    function test_authorizeUpgrade_1() public {
+        console.log("Should revert if called by non-owner account");
+        vm.prank(address(0));
+        expectRevertOnlyOwner();
+        tested.publicAuthorizeUpgrade(address(0));
     }
 }

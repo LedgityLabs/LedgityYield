@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "../lib/forge-std/src/Test.sol";
-import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
+import "../../lib/forge-std/src/Test.sol";
+import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
 
 contract Tests is Test {
     APRC.Pack[] packs;
