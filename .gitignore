@@ -52,7 +52,6 @@ thegraph/local-node/data
 # Compiler files
 contracts/foundry/cache/
 contracts/foundry/out/
-contracts/foundry/lib/
 
 # Ignores development broadcast logs
 !/broadcast
