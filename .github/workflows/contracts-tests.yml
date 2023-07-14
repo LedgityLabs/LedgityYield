@@ -7,7 +7,6 @@ jobs:
     name: Foundry project
     runs-on: ubuntu-latest
     steps:
-    teps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
