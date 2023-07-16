@@ -27,7 +27,7 @@ contract TestedContract is Initializable, UUPSUpgradeable, GlobalRestrictableUpg
         return true;
     }
 
-    function publicIsBlacklisted(address account) public view returns (bool) {
+    function public_isBlacklisted(address account) public view returns (bool) {
         return isBlacklisted(account);
     }
 }
@@ -86,11 +86,11 @@ contract Tests is Test, ModifiersExpectations {
     // === isBlacklisted() function ===
     function test_isBlacklisted_1() public {
         console.log("Should mirror globalBlacklist.isBlacklisted()");
-        assertEq(tested.publicIsBlacklisted(address(1)), globalBlacklist.isBlacklisted(address(1)));
+        assertEq(tested.public_isBlacklisted(address(1)), globalBlacklist.isBlacklisted(address(1)));
 
         // Blacklist address(1) to ensure that tested.isBlacklisted() indeed mirrors globalBlacklist.isBlacklisted()
-        assertEq(tested.publicIsBlacklisted(address(1)), false);
+        assertEq(tested.public_isBlacklisted(address(1)), false);
         globalBlacklist.blacklist(address(1));
-        assertEq(tested.publicIsBlacklisted(address(1)), true);
+        assertEq(tested.public_isBlacklisted(address(1)), true);
     }
 }

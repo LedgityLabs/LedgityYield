@@ -26,4 +26,11 @@ contract GenericERC20 is ERC20, ERC20Burnable {
     function decimals() public view virtual override returns (uint8) {
         return _decimals;
     }
+
+    /**
+     * Used in tests to test different decimals scenarios.
+     */
+    function setDecimals(uint8 decimals_) public {
+        _decimals = decimals_;
+    }
 }

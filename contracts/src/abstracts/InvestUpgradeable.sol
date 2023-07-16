@@ -20,7 +20,7 @@ import "hardhat/console.sol";
  * and LTYStaking contracts. This includes invested token, investment periods, virtual
  * balances, rewards calculations, and auto-compounding.
  * @dev Children contract must:
- *  - Set invested token (during initialization or later using _setInvested()).
+ *  - Set invested token during initialization
  *  - Implement _investmentOf() function
  *  - Implement _claimRewardsOf() function (optional)
  * Also, note that the contract is not pausable or restrictable as none of its functions
@@ -51,7 +51,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      */
     struct AccountInfos {
         InvestmentPeriod period;
-        uint88 virtualBalance;
+        uint256 virtualBalance;
     }
 
     /// @dev Holds reference to invested token contract
@@ -76,11 +76,11 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param _globalOwner The address of the GlobalOwner contract
+     * @param globalOwner_ The address of the GlobalOwner contract
      * @param invested_ The invested token's contract address.
      */
-    function __Invest_init(address invested_, address _globalOwner) internal onlyInitializing {
-        __GlobalOwnable_init(_globalOwner);
+    function __Invest_init(address globalOwner_, address invested_) internal onlyInitializing {
+        __GlobalOwnable_init(globalOwner_);
         __Invest_init_unchained(invested_);
     }
 
@@ -109,8 +109,20 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @dev Extracts and returns the latest APR from the APR history.
      * @return The current APR in UD3 format.
      */
-    function getApr() public view returns (uint16) {
+    function getAPR() public view returns (uint16) {
         return APRC.getAPR(_packedAPRCheckpoints);
+    }
+
+    /**
+     * @dev Returns the reference of checkpoint at which a given account started its
+     * current investment period.
+     * IMPORTANT: This function is used in unit tests only and SHOULDN'T BE USED IN REAL
+     * CHILD CONTRACTS.
+     */
+    function ___getStartCheckpointReferenceOf(
+        address account
+    ) internal view returns (APRC.Reference memory) {
+        return accountsInfos[account].period.ref;
     }
 
     /**
@@ -186,7 +198,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
         uint40 endTimestamp,
         uint16 aprUD3,
         uint256 investedAmount
-    ) private view returns (uint256 rewards) {
+    ) internal view returns (uint256 rewards) {
         // Calculate elapsed years
         uint256 elaspedTimeUDS3 = _toUDS3(endTimestamp - beginTimestamp);
         uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * _toUDS3(1)) / _toUDS3(365 days);
@@ -208,6 +220,14 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @param autocompound Whether to autocompound the rewards between APR checkpoints.
      */
     function _rewardsOf(address account, bool autocompound) internal view returns (uint256 rewards) {
+        // Return 0 if packs array is empty
+        uint256 packsLength = _packedAPRCheckpoints.length;
+        if (packsLength == 0) return 0;
+
+        // Return 0 if only one pack exists but is blank
+        uint256 lastPackCursor = _packedAPRCheckpoints[packsLength - 1].cursor;
+        if (packsLength == 1 && lastPackCursor == 0) return 0;
+
         // Retrieve account infos and deposited amount
         AccountInfos memory infos = accountsInfos[account];
         uint256 depositedAmount = _investmentOf(account);
@@ -220,15 +240,17 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
 
         // Populate above variables with deposit checkpoint and the one right after it
         currRef = infos.period.ref;
-        nextRef = APRC.incrementReference(currRef);
         currCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, currRef);
-        nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
 
         // 1) Fill rewards with virtual balance (rewards not claimed yet)
         // See "InvestUpgradeable > Rewards calculation > 1)" section of the whitepaper
         rewards = infos.virtualBalance;
 
-        if (nextCheckpoint.timestamp != 0) {
+        // If current checkpoint is not the last one, retrieve the next checkpoint
+        if (currRef.packIndex != packsLength - 1 || currRef.cursorIndex != lastPackCursor - 1) {
+            nextRef = APRC.incrementReference(currRef);
+            nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
+
             // 2) Calculate rewards from deposit to next checkpoint
             // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
             rewards += _calculatePeriodRewards(
@@ -245,12 +267,13 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
                 currRef = nextRef;
                 currCheckpoint = nextCheckpoint;
 
+                // Break if current checkpoint is the last one
+                if (currRef.packIndex == packsLength - 1 && currRef.cursorIndex == lastPackCursor - 1)
+                    break;
+
                 // Retrieve the new next checkpoint
                 nextRef = APRC.incrementReference(currRef);
                 nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
-
-                // Break if next checkpoint doesn't exist
-                if (nextCheckpoint.timestamp != 0) break;
 
                 // Calculate rewards for the current pair of checkpoints
                 rewards += _calculatePeriodRewards(
@@ -304,7 +327,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
 
             // If _claimRewardsOf() is not implemented by child contract or has failed
             // Accumulate rewards in its virtual balance.
-            if (!claimed) accountsInfos[account].virtualBalance = uint88(rewards);
+            if (!claimed) accountsInfos[account].virtualBalance = rewards;
         }
 
         // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one

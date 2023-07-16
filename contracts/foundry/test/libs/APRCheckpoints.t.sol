@@ -200,7 +200,7 @@ contract Tests is Test {
     }
 
     function test_setAPR_2() public {
-        console.log("Should write APR at first empty cursor slot if atest pack is not full");
+        console.log("Should write APR at first empty cursor slot if latest pack is not full");
 
         // Populate dummy data and ensure latest pack is not full yet
         populateDummyPacks(10);

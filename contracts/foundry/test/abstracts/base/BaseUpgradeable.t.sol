@@ -20,7 +20,7 @@ contract TestedContract is BaseUpgradeable {
         __Base_init(globalOwner_, globalPause_, globalBlacklist_);
     }
 
-    function publicAuthorizeUpgrade(address newImplementation) public {
+    function public_authorizeUpgrade(address newImplementation) public {
         _authorizeUpgrade(newImplementation);
     }
 }
@@ -90,6 +90,6 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if called by non-owner account");
         vm.prank(address(0));
         expectRevertOnlyOwner();
-        tested.publicAuthorizeUpgrade(address(0));
+        tested.public_authorizeUpgrade(address(0));
     }
 }

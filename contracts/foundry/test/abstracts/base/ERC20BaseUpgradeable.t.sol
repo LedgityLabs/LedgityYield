@@ -21,10 +21,6 @@ contract TestedContract is ERC20BaseUpgradeable {
     ) public initializer {
         __ERC20Base_init(globalOwner_, globalPause_, globalBlacklist_, name_, symbol_);
     }
-
-    function publicAuthorizeUpgrade(address newImplementation) public {
-        _authorizeUpgrade(newImplementation);
-    }
 }
 
 contract Tests is Test, ModifiersExpectations {
