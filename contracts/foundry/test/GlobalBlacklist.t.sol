@@ -103,4 +103,25 @@ contract Tests is Test, ModifiersExpectations {
         tested.unBlacklist(address(1234));
         assertEq(tested.isBlacklisted(address(1234)), false);
     }
+
+    // ================================
+    // === isBlacklisted() function ===
+    function invariant_isBlacklisted_1() public {
+        console.log("Should always return false for zero address");
+        assertEq(tested.isBlacklisted(address(0)), false);
+    }
+
+    function test_isBlacklisted_2(bool blacklisted1, bool blacklisted2) public {
+        console.log(
+            "Should return true.false for a given address if the last call on it was respectively blacklist/unBlacklist"
+        );
+
+        if (blacklisted1) tested.blacklist(address(1234));
+        else tested.unBlacklist(address(1234));
+        assertEq(tested.isBlacklisted(address(1234)), blacklisted1);
+
+        if (blacklisted2) tested.blacklist(address(1234));
+        else tested.unBlacklist(address(1234));
+        assertEq(tested.isBlacklisted(address(1234)), blacklisted2);
+    }
 }
