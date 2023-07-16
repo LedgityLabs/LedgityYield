@@ -84,11 +84,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.globalBlacklist(), address(globalBlacklist));
     }
 
-    // =========================
-    // === _authorizeUpgrade ===
+    // ====================================
+    // === _authorizeUpgrade() function ===
     function test_authorizeUpgrade_1() public {
         console.log("Should revert if called by non-owner account");
-        vm.prank(address(0));
+        vm.prank(address(1234));
         expectRevertOnlyOwner();
         tested.public_authorizeUpgrade(address(0));
     }

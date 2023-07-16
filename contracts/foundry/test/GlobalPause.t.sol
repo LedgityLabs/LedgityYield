@@ -12,9 +12,15 @@ import {GlobalOwner} from "../../src/GlobalOwner.sol";
 
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
+contract TestedContract is GlobalPause {
+    function public_authorizeUpgrade(address newImplementation) public {
+        _authorizeUpgrade(newImplementation);
+    }
+}
+
 contract Tests is Test, ModifiersExpectations {
+    TestedContract tested;
     GlobalOwner globalOwner;
-    GlobalPause globalPause;
 
     function setUp() public {
         // Deploy GlobalOwner
@@ -25,11 +31,11 @@ contract Tests is Test, ModifiersExpectations {
         vm.label(address(globalOwner), "GlobalOwner");
 
         // Deploy GlobalPause
-        GlobalPause impl2 = new GlobalPause();
+        TestedContract impl2 = new TestedContract();
         ERC1967Proxy proxy2 = new ERC1967Proxy(address(impl2), "");
-        globalPause = GlobalPause(address(proxy2));
-        globalPause.initialize(address(globalOwner));
-        vm.label(address(globalPause), "GlobalPause");
+        tested = TestedContract(address(proxy2));
+        tested.initialize(address(globalOwner));
+        vm.label(address(tested), "GlobalPause");
     }
 
     // =============================
@@ -37,45 +43,54 @@ contract Tests is Test, ModifiersExpectations {
     function test_initialize_1() public {
         console.log("Shouldn't be re-initializable");
         vm.expectRevert(bytes("Initializable: contract is already initialized"));
-        globalPause.initialize(address(globalOwner));
+        tested.initialize(address(globalOwner));
     }
 
     function test_initialize_2() public {
         console.log("Should properly set global owner");
-        assertEq(globalPause.globalOwner(), address(globalOwner));
+        assertEq(tested.globalOwner(), address(globalOwner));
+    }
+
+    // ====================================
+    // === _authorizeUpgrade() function ===
+    function test_authorizeUpgrade_1() public {
+        console.log("Should revert if called by non-owner account");
+        vm.prank(address(1234));
+        expectRevertOnlyOwner();
+        tested.public_authorizeUpgrade(address(0));
     }
 
     // ========================
     // === pause() function ===
     function test_pause_1() public {
-        console.log("Should fail if not called by owner");
+        console.log("Should revert if not called by owner");
         expectRevertOnlyOwner();
         vm.prank(address(1234));
-        globalPause.pause();
+        tested.pause();
     }
 
     function test_pause_2() public {
         console.log("Should change output of paused() to 'false' else");
-        globalPause.pause();
-        assertEq(globalPause.paused(), true);
+        tested.pause();
+        assertEq(tested.paused(), true);
     }
 
     // ========================
     // === unpause() function ===
     function test_unpause_1() public {
-        console.log("Should fail if not called by owner");
+        console.log("Should revert if not called by owner");
         expectRevertOnlyOwner();
         vm.prank(address(1234));
-        globalPause.unpause();
+        tested.unpause();
     }
 
     function test_unpause_2() public {
         console.log("Should change output of paused() to 'false' else");
 
-        globalPause.pause();
-        assertEq(globalPause.paused(), true);
-        globalPause.unpause();
-        assertEq(globalPause.paused(), false);
+        tested.pause();
+        assertEq(tested.paused(), true);
+        tested.unpause();
+        assertEq(tested.paused(), false);
     }
 
     // Other functions belong to OpenZeppelin PausableUpgradeable and are so tested in their repo

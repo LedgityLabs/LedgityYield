@@ -58,7 +58,7 @@ contract Tests is Test, ModifiersExpectations {
     // ===============================
     // === recoverERC20() function ===
     function test_recoverERC20_1() public {
-        console.log("Should fail if not called by owner");
+        console.log("Should revert if not called by owner");
         expectRevertOnlyOwner();
         vm.prank(address(1234));
         tested.recoverERC20(address(1234), 9999);
