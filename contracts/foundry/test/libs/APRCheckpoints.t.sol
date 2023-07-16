@@ -40,7 +40,8 @@ contract Tests is Test {
     function testFuzz_incrementReference_2(uint256 packIndex, uint32 cursorIndex) public {
         console.log("Should increment cursor by 1 if given reference's cursor <3");
 
-        vm.assume(cursorIndex < 3);
+        // Bound cursor index to [0, 2]
+        cursorIndex = uint32(bound(cursorIndex, 0, 2));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.Reference memory newRef = APRC.incrementReference(ref);
@@ -52,7 +53,8 @@ contract Tests is Test {
     function testFuzz_incrementReference_3(uint256 packIndex) public {
         console.log("Should increment pack by 1 and reset cursor if given reference's cursor == 3");
 
-        vm.assume(packIndex < type(uint256).max);
+        // Ensure packIndex is not equal to max uint256 so incrementing it by 1 will not overflow
+        vm.assume(packIndex != type(uint256).max);
 
         APRC.Reference memory ref = APRC.Reference(packIndex, 3);
         APRC.Reference memory newRef = APRC.incrementReference(ref);
@@ -78,8 +80,12 @@ contract Tests is Test {
 
         populateDummyPacks(10);
 
-        vm.assume(packIndex > packs.length - 1);
-        vm.assume(cursorIndex <= 3);
+        // Ensure packIndex is out of bound
+        packIndex = bound(packIndex, packs.length, type(uint256).max);
+
+        // Bound cursor index to [0, 3]
+        cursorIndex = uint32(bound(cursorIndex, 0, 3));
+
         vm.expectRevert(bytes("APRCheckpoints: pack index out of bounds"));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
@@ -91,12 +97,18 @@ contract Tests is Test {
 
         // Populate dummy data and flag all cursor index as unwritten
         populateDummyPacks(10);
+
+        // Reset all cursor index to 0
         for (uint256 i = 0; i < packs.length; i++) {
             packs[i].cursor = 0;
         }
 
-        vm.assume(packIndex < packs.length);
-        vm.assume(cursorIndex <= 3);
+        // Ensure packIndex is not out of bound
+        packIndex = bound(packIndex, 0, packs.length - 1);
+
+        // Bound cursor index to [0, 3]
+        cursorIndex = uint32(bound(cursorIndex, 0, 3));
+
         vm.expectRevert(bytes("APRCheckpoints: cursor index not written yet"));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
@@ -108,8 +120,11 @@ contract Tests is Test {
 
         populateDummyPacks(10);
 
-        vm.assume(packIndex < packs.length);
-        vm.assume(cursorIndex <= 3);
+        // Ensure packIndex is not out of bound
+        packIndex = bound(packIndex, 0, packs.length - 1);
+
+        // Bound cursor index to [0, 3]
+        cursorIndex = uint32(bound(cursorIndex, 0, 3));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(packs, ref);
@@ -135,7 +150,7 @@ contract Tests is Test {
     }
 
     function test_getLatestReference_3() public {
-        console.log("Should return latest cursor of latest pack if latest is not empty");
+        console.log("Should return latest cursor of latest pack if at least one checkpoint exists");
 
         populateDummyPacks(10);
 

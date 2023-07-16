@@ -6,6 +6,5 @@ cache_path = "contracts/foundry/cache"
 test = "contracts/foundry/test"
 optimizer = true
 optimizer_runs = 200
-ffi = true
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

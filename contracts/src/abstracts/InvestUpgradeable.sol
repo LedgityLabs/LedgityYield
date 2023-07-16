@@ -11,7 +11,6 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
 import {UDS3} from "../libs/UDS3.sol";
-import "hardhat/console.sol";
 
 /**
  * @title InvestUpgradeable
