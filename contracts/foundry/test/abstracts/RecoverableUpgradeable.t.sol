@@ -59,41 +59,60 @@ contract Tests is Test, ModifiersExpectations {
     // === recoverERC20() function ===
     function test_recoverERC20_1() public {
         console.log("Should revert if not called by owner");
+
         expectRevertOnlyOwner();
         vm.prank(address(1234));
         tested.recoverERC20(address(1234), 9999);
     }
 
     function test_recoverERC20_2() public {
-        console.log("Should fail if there is 0 token to recover");
-        vm.expectRevert(bytes("RecoverableUpgradeable: not enough tokens to recover"));
-        tested.recoverERC20(address(1234), 9999);
+        console.log("Should revert if call requests to recover 0 tokens");
+
+        vm.expectRevert(bytes("RecoverableUpgradeable: amount is zero"));
+        tested.recoverERC20(address(recoveredToken), 0);
     }
 
     function test_recoverERC20_3() public {
-        console.log("Should fail if there is not enough token to recover");
+        console.log("Should revert if given address is not an ERC20 contract");
+
+        vm.expectRevert();
+        tested.recoverERC20(address(1234), 0);
+    }
+
+    function test_recoverERC20_4() public {
+        console.log("Should revert if there is 0 token to recover");
+
+        vm.expectRevert(bytes("RecoverableUpgradeable: not enough tokens to recover"));
+        tested.recoverERC20(address(recoveredToken), 9999);
+    }
+
+    function test_recoverERC20_5() public {
+        console.log("Should revert if there is not enough token to recover");
 
         // Mint only 1000 tokens to recoverable contract
         deal(address(recoveredToken), address(tested), 1000);
 
         vm.expectRevert(bytes("RecoverableUpgradeable: not enough tokens to recover"));
-        tested.recoverERC20(address(1234), 9999);
+        tested.recoverERC20(address(recoveredToken), 9999);
     }
 
-    function test_recoverERC20_4(uint256 recoverableAmount, uint256 recoveredAmount) public {
+    function test_recoverERC20_6(uint256 recoverableAmount, uint256 recoveredAmount) public {
         console.log("Should successfully recover tokens else");
+
+        // Ensure recovered and recoverable is greater than 0
+        vm.assume(recoverableAmount > 0);
+
+        // Ensure recovered amount is lower than or equal recoverable amount
+        recoveredAmount = bound(recoveredAmount, 1, recoverableAmount);
 
         // Mint only 1000 tokens to recoverable contract
         deal(address(recoveredToken), address(tested), recoverableAmount);
-
-        // Ensure recovered amount is lower than recoverable amount
-        recoveredAmount = bound(recoveredAmount, 0, recoverableAmount);
 
         // Store current owner (this test contract) balance for later comparison
         uint256 oldOwnerBalance = recoveredToken.balanceOf(address(this));
 
         // Recover random amount of tokens
-        tested.recoverERC20(address(1234), recoveredAmount);
+        tested.recoverERC20(address(recoveredToken), recoveredAmount);
 
         // Check that recovered amount is now in owner balance
         assertEq(recoveredToken.balanceOf(address(this)), oldOwnerBalance + recoveredAmount);
