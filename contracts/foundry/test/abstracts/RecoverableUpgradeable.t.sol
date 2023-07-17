@@ -105,16 +105,13 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure recovered amount is lower than or equal recoverable amount
         recoveredAmount = bound(recoveredAmount, 1, recoverableAmount);
 
-        // Mint only 1000 tokens to recoverable contract
+        // Mint only random number of tokens to recoverable contract
         deal(address(recoveredToken), address(tested), recoverableAmount);
-
-        // Store current owner (this test contract) balance for later comparison
-        uint256 oldOwnerBalance = recoveredToken.balanceOf(address(this));
 
         // Recover random amount of tokens
         tested.recoverERC20(address(recoveredToken), recoveredAmount);
 
         // Check that recovered amount is now in owner balance
-        assertEq(recoveredToken.balanceOf(address(this)), oldOwnerBalance + recoveredAmount);
+        assertEq(recoveredToken.balanceOf(address(this)), recoveredAmount);
     }
 }

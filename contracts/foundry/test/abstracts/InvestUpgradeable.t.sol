@@ -10,6 +10,7 @@ import {InvestUpgradeable} from "../../../src/abstracts/InvestUpgradeable.sol";
 import {GlobalOwner} from "../../../src/GlobalOwner.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {GenericERC20} from "../../../src/GenericERC20.sol";
+
 import {UDS3} from "../../../src/libs/UDS3.sol";
 import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
 
@@ -150,6 +151,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deploy GenericERC20
         investedToken = new GenericERC20("Dummy Token", "DUMMY", 6);
+        vm.label(address(investedToken), "Invested token");
 
         // Deploy tested contract
         TestedContract impl2 = new TestedContract();
@@ -777,6 +779,7 @@ contract Tests is Test, ModifiersExpectations {
         // Call _resetInvestmentPeriodOf()
         tested.public_resetInvestmentPeriodOf(address(1234), autocompound);
 
+        // Ensure that the investment period timestamp has been updated to now
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 

@@ -6,6 +6,8 @@ import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
+import "hardhat/console.sol";
+
 /**
  * @title LTYStaking
  * @author Lila Rest (lila@ledgity.com)
@@ -149,7 +151,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @param account The account to check the lock end increase of
      * @param addedAmount The amount of $LTY added by the account to its stake
      */
-    function _getLockDuration(
+    function _getLockDurationIncrease(
         address account,
         uint256 addedAmount
     ) internal view returns (uint40 lockEndIncrease) {
@@ -159,11 +161,23 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         // If the account has no previous stake, return a full lock duration
         if (accountStake.amount == 0) return stakeLockDuration;
 
-        // Else, make the lock increase proportional to the added amount compared to previous stake
+        // Else, calculate the stake growth
         uint256 addedAmountUDS3 = UDS3.scaleUp(addedAmount);
         uint256 accountStakeUDS3 = UDS3.scaleUp(accountStake.amount);
-        uint256 growthRateUDS3 = (addedAmountUDS3 * _toUDS3(1)) / accountStakeUDS3;
-        uint256 lockEndIncreaseUDS3 = (_toUDS3(stakeLockDuration) * growthRateUDS3) / _toUDS3(100);
+        uint256 growthRateUDS3 = (addedAmountUDS3 * _toUDS3(100)) / accountStakeUDS3;
+
+        // Then, calculate lock end increase proportionnally to amount growth
+        uint256 stakeLockDurationUDS3 = _toUDS3(stakeLockDuration);
+        uint256 lockEndIncreaseUDS3;
+        // - If the lockEndIncrease is going to overflow (this helps supporting bigger growth rates)
+        if (growthRateUDS3 > type(uint256).max / stakeLockDurationUDS3) {
+            // Set it to the maximum possible value
+            lockEndIncreaseUDS3 = type(uint256).max;
+        }
+        // - Else, compute the lockEndIncrease
+        else {
+            lockEndIncreaseUDS3 = (stakeLockDurationUDS3 * growthRateUDS3) / _toUDS3(100);
+        }
         lockEndIncrease = uint40(_fromUDS3(lockEndIncreaseUDS3));
 
         // Compute the remaining lock duration of the account
@@ -184,8 +198,8 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @param account The account to check the new lock end of
      * @param addedAmount The amount of $LTY added by the account to its stake
      */
-    function getNewLockEnd(address account, uint216 addedAmount) public view returns (uint40) {
-        return uint40(block.timestamp) + _getLockDuration(account, addedAmount);
+    function getNewLockEndFor(address account, uint216 addedAmount) public view returns (uint40) {
+        return uint40(block.timestamp) + _getLockDurationIncrease(account, addedAmount);
     }
 
     /**
@@ -209,6 +223,9 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @param amount The amount of $LTY to deposit
      */
     function fuel(uint256 amount) external onlyOwner {
+        // Ensure the amount is not 0
+        require(amount > 0, "LTYStaking: amount is 0");
+
         // Transfer $LTY tokens from the caller to this contract
         invested().transferFrom(_msgSender(), address(this), amount);
         rewardsReserve += amount;
@@ -250,6 +267,9 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @param amount The amount of $LTY tokens to stake
      */
     function stake(uint216 amount) public whenNotPaused notBlacklisted(_msgSender()) {
+        // Ensure the amount is not 0
+        require(amount > 0, "LTYStaking: amount is 0");
+
         // Ensure the account has enough $LTY tokens to stake
         require(invested().balanceOf(_msgSender()) >= amount, "LTYStaking: insufficient balance");
 
@@ -267,7 +287,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         emit TotalStakedUpdateEvent(totalStaked);
 
         // Update the end of the lock period
-        accountStake.lockEnd = getNewLockEnd(_msgSender(), amount);
+        accountStake.lockEnd = getNewLockEndFor(_msgSender(), amount);
 
         // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
@@ -281,14 +301,17 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @param amount The amount of $LTY tokens to unstake
      */
     function unstake(uint216 amount) external whenNotPaused notBlacklisted(_msgSender()) {
+        // Ensure the amount is not 0
+        require(amount > 0, "LTYStaking: amount is 0");
+
         // Ensure the account has enough $LTY tokens to unstake
-        require(stakeOf(_msgSender()) >= amount, "LTYStaking: insufficient balance");
+        require(stakeOf(_msgSender()) >= amount, "LTYStaking: insufficient stake");
 
         // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Ensure the account is not in lock period
-        require(accountStake.lockEnd <= block.timestamp, "Stake is still in lock period");
+        require(accountStake.lockEnd <= block.timestamp, "LTYStaking: lock period not ended");
 
         // Reset its investment period
         _resetInvestmentPeriodOf(_msgSender(), false);
@@ -317,6 +340,11 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
+
+        // Ensure there are some rewards to claim
+        require(rewards > 0, "LTYStaking: no rewards yet");
+
+        // Reset account's virtual balance
         accountsInfos[_msgSender()].virtualBalance = 0;
 
         // Ensure the contract has enough rewards to distribute
@@ -332,7 +360,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     /**
      * @dev Allows the caller to compound its currently unclaimed rewards to its stake.
      * Note that we don't update the lock end here, as it applies only to $LTY deposited
-     * through the stake() function, not rewards.
+     * through the stake() function, not to rewards.
      */
     function compound() external whenNotPaused notBlacklisted(_msgSender()) {
         // Retrieve account stake infos
@@ -344,10 +372,18 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
+
+        // Ensure there are some rewards to claim
+        require(rewards > 0, "LTYStaking: no rewards yet");
+
+        // Reset account's virtual balance
         accountsInfos[_msgSender()].virtualBalance = 0;
 
         // Ensure the contract has enough rewards to distribute
         require(rewardsReserve >= rewards, "LTYStaking: insufficient rewards reserve");
+
+        // Decreases the total amount of remaining rewards to distribute
+        rewardsReserve -= rewards;
 
         // Update the amount staked by the account and the total amount staked
         accountStake.amount += uint216(rewards);
@@ -358,9 +394,6 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Write the new account stake infos
         accountsStakes[_msgSender()] = accountStake;
-
-        // Decreases the total amount of remaining rewards to distribute
-        rewardsReserve -= rewards;
     }
 
     /**
@@ -371,7 +404,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function setTier(uint256 tier, uint256 amount) public onlyOwner {
         // Ensure the tier is > 0 (as it shouldn't be an index)
-        require(tier > 0, "Tier must be > 0");
+        require(tier > 0, "LTYStaking: tier cannot be 0");
 
         // Create missing tiers in the tiers array
         for (uint256 i = _tiers.length; i < tier; i++) {
@@ -390,7 +423,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function getTier(uint256 tier) public view returns (uint256) {
         // Ensure the tier is > 0 (as it shouldn't be an index)
-        require(tier > 0, "Tier must be > 0");
+        require(tier > 0, "LTYStaking: tier cannot be 0");
 
         // Ensure the staking tier exists
         require(_tiers.length >= tier, "LTYStaking: tier does not exist");

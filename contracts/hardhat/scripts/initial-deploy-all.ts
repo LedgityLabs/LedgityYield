@@ -58,8 +58,8 @@ export const main = async () => {
   for (let lToken of lTokens) {
     lToken!.setLTYStaking(await ltyStaking!.getAddress());
     lToken!.setAPR(5000);
-    lToken!.setFeesRate(300);
-    lToken!.setRetentionRate(5000);
+    lToken!.setFeesRate(300); // SHOULD BE INITIALIZED IN CONTRACT
+    lToken!.setRetentionRate(5000); // SHOULD BE INITIALIZED IN CONTRACT
     lToken!.setFund("0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
     lToken!.setWithdrawer("0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC");
   }
