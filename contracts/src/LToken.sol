@@ -13,7 +13,7 @@ import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ER
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
 
-import "hardhat/console.sol";
+import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
 
 /**
  * @title LToken
@@ -93,6 +93,9 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
 
     /// @dev Holds the index of the next withdrawal request to process in the queue.
     uint256 public withdrawalQueueCursor;
+
+    /// @dev Holds a list of external contracts to trigger onLTokenTransfer() function on transfer.
+    ITransfersListener[] transfersListeners;
 
     /**
      * @dev Emitted to inform listeners about a change in the TVL of the contract (a.k.a totalSupply)
@@ -242,6 +245,38 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
     }
 
     /**
+     * @dev Allow given contract to listen to L-Token transfers. To do so the
+     * onLTokenTransfer() function of the given contract will be called each time
+     * a transfer occurs.
+     * @param listenerContract The address of the contract to allow listening to transfers
+     */
+    function listenToTransfers(address listenerContract) public onlyOwner {
+        transfersListeners.push(ITransfersListener(listenerContract));
+    }
+
+    /**
+     * @dev Allow given contract to stop listening for L-Token transfers.
+     * @param listenerContract The address of the contract to allow listening to transfers
+     */
+    function unlistenToTransfers(address listenerContract) public onlyOwner {
+        // Find index of listener contract in transferListeners array
+        int256 index = -1;
+        for (uint256 i = 0; i < transfersListeners.length; i++) {
+            if (address(transfersListeners[i]) == listenerContract) {
+                index = int256(i);
+                break;
+            }
+        }
+
+        // Revert if listener contract is not found
+        require(index >= 0, "LToken: listener contract not found");
+
+        // Else remove listener contract from array
+        transfersListeners[uint256(index)] = transfersListeners[transfersListeners.length - 1];
+        transfersListeners.pop();
+    }
+
+    /**
      * @dev Required override of decimals() which is implemented by both ERC20Upgradeable
      * and ERC20WrapperUpgradeable parent contracts.
      * The ERC20WrapperUpgradeable version is preferred because it mirrors the decimals
@@ -383,6 +418,20 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
 
         // In some L-Token are burned or minted, inform listeners of a TVL change
         if (from == address(0) || to == address(0)) emit TVLUpdateEvent(totalSupply());
+    }
+
+    /**
+     * @dev Override of ERC20._afterTokenTransfer() hook that triggers onLTokenTransfer()
+     * functions of all transfer listeners.
+     * @inheritdoc ERC20Upgradeable
+     */
+    function _afterTokenTransfer(address from, address to, uint256 amount) internal override {
+        super._afterTokenTransfer(from, to, amount);
+
+        // Trigger onLTokenTransfers() functions of all transfers listeners
+        for (uint256 i = 0; i < transfersListeners.length; i++) {
+            transfersListeners[i].onLTokenTransfers(from, to, amount);
+        }
     }
 
     /**
@@ -651,27 +700,11 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
 
         // If possible cover request from fund balance only
         if (withdrawnAmount <= fundBalance) {
-            console.log("ALL COVERED FROM FUND");
-            // console.log("old fund balance IN CONTRACT");
-            // console.log(fundBalance);
-            // console.log(underlying().balanceOf(request.account));
-
             underlying().safeTransferFrom(fund, request.account, withdrawnAmount);
-
-            // console.log("new fund balance IN CONTRACT");
-            // console.log(underlying().balanceOf(fund));
-            // console.log(underlying().balanceOf(request.account));
         }
         // Else transfer all fund balance and complete with contract balance
         else {
-            console.log("PARTIALLY COVERED FROM FUND");
-            console.log("before FROM CONTRACT");
-            console.log(underlying().balanceOf(fund));
-            console.log(underlying().balanceOf(request.account));
             underlying().safeTransferFrom(fund, request.account, fundBalance);
-            console.log("after FROM CONTRACT");
-            console.log(underlying().balanceOf(fund));
-            console.log(underlying().balanceOf(request.account));
             uint256 missingAmount = withdrawnAmount - fundBalance;
             underlying().safeTransfer(request.account, missingAmount);
 
