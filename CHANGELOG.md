@@ -1,3 +1,37 @@
+## [1.121.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.120.0...v1.121.0) (2023-07-29)
+
+
+### Features
+
+* investUpgradeable rewards redirection + end of unit tests V1 ! ([b83aba3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b83aba3c9a543125e990576272eea784bce52b0f))
+
+
+### Tests
+
+* add missing GlobalBlacklist.isBlacklisted() unit tests ([8b462a5](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8b462a52aa3543d32e59527004bc872b7f07a01d))
+* improve RecoverableUpgradeable unit tests ([aa3d0ec](https://github.com/ledgity-labs/Ledgity-DeFi/commit/aa3d0ec058782db0403415503f8988d917be6974))
+* new APRCheckpoints library unit tests ([05f0b60](https://github.com/ledgity-labs/Ledgity-DeFi/commit/05f0b60b20ec8235882a3dcea0d873e287ab3a29))
+* new BaseUpgradeable unit tests ([107fe4c](https://github.com/ledgity-labs/Ledgity-DeFi/commit/107fe4ce8e9decc10b2fb7eb156a2e33ecc19538))
+* new ERC20BaseUpgradeable tests + some tiny improvements in other tests files ([5410dc1](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5410dc151f0d1dd95d40a02ec5dd0ffb0970ffbe))
+* new GlobalBlacklist unit tests ([5472f2b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5472f2b32656d0d3422bcd046967671b492d238e))
+* new GlobalOwner unit tests ([01280f3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/01280f3a72545b0963cd059922328f0848c931ef))
+* new GlobalPausableUpgradeable unit tests ([58f6602](https://github.com/ledgity-labs/Ledgity-DeFi/commit/58f66022481b2139d8deb75f2cd7da26ddbf9356))
+* new GlobalPause unit tests ([507b740](https://github.com/ledgity-labs/Ledgity-DeFi/commit/507b740aecf308182b04867c9a6fbd64be82e3e1))
+* new GlobalRestrictableUpgradeable unit tests + remove ownable from GlobalRestrictable/Pausable ([c43aea7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/c43aea72f3cf0d62c8a2840076809a5a0c6dec31))
+* new InvestUpgradeable unit tests ([c7a6a2c](https://github.com/ledgity-labs/Ledgity-DeFi/commit/c7a6a2cbd72135fe76f38fb5417be9d19de6ff6f))
+* new LTYStaking unit tests ([0967e61](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0967e61b9252850bb74e0ced603277097acca12b))
+* new RecoverableUpgradeable unit tests ([bc3d62d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/bc3d62d735b4840b9b87773cd8768ab1c99c303a))
+* new UDS3 libary tests ([b79b0b1](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b79b0b1c6c9ac7e5af792e3f3ea9c0b814af7814))
+* re-organize test folder to match source one ([147e306](https://github.com/ledgity-labs/Ledgity-DeFi/commit/147e3060f3373e26537851bce26fdd7b8499eee9))
+* replace usage of assume() per bound() whenever it is more relevant ([9397c9a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9397c9ad60357273a4757cc76de274c00bf6b047))
+
+
+### Others
+
+* fix workflow file typo ([0174631](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0174631b06bfb6d7cb71dac14b0cc52b102d01a3))
+* try fixing contracts tests workflow ([649c123](https://github.com/ledgity-labs/Ledgity-DeFi/commit/649c12367512892db72a26676cc1c241b5e1c734))
+* update contracts tests workflow ([fef42ba](https://github.com/ledgity-labs/Ledgity-DeFi/commit/fef42baa15786d538283f949fbc47869c3558d96))
+
 ## [1.120.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.119.1...v1.120.0) (2023-07-14)
 
 
