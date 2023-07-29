@@ -21,6 +21,13 @@ contract TestedContract is ERC20BaseUpgradeable {
     ) public initializer {
         __ERC20Base_init(globalOwner_, globalPause_, globalBlacklist_, name_, symbol_);
     }
+
+    /**
+     * @dev Public version of _beforeTokenTransfer() used in tests
+     */
+    function public_beforeTokenTransfer(address from, address to, uint256 amount) public {
+        _beforeTokenTransfer(from, to, amount);
+    }
 }
 
 contract Tests is Test, ModifiersExpectations {
@@ -94,12 +101,37 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.name(), nameAtInitTime);
     }
 
-    // ========================
-    // === Tokens transfers ===
-    function test_transfer_1() public {
-        console.log("Should pause tokens transfers when paused");
+    // ==============================
+    // === _beforeTokenTransfer() ===
+    function testFuzz_beforeTokenTransfer_1(address from, address to, uint256 amount) public {
+        console.log("Should prevent transfer when contract is paused");
         globalPause.pause();
         expectRevertPaused();
-        tested.transfer(address(15), 50);
+        tested.public_beforeTokenTransfer(from, to, amount);
+    }
+
+    function testFuzz_beforeTokenTransfer_2(
+        address from,
+        address to,
+        uint256 amount,
+        bool fromBlacklisted,
+        bool toBlacklisted
+    ) public {
+        console.log("Should prevent transfer when one or both addresses are blacklisted");
+
+        // Randomly blacklist from address
+        if (fromBlacklisted) globalBlacklist.blacklist(from);
+
+        // Randomly blacklist to address
+        if (toBlacklisted) globalBlacklist.blacklist(to);
+
+        // Expect revert if one or both addresses are blacklisted
+        if (fromBlacklisted || toBlacklisted) expectRevertRestricted();
+        tested.public_beforeTokenTransfer(from, to, amount);
+    }
+
+    function testfuzz_beforeTokenTransfer_3(address from, address to, uint256 amount) public {
+        console.log("Shouldn't revert else");
+        tested.public_beforeTokenTransfer(from, to, amount);
     }
 }

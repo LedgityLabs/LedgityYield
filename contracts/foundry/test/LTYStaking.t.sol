@@ -48,11 +48,11 @@ contract TestedContract is LTYStaking {
         return accountsInfos[account];
     }
 
-    function public_getStartCheckpointReferenceOf(
-        address account
-    ) public view returns (APRC.Reference memory) {
-        return ___getStartCheckpointReferenceOf(account);
-    }
+    // function public_getStartCheckpointReferenceOf(
+    //     address account
+    // ) public view returns (APRC.Reference memory) {
+    //     return ___getStartCheckpointReferenceOf(account);
+    // }
 }
 
 contract Tests is Test, ModifiersExpectations {
@@ -138,11 +138,16 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===============================
     // === recoverERC20() function ===
-    function test_recoverERC20_1() public {
+    function test_recoverERC20_1(address account, address tokenAddress, uint256 recoveredAmount) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
-        tested.recoverERC20(address(0), 0);
+        vm.prank(account);
+        tested.recoverERC20(tokenAddress, recoveredAmount);
     }
 
     function test_recoverERC20_2() public {
@@ -153,16 +158,21 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_recoverERC20_3() public {
         console.log("Shouldn't revert else");
-        deal(address(anotherToken), address(tested), 1000);
+        deal(address(anotherToken), address(tested), 1000, true);
         tested.recoverERC20(address(anotherToken), 500);
     }
 
     // =============================
     // === recoverLTY() function ===
-    function test_recoverLTY_1() public {
+    function test_recoverLTY_1(address account) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.recoverLTY();
     }
 
@@ -182,16 +192,15 @@ contract Tests is Test, ModifiersExpectations {
         fueledAmount = uint216(bound(fueledAmount, 1, tested.public_toDecimals(100_000_000_000_000)));
 
         // Fuel random amount of $LTY to contract
-        // deal(address(ltyToken), address(this), fueledAmount);
-        ltyToken.mint(fueledAmount);
+        deal(address(ltyToken), address(this), fueledAmount, true);
         ltyToken.approve(address(tested), fueledAmount);
         tested.fuel(fueledAmount);
 
-        // Bound fueled amount to [1, 1T]
+        // Bound staked amount to [1, 1T]
         stakedAmount = uint216(bound(stakedAmount, 1, tested.public_toDecimals(100_000_000_000_000)));
 
         // Stake random amount of $LTY to contract
-        deal(address(ltyToken), address(1234), stakedAmount);
+        deal(address(ltyToken), address(1234), stakedAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), stakedAmount);
         tested.stake(uint216(stakedAmount));
@@ -209,7 +218,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(recoverableAmount > 0);
 
         // Mint only random number of $LTY to contract
-        deal(address(ltyToken), address(tested), recoverableAmount);
+        deal(address(ltyToken), address(tested), recoverableAmount, true);
+
+        // Assert that owner balance is currently 0
+        assertEq(ltyToken.balanceOf(address(this)), 0);
 
         // Recover random amount of tokens
         tested.recoverLTY();
@@ -265,7 +277,7 @@ contract Tests is Test, ModifiersExpectations {
         initialAmount = bound(initialAmount, 100, tested.public_toDecimals(100_000_000_000_000));
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), initialAmount);
+        deal(address(ltyToken), address(1234), initialAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), initialAmount);
         tested.stake(uint216(initialAmount));
@@ -320,7 +332,7 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), initialAmount);
+        deal(address(ltyToken), address(1234), initialAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), initialAmount);
         tested.stake(uint216(initialAmount));
@@ -355,7 +367,7 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), initialAmount);
+        deal(address(ltyToken), address(1234), initialAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), initialAmount);
         tested.stake(uint216(initialAmount));
@@ -373,10 +385,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // ====================================
     // === setUnlockFeesRate() function ===
-    function testFuzz_setUnlockFeesRate_1(uint32 _unlockFeesRateUD3) public {
+    function testFuzz_setUnlockFeesRate_1(address account, uint32 _unlockFeesRateUD3) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.setUnlockFeesRate(_unlockFeesRateUD3);
     }
 
@@ -388,10 +405,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // ====================================
     // === setStakeLockDuration() function ===
-    function testFuzz_setStakeLockDuration_1(uint40 _stakeLockDuration) public {
+    function testFuzz_setStakeLockDuration_1(address account, uint40 _stakeLockDuration) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.setStakeLockDuration(_stakeLockDuration);
     }
 
@@ -403,10 +425,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // =======================
     // === fuel() function ===
-    function testFuzz_fuel_1(uint256 amount) public {
+    function testFuzz_fuel_1(address account, uint256 amount) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.fuel(amount);
     }
 
@@ -423,7 +450,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(amount > 0);
 
         // Mint tokens to owner
-        deal(address(ltyToken), address(this), amount);
+        deal(address(ltyToken), address(this), amount, true);
 
         // Store old owner and contract balances for later comparison
         uint256 oldOwnerBalance = ltyToken.balanceOf(address(this));
@@ -450,7 +477,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 oldRewardsReserve = tested.rewardsReserve();
 
         // Mint tokens to owner
-        deal(address(ltyToken), address(this), amount);
+        deal(address(ltyToken), address(this), amount, true);
 
         // Fuel contract
         ltyToken.approve(address(tested), amount);
@@ -463,13 +490,35 @@ contract Tests is Test, ModifiersExpectations {
     // =========================
     // === unlock() function ===
     function testFuzz_unlock_1() public {
+        console.log("Should revert if contract is paused ");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.unlock();
+    }
+
+    function testFuzz_unlock_2(address account) public {
+        console.log("Should revert if account is blacklisted");
+
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(account);
+
+        // Expect revert
+        expectRevertRestricted();
+        vm.prank(account);
+        tested.unlock();
+    }
+
+    function testFuzz_unlock_3() public {
         console.log("Should revert if caller has no stake yet");
 
         vm.expectRevert(bytes("LTYStaking: nothing to unlock"));
         tested.unlock();
     }
 
-    function testFuzz_unlock_2(uint16 aprUD3, uint216 amount) public {
+    function testFuzz_unlock_4(uint16 aprUD3, uint216 amount) public {
         console.log("Should revert if lockEndOf() caller is in the past");
 
         // Bound amount to [1, 1T]
@@ -479,7 +528,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD3);
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
         tested.stake(uint216(amount));
@@ -494,7 +543,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.unlock();
     }
 
-    function testFuzz_unlock_3(uint16 aprUD3, uint216 amount) public {
+    function testFuzz_unlock_5(uint16 aprUD3, uint216 amount) public {
         console.log("Should allow to unstake is stake else");
 
         // Ensure staked amount is greater than 0
@@ -507,7 +556,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setUnlockFeesRate(0);
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
         tested.stake(amount);
@@ -524,7 +573,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_unlock_4(uint16 aprUD3, uint216 amount, uint32 unlockFeesRateUD3) public {
+    function testFuzz_unlock_6(uint16 aprUD3, uint216 amount, uint32 unlockFeesRateUD3) public {
         console.log("Should decreases staked amount by unlock fees rate");
 
         // Set first random APR
@@ -540,7 +589,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setUnlockFeesRate(unlockFeesRateUD3);
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
         tested.stake(amount);
@@ -563,7 +612,7 @@ contract Tests is Test, ModifiersExpectations {
         assertTrue(difference <= 10);
     }
 
-    function testFuzz_unlock_5(uint16 aprUD3, uint216 amount, uint32 unlockFeesRateUD3) public {
+    function testFuzz_unlock_7(uint16 aprUD3, uint216 amount, uint32 unlockFeesRateUD3) public {
         console.log("Should burn unlock fees (total supply should decrease by fees amount)");
 
         // Set first random APR
@@ -579,9 +628,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setUnlockFeesRate(unlockFeesRateUD3);
 
         // Simulate an initial stake
-        // deal(address(ltyToken), address(1234), amount); // I use mint instead of deal here as deal doesn't seem to update totalSupply()
-        ltyToken.mint(amount);
-        ltyToken.transfer(address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
 
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
@@ -603,13 +650,34 @@ contract Tests is Test, ModifiersExpectations {
 
     // ========================
     // === stake() function ===
-    function test_stake_1() public {
+    function testFuzz_stake_1(uint216 amount) public {
+        console.log("Should revert if contract is paused ");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.stake(amount);
+    }
+
+    function testFuzz_stake_2(address account, uint216 amount) public {
+        console.log("Should revert if account is blacklisted");
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(account);
+
+        // Expect revert
+        expectRevertRestricted();
+        vm.prank(account);
+        tested.stake(amount);
+    }
+
+    function test_stake_3() public {
         console.log("Should revert if given amount is 0");
         vm.expectRevert("LTYStaking: amount is 0");
         tested.stake(0);
     }
 
-    function testFuzz_stake_2(uint16 aprUD3, uint216 accountBalance, uint216 investedAmount) public {
+    function testFuzz_stake_4(uint16 aprUD3, uint216 accountBalance, uint216 investedAmount) public {
         console.log("Should revert if given amount is lower than account's $LTY balance");
 
         // Set first random APR
@@ -624,7 +692,7 @@ contract Tests is Test, ModifiersExpectations {
         accountBalance = uint216(bound(accountBalance, 0, investedAmount - 1));
 
         // Mint $LTY to account
-        deal(address(ltyToken), address(1234), accountBalance);
+        deal(address(ltyToken), address(1234), accountBalance, true);
 
         // Simulate an initial stake and expect revert
         vm.startPrank(address(1234));
@@ -634,36 +702,36 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function test_stake_3(uint16 aprUD3, uint216 amount) public {
+    function test_stake_5(uint16 aprUD3, uint216 amount, uint256 duration) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
         tested.setAPR(aprUD3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 2, tested.public_toDecimals(100_000_000_000_000)));
+
+        // Cap duration to 1000 years
+        duration = bound(duration, 1, 1000 * 365 days);
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
-        tested.stake(amount);
+        tested.stake(amount - 1);
+
+        // Move forward a random duration
+        skip(duration);
+
+        // Stake again
+        tested.stake(1);
+        vm.stopPrank();
 
         // Ensure that the investment period timestamp has been updated to now
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
-
-        // Ensure that the checkpoint reference is the same as the latest APR checkpoint
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.packIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).packIndex
-        );
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.cursorIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).cursorIndex
-        );
     }
 
-    function test_stake_4(uint16 aprUD3, uint216 amount) public {
+    function test_stake_6(uint16 aprUD3, uint216 amount) public {
         console.log("Should increase stake of account");
 
         // Set first random APR
@@ -676,7 +744,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 oldStake = tested.stakeOf(address(1234));
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
         tested.stake(amount);
@@ -685,7 +753,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.stakeOf(address(1234)), oldStake + amount);
     }
 
-    function test_stake_5(uint16 aprUD3, uint216 amount) public {
+    function test_stake_7(uint16 aprUD3, uint216 amount) public {
         console.log("Should increase total staked");
 
         // Set first random APR
@@ -698,7 +766,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 oldTotalStaked = tested.totalStaked();
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
         tested.stake(amount);
@@ -707,7 +775,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalStaked(), oldTotalStaked + amount);
     }
 
-    function test_stake_6(uint16 aprUD3, uint216 amount) public {
+    function test_stake_8(uint16 aprUD3, uint216 amount) public {
         console.log("Should increase account's stake lock end");
 
         // Set first random APR
@@ -720,7 +788,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 lockEndIncrease = tested.public_getLockDurationIncrease(address(1234), amount);
 
         // Simulate an initial stake
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), amount);
         tested.stake(amount);
@@ -730,7 +798,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.lockEndOf(address(1234)), block.timestamp + lockEndIncrease);
     }
 
-    function test_stake_7(uint16 aprUD3, uint216 amount) public {
+    function test_stake_9(uint16 aprUD3, uint216 amount) public {
         console.log("Should transfer tokens from caller to contract");
 
         // Set first random APR
@@ -740,7 +808,7 @@ contract Tests is Test, ModifiersExpectations {
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
 
         // Mint random amount of $LTY to caller
-        deal(address(ltyToken), address(1234), amount);
+        deal(address(ltyToken), address(1234), amount, true);
 
         // Store old balance of caller and contract for later comparison
         uint256 oldCallerBalance = ltyToken.balanceOf(address(1234));
@@ -761,13 +829,34 @@ contract Tests is Test, ModifiersExpectations {
 
     // ==========================
     // === unstake() function ===
-    function test_unstake_1() public {
+    function testFuzz_unstake_1(uint216 amount) public {
+        console.log("Should revert if contract is paused");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.unstake(amount);
+    }
+
+    function testFuzz_unstake_2(address account, uint216 amount) public {
+        console.log("Should revert if account is blacklisted");
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(account);
+
+        // Expect revert
+        expectRevertRestricted();
+        vm.prank(account);
+        tested.unstake(amount);
+    }
+
+    function test_unstake_3() public {
         console.log("Should revert if given amount is 0");
         vm.expectRevert("LTYStaking: amount is 0");
         tested.unstake(0);
     }
 
-    function testFuzz_unstake_2(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_4(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should revert if given amount is lower than account's $LTY stake");
 
         // Set first random APR
@@ -775,15 +864,14 @@ contract Tests is Test, ModifiersExpectations {
 
         // Cap withdrawnAmount to 100T
         withdrawnAmount = uint216(
-            bound(withdrawnAmount, 1, tested.public_toDecimals(100_000_000_000_000))
+            bound(withdrawnAmount, 2, tested.public_toDecimals(100_000_000_000_000))
         );
 
         // Ensure account balance is lower than invested amount
-        accountStake = uint216(bound(accountStake, 1, withdrawnAmount));
-        vm.assume(accountStake < withdrawnAmount);
+        accountStake = uint216(bound(accountStake, 1, withdrawnAmount - 1));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -794,7 +882,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_unstake_3(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_5(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should revert if stake is still locked");
 
         // Set first random APR
@@ -807,7 +895,7 @@ contract Tests is Test, ModifiersExpectations {
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -818,7 +906,12 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_unstake_4(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_6(
+        uint16 aprUD3,
+        uint216 accountStake,
+        uint216 withdrawnAmount,
+        uint256 duration
+    ) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
@@ -827,17 +920,20 @@ contract Tests is Test, ModifiersExpectations {
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
 
+        // Ensure duration is greater than stake lock duration and lower than 1000 years
+        duration = bound(duration, tested.stakeLockDuration() + 1, 1000 * 365 days);
+
         // Ensure account balance is lower than invested amount
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
 
         // Ensure lock period is over
-        skip(tested.stakeLockDuration());
+        skip(duration);
 
         // Unstake a random amount
         tested.unstake(withdrawnAmount);
@@ -845,19 +941,9 @@ contract Tests is Test, ModifiersExpectations {
 
         // Ensure that the investment period timestamp has been updated to now
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
-
-        // Ensure that the checkpoint reference is the same as the latest APR checkpoint
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.packIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).packIndex
-        );
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.cursorIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).cursorIndex
-        );
     }
 
-    function testFuzz_unstake_5(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_7(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should decrease account stake of caller");
 
         // Set first random APR
@@ -870,7 +956,7 @@ contract Tests is Test, ModifiersExpectations {
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -890,7 +976,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.stakeOf(address(1234)), oldStake - withdrawnAmount);
     }
 
-    function testFuzz_unstake_6(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_8(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should decrease total staked amount");
 
         // Set first random APR
@@ -903,7 +989,7 @@ contract Tests is Test, ModifiersExpectations {
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -923,7 +1009,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalStaked(), oldTotalStaked - withdrawnAmount);
     }
 
-    function test_unstake_7(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function test_unstake_9(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should transfer tokens from contract to caller");
 
         // Set first random APR
@@ -936,7 +1022,7 @@ contract Tests is Test, ModifiersExpectations {
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -961,7 +1047,28 @@ contract Tests is Test, ModifiersExpectations {
 
     // ========================
     // === claim() function ===
-    function testFuzz_claim_1(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function test_claim_1() public {
+        console.log("Should revert if contract is paused");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.claim();
+    }
+
+    function testFuzz_claim_2(address account) public {
+        console.log("Should revert if account is blacklisted");
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(account);
+
+        // Expect revert
+        expectRevertRestricted();
+        vm.prank(account);
+        tested.claim();
+    }
+
+    function testFuzz_claim_3(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
@@ -975,12 +1082,12 @@ contract Tests is Test, ModifiersExpectations {
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
-        deal(address(ltyToken), address(this), rewardsAmount);
+        deal(address(ltyToken), address(this), rewardsAmount, true);
         ltyToken.approve(address(tested), rewardsAmount);
         tested.fuel(rewardsAmount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -998,19 +1105,9 @@ contract Tests is Test, ModifiersExpectations {
 
         // Ensure that the investment period timestamp has been updated to now
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
-
-        // Ensure that the checkpoint reference is the same as the latest APR checkpoint
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.packIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).packIndex
-        );
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.cursorIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).cursorIndex
-        );
     }
 
-    function testFuzz_claim_2(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_4(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should revert when there is no rewards to claim");
 
         // Set first random APR
@@ -1023,7 +1120,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1042,7 +1139,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.claim();
     }
 
-    function testFuzz_claim_3(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_5(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should reset account virtual balance");
 
         // Set first random APR
@@ -1056,12 +1153,12 @@ contract Tests is Test, ModifiersExpectations {
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
-        deal(address(ltyToken), address(this), rewardsAmount);
+        deal(address(ltyToken), address(this), rewardsAmount, true);
         ltyToken.approve(address(tested), rewardsAmount);
         tested.fuel(rewardsAmount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1069,7 +1166,7 @@ contract Tests is Test, ModifiersExpectations {
         // Move forward a random amount of time
         skip(investmentDuration);
 
-        // Stake again to indirectly trigger _resetInvestmentPeriodOf and compound rewards in virtual balance
+        // Stake again to indirectly trigger _onInvestmentChange and compound rewards in virtual balance
         tested.stake(uint216(1));
 
         // Consider only cases were there are some rewards at that point
@@ -1083,7 +1180,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).virtualBalance, 0);
     }
 
-    function testFuzz_claim_4(
+    function testFuzz_claim_6(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1101,7 +1198,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1121,7 +1218,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Fill rewards reserve
         if (rewardsReserve > 0) {
-            deal(address(ltyToken), address(this), rewardsReserve);
+            deal(address(ltyToken), address(this), rewardsReserve, true);
             ltyToken.approve(address(tested), rewardsReserve);
             tested.fuel(rewardsReserve);
         }
@@ -1132,7 +1229,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.claim();
     }
 
-    function testFuzz_claim_5(
+    function testFuzz_claim_7(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1150,7 +1247,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1167,7 +1264,7 @@ contract Tests is Test, ModifiersExpectations {
         rewardsReserve = uint216(bound(rewardsReserve, unclaimedRewards, type(uint216).max));
 
         // Fill rewards reserve
-        deal(address(ltyToken), address(this), rewardsReserve);
+        deal(address(ltyToken), address(this), rewardsReserve, true);
         ltyToken.approve(address(tested), rewardsReserve);
         tested.fuel(rewardsReserve);
 
@@ -1179,7 +1276,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.rewardsReserve(), rewardsReserve - unclaimedRewards);
     }
 
-    function testFuzz_claim_6(
+    function testFuzz_claim_8(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1197,7 +1294,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1214,7 +1311,7 @@ contract Tests is Test, ModifiersExpectations {
         rewardsReserve = uint216(bound(rewardsReserve, unclaimedRewards, type(uint216).max));
 
         // Fill rewards reserve
-        deal(address(ltyToken), address(this), rewardsReserve);
+        deal(address(ltyToken), address(this), rewardsReserve, true);
         ltyToken.approve(address(tested), rewardsReserve);
         tested.fuel(rewardsReserve);
 
@@ -1235,7 +1332,28 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===========================
     // === compound() function ===
-    function testFuzz_compound_1(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function test_compound_1() public {
+        console.log("Should revert if contract is paused");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.compound();
+    }
+
+    function testFuzz_compound_2(address account) public {
+        console.log("Should revert if account is blacklisted");
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(account);
+
+        // Expect revert
+        expectRevertRestricted();
+        vm.prank(account);
+        tested.compound();
+    }
+
+    function testFuzz_compound_3(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
@@ -1249,12 +1367,12 @@ contract Tests is Test, ModifiersExpectations {
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
-        deal(address(ltyToken), address(this), rewardsAmount);
+        deal(address(ltyToken), address(this), rewardsAmount, true);
         ltyToken.approve(address(tested), rewardsAmount);
         tested.fuel(rewardsAmount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake));
@@ -1272,19 +1390,9 @@ contract Tests is Test, ModifiersExpectations {
 
         // Ensure that the investment period timestamp has been updated to now
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
-
-        // Ensure that the checkpoint reference is the same as the latest APR checkpoint
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.packIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).packIndex
-        );
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.cursorIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).cursorIndex
-        );
     }
 
-    function testFuzz_compound_2(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_compound_4(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should revert when there is no rewards to claim");
 
         // Set first random APR
@@ -1297,7 +1405,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1316,7 +1424,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.compound();
     }
 
-    function testFuzz_compound_3(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_compound_5(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should reset account virtual balance");
 
         // Set first random APR
@@ -1330,12 +1438,12 @@ contract Tests is Test, ModifiersExpectations {
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
-        deal(address(ltyToken), address(this), rewardsAmount);
+        deal(address(ltyToken), address(this), rewardsAmount, true);
         ltyToken.approve(address(tested), rewardsAmount);
         tested.fuel(rewardsAmount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1343,7 +1451,7 @@ contract Tests is Test, ModifiersExpectations {
         // Move forward a random amount of time
         skip(investmentDuration);
 
-        // Stake again to indirectly trigger _resetInvestmentPeriodOf and compound rewards in virtual balance
+        // Stake again to indirectly trigger _onInvestmentChange and compound rewards in virtual balance
         tested.stake(uint216(1));
 
         // Consider only cases were there are some rewards at that point
@@ -1357,7 +1465,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).virtualBalance, 0);
     }
 
-    function testFuzz_compound_4(
+    function testFuzz_compound_6(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1375,7 +1483,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1395,7 +1503,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Fill rewards reserve
         if (rewardsReserve > 0) {
-            deal(address(ltyToken), address(this), rewardsReserve);
+            deal(address(ltyToken), address(this), rewardsReserve, true);
             ltyToken.approve(address(tested), rewardsReserve);
             tested.fuel(rewardsReserve);
         }
@@ -1406,7 +1514,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.compound();
     }
 
-    function testFuzz_compound_5(
+    function testFuzz_compound_7(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1424,7 +1532,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1441,7 +1549,7 @@ contract Tests is Test, ModifiersExpectations {
         rewardsReserve = uint216(bound(rewardsReserve, unclaimedRewards, type(uint216).max));
 
         // Fill rewards reserve
-        deal(address(ltyToken), address(this), rewardsReserve);
+        deal(address(ltyToken), address(this), rewardsReserve, true);
         ltyToken.approve(address(tested), rewardsReserve);
         tested.fuel(rewardsReserve);
 
@@ -1453,7 +1561,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.rewardsReserve(), rewardsReserve - unclaimedRewards);
     }
 
-    function testFuzz_compound_6(
+    function testFuzz_compound_8(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1469,7 +1577,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1486,7 +1594,7 @@ contract Tests is Test, ModifiersExpectations {
         rewardsReserve = uint216(bound(rewardsReserve, unclaimedRewards, type(uint216).max));
 
         // Fill rewards reserve
-        deal(address(ltyToken), address(this), rewardsReserve);
+        deal(address(ltyToken), address(this), rewardsReserve, true);
         ltyToken.approve(address(tested), rewardsReserve);
         tested.fuel(rewardsReserve);
 
@@ -1502,7 +1610,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.stakeOf(address(1234)), oldStake + unclaimedRewards);
     }
 
-    function testFuzz_compound_7(
+    function testFuzz_compound_9(
         uint16 aprUD3,
         uint216 accountStake,
         uint40 investmentDuration,
@@ -1518,7 +1626,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStake);
+        deal(address(ltyToken), address(1234), accountStake, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStake);
         tested.stake(uint216(accountStake - 1));
@@ -1535,7 +1643,7 @@ contract Tests is Test, ModifiersExpectations {
         rewardsReserve = uint216(bound(rewardsReserve, unclaimedRewards, type(uint216).max));
 
         // Fill rewards reserve
-        deal(address(ltyToken), address(this), rewardsReserve);
+        deal(address(ltyToken), address(this), rewardsReserve, true);
         ltyToken.approve(address(tested), rewardsReserve);
         tested.fuel(rewardsReserve);
 
@@ -1553,15 +1661,18 @@ contract Tests is Test, ModifiersExpectations {
 
     // ==========================
     // === setTier() function ===
-    function testFuzz_setTier_1(uint256 tier, uint256 amount) public {
+    function testFuzz_setTier_1(address account, uint256 tier, uint256 amount) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
 
         // Ensure tier is greater than 0
         vm.assume(tier > 0);
 
-        // Use another account to call setTier and expect revert
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.setTier(tier, amount);
     }
 
@@ -1592,7 +1703,53 @@ contract Tests is Test, ModifiersExpectations {
         }
     }
 
-    function testFuzz_setTier_4(uint256 amount, uint8 tier) public {
+    function testFuzz_setTier_4(uint8 currTier, uint256 currAmount, uint256 nextAmount) public {
+        console.log("Should prevent setting a tier amount that is greater than next tier's one");
+
+        // Ensure tier is greater than 0 and lower than uint8 max minus 1
+        currTier = uint8(bound(currTier, 1, type(uint8).max - 1));
+
+        // Ensure that next tier is greater than current tier
+        uint8 nextTier = currTier + 1;
+
+        // Bound current amount to [2, 100T]
+        currAmount = bound(currAmount, 2, tested.public_toDecimals(100_000_000_000_000));
+
+        // Ensure next amount is lower than current amount
+        nextAmount = bound(nextAmount, 1, currAmount - 1);
+
+        // Set next tier
+        tested.setTier(nextTier, nextAmount);
+
+        // Expect revert while setting current tier
+        vm.expectRevert(bytes("LTYStaking: amount greater than next tier"));
+        tested.setTier(currTier, currAmount);
+    }
+
+    function testFuzz_setTier_5(uint8 currTier, uint256 currAmount, uint256 prevAmount) public {
+        console.log("Should prevent setting a tier amount that is lower than previous tier's one");
+
+        // Ensure tier is greater than 1 (one previous tier exists before it) and lower than uint8 max minus 1
+        currTier = uint8(bound(currTier, 2, type(uint8).max));
+
+        // Ensure that prev tier is lower than current tier
+        uint8 prevTier = currTier - 1;
+
+        // Bound prev amount amount to [2, 100T]
+        prevAmount = bound(currAmount, 2, tested.public_toDecimals(100_000_000_000_000));
+
+        // Ensure curren amount is lower than prev amount
+        currAmount = bound(currAmount, 1, prevAmount - 1);
+
+        // Set prev tier
+        tested.setTier(prevTier, prevAmount);
+
+        // Expect revert while setting current tier
+        vm.expectRevert(bytes("LTYStaking: amount lower than previous tier"));
+        tested.setTier(currTier, currAmount);
+    }
+
+    function testFuzz_setTier_6(uint256 amount, uint8 tier) public {
         console.log("Should change input of getTier() for a given tier");
 
         // Ensure tier is greater than 0
@@ -1676,7 +1833,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setTier(tier, tierAmount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), tierAmount);
+        deal(address(ltyToken), address(1234), tierAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), tierAmount);
         tested.stake(tierAmount);
@@ -1702,7 +1859,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setTier(tier, tierAmount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), tierAmount);
+        deal(address(ltyToken), address(1234), tierAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), tierAmount);
         tested.stake(tierAmount - 1);
@@ -1728,7 +1885,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setTier(1, tier1Amount);
 
         // Mint $LTY to account and stake it
-        deal(address(ltyToken), address(1234), accountStakedAmount);
+        deal(address(ltyToken), address(1234), accountStakedAmount, true);
         vm.startPrank(address(1234));
         ltyToken.approve(address(tested), accountStakedAmount);
         tested.stake(accountStakedAmount);

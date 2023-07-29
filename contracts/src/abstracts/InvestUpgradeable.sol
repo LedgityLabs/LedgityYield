@@ -4,6 +4,8 @@ pragma solidity ^0.8.20;
 // Contracts
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
+import {GlobalPausableUpgradeable} from "./GlobalPausableUpgradeable.sol";
+import {GlobalRestrictableUpgradeable} from "./GlobalRestrictableUpgradeable.sol";
 
 // Libraries & interfaces
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
@@ -11,6 +13,11 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
 import {UDS3} from "../libs/UDS3.sol";
+import {RecoverableUpgradeable} from "../abstracts/RecoverableUpgradeable.sol";
+
+import "./base/BaseUpgradeable.sol";
+
+import "hardhat/console.sol";
 
 /**
  * @title InvestUpgradeable
@@ -21,13 +28,11 @@ import {UDS3} from "../libs/UDS3.sol";
  * @dev Children contract must:
  *  - Set invested token during initialization
  *  - Implement _investmentOf() function
- *  - Implement _claimRewardsOf() function (optional)
- * Also, note that the contract is not pausable or restrictable as none of its functions
- * are intended to be called externally by non-owner accounts.
+ *  - Implement _distributeRewards() function (optional)
  * For further details, see "InvestmentUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
+abstract contract InvestUpgradeable is BaseUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
@@ -46,7 +51,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @dev Represents investment information of an account (a.k.a investor or user).
      * @param period The current investment period of the account.
      * @param virtualBalance May hold a part of account rewards until they are claimed
-     * (see _resetInvestmentPeriodOf())
+     * (see _onInvestmentChange())
      */
     struct AccountInfos {
         InvestmentPeriod period;
@@ -62,6 +67,10 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     /// @dev Holds the history of APR through time (see APRCheckpoints.sol)
     APRC.Pack[] private _packedAPRCheckpoints;
 
+    /// @dev Holds active rewards redirection
+    mapping(address => address) public rewardsRedirectsFromTo;
+    mapping(address => address[]) public rewardsRedirectsToFrom;
+
     /// @dev Prevents claim re-entrancy / infinite loop
     bool private _isClaiming;
 
@@ -76,10 +85,17 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalPause_ The address of the GlobalPause contract
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract
      * @param invested_ The invested token's contract address.
      */
-    function __Invest_init(address globalOwner_, address invested_) internal onlyInitializing {
-        __GlobalOwnable_init(globalOwner_);
+    function __Invest_init(
+        address globalOwner_,
+        address globalPause_,
+        address globalBlacklist_,
+        address invested_
+    ) internal onlyInitializing {
+        __Base_init(globalOwner_, globalPause_, globalBlacklist_);
         __Invest_init_unchained(invested_);
     }
 
@@ -113,15 +129,71 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /**
-     * @dev Returns the reference of checkpoint at which a given account started its
-     * current investment period.
-     * IMPORTANT: This function is used in unit tests only and SHOULDN'T BE USED IN REAL
-     * CHILD CONTRACTS.
+     * @dev Setter for the rewards redirection.
+     * @param from The address of the account to redirect rewards from
+     * @param to The address of the account to redirect rewards to
      */
-    function ___getStartCheckpointReferenceOf(
-        address account
-    ) internal view returns (APRC.Reference memory) {
-        return accountsInfos[account].period.ref;
+    function startRedirectRewards(
+        address from,
+        address to
+    ) public whenNotPaused notBlacklisted(from) notBlacklisted(to) {
+        // Ensure that from and to are not the zero address
+        require(from != address(0), "InvestUpgradeable: from cannot be zero address");
+        require(to != address(0), "InvestUpgradeable: to cannot be zero address");
+
+        // Ensure from and to are different addresses
+        require(from != to, "InvestUpgradeable: cannot be the same address");
+
+        // Ensure caller is either the owner or the from address
+        require(_msgSender() == owner() || _msgSender() == from, "InvestUpgradeable: forbidden");
+
+        // Reset investment period of involved accounts
+        _onInvestmentChange(from, true);
+        _onInvestmentChange(to, true);
+
+        // Apply rewards redirection
+        rewardsRedirectsFromTo[from] = to;
+        rewardsRedirectsToFrom[to].push(from);
+    }
+
+    /**
+     * @dev Unset a previously set rewards redirection
+     * @param from The address of the account to stop redirecting rewards from
+     * @param to The address of the account to stop redirecting rewards to
+     */
+    function stopRedirectRewards(
+        address from,
+        address to
+    ) public whenNotPaused notBlacklisted(from) notBlacklisted(to) {
+        // Ensure that from and to are not the zero address
+        require(from != address(0), "InvestUpgradeable: from cannot be zero address");
+        require(to != address(0), "InvestUpgradeable: to cannot be zero address");
+
+        // Ensure caller is either the owner or the from address
+        require(_msgSender() == owner() || _msgSender() == from, "InvestUpgradeable: forbidden");
+
+        // Ensure rewards were redirected
+        require(rewardsRedirectsFromTo[from] == to, "InvestUpgradeable: not redirected");
+
+        // Reset investment period of involved accounts
+        _onInvestmentChange(from, true);
+        _onInvestmentChange(to, true);
+
+        // Compute from index in to's redirection array
+        int256 fromIndex = -1;
+        for (uint256 i = 0; i < rewardsRedirectsToFrom[to].length; i++) {
+            if (rewardsRedirectsToFrom[to][i] == from) {
+                fromIndex = int256(i);
+                break;
+            }
+        }
+
+        // Stop rewards redirection
+        rewardsRedirectsFromTo[from] = address(0);
+        rewardsRedirectsToFrom[to][uint256(fromIndex)] = rewardsRedirectsToFrom[to][
+            rewardsRedirectsToFrom[to].length - 1
+        ];
+        rewardsRedirectsToFrom[to].pop();
     }
 
     /**
@@ -131,7 +203,7 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
      * @param account The account to claim the rewards of.
      * @param amount The amount of rewards to claim.
      */
-    function _claimRewardsOf(address account, uint256 amount) internal virtual returns (bool) {
+    function _distributeRewards(address account, uint256 amount) internal virtual returns (bool) {
         account; // Silence unused variable warning
         amount;
         return false;
@@ -213,6 +285,21 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /**
+     * @dev Returns the sum of given account invested amount plus the invested amount of all accounts that directly or indirectly redirect rewards to this account.
+     * @param account The account to calculate the deep investment of.
+     * @return deepInvestedAmount The deep invested amount.
+     */
+    function _deepInvestmentOf(address account) internal view returns (uint256 deepInvestedAmount) {
+        // Consider account's direct investment
+        deepInvestedAmount += _investmentOf(account);
+
+        // But also investment of all accounts that directly or indirectly redirect to this account
+        for (uint256 i = 0; i < rewardsRedirectsToFrom[account].length; i++) {
+            deepInvestedAmount += _deepInvestmentOf(rewardsRedirectsToFrom[account][i]);
+        }
+    }
+
+    /**
      * @dev Calculates the current unclaimed rewards of a given account.
      * For further details, see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
      * @param account The account to calculate the rewards of.
@@ -227,9 +314,9 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
         uint256 lastPackCursor = _packedAPRCheckpoints[packsLength - 1].cursor;
         if (packsLength == 1 && lastPackCursor == 0) return 0;
 
-        // Retrieve account infos and deposited amount
+        // Retrieve account infos and deep deposited amount
         AccountInfos memory infos = accountsInfos[account];
-        uint256 depositedAmount = _investmentOf(account);
+        uint256 depositedAmount = _deepInvestmentOf(account);
 
         // Initialize variables that will be used in the following computations
         APRC.Reference memory currRef;
@@ -304,34 +391,64 @@ abstract contract InvestUpgradeable is Initializable, GlobalOwnableUpgradeable {
     }
 
     /**
+     * @dev Reset the investment period (timestamp + amount) of the given account plus
+     * the ones of all accounts that directly or indirectly redirect rewards to this account.
+     * @param account The account to reset the investment period of.
+     */
+    function _deepResetInvestmentPeriodOf(address account) internal {
+        // Reset account deposit timestamp to current block timestamp and checkpoint reference to the latest one
+        accountsInfos[account].period.timestamp = uint40(block.timestamp);
+        accountsInfos[account].period.ref = APRC.getLatestReference(_packedAPRCheckpoints);
+
+        // Also reset the ones of all accounts that directly or indirectly redirect rewards to this account
+        for (uint256 i = 0; i < rewardsRedirectsToFrom[account].length; i++) {
+            _deepResetInvestmentPeriodOf(rewardsRedirectsToFrom[account][i]);
+        }
+    }
+
+    /**
      * @dev Claim/Store the current rewards of an account and reset its investment period.
      * @param account The account to reset the investment period of.
      * @param autocompound Whether to autocompound the rewards.
      */
-    function _resetInvestmentPeriodOf(address account, bool autocompound) internal {
+    function _onInvestmentChange(address account, bool autocompound) internal {
         // As this function is called inside of _beforeTokenTransfer in LToken contract
         // and as claiming implies minting in LToken contract, this state prevents infinite
         // re-entrancy by skipping this function body while a claim is in progress.
         if (_isClaiming) return;
 
-        // Retrieve account's unclaimed rewards
-        uint256 rewards = _rewardsOf(account, autocompound);
+        // Skip reset if it already has been done during this block
+        if (accountsInfos[account].period.timestamp == uint40(block.timestamp)) return;
 
-        // If there are rewards to claim
-        if (rewards > 0) {
-            // Try claiming rewards
-            _isClaiming = true;
-            bool claimed = _claimRewardsOf(account, rewards); // Returns false if not implemented or failed
-            _isClaiming = false;
+        // If account redirects its rewards
+        address redirectRewardsTo = rewardsRedirectsFromTo[account];
+        if (redirectRewardsTo != address(0)) {
+            // Reset investment period of redirection target
+            // This will indirectly reset the investment period of the account itself
+            _onInvestmentChange(redirectRewardsTo, autocompound);
 
-            // If _claimRewardsOf() is not implemented by child contract or has failed
-            // Accumulate rewards in its virtual balance.
-            if (!claimed) accountsInfos[account].virtualBalance = rewards;
+            // Then return
+            return;
         }
 
-        // Reset deposit timestamp to current block timestamp and checkpoint reference to the latest one
-        accountsInfos[account].period.timestamp = uint40(block.timestamp);
-        accountsInfos[account].period.ref = APRC.getLatestReference(_packedAPRCheckpoints);
+        // Else if account doesn't redirect its rewards, continue
+        // Compute account's undistributed rewards
+        uint256 rewards = _rewardsOf(account, autocompound);
+
+        // If there some rewards to distribute
+        if (rewards > 0) {
+            // Try to distribute rewards to recipient
+            // _distributeRewards() returns false if not implemented or has failed
+            _isClaiming = true;
+            bool distributed = _distributeRewards(account, rewards);
+            _isClaiming = false;
+
+            // If rewards have not been distributed, accumulate them in recipient virtual balance
+            if (!distributed) accountsInfos[account].virtualBalance = rewards;
+        }
+
+        // Also reset those for all accounts that redirect rewards to this account
+        _deepResetInvestmentPeriodOf(account);
     }
 
     /**

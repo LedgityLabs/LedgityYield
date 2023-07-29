@@ -1140,7 +1140,7 @@ export const lTokenABI = [
       { name: "account", internalType: "address", type: "address" },
       { name: "amount", internalType: "uint256", type: "uint256" },
     ],
-    name: "getWithdrawanAmountAndFees",
+    name: "getWithdrawnAmountAndFees",
     outputs: [
       { name: "withdrawnAmount", internalType: "uint256", type: "uint256" },
       { name: "fees", internalType: "uint256", type: "uint256" },
@@ -1193,7 +1193,7 @@ export const lTokenABI = [
     stateMutability: "nonpayable",
     type: "function",
     inputs: [{ name: "amount", internalType: "uint256", type: "uint256" }],
-    name: "instantWithdraw",
+    name: "instantWithdrawal",
     outputs: [],
   },
   {
@@ -5478,10 +5478,10 @@ export function useLTokenGetExpectedRetained<
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getWithdrawanAmountAndFees"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getWithdrawnAmountAndFees"`.
  */
 export function useLTokenGetWithdrawanAmountAndFees<
-  TFunctionName extends "getWithdrawanAmountAndFees",
+  TFunctionName extends "getWithdrawnAmountAndFees",
   TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
 >(
   config: Omit<
@@ -5491,7 +5491,7 @@ export function useLTokenGetWithdrawanAmountAndFees<
 ) {
   return useContractRead({
     abi: lTokenABI,
-    functionName: "getWithdrawanAmountAndFees",
+    functionName: "getWithdrawnAmountAndFees",
     ...config,
   } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>);
 }
@@ -6136,23 +6136,23 @@ export function useLTokenInitialize<TMode extends WriteContractMode = undefined>
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdraw"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdrawal"`.
  */
 export function useLTokenInstantWithdraw<TMode extends WriteContractMode = undefined>(
   config: TMode extends "prepared"
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, "instantWithdraw">["request"]["abi"],
-        "instantWithdraw",
+        PrepareWriteContractResult<typeof lTokenABI, "instantWithdrawal">["request"]["abi"],
+        "instantWithdrawal",
         TMode
-      > & { functionName?: "instantWithdraw" }
-    : UseContractWriteConfig<typeof lTokenABI, "instantWithdraw", TMode> & {
+      > & { functionName?: "instantWithdrawal" }
+    : UseContractWriteConfig<typeof lTokenABI, "instantWithdrawal", TMode> & {
         abi?: never;
-        functionName?: "instantWithdraw";
+        functionName?: "instantWithdrawal";
       } = {} as any,
 ) {
-  return useContractWrite<typeof lTokenABI, "instantWithdraw", TMode>({
+  return useContractWrite<typeof lTokenABI, "instantWithdrawal", TMode>({
     abi: lTokenABI,
-    functionName: "instantWithdraw",
+    functionName: "instantWithdrawal",
     ...config,
   } as any);
 }
@@ -6638,19 +6638,19 @@ export function usePrepareLTokenInitialize(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdraw"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdrawal"`.
  */
 export function usePrepareLTokenInstantWithdraw(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, "instantWithdraw">,
+    UsePrepareContractWriteConfig<typeof lTokenABI, "instantWithdrawal">,
     "abi" | "functionName"
   > = {} as any,
 ) {
   return usePrepareContractWrite({
     abi: lTokenABI,
-    functionName: "instantWithdraw",
+    functionName: "instantWithdrawal",
     ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, "instantWithdraw">);
+  } as UsePrepareContractWriteConfig<typeof lTokenABI, "instantWithdrawal">);
 }
 
 /**

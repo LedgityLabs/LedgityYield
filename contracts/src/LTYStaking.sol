@@ -236,7 +236,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * by unlockFeesRateUD3. The entire fee is burned as a way to support the token's
      * ecosystem.
      */
-    function unlock() external {
+    function unlock() external whenNotPaused notBlacklisted(_msgSender()) {
         // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
@@ -274,7 +274,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         require(invested().balanceOf(_msgSender()) >= amount, "LTYStaking: insufficient balance");
 
         // Reset account's investment period
-        _resetInvestmentPeriodOf(_msgSender(), false);
+        _onInvestmentChange(_msgSender(), false);
 
         // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
@@ -314,7 +314,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         require(accountStake.lockEnd <= block.timestamp, "LTYStaking: lock period not ended");
 
         // Reset its investment period
-        _resetInvestmentPeriodOf(_msgSender(), false);
+        _onInvestmentChange(_msgSender(), false);
 
         // Update the amount staked by the account and the total amount staked
         accountStake.amount -= amount;
@@ -336,7 +336,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
     function claim() public whenNotPaused notBlacklisted(_msgSender()) {
         // Reset account investment period. This will accumualte current unclaimed
         // rewards into the account's virtual balance.
-        _resetInvestmentPeriodOf(_msgSender(), false);
+        _onInvestmentChange(_msgSender(), false);
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
@@ -368,7 +368,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Reset account investment period. This will accumualte current unclaimed
         // rewards into the account's virtual balance.
-        _resetInvestmentPeriodOf(_msgSender(), false);
+        _onInvestmentChange(_msgSender(), false);
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
@@ -406,13 +406,26 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         // Ensure the tier is > 0 (as it shouldn't be an index)
         require(tier > 0, "LTYStaking: tier cannot be 0");
 
+        // Retrieve tier index from tier number
+        uint256 tierIndex = tier - 1;
+
         // Create missing tiers in the tiers array
         for (uint256 i = _tiers.length; i < tier; i++) {
             _tiers.push(0);
         }
 
+        // Ensure tier amount is not greater than next tier one (if next tier exists)
+        if (tier != _tiers.length) {
+            require(amount <= _tiers[tierIndex + 1], "LTYStaking: amount greater than next tier");
+        }
+
+        // Ensure tier amount is not lower than previous tier one (if previous tier exists)
+        if (tier != 1) {
+            require(amount >= _tiers[tierIndex - 1], "LTYStaking: amount lower than previous tier");
+        }
+
         // Set the new tier value
-        _tiers[tier - 1] = amount;
+        _tiers[tierIndex] = amount;
     }
 
     /**
@@ -426,7 +439,7 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
         require(tier > 0, "LTYStaking: tier cannot be 0");
 
         // Ensure the staking tier exists
-        require(_tiers.length >= tier, "LTYStaking: tier does not exist");
+        require(tier <= _tiers.length, "LTYStaking: tier does not exist");
 
         // Return the tier value
         return _tiers[tier - 1];
@@ -438,10 +451,16 @@ contract LTYStaking is BaseUpgradeable, InvestUpgradeable {
      * @return tier The tier number (not its index in the array)
      */
     function tierOf(address account) public view returns (uint256 tier) {
-        // If the account has no stake, it is not elligible to any tier so returns 0
-        if (stakeOf(account) == 0) return 0;
+        // Retrieve user stake
+        uint256 stakedAmount = stakeOf(account);
 
-        // Else loop through tiers required amounts to find the highest tier the account is elligible to
-        while (tier < _tiers.length && stakeOf(account) >= _tiers[tier]) tier++;
+        // If the account has no stake or is not elligible to first tier, return 0
+        if (stakedAmount == 0 || _tiers.length == 0 || stakedAmount < getTier(1)) return 0;
+
+        // Else tier is at least equal to 1
+        tier = 1;
+
+        // Finally increment tier until there is no more tier or the staked amount doesn't fit in next one
+        while (tier + 1 <= _tiers.length && stakedAmount >= getTier(tier + 1)) tier++;
     }
 }

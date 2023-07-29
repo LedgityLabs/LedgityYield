@@ -8,25 +8,29 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {InvestUpgradeable} from "../../../src/abstracts/InvestUpgradeable.sol";
 import {GlobalOwner} from "../../../src/GlobalOwner.sol";
+import {GlobalPause} from "../../../src/GlobalPause.sol";
+import {GlobalBlacklist} from "../../../src/GlobalBlacklist.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {GenericERC20} from "../../../src/GenericERC20.sol";
 
 import {UDS3} from "../../../src/libs/UDS3.sol";
 import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
 
-contract TestedContract is Initializable, UUPSUpgradeable, InvestUpgradeable {
+contract TestedContract is InvestUpgradeable {
     mapping(address => uint256) public stakeOf;
 
     constructor() {
         _disableInitializers();
     }
 
-    function initialize(address globalOwner_, address invested_) public initializer {
-        __UUPSUpgradeable_init();
-        __Invest_init(globalOwner_, invested_);
+    function initialize(
+        address globalOwner_,
+        address globalPause_,
+        address globalBlacklist_,
+        address invested_
+    ) public initializer {
+        __Invest_init(globalOwner_, globalPause_, globalBlacklist_, invested_);
     }
-
-    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**
      * @dev Create simple stake and unstake functions to simulate investment.
@@ -35,12 +39,12 @@ contract TestedContract is Initializable, UUPSUpgradeable, InvestUpgradeable {
      * on invested().balanceOf()
      */
     function stake(uint256 amount) public {
-        _resetInvestmentPeriodOf(msg.sender, false);
+        _onInvestmentChange(msg.sender, false);
         stakeOf[msg.sender] += amount;
     }
 
     function unstake(uint256 amount) public {
-        _resetInvestmentPeriodOf(msg.sender, false);
+        _onInvestmentChange(msg.sender, false);
         stakeOf[msg.sender] -= amount;
     }
 
@@ -49,36 +53,36 @@ contract TestedContract is Initializable, UUPSUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev Implementation of _claimRewardsOf() function that can be controlled by boolean
+     * @dev Implementation of _distributeRewards() function that can be controlled by boolean
      * variables to simulate different scenarios.
      */
-    uint256 public _claimRewardsOf_CallsCount;
-    bool _claimRewardsOf_Implemented;
-    bool _claimRewardsOf_ResetInvestmentPeriod;
-    bool _claimRewardsOf_Autocompound;
+    uint256 public _distributeRewards_CallsCount;
+    bool _distributeRewards_Implemented;
+    bool _distributeRewards_ResetInvestmentPeriod;
+    bool _distributeRewards_Autocompound;
 
-    function set_claimRewardsOf_Implemented(bool value) public {
-        _claimRewardsOf_Implemented = value;
+    function set_distributeRewards_Implemented(bool value) public {
+        _distributeRewards_Implemented = value;
     }
 
-    function set_claimRewardsOf_ResetInvestmentPeriod(bool value) public {
-        _claimRewardsOf_ResetInvestmentPeriod = value;
+    function set_distributeRewards_ResetInvestmentPeriod(bool value) public {
+        _distributeRewards_ResetInvestmentPeriod = value;
     }
 
-    function set_claimRewardsOf_Autocompound(bool value) public {
-        _claimRewardsOf_Autocompound = value;
+    function set_distributeRewards_Autocompound(bool value) public {
+        _distributeRewards_Autocompound = value;
     }
 
-    function _claimRewardsOf(address account, uint256 amount) internal override returns (bool) {
+    function _distributeRewards(address account, uint256 amount) internal override returns (bool) {
         // Return false when not implemented
-        if (!_claimRewardsOf_Implemented) return false;
+        if (!_distributeRewards_Implemented) return false;
 
         // Keep track of implemented calls count
-        _claimRewardsOf_CallsCount++;
+        _distributeRewards_CallsCount++;
 
         // Reset investment period if requested
-        if (_claimRewardsOf_ResetInvestmentPeriod) {
-            _resetInvestmentPeriodOf(account, _claimRewardsOf_Autocompound);
+        if (_distributeRewards_ResetInvestmentPeriod) {
+            _onInvestmentChange(account, _distributeRewards_Autocompound);
         }
 
         // In this implementation claiming == re-investing / compounding
@@ -88,8 +92,8 @@ contract TestedContract is Initializable, UUPSUpgradeable, InvestUpgradeable {
         return true;
     }
 
-    function public_claimRewardsOf(address account, uint256 amount) public returns (bool) {
-        return _claimRewardsOf(account, amount);
+    function public_distributeRewards(address account, uint256 amount) public returns (bool) {
+        return _distributeRewards(account, amount);
     }
 
     function public_toDecimals(uint256 n) public view returns (uint256) {
@@ -117,28 +121,32 @@ contract TestedContract is Initializable, UUPSUpgradeable, InvestUpgradeable {
         return _calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD3, investedAmount);
     }
 
+    function public_deepInvestmentOf(address account) public view returns (uint256 deepInvestedAmount) {
+        return _deepInvestmentOf(account);
+    }
+
     function public_rewardsOf(address account, bool autocompound) public view returns (uint256 rewards) {
         return _rewardsOf(account, autocompound);
     }
 
-    function public_resetInvestmentPeriodOf(address account, bool autocompound) public {
-        _resetInvestmentPeriodOf(account, autocompound);
+    function public_onInvestmentChange(address account, bool autocompound) public {
+        _onInvestmentChange(account, autocompound);
+    }
+
+    function public_deepResetInvestmentPeriodOf(address account) public {
+        _deepResetInvestmentPeriodOf(account);
     }
 
     function public_accountsInfos(address account) public view returns (AccountInfos memory) {
         return accountsInfos[account];
-    }
-
-    function public_getStartCheckpointReferenceOf(
-        address account
-    ) public view returns (APRC.Reference memory) {
-        return ___getStartCheckpointReferenceOf(account);
     }
 }
 
 contract Tests is Test, ModifiersExpectations {
     TestedContract tested;
     GlobalOwner globalOwner;
+    GlobalPause globalPause;
+    GlobalBlacklist globalBlacklist;
     GenericERC20 investedToken;
 
     function setUp() public {
@@ -149,23 +157,55 @@ contract Tests is Test, ModifiersExpectations {
         globalOwner.initialize();
         vm.label(address(globalOwner), "GlobalOwner");
 
+        // Deploy GlobalPause
+        GlobalPause impl2 = new GlobalPause();
+        ERC1967Proxy proxy2 = new ERC1967Proxy(address(impl2), "");
+        globalPause = GlobalPause(address(proxy2));
+        globalPause.initialize(address(globalOwner));
+        vm.label(address(globalPause), "GlobalPause");
+
+        // Deploy GlobalBlacklist
+        GlobalBlacklist impl3 = new GlobalBlacklist();
+        ERC1967Proxy proxy3 = new ERC1967Proxy(address(impl3), "");
+        globalBlacklist = GlobalBlacklist(address(proxy3));
+        globalBlacklist.initialize(address(globalOwner));
+        vm.label(address(globalBlacklist), "GlobalBlacklist");
+
         // Deploy GenericERC20
         investedToken = new GenericERC20("Dummy Token", "DUMMY", 6);
         vm.label(address(investedToken), "Invested token");
 
         // Deploy tested contract
-        TestedContract impl2 = new TestedContract();
-        ERC1967Proxy proxy2 = new ERC1967Proxy(address(impl2), "");
-        tested = TestedContract(address(proxy2));
-        tested.initialize(address(globalOwner), address(investedToken));
+        TestedContract impl5 = new TestedContract();
+        ERC1967Proxy proxy5 = new ERC1967Proxy(address(impl5), "");
+        tested = TestedContract(address(proxy5));
+        tested.initialize(
+            address(globalOwner),
+            address(globalPause),
+            address(globalBlacklist),
+            address(investedToken)
+        );
         vm.label(address(tested), "TestedContract");
     }
 
     // =============================
     // === initialize() function ===
     function test_initialize_1() public {
-        console.log("Should properly set global owner");
+        console.log("Shouldn't be re-initializable");
+        vm.expectRevert(bytes("Initializable: contract is already initialized"));
+        tested.initialize(
+            address(globalOwner),
+            address(globalPause),
+            address(globalBlacklist),
+            address(investedToken)
+        );
+    }
+
+    function test_initialize_2() public {
+        console.log("Should properly set global owner, pause and blacklist");
         assertEq(tested.globalOwner(), address(globalOwner));
+        assertEq(tested.globalPause(), address(globalPause));
+        assertEq(tested.globalBlacklist(), address(globalBlacklist));
     }
 
     // ==============================
@@ -184,6 +224,456 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.getAPR(), newAPRUD3);
     }
 
+    // =======================================
+    // === startRedirectRewards() function ===
+    function testFuzz_startRedirectRewards_1(address from, address to) public {
+        console.log("Should revert if contract is paused ");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.startRedirectRewards(from, to);
+    }
+
+    function testFuzz_startRedirectRewards_2(address from, address to) public {
+        console.log("Should revert if from account is blacklisted");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(from);
+
+        // Expect revert
+        expectRevertRestricted();
+        tested.startRedirectRewards(from, to);
+    }
+
+    function testFuzz_startRedirectRewards_3(address from, address to) public {
+        console.log("Should revert if to account is blacklisted");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(to);
+
+        // Expect revert
+        expectRevertRestricted();
+        tested.startRedirectRewards(from, to);
+    }
+
+    function testFuzz_startRedirectRewards_4(address to) public {
+        console.log("Should revert if from account is zero address");
+
+        // Ensure to is not the zero address
+        vm.assume(to != address(0));
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: from cannot be zero address"));
+        tested.startRedirectRewards(address(0), to);
+    }
+
+    function testFuzz_startRedirectRewards_5(address from) public {
+        console.log("Should revert if to account is zero address");
+
+        // Ensure from is not the zero address
+        vm.assume(from != address(0));
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: to cannot be zero address"));
+        tested.startRedirectRewards(from, address(0));
+    }
+
+    function testFuzz_startRedirectRewards_6(address account) public {
+        console.log("Should revert if from and to are the same account");
+
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: cannot be the same address"));
+        tested.startRedirectRewards(account, account);
+    }
+
+    function testFuzz_startRedirectRewards_7(address from, address to, address otherAccount) public {
+        console.log("Should revert if caller is neither the owner nor the from account");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Ensure other account is neither the owner nor the from account nor the zero address
+        vm.assume(otherAccount != address(0));
+        vm.assume(otherAccount != from);
+        vm.assume(otherAccount != globalOwner.owner());
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: forbidden"));
+        vm.prank(otherAccount);
+        tested.startRedirectRewards(from, to);
+    }
+
+    function testFuzz_startRedirectRewards_8(uint16 aprUD3, address from, address to) public {
+        console.log("Should success if caller is owner");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+    }
+
+    function testFuzz_startRedirectRewards_9(uint16 aprUD3, address from, address to) public {
+        console.log("Should success if caller is from");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        vm.prank(from);
+        tested.startRedirectRewards(from, to);
+    }
+
+    function testFuzz_startRedirectRewards_10(
+        uint16 aprUD3,
+        address from,
+        address to,
+        uint32 duration
+    ) public {
+        console.log("Should reset from and to accounts investment periods");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Move time forward to simulate investment period
+        vm.assume(duration > 0);
+        skip(duration);
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+
+        // Assert that block timestamp is not 0
+        assertNotEq(block.timestamp, 0);
+
+        // Assert that from and to accounts investment period is equal to block timestamp
+        assertEq(tested.public_accountsInfos(from).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
+    }
+
+    function testFuzz_startRedirectRewards_11(uint16 aprUD3, address from, address to) public {
+        console.log("Should set to at from index in rewardsRedirectsFromTo");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+
+        // Assert that to has properly been set in rewardsRedirectsFromTo
+        assertEq(tested.rewardsRedirectsFromTo(from), to);
+    }
+
+    function testFuzz_startRedirectRewards_12(
+        uint16 aprUD3,
+        address from1,
+        address from2,
+        address to
+    ) public {
+        console.log("Should push from into at to index in rewardsRedirectsToFrom");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from1 != to);
+        vm.assume(from2 != to);
+        vm.assume(from1 != address(0));
+        vm.assume(from2 != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect from from1 to to
+        tested.startRedirectRewards(from1, to);
+
+        // Assert that from1 has properly been set in rewardsRedirectsToFrom
+        assertEq(tested.rewardsRedirectsToFrom(to, 0), from1);
+
+        // Start redirect from from2 to to
+        tested.startRedirectRewards(from2, to);
+
+        // Assert that from2 has properly been set in rewardsRedirectsToFrom
+        assertEq(tested.rewardsRedirectsToFrom(to, 1), from2);
+    }
+
+    // ======================================
+    // === stopRedirectRewards() function ===
+    function testFuzz_stopRedirectRewards_1(address from, address to) public {
+        console.log("Should revert if contract is paused ");
+        globalPause.pause();
+        expectRevertPaused();
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_2(address from, address to) public {
+        console.log("Should revert if from account is blacklisted");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(from);
+
+        // Expect revert
+        expectRevertRestricted();
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_3(address from, address to) public {
+        console.log("Should revert if to account is blacklisted");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Blacklist account
+        globalBlacklist.blacklist(to);
+
+        // Expect revert
+        expectRevertRestricted();
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_4(address to) public {
+        console.log("Should revert if from account is zero address");
+
+        // Ensure to is not the zero address
+        vm.assume(to != address(0));
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: from cannot be zero address"));
+        tested.stopRedirectRewards(address(0), to);
+    }
+
+    function testFuzz_stopRedirectRewards_5(address from) public {
+        console.log("Should revert if to account is zero address");
+
+        // Ensure from is not the zero address
+        vm.assume(from != address(0));
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: to cannot be zero address"));
+        tested.stopRedirectRewards(from, address(0));
+    }
+
+    function testFuzz_stopRedirectRewards_6(address from, address to, address otherAccount) public {
+        console.log("Should revert if caller is neither the owner nor the from account");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Ensure other account is neither the owner nor the from account nor the zero address
+        vm.assume(otherAccount != address(0));
+        vm.assume(otherAccount != from);
+        vm.assume(otherAccount != globalOwner.owner());
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: forbidden"));
+        vm.prank(otherAccount);
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_7(uint16 aprUD3, address from, address to) public {
+        console.log("Should success if caller is owner");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_8(uint16 aprUD3, address from, address to) public {
+        console.log("Should success if caller is from");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+        vm.prank(from);
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_9(address from, address to) public {
+        console.log("Should revert there were no redirect for given from and to accounts");
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Expect revert
+        vm.expectRevert(bytes("InvestUpgradeable: not redirected"));
+        vm.prank(from);
+        tested.stopRedirectRewards(from, to);
+    }
+
+    function testFuzz_stopRedirectRewards_10(
+        uint16 aprUD3,
+        address from,
+        address to,
+        uint32 duration
+    ) public {
+        console.log("Should reset from and to accounts investment periods");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+
+        // Move time forward to simulate investment period
+        vm.assume(duration > 0);
+        skip(duration);
+
+        // Stop redirect
+        tested.stopRedirectRewards(from, to);
+
+        // Assert that block timestamp is not 0
+        assertNotEq(block.timestamp, 0);
+
+        // Assert that from and to accounts investment period is equal to block timestamp
+        assertEq(tested.public_accountsInfos(from).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
+    }
+
+    function testFuzz_stopRedirectRewards_11(uint16 aprUD3, address from, address to) public {
+        console.log("Should reset to address at index from in rewardsRedirectsFromTo to zero address");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+
+        // Assert that rewardsRedirectsFromTo[from] is currently equal to to
+        assertEq(tested.rewardsRedirectsFromTo(from), to);
+
+        // Stop redirect
+        tested.stopRedirectRewards(from, to);
+
+        // Assert that rewardsRedirectsFromTo[from] is now equal to zero address
+        assertEq(tested.rewardsRedirectsFromTo(from), address(0));
+    }
+
+    function testFuzz_stopRedirectRewards_12(uint16 aprUD3, address from, address to) public {
+        console.log("Should properly remove from address from index to in rewardsRedirectsToFrom");
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect
+        tested.startRedirectRewards(from, to);
+
+        // Assert that rewardsRedirectsToFrom[to][] is currently equal to from
+        assertEq(tested.rewardsRedirectsToFrom(to, 0), from);
+
+        // Stop redirect
+        tested.stopRedirectRewards(from, to);
+
+        // Assert that index doesn't exist anymore
+        vm.expectRevert();
+        tested.rewardsRedirectsToFrom(to, 0);
+    }
+
+    function testFuzz_stopRedirectRewards_13(
+        uint16 aprUD3,
+        address from1,
+        address from2,
+        address from3,
+        address to
+    ) public {
+        console.log(
+            "Shouldn't let empty array slot and fill them with last element of the rewardsRedirectsToFrom array"
+        );
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Ensure accounts different and not not the zero address
+        vm.assume(from1 != to);
+        vm.assume(from2 != to);
+        vm.assume(from3 != to);
+        vm.assume(from1 != address(0));
+        vm.assume(from2 != address(0));
+        vm.assume(from3 != address(0));
+        vm.assume(to != address(0));
+
+        // Start redirect all from to to
+        tested.startRedirectRewards(from1, to);
+        tested.startRedirectRewards(from2, to);
+        tested.startRedirectRewards(from3, to);
+
+        // Assert that they have properly been set in rewardsRedirectsToFrom
+        assertEq(tested.rewardsRedirectsToFrom(to, 0), from1);
+        assertEq(tested.rewardsRedirectsToFrom(to, 1), from2);
+        assertEq(tested.rewardsRedirectsToFrom(to, 2), from3);
+
+        // Stop redirect from2 to to
+        tested.stopRedirectRewards(from2, to);
+
+        // Assert that index have been properly updated without letting blank slot
+        assertEq(tested.rewardsRedirectsToFrom(to, 0), from1);
+        assertEq(tested.rewardsRedirectsToFrom(to, 1), from3);
+
+        // Assert that the array has not third item anymore
+        vm.expectRevert();
+        tested.rewardsRedirectsToFrom(to, 2);
+    }
+
     // =========================
     // === getAPR() function ===
     function testFuzz_getAPR_1(uint16 newAPRUD3) public {
@@ -199,12 +689,12 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     // ==================================
-    // === _claimRewardsOf() function ===
-    function testFuzz__claimRewardsOf_1(address account, uint256 amount) public {
+    // === _distributeRewards() function ===
+    function testFuzz__distributeRewards_1(address account, uint256 amount) public {
         console.log("Should return false when not implemented");
-        // Note: as we don't call set_claimRewardsOf_Implemented(true) the function
+        // Note: as we don't call set_distributeRewards_Implemented(true) the function
         // behave like it's not implemented
-        assertFalse(tested.public_claimRewardsOf(account, amount));
+        assertFalse(tested.public_distributeRewards(account, amount));
     }
 
     // ==============================
@@ -500,6 +990,112 @@ contract Tests is Test, ModifiersExpectations {
         }
     }
 
+    // ====================================
+    // === _deepInvestmentOf() function ===
+    function testFuzz__deepInvestmentOf_1(address account) public {
+        console.log("Should return 0 when no investment");
+
+        assertEq(tested.public_deepInvestmentOf(account), 0);
+    }
+
+    function testFuzz__deepInvestmentOf_2(
+        uint16 aprUD3,
+        address account1,
+        address account2,
+        address account3,
+        uint256 amount
+    ) public {
+        console.log(
+            "Should return investment of account only if no other account redirect its rewards to to it"
+        );
+
+        // Ensure 3 accounts are different
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+
+        // Cap amount to 100T
+        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Make the three accounts investing
+        vm.prank(account1);
+        tested.stake(amount + 1);
+        vm.prank(account2);
+        tested.stake(amount + 2);
+        vm.prank(account3);
+        tested.stake(amount + 3);
+
+        // Assert that deep investment of account1 is equal to its investment
+        assertEq(tested.public_deepInvestmentOf(account1), amount + 1);
+
+        // Assert that deep investment of account2 is equal to its investment
+        assertEq(tested.public_deepInvestmentOf(account2), amount + 2);
+
+        // Assert that deep investment of account3 is equal to its investment
+        assertEq(tested.public_deepInvestmentOf(account3), amount + 3);
+    }
+
+    function testFuzz__deepInvestmentOf_3(
+        uint16 aprUD3,
+        address account1,
+        address account2,
+        address account3,
+        uint256 amount
+    ) public {
+        console.log(
+            "Should return sum of account investment plus one of all other accounts that redirects to it"
+        );
+
+        // Ensure 3 accounts are different and not the zero address
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+        vm.assume(account1 != address(0));
+        vm.assume(account2 != address(0));
+        vm.assume(account3 != address(0));
+
+        // Cap amount to 100T
+        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+
+        // Set first random APR
+        tested.setAPR(aprUD3);
+
+        // Invest with account1
+        vm.prank(account1);
+        tested.stake(amount + 1);
+        vm.prank(account2);
+        tested.stake(amount + 2);
+        vm.prank(account3);
+        tested.stake(amount + 3);
+
+        // Assert that deep investment of account1 is equal to its investment
+        assertEq(tested.public_deepInvestmentOf(account1), amount + 1);
+
+        // Redirect account2 rewards to account1
+        tested.startRedirectRewards(account2, account1);
+
+        // Assert that deep investment of account1 is equal to its investment plus account2 investment
+        assertEq(tested.public_deepInvestmentOf(account1), amount + 1 + amount + 2);
+
+        // Redirect account3 rewards to account2
+        tested.startRedirectRewards(account3, account2);
+
+        // Assert that deep investment of account1 is equal to its investment plus account2 investment plus account3 investment
+        assertEq(tested.public_deepInvestmentOf(account1), amount + 1 + amount + 2 + amount + 3);
+
+        // Stop redirect account2 rewards to account1
+        tested.stopRedirectRewards(account2, account1);
+
+        // Assert that deep investment of account1 is equal to its investment plus account3 investment
+        assertEq(tested.public_deepInvestmentOf(account1), amount + 1);
+
+        // Assert that deep investment of account2 is equal to its investment plus account3 investment
+        assertEq(tested.public_deepInvestmentOf(account2), amount + 2 + amount + 3);
+    }
+
     // =============================
     // === _rewardsOf() function ===
     function testFuzz__rewardsOf_1(uint8 decimals, bool autocompound) public {
@@ -594,7 +1190,7 @@ contract Tests is Test, ModifiersExpectations {
         investmentDuration = uint40(bound(investmentDuration, 0, 365 days));
 
         // Cap number of checkpoints to 200
-        numberOfCheckpoints = bound(numberOfCheckpoints, 1, 200);
+        numberOfCheckpoints = bound(numberOfCheckpoints, 1, 100);
 
         // Create random number of checkpoints after investment
         uint256 expectedRewards = 0;
@@ -642,9 +1238,257 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(rewards, expectedRewards);
     }
 
+    function testFuzz__rewardsOf_5(
+        uint8 decimals,
+        uint16 aprUD3,
+        address account1,
+        address account2,
+        address account3,
+        uint256 investedAmount,
+        uint256 numberOfCheckpoints,
+        bool autocompound,
+        uint40 investmentDuration
+    ) public {
+        console.log(
+            "Should properly calculate rewards when given account is the target of one or many rewards redirections"
+        );
+
+        // Ensure 3 accounts are different and not equal to zero address
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+        vm.assume(account1 != address(0));
+        vm.assume(account2 != address(0));
+        vm.assume(account3 != address(0));
+
+        // Bound decimals to [0, 18] and set random invested token decimals
+        decimals = uint8(bound(decimals, 0, 18));
+        investedToken.setDecimals(decimals);
+
+        // Cap invested amount to 100T
+        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+
+        // Cap interval between checkpoints to 365 days
+        investmentDuration = uint40(bound(investmentDuration, 0, 365 days));
+
+        // Cap number of checkpoints to 200
+        numberOfCheckpoints = bound(numberOfCheckpoints, 1, 100);
+
+        // Create random number of checkpoints after investment
+        uint256 expectedRewards = 0;
+        uint40 latestCheckpointTimestamp = uint40(block.timestamp);
+        uint16 latestCheckpointApr = aprUD3;
+
+        // Create first APR
+        tested.setAPR(latestCheckpointApr);
+
+        // Invest random amount of tokens with 3 accounts
+        vm.prank(account1);
+        tested.stake(investedAmount + 1);
+        vm.prank(account2);
+        tested.stake(investedAmount + 2);
+        vm.prank(account3);
+        tested.stake(investedAmount + 3);
+
+        // Redirect account2 rewards to account1
+        tested.startRedirectRewards(account2, account1);
+
+        // Redirect account3 rewards to account2
+        tested.startRedirectRewards(account3, account2);
+
+        // Consider that now account1 deposited amount is equal to account1 + account2 deposited amounts
+        uint256 depositedAmount = investedAmount + 1 + investedAmount + 2 + investedAmount + 3;
+
+        // Create random number of checkpoints after investment
+        for (uint256 i = 0; i < numberOfCheckpoints; i++) {
+            uint40 newCheckpointTimestamp = uint40(block.timestamp);
+            uint16 newCheckpointApr = aprUD3;
+            tested.setAPR(newCheckpointApr);
+
+            // Move forward a random amount of time
+            skip(investmentDuration);
+
+            // Calculate expected rewards for this past period
+            expectedRewards += tested.public_calculatePeriodRewards(
+                latestCheckpointTimestamp,
+                newCheckpointTimestamp,
+                latestCheckpointApr,
+                depositedAmount + (autocompound ? expectedRewards : 0)
+            );
+
+            latestCheckpointTimestamp = newCheckpointTimestamp;
+            latestCheckpointApr = newCheckpointApr;
+        }
+
+        // Calculate rewards from last checkpoint to now
+        expectedRewards += tested.public_calculatePeriodRewards(
+            latestCheckpointTimestamp,
+            uint40(block.timestamp),
+            latestCheckpointApr,
+            depositedAmount + (autocompound ? expectedRewards : 0)
+        );
+
+        // Ensure calculated rewards are equal to expected rewards
+        uint256 rewards = tested.public_rewardsOf(account1, autocompound);
+        assertEq(rewards, expectedRewards);
+    }
+
+    // ===============================================
+    // === _deepResetInvestmentPeriodOf() function ===
+    function testFuzz__deepResetInvestmentPeriodOf_1(
+        uint16 aprUD3,
+        address account,
+        uint32 duration
+    ) public {
+        console.log("Should reset given account investment period");
+
+        // Set random APR
+        tested.setAPR(aprUD3);
+
+        // Assert that current account investment period block timestamp is 0
+        assertEq(tested.public_accountsInfos(account).period.timestamp, 0);
+
+        // Skip random amount of time to simulate investment period
+        skip(duration);
+
+        // Call _deepResetInvestmentPeriodOf()
+        tested.public_deepResetInvestmentPeriodOf(account);
+
+        // Assert that account investment period has been reset
+        assertEq(tested.public_accountsInfos(account).period.timestamp, block.timestamp);
+    }
+
+    function testFuzz__deepResetInvestmentPeriodOf_2(
+        uint16 aprUD3,
+        address account1,
+        address account2,
+        address account3,
+        uint256 amount,
+        uint32 duration
+    ) public {
+        console.log(
+            "Should not reset account investment period (timestamp + apr) of accounts that aren't redirecting rewards to given account"
+        );
+
+        // Set random APR
+        tested.setAPR(aprUD3);
+
+        // Assert that accounts are different
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+
+        // Cap amount to 100T
+        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+
+        // Invest random amount of tokens with 3 accounts
+        // This will initialize their investment periods
+        vm.prank(account1);
+        tested.stake(amount + 1);
+        vm.prank(account2);
+        tested.stake(amount + 2);
+        vm.prank(account3);
+        tested.stake(amount + 3);
+
+        // Assert that current accounts investment period is 1 (first block timestamp)
+        assertEq(tested.public_accountsInfos(account1).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account2).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account3).period.timestamp, 1);
+
+        // Skip random amount of time to simulate investment period
+        skip(duration);
+
+        // Set new APR
+        uint16 newAPRUD3 = aprUD3 < type(uint16).max ? aprUD3 + 1 : aprUD3 - 1;
+        tested.setAPR(newAPRUD3);
+
+        // Call _deepResetInvestmentPeriodOf() on account
+        tested.public_deepResetInvestmentPeriodOf(account1);
+
+        // Assert that account investment period has been reset
+        assertEq(tested.public_accountsInfos(account1).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 1);
+
+        // Assert that other accounts investment period haven't been reset
+        assertEq(tested.public_accountsInfos(account2).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 0);
+
+        assertEq(tested.public_accountsInfos(account3).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 0);
+    }
+
+    function testFuzz__deepResetInvestmentPeriodOf_3(
+        uint16 aprUD3,
+        address account1,
+        address account2,
+        address account3,
+        uint256 amount,
+        uint32 duration
+    ) public {
+        console.log(
+            "Should reset account investment period (timestamp + apr) of accounts that are redirecting rewards to given account"
+        );
+
+        // Set random APR
+        tested.setAPR(aprUD3);
+
+        // Assert that accounts are different and not zero addresses
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+        vm.assume(account1 != address(0));
+        vm.assume(account2 != address(0));
+        vm.assume(account3 != address(0));
+
+        // Cap amount to 100T
+        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+
+        // Invest random amount of tokens with 3 accounts
+        // This will initialize their investment periods
+        vm.prank(account1);
+        tested.stake(amount + 1);
+        vm.prank(account2);
+        tested.stake(amount + 2);
+        vm.prank(account3);
+        tested.stake(amount + 3);
+
+        // Redirect account2 rewards to account1
+        tested.startRedirectRewards(account2, account1);
+
+        // Redirect account3 rewards to account2
+        tested.startRedirectRewards(account3, account2);
+
+        // Assert that current accounts investment period is 1 (first block timestamp)
+        assertEq(tested.public_accountsInfos(account1).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account2).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account3).period.timestamp, 1);
+
+        // Skip random amount of time to simulate investment period
+        duration = uint32(bound(duration, 1, type(uint32).max));
+        skip(duration);
+
+        // Set new APR
+        uint16 newAPRUD3 = aprUD3 < type(uint16).max ? aprUD3 + 1 : aprUD3 - 1;
+        tested.setAPR(newAPRUD3);
+
+        // Call _deepResetInvestmentPeriodOf() on account
+        tested.public_deepResetInvestmentPeriodOf(account1);
+
+        // Assert that account investment period has been reset
+        assertEq(tested.public_accountsInfos(account1).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 1);
+
+        // Assert that other accounts investment period have been reset
+        assertEq(tested.public_accountsInfos(account2).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 1);
+
+        assertEq(tested.public_accountsInfos(account3).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 1);
+    }
+
     // ===========================================
-    // === _resetInvestmentPeriodOf() function ===
-    function test__resetInvestmentPeriodOf_1(
+    // === _onInvestmentChange() function ===
+    function test__onInvestmentChange_1(
         uint8 decimals,
         uint256 investedAmount,
         uint16 aprUD3,
@@ -652,7 +1496,7 @@ contract Tests is Test, ModifiersExpectations {
         bool autocompound
     ) public {
         console.log(
-            "Should call claim rewards once / no infinite re-entrancy if _claimRewardsOf() itself indirectly or directly calls _resetInvestmentPeriodOf()"
+            "Should call claim rewards once / no infinite re-entrancy if _distributeRewards() itself indirectly or directly calls _onInvestmentChange()"
         );
 
         // Bound decimals to [0, 18] and set random invested token decimals
@@ -665,9 +1509,9 @@ contract Tests is Test, ModifiersExpectations {
         // Cap interval between checkpoints to 100 years
         investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
 
-        // Implements _claimRewardsOf() and make it call _resetInvestmentPeriodOf() again
-        tested.set_claimRewardsOf_Implemented(true);
-        tested.set_claimRewardsOf_ResetInvestmentPeriod(true);
+        // Implements _distributeRewards() and make it call _onInvestmentChange() again
+        tested.set_distributeRewards_Implemented(true);
+        tested.set_distributeRewards_ResetInvestmentPeriod(true);
 
         // Simulate investment period
         tested.setAPR(aprUD3);
@@ -675,16 +1519,16 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(investedAmount);
         skip(investmentDuration);
 
-        // Call _resetInvestmentPeriodOf()
-        tested.public_resetInvestmentPeriodOf(address(1234), autocompound);
+        // Call _onInvestmentChange()
+        tested.public_onInvestmentChange(address(1234), autocompound);
 
-        // Check that _claimRewardsOf() has been called once
-        // Note that we use "lower than equal" as the _claimRewardsOf() function may not be
+        // Check that _distributeRewards() has been called once
+        // Note that we use "lower than equal" as the _distributeRewards() function may not be
         // called at all if rewards are equal to 0
-        assertLe(tested._claimRewardsOf_CallsCount(), 1);
+        assertLe(tested._distributeRewards_CallsCount(), 1);
     }
 
-    function test__resetInvestmentPeriodOf_2(
+    function test__onInvestmentChange_2(
         uint8 decimals,
         uint256 investedAmount,
         uint16 aprUD3,
@@ -693,7 +1537,7 @@ contract Tests is Test, ModifiersExpectations {
         bool isImplemented
     ) public {
         console.log(
-            "Should rely on _claimRewardsOf() to distribute rewards if implemented (= returns true) else on virtual balance"
+            "Should rely on _distributeRewards() to distribute rewards if implemented (= returns true) else on virtual balance"
         );
 
         // Bound decimals to [0, 18] and set random invested token decimals
@@ -706,8 +1550,8 @@ contract Tests is Test, ModifiersExpectations {
         // Cap interval between checkpoints to 100 years
         investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
 
-        // Randomly implement _claimRewardsOf()
-        tested.set_claimRewardsOf_Implemented(isImplemented);
+        // Randomly implement _distributeRewards()
+        tested.set_distributeRewards_Implemented(isImplemented);
 
         // Simulate investment period
         tested.setAPR(aprUD3);
@@ -720,13 +1564,13 @@ contract Tests is Test, ModifiersExpectations {
         uint256 oldStakedBalance = tested.stakeOf(address(1234));
         uint256 oldVirtualBalance = tested.public_accountsInfos(address(1234)).virtualBalance;
 
-        // Call _resetInvestmentPeriodOf()
-        tested.public_resetInvestmentPeriodOf(address(1234), autocompound);
+        // Call _onInvestmentChange()
+        tested.public_onInvestmentChange(address(1234), autocompound);
 
-        // If _claimRewardsOf() is implemented
+        // If _distributeRewards() is implemented
         if (isImplemented) {
             // Ensure that is has been called
-            assertLe(tested._claimRewardsOf_CallsCount(), 1);
+            assertLe(tested._distributeRewards_CallsCount(), 1);
 
             // Ensure that it has properly minted rewards
             uint256 newStakedBalance = tested.stakeOf(address(1234));
@@ -739,7 +1583,7 @@ contract Tests is Test, ModifiersExpectations {
         // If it isn't
         else {
             // Ensure that it hasn't been called
-            assertEq(tested._claimRewardsOf_CallsCount(), 0);
+            assertEq(tested._distributeRewards_CallsCount(), 0);
 
             // Ensure that rewards have been properly accumulated in virtual balance
             uint256 newVirtualBalance = tested.public_accountsInfos(address(1234)).virtualBalance;
@@ -747,7 +1591,92 @@ contract Tests is Test, ModifiersExpectations {
         }
     }
 
-    function test__resetInvestmentPeriodOf_3(
+    function test__onInvestmentChange_3(
+        uint8 decimals,
+        address account1,
+        address account2,
+        address account3,
+        uint256 investedAmount,
+        uint16 aprUD3,
+        uint32 duration,
+        bool autocompound,
+        bool isImplemented
+    ) public {
+        console.log("Should distribute rewards to account at the very end of the redirection chain");
+        // Set random APR
+        tested.setAPR(aprUD3);
+
+        // Bound decimals to [0, 18] and set random invested token decimals
+        decimals = uint8(bound(decimals, 0, 18));
+        investedToken.setDecimals(decimals);
+
+        // Randomly implement _distributeRewards()
+        tested.set_distributeRewards_Implemented(isImplemented);
+
+        // Assert that accounts are different and not zero addresses
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+        vm.assume(account1 != address(0));
+        vm.assume(account2 != address(0));
+        vm.assume(account3 != address(0));
+
+        // Cap investedAmount to 100T
+        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+
+        // Invest random amount of tokens with 3 accounts
+        // This will initialize their investment periods
+        vm.prank(account1);
+        tested.stake(investedAmount + 1);
+        vm.prank(account2);
+        tested.stake(investedAmount + 2);
+        vm.prank(account3);
+        tested.stake(investedAmount + 3);
+
+        // Redirect account2 rewards to account1
+        tested.startRedirectRewards(account2, account1);
+
+        // Redirect account3 rewards to account2
+        tested.startRedirectRewards(account3, account2);
+
+        // Assert that current accounts stakes are equal to invested amount
+        assertEq(tested.stakeOf(account1), investedAmount + 1);
+        assertEq(tested.stakeOf(account2), investedAmount + 2);
+        assertEq(tested.stakeOf(account3), investedAmount + 3);
+
+        // Assert that all accounts virtual balances are empty
+        assertEq(tested.public_accountsInfos(account1).virtualBalance, 0);
+        assertEq(tested.public_accountsInfos(account2).virtualBalance, 0);
+        assertEq(tested.public_accountsInfos(account3).virtualBalance, 0);
+
+        // Skip random amount of time to simulate investment period
+        duration = uint32(bound(duration, 1, type(uint32).max));
+        skip(duration);
+
+        // Compute account 1 rewards
+        uint256 account1Rewards = tested.public_rewardsOf(account1, autocompound);
+
+        // Call _onInvestmentChange()
+        tested.public_onInvestmentChange(account1, autocompound);
+
+        // Assert that account2 and account3 stakes and virtual balances haven't changed (they received not rewards)
+        assertEq(tested.stakeOf(account2), investedAmount + 2);
+        assertEq(tested.stakeOf(account3), investedAmount + 3);
+        assertEq(tested.public_accountsInfos(account2).virtualBalance, 0);
+        assertEq(tested.public_accountsInfos(account3).virtualBalance, 0);
+
+        // Assert that account1 has received rewards
+        // If distribute rewards is implemented assert that rewards have been compounded to stake
+        if (isImplemented) {
+            assertEq(tested.stakeOf(account1), investedAmount + 1 + account1Rewards);
+        }
+        // Else assert that rewards have been accumulated in virtual balance
+        else {
+            assertEq(tested.public_accountsInfos(account1).virtualBalance, account1Rewards);
+        }
+    }
+
+    function test__onInvestmentChange_4(
         uint8 decimals,
         uint256 investedAmount,
         uint16 aprUD3,
@@ -755,7 +1684,7 @@ contract Tests is Test, ModifiersExpectations {
         bool autocompound,
         bool isImplemented
     ) public {
-        console.log("Should reset investment period timestamp to now");
+        console.log("Should reset investment period timestamp of given account to now");
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
@@ -767,8 +1696,8 @@ contract Tests is Test, ModifiersExpectations {
         // Cap interval between checkpoints to 100 years
         investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
 
-        // Randomly implement _claimRewardsOf()
-        tested.set_claimRewardsOf_Implemented(isImplemented);
+        // Randomly implement _distributeRewards()
+        tested.set_distributeRewards_Implemented(isImplemented);
 
         // Simulate investment period
         tested.setAPR(aprUD3);
@@ -776,53 +1705,88 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(investedAmount);
         skip(investmentDuration);
 
-        // Call _resetInvestmentPeriodOf()
-        tested.public_resetInvestmentPeriodOf(address(1234), autocompound);
+        // Call _onInvestmentChange()
+        tested.public_onInvestmentChange(address(1234), autocompound);
 
         // Ensure that the investment period timestamp has been updated to now
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function test__resetInvestmentPeriodOf_4(
+    function test__onInvestmentChange_5(
         uint8 decimals,
+        address account1,
+        address account2,
+        address account3,
         uint256 investedAmount,
         uint16 aprUD3,
-        uint40 investmentDuration,
+        uint32 duration,
         bool autocompound,
         bool isImplemented
     ) public {
-        console.log("Should set investment period checkpoint reference to latest APR checkpoint");
+        console.log(
+            "Should reset investment period timestamp of all accounts that directly or indirectly redirect rewards to given accounts"
+        );
+        // Set random APR
+        tested.setAPR(aprUD3);
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
         investedToken.setDecimals(decimals);
 
-        // Cap invested amount to 100T
+        // Randomly implement _distributeRewards()
+        tested.set_distributeRewards_Implemented(isImplemented);
+
+        // Assert that accounts are different and not zero addresses
+        vm.assume(account1 != account2);
+        vm.assume(account1 != account3);
+        vm.assume(account2 != account3);
+        vm.assume(account1 != address(0));
+        vm.assume(account2 != address(0));
+        vm.assume(account3 != address(0));
+
+        // Cap investedAmount to 100T
         investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
 
-        // Cap interval between checkpoints to 100 years
-        investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
+        // Invest random amount of tokens with 3 accounts
+        // This will initialize their investment periods
+        vm.prank(account1);
+        tested.stake(investedAmount + 1);
+        vm.prank(account2);
+        tested.stake(investedAmount + 2);
+        vm.prank(account3);
+        tested.stake(investedAmount + 3);
 
-        // Randomly implement _claimRewardsOf()
-        tested.set_claimRewardsOf_Implemented(isImplemented);
+        // Redirect account2 rewards to account1
+        tested.startRedirectRewards(account2, account1);
 
-        // Simulate investment period
-        tested.setAPR(aprUD3);
-        vm.prank(address(1234));
-        tested.stake(investedAmount);
-        skip(investmentDuration);
+        // Redirect account3 rewards to account2
+        tested.startRedirectRewards(account3, account2);
 
-        // Call _resetInvestmentPeriodOf()
-        tested.public_resetInvestmentPeriodOf(address(1234), autocompound);
+        // Assert that current accounts investment period is 1 (first block timestamp)
+        assertEq(tested.public_accountsInfos(account1).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account2).period.timestamp, 1);
+        assertEq(tested.public_accountsInfos(account3).period.timestamp, 1);
 
-        // Ensure that the checkpoint reference is the same as the latest APR checkpoint
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.packIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).packIndex
-        );
-        assertEq(
-            tested.public_accountsInfos(address(1234)).period.ref.cursorIndex,
-            tested.public_getStartCheckpointReferenceOf(address(1234)).cursorIndex
-        );
+        // Skip random amount of time to simulate investment period
+        duration = uint32(bound(duration, 1, type(uint32).max));
+        skip(duration);
+
+        // Set new APR
+        uint16 newAPRUD3 = aprUD3 < type(uint16).max ? aprUD3 + 1 : aprUD3 - 1;
+        tested.setAPR(newAPRUD3);
+
+        // Call _onInvestmentChange()
+        tested.public_onInvestmentChange(account1, autocompound);
+
+        // Assert that account investment period has been reset
+        assertEq(tested.public_accountsInfos(account1).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 1);
+
+        // Assert that other accounts investment period have been reset
+        assertEq(tested.public_accountsInfos(account2).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 1);
+
+        assertEq(tested.public_accountsInfos(account3).period.timestamp, block.timestamp);
+        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 1);
     }
 }

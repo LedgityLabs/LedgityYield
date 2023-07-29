@@ -63,11 +63,15 @@ contract Tests is Test, ModifiersExpectations {
     // ============================
     // === blacklist() function ===
     // ========================
-    function test_blacklist_1() public {
+    function test_blacklist_1(address account) public {
         console.log("Should revert if not called by owner");
 
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.blacklist(address(4321));
     }
 
@@ -85,14 +89,17 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.isBlacklisted(address(1234)), true);
     }
 
-    // ============================
+    // ==============================
     // === unBlacklist() function ===
-    // ========================
-    function test_unBlacklist_1() public {
+    function test_unBlacklist_1(address account, address blacklistedAccount) public {
         console.log("Should revert if not called by owner");
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
-        tested.unBlacklist(address(4321));
+        vm.prank(account);
+        tested.unBlacklist(blacklistedAccount);
     }
 
     function test_unBlacklist_2() public {

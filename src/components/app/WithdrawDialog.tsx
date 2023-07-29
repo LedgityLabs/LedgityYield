@@ -38,7 +38,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const instantWithdrawalPreparation = usePrepareLTokenInstantWithdraw({
+  const instantWithdrawalalPreparation = usePrepareLTokenInstantWithdraw({
     address: lTokenAddress!,
     args: [withdrawnAmount],
   });
@@ -65,7 +65,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             <br />
             <br />
             {/* If instant withdrawal is not posssible actually, display info message */}
-            {instantWithdrawalPreparation.isError && (
+            {instantWithdrawalalPreparation.isError && (
               <span className="inline-block bg-blue-100 rounded-2xl p-6 pt-4">
                 <h4 className="text-blue-500 text-lg font-semibold mb-2">
                   <i className="ri-information-line"></i> Your request will be queued
@@ -101,10 +101,10 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             }
           />
           {/* If instant withdrawal is possible actually */}
-          {(!instantWithdrawalPreparation.isError && (
+          {(!instantWithdrawalalPreparation.isError && (
             <TxButton
               size="medium"
-              preparation={instantWithdrawalPreparation}
+              preparation={instantWithdrawalalPreparation}
               className="relative -top-[1.5px]"
               transactionSummary={
                 <p>

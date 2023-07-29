@@ -3,8 +3,9 @@ import { getContractAddress } from "./lib/getContractAddress";
 
 const main = async () => {
   const underlyingAddress = getContractAddress("EUROC");
-  return await deployProxy("LEUROC", true, true, true, [underlyingAddress]);
-}
+  const ltyStakingAddress = getContractAddress("LTYStaking");
+  return await deployProxy("LEUROC", true, true, true, [underlyingAddress, ltyStakingAddress]);
+};
 
 export default main().catch((error) => {
   console.error(error);

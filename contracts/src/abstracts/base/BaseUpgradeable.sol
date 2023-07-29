@@ -3,9 +3,9 @@ pragma solidity ^0.8.20;
 
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import {GlobalRestrictableUpgradeable} from "../GlobalRestrictableUpgradeable.sol";
 import {GlobalPausableUpgradeable} from "../GlobalPausableUpgradeable.sol";
 import {GlobalOwnableUpgradeable} from "../GlobalOwnableUpgradeable.sol";
+import {GlobalRestrictableUpgradeable} from "../GlobalRestrictableUpgradeable.sol";
 import {RecoverableUpgradeable} from "../RecoverableUpgradeable.sol";
 
 /**
@@ -38,20 +38,20 @@ abstract contract BaseUpgradeable is
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param _globalOwner The address of the GlobalOwner contract
-     * @param _globalPause The address of the GlobalPause contract
-     * @param _globalBlacklist The address of the GlobalBlacklist contract
+     * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalPause_ The address of the GlobalPause contract
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract
      */
     function __Base_init(
-        address _globalOwner,
-        address _globalPause,
-        address _globalBlacklist
+        address globalOwner_,
+        address globalPause_,
+        address globalBlacklist_
     ) internal onlyInitializing {
         __UUPSUpgradeable_init();
-        __GlobalOwnable_init(_globalOwner);
+        __GlobalOwnable_init(globalOwner_);
         __Pausable_init();
-        __GlobalPausable_init_unchained(_globalPause);
-        __GlobalRestrictable_init_unchained(_globalBlacklist);
+        __GlobalPausable_init_unchained(globalPause_);
+        __GlobalRestrictable_init_unchained(globalBlacklist_);
         __Recoverable_init_unchained();
     }
 

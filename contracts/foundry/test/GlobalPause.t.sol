@@ -62,10 +62,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // ========================
     // === pause() function ===
-    function test_pause_1() public {
+    function test_pause_1(address account) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.pause();
     }
 
@@ -77,10 +82,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // ========================
     // === unpause() function ===
-    function test_unpause_1() public {
+    function test_unpause_1(address account) public {
         console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
+        vm.prank(account);
         tested.unpause();
     }
 

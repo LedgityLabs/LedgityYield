@@ -57,12 +57,16 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===============================
     // === recoverERC20() function ===
-    function test_recoverERC20_1() public {
+    function test_recoverERC20_1(address account, address tokenAddress, uint256 recoveredAmount) public {
         console.log("Should revert if not called by owner");
 
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
         expectRevertOnlyOwner();
-        vm.prank(address(1234));
-        tested.recoverERC20(address(1234), 9999);
+        vm.prank(account);
+        tested.recoverERC20(tokenAddress, recoveredAmount);
     }
 
     function test_recoverERC20_2() public {
@@ -90,7 +94,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if there is not enough token to recover");
 
         // Mint only 1000 tokens to recoverable contract
-        deal(address(recoveredToken), address(tested), 1000);
+        deal(address(recoveredToken), address(tested), 1000, true);
 
         vm.expectRevert(bytes("RecoverableUpgradeable: not enough tokens to recover"));
         tested.recoverERC20(address(recoveredToken), 9999);
@@ -106,7 +110,7 @@ contract Tests is Test, ModifiersExpectations {
         recoveredAmount = bound(recoveredAmount, 1, recoverableAmount);
 
         // Mint only random number of tokens to recoverable contract
-        deal(address(recoveredToken), address(tested), recoverableAmount);
+        deal(address(recoveredToken), address(tested), recoverableAmount, true);
 
         // Recover random amount of tokens
         tested.recoverERC20(address(recoveredToken), recoveredAmount);
