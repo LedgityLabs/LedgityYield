@@ -1,3 +1,16 @@
+## [1.123.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.122.1...v1.123.0) (2023-07-30)
+
+
+### Features
+
+* **contracts:** make some libraries external + update to solidity 0.8.21 + use london evm version ([7e7ebc4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7e7ebc455d2efcc16f3f5085e73732aa7efeb6ac))
+* fill some networks and contracts addresses ([7657b7d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7657b7d23e04296f8d17072f3773021d7e050b21))
+
+
+### Others
+
+* rename utility token to $LDY ([4405372](https://github.com/ledgity-labs/Ledgity-DeFi/commit/4405372ff150e29f3b25fb55e6174a7b1bf39a1f))
+
 ## [1.122.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.122.0...v1.122.1) (2023-07-30)
 
 
