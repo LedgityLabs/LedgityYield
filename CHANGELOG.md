@@ -1,3 +1,15 @@
+## [1.122.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.122.0...v1.122.1) (2023-07-30)
+
+
+### Fixes
+
+* **app:** mirrors contracts functions names changes in the frontend source code ([36c79a3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/36c79a3269718190d4fb00f58baab7c4deeb811b))
+
+
+### Others
+
+* **deps:** upgrade dependencies ([b3ff051](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b3ff0519e3db8caea2ca1c795a545179175d08c0))
+
 ## [1.122.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.121.0...v1.122.0) (2023-07-30)
 
 ### Features
