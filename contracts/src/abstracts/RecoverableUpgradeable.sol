@@ -32,16 +32,13 @@ abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
      */
     function recoverERC20(address tokenAddress, uint256 amount) public virtual onlyOwner {
         // Ensure given amount is not zero
-        require(amount > 0, "RecoverableUpgradeable: amount is zero");
+        require(amount > 0, "L10");
 
         // Retrieve token contract
         IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 
         // Ensure they is enough token to recover
-        require(
-            tokenContract.balanceOf(address(this)) >= amount,
-            "RecoverableUpgradeable: not enough tokens to recover"
-        );
+        require(tokenContract.balanceOf(address(this)) >= amount, "L11");
 
         // Transfer recovered ERC20 tokens to sender
         tokenContract.safeTransfer(_msgSender(), amount);

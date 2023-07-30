@@ -31,7 +31,7 @@ contract Tests is Test {
         console.log("Should revert if cursor index >3");
 
         vm.assume(cursorIndex > 3);
-        vm.expectRevert(bytes("APRCheckpoints: cursor index overflow"));
+        vm.expectRevert(bytes("L1"));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.incrementReference(ref);
@@ -66,10 +66,10 @@ contract Tests is Test {
     // =======================================
     // === getDataFromReference() function ===
     function testFuzz_getDataFromReference_1(uint256 packIndex, uint32 cursorIndex) public {
-        console.log("Should revert if cursor index <3");
+        console.log("Should revert if cursor index >3");
 
         vm.assume(cursorIndex > 3);
-        vm.expectRevert(bytes("APRCheckpoints: cursor index overflow"));
+        vm.expectRevert(bytes("L2"));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.getDataFromReference(packs, ref);
@@ -86,7 +86,7 @@ contract Tests is Test {
         // Bound cursor index to [0, 3]
         cursorIndex = uint32(bound(cursorIndex, 0, 3));
 
-        vm.expectRevert(bytes("APRCheckpoints: pack index out of bounds"));
+        vm.expectRevert(bytes("L3"));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.getDataFromReference(packs, ref);
@@ -109,7 +109,7 @@ contract Tests is Test {
         // Bound cursor index to [0, 3]
         cursorIndex = uint32(bound(cursorIndex, 0, 3));
 
-        vm.expectRevert(bytes("APRCheckpoints: cursor index not written yet"));
+        vm.expectRevert(bytes("L4"));
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.getDataFromReference(packs, ref);
@@ -136,7 +136,7 @@ contract Tests is Test {
     // === getLatestReference() function ===
     function test_getLatestReference_1() public {
         console.log("Should revert if packs array is empty");
-        vm.expectRevert(bytes("APRCheckpoints: no pack yet"));
+        vm.expectRevert(bytes("L5"));
         APRC.getLatestReference(packs);
     }
 
@@ -145,7 +145,7 @@ contract Tests is Test {
         // Create a blank pack
         APRC.newBlankPack(packs);
 
-        vm.expectRevert(bytes("APRCheckpoints: no checkpoint yet"));
+        vm.expectRevert(bytes("L6"));
         APRC.getLatestReference(packs);
     }
 
@@ -179,7 +179,7 @@ contract Tests is Test {
         populateDummyPacks(10);
         packs[packs.length - 1].cursor = 2;
 
-        vm.expectRevert(bytes("APRCheckpoints: latest pack not full yet"));
+        vm.expectRevert(bytes("L7"));
 
         APRC.newBlankPack(packs);
     }

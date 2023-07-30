@@ -152,7 +152,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_recoverERC20_2() public {
         console.log("Should revert if trying to recover $LDY token");
-        vm.expectRevert(bytes("LDYStaking: use recoverLDY() instead"));
+        vm.expectRevert(bytes("L21"));
         tested.recoverERC20(address(ldyToken), 0);
     }
 
@@ -178,7 +178,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_recoverLDY_2() public {
         console.log("Should revert if there is nothing to recover");
-        vm.expectRevert(bytes("LDYStaking: nothing to recover"));
+        vm.expectRevert(bytes("L22"));
         tested.recoverLDY();
     }
 
@@ -207,7 +207,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Expect the function to consider there is nothing to recover
-        vm.expectRevert(bytes("LDYStaking: nothing to recover"));
+        vm.expectRevert(bytes("L22"));
         tested.recoverLDY();
     }
 
@@ -439,7 +439,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_fuel_2() public {
         console.log("Should revert if given amount is 0");
-        vm.expectRevert("LDYStaking: amount is 0");
+        vm.expectRevert(bytes("L23"));
         tested.fuel(0);
     }
 
@@ -514,7 +514,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_unlock_3() public {
         console.log("Should revert if caller has no stake yet");
 
-        vm.expectRevert(bytes("LDYStaking: nothing to unlock"));
+        vm.expectRevert(bytes("L24"));
         tested.unlock();
     }
 
@@ -538,7 +538,7 @@ contract Tests is Test, ModifiersExpectations {
         skip(tested.stakeLockDuration());
 
         // Expect revert
-        vm.expectRevert(bytes("LDYStaking: nothing to unlock"));
+        vm.expectRevert(bytes("L24"));
         vm.prank(address(1234));
         tested.unlock();
     }
@@ -562,7 +562,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(amount);
 
         // Expect revert when trying to unstake before lock end
-        vm.expectRevert(bytes("LDYStaking: lock period not ended"));
+        vm.expectRevert(bytes("L29"));
         tested.unstake(amount);
 
         // Unlock stake
@@ -673,7 +673,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_stake_3() public {
         console.log("Should revert if given amount is 0");
-        vm.expectRevert("LDYStaking: amount is 0");
+        vm.expectRevert(bytes("L25"));
         tested.stake(0);
     }
 
@@ -697,7 +697,7 @@ contract Tests is Test, ModifiersExpectations {
         // Simulate an initial stake and expect revert
         vm.startPrank(address(1234));
         ldyToken.approve(address(tested), investedAmount);
-        vm.expectRevert(bytes("LDYStaking: insufficient balance"));
+        vm.expectRevert(bytes("L26"));
         tested.stake(uint216(investedAmount));
         vm.stopPrank();
     }
@@ -852,7 +852,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_unstake_3() public {
         console.log("Should revert if given amount is 0");
-        vm.expectRevert("LDYStaking: amount is 0");
+        vm.expectRevert(bytes("L27"));
         tested.unstake(0);
     }
 
@@ -877,7 +877,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(uint216(accountStake));
 
         // Ensure that the unstake reverts
-        vm.expectRevert("LDYStaking: insufficient stake");
+        vm.expectRevert(bytes("L28"));
         tested.unstake(withdrawnAmount);
         vm.stopPrank();
     }
@@ -901,7 +901,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(uint216(accountStake));
 
         // Ensure that the unstake reverts
-        vm.expectRevert("LDYStaking: lock period not ended");
+        vm.expectRevert(bytes("L29"));
         tested.unstake(withdrawnAmount);
         vm.stopPrank();
     }
@@ -1134,7 +1134,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(unclaimedRewards == 0);
 
         // Claim rewards
-        vm.expectRevert(bytes("LDYStaking: no rewards yet"));
+        vm.expectRevert(bytes("L30"));
         vm.prank(address(1234));
         tested.claim();
     }
@@ -1224,7 +1224,7 @@ contract Tests is Test, ModifiersExpectations {
         }
 
         // Claim rewards
-        vm.expectRevert(bytes("LDYStaking: insufficient rewards reserve"));
+        vm.expectRevert(bytes("L31"));
         vm.prank(address(1234));
         tested.claim();
     }
@@ -1419,7 +1419,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(unclaimedRewards == 0);
 
         // Compound rewards
-        vm.expectRevert(bytes("LDYStaking: no rewards yet"));
+        vm.expectRevert(bytes("L32"));
         vm.prank(address(1234));
         tested.compound();
     }
@@ -1509,7 +1509,7 @@ contract Tests is Test, ModifiersExpectations {
         }
 
         // Comound rewards
-        vm.expectRevert(bytes("LDYStaking: insufficient rewards reserve"));
+        vm.expectRevert(bytes("L33"));
         vm.prank(address(1234));
         tested.compound();
     }
@@ -1680,7 +1680,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if trying to set 0 tier");
 
         // Expect revert
-        vm.expectRevert(bytes("LDYStaking: tier cannot be 0"));
+        vm.expectRevert(bytes("L34"));
         tested.setTier(0, amount);
     }
 
@@ -1691,7 +1691,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(tier > 0);
 
         // Assert that no tiers exist yet by trying to get the first one
-        vm.expectRevert(bytes("LDYStaking: tier does not exist"));
+        vm.expectRevert(bytes("L38"));
         tested.getTier(1);
 
         // Set random tier with random amount
@@ -1722,7 +1722,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setTier(nextTier, nextAmount);
 
         // Expect revert while setting current tier
-        vm.expectRevert(bytes("LDYStaking: amount greater than next tier"));
+        vm.expectRevert(bytes("L35"));
         tested.setTier(currTier, currAmount);
     }
 
@@ -1745,7 +1745,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setTier(prevTier, prevAmount);
 
         // Expect revert while setting current tier
-        vm.expectRevert(bytes("LDYStaking: amount lower than previous tier"));
+        vm.expectRevert(bytes("L36"));
         tested.setTier(currTier, currAmount);
     }
 
@@ -1774,7 +1774,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if trying to get 0 tier");
 
         // Expect revert
-        vm.expectRevert(bytes("LDYStaking: tier cannot be 0"));
+        vm.expectRevert(bytes("L37"));
         tested.getTier(0);
     }
 
@@ -1785,7 +1785,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(tier > 0);
 
         // Expect revert
-        vm.expectRevert(bytes("LDYStaking: tier does not exist"));
+        vm.expectRevert(bytes("L38"));
         tested.getTier(tier);
     }
 

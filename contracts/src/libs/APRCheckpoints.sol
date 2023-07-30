@@ -57,7 +57,7 @@ library APRCheckpoints {
         newRef = Reference(ref.packIndex, ref.cursorIndex);
 
         // Ensure the given cursor index is in expected range [0, 3]
-        require(newRef.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
+        require(newRef.cursorIndex <= 3, "L1");
 
         // If the given checkpoint is stored in the last slot of its pack
         if (newRef.cursorIndex == 3) {
@@ -80,16 +80,16 @@ library APRCheckpoints {
         Reference memory ref
     ) public view returns (Checkpoint memory checkpoint) {
         // Ensure the given cursor index is in expected range [0, 3]
-        require(ref.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
+        require(ref.cursorIndex <= 3, "L2");
 
         // Ensure the given pack index is not out of bounds
-        require(ref.packIndex < packs.length, "APRCheckpoints: pack index out of bounds");
+        require(ref.packIndex < packs.length, "L3");
 
         // Retrive pack data
         Pack memory pack = packs[ref.packIndex];
 
         // Ensure the given cursor index has been written
-        require(ref.cursorIndex < pack.cursor, "APRCheckpoints: cursor index not written yet");
+        require(ref.cursorIndex < pack.cursor, "L4");
 
         // Build and return the high-level representation of the checkpoint data
         return
@@ -107,14 +107,14 @@ library APRCheckpoints {
      */
     function getLatestReference(Pack[] storage packs) public view returns (Reference memory) {
         // Ensure the given array of packs is not empty
-        require(packs.length != 0, "APRCheckpoints: no pack yet");
+        require(packs.length != 0, "L5");
 
         // Retrieve latest pack index and its cursor
         uint256 packIndex = packs.length - 1;
         uint32 packCursor = packs[packIndex].cursor;
 
         // If first pack ever, ensure at least one checkpoint has been created in it.
-        if (packIndex == 0) require(packCursor != 0, "APRCheckpoints: no checkpoint yet");
+        if (packIndex == 0) require(packCursor != 0, "L6");
 
         // If the pack is empty, the latest checkpoint reference is in the previous
         // pack (packIndex--) and at the last slot of this one (packCursor = 3)
@@ -135,11 +135,7 @@ library APRCheckpoints {
      */
     function newBlankPack(Pack[] storage packs) public {
         // If packs array is not empty, ensure the latest pack is full
-        if (packs.length != 0)
-            require(
-                getLatestReference(packs).cursorIndex == 3,
-                "APRCheckpoints: latest pack not full yet"
-            );
+        if (packs.length != 0) require(getLatestReference(packs).cursorIndex == 3, "L7");
 
         // Append a new empty pack to the array of packs
         packs.push(

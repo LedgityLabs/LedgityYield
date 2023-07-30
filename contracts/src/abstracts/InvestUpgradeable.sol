@@ -136,14 +136,14 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         address to
     ) public whenNotPaused notBlacklisted(from) notBlacklisted(to) {
         // Ensure that from and to are not the zero address
-        require(from != address(0), "InvestUpgradeable: from cannot be zero address");
-        require(to != address(0), "InvestUpgradeable: to cannot be zero address");
+        require(from != address(0), "L12");
+        require(to != address(0), "L13");
 
         // Ensure from and to are different addresses
-        require(from != to, "InvestUpgradeable: cannot be the same address");
+        require(from != to, "L14");
 
         // Ensure caller is either the owner or the from address
-        require(_msgSender() == owner() || _msgSender() == from, "InvestUpgradeable: forbidden");
+        require(_msgSender() == owner() || _msgSender() == from, "L15");
 
         // Reset investment period of involved accounts
         _onInvestmentChange(from, true);
@@ -164,14 +164,14 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         address to
     ) public whenNotPaused notBlacklisted(from) notBlacklisted(to) {
         // Ensure that from and to are not the zero address
-        require(from != address(0), "InvestUpgradeable: from cannot be zero address");
-        require(to != address(0), "InvestUpgradeable: to cannot be zero address");
+        require(from != address(0), "L16");
+        require(to != address(0), "L17");
 
         // Ensure caller is either the owner or the from address
-        require(_msgSender() == owner() || _msgSender() == from, "InvestUpgradeable: forbidden");
+        require(_msgSender() == owner() || _msgSender() == from, "L18");
 
         // Ensure rewards were redirected
-        require(rewardsRedirectsFromTo[from] == to, "InvestUpgradeable: not redirected");
+        require(rewardsRedirectsFromTo[from] == to, "L19");
 
         // Reset investment period of involved accounts
         _onInvestmentChange(from, true);

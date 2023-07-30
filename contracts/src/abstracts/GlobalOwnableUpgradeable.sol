@@ -62,7 +62,7 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
      */
     function transferOwnership(address newOwner) public view override onlyOwner {
         newOwner; // Silence unused variable compiler warning
-        revert("GlobalOwnableUpgradeable: change global owner instead");
+        revert("L8");
     }
 
     /**

@@ -132,7 +132,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      * @dev Restricts wrapped function to the withdrawal server's wallet (a.k.a withdrawer).
      */
     modifier onlyWithdrawer() {
-        require(_msgSender() == withdrawer, "LToken: restricted to withdrawer");
+        require(_msgSender() == withdrawer, "L39");
         _;
     }
 
@@ -140,7 +140,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      * @dev Restricts wrapped function to the fund wallet (detained by financial team).
      */
     modifier onlyFund() {
-        require(_msgSender() == fund, "LToken: restricted to fund");
+        require(_msgSender() == fund, "L40");
         _;
     }
 
@@ -216,7 +216,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      * @param _retentionRateUD3 The new retention rate in UD3 format
      */
     function setRetentionRate(uint32 _retentionRateUD3) public onlyOwner {
-        require(_retentionRateUD3 <= UDS3.scaleUp(10), "LToken: Retention rate must be <= 10%");
+        require(_retentionRateUD3 <= UDS3.scaleUp(10), "L41");
         retentionRateUD3 = _retentionRateUD3;
     }
 
@@ -269,7 +269,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         }
 
         // Revert if listener contract is not found
-        require(index >= 0, "LToken: listener contract not found");
+        require(index >= 0, "L42");
 
         // Else remove listener contract from array
         transfersListeners[uint256(index)] = transfersListeners[transfersListeners.length - 1];
@@ -344,7 +344,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      */
     function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the underlying token
-        require(tokenAddress != address(underlying()), "LToken: use recoverUnderlying() instead");
+        require(tokenAddress != address(underlying()), "L43");
         super.recoverERC20(tokenAddress, amount);
     }
 
@@ -360,7 +360,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         uint256 recoverableAmount = underlying().balanceOf(address(this)) - usableUnderlyings;
 
         // Revert if there are no recoverable $LDY
-        require(recoverableAmount > 0, "LToken: nothing to recover");
+        require(recoverableAmount > 0, "L44");
 
         // Else transfer the recoverable underlying to the owner
         super.recoverERC20(address(underlying()), recoverableAmount);
@@ -479,13 +479,13 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
     function withdrawTo(address account, uint256 amount) public pure override returns (bool) {
         account; // Silence unused variable compiler warning
         amount;
-        revert("LToken: use instantWithdrawal() or requestWithdrawal() instead");
+        revert("L45");
     }
 
     function depositFor(address account, uint256 amount) public pure override returns (bool) {
         account; // Silence unused variable compiler warning
         amount;
-        revert("LToken: use deposit() instead");
+        revert("L46");
     }
 
     /**
@@ -495,7 +495,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      */
     function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough underlying tokens to deposit
-        require(underlying().balanceOf(_msgSender()) >= amount, "LToken: insufficient balance");
+        require(underlying().balanceOf(_msgSender()) >= amount, "L47");
 
         // Receive deposited underlying tokens and mint L-Tokens to the account in a 1:1 ratio
         super.depositFor(_msgSender(), amount);
@@ -543,7 +543,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      */
     function instantWithdrawal(uint256 amount) external whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account holds has enough funds to withdraw
-        require(amount <= balanceOf(_msgSender()), "LToken: insufficient balance");
+        require(amount <= balanceOf(_msgSender()), "L48");
 
         // Does contract can cover the request + already queued requests ?
         bool cond1 = totalQueued + amount <= usableUnderlyings;
@@ -551,8 +551,8 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         // Does caller is eligible to 2nd staking tier and contract can cover the request ?
         bool cond2 = ldyStaking.tierOf(_msgSender()) >= 2 && amount <= usableUnderlyings;
 
-        // Revert if request cannot be processed instanously
-        if (!(cond1 || cond2)) revert("LToken: please queue your request");
+        // Revert if request cannot be processed instantaneously
+        if (!(cond1 || cond2)) revert("L49");
 
         // Else, retrieve withdrawal fees and amount excluding fees
         (uint256 withdrawnAmount, uint256 fees) = getWithdrawnAmountAndFees(_msgSender(), amount);
@@ -685,10 +685,10 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         WithdrawalRequest memory request = withdrawalQueue[requestId];
 
         // Ensure the request emitter has not been blacklisted since request emission
-        require(!isBlacklisted(request.account), "LToken: forbidden");
+        require(!isBlacklisted(request.account), "L50");
 
         // Ensure this is a big request
-        require(request.amount > getExpectedRetained() / 2, "LToken: not a big request");
+        require(request.amount > getExpectedRetained() / 2, "L51");
 
         // Retrieve withdrawal fees and amount excluding fees
         (uint256 withdrawnAmount, uint256 fees) = getWithdrawnAmountAndFees(
@@ -698,7 +698,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
 
         // Ensure withdrawn amount can be covered by contract + fundWallet balances
         uint256 fundBalance = underlying().balanceOf(fund);
-        require(withdrawnAmount <= usableUnderlyings + fundBalance, "LToken: insufficient funds");
+        require(withdrawnAmount <= usableUnderlyings + fundBalance, "L52");
 
         // If possible cover request from fund balance only
         if (withdrawnAmount <= fundBalance) {
@@ -746,17 +746,17 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         uint256 amount
     ) public payable whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough funds to withdraw
-        require(amount <= balanceOf(_msgSender()), "LToken: insufficient balance");
+        require(amount <= balanceOf(_msgSender()), "L53");
 
         // Ensure the requested amount doesn't overflow uint96
-        require(amount <= type(uint96).max, "LToken: amount too big");
+        require(amount <= type(uint96).max, "L54");
 
         // Ensure the sender attached pre-paid processing gas fees
-        require(msg.value == 0.004 * 10 ** 18, "LToken: must attach 0.004 ETH");
+        require(msg.value == 0.004 * 10 ** 18, "L55");
 
         // Forward pre-paid processing gas fees to the withdrawer
         (bool sent, ) = withdrawer.call{value: msg.value}("");
-        require(sent, "LToken: failed fees forward");
+        require(sent, "L56");
 
         // Burn withdrawn L-Tokens amount
         _burn(_msgSender(), amount);
@@ -810,7 +810,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         WithdrawalRequest memory request = withdrawalQueue[requestId];
 
         // Ensure it belongs to caller or the caller is the withdrawer
-        require(_msgSender() == request.account, "LToken: request doesn't belong to you");
+        require(_msgSender() == request.account, "L57");
 
         // Mint back L-Tokens to account and update total amount queued
         _mint(request.account, uint256(request.amount));
@@ -840,13 +840,13 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      */
     function repatriate(uint256 amount) external onlyFund whenNotPaused {
         // Ensure the fund wallet has enough funds to repatriate
-        require(amount <= underlying().balanceOf(fund), "LToken: insufficient balance");
+        require(amount <= underlying().balanceOf(fund), "L58");
 
         // Calculate new balance
         uint256 newBalance = usableUnderlyings + amount;
 
         // Ensure the new balance doesn't exceed the retention rate
-        require(newBalance <= getExpectedRetained(), "LToken: retention rate exceeded");
+        require(newBalance <= getExpectedRetained(), "L59");
 
         // Transfer amount from fund wallet to contract
         underlying().safeTransferFrom(fund, address(this), amount);
@@ -858,10 +858,10 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
      */
     function claimFees() external onlyOwner {
         // Ensure their are some fees to claim
-        require(unclaimedFees > 0, "LToken: nothing to claim");
+        require(unclaimedFees > 0, "L60");
 
         // Ensure the contract holds enough underlying tokens
-        require(usableUnderlyings >= unclaimedFees, "LToken: insufficient funds");
+        require(usableUnderlyings >= unclaimedFees, "L61");
 
         // Transfer unclaimed fees to owner
         underlying().safeTransfer(owner(), unclaimedFees);

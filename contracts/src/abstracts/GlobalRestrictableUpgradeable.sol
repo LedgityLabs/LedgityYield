@@ -46,7 +46,7 @@ abstract contract GlobalRestrictableUpgradeable is Initializable {
      * @param account Address to check against the GlobalBlacklist contract.
      */
     modifier notBlacklisted(address account) {
-        require(isBlacklisted(account) == false, "GlobalRestrictableUpgradeable: forbidden");
+        require(isBlacklisted(account) == false, "L9");
         _;
     }
 

@@ -54,7 +54,7 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
      * @param account The account's address to blacklist
      */
     function blacklist(address account) external onlyOwner {
-        require(account != address(0), "GlobalBlacklist: cannot blacklist zero address");
+        require(account != address(0), "L20");
         _list[account] = true;
     }
 

@@ -7,12 +7,7 @@ import LTokenJSON from "./hardhat/artifacts/contracts/src/LToken.sol/LToken.json
 import ERC20JSON from "./hardhat/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json";
 import LTokenSignalerJSON from "./hardhat/artifacts/contracts/src/LTokenSignaler.sol/LTokenSignaler.json";
 import Multicall3JSON from "./hardhat/artifacts/contracts/src/Multicall3.sol/Multicall3.json";
-
-export const testnetIds = [
-  31337, // Hardhat
-  11155111, // Sepolia
-  80001, // Mumbai
-];
+import APRCheckpointsJSON from "./hardhat/artifacts/contracts/src/libs/APRCheckpoints.sol/APRCheckpoints.json";
 
 interface Contract {
   contractName?: string;
@@ -42,23 +37,28 @@ const _contracts = {
       31337: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
     },
   },
+  APRCheckpoints: {
+    abi: APRCheckpointsJSON.abi,
+    address: {
+      31337: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+    },
+  },
   LDY: {
     abi: ERC20JSON.abi,
     address: {
-      31337: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      31337: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
     },
   },
   LDYStaking: {
     abi: LDYStakingJSON.abi,
     address: {
-      31337: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+      31337: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
     },
   },
   USDC: {
     abi: ERC20JSON.abi,
     address: {
-      1: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-      31337: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+      31337: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
       59144: "0xf56dc6695cF1f5c364eDEbC7Dc7077ac9B586068",
       59140: "0x",
       42161: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
@@ -68,8 +68,7 @@ const _contracts = {
   EUROC: {
     abi: ERC20JSON.abi,
     address: {
-      1: "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
-      31337: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      31337: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
     },
   },
   LUSDC: {

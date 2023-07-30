@@ -3,7 +3,10 @@ import { getContractAddress } from "./lib/getContractAddress";
 
 const main = async () => {
   const ldyAddress = getContractAddress("LDY");
-  return await deployProxy("LDYStaking", true, true, true, [ldyAddress]);
+  const aprCheckpointsAddress = getContractAddress("APRCheckpoints");
+  return await deployProxy("LDYStaking", true, true, true, [ldyAddress], {
+    APRCheckpoints: aprCheckpointsAddress,
+  });
 };
 
 export default main().catch((error) => {

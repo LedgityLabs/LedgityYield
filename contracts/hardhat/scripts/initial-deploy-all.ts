@@ -1,12 +1,11 @@
 import { parseUnits } from "viem";
-import { testnetIds } from "../../deployments";
 import { getChainId } from "./lib/getChainId";
 import { deploy } from "./lib/deploy";
 
 export const main = async () => {
   // Retrieve current chainId and whether this is a testnet
   const chainId = getChainId();
-  const isTestnet = testnetIds.includes(chainId);
+  const isLocalDeployment = chainId === 31337;
 
   // ########################
   // ### Deploy contracts ###
@@ -22,14 +21,19 @@ export const main = async () => {
     await import("./deploy-GlobalBlacklist")
   ).default;
 
+  // Deploy APRCheckpoints library
+  await (
+    await import("./deploy-APRCheckpoints")
+  ).default;
+
   // Deploy LDYStaking contract
   // Note: If testnet, deploy a fake $LDY and token
-  if (isTestnet) await deploy("GenericERC20", ["Fake LDY", "LDY", 18]);
+  if (isLocalDeployment) await deploy("GenericERC20", ["Fake LDY", "LDY", 18]);
   const ldyStaking = await (await import("./deploy-LDYStaking")).default;
 
   // Deploy L-Tokens contracts
   // Note: If testnet, deploy a fake underlying tokens
-  if (isTestnet) {
+  if (isLocalDeployment) {
     await deploy("GenericERC20", ["Fake USDC", "USDC", 6]);
     await deploy("GenericERC20", ["Fake EUROC", "EUROC", 6]);
   }

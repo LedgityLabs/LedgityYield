@@ -72,7 +72,7 @@ contract Tests is Test, ModifiersExpectations {
     function test_recoverERC20_2() public {
         console.log("Should revert if call requests to recover 0 tokens");
 
-        vm.expectRevert(bytes("RecoverableUpgradeable: amount is zero"));
+        vm.expectRevert(bytes("L10"));
         tested.recoverERC20(address(recoveredToken), 0);
     }
 
@@ -86,7 +86,7 @@ contract Tests is Test, ModifiersExpectations {
     function test_recoverERC20_4() public {
         console.log("Should revert if there is 0 token to recover");
 
-        vm.expectRevert(bytes("RecoverableUpgradeable: not enough tokens to recover"));
+        vm.expectRevert(bytes("L11"));
         tested.recoverERC20(address(recoveredToken), 9999);
     }
 
@@ -96,7 +96,7 @@ contract Tests is Test, ModifiersExpectations {
         // Mint only 1000 tokens to recoverable contract
         deal(address(recoveredToken), address(tested), 1000, true);
 
-        vm.expectRevert(bytes("RecoverableUpgradeable: not enough tokens to recover"));
+        vm.expectRevert(bytes("L11"));
         tested.recoverERC20(address(recoveredToken), 9999);
     }
 

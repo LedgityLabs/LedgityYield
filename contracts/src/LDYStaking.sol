@@ -85,7 +85,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function recoverERC20(address tokenAddress, uint256 amount) public override onlyOwner {
         // Ensure the token is not the $LDY token
-        require(tokenAddress != address(invested()), "LDYStaking: use recoverLDY() instead");
+        require(tokenAddress != address(invested()), "L21");
         super.recoverERC20(tokenAddress, amount);
     }
 
@@ -101,7 +101,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 recoverableAmount = invested().balanceOf(address(this)) - (totalStaked + rewardsReserve);
 
         // Revert if there are no recoverable $LDY
-        require(recoverableAmount > 0, "LDYStaking: nothing to recover");
+        require(recoverableAmount > 0, "L22");
 
         // Else transfer the recoverable $LDY to the owner
         super.recoverERC20(address(invested()), recoverableAmount);
@@ -222,7 +222,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function fuel(uint256 amount) external onlyOwner {
         // Ensure the amount is not 0
-        require(amount > 0, "LDYStaking: amount is 0");
+        require(amount > 0, "L23");
 
         // Transfer $LDY tokens from the caller to this contract
         invested().transferFrom(_msgSender(), address(this), amount);
@@ -239,7 +239,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Ensure the account has a locked stake
-        require(accountStake.lockEnd > block.timestamp, "LDYStaking: nothing to unlock");
+        require(accountStake.lockEnd > block.timestamp, "L24");
 
         // Unlock stake by setting lock time to now
         accountStake.lockEnd = uint40(block.timestamp);
@@ -266,10 +266,10 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function stake(uint216 amount) public whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the amount is not 0
-        require(amount > 0, "LDYStaking: amount is 0");
+        require(amount > 0, "L25");
 
         // Ensure the account has enough $LDY tokens to stake
-        require(invested().balanceOf(_msgSender()) >= amount, "LDYStaking: insufficient balance");
+        require(invested().balanceOf(_msgSender()) >= amount, "L26");
 
         // Reset account's investment period
         _onInvestmentChange(_msgSender(), false);
@@ -300,16 +300,16 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function unstake(uint216 amount) external whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the amount is not 0
-        require(amount > 0, "LDYStaking: amount is 0");
+        require(amount > 0, "L27");
 
         // Ensure the account has enough $LDY tokens to unstake
-        require(stakeOf(_msgSender()) >= amount, "LDYStaking: insufficient stake");
+        require(stakeOf(_msgSender()) >= amount, "L28");
 
         // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
 
         // Ensure the account is not in lock period
-        require(accountStake.lockEnd <= block.timestamp, "LDYStaking: lock period not ended");
+        require(accountStake.lockEnd <= block.timestamp, "L29");
 
         // Reset its investment period
         _onInvestmentChange(_msgSender(), false);
@@ -340,13 +340,13 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
 
         // Ensure there are some rewards to claim
-        require(rewards > 0, "LDYStaking: no rewards yet");
+        require(rewards > 0, "L30");
 
         // Reset account's virtual balance
         accountsInfos[_msgSender()].virtualBalance = 0;
 
         // Ensure the contract has enough rewards to distribute
-        require(rewardsReserve >= rewards, "LDYStaking: insufficient rewards reserve");
+        require(rewardsReserve >= rewards, "L31");
 
         // Decreases the total amount of remaining rewards to distribute
         rewardsReserve -= rewards;
@@ -372,13 +372,13 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
 
         // Ensure there are some rewards to claim
-        require(rewards > 0, "LDYStaking: no rewards yet");
+        require(rewards > 0, "L32");
 
         // Reset account's virtual balance
         accountsInfos[_msgSender()].virtualBalance = 0;
 
         // Ensure the contract has enough rewards to distribute
-        require(rewardsReserve >= rewards, "LDYStaking: insufficient rewards reserve");
+        require(rewardsReserve >= rewards, "L33");
 
         // Decreases the total amount of remaining rewards to distribute
         rewardsReserve -= rewards;
@@ -402,7 +402,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function setTier(uint256 tier, uint256 amount) public onlyOwner {
         // Ensure the tier is > 0 (as it shouldn't be an index)
-        require(tier > 0, "LDYStaking: tier cannot be 0");
+        require(tier > 0, "L34");
 
         // Retrieve tier index from tier number
         uint256 tierIndex = tier - 1;
@@ -414,12 +414,12 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Ensure tier amount is not greater than next tier one (if next tier exists)
         if (tier != _tiers.length) {
-            require(amount <= _tiers[tierIndex + 1], "LDYStaking: amount greater than next tier");
+            require(amount <= _tiers[tierIndex + 1], "L35");
         }
 
         // Ensure tier amount is not lower than previous tier one (if previous tier exists)
         if (tier != 1) {
-            require(amount >= _tiers[tierIndex - 1], "LDYStaking: amount lower than previous tier");
+            require(amount >= _tiers[tierIndex - 1], "L36");
         }
 
         // Set the new tier value
@@ -434,10 +434,10 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
      */
     function getTier(uint256 tier) public view returns (uint256) {
         // Ensure the tier is > 0 (as it shouldn't be an index)
-        require(tier > 0, "LDYStaking: tier cannot be 0");
+        require(tier > 0, "L37");
 
         // Ensure the staking tier exists
-        require(tier <= _tiers.length, "LDYStaking: tier does not exist");
+        require(tier <= _tiers.length, "L38");
 
         // Return the tier value
         return _tiers[tier - 1];

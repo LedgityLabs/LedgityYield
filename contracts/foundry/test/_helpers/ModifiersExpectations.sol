@@ -13,6 +13,6 @@ contract ModifiersExpectations is Test {
     }
 
     function expectRevertRestricted() public {
-        vm.expectRevert(bytes("GlobalRestrictableUpgradeable: forbidden"));
+        vm.expectRevert(bytes("L9"));
     }
 }

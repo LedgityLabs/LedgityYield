@@ -6,6 +6,8 @@ pragma solidity ^0.8.21;
  * @author Lila Rest (lila@ledgity.com)
  * @notice This library provides utilities used to lossless calculation on unsigned decimal
  * fixed point numbers.
+ * Optimization note: Functions of this library aren't made external because their code are so
+ * tiny that the potential bytecode size saving in contracts seems lower than involved external calls.
  * @dev For further details, see "UDS3" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */

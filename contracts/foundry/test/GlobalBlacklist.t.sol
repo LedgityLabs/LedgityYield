@@ -78,7 +78,7 @@ contract Tests is Test, ModifiersExpectations {
     function test_blacklist_2() public {
         console.log("Shouldn't allow blacklisting the zero address");
 
-        vm.expectRevert(bytes("GlobalBlacklist: cannot blacklist zero address"));
+        vm.expectRevert(bytes("L20"));
         tested.blacklist(address(0));
     }
 

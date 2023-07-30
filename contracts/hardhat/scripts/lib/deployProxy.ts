@@ -9,12 +9,15 @@ export async function deployProxy(
   globalPause: boolean = false,
   globalBlacklist: boolean = false,
   args: any[] = [],
+  libraries: Record<string, `0x${string}`> = {},
 ) {
   // Retrieve the contract name
   const contractName = getContractName(contractId);
 
   // Retrieve the contract factory
-  const UpgradeableContract = await ethers.getContractFactory(contractName);
+  const UpgradeableContract = await ethers.getContractFactory(contractName, {
+    libraries: libraries,
+  });
 
   // Try to upgrade the contract in case it has already been deployed
   try {
@@ -35,7 +38,9 @@ export async function deployProxy(
         if (globalPause) args = [getContractAddress("GlobalPause"), ...args];
         if (globalBlacklist) args = [getContractAddress("GlobalBlacklist"), ...args];
 
-        const contract = await upgrades.deployProxy(UpgradeableContract, args);
+        const contract = await upgrades.deployProxy(UpgradeableContract, args, {
+          unsafeAllowLinkedLibraries: true,
+        });
         const address = await contract.getAddress();
 
         console.log(`Upgradeable '${contractId}' deployed at: ${address}`);

@@ -272,7 +272,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: from cannot be zero address"));
+        vm.expectRevert(bytes("L12"));
         tested.startRedirectRewards(address(0), to);
     }
 
@@ -283,7 +283,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(from != address(0));
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: to cannot be zero address"));
+        vm.expectRevert(bytes("L13"));
         tested.startRedirectRewards(from, address(0));
     }
 
@@ -294,7 +294,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(0));
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: cannot be the same address"));
+        vm.expectRevert(bytes("L14"));
         tested.startRedirectRewards(account, account);
     }
 
@@ -312,7 +312,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(otherAccount != globalOwner.owner());
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: forbidden"));
+        vm.expectRevert(bytes("L15"));
         vm.prank(otherAccount);
         tested.startRedirectRewards(from, to);
     }
@@ -471,7 +471,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: from cannot be zero address"));
+        vm.expectRevert(bytes("L16"));
         tested.stopRedirectRewards(address(0), to);
     }
 
@@ -482,7 +482,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(from != address(0));
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: to cannot be zero address"));
+        vm.expectRevert(bytes("L17"));
         tested.stopRedirectRewards(from, address(0));
     }
 
@@ -500,7 +500,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(otherAccount != globalOwner.owner());
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: forbidden"));
+        vm.expectRevert(bytes("L18"));
         vm.prank(otherAccount);
         tested.stopRedirectRewards(from, to);
     }
@@ -545,7 +545,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Expect revert
-        vm.expectRevert(bytes("InvestUpgradeable: not redirected"));
+        vm.expectRevert(bytes("L19"));
         vm.prank(from);
         tested.stopRedirectRewards(from, to);
     }

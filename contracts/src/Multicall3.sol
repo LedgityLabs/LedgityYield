@@ -200,7 +200,7 @@ contract Multicall3 {
 
     /// @notice Returns the block difficulty
     function getCurrentBlockDifficulty() public view returns (uint256 difficulty) {
-        difficulty = block.prevrandao;
+        difficulty = block.difficulty;
     }
 
     /// @notice Returns the block gas limit

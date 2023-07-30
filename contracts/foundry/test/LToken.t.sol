@@ -284,14 +284,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===============================
     // === onlyWithdrawer modifier ===
-    function test_onlyWithdrawer_1() public {
+    function testFuzz_onlyWithdrawer_1(address account) public {
         console.log("Should revert calls made from non-withdrawer wallet and success withdrawer ones");
 
+        // Ensure that account is not the withdrawer wallet
+        vm.assume(account != withdrawerWallet);
+
         // Should revert
-        vm.expectRevert(bytes("LToken: restricted to withdrawer"));
-        tested.restrictedToWithdrawer();
-        vm.expectRevert(bytes("LToken: restricted to withdrawer"));
-        vm.prank(address(1234));
+        vm.expectRevert(bytes("L39"));
+        vm.prank(account);
         tested.restrictedToWithdrawer();
 
         // Shouldn't revert
@@ -301,14 +302,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // =========================
     // === onlyFund modifier ===
-    function test_onlyFund_1() public {
+    function test_onlyFund_1(address account) public {
         console.log("Should revert calls made from non-fund wallet and success fund ones");
 
+        // Ensure that account is not the withdrawer wallet
+        vm.assume(account != fundWallet);
+
         // Should revert
-        vm.expectRevert(bytes("LToken: restricted to fund"));
-        tested.restrictedToFund();
-        vm.expectRevert(bytes("LToken: restricted to fund"));
-        vm.prank(address(1234));
+        vm.expectRevert(bytes("L40"));
+        vm.prank(account);
         tested.restrictedToFund();
 
         // Shouldn't revert
@@ -357,7 +359,7 @@ contract Tests is Test, ModifiersExpectations {
         _retentionRateUD3 = uint32(bound(_retentionRateUD3, UDS3.scaleUp(10) + 1, type(uint32).max));
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: Retention rate must be <= 10%"));
+        vm.expectRevert(bytes("L41"));
         tested.setRetentionRate(_retentionRateUD3);
     }
 
@@ -481,7 +483,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if listener contract wasn't listening to transfers");
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: listener contract not found"));
+        vm.expectRevert(bytes("L42"));
         tested.unlistenToTransfers(listenerContract);
     }
 
@@ -495,7 +497,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.unlistenToTransfers(listenerContract);
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: listener contract not found"));
+        vm.expectRevert(bytes("L42"));
         tested.unlistenToTransfers(listenerContract);
     }
 
@@ -714,7 +716,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_recoverERC20_2() public {
         console.log("Should revert if trying to recover underlying token");
-        vm.expectRevert(bytes("LToken: use recoverUnderlying() instead"));
+        vm.expectRevert(bytes("L43"));
         tested.recoverERC20(address(underlyingToken), 0);
     }
 
@@ -777,7 +779,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_recoverUnderlying_2() public {
         console.log("Should revert if there is nothing to recover");
-        vm.expectRevert(bytes("LToken: nothing to recover"));
+        vm.expectRevert(bytes("L44"));
         tested.recoverUnderlying();
     }
 
@@ -824,7 +826,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Expect the function to consider there is nothing to recover
-        vm.expectRevert(bytes("LToken: nothing to recover"));
+        vm.expectRevert(bytes("L44"));
         tested.recoverUnderlying();
     }
 
@@ -1305,7 +1307,7 @@ contract Tests is Test, ModifiersExpectations {
     // === withdrawTo() function ===
     function testFuzz_withdrawTo_1(address account, uint256 amount) public {
         console.log("Should inconditionally revert");
-        vm.expectRevert(bytes("LToken: use instantWithdrawal() or requestWithdrawal() instead"));
+        vm.expectRevert(bytes("L45"));
         tested.withdrawTo(account, amount);
     }
 
@@ -1313,7 +1315,7 @@ contract Tests is Test, ModifiersExpectations {
     // === depositFor() function ===
     function testFuzz_depositFor_1(address account, uint256 amount) public {
         console.log("Should inconditionally revert");
-        vm.expectRevert(bytes("LToken: use deposit() instead"));
+        vm.expectRevert(bytes("L46"));
         tested.depositFor(account, amount);
     }
 
@@ -1373,7 +1375,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert when trying to deposit more than account balance
         underlyingToken.approve(address(tested), depositedAmount);
-        vm.expectRevert(bytes("LToken: insufficient balance"));
+        vm.expectRevert(bytes("L47"));
         tested.deposit(depositedAmount);
         vm.stopPrank();
     }
@@ -1752,7 +1754,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.deposit(depositedAmount);
 
         // Expect revert when trying to withdraw more than deposited amount
-        vm.expectRevert(bytes("LToken: insufficient balance"));
+        vm.expectRevert(bytes("L48"));
         tested.instantWithdrawal(requestedAmount);
         vm.stopPrank();
     }
@@ -1798,7 +1800,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.deposit(depositedAmount);
 
         // Expect revert when because of insufficient funds available
-        vm.expectRevert(bytes("LToken: please queue your request"));
+        vm.expectRevert(bytes("L49"));
         tested.instantWithdrawal(depositedAmount);
         vm.stopPrank();
     }
@@ -1864,7 +1866,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.tool_rawSetUsableUnderlyings(tested.usableUnderlyings() - 1);
 
         // Expect revert when because of insufficient funds available
-        vm.expectRevert(bytes("LToken: please queue your request"));
+        vm.expectRevert(bytes("L49"));
         vm.prank(account);
         tested.instantWithdrawal(tier2Amount);
     }
@@ -2143,7 +2145,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != withdrawerWallet);
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: restricted to withdrawer"));
+        vm.expectRevert(bytes("L39"));
         vm.prank(account);
         tested.batchQueuedWithdraw();
     }
@@ -3009,7 +3011,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != fundWallet);
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: restricted to fund"));
+        vm.expectRevert(bytes("L40"));
         vm.prank(account);
         tested.bigQueuedWithdraw(requestId);
     }
@@ -3072,7 +3074,7 @@ contract Tests is Test, ModifiersExpectations {
         globalBlacklist.blacklist(account);
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: forbidden"));
+        vm.expectRevert(bytes("L50"));
         vm.prank(address(fundWallet));
         tested.bigQueuedWithdraw(0);
     }
@@ -3128,7 +3130,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: not a big request"));
+        vm.expectRevert(bytes("L51"));
         vm.prank(address(fundWallet));
         tested.bigQueuedWithdraw(0);
     }
@@ -3200,7 +3202,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert because 1 token is missing to cover the request
         vm.startPrank(address(fundWallet));
-        vm.expectRevert(bytes("LToken: insufficient funds"));
+        vm.expectRevert(bytes("L52"));
         tested.bigQueuedWithdraw(0);
         vm.stopPrank();
     }
@@ -3580,7 +3582,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Expect revert when trying to request more than deposited amount
-        vm.expectRevert(bytes("LToken: insufficient balance"));
+        vm.expectRevert(bytes("L53"));
         vm.prank(account);
         tested.requestWithdrawal(requestedAmount);
     }
@@ -3622,7 +3624,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Expect revert when trying to request more than type(uint96).max
-        vm.expectRevert(bytes("LToken: amount too big"));
+        vm.expectRevert(bytes("L54"));
         vm.prank(account);
         tested.requestWithdrawal(requestedAmount);
     }
@@ -3663,7 +3665,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert when not attaching processing fees
         deal(account, attachedProcessingFees);
-        vm.expectRevert(bytes("LToken: must attach 0.004 ETH"));
+        vm.expectRevert(bytes("L55"));
         vm.prank(account);
         tested.requestWithdrawal{value: attachedProcessingFees}(requestedAmount);
     }
@@ -4092,7 +4094,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(requestAccount, account1);
 
         // Expect revert when trying to cancel the request from account 2
-        vm.expectRevert(bytes("LToken: request doesn't belong to you"));
+        vm.expectRevert(bytes("L57"));
         vm.prank(account2);
         tested.cancelWithdrawalRequest(0);
     }
@@ -4234,7 +4236,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != fundWallet);
 
         // Expect revert
-        vm.expectRevert(bytes("LToken: restricted to fund"));
+        vm.expectRevert(bytes("L40"));
         vm.prank(account);
         tested.repatriate(requestId);
     }
@@ -4287,7 +4289,7 @@ contract Tests is Test, ModifiersExpectations {
         fundedAmount = bound(fundedAmount, underlyingToken.balanceOf(fundWallet) + 1, type(uint256).max);
 
         // Expect revert when trying to fund more than fund wallet balance
-        vm.expectRevert(bytes("LToken: insufficient balance"));
+        vm.expectRevert(bytes("L58"));
         vm.prank(fundWallet);
         tested.repatriate(fundedAmount);
     }
@@ -4334,7 +4336,7 @@ contract Tests is Test, ModifiersExpectations {
         // If expected new usableUnderlyings amount exceeds expected retained
         if (fundedAmount + tested.usableUnderlyings() > tested.getExpectedRetained()) {
             // Expect revert
-            vm.expectRevert(bytes("LToken: retention rate exceeded"));
+            vm.expectRevert(bytes("L59"));
             vm.prank(fundWallet);
             tested.repatriate(fundedAmount);
         }
@@ -4474,7 +4476,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if there is no unclaimed fees to claim");
 
         // Expect revert
-        vm.expectRevert("LToken: nothing to claim");
+        vm.expectRevert(bytes("L60"));
         tested.claimFees();
     }
 
@@ -4520,7 +4522,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.tool_rawSetUsableUnderlyings(tested.usableUnderlyings() - 1);
 
         // Expect revert
-        vm.expectRevert("LToken: insufficient funds");
+        vm.expectRevert(bytes("L61"));
         tested.claimFees();
     }
 
