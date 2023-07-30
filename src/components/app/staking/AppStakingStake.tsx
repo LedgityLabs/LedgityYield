@@ -2,13 +2,13 @@ import { AllowanceTxButton, AmountInput, Card, DateTime, Rate, TxButton } from "
 import {
   useGenericErc20BalanceOf,
   useGenericErc20Decimals,
-  useLtyStakingGetNewLockEndFor,
-  useLtyStakingLockEndOf,
-  useLtyStakingStakeOf,
-  useLtyStakingUnlockFeesRateUd3,
-  usePrepareLtyStakingStake,
-  usePrepareLtyStakingUnlock,
-  usePrepareLtyStakingUnstake,
+  useLdyStakingGetNewLockEndFor,
+  useLdyStakingLockEndOf,
+  useLdyStakingStakeOf,
+  useLdyStakingUnlockFeesRateUd3,
+  usePrepareLdyStakingStake,
+  usePrepareLdyStakingUnlock,
+  usePrepareLdyStakingUnstake,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import Link from "next/link";
@@ -23,35 +23,35 @@ const secondsPerDay = 24 * 60 * 60;
 
 export const AppStakingStake: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
-  const ltyAddress = useContractAddress("LTY");
-  const ltyStakingAddress = useContractAddress("LTYStaking");
-  const { data: ltyDecimals } = useGenericErc20Decimals({
-    address: ltyAddress,
+  const ldyAddress = useContractAddress("LDY");
+  const ldyStakingAddress = useContractAddress("LDYStaking");
+  const { data: ldyDecimals } = useGenericErc20Decimals({
+    address: ldyAddress,
   });
-  const { data: ltyBalance } = useGenericErc20BalanceOf({
-    address: ltyAddress,
+  const { data: ldyBalance } = useGenericErc20BalanceOf({
+    address: ldyAddress,
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
-  const { data: stakedAmount } = useLtyStakingStakeOf({
+  const { data: stakedAmount } = useLdyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
-  const { data: lockEnd } = useLtyStakingLockEndOf({
+  const { data: lockEnd } = useLdyStakingLockEndOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
 
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const { data: newLockEnd } = useLtyStakingGetNewLockEndFor({
+  const { data: newLockEnd } = useLdyStakingGetNewLockEndFor({
     args: [walletClient ? walletClient.account.address : zeroAddress, depositedAmount],
   });
-  const { data: unlockFees } = useLtyStakingUnlockFeesRateUd3();
+  const { data: unlockFees } = useLdyStakingUnlockFeesRateUd3();
 
-  const stakePreparation = usePrepareLtyStakingStake({ args: [depositedAmount] });
-  const unstakePreparation = usePrepareLtyStakingUnstake({ args: [withdrawnAmount] });
-  const unlockNowPreparation = usePrepareLtyStakingUnlock();
+  const stakePreparation = usePrepareLdyStakingStake({ args: [depositedAmount] });
+  const unstakePreparation = usePrepareLdyStakingUnstake({ args: [withdrawnAmount] });
+  const unlockNowPreparation = usePrepareLdyStakingUnlock();
 
   useEffect(() => {
     stakePreparation.refetch();
@@ -74,16 +74,16 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
         <div className="flex flex-col gap-3">
           <div className="flex items-end gap-3">
             <AmountInput
-              maxValue={ltyBalance}
-              decimals={ltyDecimals}
-              symbol="LTY"
+              maxValue={ldyBalance}
+              decimals={ldyDecimals}
+              symbol="LDY"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setDepositedAmount(parseUnits(e.target.value, ltyDecimals!))
+                setDepositedAmount(parseUnits(e.target.value, ldyDecimals!))
               }
             />
             <AllowanceTxButton
-              token={ltyAddress!}
-              spender={ltyStakingAddress!}
+              token={ldyAddress!}
+              spender={ldyStakingAddress!}
               amount={depositedAmount}
               preparation={stakePreparation}
               size="medium"
@@ -93,7 +93,7 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
           </div>
           {stakedAmount && depositedAmount > 0n && !["0.0", "NaN"].includes(lockDurationDaysIncrease) ? (
             <p>
-              Increasing your stake by {formatUnits(depositedAmount, ltyDecimals!)} LTY will increase
+              Increasing your stake by {formatUnits(depositedAmount, ldyDecimals!)} LDY will increase
               your lock period by <span className="font-semibold">{lockDurationDaysIncrease} days</span>.
               Your can <Link href="/">learn more</Link> about lock period increase calculation.
             </p>
@@ -106,10 +106,10 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
             <AmountInput
               maxName="Staked"
               maxValue={stakedAmount}
-              decimals={ltyDecimals}
-              symbol="LTY"
+              decimals={ldyDecimals}
+              symbol="LDY"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setWithdrawnAmount(parseUnits(e.target.value, ltyDecimals!))
+                setWithdrawnAmount(parseUnits(e.target.value, ldyDecimals!))
               }
             />
             <TxButton

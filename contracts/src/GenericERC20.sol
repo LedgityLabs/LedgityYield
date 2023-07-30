@@ -8,7 +8,7 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
  * @notice Used for testing purposes only.
  * It represents:
  * - a FIAT-based stablecoin when used to test the LToken contract,
- * - the $LTY token when used to test the LTYStaking contract.
+ * - the $LDY token when used to test the LDYStaking contract.
  * This contract accept decimals as constructor argument, so it can be used to to
  * easily test different decimals scenarios.
  */

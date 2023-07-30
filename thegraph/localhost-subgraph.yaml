@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: LTYStaking
+    name: LDYStaking
     network: mainnet
     source:
       address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-      abi: LTYStaking
+      abi: LDYStaking
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -17,11 +17,11 @@ dataSources:
       language: wasm/assemblyscript
       file: ./mapping.ts
       entities:
-        - LTYStaking
+        - LDYStaking
         - TotalStakedUpdate
       abis:
-        - name: LTYStaking
-          file: ../hardhat/abis/LTYStaking.json
+        - name: LDYStaking
+          file: ../hardhat/abis/LDYStaking.json
       eventHandlers:
         - event: TotalStakedUpdateEvent(uint256)
           handler: handleTotalStakedEvent

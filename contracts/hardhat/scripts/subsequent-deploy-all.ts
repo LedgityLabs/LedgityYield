@@ -9,7 +9,7 @@ export const main = async () => {
     await import("./deploy-GlobalBlacklist")
   ).default;
   await (
-    await import("./deploy-LTYStaking")
+    await import("./deploy-LDYStaking")
   ).default;
   await (
     await import("./deploy-LUSDC")

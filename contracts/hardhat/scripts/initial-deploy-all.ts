@@ -22,10 +22,10 @@ export const main = async () => {
     await import("./deploy-GlobalBlacklist")
   ).default;
 
-  // Deploy LTYStaking contract
-  // Note: If testnet, deploy a fake $LTY and token
-  if (isTestnet) await deploy("GenericERC20", ["Fake LTY", "LTY", 18]);
-  const ltyStaking = await (await import("./deploy-LTYStaking")).default;
+  // Deploy LDYStaking contract
+  // Note: If testnet, deploy a fake $LDY and token
+  if (isTestnet) await deploy("GenericERC20", ["Fake LDY", "LDY", 18]);
+  const ldyStaking = await (await import("./deploy-LDYStaking")).default;
 
   // Deploy L-Tokens contracts
   // Note: If testnet, deploy a fake underlying tokens
@@ -48,11 +48,11 @@ export const main = async () => {
   // ### Initialize some states ###
   // ##############################
 
-  // Initialize LTYStaking contract data
-  ltyStaking!.setAPR(parseUnits("20", 3));
-  ltyStaking!.setTier(1, 0);
-  ltyStaking!.setTier(2, parseUnits("5000", 18));
-  ltyStaking!.setTier(3, parseUnits("50000", 18));
+  // Initialize LDYStaking contract data
+  ldyStaking!.setAPR(parseUnits("20", 3));
+  ldyStaking!.setTier(1, 0);
+  ldyStaking!.setTier(2, parseUnits("5000", 18));
+  ldyStaking!.setTier(3, parseUnits("50000", 18));
 
   // Initialize L-Tokens contracts data
   for (let lToken of lTokens) {

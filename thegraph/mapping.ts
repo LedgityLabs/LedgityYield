@@ -12,11 +12,11 @@ import {
   Activity,
   APRUpdate,
   RewardsMint,
-  LTYStaking,
+  LDYStaking,
   TotalStakedUpdate,
 } from "./generated/schema";
 import { BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
-import { TotalStakedUpdateEvent } from "./generated/LTYStaking/LTYStaking";
+import { TotalStakedUpdateEvent } from "./generated/LDYStaking/LDYStaking";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
@@ -157,15 +157,15 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
 }
 
 export function handleTotalStakedEvent(event: TotalStakedUpdateEvent): void {
-  const ltyStakingAddress = event.address.toHexString();
-  let ltyStaking = LTYStaking.load(ltyStakingAddress);
-  if (ltyStaking == null) ltyStaking = new LTYStaking(ltyStakingAddress);
+  const ldyStakingAddress = event.address.toHexString();
+  let ldyStaking = LDYStaking.load(ldyStakingAddress);
+  if (ldyStaking == null) ldyStaking = new LDYStaking(ldyStakingAddress);
 
   let totalStakedUpdate = new TotalStakedUpdate(event.transaction.hash.toHexString());
-  totalStakedUpdate.staking = ltyStaking.id;
+  totalStakedUpdate.staking = ldyStaking.id;
   totalStakedUpdate.timestamp = event.block.timestamp;
   totalStakedUpdate.amount = event.params.newTotalStaked.toBigDecimal();
 
   totalStakedUpdate.save();
-  ltyStaking.save();
+  ldyStaking.save();
 }

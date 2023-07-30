@@ -26,15 +26,19 @@ const config: HardhatUserConfig = {
       chainId: 31337,
     },
     linea: {
+      url: "",
       chainId: 59144,
     },
     lineaGoerli: {
+      url: "",
       chainId: 59140,
     },
     arbitrum: {
+      url: "",
       chainId: 42161,
     },
     arbitrumGoerli: {
+      url: "",
       chainId: 421613,
     },
   },

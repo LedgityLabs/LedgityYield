@@ -1,5 +1,5 @@
 import { Amount, Card } from "@/components/ui";
-import { useGenericErc20Decimals, useLtyStakingStakeOf } from "@/generated";
+import { useGenericErc20Decimals, useLdyStakingStakeOf } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -10,11 +10,11 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingYourStake: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
-  const ltyAddress = useContractAddress("LTY");
-  const { data: ltyDecimals } = useGenericErc20Decimals({
-    address: ltyAddress,
+  const ldyAddress = useContractAddress("LDY");
+  const { data: ldyDecimals } = useGenericErc20Decimals({
+    address: ldyAddress,
   });
-  const { data: stake } = useLtyStakingStakeOf({
+  const { data: stake } = useLdyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
@@ -26,7 +26,7 @@ export const AppStakingYourStake: FC<Props> = ({ className }) => {
     >
       <h2 className="text-center text-lg font-medium text-indigo-900/80">Your stake</h2>
       <div className="h-full flex justify-center items-center text-6xl font-heavy font-heading">
-        <Amount value={stake} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
+        <Amount value={stake} decimals={ldyDecimals} suffix="LDY" displaySymbol={false} />
       </div>
     </Card>
   );

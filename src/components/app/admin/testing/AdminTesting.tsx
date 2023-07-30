@@ -106,14 +106,14 @@ export const AdminTesting: FC = () => {
           <MintFakeToken key={lToken} contractId={lToken.slice(1) as ContractId} />
         ))}
       </AdminBrick>
-      <AdminBrick title="LTY token">
+      <AdminBrick title="LDY token">
         <p>
-          When Ledgity DeFi is deployed locally or on a testnet, a fake $LTY token contract is also
+          When Ledgity DeFi is deployed locally or on a testnet, a fake $LDY token contract is also
           automatically deployed to mimic the mainnets one.
           <br />
           Here is the one for the current test network:
         </p>
-        <MintFakeToken contractId="LTY" />
+        <MintFakeToken contractId="LDY" />
       </AdminBrick>
       <AdminBrick title="Increase block time">
         <div className="flex flex-col justify-center items-center gap-3">

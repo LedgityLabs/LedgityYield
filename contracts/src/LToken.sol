@@ -5,7 +5,7 @@ pragma solidity ^0.8.21;
 import "./abstracts/base/ERC20BaseUpgradeable.sol";
 import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {LTYStaking} from "./LTYStaking.sol";
+import {LDYStaking} from "./LDYStaking.sol";
 
 // Libraries & interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
@@ -57,8 +57,8 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
     /// @dev Used in activity events to represent the absence of an ID.
     int256 private constant NO_ID = -1;
 
-    /// @dev Holds address of the LTYStaking contract
-    LTYStaking public ltyStaking;
+    /// @dev Holds address of the LDYStaking contract
+    LDYStaking public ldyStaking;
 
     /// @dev Holds address of withdrawer wallet (managed by withdrawal server)
     address payable public withdrawer;
@@ -156,7 +156,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         address globalOwner_,
         address globalPause_,
         address globalBlacklist_,
-        address ltyStaking_,
+        address ldyStaking_,
         address underlyingToken
     ) public initializer {
         // Retrieve underlying token metadata
@@ -173,8 +173,8 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         __ERC20Wrapper_init(IERC20Upgradeable(underlyingToken));
         __Invest_init_unchained(address(this));
 
-        // Set LTYStaking contract
-        setLTYStaking(ltyStaking_);
+        // Set LDYStaking contract
+        setLDYStaking(ldyStaking_);
 
         // Set initial withdrawal fees rate to 0.3%
         setFeesRate(300);
@@ -221,11 +221,11 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
     }
 
     /**
-     * @dev Setter for the LTYStaking contract address.
-     * @param _contract The address of the new LTYStaking contract
+     * @dev Setter for the LDYStaking contract address.
+     * @param _contract The address of the new LDYStaking contract
      */
-    function setLTYStaking(address _contract) public onlyOwner {
-        ltyStaking = LTYStaking(_contract);
+    function setLDYStaking(address _contract) public onlyOwner {
+        ldyStaking = LDYStaking(_contract);
     }
 
     /**
@@ -359,7 +359,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         // between the contract's underlying balance and the total amount deposit by users
         uint256 recoverableAmount = underlying().balanceOf(address(this)) - usableUnderlyings;
 
-        // Revert if there are no recoverable $LTY
+        // Revert if there are no recoverable $LDY
         require(recoverableAmount > 0, "LToken: nothing to recover");
 
         // Else transfer the recoverable underlying to the owner
@@ -522,7 +522,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         uint256 amount
     ) public view returns (uint256 withdrawnAmount, uint256 fees) {
         // If the account is eligible to staking tier 2, no fees are applied
-        if (ltyStaking.tierOf(account) >= 2) return (amount, 0);
+        if (ldyStaking.tierOf(account) >= 2) return (amount, 0);
 
         // Else calculate withdrawal fees as well as final withdrawn amount
         uint256 amountUDS3 = UDS3.scaleUp(amount);
@@ -549,7 +549,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         bool cond1 = totalQueued + amount <= usableUnderlyings;
 
         // Does caller is eligible to 2nd staking tier and contract can cover the request ?
-        bool cond2 = ltyStaking.tierOf(_msgSender()) >= 2 && amount <= usableUnderlyings;
+        bool cond2 = ldyStaking.tierOf(_msgSender()) >= 2 && amount <= usableUnderlyings;
 
         // Revert if request cannot be processed instanously
         if (!(cond1 || cond2)) revert("LToken: please queue your request");
@@ -771,7 +771,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
         uint256 requestId;
 
         // If the account is eligible to staking tier 2 and queue cursor is not 0
-        if (ltyStaking.tierOf(_msgSender()) >= 2 && withdrawalQueueCursor > 0) {
+        if (ldyStaking.tierOf(_msgSender()) >= 2 && withdrawalQueueCursor > 0) {
             // Append request at the beginning of the queue
             withdrawalQueueCursor--;
             requestId = withdrawalQueueCursor;

@@ -1,8 +1,8 @@
 import { Card, Input, TxButton } from "@/components/ui";
 import {
-  useLtyStakingStakeLockDuration,
+  useLdyStakingStakeLockDuration,
   usePrepareLTokenBigQueuedWithdraw,
-  usePrepareLtyStakingSetStakeLockDuration,
+  usePrepareLdyStakingSetStakeLockDuration,
 } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";

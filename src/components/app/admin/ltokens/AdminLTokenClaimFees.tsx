@@ -20,7 +20,7 @@ export const AdminLTokenClaimFees: FC<Props> = ({ lTokenId }) => {
   return (
     <AdminBrick title="Unclaimed fees">
       <p>
-        Current amount: <Amount value={unclaimedFees} className="font-bold" suffix="LTY" />
+        Current amount: <Amount value={unclaimedFees} className="font-bold" suffix="LDY" />
       </p>
       <div className="flex justify-center items-end gap-3">
         <TxButton preparation={preparation} size="medium" disabled={unclaimedFees === 0n}>

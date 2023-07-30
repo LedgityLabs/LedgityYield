@@ -1,21 +1,21 @@
 import { FC } from "react";
 import { AdminStakingTiers } from "./AdminStakingTiers";
 import { AdminStakingAPR } from "./AdminStakingAPR";
-import { AdminStakingLTYInfos } from "./AdminStakingLTYInfos";
+import { AdminStakingLDYInfos } from "./AdminStakingLDYInfos";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { AdminStakingUnlockFeesRate } from "./AdminStakingUnlockFees";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminStakingLockDuration } from "./AdminStakingLockDuration";
 
 export const AdminStaking: FC = () => {
-  const ltyAddress = useContractAddress("LTY");
-  const ltyStakingAddress = useContractAddress("LTYStaking");
-  if (!ltyAddress) return <p>Oops, LTY token not available on this network.</p>;
-  if (!ltyStakingAddress) return <p>Oops, LTYStaking contract not available on this network.</p>;
+  const ldyAddress = useContractAddress("LDY");
+  const ldyStakingAddress = useContractAddress("LDYStaking");
+  if (!ldyAddress) return <p>Oops, LDY token not available on this network.</p>;
+  if (!ldyStakingAddress) return <p>Oops, LDYStaking contract not available on this network.</p>;
 
   return (
     <AdminMasonry>
-      <AdminStakingLTYInfos />
+      <AdminStakingLDYInfos />
       <AdminStakingAPR />
       <AdminStakingUnlockFeesRate />
       <AdminStakingLockDuration />

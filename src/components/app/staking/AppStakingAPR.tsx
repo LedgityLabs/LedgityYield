@@ -1,12 +1,12 @@
 import { Card, Rate } from "@/components/ui";
-import { useLtyStakingGetApr } from "@/generated";
+import { useLdyStakingGetApr } from "@/generated";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingAPR: FC<Props> = ({ className }) => {
-  const { data: apr } = useLtyStakingGetApr();
+  const { data: apr } = useLdyStakingGetApr();
   return (
     <Card
       circleIntensity={0.07}

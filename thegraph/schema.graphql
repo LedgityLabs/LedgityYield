@@ -57,14 +57,14 @@ type RewardsMint @entity(immutable: true) {
   growth: BigDecimal!
 }
 
-type LTYStaking @entity {
+type LDYStaking @entity {
   id: ID!
   totalStakedUpdates: [TotalStakedUpdate!] @derivedFrom(field: "staking")
 }
 
 type TotalStakedUpdate @entity(immutable: true) {
   id: ID!
-  staking: LTYStaking!
+  staking: LDYStaking!
   timestamp: BigInt!
   amount: BigDecimal!
 }

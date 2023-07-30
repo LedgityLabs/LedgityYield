@@ -12,7 +12,7 @@ export const AdminLTokenAddresses: FC<Props> = ({ className, lTokenId }) => {
   const addressesAccesses = [
     ["Withdrawer wallet", "withdrawer", "setWithdrawer"],
     ["Fund wallet", "fund", "setFund"],
-    ["LTYStaking contract", "ltyStaking", "setLTYStaking"],
+    ["LDYStaking contract", "ldyStaking", "setLDYStaking"],
   ];
 
   return (

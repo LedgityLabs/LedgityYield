@@ -1,9 +1,9 @@
 import { Card, Amount, TxButton } from "@/components/ui";
 import {
   useGenericErc20Decimals,
-  useLtyStakingRewardsOf,
-  usePrepareLtyStakingClaim,
-  usePrepareLtyStakingCompound,
+  useLdyStakingRewardsOf,
+  usePrepareLdyStakingClaim,
+  usePrepareLdyStakingCompound,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
@@ -15,11 +15,11 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingClaim: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
-  const ltyAddress = useContractAddress("LTY");
-  const { data: ltyDecimals } = useGenericErc20Decimals({
-    address: ltyAddress,
+  const ldyAddress = useContractAddress("LDY");
+  const { data: ldyDecimals } = useGenericErc20Decimals({
+    address: ldyAddress,
   });
-  const { data: unclaimedRewards } = useLtyStakingRewardsOf({
+  const { data: unclaimedRewards } = useLdyStakingRewardsOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
@@ -27,9 +27,9 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
   // if they are <1, testing if rounded value is > 0 prevents display 0.00 of unclaimed
   // rewards to users.
   const hasUnclaimedRewards =
-    unclaimedRewards && Math.round(Number(formatUnits(unclaimedRewards, ltyDecimals!)) * 100) / 100 > 0;
-  const claimPreparation = usePrepareLtyStakingClaim();
-  const compoundPreparation = usePrepareLtyStakingCompound();
+    unclaimedRewards && Math.round(Number(formatUnits(unclaimedRewards, ldyDecimals!)) * 100) / 100 > 0;
+  const claimPreparation = usePrepareLdyStakingClaim();
+  const compoundPreparation = usePrepareLdyStakingCompound();
 
   return (
     <Card
@@ -40,7 +40,7 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
       {(hasUnclaimedRewards && (
         <p>
           You&apos;ve{" "}
-          <Amount className="font-bold" value={unclaimedRewards} decimals={ltyDecimals} suffix={"LTY"} />{" "}
+          <Amount className="font-bold" value={unclaimedRewards} decimals={ldyDecimals} suffix={"LDY"} />{" "}
           of unclaimed rewards.
         </p>
       )) || <p>No rewards yet.</p>}
@@ -54,8 +54,8 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
               <Amount
                 className="font-bold"
                 value={unclaimedRewards}
-                decimals={ltyDecimals}
-                suffix={"LTY"}
+                decimals={ldyDecimals}
+                suffix={"LDY"}
               />{" "}
               of unclaimed rewards.
             </p>
@@ -73,8 +73,8 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
               <Amount
                 className="font-bold"
                 value={unclaimedRewards}
-                decimals={ltyDecimals}
-                suffix={"LTY"}
+                decimals={ldyDecimals}
+                suffix={"LDY"}
               />{" "}
               of unclaimed rewards.
             </p>

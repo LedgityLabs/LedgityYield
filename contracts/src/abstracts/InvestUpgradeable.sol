@@ -21,7 +21,7 @@ import "./base/BaseUpgradeable.sol";
  * @title InvestUpgradeable
  * @author Lila Rest (lila@ledgity.com)
  * @notice This contract provides a bunch of investment utilities shared between LToken
- * and LTYStaking contracts. This includes invested token, investment periods, virtual
+ * and LDYStaking contracts. This includes invested token, investment periods, virtual
  * balances, rewards calculations, and auto-compounding.
  * @dev Children contract must:
  *  - Set invested token during initialization

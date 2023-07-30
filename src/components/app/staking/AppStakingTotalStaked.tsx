@@ -1,5 +1,5 @@
 import { Amount, Card } from "@/components/ui";
-import { useGenericErc20Decimals, useLtyStakingTotalStaked } from "@/generated";
+import { useGenericErc20Decimals, useLdyStakingTotalStaked } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -7,11 +7,11 @@ import { twMerge } from "tailwind-merge";
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingTotalStaked: FC<Props> = ({ className }) => {
-  const ltyAddress = useContractAddress("LTY");
-  const { data: ltyDecimals } = useGenericErc20Decimals({
-    address: ltyAddress,
+  const ldyAddress = useContractAddress("LDY");
+  const { data: ldyDecimals } = useGenericErc20Decimals({
+    address: ldyAddress,
   });
-  const { data: totalStaked } = useLtyStakingTotalStaked({
+  const { data: totalStaked } = useLdyStakingTotalStaked({
     watch: true,
   });
   return (
@@ -24,7 +24,7 @@ export const AppStakingTotalStaked: FC<Props> = ({ className }) => {
           Total staked
         </h2>
         <div className="h-full flex justify-center items-center text-5xl font-heavy font-heading">
-          <Amount value={totalStaked} decimals={ltyDecimals} suffix="LTY" displaySymbol={false} />
+          <Amount value={totalStaked} decimals={ldyDecimals} suffix="LDY" displaySymbol={false} />
         </div>
       </div>
       <div className="flex justify-center items-center w-full h-full ml-10 bg-primary/10 rounded-3xl text-center">

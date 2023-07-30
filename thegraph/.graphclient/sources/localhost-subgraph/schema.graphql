@@ -65,7 +65,9 @@ input APRUpdate_filter {
   apr_lte: BigDecimal
   apr_in: [BigDecimal!]
   apr_not_in: [BigDecimal!]
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
   and: [APRUpdate_filter]
   or: [APRUpdate_filter]
@@ -165,7 +167,9 @@ input Activity_filter {
   status_not: ActivityStatus
   status_in: [ActivityStatus!]
   status_not_in: [ActivityStatus!]
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
   and: [Activity_filter]
   or: [Activity_filter]
@@ -199,12 +203,18 @@ input Block_height {
 
 scalar Bytes
 
-type LTYStaking {
+type LDYStaking {
   id: ID!
-  totalStakedUpdates(skip: Int = 0, first: Int = 100, orderBy: TotalStakedUpdate_orderBy, orderDirection: OrderDirection, where: TotalStakedUpdate_filter): [TotalStakedUpdate!]
+  totalStakedUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TotalStakedUpdate_orderBy
+    orderDirection: OrderDirection
+    where: TotalStakedUpdate_filter
+  ): [TotalStakedUpdate!]
 }
 
-input LTYStaking_filter {
+input LDYStaking_filter {
   id: ID
   id_not: ID
   id_gt: ID
@@ -214,23 +224,49 @@ input LTYStaking_filter {
   id_in: [ID!]
   id_not_in: [ID!]
   totalStakedUpdates_: TotalStakedUpdate_filter
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
-  and: [LTYStaking_filter]
-  or: [LTYStaking_filter]
+  and: [LDYStaking_filter]
+  or: [LDYStaking_filter]
 }
 
-enum LTYStaking_orderBy {
+enum LDYStaking_orderBy {
   id
   totalStakedUpdates
 }
 
 type LToken {
   id: ID!
-  tvlUpdates(skip: Int = 0, first: Int = 100, orderBy: TVLUpdate_orderBy, orderDirection: OrderDirection, where: TVLUpdate_filter): [TVLUpdate!]
-  aprUpdates(skip: Int = 0, first: Int = 100, orderBy: APRUpdate_orderBy, orderDirection: OrderDirection, where: APRUpdate_filter): [APRUpdate!]
-  activities(skip: Int = 0, first: Int = 100, orderBy: Activity_orderBy, orderDirection: OrderDirection, where: Activity_filter): [Activity!]
-  rewardsMints(skip: Int = 0, first: Int = 100, orderBy: RewardsMint_orderBy, orderDirection: OrderDirection, where: RewardsMint_filter): [RewardsMint!]
+  tvlUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TVLUpdate_orderBy
+    orderDirection: OrderDirection
+    where: TVLUpdate_filter
+  ): [TVLUpdate!]
+  aprUpdates(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: APRUpdate_orderBy
+    orderDirection: OrderDirection
+    where: APRUpdate_filter
+  ): [APRUpdate!]
+  activities(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Activity_orderBy
+    orderDirection: OrderDirection
+    where: Activity_filter
+  ): [Activity!]
+  rewardsMints(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: RewardsMint_orderBy
+    orderDirection: OrderDirection
+    where: RewardsMint_filter
+  ): [RewardsMint!]
   totalMintedRewards: BigDecimal!
 }
 
@@ -255,7 +291,9 @@ input LToken_filter {
   totalMintedRewards_lte: BigDecimal
   totalMintedRewards_in: [BigDecimal!]
   totalMintedRewards_not_in: [BigDecimal!]
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
   and: [LToken_filter]
   or: [LToken_filter]
@@ -270,7 +308,9 @@ enum LToken_orderBy {
   totalMintedRewards
 }
 
-"""Defines the order direction, either ascending or descending"""
+"""
+Defines the order direction, either ascending or descending
+"""
 enum OrderDirection {
   asc
   desc
@@ -407,7 +447,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [RewardsMint!]!
-  ltystaking(
+  ldystaking(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -417,13 +457,13 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): LTYStaking
-  ltystakings(
+  ): LDYStaking
+  ldystakings(
     skip: Int = 0
     first: Int = 100
-    orderBy: LTYStaking_orderBy
+    orderBy: LDYStaking_orderBy
     orderDirection: OrderDirection
-    where: LTYStaking_filter
+    where: LDYStaking_filter
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
@@ -432,7 +472,7 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [LTYStaking!]!
+  ): [LDYStaking!]!
   totalStakedUpdate(
     id: ID!
     """
@@ -459,7 +499,9 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [TotalStakedUpdate!]!
-  """Access to subgraph metadata"""
+  """
+  Access to subgraph metadata
+  """
   _meta(block: Block_height): _Meta_
 }
 
@@ -545,7 +587,9 @@ input RewardsMint_filter {
   growth_lte: BigDecimal
   growth_in: [BigDecimal!]
   growth_not_in: [BigDecimal!]
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
   and: [RewardsMint_filter]
   or: [RewardsMint_filter]
@@ -694,7 +738,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [RewardsMint!]!
-  ltystaking(
+  ldystaking(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -704,13 +748,13 @@ type Subscription {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): LTYStaking
-  ltystakings(
+  ): LDYStaking
+  ldystakings(
     skip: Int = 0
     first: Int = 100
-    orderBy: LTYStaking_orderBy
+    orderBy: LDYStaking_orderBy
     orderDirection: OrderDirection
-    where: LTYStaking_filter
+    where: LDYStaking_filter
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
@@ -719,7 +763,7 @@ type Subscription {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [LTYStaking!]!
+  ): [LDYStaking!]!
   totalStakedUpdate(
     id: ID!
     """
@@ -746,7 +790,9 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [TotalStakedUpdate!]!
-  """Access to subgraph metadata"""
+  """
+  Access to subgraph metadata
+  """
   _meta(block: Block_height): _Meta_
 }
 
@@ -803,7 +849,9 @@ input TVLUpdate_filter {
   amount_lte: BigDecimal
   amount_in: [BigDecimal!]
   amount_not_in: [BigDecimal!]
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
   and: [TVLUpdate_filter]
   or: [TVLUpdate_filter]
@@ -820,7 +868,7 @@ enum TVLUpdate_orderBy {
 
 type TotalStakedUpdate {
   id: ID!
-  staking: LTYStaking!
+  staking: LDYStaking!
   timestamp: BigInt!
   amount: BigDecimal!
 }
@@ -854,7 +902,7 @@ input TotalStakedUpdate_filter {
   staking_ends_with_nocase: String
   staking_not_ends_with: String
   staking_not_ends_with_nocase: String
-  staking_: LTYStaking_filter
+  staking_: LDYStaking_filter
   timestamp: BigInt
   timestamp_not: BigInt
   timestamp_gt: BigInt
@@ -871,7 +919,9 @@ input TotalStakedUpdate_filter {
   amount_lte: BigDecimal
   amount_in: [BigDecimal!]
   amount_not_in: [BigDecimal!]
-  """Filter for the block changed event."""
+  """
+  Filter for the block changed event.
+  """
   _change_block: BlockChangedFilter
   and: [TotalStakedUpdate_filter]
   or: [TotalStakedUpdate_filter]
@@ -886,32 +936,45 @@ enum TotalStakedUpdate_orderBy {
 }
 
 type _Block_ {
-  """The hash of the block"""
+  """
+  The hash of the block
+  """
   hash: Bytes
-  """The block number"""
+  """
+  The block number
+  """
   number: Int!
-  """Integer representation of the timestamp stored in blocks for the chain"""
+  """
+  Integer representation of the timestamp stored in blocks for the chain
+  """
   timestamp: Int
 }
 
-"""The type for the top-level _meta field"""
+"""
+The type for the top-level _meta field
+"""
 type _Meta_ {
   """
   Information about a specific subgraph block. The hash of the block
   will be null if the _meta field has a block constraint that asks for
   a block number. It will be filled if the _meta field has no block constraint
   and therefore asks for the latest  block
-  
   """
   block: _Block_!
-  """The deployment ID"""
+  """
+  The deployment ID
+  """
   deployment: String!
-  """If `true`, the subgraph encountered indexing errors at some past block"""
+  """
+  If `true`, the subgraph encountered indexing errors at some past block
+  """
   hasIndexingErrors: Boolean!
 }
 
 enum _SubgraphErrorPolicy_ {
-  """Data will be returned even if the subgraph has indexing errors"""
+  """
+  Data will be returned even if the subgraph has indexing errors
+  """
   allow
   """
   If the subgraph has indexing errors, data will be omitted. The default.

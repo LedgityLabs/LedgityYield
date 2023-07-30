@@ -11,11 +11,11 @@ import { AppStakingClaim } from "./AppStakingClaim";
 import { AppStakingStake } from "./AppStakingStake";
 
 export const AppStaking: FC = () => {
-  const ltyAddress = useContractAddress("LTY");
-  const ltyStakingAddress = useContractAddress("LTYStaking");
-  if (!ltyAddress) return <p>Oops, it seems that LTY token is currently not available on this chain.</p>;
-  if (!ltyStakingAddress)
-    return <p>Oops, it seems that LTY token staking is currently not available on this chain.</p>;
+  const ldyAddress = useContractAddress("LDY");
+  const ldyStakingAddress = useContractAddress("LDYStaking");
+  if (!ldyAddress) return <p>Oops, it seems that LDY token is currently not available on this chain.</p>;
+  if (!ldyStakingAddress)
+    return <p>Oops, it seems that LDY token staking is currently not available on this chain.</p>;
   return (
     <section className="grid grid-cols-[repeat(5,1fr)] grid-rows-[repeat(8,1fr)] w-[1200px] h-[900px] gap-10 mb-10">
       <AppStakingTotalStaked className="col-span-2 row-span-2" />

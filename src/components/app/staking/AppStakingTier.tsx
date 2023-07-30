@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui";
-import { useLtyStakingTierOf } from "@/generated";
+import { useLdyStakingTierOf } from "@/generated";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { zeroAddress } from "viem";
@@ -9,7 +9,7 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Card> {}
 
 export const AppStakingTier: FC<Props> = ({ className }) => {
   const { data: walletClient } = useWalletClient();
-  const { data: tier } = useLtyStakingTierOf({
+  const { data: tier } = useLdyStakingTierOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });

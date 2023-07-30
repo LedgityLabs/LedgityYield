@@ -2,8 +2,8 @@ import { Amount, AmountInput, Card, TxButton } from "@/components/ui";
 import {
   useGenericErc20Decimals,
   useGenericErc20TotalSupply,
-  useLtyStakingGetTier,
-  usePrepareLtyStakingSetTier,
+  useLdyStakingGetTier,
+  usePrepareLdyStakingSetTier,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
@@ -12,20 +12,20 @@ import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
 
 const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
-  const ltyAddress = useContractAddress("LTY");
-  const { data: ltyDecimals } = useGenericErc20Decimals({
-    address: ltyAddress,
+  const ldyAddress = useContractAddress("LDY");
+  const { data: ldyDecimals } = useGenericErc20Decimals({
+    address: ldyAddress,
   });
-  const { data: ltySupply } = useGenericErc20TotalSupply({
-    address: ltyAddress,
+  const { data: ldySupply } = useGenericErc20TotalSupply({
+    address: ldyAddress,
   });
-  const { data: tierAmount } = useLtyStakingGetTier({
+  const { data: tierAmount } = useLdyStakingGetTier({
     args: [BigInt(tierId)],
     watch: true,
   });
 
   const [newTierAmount, setNewTierAmount] = useState(0n);
-  const preparation = usePrepareLtyStakingSetTier({
+  const preparation = usePrepareLdyStakingSetTier({
     args: [BigInt(tierId), newTierAmount],
   });
 
@@ -34,15 +34,15 @@ const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
       <h4 className="font-bold text-xl text-fg">Tier {tierId}</h4>
       <p>
         Current value:{" "}
-        <Amount value={tierAmount} decimals={ltyDecimals} suffix="LTY" className="font-bold" />
+        <Amount value={tierAmount} decimals={ldyDecimals} suffix="LDY" className="font-bold" />
       </p>
       <div className="flex justify-center items-end gap-3 pt-3">
         <AmountInput
           maxName="Max"
-          maxValue={ltySupply}
-          decimals={ltyDecimals}
+          maxValue={ldySupply}
+          decimals={ldyDecimals}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setNewTierAmount(parseUnits(e.target.value, ltyDecimals!))
+            setNewTierAmount(parseUnits(e.target.value, ldyDecimals!))
           }
         />
         <TxButton size="medium" preparation={preparation}>

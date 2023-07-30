@@ -2,9 +2,9 @@ import { deployProxy } from "./lib/deployProxy";
 import { getContractAddress } from "./lib/getContractAddress";
 
 const main = async () => {
-  const ltyAddress = getContractAddress("LTY");
-  return await deployProxy("LTYStaking", true, true, true, [ltyAddress]);
-}
+  const ldyAddress = getContractAddress("LDY");
+  return await deployProxy("LDYStaking", true, true, true, [ldyAddress]);
+};
 
 export default main().catch((error) => {
   console.error(error);
