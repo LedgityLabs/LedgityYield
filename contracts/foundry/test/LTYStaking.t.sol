@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 import "../lib/forge-std/src/Test.sol";
 import {ModifiersExpectations} from "./_helpers/ModifiersExpectations.sol";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 // Contracts
 import "./abstracts/base/ERC20BaseUpgradeable.sol";
@@ -10,9 +10,9 @@ import {LTYStaking} from "./LTYStaking.sol";
 // Libraries & interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
 
+import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
 
 /**

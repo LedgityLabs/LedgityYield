@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 // Contracts
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -16,8 +16,6 @@ import {UDS3} from "../libs/UDS3.sol";
 import {RecoverableUpgradeable} from "../abstracts/RecoverableUpgradeable.sol";
 
 import "./base/BaseUpgradeable.sol";
-
-import "hardhat/console.sol";
 
 /**
  * @title InvestUpgradeable

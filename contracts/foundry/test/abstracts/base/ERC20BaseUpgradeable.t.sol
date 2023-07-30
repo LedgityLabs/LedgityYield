@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 import "../../../lib/forge-std/src/Test.sol";
 import {ModifiersExpectations} from "../../_helpers/ModifiersExpectations.sol";
@@ -118,6 +118,11 @@ contract Tests is Test, ModifiersExpectations {
         bool toBlacklisted
     ) public {
         console.log("Should prevent transfer when one or both addresses are blacklisted");
+
+        // Ensure from and to addresses are different and not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
 
         // Randomly blacklist from address
         if (fromBlacklisted) globalBlacklist.blacklist(from);

@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 import "./abstracts/base/BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-
-import "hardhat/console.sol";
 
 /**
  * @title LTYStaking

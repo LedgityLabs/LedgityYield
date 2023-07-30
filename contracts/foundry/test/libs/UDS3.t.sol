@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 import "../../lib/forge-std/src/Test.sol";
 import {UDS3} from "../../../src/libs/UDS3.sol";

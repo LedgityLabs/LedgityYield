@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.21;
 
 /**
  * @title UDS3
@@ -52,7 +52,7 @@ library APRCheckpoints {
      * @param ref The reference to be incremented
      * @return newRef The incremented reference
      */
-    function incrementReference(Reference memory ref) internal pure returns (Reference memory newRef) {
+    function incrementReference(Reference memory ref) public pure returns (Reference memory newRef) {
         // Copy given reference to avoid mutating it
         newRef = Reference(ref.packIndex, ref.cursorIndex);
 
@@ -78,7 +78,7 @@ library APRCheckpoints {
     function getDataFromReference(
         Pack[] storage packs,
         Reference memory ref
-    ) internal view returns (Checkpoint memory checkpoint) {
+    ) public view returns (Checkpoint memory checkpoint) {
         // Ensure the given cursor index is in expected range [0, 3]
         require(ref.cursorIndex <= 3, "APRCheckpoints: cursor index overflow");
 
@@ -105,7 +105,7 @@ library APRCheckpoints {
      * @param packs The array of packs to compute the reference from
      * @return The reference of the latest checkpoint
      */
-    function getLatestReference(Pack[] storage packs) internal view returns (Reference memory) {
+    function getLatestReference(Pack[] storage packs) public view returns (Reference memory) {
         // Ensure the given array of packs is not empty
         require(packs.length != 0, "APRCheckpoints: no pack yet");
 
@@ -133,7 +133,7 @@ library APRCheckpoints {
      * @dev Appends a new empty pack at the end the given array of packs.
      * @param packs The array of packs to append the new empty pack to
      */
-    function newBlankPack(Pack[] storage packs) internal {
+    function newBlankPack(Pack[] storage packs) public {
         // If packs array is not empty, ensure the latest pack is full
         if (packs.length != 0)
             require(
@@ -157,7 +157,7 @@ library APRCheckpoints {
      * @param packs The array of packs to write the new checkpoint to
      * @param aprUD3 The new APR in UD3 format
      */
-    function setAPR(Pack[] storage packs, uint16 aprUD3) internal {
+    function setAPR(Pack[] storage packs, uint16 aprUD3) external {
         // In-memory reference that will point to the checkpoint slot to be written
         Reference memory newRef = Reference(0, 0);
 
@@ -187,7 +187,7 @@ library APRCheckpoints {
      * @param packs The array of packs to retrieve the latest checkpoint from
      * @return The latest APR checkpoint or 0
      */
-    function getAPR(Pack[] storage packs) internal view returns (uint16) {
+    function getAPR(Pack[] storage packs) external view returns (uint16) {
         // Returns 0 if no APR checkpoint has been written yet
         if (packs.length == 0 || (packs.length == 1 && packs[0].cursor == 0)) return 0;
 
