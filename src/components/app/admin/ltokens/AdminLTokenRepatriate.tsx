@@ -1,5 +1,5 @@
 import { AmountInput, Card, Input, TxButton } from "@/components/ui";
-import { useLTokenDecimals, usePrepareLTokenFundContract } from "@/generated";
+import { useLTokenDecimals, usePrepareLTokenRepatriate } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { LTokenId } from "../../../../../contracts/deployments";
@@ -10,13 +10,13 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenId: LTokenId;
 }
 
-export const AdminLTokenFundContract: FC<Props> = ({ lTokenId }) => {
+export const AdminLTokenRepatriate: FC<Props> = ({ lTokenId }) => {
   const lTokenAddress = useContractAddress(lTokenId);
   const { data: lTokenDecimals } = useLTokenDecimals({
     address: lTokenAddress,
   });
-  const [fundedAmount, setFundedAmount] = useState(0n);
-  const preparation = usePrepareLTokenFundContract({ address: lTokenAddress, args: [fundedAmount] });
+  const [repatriatedAmount, setRepatriatedAmount] = useState(0n);
+  const preparation = usePrepareLTokenRepatriate({ address: lTokenAddress, args: [repatriatedAmount] });
 
   return (
     <AdminBrick title="Fund contract">
@@ -27,7 +27,7 @@ export const AdminLTokenFundContract: FC<Props> = ({ lTokenId }) => {
       <div className="flex justify-center items-end gap-3">
         <AmountInput
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setFundedAmount(parseUnits(e.target.value, lTokenDecimals!))
+            setRepatriatedAmount(parseUnits(e.target.value, lTokenDecimals!))
           }
         />
         <TxButton preparation={preparation} size="medium">

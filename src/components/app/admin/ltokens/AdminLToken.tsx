@@ -5,7 +5,7 @@ import { AdminLTokenRetentionRate } from "./AdminLTokenRetentionRate";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminLTokenClaimFees } from "./AdminLTokenClaimFees";
 import { AdminLTokenProcessBigQueued } from "./AdminLTokenProcessBigQueued";
-import { AdminLTokenFundContract } from "./AdminLTokenFundContract";
+import { AdminLTokenRepatriate } from "./AdminLTokenRepatriate";
 import { AdminLTokenAddresses } from "./AdminLTokenAddresses";
 import { AdminLTokenSignal } from "./AdminLTokenSignal";
 
@@ -20,7 +20,7 @@ export const AdminLToken: FC<Props> = ({ lTokenId }) => {
       <AdminLTokenRetentionRate lTokenId={lTokenId} />
       <AdminLTokenClaimFees lTokenId={lTokenId} />
       <AdminLTokenProcessBigQueued lTokenId={lTokenId} />
-      <AdminLTokenFundContract lTokenId={lTokenId} />
+      <AdminLTokenRepatriate lTokenId={lTokenId} />
       <AdminLTokenAddresses lTokenId={lTokenId} />
       <AdminLTokenSignal lTokenId={lTokenId} />
     </AdminMasonry>

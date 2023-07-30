@@ -36,7 +36,7 @@ import { LTokenId } from "../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useLTokenDecimals,
-  useLTokenGetWithdrawanAmountAndFees,
+  useLTokenGetWithdrawnAmountAndFees,
   usePrepareLTokenCancelWithdrawalRequest,
 } from "@/generated";
 import { zeroAddress } from "viem";
@@ -50,7 +50,7 @@ const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint; amount: bigint }
   const { data: decimals } = useLTokenDecimals({
     address: ltokenAddress,
   });
-  const { data: amountAndFees } = useLTokenGetWithdrawanAmountAndFees({
+  const { data: amountAndFees } = useLTokenGetWithdrawnAmountAndFees({
     address: ltokenAddress,
     args: [walletClient ? walletClient.account.address : zeroAddress, requestId],
     watch: true,

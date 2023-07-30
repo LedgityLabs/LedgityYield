@@ -2,7 +2,7 @@ import { AllowanceTxButton, AmountInput, Card, DateTime, Rate, TxButton } from "
 import {
   useGenericErc20BalanceOf,
   useGenericErc20Decimals,
-  useLtyStakingGetLockEndIncrease,
+  useLtyStakingGetNewLockEndFor,
   useLtyStakingLockEndOf,
   useLtyStakingStakeOf,
   useLtyStakingUnlockFeesRateUd3,
@@ -44,7 +44,7 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
 
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const { data: lockPeriodIncrease } = useLtyStakingGetLockEndIncrease({
+  const { data: newLockEnd } = useLtyStakingGetNewLockEndFor({
     args: [walletClient ? walletClient.account.address : zeroAddress, depositedAmount],
   });
   const { data: unlockFees } = useLtyStakingUnlockFeesRateUd3();
@@ -62,8 +62,9 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
   const lockEndDays = lockEnd
     ? ((lockEnd * 1000 - Date.now()) / (1000 * secondsPerDay)).toFixed(0)
     : "0";
-  const lockPeriodDaysIncrease = lockPeriodIncrease
-    ? (lockPeriodIncrease / secondsPerDay).toFixed(1)
+  const lockDurationIncrease = newLockEnd && lockEnd ? newLockEnd - lockEnd : 0;
+  const lockDurationDaysIncrease = lockDurationIncrease
+    ? (lockDurationIncrease / secondsPerDay).toFixed(1)
     : "0.0";
 
   return (
@@ -90,10 +91,10 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
               Stake
             </AllowanceTxButton>
           </div>
-          {stakedAmount && depositedAmount > 0n && !["0.0", "NaN"].includes(lockPeriodDaysIncrease) ? (
+          {stakedAmount && depositedAmount > 0n && !["0.0", "NaN"].includes(lockDurationDaysIncrease) ? (
             <p>
               Increasing your stake by {formatUnits(depositedAmount, ltyDecimals!)} LTY will increase
-              your lock period by <span className="font-semibold">{lockPeriodDaysIncrease} days</span>.
+              your lock period by <span className="font-semibold">{lockDurationDaysIncrease} days</span>.
               Your can <Link href="/">learn more</Link> about lock period increase calculation.
             </p>
           ) : (

@@ -12,7 +12,7 @@ import {
 import {
   useLTokenBalanceOf,
   useLTokenDecimals,
-  usePrepareLTokenInstantWithdraw,
+  usePrepareLTokenInstantWithdrawal,
   usePrepareLTokenRequestWithdrawal,
 } from "@/generated";
 import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
@@ -38,7 +38,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const instantWithdrawalalPreparation = usePrepareLTokenInstantWithdraw({
+  const instantWithdrawalalPreparation = usePrepareLTokenInstantWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
   });
