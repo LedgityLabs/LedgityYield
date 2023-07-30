@@ -95,7 +95,7 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
     uint256 public withdrawalQueueCursor;
 
     /// @dev Holds a list of external contracts to trigger onLTokenTransfer() function on transfer.
-    ITransfersListener[] transfersListeners;
+    ITransfersListener[] public transfersListeners;
 
     /**
      * @dev Emitted to inform listeners about a change in the TVL of the contract (a.k.a totalSupply)
@@ -423,6 +423,8 @@ contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradea
     /**
      * @dev Override of ERC20._afterTokenTransfer() hook that triggers onLTokenTransfer()
      * functions of all transfer listeners.
+     * Note that we don't check for not paused contract and not blacklisted accounts
+     * as this is already done in _beforeTokenTransfer().
      * @inheritdoc ERC20Upgradeable
      */
     function _afterTokenTransfer(address from, address to, uint256 amount) internal override {

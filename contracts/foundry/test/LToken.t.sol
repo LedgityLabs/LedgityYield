@@ -18,6 +18,40 @@ import {GenericERC20} from "../../src/GenericERC20.sol";
 
 import {UDS3} from "../../src/libs/UDS3.sol";
 import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
+import {ITransfersListener} from "../../src/interfaces/ITransfersListener.sol";
+
+contract Vault is ITransfersListener {
+    /// @dev Holds the LToken contract address allowed to call onLTokenTransfers()
+    address public lToken;
+
+    /// @dev Stores data received from onLTokenTransfers()
+    struct HookData {
+        address from;
+        address to;
+        uint256 amount;
+    }
+    HookData[] public hookData;
+
+    /// @dev Modifier to restrict access to the LToken contract
+    modifier onlyLToken() {
+        require(msg.sender == lToken, "Vault: restricted to LToken");
+        _;
+    }
+
+    /// @dev Sets the LToken contract address allowed to call onLTokenTransfers() at deployment-time
+    constructor(address _lToken) {
+        lToken = _lToken;
+    }
+
+    /**
+     * @dev Implementation of ITransfersListener.onLTokenTransfers() that simply stores
+     * the received data on chain so unit tests can easily assert that this function has
+     * been called with the expected parameters.
+     */
+    function onLTokenTransfers(address from, address to, uint256 amount) external onlyLToken {
+        hookData.push(HookData(from, to, amount));
+    }
+}
 
 contract TestedContract is LToken {
     /**
@@ -112,6 +146,9 @@ contract Tests is Test, ModifiersExpectations {
     GenericERC20 underlyingToken;
     GenericERC20 anotherToken;
 
+    Vault vault1;
+    Vault vault2;
+
     address payable withdrawerWallet = payable(address(bytes20("withdrawerWallet")));
     address payable fundWallet = payable(address(bytes20("fundWallet")));
 
@@ -179,11 +216,18 @@ contract Tests is Test, ModifiersExpectations {
 
         // Set fund wallet
         tested.setFund(fundWallet);
+
+        // Deploy a first external Vault contract (a transfers listener)
+        vault1 = new Vault(address(tested));
+        vm.label(address(vault1), "Vault 1");
+
+        // Deploy a second external Vault contract (a transfers listener)
+        vault2 = new Vault(address(tested));
+        vm.label(address(vault2), "Vault 2");
     }
 
     // ==================
     // === Invariants ===
-
     // - Usable underlyings should never exceeds expected retained
     function invariant_retention() external {
         if (tested.decimals() > 18) return;
@@ -385,6 +429,110 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should change value of fund");
         tested.setFund(_fund);
         assertEq(address(tested.fund()), _fund);
+    }
+
+    // ====================================
+    // === listenToTransfers() function ===
+    function testFuzz_listenToTransfers_1(address account, address listenerContract) public {
+        console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
+        expectRevertOnlyOwner();
+        vm.prank(account);
+        tested.listenToTransfers(listenerContract);
+    }
+
+    function testFuzz_listenToTransfers_2(address listenersContract1, address listenerContract2) public {
+        console.log(
+            "Should else push given contract address at the end of  the transfersListeners array"
+        );
+
+        // Listen to transfers from contract 1
+        tested.listenToTransfers(listenersContract1);
+
+        // Assert that contract 1 is at the end of the array
+        assertEq(address(tested.transfersListeners(0)), listenersContract1);
+
+        // Listen to transfers from contract 2
+        tested.listenToTransfers(listenerContract2);
+
+        // Assert that contract 2 is now at the end of the array
+        assertEq(address(tested.transfersListeners(1)), listenerContract2);
+    }
+
+    // ====================================
+    // === unlistenToTransfers() function ===
+    function testFuzz_unlistenToTransfers_1(address account, address listenerContract) public {
+        console.log("Should revert if not called by owner");
+
+        // Ensure the random account is not the fund wallet
+        vm.assume(account != tested.owner());
+
+        // Expect revert
+        expectRevertOnlyOwner();
+        vm.prank(account);
+        tested.unlistenToTransfers(listenerContract);
+    }
+
+    function testFuzz_unlistenToTransfers_2(address listenerContract) public {
+        console.log("Should revert if listener contract wasn't listening to transfers");
+
+        // Expect revert
+        vm.expectRevert(bytes("LToken: listener contract not found"));
+        tested.unlistenToTransfers(listenerContract);
+    }
+
+    function testFuzz_unlistenToTransfers_3(address listenerContract) public {
+        console.log("Should revert if listener contract was already unlistening to transfers");
+
+        // Listen to transfers
+        tested.listenToTransfers(listenerContract);
+
+        // Unlisten to transfers
+        tested.unlistenToTransfers(listenerContract);
+
+        // Expect revert
+        vm.expectRevert(bytes("LToken: listener contract not found"));
+        tested.unlistenToTransfers(listenerContract);
+    }
+
+    function testFuzz_unlistenToTransfers_3(
+        address listenerContract1,
+        address listenerContract2,
+        address listenerContract3
+    ) public {
+        console.log(
+            "Should properly remove listener contract from array else and without leaving any empty slot"
+        );
+
+        // Ensure that 3 listeners addresses are different
+        vm.assume(listenerContract1 != listenerContract2);
+        vm.assume(listenerContract1 != listenerContract3);
+        vm.assume(listenerContract2 != listenerContract3);
+
+        // Listen to transfers from 3 contracts
+        tested.listenToTransfers(listenerContract1);
+        tested.listenToTransfers(listenerContract2);
+        tested.listenToTransfers(listenerContract3);
+
+        // Assert that the 3 contracts are listening to transfers
+        assertEq(address(tested.transfersListeners(0)), listenerContract1);
+        assertEq(address(tested.transfersListeners(1)), listenerContract2);
+        assertEq(address(tested.transfersListeners(2)), listenerContract3);
+
+        // Unlisten to transfers from contract2
+        tested.unlistenToTransfers(listenerContract2);
+
+        // Ensure that contract2 have been removed without leaving slot 1 empty
+        assertEq(address(tested.transfersListeners(0)), listenerContract1);
+        assertEq(address(tested.transfersListeners(1)), listenerContract3);
+
+        // Also ensure that slot 2 doesn't exist anymore
+        vm.expectRevert();
+        tested.transfersListeners(2);
     }
 
     // ===========================
@@ -819,6 +967,87 @@ contract Tests is Test, ModifiersExpectations {
         if (to != address(0)) {
             assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
         }
+    }
+
+    // ======================================
+    // === _afterTokenTransfer() function ===
+    function testFuzz_afterTokenTransfer_1(
+        uint16 aprUD3,
+        address account1,
+        address account2,
+        uint256 amount
+    ) public {
+        console.log("Should properly call onLTokenTransfer() of all transfers listeners");
+
+        // Set a first random APR
+        tested.setAPR(aprUD3);
+
+        // Assert that accounts are different and aren't zero address
+        vm.assume(account1 != account2);
+        vm.assume(account1 != address(0));
+        vm.assume(account2 != address(0));
+
+        // Listen to transfers from vault1 and vault2
+        tested.listenToTransfers(address(vault1));
+        tested.listenToTransfers(address(vault2));
+
+        // Cap amount to [2, 100T]
+        amount = bound(amount, 2, tested.public_toDecimals(100_000_000_000_000));
+
+        // Give some L-Tokens to account1
+        deal(address(underlyingToken), account1, amount, true);
+        vm.startPrank(account1);
+        underlyingToken.approve(address(tested), amount);
+        tested.deposit(amount);
+        vm.stopPrank();
+        assertEq(tested.balanceOf(account1), amount);
+
+        // Perform 3 transactions
+        vm.prank(account1);
+        tested.transfer(account2, amount);
+        vm.prank(account2);
+        tested.transfer(account1, 1);
+        vm.prank(account2);
+        tested.transfer(account1, amount - 1);
+
+        // Assert that transactions have been successfully recorded in vault 1
+        address dataFrom;
+        address dataTo;
+        uint256 dataAmount;
+        (dataFrom, dataTo, dataAmount) = vault1.hookData(0);
+        assertEq(dataFrom, address(0));
+        assertEq(dataTo, account1);
+        assertEq(dataAmount, amount);
+        (dataFrom, dataTo, dataAmount) = vault1.hookData(1);
+        assertEq(dataFrom, account1);
+        assertEq(dataTo, account2);
+        assertEq(dataAmount, amount);
+        (dataFrom, dataTo, dataAmount) = vault1.hookData(2);
+        assertEq(dataFrom, account2);
+        assertEq(dataTo, account1);
+        assertEq(dataAmount, 1);
+        (dataFrom, dataTo, dataAmount) = vault1.hookData(3);
+        assertEq(dataFrom, account2);
+        assertEq(dataTo, account1);
+        assertEq(dataAmount, amount - 1);
+
+        // Assert that transactions have been successfully recorded in vault 2
+        (dataFrom, dataTo, dataAmount) = vault2.hookData(0);
+        assertEq(dataFrom, address(0));
+        assertEq(dataTo, account1);
+        assertEq(dataAmount, amount);
+        (dataFrom, dataTo, dataAmount) = vault2.hookData(1);
+        assertEq(dataFrom, account1);
+        assertEq(dataTo, account2);
+        assertEq(dataAmount, amount);
+        (dataFrom, dataTo, dataAmount) = vault2.hookData(2);
+        assertEq(dataFrom, account2);
+        assertEq(dataTo, account1);
+        assertEq(dataAmount, 1);
+        (dataFrom, dataTo, dataAmount) = vault2.hookData(3);
+        assertEq(dataFrom, account2);
+        assertEq(dataTo, account1);
+        assertEq(dataAmount, amount - 1);
     }
 
     // ======================================
