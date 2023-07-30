@@ -27,8 +27,9 @@ import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
  * and so automatically re-invested through time
  * @dev For further details, see "LToken" section of whitepaper.
  * @custom:security-contact security@ledgity.com
+ * @custom:oz-upgrades-unsafe-allow external-library-linking
  */
-contract LToken is InvestUpgradeable, ERC20BaseUpgradeable, ERC20WrapperUpgradeable {
+contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /// @dev Used to represent the action that triggered an ActivityEvent.

@@ -21,6 +21,7 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
  *
  * For further details, see "LDYStaking" section of whitepaper.
  * @custom:security-contact security@ledgity.com
+ * @custom:oz-upgrades-unsafe-allow external-library-linking
  */
 contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     /**

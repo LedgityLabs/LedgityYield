@@ -20,20 +20,20 @@ abstract contract ERC20BaseUpgradeable is ERC20Upgradeable, BaseUpgradeable, ERC
      * @dev Initializer functions of the contract. They replace the constructor() function
      * in context of upgradeable contracts.
      * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param _globalOwner The address of the GlobalOwner contract
-     * @param _globalPause The address of the GlobalPause contract
-     * @param _globalBlacklist The address of the GlobalBlacklist contract
+     * @param globalOwner_ The address of the GlobalOwner contract
+     * @param globalPause_ The address of the GlobalPause contract
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract
      * @param name_ The display name of the token
      * @param symbol_ The symbol of the token
      */
     function __ERC20Base_init(
-        address _globalOwner,
-        address _globalPause,
-        address _globalBlacklist,
+        address globalOwner_,
+        address globalPause_,
+        address globalBlacklist_,
         string memory name_,
         string memory symbol_
     ) internal onlyInitializing {
-        __Base_init(_globalOwner, _globalPause, _globalBlacklist);
+        __Base_init(globalOwner_, globalPause_, globalBlacklist_);
         __ERC20_init(name_, symbol_);
         __ERC20Pausable_init_unchained();
     }

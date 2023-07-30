@@ -6,7 +6,7 @@ const main = async () => {
   const ldyStakingAddress = getContractAddress("LDYStaking");
   const aprCheckpointsAddress = getContractAddress("APRCheckpoints");
 
-  return await deployProxy("LEUROC", true, true, true, [underlyingAddress, ldyStakingAddress], {
+  return await deployProxy("LEUROC", true, true, true, [ldyStakingAddress, underlyingAddress], {
     APRCheckpoints: aprCheckpointsAddress,
   });
 };
