@@ -25,6 +25,18 @@ const config: HardhatUserConfig = {
       url: "http://127.0.0.1:8545",
       chainId: 31337,
     },
+    linea: {
+      chainId: 59144,
+    },
+    lineaGoerli: {
+      chainId: 59140,
+    },
+    arbitrum: {
+      chainId: 42161,
+    },
+    arbitrumGoerli: {
+      chainId: 421613,
+    },
   },
   defaultNetwork: "hardhat",
 };
