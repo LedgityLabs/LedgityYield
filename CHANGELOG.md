@@ -1,3 +1,15 @@
+## [1.122.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.121.0...v1.122.0) (2023-07-30)
+
+
+### Features
+
+* **ltoken:** first version of transfers listeners ([a5bf23a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/a5bf23af2f445382c577073ef13f94fb83115937))
+
+
+### Tests
+
+* **ltoken:** new transfers listeners unit tests ([cd0b2f9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/cd0b2f962a4cd137513f1da060bfa510af5a61c6))
+
 ## [1.121.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.120.0...v1.121.0) (2023-07-29)
 
 
