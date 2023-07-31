@@ -52,18 +52,18 @@ export const main = async () => {
   // ### Initialize some states ###
   // ##############################
 
-  // // Initialize LDYStaking contract data
-  // ldyStaking!.setAPR(parseUnits("20", 3));
-  // ldyStaking!.setTier(1, 0);
-  // ldyStaking!.setTier(2, parseUnits("5000", 18));
-  // ldyStaking!.setTier(3, parseUnits("50000", 18));
+  // Initialize LDYStaking contract data
+  ldyStaking!.setAPR(parseUnits("20", 3));
+  ldyStaking!.setTier(1, 0);
+  ldyStaking!.setTier(2, parseUnits("5000", 18));
+  ldyStaking!.setTier(3, parseUnits("50000", 18));
 
-  // // Initialize L-Tokens contracts data
-  // for (let lToken of lTokens) {
-  //   lToken!.setAPR(5000);
-  //   lToken!.setFund("0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
-  //   lToken!.setWithdrawer("0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC");
-  // }
+  // Initialize L-Tokens contracts data
+  for (let lToken of lTokens) {
+    lToken!.setAPR(5000);
+    lToken!.setFund("0x70997970c51812dc3a010c7d01b50e0d17dc79c8");
+    lToken!.setWithdrawer("0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC");
+  }
 };
 
 main().catch((error) => {

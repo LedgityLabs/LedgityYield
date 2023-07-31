@@ -135,6 +135,9 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         address from,
         address to
     ) public whenNotPaused notBlacklisted(from) notBlacklisted(to) {
+        // Ensure the address is not already redirecting rewards
+        require(rewardsRedirectsFromTo[from] == address(0), "L62");
+
         // Ensure that from and to are not the zero address
         require(from != address(0), "L12");
         require(to != address(0), "L13");

@@ -22,6 +22,7 @@ export const displayedErrors: { [key: string]: string } = {
   L11: "Not enough tokens to recover",
 
   // InvestUpgradeable.sol
+  L62: "A redirection is already active",
   L12: "From cannot be zero address",
   L13: "To cannot be zero address",
   L14: "Cannot be the same address",

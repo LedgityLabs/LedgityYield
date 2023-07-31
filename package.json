@@ -7,6 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "cc:test": "forge test -vvv --use 0.8.21",
+    "cc:slither": "slither . --compile-force-framework hardhat",
     "cc:node": "hardhat node --hostname 0.0.0.0",
     "cc:compile": "hardhat compile && wagmi generate && ts-node ./contracts/extract-abis.ts",
     "cc:local-deploy": "npx hardhat run contracts/hardhat/scripts/initial-deploy-all.ts --network localhost",
