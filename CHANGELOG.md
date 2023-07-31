@@ -1,3 +1,22 @@
+## [1.124.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.123.0...v1.124.0) (2023-07-31)
+
+
+### Features
+
+* **contracts:** process Slither reports ([e1bdecd](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e1bdecdcedd6e7ef3f5172f76e306be1d570a119))
+* setup slither + fix the failing unit test ([9c96e06](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9c96e06878ddc18f031c2d3a2af34ce074274b45))
+
+
+### Fixes
+
+* **contracts:** deployments issues ([e031490](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e0314903133d1ced726378de6caace0b97c9e965))
+
+
+### Others
+
+* downgrade to Solidity 0.8.18 which is a more trusted version ([52e1272](https://github.com/ledgity-labs/Ledgity-DeFi/commit/52e12727e64bd0b515443a47ac60b7dc6071daa7))
+* make APRCheckpoints an external library + use errors codes to reduce contracts sizes ([ba4e579](https://github.com/ledgity-labs/Ledgity-DeFi/commit/ba4e5796f76a71703a0866eb7d151617c8692444))
+
 ## [1.123.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.122.1...v1.123.0) (2023-07-30)
 
 ### Features
