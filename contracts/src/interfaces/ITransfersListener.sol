@@ -2,5 +2,5 @@
 pragma solidity ^0.8.18;
 
 interface ITransfersListener {
-    function onLTokenTransfers(address from, address to, uint256 amount) external;
+    function onLTokenTransfer(address from, address to, uint256 amount) external;
 }

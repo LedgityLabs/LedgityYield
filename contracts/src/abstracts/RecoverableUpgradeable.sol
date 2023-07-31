@@ -17,8 +17,8 @@ import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ER
 abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
-    function __Recoverable_init(address _globalOwner) internal onlyInitializing {
-        __GlobalOwnable_init(_globalOwner);
+    function __Recoverable_init(address globalOwner_) internal onlyInitializing {
+        __GlobalOwnable_init(globalOwner_);
         __Recoverable_init_unchained();
     }
 

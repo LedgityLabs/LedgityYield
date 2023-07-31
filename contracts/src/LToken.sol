@@ -203,10 +203,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
     /**
      * @dev Setter for the withdrawal fee rate.
-     * @param _feesRateUD3 The new withdrawal fee rate in UD3 format
+     * @param feesRateUD3_ The new withdrawal fee rate in UD3 format
      */
-    function setFeesRate(uint32 _feesRateUD3) public onlyOwner {
-        feesRateUD3 = _feesRateUD3;
+    function setFeesRate(uint32 feesRateUD3_) public onlyOwner {
+        feesRateUD3 = feesRateUD3_;
     }
 
     /**
@@ -214,35 +214,45 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * Security note: As a security measure, the retention rate is ceiled to 10%, which
      * ensures that this contract will never holds more than 10% of the deposit assets
      * at the same time.
-     * @param _retentionRateUD3 The new retention rate in UD3 format
+     * @param retentionRateUD3_ The new retention rate in UD3 format
      */
-    function setRetentionRate(uint32 _retentionRateUD3) public onlyOwner {
-        require(_retentionRateUD3 <= UDS3.scaleUp(10), "L41");
-        retentionRateUD3 = _retentionRateUD3;
+    function setRetentionRate(uint32 retentionRateUD3_) public onlyOwner {
+        require(retentionRateUD3_ <= UDS3.scaleUp(10), "L41");
+        retentionRateUD3 = retentionRateUD3_;
     }
 
     /**
      * @dev Setter for the LDYStaking contract address.
-     * @param _contract The address of the new LDYStaking contract
+     * @param ldyStakingAddress The address of the new LDYStaking contract
      */
-    function setLDYStaking(address _contract) public onlyOwner {
-        ldyStaking = LDYStaking(_contract);
+    function setLDYStaking(address ldyStakingAddress) public onlyOwner {
+        ldyStaking = LDYStaking(ldyStakingAddress);
     }
 
     /**
      * @dev Setter for the withdrawer wallet address.
-     * @param _withdrawer The address of the new withdrawer wallet
+     * @param withdrawer_ The address of the new withdrawer wallet
      */
-    function setWithdrawer(address payable _withdrawer) public onlyOwner {
-        withdrawer = _withdrawer;
+    function setWithdrawer(address payable withdrawer_) public onlyOwner {
+        // Ensure new address is not the zero address
+        // Else pre-processing fees would be lost
+        require(withdrawer_ != address(0), "L63");
+
+        // Else set new withdrawer address
+        withdrawer = withdrawer_;
     }
 
     /**
      * @dev Setter for the fund wallet address.
-     * @param _fund The address of the new fund wallet
+     * @param fund_ The address of the new fund wallet
      */
-    function setFund(address payable _fund) public onlyOwner {
-        fund = _fund;
+    function setFund(address payable fund_) public onlyOwner {
+        // Ensure new address is not the zero address
+        // Else underlying tokens would be lost
+        require(fund_ != address(0), "L64");
+
+        // Else set new fund address
+        fund = fund_;
     }
 
     /**
@@ -262,7 +272,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     function unlistenToTransfers(address listenerContract) public onlyOwner {
         // Find index of listener contract in transferListeners array
         int256 index = -1;
-        for (uint256 i = 0; i < transfersListeners.length; i++) {
+        uint256 transfersListenersLength = transfersListeners.length;
+        for (uint256 i = 0; i < transfersListenersLength; i++) {
             if (address(transfersListeners[i]) == listenerContract) {
                 index = int256(i);
                 break;
@@ -273,7 +284,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(index >= 0, "L42");
 
         // Else remove listener contract from array
-        transfersListeners[uint256(index)] = transfersListeners[transfersListeners.length - 1];
+        transfersListeners[uint256(index)] = transfersListeners[transfersListenersLength - 1];
         transfersListeners.pop();
     }
 
@@ -389,11 +400,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Retrieve balance before minting rewards
         uint256 balanceBefore = realBalanceOf(account);
 
-        // Mint L-Tokens rewards to account
-        _mint(account, amount);
-
         // Inform listeners of the rewards minting
         emit MintedRewardsEvent(account, balanceBefore, amount);
+
+        // Mint L-Tokens rewards to account
+        _mint(account, amount);
 
         // Return true indicating to InvestUpgradeable that the rewards have been claimed
         return true;
@@ -431,9 +442,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     function _afterTokenTransfer(address from, address to, uint256 amount) internal override {
         super._afterTokenTransfer(from, to, amount);
 
-        // Trigger onLTokenTransfers() functions of all transfers listeners
+        // Trigger onLTokenTransfer() functions of all transfers listeners
         for (uint256 i = 0; i < transfersListeners.length; i++) {
-            transfersListeners[i].onLTokenTransfers(from, to, amount);
+            transfersListeners[i].onLTokenTransfer(from, to, amount);
         }
     }
 
@@ -463,11 +474,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             ? usableUnderlyings - expectedRetained
             : 0;
 
-        // Else, transfer the exceeding amount to the fund wallet
-        underlying().safeTransfer(fund, exceedingAmount);
-
-        // Update usable underlyings balance accordingly
+        // Decrease usable underlyings amount accordingly
         usableUnderlyings -= exceedingAmount;
+
+        // Transfer the exceeding amount to the fund wallet
+        underlying().safeTransfer(fund, exceedingAmount);
     }
 
     /**
@@ -599,10 +610,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Iterate over next requests to be processed
         while (nextRequestId < queueLength) {
+            // Stop processing requests if there is not enough gas left
+            if (gasleft() < 200_000) break;
+
             // Retrieve request data
             WithdrawalRequest memory request = withdrawalQueue[nextRequestId];
 
-            // If an empty request (processed big request) skip it
+            // Skip empty request (processed big request or cancelled request)
             if (request.account == address(0)) {}
             // If account has been blacklisted since request emission
             else if (isBlacklisted(request.account)) {
@@ -632,10 +646,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                 // Break if the contract doesn't hold enough funds to cover the request
                 if (withdrawnAmount > usableUnderlyings - cumulatedWithdrawnAmount) break;
 
-                // Proceed to withdraw else. Note that we just need to transfer underlying tokens
-                // here because requestWithdrawal() already burned them.
-                underlying().safeTransfer(request.account, withdrawnAmount);
-
                 // Accumulate fees and withdrawn amount
                 cumulatedFees += fees;
                 cumulatedWithdrawnAmount += withdrawnAmount;
@@ -652,6 +662,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
                 // Remove request from queue
                 delete withdrawalQueue[nextRequestId];
+
+                // Transfer underlying tokens to request account. Burning L-Tokens is
+                // not needed here because requestWithdrawal() already did it.
+                // Re-entrancy check are disabled here as the request has been deleted
+                // from the queue and so will be skipped.
+                // slither-disable-next-line reentrancy-no-eth
+                underlying().safeTransfer(request.account, withdrawnAmount);
             }
 
             // Increment next request ID
@@ -701,20 +718,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         uint256 fundBalance = underlying().balanceOf(fund);
         require(withdrawnAmount <= usableUnderlyings + fundBalance, "L52");
 
-        // If possible cover request from fund balance only
-        if (withdrawnAmount <= fundBalance) {
-            underlying().safeTransferFrom(fund, request.account, withdrawnAmount);
-        }
-        // Else transfer all fund balance and complete with contract balance
-        else {
-            underlying().safeTransferFrom(fund, request.account, fundBalance);
-            uint256 missingAmount = withdrawnAmount - fundBalance;
-            underlying().safeTransfer(request.account, missingAmount);
-
-            // Decrease usable underlyings amount
-            usableUnderlyings -= missingAmount;
-        }
-
         // Update amount of unclaimed fees and total queued amount
         unclaimedFees += fees;
         totalQueued -= request.amount;
@@ -734,6 +737,26 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Remove request from queue
         delete withdrawalQueue[requestId];
+
+        // If fund balance can cover request alone
+        if (withdrawnAmount <= fundBalance) {
+            // Cover request from fund balance only
+            underlying().safeTransferFrom(_msgSender(), request.account, withdrawnAmount);
+        }
+        // Else, cover request from contract balance also
+        else {
+            // Compute missing amount to cover request
+            uint256 missingAmount = withdrawnAmount - fundBalance;
+
+            // Decrease usable underlyings amount
+            usableUnderlyings -= missingAmount;
+
+            // Transfer entire fund balance to request account
+            underlying().safeTransferFrom(_msgSender(), request.account, fundBalance);
+
+            // Transfer missing amount from contract balance to request account
+            underlying().safeTransfer(request.account, missingAmount);
+        }
     }
 
     /**
@@ -754,13 +777,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Ensure the sender attached pre-paid processing gas fees
         require(msg.value == 0.004 * 10 ** 18, "L55");
-
-        // Forward pre-paid processing gas fees to the withdrawer
-        (bool sent, ) = withdrawer.call{value: msg.value}("");
-        require(sent, "L56");
-
-        // Burn withdrawn L-Tokens amount
-        _burn(_msgSender(), amount);
 
         // Create request data
         WithdrawalRequest memory request = WithdrawalRequest({
@@ -796,6 +812,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             amount,
             Status.Queued
         );
+
+        // Burn withdrawn L-Tokens amount
+        _burn(_msgSender(), amount);
+
+        // Forward pre-paid processing gas fees to the withdrawer
+        (bool sent, ) = withdrawer.call{value: msg.value}("");
+        require(sent, "L56");
     }
 
     /**
@@ -813,9 +836,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Ensure it belongs to caller or the caller is the withdrawer
         require(_msgSender() == request.account, "L57");
 
-        // Mint back L-Tokens to account and update total amount queued
-        _mint(request.account, uint256(request.amount));
-
         // Decrease total amount queued
         totalQueued -= request.amount;
 
@@ -831,6 +851,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             request.amount,
             Status.Cancelled
         );
+
+        // Mint back L-Tokens to account and update total amount queued
+        _mint(request.account, uint256(request.amount));
     }
 
     /**
@@ -849,9 +872,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Ensure the new balance doesn't exceed the retention rate
         require(newBalance <= getExpectedRetained(), "L59");
 
-        // Transfer amount from fund wallet to contract
-        underlying().safeTransferFrom(fund, address(this), amount);
+        // Increase usable underlyings amount
         usableUnderlyings += amount;
+
+        // Transfer amount from fund wallet to contract
+        underlying().safeTransferFrom(_msgSender(), address(this), amount);
     }
 
     /**
@@ -864,13 +889,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Ensure the contract holds enough underlying tokens
         require(usableUnderlyings >= unclaimedFees, "L61");
 
-        // Transfer unclaimed fees to owner
-        underlying().safeTransfer(owner(), unclaimedFees);
-
-        // Decrease usable underlyings balance accordingly
+        // Decrease usable underlyings amount accordingly
         usableUnderlyings -= unclaimedFees;
 
         // Reset unclaimed fees amount
         unclaimedFees = 0;
+
+        // Transfer unclaimed fees to owner
+        underlying().safeTransfer(owner(), unclaimedFees);
     }
 }

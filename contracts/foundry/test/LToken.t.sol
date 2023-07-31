@@ -21,10 +21,10 @@ import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
 import {ITransfersListener} from "../../src/interfaces/ITransfersListener.sol";
 
 contract Vault is ITransfersListener {
-    /// @dev Holds the LToken contract address allowed to call onLTokenTransfers()
+    /// @dev Holds the LToken contract address allowed to call onLTokenTransfer()
     address public lToken;
 
-    /// @dev Stores data received from onLTokenTransfers()
+    /// @dev Stores data received from onLTokenTransfer()
     struct HookData {
         address from;
         address to;
@@ -38,17 +38,17 @@ contract Vault is ITransfersListener {
         _;
     }
 
-    /// @dev Sets the LToken contract address allowed to call onLTokenTransfers() at deployment-time
+    /// @dev Sets the LToken contract address allowed to call onLTokenTransfer() at deployment-time
     constructor(address _lToken) {
         lToken = _lToken;
     }
 
     /**
-     * @dev Implementation of ITransfersListener.onLTokenTransfers() that simply stores
+     * @dev Implementation of ITransfersListener.onLTokenTransfer() that simply stores
      * the received data on chain so unit tests can easily assert that this function has
      * been called with the expected parameters.
      */
-    function onLTokenTransfers(address from, address to, uint256 amount) external onlyLToken {
+    function onLTokenTransfer(address from, address to, uint256 amount) external onlyLToken {
         hookData.push(HookData(from, to, amount));
     }
 }
@@ -407,9 +407,24 @@ contract Tests is Test, ModifiersExpectations {
         tested.setWithdrawer(_withdrawer);
     }
 
-    function testFuzz_setWithdrawer_2(address payable _withdrawer) public {
+    function testFuzz_setWithdrawer_2() public {
+        console.log("Should revert if trying to set the zero address as withdrawer");
+
+        // Expect revert
+        vm.expectRevert(bytes("L63"));
+        tested.setWithdrawer(payable(address(0)));
+    }
+
+    function testFuzz_setWithdrawer_3(address payable _withdrawer) public {
         console.log("Should change value of withdrawer");
+
+        // Ensure new address is not the zero address
+        vm.assume(_withdrawer != address(0));
+
+        // Set new withdrawer
         tested.setWithdrawer(_withdrawer);
+
+        // Assert that the withdrawer address has been changed
         assertEq(address(tested.withdrawer()), _withdrawer);
     }
 
@@ -427,9 +442,24 @@ contract Tests is Test, ModifiersExpectations {
         tested.setFund(_fund);
     }
 
-    function testFuzz_setFund_2(address payable _fund) public {
-        console.log("Should change value of fund");
+    function testFuzz_setFund_2() public {
+        console.log("Should revert if trying to set the zero address as fund");
+
+        // Expect revert
+        vm.expectRevert(bytes("L64"));
+        tested.setFund(payable(address(0)));
+    }
+
+    function testFuzz_setFund_3(address payable _fund) public {
+        console.log("Should else change value of fund");
+
+        // Ensure new address is not the zero address
+        vm.assume(_fund != address(0));
+
+        // Set new fund
         tested.setFund(_fund);
+
+        // Assert that the fund address has been changed
         assertEq(address(tested.fund()), _fund);
     }
 

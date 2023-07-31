@@ -418,7 +418,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         // re-entrancy by skipping this function body while a claim is in progress.
         if (_isClaiming) return;
 
-        // Skip reset if it already has been done during this block
+        // Skip reset if it has already been done during this block
         if (accountsInfos[account].period.timestamp == uint40(block.timestamp)) return;
 
         // If account redirects its rewards

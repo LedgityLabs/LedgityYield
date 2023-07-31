@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+// Contracts
 import "./abstracts/base/BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 import {UDS3} from "./libs/UDS3.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+
+// Libraries & interfaces
+import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 /**
  * @title LDYStaking
@@ -24,6 +29,8 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
  * @custom:oz-upgrades-unsafe-allow external-library-linking
  */
 contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
+    using SafeERC20Upgradeable for IERC20Upgradeable;
+
     /**
      * @dev Represents the stake infos of an account.
      * @param amount The amount of staked $LDY
@@ -203,18 +210,18 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
 
     /**
      * @dev Setter for the prematurate unlock fees/tax rate. Restricted to owner.
-     * @param _unlockFeesRateUD3  The new unlock fees rate in UD3 format
+     * @param unlockFeesRateUD3_  The new unlock fees rate in UD3 format
      */
-    function setUnlockFeesRate(uint32 _unlockFeesRateUD3) public onlyOwner {
-        unlockFeesRateUD3 = _unlockFeesRateUD3;
+    function setUnlockFeesRate(uint32 unlockFeesRateUD3_) public onlyOwner {
+        unlockFeesRateUD3 = unlockFeesRateUD3_;
     }
 
     /**
      * @dev Setter for the stake lock duration. Restricted to owner.
-     * @param _stakeLockDuration  The new stake lock duration
+     * @param stakeLockDuration_  The new stake lock duration
      */
-    function setStakeLockDuration(uint40 _stakeLockDuration) public onlyOwner {
-        stakeLockDuration = _stakeLockDuration;
+    function setStakeLockDuration(uint40 stakeLockDuration_) public onlyOwner {
+        stakeLockDuration = stakeLockDuration_;
     }
 
     /**
@@ -225,9 +232,11 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         // Ensure the amount is not 0
         require(amount > 0, "L23");
 
-        // Transfer $LDY tokens from the caller to this contract
-        invested().transferFrom(_msgSender(), address(this), amount);
+        // Increase rewards reserve amount
         rewardsReserve += amount;
+
+        // Transfer $LDY tokens from the caller to this contract
+        invested().safeTransferFrom(_msgSender(), address(this), amount);
     }
 
     /**
@@ -292,7 +301,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         accountsStakes[_msgSender()] = accountStake;
 
         // Transfer staked $LDY tokens to the contract
-        invested().transferFrom(_msgSender(), address(this), amount);
+        invested().safeTransferFrom(_msgSender(), address(this), amount);
     }
 
     /**
@@ -326,7 +335,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         accountsStakes[_msgSender()] = accountStake;
 
         // Transfer withdrawn $LDY tokens to the account
-        invested().transfer(_msgSender(), amount);
+        invested().safeTransfer(_msgSender(), amount);
     }
 
     /**
@@ -353,7 +362,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         rewardsReserve -= rewards;
 
         // Transfer rewards to the account
-        invested().transfer(_msgSender(), rewards);
+        invested().safeTransfer(_msgSender(), rewards);
     }
 
     /**
@@ -453,8 +462,8 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         // Retrieve user stake
         uint256 stakedAmount = stakeOf(account);
 
-        // If the account has no stake or is not elligible to first tier, return 0
-        if (stakedAmount == 0 || _tiers.length == 0 || stakedAmount < getTier(1)) return 0;
+        // If first tier is not set or account is not elligible to it, return 0
+        if (_tiers.length < 1 || stakedAmount < getTier(1)) return 0;
 
         // Else tier is at least equal to 1
         tier = 1;

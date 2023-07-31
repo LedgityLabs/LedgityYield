@@ -52,10 +52,6 @@ contract LTokenSignaler is Initializable, UUPSUpgradeable, GlobalOwnableUpgradea
      * @param lTokenAddress The address of the LToken contract to signal
      */
     function signalLToken(address lTokenAddress) external onlyOwner {
-        // Ensure this is a LToken contract
-        LToken lToken = LToken(lTokenAddress);
-        lToken; // Silent unused variable compiler warning
-
         // Signal the LToken contract
         emit LTokenSignalEvent(lTokenAddress);
     }

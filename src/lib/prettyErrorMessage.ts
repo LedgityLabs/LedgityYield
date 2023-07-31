@@ -59,6 +59,8 @@ export const displayedErrors: { [key: string]: string } = {
   L39: "Restricted to withdrawer",
   L40: "Restricted to fund",
   L41: "Retention rate must be <= 10%",
+  L63: "Cannot be zero address",
+  L64: "Cannot be zero address",
   L42: "Listener contract not found",
   L43: "Use recoverUnderlying() instead",
   L44: "Nothing to recover",
