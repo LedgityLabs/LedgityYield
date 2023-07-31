@@ -2,7 +2,7 @@
 
 ### Features
 
-- **contracts:** make some libraries external + update to solidity 0.8.21 + use london evm version ([7e7ebc4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7e7ebc455d2efcc16f3f5085e73732aa7efeb6ac))
+- **contracts:** make some libraries external + update to solidity 0.8.18 + use london evm version ([7e7ebc4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7e7ebc455d2efcc16f3f5085e73732aa7efeb6ac))
 - fill some networks and contracts addresses ([7657b7d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7657b7d23e04296f8d17072f3773021d7e050b21))
 
 ### Others
