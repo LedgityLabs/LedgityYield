@@ -1,3 +1,10 @@
+## [1.124.2](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.1...v1.124.2) (2023-08-01)
+
+
+### Fixes
+
+* **ltoken:** fix broken claimFees() after Slither patches ([053d2ac](https://github.com/ledgity-labs/Ledgity-DeFi/commit/053d2ac17c9b1a55a5c00e0b128b1416bbd82773))
+
 ## [1.124.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.0...v1.124.1) (2023-07-31)
 
 
