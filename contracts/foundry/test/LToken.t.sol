@@ -234,6 +234,13 @@ contract Tests is Test, ModifiersExpectations {
         assertLe(tested.usableUnderlyings(), tested.getExpectedRetained());
     }
 
+    // - Contract underlying balance should never be lower than usable underlyings amount (= missing funds)
+    function invariant_underlyingTokens() external {
+        if (tested.decimals() > 18) return;
+
+        assertGe(underlyingToken.balanceOf(address(tested)), tested.usableUnderlyings());
+    }
+
     // =============================
     // === initialize() function ===
     function test_initialize_1() public {

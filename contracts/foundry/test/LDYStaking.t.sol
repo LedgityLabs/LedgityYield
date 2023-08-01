@@ -48,11 +48,13 @@ contract TestedContract is LDYStaking {
         return accountsInfos[account];
     }
 
-    // function public_getStartCheckpointReferenceOf(
-    //     address account
-    // ) public view returns (APRC.Reference memory) {
-    //     return ___getStartCheckpointReferenceOf(account);
-    // }
+    function public_tiers(uint256 id) public view returns (uint256) {
+        return _tiers[id];
+    }
+
+    function public_tiersLength() public view returns (uint256) {
+        return _tiers.length;
+    }
 }
 
 contract Tests is Test, ModifiersExpectations {
@@ -104,6 +106,23 @@ contract Tests is Test, ModifiersExpectations {
             address(ldyToken)
         );
         vm.label(address(tested), "LDYStaking");
+    }
+
+    // ==================
+    // === Invariants ===
+    // - A tier amount should never be greater than next tier one
+    function invariant_tierAmounts1() external {
+        if (tested.public_tiersLength() == 0) return;
+        for (uint256 i = 0; i < tested.public_tiersLength() - 1; i++) {
+            assertLe(tested.public_tiers(i), tested.public_tiers(i + 1));
+        }
+    }
+
+    // - A tier amount should never lower than previous tier one
+    function invariant_tierAmounts2() external {
+        for (uint256 i = 1; i < tested.public_tiersLength(); i++) {
+            assertGe(tested.public_tiers(i), tested.public_tiers(i - 1));
+        }
     }
 
     // =============================

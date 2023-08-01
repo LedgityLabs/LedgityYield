@@ -51,7 +51,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     mapping(address => AccountStake) private accountsStakes;
 
     /// @dev Holds amount of $LDY to be elligible to staking tier
-    uint256[] private _tiers;
+    uint256[] _tiers;
 
     /// @dev Holds the total amount staked
     uint256 public totalStaked;
