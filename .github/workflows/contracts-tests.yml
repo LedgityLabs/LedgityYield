@@ -2,6 +2,9 @@ on: [push]
 
 name: Run contracts tests
 
+env:
+  FOUNDRY_PROFILE: ci
+
 jobs:
   check:
     name: Foundry project
