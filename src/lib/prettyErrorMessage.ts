@@ -13,6 +13,7 @@ export const displayedErrors: { [key: string]: string } = {
 
   // GlobalOwnableUpgradeable.sol
   L8: "Change global owner instead",
+  L65: "Renounce global owner instead",
 
   // GlobalRestrictableUpgradeable.sol
   L9: "Forbidden",

@@ -88,4 +88,12 @@ contract Tests is Test, ModifiersExpectations {
         vm.expectRevert(bytes("L8"));
         tested.transferOwnership(newOwner);
     }
+
+    // ===========================
+    // === renounceOwnership() ===
+    function test_renounceOwnership_1() public {
+        console.log("Should revert");
+        vm.expectRevert(bytes("L65"));
+        tested.renounceOwnership();
+    }
 }

@@ -58,11 +58,20 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     /**
      * @dev Override of OwnableUpgradeable.transferOwnership() function that prevents any
      * ownership transfer. Ownership is managed by the GlobalOwner contract.
-     * (see GlobalOwner.sol).
+     * For further details, see "GlobalOwner.sol" section of whitepaper.
      */
     function transferOwnership(address newOwner) public view override onlyOwner {
         newOwner; // Silence unused variable compiler warning
         revert("L8");
+    }
+
+    /**
+     * @dev Override of OwnableUpgradeable.renounceOwnership() function that prevents any
+     * ownership renunciation. Ownership is managed by the GlobalOwner contract.
+     * For further details, see "GlobalOwner.sol" section of whitepaper.
+     */
+    function renounceOwnership() public view override onlyOwner {
+        revert("L65");
     }
 
     /**
