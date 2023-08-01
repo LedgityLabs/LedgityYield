@@ -1,3 +1,16 @@
+## [1.124.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.0...v1.124.1) (2023-07-31)
+
+
+### Fixes
+
+* try removing hardhat contract sizer to fix vercel deployment ([d035ba4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d035ba43039501c5052c2999680dfc018792f0bc))
+
+
+### Others
+
+* add Slither analysis GH workflow ([379f0f7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/379f0f7ebbdf8d39e2946f555da6f80b5a1de148))
+* fix missing slither action arguments ([4047ced](https://github.com/ledgity-labs/Ledgity-DeFi/commit/4047ced3496af55b373ab65b44b62e558d3dedd6))
+
 ## [1.124.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.123.0...v1.124.0) (2023-07-31)
 
 
