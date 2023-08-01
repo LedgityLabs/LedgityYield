@@ -892,10 +892,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Decrease usable underlyings amount accordingly
         usableUnderlyings -= unclaimedFees;
 
-        // Reset unclaimed fees amount
+        // Store fees amount in memory and reset unclaimed fees amount
+        uint256 fees = unclaimedFees;
         unclaimedFees = 0;
 
         // Transfer unclaimed fees to owner
-        underlying().safeTransfer(owner(), unclaimedFees);
+        underlying().safeTransfer(owner(), fees);
     }
 }
