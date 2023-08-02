@@ -52,13 +52,13 @@ const _contracts = {
   LDYStaking: {
     abi: LDYStakingJSON.abi,
     address: {
-      31337: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+      31337: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
     },
   },
   USDC: {
     abi: ERC20JSON.abi,
     address: {
-      31337: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      31337: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
       59144: "0xf56dc6695cF1f5c364eDEbC7Dc7077ac9B586068",
       59140: "0x",
       42161: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
@@ -67,34 +67,30 @@ const _contracts = {
   },
   EUROC: {
     abi: ERC20JSON.abi,
-    address: {
-      31337: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
-    },
+    address: {},
   },
   LUSDC: {
     contractName: "LToken",
     abi: LTokenJSON.abi,
     address: {
-      31337: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      31337: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
     },
   },
   LEUROC: {
     contractName: "LToken",
     abi: LTokenJSON.abi,
-    address: {
-      31337: "0x9A676e781A523b5d0C0e43731313A708CB607508",
-    },
+    address: {},
   },
   LTokenSignaler: {
     abi: LTokenSignalerJSON.abi,
     address: {
-      31337: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
+      31337: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
     },
   },
   Multicall3: {
     abi: Multicall3JSON.abi,
     address: {
-      31337: "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+      31337: "0x9A676e781A523b5d0C0e43731313A708CB607508",
       59144: "0xcA11bde05977b3631167028862bE2a173976CA11",
       59140: "0xcA11bde05977b3631167028862bE2a173976CA11",
       42161: "0xcA11bde05977b3631167028862bE2a173976CA11",

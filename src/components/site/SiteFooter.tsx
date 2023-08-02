@@ -11,7 +11,7 @@ const SiteFooter: FC = () => {
     <FadeIn yOffset={40}>
       <footer
         className={clsx(
-          "bg-fg xl:p-24 xl:pb-20 p-16 flex flex-col justify-center items-center gap-10 relative overflow-hidden rounded-3xl m-7 shadow-[0px_4px_12px_rgba(0,0,0,0.3)]",
+          "bg-fg xl:p-24 p-16 flex flex-col justify-center items-center gap-10 relative overflow-hidden rounded-3xl m-7 shadow-[0px_4px_12px_rgba(0,0,0,0.3)]",
         )}
       >
         <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full ">
@@ -117,10 +117,10 @@ const SiteFooter: FC = () => {
             </ul>
           </article>
         </section>
-        <section className="flex gap-3 justify-center items-center">
+        {/* <section className="flex gap-3 justify-center items-center">
           <p className="text-bg text-lg font-semibold">Powered by</p>
           <Image src={ledgityLogoDark} width={100} height={100} alt="Ledgity Logo" />
-        </section>
+        </section> */}
       </footer>
     </FadeIn>
   );

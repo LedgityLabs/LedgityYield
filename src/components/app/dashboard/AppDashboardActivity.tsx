@@ -143,16 +143,21 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         }
       }
     `,
-      ).then(
-        (result: {
-          data: {
-            activities: Activity[];
-          };
-        }) => {
-          setActivityData(result.data.activities);
+      )
+        .then(
+          (result: {
+            data: {
+              activities: Activity[];
+            };
+          }) => {
+            setActivityData(result.data.activities);
+            setIsLoading(false);
+          },
+        )
+        .catch((e: Error) => {
+          setActivityData([]);
           setIsLoading(false);
-        },
-      );
+        });
     }
   }, [setActivityData, walletClient]);
 

@@ -36,11 +36,10 @@ export const useGrowthRevenueData = () => {
       dataCache === null ||
       Date.now() / 1000 - lastCacheTimestamp > dataCacheDuration
     ) {
-      console.log("CACHE MISS");
-      // Populate data cache
+      // Refresh cache data
       dataCache = _computeData();
       lastCacheTimestamp = Date.now() / 1000;
-    } else console.log("CACHE HIT");
+    }
 
     setData(await dataCache);
   };
@@ -73,6 +72,9 @@ export const useGrowthRevenueData = () => {
     `,
     );
 
+    // Return empty data if there is no investment start
+    if (!investmentStartRequest.data) return newData;
+
     // Push investment start as first data point
     for (const lToken of investmentStartRequest.data.ltokens) {
       if (lToken.activities && lToken.activities.length > 0) {
@@ -86,7 +88,7 @@ export const useGrowthRevenueData = () => {
     }
 
     // Retrieve all rewards mints events data
-    const results: {
+    const mintsEventsRequest: {
       data: {
         rewardsMints: [
           RewardsMint & {
@@ -115,7 +117,7 @@ export const useGrowthRevenueData = () => {
     );
 
     // Push each reward mint as data point
-    for (const rewardsMint of results.data.rewardsMints) {
+    for (const rewardsMint of mintsEventsRequest.data.rewardsMints) {
       const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1) as ContractId);
 
       // Convert revenue to decimals and then to USD
@@ -179,6 +181,7 @@ export const useGrowthRevenueData = () => {
       computeData().then(() => setIsDataLoading(false));
     }
   }, []);
+
   useEffect(() => {
     setIsDataLoading(true);
     computeData().then(() => setIsDataLoading(false));
