@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 /**
- * @title UDS3
+ * @title AS3
  * @author Lila Rest (lila@ledgity.com)
  * @notice This library provides utilities to create and interact with APR checkpoints.
  * APR checkpoints are basically a way to efficiently store an history of APRs on-chain.
@@ -14,11 +14,11 @@ library APRCheckpoints {
      * @dev High-level representation of an APR checkpoint. It doesn't represent how
      * checkpoints are stored on-chain (see "Pack" instead) but are used to represent
      * checkpoint data in-memory.
-     * @param aprUD3 APR in UD3 format (3 digits fixed point number, e.g., 12.345% = 12345)
+     * @param aprUD7x3 APR in UD7x3 format (3 digits fixed point number, e.g., 12.345% = 12345)
      * @param timestamp Timestamp of the checkpoint creation
      */
     struct Checkpoint {
-        uint16 aprUD3; // Allows up to 65.536% APR (3 digits of precision)
+        uint16 aprUD7x3; // Allows up to 65.536% APR (3 digits of precision)
         uint40 timestamp; // Allows datetime up to 20/02/36812
     }
 
@@ -26,12 +26,12 @@ library APRCheckpoints {
      * @dev Gas-efficient checkpoints storage on-chain. Each pack can hold up to 4
      * checkpoints.
      * For further details, see "APRCheckpoints library" section of whitepaper.
-     * @param aprsUD3 Array of checkpoint's APRs
+     * @param aprsUD7x3 Array of checkpoint's APRs
      * @param timestamps Array of checkpoint's timestamps
      * @param cursor Index of the next checkpoint to be written
      */
     struct Pack {
-        uint16[4] aprsUD3;
+        uint16[4] aprsUD7x3;
         uint40[4] timestamps;
         uint32 cursor;
     }
@@ -94,7 +94,7 @@ library APRCheckpoints {
         // Build and return the high-level representation of the checkpoint data
         return
             Checkpoint({
-                aprUD3: pack.aprsUD3[ref.cursorIndex],
+                aprUD7x3: pack.aprsUD7x3[ref.cursorIndex],
                 timestamp: pack.timestamps[ref.cursorIndex]
             });
     }
@@ -140,7 +140,7 @@ library APRCheckpoints {
         // Append a new empty pack to the array of packs
         packs.push(
             APRCheckpoints.Pack({
-                aprsUD3: [uint16(0), uint16(0), uint16(0), uint16(0)],
+                aprsUD7x3: [uint16(0), uint16(0), uint16(0), uint16(0)],
                 timestamps: [uint40(0), uint40(0), uint40(0), uint40(0)],
                 cursor: 0
             })
@@ -151,9 +151,9 @@ library APRCheckpoints {
      * @dev Write an new APR checkpoint from a given APR into a given array of packs.
      * For further details, see "APRCheckpoints library" section of whitepaper.
      * @param packs The array of packs to write the new checkpoint to
-     * @param aprUD3 The new APR in UD3 format
+     * @param aprUD7x3 The new APR in UD7x3 format
      */
-    function setAPR(Pack[] storage packs, uint16 aprUD3) external {
+    function setAPR(Pack[] storage packs, uint16 aprUD7x3) external {
         // In-memory reference that will point to the checkpoint slot to be written
         Reference memory newRef = Reference(0, 0);
 
@@ -169,7 +169,7 @@ library APRCheckpoints {
         Pack memory pack = packs[newRef.packIndex];
 
         // Write the new checkpoint in the pack and increment its cursor
-        pack.aprsUD3[newRef.cursorIndex] = aprUD3;
+        pack.aprsUD7x3[newRef.cursorIndex] = aprUD7x3;
         pack.timestamps[newRef.cursorIndex] = uint40(block.timestamp);
         pack.cursor++;
 
@@ -190,6 +190,6 @@ library APRCheckpoints {
         // Else retrieve the latest checkpoint and return its APR
         Reference memory ref = getLatestReference(packs);
         Checkpoint memory data = getDataFromReference(packs, ref);
-        return data.aprUD3;
+        return data.aprUD7x3;
     }
 }

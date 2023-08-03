@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 import "../../lib/forge-std/src/Test.sol";
-import {UDS3} from "../../../src/libs/UDS3.sol";
+import {AS3} from "../../../src/libs/AS3.sol";
 
 contract Tests is Test {
     // ==============================
@@ -13,7 +13,7 @@ contract Tests is Test {
         // Bound n to non-overflow cases
         n = bound(n, 0, type(uint256).max / 10 ** 3);
 
-        assertEq(UDS3.scaleUp(n), n * 10 ** 3);
+        assertEq(AS3.scaleUp(n), n * 10 ** 3);
     }
 
     function testFuzz_scaleUp_2(uint256 n) public {
@@ -23,7 +23,7 @@ contract Tests is Test {
         n = bound(n, type(uint256).max / 10 ** 3 + 1, type(uint256).max);
 
         vm.expectRevert();
-        UDS3.scaleUp(n);
+        AS3.scaleUp(n);
     }
 
     // ==============================
@@ -34,7 +34,7 @@ contract Tests is Test {
         // Bound n to non-underflow cases
         n = bound(n, 1000, type(uint256).max / 10 ** 3);
 
-        assertEq(UDS3.scaleDown(UDS3.scaleUp(n)), n);
+        assertEq(AS3.scaleDown(AS3.scaleUp(n)), n);
     }
 
     function testFuzz_scaleDown_2(uint256 n) public {
@@ -43,6 +43,6 @@ contract Tests is Test {
         // Bound n to underflow cases
         n = bound(n, 0, 1000 - 1);
 
-        assertEq(UDS3.scaleDown(n), 0);
+        assertEq(AS3.scaleDown(n), 0);
     }
 }

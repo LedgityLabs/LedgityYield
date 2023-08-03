@@ -16,7 +16,7 @@ import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
 import {GenericERC20} from "../../src/GenericERC20.sol";
 
-import {UDS3} from "../../src/libs/UDS3.sol";
+import {AS3} from "../../src/libs/AS3.sol";
 import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
 import {ITransfersListener} from "../../src/interfaces/ITransfersListener.sol";
 
@@ -79,8 +79,8 @@ contract TestedContract is LToken {
     /**
      * @dev Uncapped setter for the retention rate
      */
-    function tool_setRetentionRate(uint32 _retentionRateUD3) public {
-        retentionRateUD3 = _retentionRateUD3;
+    function tool_setRetentionRate(uint32 _retentionRateUD7x3) public {
+        retentionRateUD7x3 = _retentionRateUD7x3;
     }
 
     function tool_simulateProcessedBigRequestInQueue() public {
@@ -99,12 +99,12 @@ contract TestedContract is LToken {
         return _fromDecimals(n);
     }
 
-    function public_toUDS3(uint256 n) public view returns (uint256) {
-        return _toUDS3(n);
+    function public_toAS3(uint256 n) public view returns (uint256) {
+        return _toAS3(n);
     }
 
-    function public_fromUDS3(uint256 n) public view returns (uint256) {
-        return _fromUDS3(n);
+    function public_fromAS3(uint256 n) public view returns (uint256) {
+        return _fromAS3(n);
     }
 
     function public_accountsInfos(address account) public view returns (AccountInfos memory) {
@@ -281,12 +281,12 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_initialize_6() public {
         console.log("Should initialize withdrawal fees to 0.3%");
-        assertEq(tested.feesRateUD3(), 300);
+        assertEq(tested.feesRateUD7x3(), 300);
     }
 
     function test_initialize_7() public {
         console.log("Should initialize retention rate to 5%");
-        assertEq(tested.feesRateUD3(), 300);
+        assertEq(tested.feesRateUD7x3(), 300);
     }
 
     // ===============================
@@ -327,7 +327,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // ==============================
     // === setFeesRate() function ===
-    function testFuzz_setFeesRate_1(address account, uint32 _feesRateUD3) public {
+    function testFuzz_setFeesRate_1(address account, uint32 _feesRateUD7x3) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
@@ -336,18 +336,18 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         expectRevertOnlyOwner();
         vm.prank(account);
-        tested.setFeesRate(_feesRateUD3);
+        tested.setFeesRate(_feesRateUD7x3);
     }
 
-    function testFuzz_setFeesRate_2(uint32 _feesRateUD3) public {
-        console.log("Should change value of feesRateUD3");
-        tested.setFeesRate(_feesRateUD3);
-        assertEq(tested.feesRateUD3(), _feesRateUD3);
+    function testFuzz_setFeesRate_2(uint32 _feesRateUD7x3) public {
+        console.log("Should change value of feesRateUD7x3");
+        tested.setFeesRate(_feesRateUD7x3);
+        assertEq(tested.feesRateUD7x3(), _feesRateUD7x3);
     }
 
     // ====================================
     // === setRetentionRate() function ====
-    function testFuzz_setRetentionRate_1(address account, uint32 _retentionRateUD3) public {
+    function testFuzz_setRetentionRate_1(address account, uint32 _retentionRateUD7x3) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
@@ -356,28 +356,28 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         expectRevertOnlyOwner();
         vm.prank(account);
-        tested.setRetentionRate(_retentionRateUD3);
+        tested.setRetentionRate(_retentionRateUD7x3);
     }
 
-    function testFuzz_setRetentionRate_2(uint32 _retentionRateUD3) public {
+    function testFuzz_setRetentionRate_2(uint32 _retentionRateUD7x3) public {
         console.log("Should revert if trying to set retention rate higher than 10%");
 
         // Ensure the retention rate is >10%
-        _retentionRateUD3 = uint32(bound(_retentionRateUD3, UDS3.scaleUp(10) + 1, type(uint32).max));
+        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, AS3.scaleUp(10) + 1, type(uint32).max));
 
         // Expect revert
         vm.expectRevert(bytes("L41"));
-        tested.setRetentionRate(_retentionRateUD3);
+        tested.setRetentionRate(_retentionRateUD7x3);
     }
 
-    function testFuzz_setRetentionRate_3(uint32 _retentionRateUD3) public {
-        console.log("Should change value of retentionRateUD3 else");
+    function testFuzz_setRetentionRate_3(uint32 _retentionRateUD7x3) public {
+        console.log("Should change value of retentionRateUD7x3 else");
 
         // Ensure the retention rate is <10%
-        _retentionRateUD3 = uint32(bound(_retentionRateUD3, 0, UDS3.scaleUp(10)));
+        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
-        tested.setRetentionRate(_retentionRateUD3);
-        assertEq(tested.retentionRateUD3(), _retentionRateUD3);
+        tested.setRetentionRate(_retentionRateUD7x3);
+        assertEq(tested.retentionRateUD7x3(), _retentionRateUD7x3);
     }
 
     // ================================
@@ -620,7 +620,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_balanceOf_2(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount,
         uint256 duration
     ) public {
@@ -637,7 +637,7 @@ contract Tests is Test, ModifiersExpectations {
         duration = bound(duration, 0, 1000 * 365 days);
 
         // Set APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Mint some underlying tokens to account and deposit them
         deal(address(underlyingToken), address(1234), depositedAmount, true);
@@ -693,7 +693,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_totalSupply_3(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount,
         uint256 withdrawnAmount
     ) public {
@@ -704,7 +704,7 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set withdrawal fees to 0 so it doesn't interfer in calculations
         tested.setFeesRate(0);
@@ -716,7 +716,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(withdrawnAmount <= depositedAmount);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Assert total supply is currently 0
         assertEq(tested.totalSupply(), 0);
@@ -757,7 +757,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.recoverERC20(address(underlyingToken), 0);
     }
 
-    function testFuzz_recoverERC20_3(uint8 decimals, uint16 aprUD3, uint256 amount) public {
+    function testFuzz_recoverERC20_3(uint8 decimals, uint16 aprUD7x3, uint256 amount) public {
         console.log("Should allow to recover L-Tokens");
 
         // Set random underlying token decimals in [0, 18]
@@ -765,7 +765,7 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap deposited amount to 100T
         amount = bound(amount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -822,7 +822,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_recoverUnderlying_3(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 fundedAmount,
         uint256 depositedAmount
     ) public {
@@ -835,10 +835,10 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(300)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(300)));
 
         // Bound deposited amount to [2, 1T]
         depositedAmount = uint216(
@@ -892,11 +892,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // =====================================
     // === _distributeRewards() function ===
-    function test__distributeRewards_1(uint16 aprUD3, address account, uint256 amount) public {
+    function test__distributeRewards_1(uint16 aprUD7x3, address account, uint256 amount) public {
         console.log("Should return true meaning it is implemented");
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure account is not the zero address
         vm.assume(account != address(0));
@@ -904,22 +904,22 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_distributeRewards(account, amount), true);
     }
 
-    function test__distributeRewards_2(uint16 aprUD3, uint256 amount) public {
+    function test__distributeRewards_2(uint16 aprUD7x3, uint256 amount) public {
         console.log("Should revert if given account is zero address");
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Expect revert
         vm.expectRevert(bytes("ERC20: mint to the zero address"));
         tested.public_distributeRewards(address(0), amount);
     }
 
-    function test__distributeRewards_3(uint16 aprUD3, address account, uint256 amount) public {
+    function test__distributeRewards_3(uint16 aprUD7x3, address account, uint256 amount) public {
         console.log("Should mint given amount to given account");
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap amount to 100T
         amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
@@ -947,7 +947,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_beforeTokenTransfer_2(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from,
         address to,
         uint256 amount,
@@ -957,7 +957,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should prevent transfer when one or both addresses are blacklisted");
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Randomly blacklist from address
         if (fromBlacklisted) globalBlacklist.blacklist(from);
@@ -972,7 +972,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz__beforeTokenTransfer_3(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from,
         address to,
         uint256 amount,
@@ -985,7 +985,7 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap amount to 100T
         amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
@@ -1011,7 +1011,7 @@ contract Tests is Test, ModifiersExpectations {
     // ======================================
     // === _afterTokenTransfer() function ===
     function testFuzz_afterTokenTransfer_1(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account1,
         address account2,
         uint256 amount
@@ -1019,7 +1019,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should properly call onLTokenTransfer() of all transfers listeners");
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Assert that accounts are different and aren't zero address
         vm.assume(account1 != account2);
@@ -1093,8 +1093,8 @@ contract Tests is Test, ModifiersExpectations {
     // === getExpectedRetained() function ===
     function testFuzz_getExpectedRetained_1(
         uint8 decimals,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 totalSupply
     ) public {
         console.log("Should properly apply retention rate");
@@ -1104,13 +1104,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
         // Set retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap totalSupply to 1000T
         // Make it >1 to prevent assertion revert because of precision loss on small numbers
@@ -1135,15 +1135,15 @@ contract Tests is Test, ModifiersExpectations {
         uint256 expectedRetained = tested.getExpectedRetained();
 
         // Obtain retention rate from total supply and expected retained
-        uint256 totalSupplyUDS3 = UDS3.scaleUp(totalSupply);
-        uint256 expectedRetainedUDS3 = UDS3.scaleUp(expectedRetained);
-        uint256 retentionRateUDS3 = (expectedRetainedUDS3 * tested.public_toUDS3(100)) / totalSupplyUDS3;
-        uint256 expectedRetentionRateUD3 = tested.public_fromDecimals(retentionRateUDS3);
+        uint256 totalSupplyAS3 = AS3.scaleUp(totalSupply);
+        uint256 expectedRetainedAS3 = AS3.scaleUp(expectedRetained);
+        uint256 retentionRateAS3 = (expectedRetainedAS3 * tested.public_toAS3(100)) / totalSupplyAS3;
+        uint256 expectedRetentionRateUD7x3 = tested.public_fromDecimals(retentionRateAS3);
 
         // Compute difference between expected retention rate and actual retention rate
-        uint256 difference = expectedRetentionRateUD3 > retentionRateUD3
-            ? expectedRetentionRateUD3 - retentionRateUD3
-            : retentionRateUD3 - expectedRetentionRateUD3;
+        uint256 difference = expectedRetentionRateUD7x3 > retentionRateUD7x3
+            ? expectedRetentionRateUD7x3 - retentionRateUD7x3
+            : retentionRateUD7x3 - expectedRetentionRateUD7x3;
 
         // Assert that the difference is lower than 0.01%
         assertTrue(difference <= 10);
@@ -1151,8 +1151,8 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_getExpectedRetained_2(
         uint8 decimals,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 totalSupply
     ) public {
         console.log("Should properly apply total supply");
@@ -1162,13 +1162,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 1, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
 
         // Set retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap totalSupply to 1000T
         // Make it >1 to prevent assertion revert because of precision loss on small numbers
@@ -1192,10 +1192,10 @@ contract Tests is Test, ModifiersExpectations {
         uint256 expectedRetained = tested.getExpectedRetained();
 
         // Obtain expected total supply from retention rate and expected retained
-        uint256 retentionRateUDS3 = tested.public_toDecimals(retentionRateUD3);
-        uint256 expectedRetainedUDS3 = UDS3.scaleUp(expectedRetained);
-        uint256 totalSupplyUDS3 = (expectedRetainedUDS3 * tested.public_toUDS3(100)) / retentionRateUDS3;
-        uint256 expectedTotalSupply = UDS3.scaleDown(totalSupplyUDS3);
+        uint256 retentionRateAS3 = tested.public_toDecimals(retentionRateUD7x3);
+        uint256 expectedRetainedAS3 = AS3.scaleUp(expectedRetained);
+        uint256 totalSupplyAS3 = (expectedRetainedAS3 * tested.public_toAS3(100)) / retentionRateAS3;
+        uint256 expectedTotalSupply = AS3.scaleDown(totalSupplyAS3);
 
         // Compute difference between expected retention rate and actual retention rate
         uint256 difference = expectedTotalSupply > totalSupply
@@ -1211,8 +1211,8 @@ contract Tests is Test, ModifiersExpectations {
     // === _transferExceedingToFund() function ===
     function testFuzz_transferExceedingToFund_1(
         uint8 decimals,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Shouldn't transfer anything if there is no exceeding fund");
@@ -1222,13 +1222,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 1, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
 
         // Set retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap totalSupply to 1000T and make it >1 to prevent assertion revert because of precision loss on small numbers
         depositedAmount = bound(
@@ -1258,8 +1258,8 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_transferExceedingToFund_2(
         uint8 decimals,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Should properly transfer the exceeding amount");
@@ -1269,13 +1269,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 1, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
 
         // Set retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Ensure deposited amount is greater than 10k units
         // 12k is used instead of 10k to prevent assertion revert because of precision loss on small numbers
@@ -1299,8 +1299,8 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_transferExceedingToFund_3(
         uint8 decimals,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount
     ) public {
         console.log(
@@ -1312,13 +1312,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set a first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 1, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
 
         // Set retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Ensure deposited amount is greater than 10k units
         // 12k is used instead of 10k to prevent assertion revert because of precision loss on small numbers
@@ -1382,7 +1382,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_deposit_3(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 accountBalance,
         uint256 depositedAmount
@@ -1398,7 +1398,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 2, tested.public_toDecimals(100_000_000_000_000));
@@ -1419,7 +1419,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_deposit_4(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 depositedAmount
     ) public {
@@ -1436,10 +1436,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -1466,7 +1466,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_deposit_5(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 depositedAmount
     ) public {
@@ -1481,10 +1481,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -1507,7 +1507,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_deposit_6(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 depositedAmount
     ) public {
@@ -1524,10 +1524,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -1550,10 +1550,10 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_deposit_7(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 depositedAmount,
-        uint32 retentionRateUD3
+        uint32 retentionRateUD7x3
     ) public {
         console.log("Should transfer exceeding to fund");
 
@@ -1566,13 +1566,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Bound retention rate to [0, 10%]
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
         // Set random retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Ensure deposited amount is greater than 10k units
         // 12k is used instead of 10k to prevent assertion revert because of precision loss on small numbers
@@ -1597,10 +1597,10 @@ contract Tests is Test, ModifiersExpectations {
     // === getWithdrawnAmountAndFees() function ===
     function testFuzz_getWithdrawnAmountAndFees_1(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 amount,
-        uint32 feesRateUD3,
+        uint32 feesRateUD7x3,
         uint216 tier2Amount
     ) public {
         console.log("Should always return [inputAmount, 0] if account is elligble to staking tier 2");
@@ -1614,16 +1614,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(underlyingToken));
 
         // Set first random APR on L-Token contract
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set first random APR on LDYStaking contract
-        ldyStaking.setAPR(aprUD3);
+        ldyStaking.setAPR(aprUD7x3);
 
         // Cap fees rate to 100%
-        feesRateUD3 = uint32(bound(feesRateUD3, 0, UDS3.scaleUp(100)));
+        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap tier2Amount to 100T
         tier2Amount = uint216(bound(tier2Amount, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -1650,10 +1650,10 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_getWithdrawnAmountAndFees_2(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 amount,
-        uint32 feesRateUD3
+        uint32 feesRateUD7x3
     ) public {
         console.log("Should else return [inputAmount - fees, fees]");
 
@@ -1666,13 +1666,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(underlyingToken));
 
         // Set first random APR on L-Token contract
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap fees rate to 100%
-        feesRateUD3 = uint32(bound(feesRateUD3, 0, UDS3.scaleUp(100)));
+        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount to 100T
         amount = bound(amount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -1686,12 +1686,12 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_getWithdrawnAmountAndFees_3(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint256 amount,
-        uint32 feesRateUD3
+        uint32 feesRateUD7x3
     ) public {
-        console.log("Should properly apply feesRateUD3");
+        console.log("Should properly apply feesRateUD7x3");
 
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -1702,13 +1702,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(underlyingToken));
 
         // Set first random APR on L-Token contract
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap fees rate to 100% and to a minimum of 0.1% to prevent below assertion revert because of precision loss
-        feesRateUD3 = uint32(bound(feesRateUD3, 100, UDS3.scaleUp(100)));
+        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 100, AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount to 100T and to a minimum of one unit to prevent below assertion revert because of precision loss
         // +10000 is used to prevent assertion revert with small decimals values
@@ -1721,14 +1721,14 @@ contract Tests is Test, ModifiersExpectations {
         // Get withdraw amount and fees
         (, uint256 fees) = tested.getWithdrawnAmountAndFees(account, amount);
 
-        // Obtain applied feesRateUD3 from input amount and fees amount
-        uint256 feesRateUDS3 = (UDS3.scaleUp(fees) * tested.public_toUDS3(100)) / UDS3.scaleUp(amount);
-        uint256 appliedFeesRateUD3 = tested.public_fromDecimals(feesRateUDS3);
+        // Obtain applied feesRateUD7x3 from input amount and fees amount
+        uint256 feesRateAS3 = (AS3.scaleUp(fees) * tested.public_toAS3(100)) / AS3.scaleUp(amount);
+        uint256 appliedFeesRateUD7x3 = tested.public_fromDecimals(feesRateAS3);
 
         // Compute difference between applied fees rate and expected fees rate
-        uint256 difference = appliedFeesRateUD3 > feesRateUD3
-            ? appliedFeesRateUD3 - feesRateUD3
-            : feesRateUD3 - appliedFeesRateUD3;
+        uint256 difference = appliedFeesRateUD7x3 > feesRateUD7x3
+            ? appliedFeesRateUD7x3 - feesRateUD7x3
+            : feesRateUD7x3 - appliedFeesRateUD7x3;
 
         // Assert that the difference is < 0.01%
         assertTrue(difference <= 10);
@@ -1761,7 +1761,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_3(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount,
         uint256 depositedAmount
     ) public {
@@ -1776,7 +1776,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requestedAmount to 100T
         requestedAmount = bound(requestedAmount, 2, tested.public_toDecimals(100_000_000_000_000));
@@ -1799,7 +1799,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_4(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount,
         uint256 queuedAmount
     ) public {
@@ -1816,10 +1816,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Ensure total queued is greater than 0 and capped to 100T
         queuedAmount = bound(queuedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -1845,7 +1845,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_5(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 queuedAmount,
         uint216 tier2Amount
     ) public {
@@ -1862,13 +1862,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set first random APR on LDYStaking contract
-        ldyStaking.setAPR(aprUD3);
+        ldyStaking.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Ensure total queued is greater than 0 and capped to 100T
         queuedAmount = bound(queuedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -1912,7 +1912,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         address account1,
         address account2,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount,
         uint256 queuedAmount
     ) public {
@@ -1932,10 +1932,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account1 != account2);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Ensure total queued is ceiled to uint96 max (the max amount that can be requested at once)
         queuedAmount = bound(queuedAmount, 1, type(uint96).max);
@@ -1983,7 +1983,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_7(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 queuedAmount,
         uint216 tier2Amount
     ) public {
@@ -2000,13 +2000,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set first random APR on LDYStaking contract
-        ldyStaking.setAPR(aprUD3);
+        ldyStaking.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Ensure total queued is greater than 0 and capped to 100T
         queuedAmount = bound(queuedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -2051,10 +2051,10 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_8(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
-        console.log("Should properly apply feesRateUD3");
+        console.log("Should properly apply feesRateUD7x3");
 
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -2065,10 +2065,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -2091,7 +2091,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_9(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Should decrease usableUnderlying by withdrawn amount (and not input amount)");
@@ -2105,10 +2105,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -2134,7 +2134,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_instantWithdrawal_10(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Should also burn fees and so realTotalSupply should decrease by input amount");
@@ -2148,10 +2148,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap depositedAmount to 100T
         depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
@@ -2215,7 +2215,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_4(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
         uint256 requestAmount,
         uint160 accountBase,
@@ -2228,10 +2228,10 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap requestAmount to uint96.max which is the maximum amount of underlying tokens that can be requested at once
         requestAmount = bound(requestAmount, 1, type(uint96).max);
@@ -2301,7 +2301,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_5(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
         uint256 requestAmount,
         uint160 accountBase,
@@ -2316,10 +2316,10 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap requestAmount to uint96.max which is the maximum amount of underlying tokens that can be requested at once
         requestAmount = bound(requestAmount, 1, type(uint96).max);
@@ -2399,7 +2399,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_6(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
         uint256 requestAmount,
         uint160 accountBase
@@ -2413,7 +2413,7 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap amount of requests to 30
         numberOfRequests = uint8(bound(numberOfRequests, 1, 30));
@@ -2472,7 +2472,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_7(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
         uint8 numberOfNotCoveredRequests,
         uint256 requestAmount,
@@ -2487,10 +2487,10 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2550,9 +2550,9 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_8(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
-        uint16 feesRateUD3,
+        uint16 feesRateUD7x3,
         uint256 amountBase,
         uint160 accountBase
     ) public {
@@ -2563,13 +2563,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2642,9 +2642,9 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_9(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
-        uint16 feesRateUD3,
+        uint16 feesRateUD7x3,
         uint256 amountBase,
         uint160 accountBase
     ) public {
@@ -2655,13 +2655,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2722,9 +2722,9 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_10(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
-        uint16 feesRateUD3,
+        uint16 feesRateUD7x3,
         uint256 amountBase,
         uint160 accountBase
     ) public {
@@ -2735,13 +2735,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2808,9 +2808,9 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_11(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
-        uint16 feesRateUD3,
+        uint16 feesRateUD7x3,
         uint256 amountBase,
         uint160 accountBase
     ) public {
@@ -2821,13 +2821,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2894,9 +2894,9 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_12(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
-        uint16 feesRateUD3,
+        uint16 feesRateUD7x3,
         uint256 amountBase,
         uint160 accountBase
     ) public {
@@ -2907,13 +2907,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2974,9 +2974,9 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz_batchQueuedWithdraw_13(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
-        uint16 feesRateUD3,
+        uint16 feesRateUD7x3,
         uint256 amountBase,
         uint160 accountBase
     ) public {
@@ -2987,13 +2987,13 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -3064,9 +3064,9 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_3(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
-        uint16 feesRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should revert if request emitter has been blacklisted since emission");
@@ -3080,16 +3080,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount so it doesn't overflow max withdrawal request amount
         amount = bound(amount, 1, type(uint96).max);
@@ -3119,9 +3119,9 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_4(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
-        uint16 feesRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should revert if request is not a big request");
@@ -3135,16 +3135,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount to  (0, 100T]
         amount = bound(amount, 1, type(uint96).max);
@@ -3175,9 +3175,9 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_5(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
-        uint16 feesRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
         uint256 amount
     ) public {
         console.log(
@@ -3193,16 +3193,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount to  (0, 100T]
         amount = bound(amount, 1, type(uint96).max);
@@ -3247,8 +3247,8 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_6(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should cover request from fund balance in priority");
@@ -3263,16 +3263,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != fundWallet);
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set fees rate to 0 so it doesn't inter in below tests
         tested.setFeesRate(0);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         amount = bound(amount, 1, type(uint96).max);
@@ -3321,8 +3321,8 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_7(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should use contract tokens to cover request if fund wallet balance is not enough");
@@ -3337,16 +3337,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != fundWallet);
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set fees rate to 0 so it doesn't inter in below tests
         tested.setFeesRate(0);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         amount = bound(amount, 1, type(uint96).max);
@@ -3390,9 +3390,9 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_8(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
-        uint16 feesRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should properly increase unclaimed fees amount");
@@ -3406,16 +3406,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Prevent amount from overflowing max withdrawal request amount
         amount = bound(amount, tested.public_toDecimals(20000) + 1, type(uint96).max);
@@ -3447,9 +3447,9 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_9(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
-        uint16 feesRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should properly decrease queued amount");
@@ -3463,16 +3463,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Prevent amount from overflowing max withdrawal request amount
         amount = bound(amount, 1, type(uint96).max);
@@ -3506,9 +3506,9 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_bigQueuedWithdraw_10(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
-        uint16 feesRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
         uint256 amount
     ) public {
         console.log("Should delete processed request from queue");
@@ -3522,16 +3522,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Set random retention rate
-        tested.tool_setRetentionRate(retentionRateUD3);
+        tested.tool_setRetentionRate(retentionRateUD7x3);
 
         // Set random fees rate
-        tested.setFeesRate(feesRateUD3);
+        tested.setFeesRate(feesRateUD7x3);
 
         // Prevent amount from overflowing max withdrawal request amount
         amount = bound(amount, 1, type(uint96).max);
@@ -3588,7 +3588,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_3(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount,
         uint256 requestedAmount
     ) public {
@@ -3603,7 +3603,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 2, type(uint96).max);
@@ -3627,7 +3627,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_4(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should revert if requested amount is greater than uint96 max");
@@ -3641,7 +3641,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         // Ternary operator prevents 100T being lower than uint96 max on small decimals numbers
@@ -3669,7 +3669,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_5(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount,
         uint256 attachedProcessingFees
     ) public {
@@ -3685,7 +3685,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -3710,7 +3710,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_6(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should transfer 0.004ETH of processing fees to withdrawer wallet");
@@ -3723,7 +3723,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -3759,7 +3759,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_7(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should burn account withdrawn L-Tokens");
@@ -3772,7 +3772,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -3806,7 +3806,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_8(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log(
@@ -3821,7 +3821,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -3855,7 +3855,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         address account1,
         address account2,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount1,
         uint256 requestedAmount2
     ) public {
@@ -3874,8 +3874,8 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account2 != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
-        ldyStaking.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
+        ldyStaking.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount1 = bound(requestedAmount1, 1, type(uint96).max);
@@ -3943,7 +3943,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         address account1,
         address account2,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount1,
         uint256 requestedAmount2
     ) public {
@@ -3961,8 +3961,8 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account2 != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
-        ldyStaking.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
+        ldyStaking.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount1 = bound(requestedAmount1, 1, type(uint96).max);
@@ -4029,7 +4029,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_requestWithdrawal_11(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should properly increase total queued by requested amount");
@@ -4042,7 +4042,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -4094,7 +4094,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         address account1,
         address account2,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should revert request doesn't belong to caller");
@@ -4110,7 +4110,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account2 != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -4139,7 +4139,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_cancelWithdrawalRequest_4(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should mint back L-Token amount to caller");
@@ -4152,7 +4152,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -4182,7 +4182,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_cancelWithdrawalRequest_5(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should decrease total queued amount accordingly");
@@ -4195,7 +4195,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -4225,7 +4225,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_cancelWithdrawalRequest_6(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
         console.log("Should delete request from queue");
@@ -4238,7 +4238,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount = bound(requestedAmount, 1, type(uint96).max);
@@ -4289,8 +4289,8 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_repatriate_3(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount,
         uint256 fundedAmount
     ) public {
@@ -4304,13 +4304,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
         // Set random retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 2, type(uint96).max);
@@ -4334,8 +4334,8 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_repatriate_4(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount,
         uint256 fundedAmount
     ) public {
@@ -4349,13 +4349,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
         // Set random retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 2, type(uint96).max);
@@ -4382,8 +4382,8 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_repatriate_5(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount,
         uint256 fundedAmount
     ) public {
@@ -4397,13 +4397,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
         // Set random retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4416,7 +4416,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Force retention rate to 100% so it won't be exceeded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Store old fund wallet and L-token contract underlying balances for later comparison
         uint256 oldFundWalletUnderlyingBalance = underlyingToken.balanceOf(fundWallet);
@@ -4442,8 +4442,8 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_repatriate_6(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
-        uint32 retentionRateUD3,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
         uint256 depositedAmount,
         uint256 fundedAmount
     ) public {
@@ -4457,13 +4457,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD3 = uint32(bound(retentionRateUD3, 0, UDS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
 
         // Set random retention rate
-        tested.setRetentionRate(retentionRateUD3);
+        tested.setRetentionRate(retentionRateUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4476,7 +4476,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Force retention rate to 100% so it won't be exceeded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Store old usable underlying amount for later comparison
         uint256 oldUsableUnderlyings = tested.usableUnderlyings();
@@ -4520,7 +4520,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_claimFees_3(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
         console.log(
@@ -4536,10 +4536,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4566,7 +4566,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_claimFees_4(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Should properly transfer funds from contract to owner else");
@@ -4580,10 +4580,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4617,7 +4617,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_claimFees_5(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Should properly reset unclaimedFees to 0");
@@ -4631,10 +4631,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4661,7 +4661,7 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_claimFees_6(
         uint8 decimals,
         address account,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 depositedAmount
     ) public {
         console.log("Should properly decrease usableUnderlyings by claimed fees amount");
@@ -4675,10 +4675,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account != address(tested));
 
         // Set first random APRs
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(UDS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);

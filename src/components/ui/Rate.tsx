@@ -8,16 +8,16 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   value: number | undefined;
   tooltip?: boolean;
   prefix?: string;
-  isUD3?: boolean;
+  isUD7x3?: boolean;
 }
 
-function getFloatValue(value: number | undefined, isUD3: boolean) {
+function getFloatValue(value: number | undefined, isUD7x3: boolean) {
   if (!value) return 0;
-  return isUD3 ? Number(formatUnits(BigInt(value), 3)) : value;
+  return isUD7x3 ? Number(formatUnits(BigInt(value), 3)) : value;
 }
 
-export function formatRate(value: number, isUD3: boolean = false) {
-  const floatValue = getFloatValue(value, isUD3);
+export function formatRate(value: number, isUD7x3: boolean = false) {
+  const floatValue = getFloatValue(value, isUD7x3);
 
   let formattedRate = "";
   if (floatValue === 0) formattedRate = "0";
@@ -28,8 +28,8 @@ export function formatRate(value: number, isUD3: boolean = false) {
   return formattedRate;
 }
 
-function longFormatRate(value: number, isUD3: boolean = false) {
-  const floatValue = getFloatValue(value, isUD3);
+function longFormatRate(value: number, isUD7x3: boolean = false) {
+  const floatValue = getFloatValue(value, isUD7x3);
   let longFormattedRate = "";
   if (floatValue === 0) longFormattedRate = "0";
   else if (floatValue < 0.00001) longFormattedRate = "<0.00001";
@@ -44,10 +44,10 @@ export const Rate: FC<Props> = ({
   value,
   prefix = "",
   tooltip = true,
-  isUD3 = true,
+  isUD7x3 = true,
   ...props
 }) => {
-  const formattedValue = formatRate(value || 0, isUD3);
+  const formattedValue = formatRate(value || 0, isUD7x3);
 
   if (!tooltip)
     return (
@@ -65,7 +65,7 @@ export const Rate: FC<Props> = ({
         </TooltipTrigger>
         <TooltipContent className="font-heading font-bold">
           {prefix}
-          {longFormatRate(value || 0, isUD3)}%
+          {longFormatRate(value || 0, isUD7x3)}%
         </TooltipContent>
       </Tooltip>
     );

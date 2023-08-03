@@ -13,7 +13,7 @@ import {GlobalBlacklist} from "../../../src/GlobalBlacklist.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {GenericERC20} from "../../../src/GenericERC20.sol";
 
-import {UDS3} from "../../../src/libs/UDS3.sol";
+import {AS3} from "../../../src/libs/AS3.sol";
 import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
 
 contract TestedContract is InvestUpgradeable {
@@ -104,21 +104,21 @@ contract TestedContract is InvestUpgradeable {
         return _fromDecimals(n);
     }
 
-    function public_toUDS3(uint256 n) public view returns (uint256) {
-        return _toUDS3(n);
+    function public_toAS3(uint256 n) public view returns (uint256) {
+        return _toAS3(n);
     }
 
-    function public_fromUDS3(uint256 n) public view returns (uint256) {
-        return _fromUDS3(n);
+    function public_fromAS3(uint256 n) public view returns (uint256) {
+        return _fromAS3(n);
     }
 
     function public_calculatePeriodRewards(
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) public view returns (uint256 rewards) {
-        return _calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD3, investedAmount);
+        return _calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD7x3, investedAmount);
     }
 
     function public_deepInvestmentOf(address account) public view returns (uint256 deepInvestedAmount) {
@@ -217,11 +217,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // =========================
     // === setAPR() function ===
-    function testFuzz_setAPR_1(uint16 newAPRUD3) public {
+    function testFuzz_setAPR_1(uint16 newAPRUD7x3) public {
         console.log("Should update the APR return by getAPR()");
 
-        tested.setAPR(newAPRUD3);
-        assertEq(tested.getAPR(), newAPRUD3);
+        tested.setAPR(newAPRUD7x3);
+        assertEq(tested.getAPR(), newAPRUD7x3);
     }
 
     // =======================================
@@ -266,7 +266,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_startRedirectRewards_4(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from,
         address to1,
         address to2
@@ -274,7 +274,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if trying to redirect while a redirection is already active");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure addresses are different and and not the zero address
         vm.assume(to1 != address(0));
@@ -350,10 +350,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.startRedirectRewards(from, to);
     }
 
-    function testFuzz_startRedirectRewards_9(uint16 aprUD3, address from, address to) public {
+    function testFuzz_startRedirectRewards_9(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is owner");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -364,10 +364,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.startRedirectRewards(from, to);
     }
 
-    function testFuzz_startRedirectRewards_10(uint16 aprUD3, address from, address to) public {
+    function testFuzz_startRedirectRewards_10(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is from");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -380,14 +380,14 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_startRedirectRewards_11(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from,
         address to,
         uint32 duration
     ) public {
         console.log("Should reset from and to accounts investment periods");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -409,10 +409,10 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_startRedirectRewards_12(uint16 aprUD3, address from, address to) public {
+    function testFuzz_startRedirectRewards_12(uint16 aprUD7x3, address from, address to) public {
         console.log("Should set to at from index in rewardsRedirectsFromTo");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -427,14 +427,14 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_startRedirectRewards_13(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from1,
         address from2,
         address to
     ) public {
         console.log("Should push from into at to index in rewardsRedirectsToFrom");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from1 != to);
@@ -539,10 +539,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.stopRedirectRewards(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_7(uint16 aprUD3, address from, address to) public {
+    function testFuzz_stopRedirectRewards_7(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is owner");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -554,10 +554,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.stopRedirectRewards(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_8(uint16 aprUD3, address from, address to) public {
+    function testFuzz_stopRedirectRewards_8(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is from");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -585,14 +585,14 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_stopRedirectRewards_10(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from,
         address to,
         uint32 duration
     ) public {
         console.log("Should reset from and to accounts investment periods");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -617,10 +617,10 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_stopRedirectRewards_11(uint16 aprUD3, address from, address to) public {
+    function testFuzz_stopRedirectRewards_11(uint16 aprUD7x3, address from, address to) public {
         console.log("Should reset to address at index from in rewardsRedirectsFromTo to zero address");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -640,10 +640,10 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.rewardsRedirectsFromTo(from), address(0));
     }
 
-    function testFuzz_stopRedirectRewards_12(uint16 aprUD3, address from, address to) public {
+    function testFuzz_stopRedirectRewards_12(uint16 aprUD7x3, address from, address to) public {
         console.log("Should properly remove from address from index to in rewardsRedirectsToFrom");
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from != to);
@@ -665,7 +665,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_stopRedirectRewards_13(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address from1,
         address from2,
         address from3,
@@ -676,7 +676,7 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure accounts different and not not the zero address
         vm.assume(from1 != to);
@@ -714,16 +714,16 @@ contract Tests is Test, ModifiersExpectations {
 
     // =========================
     // === getAPR() function ===
-    function testFuzz_getAPR_1(uint16 newAPRUD3) public {
+    function testFuzz_getAPR_1(uint16 newAPRUD7x3) public {
         console.log("Should return last set APR");
 
         // Ensure initial APR is 0
         assertEq(tested.getAPR(), 0);
 
         // Set a new latest APR and ensure getAPR() returns it
-        vm.assume(newAPRUD3 > 0);
-        tested.setAPR(newAPRUD3);
-        assertEq(tested.getAPR(), newAPRUD3);
+        vm.assume(newAPRUD7x3 > 0);
+        tested.setAPR(newAPRUD7x3);
+        assertEq(tested.getAPR(), newAPRUD7x3);
     }
 
     // ==================================
@@ -778,8 +778,8 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     // ==========================
-    // === _toUDS3() function ===
-    function testFuzz__toUDS3_1(uint8 decimals, uint256 n) public {
+    // === _toAS3() function ===
+    function testFuzz__toAS3_1(uint8 decimals, uint256 n) public {
         console.log("Should return given number times 10^decimals+3 when doesn't overflow");
 
         // Bound decimals to [0, 18] and set random invested token decimals
@@ -789,10 +789,10 @@ contract Tests is Test, ModifiersExpectations {
         // Restrict n to non-overflowing values
         n = bound(n, 0, type(uint256).max / 10 ** (decimals) / 10 ** 3);
 
-        assertEq(tested.public_toUDS3(n), n * 10 ** (decimals + 3));
+        assertEq(tested.public_toAS3(n), n * 10 ** (decimals + 3));
     }
 
-    function testFuzz__toUDS3_2(uint8 decimals, uint256 n) public {
+    function testFuzz__toAS3_2(uint8 decimals, uint256 n) public {
         console.log("Should properly overflow on big numbers");
 
         // Bound decimals to [0, 18] and set random invested token decimals
@@ -804,19 +804,19 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(n > type(uint256).max / 10 ** decimals / 10 ** 3);
 
         vm.expectRevert(stdError.arithmeticError);
-        tested.public_toUDS3(n);
+        tested.public_toAS3(n);
     }
 
     // ============================
-    // === _fromUDS3() function ===
-    function testFuzz__fromUDS3_1(uint8 decimals, uint256 n) public {
+    // === _fromAS3() function ===
+    function testFuzz__fromAS3_1(uint8 decimals, uint256 n) public {
         console.log("Should return given number divided by 10^decimals and never revert");
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
         investedToken.setDecimals(decimals);
 
-        assertEq(tested.public_fromUDS3(n), n / 10 ** decimals / 10 ** 3);
+        assertEq(tested.public_fromAS3(n), n / 10 ** decimals / 10 ** 3);
     }
 
     // ================================
@@ -825,7 +825,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) public {
         console.log(
@@ -843,14 +843,14 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(beginTimestamp < endTimestamp);
 
         // Calculate rewards (shouldn't revert)
-        tested.public_calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD3, investedAmount);
+        tested.public_calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD7x3, investedAmount);
     }
 
     function testFuzz__calculatePeriodRewards_2(
         uint8 decimals,
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) public {
         console.log("Should properly apply given APR");
@@ -869,31 +869,31 @@ contract Tests is Test, ModifiersExpectations {
         uint256 rewards = tested.public_calculatePeriodRewards(
             beginTimestamp,
             endTimestamp,
-            aprUD3,
+            aprUD7x3,
             investedAmount
         );
         if (rewards == 0) return;
 
         // Compute applied APR from rewards, elapsed time and invested amount
-        uint256 growthUDS3 = (UDS3.scaleUp(rewards) * tested.public_toUDS3(1)) /
-            UDS3.scaleUp(investedAmount);
+        uint256 growthAS3 = (AS3.scaleUp(rewards) * tested.public_toAS3(1)) /
+            AS3.scaleUp(investedAmount);
 
-        uint256 elaspedTimeUDS3 = tested.public_toUDS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * tested.public_toUDS3(1)) /
-            tested.public_toUDS3(365 days);
+        uint256 elaspedTimeAS3 = tested.public_toAS3(endTimestamp - beginTimestamp);
+        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * tested.public_toAS3(1)) /
+            tested.public_toAS3(365 days);
 
-        uint256 appliedAPRUDS3 = (growthUDS3 * tested.public_toUDS3(1)) / elapsedYearsUDS3;
-        uint256 appliedAPRUD3 = tested.public_fromDecimals(appliedAPRUDS3);
+        uint256 appliedAPRAS3 = (growthAS3 * tested.public_toAS3(1)) / elapsedYearsAS3;
+        uint256 appliedAPRUD7x3 = tested.public_fromDecimals(appliedAPRAS3);
 
         // Ensure applied APR is equal to given APR
-        if (UDS3.scaleDown(appliedAPRUD3) != 0) assertEq(appliedAPRUD3, aprUD3);
+        if (AS3.scaleDown(appliedAPRUD7x3) != 0) assertEq(appliedAPRUD7x3, aprUD7x3);
     }
 
     function testFuzz__calculatePeriodRewards_3(
         uint8 decimals,
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) public {
         console.log("Should properly apply given period");
@@ -912,19 +912,19 @@ contract Tests is Test, ModifiersExpectations {
         uint256 rewards = tested.public_calculatePeriodRewards(
             beginTimestamp,
             endTimestamp,
-            aprUD3,
+            aprUD7x3,
             investedAmount
         );
         if (rewards == 0) return;
 
         // Compute applied elapsed time from rewards, APR and invested amount
-        uint256 growthUDS3 = (UDS3.scaleUp(rewards) * tested.public_toUDS3(1)) /
-            UDS3.scaleUp(investedAmount);
+        uint256 growthAS3 = (AS3.scaleUp(rewards) * tested.public_toAS3(1)) /
+            AS3.scaleUp(investedAmount);
 
-        uint256 aprUDS3 = tested.public_toUDS3(aprUD3);
+        uint256 aprAS3 = tested.public_toAS3(aprUD7x3);
 
-        uint256 appliedElapsedTimeUDS3 = (growthUDS3 * tested.public_toUDS3(1)) / aprUDS3;
-        uint256 appliedElapsedTime = tested.public_fromUDS3(appliedElapsedTimeUDS3);
+        uint256 appliedElapsedTimeAS3 = (growthAS3 * tested.public_toAS3(1)) / aprAS3;
+        uint256 appliedElapsedTime = tested.public_fromAS3(appliedElapsedTimeAS3);
 
         // Ensure applied elapsed time is equal to given elapsed time
         if (appliedElapsedTime != 0) assertEq(appliedElapsedTime, endTimestamp - beginTimestamp);
@@ -935,7 +935,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) public {
         console.log("Should properly apply given invested amount (when >5% APR and >365 days period)");
@@ -948,7 +948,7 @@ contract Tests is Test, ModifiersExpectations {
         investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
 
         // Ensure period is >365days and APR >5% to prevent failure because of precision loss
-        aprUD3 = uint16(bound(aprUD3, UDS3.scaleUp(5), type(uint16).max));
+        aprUD7x3 = uint16(bound(aprUD7x3, AS3.scaleUp(5), type(uint16).max));
         beginTimestamp = uint40(bound(beginTimestamp, 0, type(uint40).max - 365 days));
         endTimestamp = uint40(bound(endTimestamp, beginTimestamp + 365 days, type(uint40).max));
 
@@ -956,22 +956,22 @@ contract Tests is Test, ModifiersExpectations {
         uint256 rewards = tested.public_calculatePeriodRewards(
             beginTimestamp,
             endTimestamp,
-            aprUD3,
+            aprUD7x3,
             investedAmount
         );
         if (rewards == 0) return;
 
         // Compute applied invested amount from rewards, APR and elapsed time
-        uint256 elaspedTimeUDS3 = tested.public_toUDS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * tested.public_toUDS3(1)) /
-            tested.public_toUDS3(365 days);
+        uint256 elaspedTimeAS3 = tested.public_toAS3(endTimestamp - beginTimestamp);
+        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * tested.public_toAS3(1)) /
+            tested.public_toAS3(365 days);
 
-        uint256 aprUDS3 = tested.public_toDecimals(aprUD3); // UD3 to UDS3
-        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / tested.public_toUDS3(1);
+        uint256 aprAS3 = tested.public_toDecimals(aprUD7x3); // UD7x3 to AS3
+        uint256 growthAS3 = (elapsedYearsAS3 * aprAS3) / tested.public_toAS3(1);
 
-        uint256 rewardsUDS3 = UDS3.scaleUp(rewards);
-        uint256 appliedInvestedAmountUDS3 = (rewardsUDS3 * tested.public_toUDS3(100)) / growthUDS3;
-        uint256 appliedInvestedAmount = UDS3.scaleDown(appliedInvestedAmountUDS3);
+        uint256 rewardsAS3 = AS3.scaleUp(rewards);
+        uint256 appliedInvestedAmountAS3 = (rewardsAS3 * tested.public_toAS3(100)) / growthAS3;
+        uint256 appliedInvestedAmount = AS3.scaleDown(appliedInvestedAmountAS3);
 
         // Ensure applied invested amount is near to invested amount
         if (appliedInvestedAmount != 0) {
@@ -986,7 +986,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 decimals,
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) public {
         console.log("Should properly apply given invested amount (other cases)");
@@ -1005,22 +1005,22 @@ contract Tests is Test, ModifiersExpectations {
         uint256 rewards = tested.public_calculatePeriodRewards(
             beginTimestamp,
             endTimestamp,
-            aprUD3,
+            aprUD7x3,
             investedAmount
         );
         if (rewards == 0) return;
 
         // Compute applied invested amount from rewards, APR and elapsed time
-        uint256 elaspedTimeUDS3 = tested.public_toUDS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * tested.public_toUDS3(1)) /
-            tested.public_toUDS3(365 days);
+        uint256 elaspedTimeAS3 = tested.public_toAS3(endTimestamp - beginTimestamp);
+        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * tested.public_toAS3(1)) /
+            tested.public_toAS3(365 days);
 
-        uint256 aprUDS3 = tested.public_toDecimals(aprUD3); // UD3 to UDS3
-        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / tested.public_toUDS3(1);
+        uint256 aprAS3 = tested.public_toDecimals(aprUD7x3); // UD7x3 to AS3
+        uint256 growthAS3 = (elapsedYearsAS3 * aprAS3) / tested.public_toAS3(1);
 
-        uint256 rewardsUDS3 = UDS3.scaleUp(rewards);
-        uint256 appliedInvestedAmountUDS3 = (rewardsUDS3 * tested.public_toUDS3(100)) / growthUDS3;
-        uint256 appliedInvestedAmount = UDS3.scaleDown(appliedInvestedAmountUDS3);
+        uint256 rewardsAS3 = AS3.scaleUp(rewards);
+        uint256 appliedInvestedAmountAS3 = (rewardsAS3 * tested.public_toAS3(100)) / growthAS3;
+        uint256 appliedInvestedAmount = AS3.scaleDown(appliedInvestedAmountAS3);
 
         // Ensure applied invested amount is always smaller than real invested amount
         if (appliedInvestedAmount != 0) {
@@ -1037,7 +1037,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz__deepInvestmentOf_2(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account1,
         address account2,
         address account3,
@@ -1056,7 +1056,7 @@ contract Tests is Test, ModifiersExpectations {
         amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Make the three accounts investing
         vm.prank(account1);
@@ -1077,7 +1077,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz__deepInvestmentOf_3(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account1,
         address account2,
         address account3,
@@ -1099,7 +1099,7 @@ contract Tests is Test, ModifiersExpectations {
         amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Invest with account1
         vm.prank(account1);
@@ -1146,7 +1146,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_rewardsOf(address(1234), autocompound), 0);
     }
 
-    function testFuzz__rewardsOf_2(uint8 decimals, uint16 aprUD3, bool autocompound) public {
+    function testFuzz__rewardsOf_2(uint8 decimals, uint16 aprUD7x3, bool autocompound) public {
         console.log("Should return 0 when APR checkpoints but no investment");
 
         // Bound decimals to [0, 18] and set random invested token decimals
@@ -1154,20 +1154,20 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap APR to half its max value
-        aprUD3 = uint16(bound(aprUD3, 0, type(uint16).max / 2));
+        aprUD7x3 = uint16(bound(aprUD7x3, 0, type(uint16).max / 2));
 
         // Set first random APR value and ensure rewards of returns 0
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
         assertEq(tested.public_rewardsOf(address(1234), autocompound), 0);
 
         // Set second random APR value and ensure rewards of returns 0
-        tested.setAPR(aprUD3 * 2);
+        tested.setAPR(aprUD7x3 * 2);
         assertEq(tested.public_rewardsOf(address(1234), autocompound), 0);
     }
 
     function testFuzz__rewardsOf_3(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount,
         uint256 investmentDuration,
         bool autocompound
@@ -1182,7 +1182,7 @@ contract Tests is Test, ModifiersExpectations {
         investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
 
         // Set random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Invest random amount of tokens
         vm.prank(address(1234));
@@ -1198,7 +1198,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 expectedRewards = tested.public_calculatePeriodRewards(
             startTimestamp,
             endTimestamp,
-            aprUD3,
+            aprUD7x3,
             investedAmount
         );
 
@@ -1207,7 +1207,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz__rewardsOf_4(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount,
         uint256 numberOfCheckpoints,
         bool autocompound,
@@ -1233,7 +1233,7 @@ contract Tests is Test, ModifiersExpectations {
         // Create random number of checkpoints after investment
         uint256 expectedRewards = 0;
         uint40 latestCheckpointTimestamp = uint40(block.timestamp);
-        uint16 latestCheckpointApr = aprUD3;
+        uint16 latestCheckpointApr = aprUD7x3;
 
         // Create first APR
         tested.setAPR(latestCheckpointApr);
@@ -1245,7 +1245,7 @@ contract Tests is Test, ModifiersExpectations {
         // Create random number of checkpoints after investment
         for (uint256 i = 0; i < numberOfCheckpoints; i++) {
             uint40 newCheckpointTimestamp = uint40(block.timestamp);
-            uint16 newCheckpointApr = aprUD3;
+            uint16 newCheckpointApr = aprUD7x3;
             tested.setAPR(newCheckpointApr);
 
             // Move forward a random amount of time
@@ -1278,7 +1278,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz__rewardsOf_5(
         uint8 decimals,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account1,
         address account2,
         address account3,
@@ -1315,7 +1315,7 @@ contract Tests is Test, ModifiersExpectations {
         // Create random number of checkpoints after investment
         uint256 expectedRewards = 0;
         uint40 latestCheckpointTimestamp = uint40(block.timestamp);
-        uint16 latestCheckpointApr = aprUD3;
+        uint16 latestCheckpointApr = aprUD7x3;
 
         // Create first APR
         tested.setAPR(latestCheckpointApr);
@@ -1340,7 +1340,7 @@ contract Tests is Test, ModifiersExpectations {
         // Create random number of checkpoints after investment
         for (uint256 i = 0; i < numberOfCheckpoints; i++) {
             uint40 newCheckpointTimestamp = uint40(block.timestamp);
-            uint16 newCheckpointApr = aprUD3;
+            uint16 newCheckpointApr = aprUD7x3;
             tested.setAPR(newCheckpointApr);
 
             // Move forward a random amount of time
@@ -1374,14 +1374,14 @@ contract Tests is Test, ModifiersExpectations {
     // ===============================================
     // === _deepResetInvestmentPeriodOf() function ===
     function testFuzz__deepResetInvestmentPeriodOf_1(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account,
         uint32 duration
     ) public {
         console.log("Should reset given account investment period");
 
         // Set random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Assert that current account investment period block timestamp is 0
         assertEq(tested.public_accountsInfos(account).period.timestamp, 0);
@@ -1397,7 +1397,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz__deepResetInvestmentPeriodOf_2(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account1,
         address account2,
         address account3,
@@ -1409,7 +1409,7 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Set random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Assert that accounts are different
         vm.assume(account1 != account2);
@@ -1437,8 +1437,8 @@ contract Tests is Test, ModifiersExpectations {
         skip(duration);
 
         // Set new APR
-        uint16 newAPRUD3 = aprUD3 < type(uint16).max ? aprUD3 + 1 : aprUD3 - 1;
-        tested.setAPR(newAPRUD3);
+        uint16 newAPRUD7x3 = aprUD7x3 < type(uint16).max ? aprUD7x3 + 1 : aprUD7x3 - 1;
+        tested.setAPR(newAPRUD7x3);
 
         // Call _deepResetInvestmentPeriodOf() on account
         tested.public_deepResetInvestmentPeriodOf(account1);
@@ -1456,7 +1456,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz__deepResetInvestmentPeriodOf_3(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         address account1,
         address account2,
         address account3,
@@ -1468,7 +1468,7 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Set random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Assert that accounts are different and not zero addresses
         vm.assume(account1 != account2);
@@ -1506,8 +1506,8 @@ contract Tests is Test, ModifiersExpectations {
         skip(duration);
 
         // Set new APR
-        uint16 newAPRUD3 = aprUD3 < type(uint16).max ? aprUD3 + 1 : aprUD3 - 1;
-        tested.setAPR(newAPRUD3);
+        uint16 newAPRUD7x3 = aprUD7x3 < type(uint16).max ? aprUD7x3 + 1 : aprUD7x3 - 1;
+        tested.setAPR(newAPRUD7x3);
 
         // Call _deepResetInvestmentPeriodOf() on account
         tested.public_deepResetInvestmentPeriodOf(account1);
@@ -1529,7 +1529,7 @@ contract Tests is Test, ModifiersExpectations {
     function test__onInvestmentChange_1(
         uint8 decimals,
         uint256 investedAmount,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint40 investmentDuration,
         bool autocompound
     ) public {
@@ -1552,7 +1552,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.set_distributeRewards_ResetInvestmentPeriod(true);
 
         // Simulate investment period
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
         vm.prank(address(1234));
         tested.stake(investedAmount);
         skip(investmentDuration);
@@ -1569,7 +1569,7 @@ contract Tests is Test, ModifiersExpectations {
     function test__onInvestmentChange_2(
         uint8 decimals,
         uint256 investedAmount,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint40 investmentDuration,
         bool autocompound,
         bool isImplemented
@@ -1592,7 +1592,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.set_distributeRewards_Implemented(isImplemented);
 
         // Simulate investment period
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
         vm.prank(address(1234));
         tested.stake(investedAmount);
         skip(investmentDuration);
@@ -1635,14 +1635,14 @@ contract Tests is Test, ModifiersExpectations {
         address account2,
         address account3,
         uint256 investedAmount,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint32 duration,
         bool autocompound,
         bool isImplemented
     ) public {
         console.log("Should distribute rewards to account at the very end of the redirection chain");
         // Set random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
@@ -1717,7 +1717,7 @@ contract Tests is Test, ModifiersExpectations {
     function test__onInvestmentChange_4(
         uint8 decimals,
         uint256 investedAmount,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint40 investmentDuration,
         bool autocompound,
         bool isImplemented
@@ -1738,7 +1738,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.set_distributeRewards_Implemented(isImplemented);
 
         // Simulate investment period
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
         vm.prank(address(1234));
         tested.stake(investedAmount);
         skip(investmentDuration);
@@ -1756,7 +1756,7 @@ contract Tests is Test, ModifiersExpectations {
         address account2,
         address account3,
         uint256 investedAmount,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint32 duration,
         bool autocompound,
         bool isImplemented
@@ -1765,7 +1765,7 @@ contract Tests is Test, ModifiersExpectations {
             "Should reset investment period timestamp of all accounts that directly or indirectly redirect rewards to given accounts"
         );
         // Set random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
@@ -1810,8 +1810,8 @@ contract Tests is Test, ModifiersExpectations {
         skip(duration);
 
         // Set new APR
-        uint16 newAPRUD3 = aprUD3 < type(uint16).max ? aprUD3 + 1 : aprUD3 - 1;
-        tested.setAPR(newAPRUD3);
+        uint16 newAPRUD7x3 = aprUD7x3 < type(uint16).max ? aprUD7x3 + 1 : aprUD7x3 - 1;
+        tested.setAPR(newAPRUD7x3);
 
         // Call _onInvestmentChange()
         tested.public_onInvestmentChange(account1, autocompound);

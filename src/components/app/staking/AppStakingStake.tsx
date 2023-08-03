@@ -5,7 +5,7 @@ import {
   useLdyStakingGetNewLockEndFor,
   useLdyStakingLockEndOf,
   useLdyStakingStakeOf,
-  useLdyStakingUnlockFeesRateUd3,
+  useLdyStakingUnlockFeesRateUd7x3,
   usePrepareLdyStakingStake,
   usePrepareLdyStakingUnlock,
   usePrepareLdyStakingUnstake,
@@ -47,7 +47,7 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
   const { data: newLockEnd } = useLdyStakingGetNewLockEndFor({
     args: [walletClient ? walletClient.account.address : zeroAddress, depositedAmount],
   });
-  const { data: unlockFees } = useLdyStakingUnlockFeesRateUd3();
+  const { data: unlockFees } = useLdyStakingUnlockFeesRateUd7x3();
 
   const stakePreparation = usePrepareLdyStakingStake({ args: [depositedAmount] });
   const unstakePreparation = usePrepareLdyStakingUnstake({ args: [withdrawnAmount] });

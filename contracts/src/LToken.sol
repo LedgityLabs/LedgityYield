@@ -10,7 +10,7 @@ import {LDYStaking} from "./LDYStaking.sol";
 // Libraries & interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import {UDS3} from "./libs/UDS3.sol";
+import {AS3} from "./libs/AS3.sol";
 
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
@@ -67,11 +67,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /// @dev Holds address of fund wallet (managed by financial team)
     address public fund;
 
-    /// @dev Holds the withdrawal fee rate in UD3 format (3 digits fixed point, e.g., 0.350% = 350)
-    uint32 public feesRateUD3;
+    /// @dev Holds the withdrawal fee rate in UD7x3 format (3 digits fixed point, e.g., 0.350% = 350)
+    uint32 public feesRateUD7x3;
 
-    /// @dev Holds the retention rate in UD3 format. See "Retention rate" section of whitepaper.
-    uint32 public retentionRateUD3;
+    /// @dev Holds the retention rate in UD7x3 format. See "Retention rate" section of whitepaper.
+    uint32 public retentionRateUD7x3;
 
     /// @dev Holds withdrawal that are unclaimed yet by contract owner.
     uint256 public unclaimedFees;
@@ -203,10 +203,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
     /**
      * @dev Setter for the withdrawal fee rate.
-     * @param feesRateUD3_ The new withdrawal fee rate in UD3 format
+     * @param feesRateUD7x3_ The new withdrawal fee rate in UD7x3 format
      */
-    function setFeesRate(uint32 feesRateUD3_) public onlyOwner {
-        feesRateUD3 = feesRateUD3_;
+    function setFeesRate(uint32 feesRateUD7x3_) public onlyOwner {
+        feesRateUD7x3 = feesRateUD7x3_;
     }
 
     /**
@@ -214,11 +214,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * Security note: As a security measure, the retention rate is ceiled to 10%, which
      * ensures that this contract will never holds more than 10% of the deposit assets
      * at the same time.
-     * @param retentionRateUD3_ The new retention rate in UD3 format
+     * @param retentionRateUD7x3_ The new retention rate in UD7x3 format
      */
-    function setRetentionRate(uint32 retentionRateUD3_) public onlyOwner {
-        require(retentionRateUD3_ <= UDS3.scaleUp(10), "L41");
-        retentionRateUD3 = retentionRateUD3_;
+    function setRetentionRate(uint32 retentionRateUD7x3_) public onlyOwner {
+        require(retentionRateUD7x3_ <= 10 * 10 ** 3, "L41");
+        retentionRateUD7x3 = retentionRateUD7x3_;
     }
 
     /**
@@ -454,10 +454,14 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @return amount The expected amount of retained underlying tokens
      */
     function getExpectedRetained() public view returns (uint256 amount) {
-        uint256 totalSupplyUDS3 = UDS3.scaleUp(totalSupply());
-        uint256 retentionRateUDS3 = _toDecimals(retentionRateUD3);
-        uint256 expectedRetainedUDS3 = (totalSupplyUDS3 * retentionRateUDS3) / _toUDS3(100);
-        return UDS3.scaleDown(expectedRetainedUDS3);
+        // Cache invested token decimals number
+        uint256 d = AS3.decimalsOf(address(invested()));
+
+        // Compute expected retained amount
+        uint256 totalSupplyAS3 = AS3.fromAmount(totalSupply());
+        uint256 retentionRateAS3 = AS3.fromRate(retentionRateUD7x3, d);
+        uint256 expectedRetainedAS3 = (totalSupplyAS3 * retentionRateAS3) / AS3.fromInt(100, d);
+        return AS3.toAmount(expectedRetainedAS3);
     }
 
     /**
@@ -536,11 +540,14 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // If the account is eligible to staking tier 2, no fees are applied
         if (ldyStaking.tierOf(account) >= 2) return (amount, 0);
 
+        // Cache invested token decimals number
+        uint256 d = AS3.decimalsOf(address(invested()));
+
         // Else calculate withdrawal fees as well as final withdrawn amount
-        uint256 amountUDS3 = UDS3.scaleUp(amount);
-        uint256 feesRateUDS3 = _toDecimals(feesRateUD3);
-        uint256 feesUDS3 = (amountUDS3 * feesRateUDS3) / _toUDS3(100);
-        fees = UDS3.scaleDown(feesUDS3);
+        uint256 amountAS3 = AS3.fromAmount(amount);
+        uint256 feesRateAS3 = AS3.fromRate(feesRateUD7x3, d);
+        uint256 feesAS3 = (amountAS3 * feesRateAS3) / AS3.fromInt(100, d);
+        fees = AS3.toAmount(feesAS3);
         withdrawnAmount = amount - fees;
     }
 

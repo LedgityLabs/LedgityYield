@@ -14,7 +14,7 @@ import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
 import {GenericERC20} from "../../src/GenericERC20.sol";
 
-import {UDS3} from "../../src/libs/UDS3.sol";
+import {AS3} from "../../src/libs/AS3.sol";
 import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
 
 contract TestedContract is LDYStaking {
@@ -29,12 +29,12 @@ contract TestedContract is LDYStaking {
         return _fromDecimals(n);
     }
 
-    function public_toUDS3(uint256 n) public view returns (uint256) {
-        return _toUDS3(n);
+    function public_toAS3(uint256 n) public view returns (uint256) {
+        return _toAS3(n);
     }
 
-    function public_fromUDS3(uint256 n) public view returns (uint256) {
-        return _fromUDS3(n);
+    function public_fromAS3(uint256 n) public view returns (uint256) {
+        return _fromAS3(n);
     }
 
     function public_getLockDurationIncrease(
@@ -201,11 +201,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.recoverLDY();
     }
 
-    function testFuzz_recoverLDY_3(uint16 aprUD3, uint256 fueledAmount, uint256 stakedAmount) public {
+    function testFuzz_recoverLDY_3(uint16 aprUD7x3, uint256 fueledAmount, uint256 stakedAmount) public {
         console.log("Shouldn't allow recovering $LDY deposited through stake() or fuel() functions");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Bound fueled amount to [1, 1T]
         fueledAmount = uint216(bound(fueledAmount, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -280,19 +280,19 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz__getLockDurationIncrease_2(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 initialAmount,
-        uint256 amountIncreaseUD3
+        uint256 amountIncreaseUD7x3
     ) public {
         console.log(
             "Should return a time lock proportional to previous stake if the account has already staked and stake increase is lower than previous stake"
         );
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Exclude tiny amount increases and tiny initial amounts to prevent assertion failures because of precision loss.
-        amountIncreaseUD3 = bound(amountIncreaseUD3, UDS3.scaleUp(1), UDS3.scaleUp(100));
+        amountIncreaseUD7x3 = bound(amountIncreaseUD7x3, AS3.scaleUp(1), AS3.scaleUp(100));
         initialAmount = bound(initialAmount, 100, tested.public_toDecimals(100_000_000_000_000));
 
         // Simulate an initial stake
@@ -306,15 +306,15 @@ contract Tests is Test, ModifiersExpectations {
         skip(tested.stakeLockDuration());
 
         // Compute added amount
-        uint256 amountIncreaseUDS3 = tested.public_toDecimals(amountIncreaseUD3);
-        uint256 addedAmountUDS3 = (UDS3.scaleUp(initialAmount) * amountIncreaseUDS3) /
-            tested.public_toUDS3(100);
-        uint256 addedAmount = UDS3.scaleDown(addedAmountUDS3);
+        uint256 amountIncreaseAS3 = tested.public_toDecimals(amountIncreaseUD7x3);
+        uint256 addedAmountAS3 = (AS3.scaleUp(initialAmount) * amountIncreaseAS3) /
+            tested.public_toAS3(100);
+        uint256 addedAmount = AS3.scaleDown(addedAmountAS3);
 
         // Compute expected lock end increase
-        uint256 expectedLockEndIncreaseUDS3 = (tested.public_toUDS3(tested.stakeLockDuration()) *
-            amountIncreaseUDS3) / tested.public_toUDS3(100);
-        uint40 expectedLockEndIncrease = uint40(tested.public_fromUDS3(expectedLockEndIncreaseUDS3));
+        uint256 expectedLockEndIncreaseAS3 = (tested.public_toAS3(tested.stakeLockDuration()) *
+            amountIncreaseAS3) / tested.public_toAS3(100);
+        uint40 expectedLockEndIncrease = uint40(tested.public_fromAS3(expectedLockEndIncreaseAS3));
 
         // Get lock duration increase
         uint40 lockEndIncrease = tested.public_getLockDurationIncrease(address(1234), addedAmount);
@@ -329,7 +329,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz__getLockDurationIncrease_3(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 initialAmount,
         uint216 addedAmount
     ) public {
@@ -338,7 +338,7 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Exclude tiny initial amounts to prevent assertion failures because of precision loss.
         initialAmount = uint216(
@@ -369,11 +369,15 @@ contract Tests is Test, ModifiersExpectations {
 
     // =============================
     // === getNewLockEndFor() function ===
-    function test_getNewLockEndFor_1(uint16 aprUD3, uint216 initialAmount, uint216 addedAmount) public {
+    function test_getNewLockEndFor_1(
+        uint16 aprUD7x3,
+        uint216 initialAmount,
+        uint216 addedAmount
+    ) public {
         console.log("Should return now timestamp + lock end increase");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Exclude tiny initial amounts to prevent assertion failures because of precision loss.
         initialAmount = uint216(
@@ -404,7 +408,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // ====================================
     // === setUnlockFeesRate() function ===
-    function testFuzz_setUnlockFeesRate_1(address account, uint32 _unlockFeesRateUD3) public {
+    function testFuzz_setUnlockFeesRate_1(address account, uint32 _unlockFeesRateUD7x3) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
@@ -413,13 +417,13 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         expectRevertOnlyOwner();
         vm.prank(account);
-        tested.setUnlockFeesRate(_unlockFeesRateUD3);
+        tested.setUnlockFeesRate(_unlockFeesRateUD7x3);
     }
 
-    function testFuzz_setUnlockFeesRate_2(uint32 _unlockFeesRateUD3) public {
-        console.log("Should change value of unlockFeesRateUD3");
-        tested.setUnlockFeesRate(_unlockFeesRateUD3);
-        assertEq(tested.unlockFeesRateUD3(), _unlockFeesRateUD3);
+    function testFuzz_setUnlockFeesRate_2(uint32 _unlockFeesRateUD7x3) public {
+        console.log("Should change value of unlockFeesRateUD7x3");
+        tested.setUnlockFeesRate(_unlockFeesRateUD7x3);
+        assertEq(tested.unlockFeesRateUD7x3(), _unlockFeesRateUD7x3);
     }
 
     // ====================================
@@ -537,14 +541,14 @@ contract Tests is Test, ModifiersExpectations {
         tested.unlock();
     }
 
-    function testFuzz_unlock_4(uint16 aprUD3, uint216 amount) public {
+    function testFuzz_unlock_4(uint16 aprUD7x3, uint216 amount) public {
         console.log("Should revert if lockEndOf() caller is in the past");
 
         // Bound amount to [1, 1T]
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Simulate an initial stake
         deal(address(ldyToken), address(1234), amount, true);
@@ -562,14 +566,14 @@ contract Tests is Test, ModifiersExpectations {
         tested.unlock();
     }
 
-    function testFuzz_unlock_5(uint16 aprUD3, uint216 amount) public {
+    function testFuzz_unlock_5(uint16 aprUD7x3, uint216 amount) public {
         console.log("Should allow to unstake is stake else");
 
         // Ensure staked amount is greater than 0
         vm.assume(amount > 0);
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Set unlock fees to 0 to prevent changes between staked and unstaked amounts
         tested.setUnlockFeesRate(0);
@@ -592,20 +596,20 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_unlock_6(uint16 aprUD3, uint216 amount, uint32 unlockFeesRateUD3) public {
+    function testFuzz_unlock_6(uint16 aprUD7x3, uint216 amount, uint32 unlockFeesRateUD7x3) public {
         console.log("Should decreases staked amount by unlock fees rate");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Exclude tiny amounts to prevent assertion failures because of precision loss.
         amount = uint216(bound(amount, 10000, tested.public_toDecimals(100_000_000_000_000)));
 
         // Ensure unlock fees rate never exceeds 100%
-        unlockFeesRateUD3 = uint32(bound(unlockFeesRateUD3, 0, UDS3.scaleUp(100)));
+        unlockFeesRateUD7x3 = uint32(bound(unlockFeesRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Randomly set unlock fees rate
-        tested.setUnlockFeesRate(unlockFeesRateUD3);
+        tested.setUnlockFeesRate(unlockFeesRateUD7x3);
 
         // Simulate an initial stake
         deal(address(ldyToken), address(1234), amount, true);
@@ -618,33 +622,33 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Compute applied fees rate from before and after staking amounts
-        uint256 variationUDS3 = UDS3.scaleUp(amount - tested.stakeOf(address(1234)));
-        uint256 appliedFeesRateUDS3 = (variationUDS3 * tested.public_toUDS3(100)) / UDS3.scaleUp(amount);
-        uint32 appliedFeesRateUD3 = uint32(tested.public_fromDecimals(appliedFeesRateUDS3));
+        uint256 variationAS3 = AS3.scaleUp(amount - tested.stakeOf(address(1234)));
+        uint256 appliedFeesRateAS3 = (variationAS3 * tested.public_toAS3(100)) / AS3.scaleUp(amount);
+        uint32 appliedFeesRateUD7x3 = uint32(tested.public_fromDecimals(appliedFeesRateAS3));
 
         // Assert that applied fees rate is equal to unlock fees rate
-        uint256 difference = appliedFeesRateUD3 > unlockFeesRateUD3
-            ? appliedFeesRateUD3 - unlockFeesRateUD3
-            : unlockFeesRateUD3 - appliedFeesRateUD3;
+        uint256 difference = appliedFeesRateUD7x3 > unlockFeesRateUD7x3
+            ? appliedFeesRateUD7x3 - unlockFeesRateUD7x3
+            : unlockFeesRateUD7x3 - appliedFeesRateUD7x3;
 
         // Allow 0.01% of error margin
         assertTrue(difference <= 10);
     }
 
-    function testFuzz_unlock_7(uint16 aprUD3, uint216 amount, uint32 unlockFeesRateUD3) public {
+    function testFuzz_unlock_7(uint16 aprUD7x3, uint216 amount, uint32 unlockFeesRateUD7x3) public {
         console.log("Should burn unlock fees (total supply should decrease by fees amount)");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
 
         // Ensure unlock fees rate never exceeds 100%
-        unlockFeesRateUD3 = uint32(bound(unlockFeesRateUD3, 0, UDS3.scaleUp(100)));
+        unlockFeesRateUD7x3 = uint32(bound(unlockFeesRateUD7x3, 0, AS3.scaleUp(100)));
 
         // Randomly set unlock fees rate
-        tested.setUnlockFeesRate(unlockFeesRateUD3);
+        tested.setUnlockFeesRate(unlockFeesRateUD7x3);
 
         // Simulate an initial stake
         deal(address(ldyToken), address(1234), amount, true);
@@ -696,11 +700,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(0);
     }
 
-    function testFuzz_stake_4(uint16 aprUD3, uint216 accountBalance, uint216 investedAmount) public {
+    function testFuzz_stake_4(uint16 aprUD7x3, uint216 accountBalance, uint216 investedAmount) public {
         console.log("Should revert if given amount is lower than account's $LDY balance");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap investedAmount to 100T
         investedAmount = uint216(
@@ -721,11 +725,11 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function test_stake_5(uint16 aprUD3, uint216 amount, uint256 duration) public {
+    function test_stake_5(uint16 aprUD7x3, uint216 amount, uint256 duration) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
         amount = uint216(bound(amount, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -750,11 +754,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function test_stake_6(uint16 aprUD3, uint216 amount) public {
+    function test_stake_6(uint16 aprUD7x3, uint216 amount) public {
         console.log("Should increase stake of account");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -772,11 +776,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.stakeOf(address(1234)), oldStake + amount);
     }
 
-    function test_stake_7(uint16 aprUD3, uint216 amount) public {
+    function test_stake_7(uint16 aprUD7x3, uint216 amount) public {
         console.log("Should increase total staked");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -794,11 +798,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalStaked(), oldTotalStaked + amount);
     }
 
-    function test_stake_8(uint16 aprUD3, uint216 amount) public {
+    function test_stake_8(uint16 aprUD7x3, uint216 amount) public {
         console.log("Should increase account's stake lock end");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -817,11 +821,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.lockEndOf(address(1234)), block.timestamp + lockEndIncrease);
     }
 
-    function test_stake_9(uint16 aprUD3, uint216 amount) public {
+    function test_stake_9(uint16 aprUD7x3, uint216 amount) public {
         console.log("Should transfer tokens from caller to contract");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
         amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -875,11 +879,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.unstake(0);
     }
 
-    function testFuzz_unstake_4(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_4(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should revert if given amount is lower than account's $LDY stake");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap withdrawnAmount to 100T
         withdrawnAmount = uint216(
@@ -901,11 +905,11 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_unstake_5(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_5(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should revert if stake is still locked");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -926,7 +930,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_unstake_6(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint216 withdrawnAmount,
         uint256 duration
@@ -934,7 +938,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should reset investment period of account");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -962,11 +966,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_unstake_7(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_7(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should decrease account stake of caller");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -995,11 +999,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.stakeOf(address(1234)), oldStake - withdrawnAmount);
     }
 
-    function testFuzz_unstake_8(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_8(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should decrease total staked amount");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -1028,11 +1032,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalStaked(), oldTotalStaked - withdrawnAmount);
     }
 
-    function test_unstake_9(uint16 aprUD3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function test_unstake_9(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
         console.log("Should transfer tokens from contract to caller");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
@@ -1087,11 +1091,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.claim();
     }
 
-    function testFuzz_claim_3(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_3(uint16 aprUD7x3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100B
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000)));
@@ -1126,11 +1130,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_claim_4(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_4(uint16 aprUD7x3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should revert when there is no rewards to claim");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1158,11 +1162,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.claim();
     }
 
-    function testFuzz_claim_5(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_5(uint16 aprUD7x3, uint216 accountStake, uint40 investmentDuration) public {
         console.log("Should reset account virtual balance");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1200,7 +1204,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_claim_6(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
@@ -1208,7 +1212,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert when rewards reserve doesn't hold enough tokens");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1249,7 +1253,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_claim_7(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
@@ -1257,7 +1261,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should decrease rewards reserve");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1296,7 +1300,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_claim_8(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
@@ -1304,7 +1308,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should transfer rewarded $LDY from contract to caller");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1372,11 +1376,15 @@ contract Tests is Test, ModifiersExpectations {
         tested.compound();
     }
 
-    function testFuzz_compound_3(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_compound_3(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint40 investmentDuration
+    ) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100B
         accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000)));
@@ -1411,11 +1419,15 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_compound_4(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_compound_4(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint40 investmentDuration
+    ) public {
         console.log("Should revert when there is no rewards to claim");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1443,11 +1455,15 @@ contract Tests is Test, ModifiersExpectations {
         tested.compound();
     }
 
-    function testFuzz_compound_5(uint16 aprUD3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_compound_5(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint40 investmentDuration
+    ) public {
         console.log("Should reset account virtual balance");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1485,7 +1501,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_compound_6(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
@@ -1493,7 +1509,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert when rewards reserve doesn't hold enough tokens");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1534,7 +1550,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_compound_7(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
@@ -1542,7 +1558,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should decrease rewards reserve");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1581,13 +1597,13 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_compound_8(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
     ) public {
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1630,13 +1646,13 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_compound_9(
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint216 accountStake,
         uint40 investmentDuration,
         uint216 rewardsReserve
     ) public {
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
         accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
@@ -1836,11 +1852,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.tierOf(account), 0);
     }
 
-    function testFuzz_tierOf_2(uint16 aprUD3, uint8 tier, uint216 tierAmount) public {
+    function testFuzz_tierOf_2(uint16 aprUD7x3, uint8 tier, uint216 tierAmount) public {
         console.log("Should return 0 tier x if account stake is exactly equal to tier x amount");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure tier is greater than 0
         vm.assume(tier > 0);
@@ -1862,11 +1878,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.tierOf(address(1234)), tier);
     }
 
-    function testFuzz_tierOf_3(uint16 aprUD3, uint8 tier, uint216 tierAmount) public {
+    function testFuzz_tierOf_3(uint16 aprUD7x3, uint8 tier, uint216 tierAmount) public {
         console.log("Should return 0 tier - 1 if account stake is right before tier x amount");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure tier is greater than 0
         vm.assume(tier > 0);
@@ -1888,11 +1904,15 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.tierOf(address(1234)), tier - 1);
     }
 
-    function testFuzz_tierOf_4(uint16 aprUD3, uint216 tier1Amount, uint216 accountStakedAmount) public {
+    function testFuzz_tierOf_4(
+        uint16 aprUD7x3,
+        uint216 tier1Amount,
+        uint216 accountStakedAmount
+    ) public {
         console.log("Should return 0 if account stake is lower than tier 1 amount");
 
         // Set first random APR
-        tested.setAPR(aprUD3);
+        tested.setAPR(aprUD7x3);
 
         // Ensure staked amount is greater than 0
         vm.assume(tier1Amount > 1);

@@ -17,7 +17,7 @@ contract Tests is Test {
         // Fill packs with 20 dummy packs
         for (uint256 i = 0; i < number; i++) {
             APRC.Pack memory pack = APRC.Pack({
-                aprsUD3: [uint16(i * 4 + 1), uint16(i * 4 + 2), uint16(i * 4 + 3), uint16(i * 4 + 4)],
+                aprsUD7x3: [uint16(i * 4 + 1), uint16(i * 4 + 2), uint16(i * 4 + 3), uint16(i * 4 + 4)],
                 timestamps: [uint40(i * 4 + 1), uint40(i * 4 + 2), uint40(i * 4 + 3), uint40(i * 4 + 4)],
                 cursor: 4
             });
@@ -128,7 +128,7 @@ contract Tests is Test {
 
         APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
         APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(packs, ref);
-        assertEq(checkpoint.aprUD3, packs[packIndex].aprsUD3[cursorIndex]);
+        assertEq(checkpoint.aprUD7x3, packs[packIndex].aprsUD7x3[cursorIndex]);
         assertEq(checkpoint.timestamp, packs[packIndex].timestamps[cursorIndex]);
     }
 
@@ -197,7 +197,7 @@ contract Tests is Test {
         APRC.Pack memory newPack = packs[packs.length - 1];
         assertEq(newPack.cursor, 0);
         for (uint256 i = 0; i <= 3; i++) {
-            assertEq(newPack.aprsUD3[i], 0);
+            assertEq(newPack.aprsUD7x3[i], 0);
         }
         for (uint256 i = 0; i <= 3; i++) {
             assertEq(newPack.timestamps[i], 0);
@@ -224,7 +224,7 @@ contract Tests is Test {
         APRC.setAPR(packs, 1234);
 
         APRC.Pack memory writtenPack = packs[packs.length - 1];
-        assertEq(writtenPack.aprsUD3[2], 1234);
+        assertEq(writtenPack.aprsUD7x3[2], 1234);
         assertEq(writtenPack.timestamps[2], block.timestamp);
     }
 
@@ -240,7 +240,7 @@ contract Tests is Test {
 
         assertEq(packs.length, oldLength + 1);
         APRC.Pack memory writtenPack = packs[packs.length - 1];
-        assertEq(writtenPack.aprsUD3[0], 1234);
+        assertEq(writtenPack.aprsUD7x3[0], 1234);
         assertEq(writtenPack.timestamps[0], block.timestamp);
     }
 
@@ -305,6 +305,6 @@ contract Tests is Test {
         APRC.Pack memory latestPack = packs[packs.length - 1];
         uint256 latestCursor = latestPack.cursor;
 
-        assertEq(apr, latestPack.aprsUD3[latestCursor - 1]);
+        assertEq(apr, latestPack.aprsUD7x3[latestCursor - 1]);
     }
 }

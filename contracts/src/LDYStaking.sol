@@ -4,7 +4,7 @@ pragma solidity ^0.8.18;
 // Contracts
 import "./abstracts/base/BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {UDS3} from "./libs/UDS3.sol";
+import {AS3} from "./libs/AS3.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 // Libraries & interfaces
@@ -24,7 +24,10 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
  * Design note: This contract considers that tiers start at 1, 0 is considered as not elligible
  * to any tier.
  *
- * For further details, see "LDYStaking" section of whitepaper.
+ * @dev WARNING: This contract assumes that the $LDY has 18 decimals and is not designed
+ * to work with other decimals numbers.
+ *
+ * @dev For further details, see "LDYStaking" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  * @custom:oz-upgrades-unsafe-allow external-library-linking
  */
@@ -41,11 +44,14 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         uint40 lockEnd; // Allows datetime up to 20/02/36812
     }
 
+    /// @dev Hundred in UD60x18 format
+    uint256 private constant HUNDRED_UD60x18 = 100 * 1e18;
+
     /// @dev Holds the time (in seconds) during which staked $LDY are locked
     uint40 public stakeLockDuration;
 
-    /// @dev Holds the fees rate (in UDS3 format) taxed when account requests prematurate unlock
-    uint32 public unlockFeesRateUD3;
+    /// @dev Holds the fees rate (in AS3 format) taxed when account requests prematurate unlock
+    uint32 public unlockFeesRateUD7x3;
 
     /// @dev Holds a mapping of account's stake infos
     mapping(address => AccountStake) private accountsStakes;
@@ -152,8 +158,10 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     }
 
     /**
-     * @dev Computes the increases of tier lock time for a given account extending
+     * @notice Computes the increases of tier lock time for a given account extending
      * its staking by a given "added amount".
+     * @dev AS3 is not used as precision loss on lock duration increase are acceptable.
+     * Not using it allows to save gas and make code less complex.
      * @param account The account to check the lock end increase of
      * @param addedAmount The amount of $LDY added by the account to its stake
      */
@@ -168,23 +176,16 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         if (accountStake.amount == 0) return stakeLockDuration;
 
         // Else, calculate the stake growth
-        uint256 addedAmountUDS3 = UDS3.scaleUp(addedAmount);
-        uint256 accountStakeUDS3 = UDS3.scaleUp(accountStake.amount);
-        uint256 growthRateUDS3 = (addedAmountUDS3 * _toUDS3(100)) / accountStakeUDS3;
+        uint256 growthRate = (addedAmount * HUNDRED_UD60x18) / accountStake.amount;
 
         // Then, calculate lock end increase proportionnally to amount growth
-        uint256 stakeLockDurationUDS3 = _toUDS3(stakeLockDuration);
-        uint256 lockEndIncreaseUDS3;
         // - If the lockEndIncrease is going to overflow (this helps supporting bigger growth rates)
-        if (growthRateUDS3 > type(uint256).max / stakeLockDurationUDS3) {
+        if (growthRate > type(uint40).max / stakeLockDuration) {
             // Set it to the maximum possible value
-            lockEndIncreaseUDS3 = type(uint256).max;
+            lockEndIncrease = type(uint40).max;
         }
         // - Else, compute the lockEndIncrease
-        else {
-            lockEndIncreaseUDS3 = (stakeLockDurationUDS3 * growthRateUDS3) / _toUDS3(100);
-        }
-        lockEndIncrease = uint40(_fromUDS3(lockEndIncreaseUDS3));
+        else lockEndIncrease = uint40((stakeLockDuration * growthRate) / HUNDRED_UD60x18);
 
         // Compute the remaining lock duration of the account
         // If the lock end is in the past, the remaining lock duration is 0
@@ -210,10 +211,10 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
 
     /**
      * @dev Setter for the prematurate unlock fees/tax rate. Restricted to owner.
-     * @param unlockFeesRateUD3_  The new unlock fees rate in UD3 format
+     * @param unlockFeesRateUD7x3_  The new unlock fees rate in UD7x3 format
      */
-    function setUnlockFeesRate(uint32 unlockFeesRateUD3_) public onlyOwner {
-        unlockFeesRateUD3 = unlockFeesRateUD3_;
+    function setUnlockFeesRate(uint32 unlockFeesRateUD7x3_) public onlyOwner {
+        unlockFeesRateUD7x3 = unlockFeesRateUD7x3_;
     }
 
     /**
@@ -241,7 +242,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
 
     /**
      * @dev Prematurely unlocks the stake of the caller against a fee rate defined
-     * by unlockFeesRateUD3. The entire fee is burned as a way to support the token's
+     * by unlockFeesRateUD7x3. The entire fee is burned as a way to support the token's
      * ecosystem.
      */
     function unlock() external whenNotPaused notBlacklisted(_msgSender()) {
@@ -255,10 +256,8 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         accountStake.lockEnd = uint40(block.timestamp);
 
         // Calculate unlock fees/tax
-        uint256 amountUDS3 = UDS3.scaleUp(accountStake.amount);
-        uint256 unlockFeesRateUDS3 = _toDecimals(unlockFeesRateUD3); // UD3 to UDS3
-        uint256 feesUDS3 = (amountUDS3 * unlockFeesRateUDS3) / _toUDS3(100);
-        uint256 fees = UDS3.scaleDown(feesUDS3);
+        uint256 unlockFeesRateUD60x18 = unlockFeesRateUD7x3 * 10 ** (18 - 3);
+        uint256 fees = (accountStake.amount * unlockFeesRateUD60x18) / HUNDRED_UD60x18;
 
         // Remove fees from the account stake
         accountStake.amount -= uint216(fees);

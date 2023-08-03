@@ -42,7 +42,7 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
       circleIntensity={0.07}
       className={twMerge(
         "flex flex-col justify-between items-center py-4 px-7 [&:hover_>_span:last-of-type]:opacity-100 [&:hover_>_span:first-of-type_>_span]:opacity-50",
-        className
+        className,
       )}
     >
       <h2 className="text-center text-lg font-medium text-indigo-900/80">Total profits</h2>
@@ -53,7 +53,7 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
       )) || (
         <>
           <span className="text-center text-4xl font-heavy font-heading text-emerald-500 transition-opacity">
-            <Rate value={totalGrowth * 100} prefix="+" isUD3={false} className="transition-opacity" />
+            <Rate value={totalGrowth * 100} prefix="+" isUD7x3={false} className="transition-opacity" />
           </span>
           <span className="text-center text-xl font-heavy font-heading text-emerald-500 opacity-50 transition-opacity">
             <span className="text-fg/20">(</span>

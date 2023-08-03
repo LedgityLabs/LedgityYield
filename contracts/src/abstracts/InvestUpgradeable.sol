@@ -12,7 +12,7 @@ import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ER
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
-import {UDS3} from "../libs/UDS3.sol";
+import {AS3} from "../libs/AS3.sol";
 import {RecoverableUpgradeable} from "../abstracts/RecoverableUpgradeable.sol";
 
 import "./base/BaseUpgradeable.sol";
@@ -74,9 +74,9 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
 
     /**
      * @dev Emitted to inform listeners about a change in the APR.
-     * @param newAPRUD3 The new APR in UD3 format.
+     * @param newAPRUD7x3 The new APR in UD7x3 format.
      */
-    event APRUpdateEvent(uint16 newAPRUD3);
+    event APRUpdateEvent(uint16 newAPRUD7x3);
 
     /**
      * @dev Initializer functions of the contract. They replace the constructor() function
@@ -111,16 +111,16 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
 
     /**
      * @dev Setter for the current APR. Restricted to owner.
-     * @param aprUD3 The new APR in UD3 format.
+     * @param aprUD7x3 The new APR in UD7x3 format.
      */
-    function setAPR(uint16 aprUD3) public onlyOwner {
-        APRC.setAPR(_packedAPRCheckpoints, aprUD3);
-        emit APRUpdateEvent(aprUD3);
+    function setAPR(uint16 aprUD7x3) public onlyOwner {
+        APRC.setAPR(_packedAPRCheckpoints, aprUD7x3);
+        emit APRUpdateEvent(aprUD7x3);
     }
 
     /**
      * @dev Extracts and returns the latest APR from the APR history.
-     * @return The current APR in UD3 format.
+     * @return The current APR in UD7x3 format.
      */
     function getAPR() public view returns (uint16) {
         return APRC.getAPR(_packedAPRCheckpoints);
@@ -218,71 +218,36 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     function _investmentOf(address account) internal view virtual returns (uint256);
 
     /**
-     * @dev Scales up a given number by the number of decimals of the invested token.
-     * @param n The number to scale up.
-     * @return The scaled up number.
-     */
-    function _toDecimals(uint256 n) internal view returns (uint256) {
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
-        return n * 10 ** decimals;
-    }
-
-    /**
-     * @dev Scales down a given number by the number of decimals of the invested token.
-     * @param n The number to scale down.
-     * @return The scaled down number.
-     */
-    function _fromDecimals(uint256 n) internal view returns (uint256) {
-        uint256 decimals = IERC20MetadataUpgradeable(address(invested())).decimals();
-        return n / 10 ** decimals;
-    }
-
-    /**
-     * @dev Scale up a given number to UDS3 (invested token decimals + 3 decimals).
-     * @param n The number to scale up.
-     * @return The scaled down number.
-     */
-    function _toUDS3(uint256 n) internal view returns (uint256) {
-        return UDS3.scaleUp(_toDecimals(n));
-    }
-
-    /**
-     * @dev Scale down a given number from UDS3 (invested token decimals + 3 decimals).
-     * @param nUDS3 The number to scale down.
-     * @return The scaled down number.
-     */
-    function _fromUDS3(uint256 nUDS3) internal view returns (uint256) {
-        return UDS3.scaleDown(_fromDecimals(nUDS3));
-    }
-
-    /**
      * @dev This function calculates the rewards generated during a given period of time,
      * considering a given deposited amount and the APR during this period.
      *
      * For further details, see "InvestUpgradeable > Rewards calculation" section of the whitepaper.
      * @param beginTimestamp The beginning of the period.
      * @param endTimestamp The end of the period.
-     * @param aprUD3 The APR of the period, in UD3 format.
+     * @param aprUD7x3 The APR of the period, in UD7x3 format.
      * @param investedAmount The amount deposited during the period.
      */
     function _calculatePeriodRewards(
         uint40 beginTimestamp,
         uint40 endTimestamp,
-        uint16 aprUD3,
+        uint16 aprUD7x3,
         uint256 investedAmount
     ) internal view returns (uint256 rewards) {
+        // Cache invested token decimals number
+        uint256 d = AS3.decimalsOf(address(invested()));
+
         // Calculate elapsed years
-        uint256 elaspedTimeUDS3 = _toUDS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsUDS3 = (elaspedTimeUDS3 * _toUDS3(1)) / _toUDS3(365 days);
+        uint256 elaspedTimeAS3 = AS3.fromInt(endTimestamp - beginTimestamp, d);
+        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * AS3.fromInt(1, d)) / AS3.fromInt(365 days, d);
 
         // Calculate deposited amount growth (thanks to rewards)
-        uint256 aprUDS3 = _toDecimals(aprUD3); // UD3 to UDS3
-        uint256 growthUDS3 = (elapsedYearsUDS3 * aprUDS3) / _toUDS3(1);
+        uint256 aprAS3 = AS3.fromRate(aprUD7x3, d);
+        uint256 growthAS3 = (elapsedYearsAS3 * aprAS3) / AS3.fromInt(1, d);
 
         // Calculate and return rewards
-        uint256 investedAmountUDS3 = UDS3.scaleUp(investedAmount);
-        uint256 rewardsUDS3 = (investedAmountUDS3 * growthUDS3) / _toUDS3(100);
-        rewards = UDS3.scaleDown(rewardsUDS3); // UDS3 to invested tokens decimals
+        uint256 investedAmountAS3 = AS3.fromAmount(investedAmount);
+        uint256 rewardsAS3 = (investedAmountAS3 * growthAS3) / AS3.fromInt(100, d);
+        rewards = AS3.toAmount(rewardsAS3);
     }
 
     /**
@@ -343,7 +308,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             rewards += _calculatePeriodRewards(
                 infos.period.timestamp,
                 nextCheckpoint.timestamp,
-                currCheckpoint.aprUD3,
+                currCheckpoint.aprUD7x3,
                 depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
 
@@ -366,7 +331,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
                 rewards += _calculatePeriodRewards(
                     currCheckpoint.timestamp,
                     nextCheckpoint.timestamp,
-                    currCheckpoint.aprUD3,
+                    currCheckpoint.aprUD7x3,
                     depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
                 );
             }
@@ -376,7 +341,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             rewards += _calculatePeriodRewards(
                 currCheckpoint.timestamp,
                 uint40(block.timestamp),
-                currCheckpoint.aprUD3,
+                currCheckpoint.aprUD7x3,
                 depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
         } else {
@@ -385,7 +350,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             rewards += _calculatePeriodRewards(
                 infos.period.timestamp,
                 uint40(block.timestamp),
-                currCheckpoint.aprUD3,
+                currCheckpoint.aprUD7x3,
                 depositedAmount + (autocompound ? rewards : 0) // Auto-compounding: past rewards generate new rewards
             );
         }

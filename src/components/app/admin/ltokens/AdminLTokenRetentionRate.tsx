@@ -1,6 +1,6 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useLTokenRetentionRateUd3, usePrepareLTokenSetRetentionRate } from "@/generated";
+import { useLTokenRetentionRateUd7x3, usePrepareLTokenSetRetentionRate } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -15,7 +15,7 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenId }) => {
   const underlyingTokenName = lTokenId.slice(1);
   const lTokenAddress = useContractAddress(lTokenId);
-  const { data: retentionRate } = useLTokenRetentionRateUd3({
+  const { data: retentionRate } = useLTokenRetentionRateUd7x3({
     address: lTokenAddress,
     watch: true,
   });

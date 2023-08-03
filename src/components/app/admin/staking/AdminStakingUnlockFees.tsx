@@ -1,6 +1,6 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useLdyStakingUnlockFeesRateUd3, usePrepareLdyStakingSetUnlockFeesRate } from "@/generated";
+import { useLdyStakingUnlockFeesRateUd7x3, usePrepareLdyStakingSetUnlockFeesRate } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
@@ -9,7 +9,7 @@ import { AdminBrick } from "../AdminBrick";
 export const AdminStakingUnlockFeesRate: FC<React.ComponentPropsWithRef<typeof Card>> = ({
   className,
 }) => {
-  const { data: unlockFeesRate } = useLdyStakingUnlockFeesRateUd3({
+  const { data: unlockFeesRate } = useLdyStakingUnlockFeesRateUd7x3({
     watch: true,
   });
   const [newUnlockFeesRate, setNewUnlockFeesRate] = useState(0);

@@ -1,7 +1,7 @@
 [
   {
     "anonymous": false,
-    "inputs": [{ "indexed": false, "internalType": "uint16", "name": "newAPRUD3", "type": "uint16" }],
+    "inputs": [{ "indexed": false, "internalType": "uint16", "name": "newAPRUD7x3", "type": "uint16" }],
     "name": "APRUpdateEvent",
     "type": "event"
   },
@@ -226,7 +226,7 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint16", "name": "aprUD3", "type": "uint16" }],
+    "inputs": [{ "internalType": "uint16", "name": "aprUD7x3", "type": "uint16" }],
     "name": "setAPR",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -250,7 +250,7 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint32", "name": "_unlockFeesRateUD3", "type": "uint32" }],
+    "inputs": [{ "internalType": "uint32", "name": "_unlockFeesRateUD7x3", "type": "uint32" }],
     "name": "setUnlockFeesRate",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -321,7 +321,7 @@
   { "inputs": [], "name": "unlock", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
   {
     "inputs": [],
-    "name": "unlockFeesRateUD3",
+    "name": "unlockFeesRateUD7x3",
     "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
     "stateMutability": "view",
     "type": "function"
