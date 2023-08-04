@@ -3,10 +3,20 @@ pragma solidity ^0.8.18;
 
 import "../../lib/forge-std/src/Test.sol";
 import {SUD} from "../../../src/libs/SUD.sol";
+import {GenericERC20} from "../../../src/GenericERC20.sol";
 
 contract Tests is Test {
     // =============================
     // === decimalsOf() function ===
+    function testFuzz_decimalsOf_1(uint8 decimals) public {
+        console.log("Should return decimals of input token");
+
+        // Deploy an ERC20 token with random amount of decimals
+        GenericERC20 token = new GenericERC20("Test", "TEST", decimals);
+
+        // Assert that the result is the token decimals
+        assertEq(SUD.decimalsOf(address(token)), decimals);
+    }
 
     // =============================
     // === fromAmount() function ===
