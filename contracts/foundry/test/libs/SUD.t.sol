@@ -20,7 +20,7 @@ contract Tests is Test {
 
     // =============================
     // === fromAmount() function ===
-    function testFuzz_fromAmount_1(uint8 decimals, uint256 n) public {
+    function testFuzz_fromAmount_1(uint8 decimals, uint256 nAmount) public {
         console.log("Should return UD71x6 if decimals <3 (non-overflow cases)");
 
         // Bound decimals to [0, 2]
@@ -29,14 +29,14 @@ contract Tests is Test {
         // Compute missing decimals to reach UD71x6
         uint256 missingDecimals = 6 - decimals;
 
-        // Bound n to non-overflow cases
-        n = bound(n, 0, type(uint256).max / 10 ** missingDecimals);
+        // Bound nAmount to non-overflow cases
+        nAmount = bound(nAmount, 0, type(uint256).max / 10 ** missingDecimals);
 
         // Assert that the result is input converted to UD71x6
-        assertEq(SUD.fromAmount(n, decimals), n * 10 ** missingDecimals);
+        assertEq(SUD.fromAmount(nAmount, decimals), nAmount * 10 ** missingDecimals);
     }
 
-    function testFuzz_fromAmount_2(uint8 decimals, uint256 n) public {
+    function testFuzz_fromAmount_2(uint8 decimals, uint256 nAmount) public {
         console.log("Should revert on overflow when decimals <3");
 
         // Bound decimals to [0, 2]
@@ -46,42 +46,42 @@ contract Tests is Test {
         uint256 missingDecimals = 6 - decimals;
 
         // Bound n to overflow cases
-        n = bound(n, type(uint256).max / 10 ** missingDecimals + 1, type(uint256).max);
+        nAmount = bound(nAmount, type(uint256).max / 10 ** missingDecimals + 1, type(uint256).max);
 
         // Assert that it reverts
         vm.expectRevert(stdError.arithmeticError);
-        SUD.fromAmount(n, decimals);
+        SUD.fromAmount(nAmount, decimals);
     }
 
-    function testFuzz_fromAmount_3(uint8 decimals, uint256 n) public {
+    function testFuzz_fromAmount_3(uint8 decimals, uint256 nAmount) public {
         console.log("Should return input times 10^3 if decimals >=3 (non-overflow cases)");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to non-overflow cases
-        n = bound(n, 0, type(uint256).max / 10 ** 3);
+        nAmount = bound(nAmount, 0, type(uint256).max / 10 ** 3);
 
-        assertEq(SUD.fromAmount(n, decimals), n * 10 ** 3);
+        assertEq(SUD.fromAmount(nAmount, decimals), nAmount * 10 ** 3);
     }
 
-    function testFuzz_fromAmount_4(uint8 decimals, uint256 n) public {
+    function testFuzz_fromAmount_4(uint8 decimals, uint256 nAmount) public {
         console.log("Should revert on overflow when decimals >=3");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to overflow cases
-        n = bound(n, type(uint256).max / 10 ** 3 + 1, type(uint256).max);
+        nAmount = bound(nAmount, type(uint256).max / 10 ** 3 + 1, type(uint256).max);
 
         // Assert that it reverts
         vm.expectRevert(stdError.arithmeticError);
-        SUD.fromAmount(n, decimals);
+        SUD.fromAmount(nAmount, decimals);
     }
 
     // ===========================
     // === toAmount() function ===
-    function testFuzz_toAmount_1(uint8 decimals, uint256 n) public {
+    function testFuzz_toAmount_1(uint8 decimals, uint256 nSUD) public {
         console.log("Should return convert an UD71x6 to amount if decimals <3 (non-underflow cases)");
 
         // Bound decimals to [0, 2]
@@ -91,13 +91,13 @@ contract Tests is Test {
         uint256 missingDecimals = 6 - decimals;
 
         // Bound n to non-underflow cases
-        n = bound(n, 10 ** missingDecimals, type(uint256).max);
+        nSUD = bound(nSUD, 10 ** missingDecimals, type(uint256).max);
 
         // Assert that the result is input converted to amount
-        assertEq(SUD.toAmount(n, decimals), n / 10 ** missingDecimals);
+        assertEq(SUD.toAmount(nSUD, decimals), nSUD / 10 ** missingDecimals);
     }
 
-    function testFuzz_toAmount_2(uint8 decimals, uint256 n) public {
+    function testFuzz_toAmount_2(uint8 decimals, uint256 nSUD) public {
         console.log("Shouldn't revert for underflow and return 0 instead, when decimals <3");
 
         // Bound decimals to [0, 2]
@@ -107,68 +107,68 @@ contract Tests is Test {
         uint256 missingDecimals = 6 - decimals;
 
         // Bound n to underflow cases
-        n = bound(n, 0, 10 ** missingDecimals - 1);
+        nSUD = bound(nSUD, 0, 10 ** missingDecimals - 1);
 
         // Assert output is 0
-        assertEq(SUD.toAmount(n, decimals), 0);
+        assertEq(SUD.toAmount(nSUD, decimals), 0);
     }
 
-    function testFuzz_toAmount_3(uint8 decimals, uint256 n) public {
+    function testFuzz_toAmount_3(uint8 decimals, uint256 nSUD) public {
         console.log("Should return input divided by 10^3 if decimals >=3 (non-underflow cases)");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to non-underflow cases
-        n = bound(n, 10 ** 3, type(uint256).max);
+        nSUD = bound(nSUD, 10 ** 3, type(uint256).max);
 
         // Assert the result is input divided by 10^3
-        assertEq(SUD.toAmount(n, decimals), n / 10 ** 3);
+        assertEq(SUD.toAmount(nSUD, decimals), nSUD / 10 ** 3);
     }
 
-    function testFuzz_toAmount_4(uint8 decimals, uint256 n) public {
+    function testFuzz_toAmount_4(uint8 decimals, uint256 nSUD) public {
         console.log("Shouldn't revert for underflow and return 0 instead, when decimals >=3");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to underflow cases
-        n = bound(n, 0, 10 ** 3 - 1);
+        nSUD = bound(nSUD, 0, 10 ** 3 - 1);
 
         // Assert output is 0
-        assertEq(SUD.toAmount(n, decimals), 0);
+        assertEq(SUD.toAmount(nSUD, decimals), 0);
     }
 
     // ===========================
     // === fromRate() function ===
-    function testFuzz_fromRate_1(uint8 decimals, uint256 n) public {
+    function testFuzz_fromRate_1(uint8 decimals, uint256 nUD7x3) public {
         console.log("Should return UD71x6 if decimals <3 (non-overflow cases)");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
 
         // Bound n to non-overflow cases
-        n = bound(n, 0, type(uint256).max / 10 ** 3);
+        nUD7x3 = bound(nUD7x3, 0, type(uint256).max / 10 ** 3);
 
         // Assert that the result is input converted to UD71x6
-        assertEq(SUD.fromRate(n, decimals), n * 10 ** 3);
+        assertEq(SUD.fromRate(nUD7x3, decimals), nUD7x3 * 10 ** 3);
     }
 
-    function testFuzz_fromRate_2(uint8 decimals, uint256 n) public {
+    function testFuzz_fromRate_2(uint8 decimals, uint256 nUD7x3) public {
         console.log("Should revert on overflow when decimals <3");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
 
         // Bound n to overflow cases
-        n = bound(n, type(uint256).max / 10 ** 3 + 1, type(uint256).max);
+        nUD7x3 = bound(nUD7x3, type(uint256).max / 10 ** 3 + 1, type(uint256).max);
 
         // Assert that it reverts
         vm.expectRevert(stdError.arithmeticError);
-        SUD.fromRate(n, decimals);
+        SUD.fromRate(nUD7x3, decimals);
     }
 
-    function testFuzz_fromRate_3(uint8 decimals, uint256 n) public {
+    function testFuzz_fromRate_3(uint8 decimals, uint256 nUD7x3) public {
         console.log(
             "Should scale input rate by token decimals number if decimals >=3 (non-overflow cases)"
         );
@@ -177,77 +177,77 @@ contract Tests is Test {
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to non-overflow cases
-        n = bound(n, 0, type(uint256).max / 10 ** decimals);
+        nUD7x3 = bound(nUD7x3, 0, type(uint256).max / 10 ** decimals);
 
-        assertEq(SUD.fromRate(n, decimals), n * 10 ** decimals);
+        assertEq(SUD.fromRate(nUD7x3, decimals), nUD7x3 * 10 ** decimals);
     }
 
-    function testFuzz_fromRate_4(uint8 decimals, uint256 n) public {
+    function testFuzz_fromRate_4(uint8 decimals, uint256 nUD7x3) public {
         console.log("Should revert on overflow when decimals >=3");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to overflow cases
-        n = bound(n, type(uint256).max / 10 ** decimals + 1, type(uint256).max);
+        nUD7x3 = bound(nUD7x3, type(uint256).max / 10 ** decimals + 1, type(uint256).max);
 
         // Assert that it reverts
         vm.expectRevert(stdError.arithmeticError);
-        SUD.fromRate(n, decimals);
+        SUD.fromRate(nUD7x3, decimals);
     }
 
     // =========================
     // === toRate() function ===
-    function testFuzz_toRate_1(uint8 decimals, uint256 n) public {
+    function testFuzz_toRate_1(uint8 decimals, uint256 nSUD) public {
         console.log("Should return convert an UD71x6 to rate if decimals <3 (non-underflow cases)");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
 
         // Bound n to non-underflow cases
-        n = bound(n, 10 ** 3, type(uint256).max);
+        nSUD = bound(nSUD, 10 ** 3, type(uint256).max);
 
         // Assert that the result is input converted to amount
-        assertEq(SUD.toRate(n, decimals), n / 10 ** 3);
+        assertEq(SUD.toRate(nSUD, decimals), nSUD / 10 ** 3);
     }
 
-    function testFuzz_toRate_2(uint8 decimals, uint256 n) public {
+    function testFuzz_toRate_2(uint8 decimals, uint256 nSUD) public {
         console.log("Shouldn't revert for underflow and return 0 instead, when decimals <3");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
 
         // Bound n to underflow cases
-        n = bound(n, 0, 10 ** 3 - 1);
+        nSUD = bound(nSUD, 0, 10 ** 3 - 1);
 
         // Assert output is 0
-        assertEq(SUD.toRate(n, decimals), 0);
+        assertEq(SUD.toRate(nSUD, decimals), 0);
     }
 
-    function testFuzz_toRate_3(uint8 decimals, uint256 n) public {
+    function testFuzz_toRate_3(uint8 decimals, uint256 nSUD) public {
         console.log("Should return input divided by 10^decimals if decimals >=3 (non-underflow cases)");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to non-underflow cases
-        n = bound(n, 10 ** decimals, type(uint256).max);
+        nSUD = bound(nSUD, 10 ** decimals, type(uint256).max);
 
         // Assert the result is input divided by 10^3
-        assertEq(SUD.toRate(n, decimals), n / 10 ** decimals);
+        assertEq(SUD.toRate(nSUD, decimals), nSUD / 10 ** decimals);
     }
 
-    function testFuzz_toRate_4(uint8 decimals, uint256 n) public {
+    function testFuzz_toRate_4(uint8 decimals, uint256 nSUD) public {
         console.log("Shouldn't revert for underflow and return 0 instead, when decimals >=3");
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
 
         // Bound n to underflow cases
-        n = bound(n, 0, 10 ** decimals - 1);
+        nSUD = bound(nSUD, 0, 10 ** decimals - 1);
 
         // Assert output is 0
-        assertEq(SUD.toRate(n, decimals), 0);
+        assertEq(SUD.toRate(nSUD, decimals), 0);
     }
 
     // ==========================
