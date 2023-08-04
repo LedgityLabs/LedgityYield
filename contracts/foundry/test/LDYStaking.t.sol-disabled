@@ -14,29 +14,10 @@ import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
 import {GenericERC20} from "../../src/GenericERC20.sol";
 
-import {AS3} from "../../src/libs/AS3.sol";
+import {SUD} from "../../src/libs/SUD.sol";
 import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
 
 contract TestedContract is LDYStaking {
-    /**
-     * @dev Make some useful InvestUpgradeable functions public to use them in tests
-     */
-    function public_toDecimals(uint256 n) public view returns (uint256) {
-        return _toDecimals(n);
-    }
-
-    function public_fromDecimals(uint256 n) public view returns (uint256) {
-        return _fromDecimals(n);
-    }
-
-    function public_toAS3(uint256 n) public view returns (uint256) {
-        return _toAS3(n);
-    }
-
-    function public_fromAS3(uint256 n) public view returns (uint256) {
-        return _fromAS3(n);
-    }
-
     function public_getLockDurationIncrease(
         address account,
         uint256 addedAmount
@@ -64,6 +45,9 @@ contract Tests is Test, ModifiersExpectations {
     GlobalBlacklist globalBlacklist;
     GenericERC20 ldyToken;
     GenericERC20 anotherToken;
+
+    // @dev 100T in UDX60x18 format
+    uint256 constant MAX_SUPPLY_UD60x18 = 75_000_000 * 10 ** 18;
 
     function setUp() public {
         // Deploy GlobalOwner
@@ -208,7 +192,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Bound fueled amount to [1, 1T]
-        fueledAmount = uint216(bound(fueledAmount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        fueledAmount = uint216(bound(fueledAmount, 1, MAX_SUPPLY_UD60x18));
 
         // Fuel random amount of $LDY to contract
         deal(address(ldyToken), address(this), fueledAmount, true);
@@ -216,7 +200,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.fuel(fueledAmount);
 
         // Bound staked amount to [1, 1T]
-        stakedAmount = uint216(bound(stakedAmount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        stakedAmount = uint216(bound(stakedAmount, 1, MAX_SUPPLY_UD60x18));
 
         // Stake random amount of $LDY to contract
         deal(address(ldyToken), address(1234), stakedAmount, true);
@@ -292,8 +276,8 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Exclude tiny amount increases and tiny initial amounts to prevent assertion failures because of precision loss.
-        amountIncreaseUD7x3 = bound(amountIncreaseUD7x3, AS3.scaleUp(1), AS3.scaleUp(100));
-        initialAmount = bound(initialAmount, 100, tested.public_toDecimals(100_000_000_000_000));
+        amountIncreaseUD7x3 = bound(amountIncreaseUD7x3, 1 * 10 ** 3, 100 * 10 ** 3);
+        initialAmount = bound(initialAmount, 100, MAX_SUPPLY_UD60x18);
 
         // Simulate an initial stake
         deal(address(ldyToken), address(1234), initialAmount, true);
@@ -306,15 +290,15 @@ contract Tests is Test, ModifiersExpectations {
         skip(tested.stakeLockDuration());
 
         // Compute added amount
-        uint256 amountIncreaseAS3 = tested.public_toDecimals(amountIncreaseUD7x3);
-        uint256 addedAmountAS3 = (AS3.scaleUp(initialAmount) * amountIncreaseAS3) /
-            tested.public_toAS3(100);
-        uint256 addedAmount = AS3.scaleDown(addedAmountAS3);
+        uint256 amountIncreaseSUD = SUD.fromRate(amountIncreaseUD7x3, 18);
+        uint256 addedAmountSUD = (SUD.fromAmount(initialAmount) * amountIncreaseSUD) /
+            SUD.fromInt(100, 18);
+        uint256 addedAmount = SUD.toAmount(addedAmountSUD);
 
         // Compute expected lock end increase
-        uint256 expectedLockEndIncreaseAS3 = (tested.public_toAS3(tested.stakeLockDuration()) *
-            amountIncreaseAS3) / tested.public_toAS3(100);
-        uint40 expectedLockEndIncrease = uint40(tested.public_fromAS3(expectedLockEndIncreaseAS3));
+        uint256 expectedLockEndIncreaseSUD = (SUD.fromInt(tested.stakeLockDuration(), 18) *
+            amountIncreaseSUD) / SUD.fromInt(100, 18);
+        uint40 expectedLockEndIncrease = uint40(SUD.toInt(expectedLockEndIncreaseSUD, 18));
 
         // Get lock duration increase
         uint40 lockEndIncrease = tested.public_getLockDurationIncrease(address(1234), addedAmount);
@@ -341,9 +325,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Exclude tiny initial amounts to prevent assertion failures because of precision loss.
-        initialAmount = uint216(
-            bound(initialAmount, 100, tested.public_toDecimals(100_000_000_000_000))
-        );
+        initialAmount = uint216(bound(initialAmount, 100, MAX_SUPPLY_UD60x18));
 
         // Ensure added amount is greater than initial amount
         addedAmount = uint216(
@@ -380,9 +362,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Exclude tiny initial amounts to prevent assertion failures because of precision loss.
-        initialAmount = uint216(
-            bound(initialAmount, 100, tested.public_toDecimals(100_000_000_000_000))
-        );
+        initialAmount = uint216(bound(initialAmount, 100, MAX_SUPPLY_UD60x18));
 
         // Ensure added amount is greater than initial amount
         addedAmount = uint216(
@@ -545,7 +525,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if lockEndOf() caller is in the past");
 
         // Bound amount to [1, 1T]
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 1, MAX_SUPPLY_UD60x18));
 
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -603,10 +583,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Exclude tiny amounts to prevent assertion failures because of precision loss.
-        amount = uint216(bound(amount, 10000, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 10000, MAX_SUPPLY_UD60x18));
 
         // Ensure unlock fees rate never exceeds 100%
-        unlockFeesRateUD7x3 = uint32(bound(unlockFeesRateUD7x3, 0, AS3.scaleUp(100)));
+        unlockFeesRateUD7x3 = uint32(bound(unlockFeesRateUD7x3, 0, 100 * 10 ** 3));
 
         // Randomly set unlock fees rate
         tested.setUnlockFeesRate(unlockFeesRateUD7x3);
@@ -622,9 +602,9 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Compute applied fees rate from before and after staking amounts
-        uint256 variationAS3 = AS3.scaleUp(amount - tested.stakeOf(address(1234)));
-        uint256 appliedFeesRateAS3 = (variationAS3 * tested.public_toAS3(100)) / AS3.scaleUp(amount);
-        uint32 appliedFeesRateUD7x3 = uint32(tested.public_fromDecimals(appliedFeesRateAS3));
+        uint256 variationSUD = SUD.fromAmount(amount - tested.stakeOf(address(1234)));
+        uint256 appliedFeesRateSUD = (variationSUD * SUD.fromInt(100, 18)) / SUD.fromAmount(amount);
+        uint32 appliedFeesRateUD7x3 = uint32(SUD.toRate(appliedFeesRateSUD, 18));
 
         // Assert that applied fees rate is equal to unlock fees rate
         uint256 difference = appliedFeesRateUD7x3 > unlockFeesRateUD7x3
@@ -642,10 +622,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure unlock fees rate never exceeds 100%
-        unlockFeesRateUD7x3 = uint32(bound(unlockFeesRateUD7x3, 0, AS3.scaleUp(100)));
+        unlockFeesRateUD7x3 = uint32(bound(unlockFeesRateUD7x3, 0, 100 * 10 ** 3));
 
         // Randomly set unlock fees rate
         tested.setUnlockFeesRate(unlockFeesRateUD7x3);
@@ -707,9 +687,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap investedAmount to 100T
-        investedAmount = uint216(
-            bound(investedAmount, 1, tested.public_toDecimals(100_000_000_000_000))
-        );
+        investedAmount = uint216(bound(investedAmount, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure account balance is lower than invested amount
         accountBalance = uint216(bound(accountBalance, 0, investedAmount - 1));
@@ -732,7 +710,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 2, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 2, MAX_SUPPLY_UD60x18));
 
         // Cap duration to 1000 years
         duration = bound(duration, 1, 1000 * 365 days);
@@ -761,7 +739,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 1, MAX_SUPPLY_UD60x18));
 
         // Store old account stake for later comparison
         uint256 oldStake = tested.stakeOf(address(1234));
@@ -783,7 +761,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 1, MAX_SUPPLY_UD60x18));
 
         // Store old total staked
         uint256 oldTotalStaked = tested.totalStaked();
@@ -805,7 +783,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 1, MAX_SUPPLY_UD60x18));
 
         // Store old lock end of account for later comparison
         uint256 lockEndIncrease = tested.public_getLockDurationIncrease(address(1234), amount);
@@ -828,7 +806,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap invested amount to 100T
-        amount = uint216(bound(amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        amount = uint216(bound(amount, 1, MAX_SUPPLY_UD60x18));
 
         // Mint random amount of $LDY to caller
         deal(address(ldyToken), address(1234), amount, true);
@@ -886,9 +864,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap withdrawnAmount to 100T
-        withdrawnAmount = uint216(
-            bound(withdrawnAmount, 2, tested.public_toDecimals(100_000_000_000_000))
-        );
+        withdrawnAmount = uint216(bound(withdrawnAmount, 2, MAX_SUPPLY_UD60x18));
 
         // Ensure account balance is lower than invested amount
         accountStake = uint216(bound(accountStake, 1, withdrawnAmount - 1));
@@ -912,7 +888,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure account balance is lower than invested amount
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
@@ -941,7 +917,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure duration is greater than stake lock duration and lower than 1000 years
         duration = bound(duration, tested.stakeLockDuration() + 1, 1000 * 365 days);
@@ -973,7 +949,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure account balance is lower than invested amount
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
@@ -1006,7 +982,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure account balance is lower than invested amount
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
@@ -1039,7 +1015,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Ensure account balance is lower than invested amount
         withdrawnAmount = uint216(bound(withdrawnAmount, 1, accountStake));
@@ -1098,7 +1074,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100B
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 0, type(uint40).max - block.timestamp));
@@ -1137,7 +1113,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1169,7 +1145,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1215,7 +1191,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1264,7 +1240,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1311,7 +1287,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1387,7 +1363,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100B
-        accountStake = uint216(bound(accountStake, 1, tested.public_toDecimals(100_000_000_000)));
+        accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 0, type(uint40).max - block.timestamp));
@@ -1430,7 +1406,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1466,7 +1442,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1512,7 +1488,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1561,7 +1537,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1606,7 +1582,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1655,7 +1631,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap accountStake to 100T
-        accountStake = uint216(bound(accountStake, 2, tested.public_toDecimals(100_000_000_000_000)));
+        accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
         investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
@@ -1748,7 +1724,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 nextTier = currTier + 1;
 
         // Bound current amount to [2, 100T]
-        currAmount = bound(currAmount, 2, tested.public_toDecimals(100_000_000_000_000));
+        currAmount = bound(currAmount, 2, MAX_SUPPLY_UD60x18);
 
         // Ensure next amount is lower than current amount
         nextAmount = bound(nextAmount, 1, currAmount - 1);
@@ -1771,7 +1747,7 @@ contract Tests is Test, ModifiersExpectations {
         uint8 prevTier = currTier - 1;
 
         // Bound prev amount amount to [2, 100T]
-        prevAmount = bound(currAmount, 2, tested.public_toDecimals(100_000_000_000_000));
+        prevAmount = bound(currAmount, 2, MAX_SUPPLY_UD60x18);
 
         // Ensure curren amount is lower than prev amount
         currAmount = bound(currAmount, 1, prevAmount - 1);

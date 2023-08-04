@@ -4,7 +4,7 @@ pragma solidity ^0.8.18;
 // Contracts
 import "./abstracts/base/BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {AS3} from "./libs/AS3.sol";
+import {SUD} from "./libs/SUD.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 // Libraries & interfaces
@@ -50,7 +50,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     /// @dev Holds the time (in seconds) during which staked $LDY are locked
     uint40 public stakeLockDuration;
 
-    /// @dev Holds the fees rate (in AS3 format) taxed when account requests prematurate unlock
+    /// @dev Holds the fees rate (in SUD format) taxed when account requests prematurate unlock
     uint32 public unlockFeesRateUD7x3;
 
     /// @dev Holds a mapping of account's stake infos
@@ -160,7 +160,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     /**
      * @notice Computes the increases of tier lock time for a given account extending
      * its staking by a given "added amount".
-     * @dev AS3 is not used as precision loss on lock duration increase are acceptable.
+     * @dev SUD is not used as precision loss on lock duration increase are acceptable.
      * Not using it allows to save gas and make code less complex.
      * @param account The account to check the lock end increase of
      * @param addedAmount The amount of $LDY added by the account to its stake

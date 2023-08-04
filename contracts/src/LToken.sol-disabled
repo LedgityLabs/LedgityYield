@@ -10,7 +10,7 @@ import {LDYStaking} from "./LDYStaking.sol";
 // Libraries & interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import {AS3} from "./libs/AS3.sol";
+import {SUD} from "./libs/SUD.sol";
 
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
@@ -54,6 +54,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         address account; // 20 bytes
         uint96 amount; // 12 bytes
     }
+
+    /// @dev Hard ceil cap on the retention rate
+    uint32 private constant MAX_RETENTION_RATE_UD7x3 = 10 * 10 ** 3; // 10%
 
     /// @dev Used in activity events to represent the absence of an ID.
     int256 private constant NO_ID = -1;
@@ -217,7 +220,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param retentionRateUD7x3_ The new retention rate in UD7x3 format
      */
     function setRetentionRate(uint32 retentionRateUD7x3_) public onlyOwner {
-        require(retentionRateUD7x3_ <= 10 * 10 ** 3, "L41");
+        require(retentionRateUD7x3_ <= MAX_RETENTION_RATE_UD7x3, "L41");
         retentionRateUD7x3 = retentionRateUD7x3_;
     }
 
@@ -455,13 +458,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      */
     function getExpectedRetained() public view returns (uint256 amount) {
         // Cache invested token decimals number
-        uint256 d = AS3.decimalsOf(address(invested()));
+        uint256 d = SUD.decimalsOf(address(invested()));
 
         // Compute expected retained amount
-        uint256 totalSupplyAS3 = AS3.fromAmount(totalSupply());
-        uint256 retentionRateAS3 = AS3.fromRate(retentionRateUD7x3, d);
-        uint256 expectedRetainedAS3 = (totalSupplyAS3 * retentionRateAS3) / AS3.fromInt(100, d);
-        return AS3.toAmount(expectedRetainedAS3);
+        uint256 totalSupplySUD = SUD.fromAmount(totalSupply());
+        uint256 retentionRateSUD = SUD.fromRate(retentionRateUD7x3, d);
+        uint256 expectedRetainedSUD = (totalSupplySUD * retentionRateSUD) / SUD.fromInt(100, d);
+        return SUD.toAmount(expectedRetainedSUD);
     }
 
     /**
@@ -541,13 +544,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         if (ldyStaking.tierOf(account) >= 2) return (amount, 0);
 
         // Cache invested token decimals number
-        uint256 d = AS3.decimalsOf(address(invested()));
+        uint256 d = SUD.decimalsOf(address(invested()));
 
         // Else calculate withdrawal fees as well as final withdrawn amount
-        uint256 amountAS3 = AS3.fromAmount(amount);
-        uint256 feesRateAS3 = AS3.fromRate(feesRateUD7x3, d);
-        uint256 feesAS3 = (amountAS3 * feesRateAS3) / AS3.fromInt(100, d);
-        fees = AS3.toAmount(feesAS3);
+        uint256 amountSUD = SUD.fromAmount(amount);
+        uint256 feesRateSUD = SUD.fromRate(feesRateUD7x3, d);
+        uint256 feesSUD = (amountSUD * feesRateSUD) / SUD.fromInt(100, d);
+        fees = SUD.toAmount(feesSUD);
         withdrawnAmount = amount - fees;
     }
 

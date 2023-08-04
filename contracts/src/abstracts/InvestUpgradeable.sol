@@ -12,7 +12,7 @@ import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ER
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
-import {AS3} from "../libs/AS3.sol";
+import {SUD} from "../libs/SUD.sol";
 import {RecoverableUpgradeable} from "../abstracts/RecoverableUpgradeable.sol";
 
 import "./base/BaseUpgradeable.sol";
@@ -234,20 +234,20 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         uint256 investedAmount
     ) internal view returns (uint256 rewards) {
         // Cache invested token decimals number
-        uint256 d = AS3.decimalsOf(address(invested()));
+        uint256 d = SUD.decimalsOf(address(invested()));
 
         // Calculate elapsed years
-        uint256 elaspedTimeAS3 = AS3.fromInt(endTimestamp - beginTimestamp, d);
-        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * AS3.fromInt(1, d)) / AS3.fromInt(365 days, d);
+        uint256 elaspedTimeSUD = SUD.fromInt(endTimestamp - beginTimestamp, d);
+        uint256 elapsedYearsSUD = (elaspedTimeSUD * SUD.fromInt(1, d)) / SUD.fromInt(365 days, d);
 
         // Calculate deposited amount growth (thanks to rewards)
-        uint256 aprAS3 = AS3.fromRate(aprUD7x3, d);
-        uint256 growthAS3 = (elapsedYearsAS3 * aprAS3) / AS3.fromInt(1, d);
+        uint256 aprSUD = SUD.fromRate(aprUD7x3, d);
+        uint256 growthSUD = (elapsedYearsSUD * aprSUD) / SUD.fromInt(1, d);
 
         // Calculate and return rewards
-        uint256 investedAmountAS3 = AS3.fromAmount(investedAmount);
-        uint256 rewardsAS3 = (investedAmountAS3 * growthAS3) / AS3.fromInt(100, d);
-        rewards = AS3.toAmount(rewardsAS3);
+        uint256 investedAmountSUD = SUD.fromAmount(investedAmount, d);
+        uint256 rewardsSUD = (investedAmountSUD * growthSUD) / SUD.fromInt(100, d);
+        rewards = SUD.toAmount(rewardsSUD, d);
     }
 
     /**

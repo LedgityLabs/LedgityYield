@@ -13,7 +13,7 @@ import {GlobalBlacklist} from "../../../src/GlobalBlacklist.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {GenericERC20} from "../../../src/GenericERC20.sol";
 
-import {AS3} from "../../../src/libs/AS3.sol";
+import {SUD} from "../../../src/libs/SUD.sol";
 import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
 
 contract TestedContract is InvestUpgradeable {
@@ -94,22 +94,6 @@ contract TestedContract is InvestUpgradeable {
 
     function public_distributeRewards(address account, uint256 amount) public returns (bool) {
         return _distributeRewards(account, amount);
-    }
-
-    function public_toDecimals(uint256 n) public view returns (uint256) {
-        return _toDecimals(n);
-    }
-
-    function public_fromDecimals(uint256 n) public view returns (uint256) {
-        return _fromDecimals(n);
-    }
-
-    function public_toAS3(uint256 n) public view returns (uint256) {
-        return _toAS3(n);
-    }
-
-    function public_fromAS3(uint256 n) public view returns (uint256) {
-        return _fromAS3(n);
     }
 
     function public_calculatePeriodRewards(
@@ -735,91 +719,7 @@ contract Tests is Test, ModifiersExpectations {
         assertFalse(tested.public_distributeRewards(account, amount));
     }
 
-    // ==============================
-    // === _toDecimals() function ===
-    function testFuzz__toDecimals_1(uint8 decimals, uint256 n) public {
-        console.log("Should return given number times 10^decimals when doesn't overflow");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        // Restrict n to non-overflowing values
-        n = bound(n, 0, type(uint256).max / (10 ** decimals));
-
-        assertEq(tested.public_toDecimals(n), n * 10 ** decimals);
-    }
-
-    function testFuzz__toDecimals_2(uint8 decimals, uint256 n) public {
-        console.log("Should properly overflow on big numbers");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        // Restrict n to overflowing values
-        n = bound(n, type(uint256).max / (10 ** decimals), type(uint256).max);
-        vm.assume(n > type(uint256).max / (10 ** decimals));
-
-        vm.expectRevert(stdError.arithmeticError);
-        tested.public_toDecimals(n);
-    }
-
-    // ================================
-    // === _fromDecimals() function ===
-    function testFuzz__fromDecimals_1(uint8 decimals, uint256 n) public {
-        console.log("Should return given number divided by 10^decimals and never revert");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        assertEq(tested.public_fromDecimals(n), n / 10 ** decimals);
-    }
-
-    // ==========================
-    // === _toAS3() function ===
-    function testFuzz__toAS3_1(uint8 decimals, uint256 n) public {
-        console.log("Should return given number times 10^decimals+3 when doesn't overflow");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        // Restrict n to non-overflowing values
-        n = bound(n, 0, type(uint256).max / 10 ** (decimals) / 10 ** 3);
-
-        assertEq(tested.public_toAS3(n), n * 10 ** (decimals + 3));
-    }
-
-    function testFuzz__toAS3_2(uint8 decimals, uint256 n) public {
-        console.log("Should properly overflow on big numbers");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        // Restrict n to overflowing values
-        n = bound(n, type(uint256).max / 10 ** decimals / 10 ** 3, type(uint256).max);
-        vm.assume(n > type(uint256).max / 10 ** decimals / 10 ** 3);
-
-        vm.expectRevert(stdError.arithmeticError);
-        tested.public_toAS3(n);
-    }
-
-    // ============================
-    // === _fromAS3() function ===
-    function testFuzz__fromAS3_1(uint8 decimals, uint256 n) public {
-        console.log("Should return given number divided by 10^decimals and never revert");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        assertEq(tested.public_fromAS3(n), n / 10 ** decimals / 10 ** 3);
-    }
-
-    // ================================
+    // ==========================================
     // === _calculatePeriodRewards() function ===
     function testFuzz__calculatePeriodRewards_1(
         uint8 decimals,
@@ -837,7 +737,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure beginTimestamp is before endTimestamp
         vm.assume(beginTimestamp < endTimestamp);
@@ -848,19 +748,21 @@ contract Tests is Test, ModifiersExpectations {
 
     function testFuzz__calculatePeriodRewards_2(
         uint8 decimals,
-        uint40 beginTimestamp,
-        uint40 endTimestamp,
         uint16 aprUD7x3,
-        uint256 investedAmount
+        uint256 investedAmount,
+        uint40 beginTimestamp,
+        uint40 endTimestamp
     ) public {
-        console.log("Should properly apply given APR");
+        console.log(
+            "Should, no matter the precision loss, never apply an APR greater than the real one"
+        );
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure beginTimestamp is before endTimestamp
         vm.assume(beginTimestamp < endTimestamp);
@@ -872,38 +774,110 @@ contract Tests is Test, ModifiersExpectations {
             aprUD7x3,
             investedAmount
         );
-        if (rewards == 0) return;
+
+        // Assert that rewards are greater than 0 (prevent division by 0)
+        vm.assume(rewards > 0);
 
         // Compute applied APR from rewards, elapsed time and invested amount
-        uint256 growthAS3 = (AS3.scaleUp(rewards) * tested.public_toAS3(1)) /
-            AS3.scaleUp(investedAmount);
+        // - Convert rewards and investedAmount to SUD
+        uint256 rewardsSUD = SUD.fromAmount(rewards, decimals);
+        uint256 investedAmountSUD = SUD.fromAmount(investedAmount, decimals);
 
-        uint256 elaspedTimeAS3 = tested.public_toAS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * tested.public_toAS3(1)) /
-            tested.public_toAS3(365 days);
+        // - Compute growth of investedAmount after rewards
+        uint256 growthSUD = (rewardsSUD * SUD.fromInt(100, decimals)) / investedAmountSUD;
 
-        uint256 appliedAPRAS3 = (growthAS3 * tested.public_toAS3(1)) / elapsedYearsAS3;
-        uint256 appliedAPRUD7x3 = tested.public_fromDecimals(appliedAPRAS3);
+        // - Compute elapsed time in years
+        uint256 elaspedTimeSUD = SUD.fromInt(endTimestamp - beginTimestamp, decimals);
+        uint256 elapsedYearsSUD = (elaspedTimeSUD * SUD.fromInt(1, decimals)) /
+            SUD.fromInt(365 days, decimals);
 
-        // Ensure applied APR is equal to given APR
-        if (AS3.scaleDown(appliedAPRUD7x3) != 0) assertEq(appliedAPRUD7x3, aprUD7x3);
+        // - Obtain applied APR from above values
+        uint256 appliedAPRSUD = (growthSUD * SUD.fromInt(1, decimals)) / elapsedYearsSUD;
+        uint256 appliedAPRUD7x3 = uint256(appliedAPRSUD) / 10 ** decimals;
+
+        // Ensure applied APR is not greated than real one
+        assertTrue(appliedAPRUD7x3 <= aprUD7x3);
     }
 
     function testFuzz__calculatePeriodRewards_3(
         uint8 decimals,
-        uint40 beginTimestamp,
-        uint40 endTimestamp,
         uint16 aprUD7x3,
-        uint256 investedAmount
+        uint256 investedAmount,
+        uint40 beginTimestamp,
+        uint40 endTimestamp
     ) public {
-        console.log("Should properly apply given period");
+        console.log("Should properly apply the given APR");
+
+        // Bound decimals to [0, 18] and set random invested token decimals
+        decimals = uint8(bound(decimals, 0, 18));
+        investedToken.setDecimals(decimals);
+
+        // Ensure APR is greater than 1%
+        aprUD7x3 = uint16(bound(aprUD7x3, 1 * 10 ** 3, type(uint16).max));
+
+        // Ensure invested amount is greater than 1000 units and caped to 100T
+        investedAmount = bound(
+            investedAmount,
+            1000 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
+        );
+
+        // Ensure beginTimestamp is before endTimestamp and is forward of at least 10 days
+        vm.assume(beginTimestamp < type(uint40).max - 10 days);
+        endTimestamp = uint40(bound(endTimestamp, beginTimestamp + 10 days, type(uint40).max));
+
+        // Get rewards
+        uint256 rewards = tested.public_calculatePeriodRewards(
+            beginTimestamp,
+            endTimestamp,
+            aprUD7x3,
+            investedAmount
+        );
+
+        // Assert that rewards are greater than 0 (prevent division by 0)
+        vm.assume(rewards > 0);
+
+        // Compute applied APR from rewards, elapsed time and invested amount
+        // - Convert rewards and investedAmount to SUD
+        uint256 rewardsSUD = SUD.fromAmount(rewards, decimals);
+        uint256 investedAmountSUD = SUD.fromAmount(investedAmount, decimals);
+
+        // - Compute growth of investedAmount after rewards
+        uint256 growthSUD = (rewardsSUD * SUD.fromInt(100, decimals)) / investedAmountSUD;
+
+        // - Compute elapsed time in years
+        uint256 elaspedTimeSUD = SUD.fromInt(endTimestamp - beginTimestamp, decimals);
+        uint256 elapsedYearsSUD = (elaspedTimeSUD * SUD.fromInt(1, decimals)) /
+            SUD.fromInt(365 days, decimals);
+
+        // - Obtain applied APR from above values
+        uint256 appliedAPRSUD = (growthSUD * SUD.fromInt(1, decimals)) / elapsedYearsSUD;
+        uint256 appliedAPRUD7x3 = uint256(appliedAPRSUD) / 10 ** decimals;
+
+        // Compute difference between given and applied APRs
+        uint256 difference = aprUD7x3 - appliedAPRUD7x3;
+
+        // Ensure difference is less than 0.01%
+        assertLe(difference, 10);
+    }
+
+    function testFuzz__calculatePeriodRewards_4(
+        uint8 decimals,
+        uint16 aprUD7x3,
+        uint256 investedAmount,
+        uint40 beginTimestamp,
+        uint40 endTimestamp
+    ) public {
+        console.log(
+            "Should, no matter the precision loss, never apply a given period greater than the real one"
+        );
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure beginTimestamp is before endTimestamp
         vm.assume(beginTimestamp < endTimestamp);
@@ -915,88 +889,107 @@ contract Tests is Test, ModifiersExpectations {
             aprUD7x3,
             investedAmount
         );
-        if (rewards == 0) return;
+
+        // Assert that rewards are greater than 0 (prevent division by 0)
+        vm.assume(rewards > 0);
 
         // Compute applied elapsed time from rewards, APR and invested amount
-        uint256 growthAS3 = (AS3.scaleUp(rewards) * tested.public_toAS3(1)) /
-            AS3.scaleUp(investedAmount);
+        // - Convert rewards, investedAmount and APR to SUD
+        uint256 rewardsSUD = SUD.fromAmount(rewards, decimals);
+        uint256 investedAmountSUD = SUD.fromAmount(investedAmount, decimals);
+        uint256 aprSUD = SUD.fromRate(aprUD7x3, decimals);
 
-        uint256 aprAS3 = tested.public_toAS3(aprUD7x3);
+        // - Compute growth of investedAmount after rewards
+        uint256 growthSUD = (rewardsSUD * SUD.fromInt(100, decimals)) / investedAmountSUD;
 
-        uint256 appliedElapsedTimeAS3 = (growthAS3 * tested.public_toAS3(1)) / aprAS3;
-        uint256 appliedElapsedTime = tested.public_fromAS3(appliedElapsedTimeAS3);
+        // - Obtain applied elapsed time from above values
+        uint256 appliedElapsedYearSUD = (growthSUD * SUD.fromInt(1, decimals)) / aprSUD;
+        uint256 appliedElapsedTimeSUD = (appliedElapsedYearSUD * SUD.fromInt(365 days, decimals)) /
+            SUD.fromInt(1, decimals);
+        uint256 appliedElapsedTime = SUD.toInt(appliedElapsedTimeSUD, decimals);
 
-        // Ensure applied elapsed time is equal to given elapsed time
-        if (appliedElapsedTime != 0) assertEq(appliedElapsedTime, endTimestamp - beginTimestamp);
-    }
-
-    /// forge-config: default.fuzz.runs = 1000
-    function testFuzz__calculatePeriodRewards_4(
-        uint8 decimals,
-        uint40 beginTimestamp,
-        uint40 endTimestamp,
-        uint16 aprUD7x3,
-        uint256 investedAmount
-    ) public {
-        console.log("Should properly apply given invested amount (when >5% APR and >365 days period)");
-
-        // Bound decimals to [0, 18] and set random invested token decimals
-        decimals = uint8(bound(decimals, 0, 18));
-        investedToken.setDecimals(decimals);
-
-        // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
-
-        // Ensure period is >365days and APR >5% to prevent failure because of precision loss
-        aprUD7x3 = uint16(bound(aprUD7x3, AS3.scaleUp(5), type(uint16).max));
-        beginTimestamp = uint40(bound(beginTimestamp, 0, type(uint40).max - 365 days));
-        endTimestamp = uint40(bound(endTimestamp, beginTimestamp + 365 days, type(uint40).max));
-
-        // Get rewards
-        uint256 rewards = tested.public_calculatePeriodRewards(
-            beginTimestamp,
-            endTimestamp,
-            aprUD7x3,
-            investedAmount
-        );
-        if (rewards == 0) return;
-
-        // Compute applied invested amount from rewards, APR and elapsed time
-        uint256 elaspedTimeAS3 = tested.public_toAS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * tested.public_toAS3(1)) /
-            tested.public_toAS3(365 days);
-
-        uint256 aprAS3 = tested.public_toDecimals(aprUD7x3); // UD7x3 to AS3
-        uint256 growthAS3 = (elapsedYearsAS3 * aprAS3) / tested.public_toAS3(1);
-
-        uint256 rewardsAS3 = AS3.scaleUp(rewards);
-        uint256 appliedInvestedAmountAS3 = (rewardsAS3 * tested.public_toAS3(100)) / growthAS3;
-        uint256 appliedInvestedAmount = AS3.scaleDown(appliedInvestedAmountAS3);
-
-        // Ensure applied invested amount is near to invested amount
-        if (appliedInvestedAmount != 0) {
-            uint256 difference = appliedInvestedAmount > investedAmount
-                ? appliedInvestedAmount - investedAmount
-                : investedAmount - appliedInvestedAmount;
-            assertTrue(difference <= tested.public_toDecimals(100));
-        }
+        // Ensure applied elapsed time is not greater than real one
+        assertLe(appliedElapsedTime, endTimestamp - beginTimestamp);
     }
 
     function testFuzz__calculatePeriodRewards_5(
         uint8 decimals,
-        uint40 beginTimestamp,
-        uint40 endTimestamp,
         uint16 aprUD7x3,
-        uint256 investedAmount
+        uint256 investedAmount,
+        uint40 beginTimestamp,
+        uint40 endTimestamp
     ) public {
-        console.log("Should properly apply given invested amount (other cases)");
+        console.log("Should properly apply the given period");
+
+        // Bound decimals to [0, 18] and set random invested token decimals
+        decimals = uint8(bound(decimals, 0, 18));
+        investedToken.setDecimals(decimals);
+
+        // Ensure APR is greater than 1%
+        aprUD7x3 = uint16(bound(aprUD7x3, 1 * 10 ** 3, type(uint16).max));
+
+        // Ensure invested amount is greater than 1000 units and caped to 100T
+        investedAmount = bound(
+            investedAmount,
+            1000 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
+        );
+
+        // Ensure beginTimestamp is before endTimestamp and is forward of at least 10 days
+        vm.assume(beginTimestamp < type(uint40).max - 100 days);
+        endTimestamp = uint40(bound(endTimestamp, beginTimestamp + 10 days, type(uint40).max));
+
+        // Get rewards
+        uint256 rewards = tested.public_calculatePeriodRewards(
+            beginTimestamp,
+            endTimestamp,
+            aprUD7x3,
+            investedAmount
+        );
+
+        // Assert that rewards are greater than 0 (prevent division by 0)
+        vm.assume(rewards > 0);
+
+        // Compute applied elapsed time from rewards, APR and invested amount
+        // - Convert rewards, investedAmount and APR to SUD
+        uint256 rewardsSUD = SUD.fromAmount(rewards, decimals);
+        uint256 investedAmountSUD = SUD.fromAmount(investedAmount, decimals);
+        uint256 aprSUD = SUD.fromRate(aprUD7x3, decimals);
+
+        // - Compute growth of investedAmount after rewards
+        uint256 growthSUD = (rewardsSUD * SUD.fromInt(100, decimals)) / investedAmountSUD;
+
+        // - Obtain applied elapsed time from above values
+        uint256 appliedElapsedYearSUD = (growthSUD * SUD.fromInt(1, decimals)) / aprSUD;
+        uint256 appliedElapsedTimeSUD = (appliedElapsedYearSUD * SUD.fromInt(365 days, decimals)) /
+            SUD.fromInt(1, decimals);
+        uint256 appliedElapsedTime = SUD.toInt(appliedElapsedTimeSUD, decimals);
+
+        // Compute difference between given and applied elapsed times
+        uint256 givenElapsedTime = endTimestamp - beginTimestamp;
+        uint256 difference = givenElapsedTime - appliedElapsedTime;
+
+        // Ensure that difference is less than 1 day
+        assertLe(difference, 1 days);
+    }
+
+    function testFuzz__calculatePeriodRewards_6(
+        uint8 decimals,
+        uint16 aprUD7x3,
+        uint256 investedAmount,
+        uint40 beginTimestamp,
+        uint40 endTimestamp
+    ) public {
+        console.log(
+            "Should, no matter the precision loss, never apply an invested amount greater than the real one"
+        );
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure beginTimestamp is before endTimestamp
         vm.assume(beginTimestamp < endTimestamp);
@@ -1008,24 +1001,91 @@ contract Tests is Test, ModifiersExpectations {
             aprUD7x3,
             investedAmount
         );
-        if (rewards == 0) return;
+
+        // Assert that rewards are greater than 0 (prevent division by 0)
+        vm.assume(rewards > 0);
 
         // Compute applied invested amount from rewards, APR and elapsed time
-        uint256 elaspedTimeAS3 = tested.public_toAS3(endTimestamp - beginTimestamp);
-        uint256 elapsedYearsAS3 = (elaspedTimeAS3 * tested.public_toAS3(1)) /
-            tested.public_toAS3(365 days);
+        // - Convert rewards, APR to SUD
+        uint256 aprSUD = SUD.fromRate(aprUD7x3, decimals);
+        uint256 rewardsSUD = SUD.fromAmount(rewards, decimals);
 
-        uint256 aprAS3 = tested.public_toDecimals(aprUD7x3); // UD7x3 to AS3
-        uint256 growthAS3 = (elapsedYearsAS3 * aprAS3) / tested.public_toAS3(1);
+        // - Compute elasped time in years
+        uint256 elaspedTimeSUD = SUD.fromInt(endTimestamp - beginTimestamp, decimals);
+        uint256 elapsedYearsSUD = (elaspedTimeSUD * SUD.fromInt(1, decimals)) /
+            SUD.fromInt(365 days, decimals);
 
-        uint256 rewardsAS3 = AS3.scaleUp(rewards);
-        uint256 appliedInvestedAmountAS3 = (rewardsAS3 * tested.public_toAS3(100)) / growthAS3;
-        uint256 appliedInvestedAmount = AS3.scaleDown(appliedInvestedAmountAS3);
+        // - Compute growth of investedAmount after rewards
+        uint256 growthSUD = (elapsedYearsSUD * aprSUD) / SUD.fromInt(1, decimals);
 
-        // Ensure applied invested amount is always smaller than real invested amount
-        if (appliedInvestedAmount != 0) {
-            assertTrue(appliedInvestedAmount <= investedAmount);
-        }
+        // - Obtain applied invested amount from above values
+        uint256 appliedInvestedAmountSUD = (rewardsSUD * SUD.fromInt(100, decimals)) / growthSUD;
+        uint256 appliedInvestedAmount = SUD.toAmount(appliedInvestedAmountSUD, decimals);
+
+        // Ensure applied invested amount is not greater than real one
+        assertLe(appliedInvestedAmount, investedAmount);
+    }
+
+    function testFuzz__calculatePeriodRewards_7(
+        uint8 decimals,
+        uint16 aprUD7x3,
+        uint256 investedAmount,
+        uint40 beginTimestamp,
+        uint40 endTimestamp
+    ) public {
+        console.log("Should properly apply an invested amount");
+
+        // Bound decimals to [0, 18] and set random invested token decimals
+        decimals = uint8(bound(decimals, 0, 18));
+        investedToken.setDecimals(decimals);
+
+        // Ensure APR is greater than 1%
+        aprUD7x3 = uint16(bound(aprUD7x3, 1 * 10 ** 3, type(uint16).max));
+
+        // Ensure invested amount is greater than 1000 units and caped to 100T
+        investedAmount = bound(
+            investedAmount,
+            1000 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
+        );
+
+        // Ensure beginTimestamp is before endTimestamp and is forward of at least 10 days
+        vm.assume(beginTimestamp < type(uint40).max - 10 days);
+        endTimestamp = uint40(bound(endTimestamp, beginTimestamp + 10 days, type(uint40).max));
+
+        // Get rewards
+        uint256 rewards = tested.public_calculatePeriodRewards(
+            beginTimestamp,
+            endTimestamp,
+            aprUD7x3,
+            investedAmount
+        );
+
+        // Assert that rewards are greater than 0 (prevent division by 0)
+        vm.assume(rewards > 0);
+
+        // Compute applied invested amount from rewards, APR and elapsed time
+        // - Convert rewards, APR to SUD
+        uint256 aprSUD = SUD.fromRate(aprUD7x3, decimals);
+        uint256 rewardsSUD = SUD.fromAmount(rewards, decimals);
+
+        // - Compute elasped time in years
+        uint256 elaspedTimeSUD = SUD.fromInt(endTimestamp - beginTimestamp, decimals);
+        uint256 elapsedYearsSUD = (elaspedTimeSUD * SUD.fromInt(1, decimals)) /
+            SUD.fromInt(365 days, decimals);
+
+        // - Compute growth of investedAmount after rewards
+        uint256 growthSUD = (elapsedYearsSUD * aprSUD) / SUD.fromInt(1, decimals);
+
+        // - Obtain applied invested amount from above values
+        uint256 appliedInvestedAmountSUD = (rewardsSUD * SUD.fromInt(100, decimals)) / growthSUD;
+        uint256 appliedInvestedAmount = SUD.toAmount(appliedInvestedAmountSUD, decimals);
+
+        // Compute difference between given and applied invested amounts
+        uint256 difference = investedAmount - appliedInvestedAmount;
+
+        // Ensure difference is less than 1 unit
+        assertLe(difference, 5 * 10 ** decimals);
     }
 
     // ====================================
@@ -1053,7 +1113,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account2 != account3);
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** investedToken.decimals());
 
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -1096,7 +1156,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account3 != address(0));
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** investedToken.decimals());
 
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -1179,7 +1239,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Set random APR
         tested.setAPR(aprUD7x3);
@@ -1222,7 +1282,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap interval between checkpoints to 365 days
         investmentDuration = uint40(bound(investmentDuration, 0, 365 days));
@@ -1304,7 +1364,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap interval between checkpoints to 365 days
         investmentDuration = uint40(bound(investmentDuration, 0, 365 days));
@@ -1417,7 +1477,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account2 != account3);
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** investedToken.decimals());
 
         // Invest random amount of tokens with 3 accounts
         // This will initialize their investment periods
@@ -1479,7 +1539,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account3 != address(0));
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** investedToken.decimals());
 
         // Invest random amount of tokens with 3 accounts
         // This will initialize their investment periods
@@ -1542,7 +1602,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap interval between checkpoints to 100 years
         investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
@@ -1583,7 +1643,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap interval between checkpoints to 100 years
         investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
@@ -1660,7 +1720,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account3 != address(0));
 
         // Cap investedAmount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Invest random amount of tokens with 3 accounts
         // This will initialize their investment periods
@@ -1729,7 +1789,7 @@ contract Tests is Test, ModifiersExpectations {
         investedToken.setDecimals(decimals);
 
         // Cap invested amount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap interval between checkpoints to 100 years
         investmentDuration = uint40(bound(investmentDuration, 0, 100 * 365 days));
@@ -1783,7 +1843,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(account3 != address(0));
 
         // Cap investedAmount to 100T
-        investedAmount = bound(investedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        investedAmount = bound(investedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Invest random amount of tokens with 3 accounts
         // This will initialize their investment periods

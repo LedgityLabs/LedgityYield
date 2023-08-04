@@ -3701,7 +3701,7 @@
       },
       {
         "type": "node",
-        "name": "growthRateAS3 = (addedAmountAS3 * _toAS3(100)) / accountStakeAS3",
+        "name": "growthRateSUD = (addedAmountSUD * _toSUD(100)) / accountStakeSUD",
         "source_mapping": {
           "start": 7096,
           "length": 76,
@@ -3782,7 +3782,7 @@
       },
       {
         "type": "node",
-        "name": "lockEndIncreaseAS3 = (stakeLockDurationAS3 * growthRateAS3) / _toAS3(100)",
+        "name": "lockEndIncreaseSUD = (stakeLockDurationSUD * growthRateSUD) / _toSUD(100)",
         "source_mapping": {
           "start": 7722,
           "length": 77,
@@ -3862,8 +3862,8 @@
         }
       }
     ],
-    "description": "LDYStaking._getLockDurationIncrease(address,uint256) (contracts/src/LDYStaking.sol#160-199) performs a multiplication on the result of a division:\n\t- growthRateAS3 = (addedAmountAS3 * _toAS3(100)) / accountStakeAS3 (contracts/src/LDYStaking.sol#173)\n\t- lockEndIncreaseAS3 = (stakeLockDurationAS3 * growthRateAS3) / _toAS3(100) (contracts/src/LDYStaking.sol#185)\n",
-    "markdown": "[LDYStaking._getLockDurationIncrease(address,uint256)](contracts/src/LDYStaking.sol#L160-L199) performs a multiplication on the result of a division:\n\t- [growthRateAS3 = (addedAmountAS3 * _toAS3(100)) / accountStakeAS3](contracts/src/LDYStaking.sol#L173)\n\t- [lockEndIncreaseAS3 = (stakeLockDurationAS3 * growthRateAS3) / _toAS3(100)](contracts/src/LDYStaking.sol#L185)\n",
+    "description": "LDYStaking._getLockDurationIncrease(address,uint256) (contracts/src/LDYStaking.sol#160-199) performs a multiplication on the result of a division:\n\t- growthRateSUD = (addedAmountSUD * _toSUD(100)) / accountStakeSUD (contracts/src/LDYStaking.sol#173)\n\t- lockEndIncreaseSUD = (stakeLockDurationSUD * growthRateSUD) / _toSUD(100) (contracts/src/LDYStaking.sol#185)\n",
+    "markdown": "[LDYStaking._getLockDurationIncrease(address,uint256)](contracts/src/LDYStaking.sol#L160-L199) performs a multiplication on the result of a division:\n\t- [growthRateSUD = (addedAmountSUD * _toSUD(100)) / accountStakeSUD](contracts/src/LDYStaking.sol#L173)\n\t- [lockEndIncreaseSUD = (stakeLockDurationSUD * growthRateSUD) / _toSUD(100)](contracts/src/LDYStaking.sol#L185)\n",
     "first_markdown_element": "contracts/src/LDYStaking.sol#L160-L199",
     "id": "8e5aa6e7c19012e6e8ad1543c95f00659c467da2e407efb5fa093f0dd777559c",
     "check": "divide-before-multiply",
@@ -3934,7 +3934,7 @@
       },
       {
         "type": "node",
-        "name": "elapsedYearsAS3 = (elaspedTimeAS3 * _toAS3(1)) / _toAS3(31536000)",
+        "name": "elapsedYearsSUD = (elaspedTimeSUD * _toSUD(1)) / _toSUD(31536000)",
         "source_mapping": {
           "start": 10819,
           "length": 77,
@@ -4013,7 +4013,7 @@
       },
       {
         "type": "node",
-        "name": "growthAS3 = (elapsedYearsAS3 * aprAS3) / _toAS3(1)",
+        "name": "growthSUD = (elapsedYearsSUD * aprSUD) / _toSUD(1)",
         "source_mapping": {
           "start": 11034,
           "length": 62,
@@ -4091,8 +4091,8 @@
         }
       }
     ],
-    "description": "InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256) (contracts/src/abstracts/InvestUpgradeable.sol#268-286) performs a multiplication on the result of a division:\n\t- elapsedYearsAS3 = (elaspedTimeAS3 * _toAS3(1)) / _toAS3(31536000) (contracts/src/abstracts/InvestUpgradeable.sol#276)\n\t- growthAS3 = (elapsedYearsAS3 * aprAS3) / _toAS3(1) (contracts/src/abstracts/InvestUpgradeable.sol#280)\n",
-    "markdown": "[InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256)](contracts/src/abstracts/InvestUpgradeable.sol#L268-L286) performs a multiplication on the result of a division:\n\t- [elapsedYearsAS3 = (elaspedTimeAS3 * _toAS3(1)) / _toAS3(31536000)](contracts/src/abstracts/InvestUpgradeable.sol#L276)\n\t- [growthAS3 = (elapsedYearsAS3 * aprAS3) / _toAS3(1)](contracts/src/abstracts/InvestUpgradeable.sol#L280)\n",
+    "description": "InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256) (contracts/src/abstracts/InvestUpgradeable.sol#268-286) performs a multiplication on the result of a division:\n\t- elapsedYearsSUD = (elaspedTimeSUD * _toSUD(1)) / _toSUD(31536000) (contracts/src/abstracts/InvestUpgradeable.sol#276)\n\t- growthSUD = (elapsedYearsSUD * aprSUD) / _toSUD(1) (contracts/src/abstracts/InvestUpgradeable.sol#280)\n",
+    "markdown": "[InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256)](contracts/src/abstracts/InvestUpgradeable.sol#L268-L286) performs a multiplication on the result of a division:\n\t- [elapsedYearsSUD = (elaspedTimeSUD * _toSUD(1)) / _toSUD(31536000)](contracts/src/abstracts/InvestUpgradeable.sol#L276)\n\t- [growthSUD = (elapsedYearsSUD * aprSUD) / _toSUD(1)](contracts/src/abstracts/InvestUpgradeable.sol#L280)\n",
     "first_markdown_element": "contracts/src/abstracts/InvestUpgradeable.sol#L268-L286",
     "id": "de9c660a978ad1ed964f186a2791f28e954df2ce5cff7ccbb8fff9371eb46e00",
     "check": "divide-before-multiply",
@@ -4163,7 +4163,7 @@
       },
       {
         "type": "node",
-        "name": "growthAS3 = (elapsedYearsAS3 * aprAS3) / _toAS3(1)",
+        "name": "growthSUD = (elapsedYearsSUD * aprSUD) / _toSUD(1)",
         "source_mapping": {
           "start": 11034,
           "length": 62,
@@ -4242,7 +4242,7 @@
       },
       {
         "type": "node",
-        "name": "rewardsAS3 = (investedAmountAS3 * growthAS3) / _toAS3(100)",
+        "name": "rewardsSUD = (investedAmountSUD * growthSUD) / _toSUD(100)",
         "source_mapping": {
           "start": 11214,
           "length": 70,
@@ -4320,8 +4320,8 @@
         }
       }
     ],
-    "description": "InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256) (contracts/src/abstracts/InvestUpgradeable.sol#268-286) performs a multiplication on the result of a division:\n\t- growthAS3 = (elapsedYearsAS3 * aprAS3) / _toAS3(1) (contracts/src/abstracts/InvestUpgradeable.sol#280)\n\t- rewardsAS3 = (investedAmountAS3 * growthAS3) / _toAS3(100) (contracts/src/abstracts/InvestUpgradeable.sol#284)\n",
-    "markdown": "[InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256)](contracts/src/abstracts/InvestUpgradeable.sol#L268-L286) performs a multiplication on the result of a division:\n\t- [growthAS3 = (elapsedYearsAS3 * aprAS3) / _toAS3(1)](contracts/src/abstracts/InvestUpgradeable.sol#L280)\n\t- [rewardsAS3 = (investedAmountAS3 * growthAS3) / _toAS3(100)](contracts/src/abstracts/InvestUpgradeable.sol#L284)\n",
+    "description": "InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256) (contracts/src/abstracts/InvestUpgradeable.sol#268-286) performs a multiplication on the result of a division:\n\t- growthSUD = (elapsedYearsSUD * aprSUD) / _toSUD(1) (contracts/src/abstracts/InvestUpgradeable.sol#280)\n\t- rewardsSUD = (investedAmountSUD * growthSUD) / _toSUD(100) (contracts/src/abstracts/InvestUpgradeable.sol#284)\n",
+    "markdown": "[InvestUpgradeable._calculatePeriodRewards(uint40,uint40,uint16,uint256)](contracts/src/abstracts/InvestUpgradeable.sol#L268-L286) performs a multiplication on the result of a division:\n\t- [growthSUD = (elapsedYearsSUD * aprSUD) / _toSUD(1)](contracts/src/abstracts/InvestUpgradeable.sol#L280)\n\t- [rewardsSUD = (investedAmountSUD * growthSUD) / _toSUD(100)](contracts/src/abstracts/InvestUpgradeable.sol#L284)\n",
     "first_markdown_element": "contracts/src/abstracts/InvestUpgradeable.sol#L268-L286",
     "id": "edd240cb67664555ec3320c4e3cd6a6a757f300b9150239aa95211540d9b3c2c",
     "check": "divide-before-multiply",
@@ -6277,7 +6277,7 @@
       },
       {
         "type": "node",
-        "name": "growthRateAS3 > type()(uint256).max / stakeLockDurationAS3",
+        "name": "growthRateSUD > type()(uint256).max / stakeLockDurationSUD",
         "source_mapping": {
           "start": 7471,
           "length": 58,
@@ -6519,8 +6519,8 @@
         }
       }
     ],
-    "description": "LDYStaking._getLockDurationIncrease(address,uint256) (contracts/src/LDYStaking.sol#160-199) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- accountStake.amount == 0 (contracts/src/LDYStaking.sol#168)\n\t- growthRateAS3 > type()(uint256).max / stakeLockDurationAS3 (contracts/src/LDYStaking.sol#179)\n\t- accountStake.lockEnd < uint40(block.timestamp) (contracts/src/LDYStaking.sol#191-193)\n\t- lockEndIncrease + remainingLockDuration > stakeLockDuration (contracts/src/LDYStaking.sol#196-198)\n",
-    "markdown": "[LDYStaking._getLockDurationIncrease(address,uint256)](contracts/src/LDYStaking.sol#L160-L199) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [accountStake.amount == 0](contracts/src/LDYStaking.sol#L168)\n\t- [growthRateAS3 > type()(uint256).max / stakeLockDurationAS3](contracts/src/LDYStaking.sol#L179)\n\t- [accountStake.lockEnd < uint40(block.timestamp)](contracts/src/LDYStaking.sol#L191-L193)\n\t- [lockEndIncrease + remainingLockDuration > stakeLockDuration](contracts/src/LDYStaking.sol#L196-L198)\n",
+    "description": "LDYStaking._getLockDurationIncrease(address,uint256) (contracts/src/LDYStaking.sol#160-199) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- accountStake.amount == 0 (contracts/src/LDYStaking.sol#168)\n\t- growthRateSUD > type()(uint256).max / stakeLockDurationSUD (contracts/src/LDYStaking.sol#179)\n\t- accountStake.lockEnd < uint40(block.timestamp) (contracts/src/LDYStaking.sol#191-193)\n\t- lockEndIncrease + remainingLockDuration > stakeLockDuration (contracts/src/LDYStaking.sol#196-198)\n",
+    "markdown": "[LDYStaking._getLockDurationIncrease(address,uint256)](contracts/src/LDYStaking.sol#L160-L199) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [accountStake.amount == 0](contracts/src/LDYStaking.sol#L168)\n\t- [growthRateSUD > type()(uint256).max / stakeLockDurationSUD](contracts/src/LDYStaking.sol#L179)\n\t- [accountStake.lockEnd < uint40(block.timestamp)](contracts/src/LDYStaking.sol#L191-L193)\n\t- [lockEndIncrease + remainingLockDuration > stakeLockDuration](contracts/src/LDYStaking.sol#L196-L198)\n",
     "first_markdown_element": "contracts/src/LDYStaking.sol#L160-L199",
     "id": "3acfd4364fef3684d7c8c27bf46f01211e5282f13bb820926d419cf0f9395c00",
     "check": "timestamp",
@@ -12344,7 +12344,7 @@
       },
       {
         "type": "variable",
-        "name": "unlockFeesRateAS3",
+        "name": "unlockFeesRateSUD",
         "source_mapping": {
           "start": 10672,
           "length": 59,
@@ -12423,8 +12423,8 @@
         }
       }
     ],
-    "description": "Variable LDYStaking.setUnlockFeesRate(uint32).unlockFeesRateUD7x3_ (contracts/src/LDYStaking.sol#215) is too similar to LDYStaking.unlock().unlockFeesRateAS3 (contracts/src/LDYStaking.sol#257)\n",
-    "markdown": "Variable [LDYStaking.setUnlockFeesRate(uint32).unlockFeesRateUD7x3_](contracts/src/LDYStaking.sol#L215) is too similar to [LDYStaking.unlock().unlockFeesRateAS3](contracts/src/LDYStaking.sol#L257)\n",
+    "description": "Variable LDYStaking.setUnlockFeesRate(uint32).unlockFeesRateUD7x3_ (contracts/src/LDYStaking.sol#215) is too similar to LDYStaking.unlock().unlockFeesRateSUD (contracts/src/LDYStaking.sol#257)\n",
+    "markdown": "Variable [LDYStaking.setUnlockFeesRate(uint32).unlockFeesRateUD7x3_](contracts/src/LDYStaking.sol#L215) is too similar to [LDYStaking.unlock().unlockFeesRateSUD](contracts/src/LDYStaking.sol#L257)\n",
     "first_markdown_element": "contracts/src/LDYStaking.sol#L215",
     "id": "1ee9e89393d764a44602f5032ba013f16dfc65ee6a4da023f339b417b8e59e64",
     "check": "similar-names",
@@ -12536,7 +12536,7 @@
       },
       {
         "type": "variable",
-        "name": "feesRateAS3",
+        "name": "feesRateSUD",
         "source_mapping": {
           "start": 21665,
           "length": 47,
@@ -12636,8 +12636,8 @@
         }
       }
     ],
-    "description": "Variable LToken.setFeesRate(uint32).feesRateUD7x3_ (contracts/src/LToken.sol#208) is too similar to LToken.getWithdrawnAmountAndFees(address,uint256).feesRateAS3 (contracts/src/LToken.sol#541)\n",
-    "markdown": "Variable [LToken.setFeesRate(uint32).feesRateUD7x3_](contracts/src/LToken.sol#L208) is too similar to [LToken.getWithdrawnAmountAndFees(address,uint256).feesRateAS3](contracts/src/LToken.sol#L541)\n",
+    "description": "Variable LToken.setFeesRate(uint32).feesRateUD7x3_ (contracts/src/LToken.sol#208) is too similar to LToken.getWithdrawnAmountAndFees(address,uint256).feesRateSUD (contracts/src/LToken.sol#541)\n",
+    "markdown": "Variable [LToken.setFeesRate(uint32).feesRateUD7x3_](contracts/src/LToken.sol#L208) is too similar to [LToken.getWithdrawnAmountAndFees(address,uint256).feesRateSUD](contracts/src/LToken.sol#L541)\n",
     "first_markdown_element": "contracts/src/LToken.sol#L208",
     "id": "0bc263268cae7eb8a9cd709439a1f79930eab1e6b3e87629df9fbf58af54069b",
     "check": "similar-names",
@@ -12749,7 +12749,7 @@
       },
       {
         "type": "variable",
-        "name": "retentionRateAS3",
+        "name": "retentionRateSUD",
         "source_mapping": {
           "start": 18110,
           "length": 57,
@@ -12849,8 +12849,8 @@
         }
       }
     ],
-    "description": "Variable LToken.setRetentionRate(uint32).retentionRateUD7x3_ (contracts/src/LToken.sol#219) is too similar to LToken.getExpectedRetained().retentionRateAS3 (contracts/src/LToken.sol#458)\n",
-    "markdown": "Variable [LToken.setRetentionRate(uint32).retentionRateUD7x3_](contracts/src/LToken.sol#L219) is too similar to [LToken.getExpectedRetained().retentionRateAS3](contracts/src/LToken.sol#L458)\n",
+    "description": "Variable LToken.setRetentionRate(uint32).retentionRateUD7x3_ (contracts/src/LToken.sol#219) is too similar to LToken.getExpectedRetained().retentionRateSUD (contracts/src/LToken.sol#458)\n",
+    "markdown": "Variable [LToken.setRetentionRate(uint32).retentionRateUD7x3_](contracts/src/LToken.sol#L219) is too similar to [LToken.getExpectedRetained().retentionRateSUD](contracts/src/LToken.sol#L458)\n",
     "first_markdown_element": "contracts/src/LToken.sol#L219",
     "id": "d3ff7ac0ce4a0ffd372a3c4db5e6f58005891819bac9a91fe3a325cb93c5e8a7",
     "check": "similar-names",

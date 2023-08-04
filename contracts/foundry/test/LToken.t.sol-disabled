@@ -16,7 +16,7 @@ import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
 import {GenericERC20} from "../../src/GenericERC20.sol";
 
-import {AS3} from "../../src/libs/AS3.sol";
+import {SUD} from "../../src/libs/SUD.sol";
 import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
 import {ITransfersListener} from "../../src/interfaces/ITransfersListener.sol";
 
@@ -91,22 +91,6 @@ contract TestedContract is LToken {
     /**
      * @dev Make some useful InvestUpgradeable functions public to use them in tests
      */
-    function public_toDecimals(uint256 n) public view returns (uint256) {
-        return _toDecimals(n);
-    }
-
-    function public_fromDecimals(uint256 n) public view returns (uint256) {
-        return _fromDecimals(n);
-    }
-
-    function public_toAS3(uint256 n) public view returns (uint256) {
-        return _toAS3(n);
-    }
-
-    function public_fromAS3(uint256 n) public view returns (uint256) {
-        return _fromAS3(n);
-    }
-
     function public_accountsInfos(address account) public view returns (AccountInfos memory) {
         return accountsInfos[account];
     }
@@ -363,7 +347,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if trying to set retention rate higher than 10%");
 
         // Ensure the retention rate is >10%
-        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, AS3.scaleUp(10) + 1, type(uint32).max));
+        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, 10 * 10 ** 3 + 1, type(uint32).max));
 
         // Expect revert
         vm.expectRevert(bytes("L41"));
@@ -374,7 +358,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should change value of retentionRateUD7x3 else");
 
         // Ensure the retention rate is <10%
-        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         tested.setRetentionRate(_retentionRateUD7x3);
         assertEq(tested.retentionRateUD7x3(), _retentionRateUD7x3);
@@ -606,7 +590,7 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Assert the balance is currently 0
         assertEq(tested.balanceOf(address(1234)), 0);
@@ -631,7 +615,7 @@ contract Tests is Test, ModifiersExpectations {
         underlyingToken.setDecimals(decimals);
 
         // Cap amount to 100T
-        depositedAmount = bound(depositedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap duration to 1000 years
         duration = bound(duration, 0, 1000 * 365 days);
@@ -710,13 +694,13 @@ contract Tests is Test, ModifiersExpectations {
         tested.setFeesRate(0);
 
         // Cap deposited amount to 100T
-        depositedAmount = bound(depositedAmount, 0, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure the withdrawn amount is never higher than the deposited amount
         vm.assume(withdrawnAmount <= depositedAmount);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Assert total supply is currently 0
         assertEq(tested.totalSupply(), 0);
@@ -768,7 +752,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap deposited amount to 100T
-        amount = bound(amount, 1, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Accidentally send some L-Tokens to L-Token contract itself
         deal(address(underlyingToken), address(1234), amount, true);
@@ -838,12 +822,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(300)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Bound deposited amount to [2, 1T]
-        depositedAmount = uint216(
-            bound(depositedAmount, 2, tested.public_toDecimals(100_000_000_000_000))
-        );
+        depositedAmount = uint216(bound(depositedAmount, 2, 100_000_000_000_000 * 10 ** decimals));
 
         // Mint some underlying tokens to account and deposit them
         deal(address(underlyingToken), address(1234), depositedAmount, true);
@@ -922,7 +904,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** underlyingToken.decimals());
 
         // Ensure account is not the zero address
         vm.assume(account != address(0));
@@ -988,7 +970,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap amount to 100T
-        amount = bound(amount, 0, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 0, 100_000_000_000_000 * 10 ** decimals);
 
         // Cap duration to 1000 years
         duration = bound(duration, 0, 1000 * 365 days);
@@ -1031,7 +1013,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.listenToTransfers(address(vault2));
 
         // Cap amount to [2, 100T]
-        amount = bound(amount, 2, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 2, 100_000_000_000_000 * 10 ** underlyingToken.decimals());
 
         // Give some L-Tokens to account1
         deal(address(underlyingToken), account1, amount, true);
@@ -1107,7 +1089,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         // Set retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -1117,8 +1099,8 @@ contract Tests is Test, ModifiersExpectations {
         // +10000 is used to prevent assertion revert with small decimals values
         totalSupply = bound(
             totalSupply,
-            tested.public_toDecimals(1) + 10000,
-            tested.public_toDecimals(100_000_000_000_000)
+            1 * 10 ** decimals + 10000,
+            100_000_000_000_000 * 10 ** decimals
         );
 
         // Apply total supply by depositing same amount of underlying tokens
@@ -1135,10 +1117,10 @@ contract Tests is Test, ModifiersExpectations {
         uint256 expectedRetained = tested.getExpectedRetained();
 
         // Obtain retention rate from total supply and expected retained
-        uint256 totalSupplyAS3 = AS3.scaleUp(totalSupply);
-        uint256 expectedRetainedAS3 = AS3.scaleUp(expectedRetained);
-        uint256 retentionRateAS3 = (expectedRetainedAS3 * tested.public_toAS3(100)) / totalSupplyAS3;
-        uint256 expectedRetentionRateUD7x3 = tested.public_fromDecimals(retentionRateAS3);
+        uint256 totalSupplySUD = SUD.fromAmount(totalSupply);
+        uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained);
+        uint256 retentionRateSUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) / totalSupplySUD;
+        uint256 expectedRetentionRateUD7x3 = SUD.toRate(retentionRateSUD, decimals);
 
         // Compute difference between expected retention rate and actual retention rate
         uint256 difference = expectedRetentionRateUD7x3 > retentionRateUD7x3
@@ -1165,18 +1147,14 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, 10 * 10 ** 3));
 
         // Set retention rate
         tested.setRetentionRate(retentionRateUD7x3);
 
-        // Cap totalSupply to 1000T
+        // Cap totalSupply to 100T
         // Make it >1 to prevent assertion revert because of precision loss on small numbers
-        totalSupply = bound(
-            totalSupply,
-            tested.public_toDecimals(1),
-            tested.public_toDecimals(1000_000_000_000_000)
-        );
+        totalSupply = bound(totalSupply, 1 * 10 ** decimals, 100_000_000_000_000 * 10 ** decimals);
 
         // Apply total supply by depositing same amount of underlying tokens
         deal(address(underlyingToken), address(1234), totalSupply, true);
@@ -1192,10 +1170,10 @@ contract Tests is Test, ModifiersExpectations {
         uint256 expectedRetained = tested.getExpectedRetained();
 
         // Obtain expected total supply from retention rate and expected retained
-        uint256 retentionRateAS3 = tested.public_toDecimals(retentionRateUD7x3);
-        uint256 expectedRetainedAS3 = AS3.scaleUp(expectedRetained);
-        uint256 totalSupplyAS3 = (expectedRetainedAS3 * tested.public_toAS3(100)) / retentionRateAS3;
-        uint256 expectedTotalSupply = AS3.scaleDown(totalSupplyAS3);
+        uint256 retentionRateSUD = SUD.fromRate(retentionRateUD7x3, decimals);
+        uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained);
+        uint256 totalSupplySUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) / retentionRateSUD;
+        uint256 expectedTotalSupply = SUD.toAmount(totalSupplySUD);
 
         // Compute difference between expected retention rate and actual retention rate
         uint256 difference = expectedTotalSupply > totalSupply
@@ -1204,7 +1182,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Assert that the difference is lower than 1 unit
         // +100000 is used to prevent assertion revert with small decimals values
-        assertTrue(difference <= tested.public_toDecimals(1) + 100000);
+        assertTrue(difference <= 1 * 10 ** decimals + 100000);
     }
 
     // ===========================================
@@ -1225,7 +1203,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, 10 * 10 ** 3));
 
         // Set retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -1233,8 +1211,8 @@ contract Tests is Test, ModifiersExpectations {
         // Cap totalSupply to 1000T and make it >1 to prevent assertion revert because of precision loss on small numbers
         depositedAmount = bound(
             depositedAmount,
-            tested.public_toDecimals(1),
-            tested.public_toDecimals(1000_000_000_000_000)
+            1 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
         );
 
         // Deposit underlying token amount
@@ -1272,7 +1250,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, 10 * 10 ** 3));
 
         // Set retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -1281,8 +1259,8 @@ contract Tests is Test, ModifiersExpectations {
         // 12k is used instead of 10k to prevent assertion revert because of precision loss on small numbers
         depositedAmount = bound(
             depositedAmount,
-            tested.public_toDecimals(12000),
-            tested.public_toDecimals(1000_000_000_000_000)
+            12_000 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
         );
 
         // Deposit underlying token amount
@@ -1315,7 +1293,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Ensure the retention rate is >0 and <=10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 1, 10 * 10 ** 3));
 
         // Set retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -1324,8 +1302,8 @@ contract Tests is Test, ModifiersExpectations {
         // 12k is used instead of 10k to prevent assertion revert because of precision loss on small numbers
         depositedAmount = bound(
             depositedAmount,
-            tested.public_toDecimals(12000),
-            tested.public_toDecimals(1000_000_000_000_000)
+            12_000 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
         );
 
         // Deposit underlying token amount
@@ -1401,7 +1379,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 2, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 2, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure account balance is lower than deposited amount
         accountBalance = bound(accountBalance, 1, depositedAmount - 1);
@@ -1439,10 +1417,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Mint underlying tokens to account
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -1484,10 +1462,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Mint underlying tokens to account
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -1527,10 +1505,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Mint underlying tokens to account
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -1569,7 +1547,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Bound retention rate to [0, 10%]
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         // Set random retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -1578,8 +1556,8 @@ contract Tests is Test, ModifiersExpectations {
         // 12k is used instead of 10k to prevent assertion revert because of precision loss on small numbers
         depositedAmount = bound(
             depositedAmount,
-            tested.public_toDecimals(12000),
-            tested.public_toDecimals(1000_000_000_000_000)
+            12_000 * 10 ** decimals,
+            100_000_000_000_000 * 10 ** decimals
         );
 
         // Deposit underlying tokens
@@ -1620,13 +1598,13 @@ contract Tests is Test, ModifiersExpectations {
         ldyStaking.setAPR(aprUD7x3);
 
         // Cap fees rate to 100%
-        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, AS3.scaleUp(100)));
+        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
 
         // Cap tier2Amount to 100T
-        tier2Amount = uint216(bound(tier2Amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        tier2Amount = uint216(bound(tier2Amount, 1, 100_000_000_000_000 * 10 ** decimals));
 
         // Set random tier 2 amount
         ldyStaking.setTier(2, tier2Amount);
@@ -1669,13 +1647,13 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap fees rate to 100%
-        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, AS3.scaleUp(100)));
+        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount to 100T
-        amount = bound(amount, 1, tested.public_toDecimals(100_000_000_000_000));
+        amount = bound(amount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Get withdraw amount and fees
         (uint256 withdrawnAmount, uint256 fees) = tested.getWithdrawnAmountAndFees(account, amount);
@@ -1705,25 +1683,22 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap fees rate to 100% and to a minimum of 0.1% to prevent below assertion revert because of precision loss
-        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 100, AS3.scaleUp(100)));
+        feesRateUD7x3 = uint32(bound(feesRateUD7x3, 100, 100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
 
         // Cap amount to 100T and to a minimum of one unit to prevent below assertion revert because of precision loss
         // +10000 is used to prevent assertion revert with small decimals values
-        amount = bound(
-            amount,
-            tested.public_toDecimals(1) + 10000,
-            tested.public_toDecimals(100_000_000_000_000)
-        );
+        amount = bound(amount, 1 * 10 ** decimals + 10000, 100_000_000_000_000 * 10 ** decimals);
 
         // Get withdraw amount and fees
         (, uint256 fees) = tested.getWithdrawnAmountAndFees(account, amount);
 
         // Obtain applied feesRateUD7x3 from input amount and fees amount
-        uint256 feesRateAS3 = (AS3.scaleUp(fees) * tested.public_toAS3(100)) / AS3.scaleUp(amount);
-        uint256 appliedFeesRateUD7x3 = tested.public_fromDecimals(feesRateAS3);
+        uint256 feesRateSUD = (SUD.fromAmount(fees) * SUD.fromInt(100, decimals)) /
+            SUD.fromAmount(amount);
+        uint256 appliedFeesRateUD7x3 = SUD.toRate(feesRateSUD, decimals);
 
         // Compute difference between applied fees rate and expected fees rate
         uint256 difference = appliedFeesRateUD7x3 > feesRateUD7x3
@@ -1779,7 +1754,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap requestedAmount to 100T
-        requestedAmount = bound(requestedAmount, 2, tested.public_toDecimals(100_000_000_000_000));
+        requestedAmount = bound(requestedAmount, 2, 100_000_000_000_000 * 10 ** decimals);
 
         // Ensure depositedAmounte is lower than requestedAmount
         depositedAmount = bound(depositedAmount, 1, requestedAmount - 1);
@@ -1819,16 +1794,16 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Ensure total queued is greater than 0 and capped to 100T
-        queuedAmount = bound(queuedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        queuedAmount = bound(queuedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Force set total queued amount
         tested.tool_rawSetTotalQueued(queuedAmount);
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Deposit underlying token amount
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -1868,16 +1843,16 @@ contract Tests is Test, ModifiersExpectations {
         ldyStaking.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Ensure total queued is greater than 0 and capped to 100T
-        queuedAmount = bound(queuedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        queuedAmount = bound(queuedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Force set total queued amount
         tested.tool_rawSetTotalQueued(queuedAmount);
 
         // Cap tier2Amount to 100T
-        tier2Amount = uint216(bound(tier2Amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        tier2Amount = uint216(bound(tier2Amount, 1, 100_000_000_000_000 * 10 ** decimals));
 
         // Set random tier 2 amount
         ldyStaking.setTier(2, tier2Amount);
@@ -1935,7 +1910,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Ensure total queued is ceiled to uint96 max (the max amount that can be requested at once)
         queuedAmount = bound(queuedAmount, 1, type(uint96).max);
@@ -1954,7 +1929,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), queuedAmount);
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Deposit underlying token amount with another account
         deal(address(underlyingToken), account2, depositedAmount, true);
@@ -2006,16 +1981,16 @@ contract Tests is Test, ModifiersExpectations {
         ldyStaking.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Ensure total queued is greater than 0 and capped to 100T
-        queuedAmount = bound(queuedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        queuedAmount = bound(queuedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Force set total queued amount
         tested.tool_rawSetTotalQueued(queuedAmount);
 
         // Cap tier2Amount to 100T
-        tier2Amount = uint216(bound(tier2Amount, 1, tested.public_toDecimals(100_000_000_000_000)));
+        tier2Amount = uint216(bound(tier2Amount, 1, 100_000_000_000_000 * 10 ** decimals));
 
         // Set random tier 2 amount
         ldyStaking.setTier(2, tier2Amount);
@@ -2068,10 +2043,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Deposit underlying token amount with another account
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -2108,10 +2083,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Deposit underlying token amount with another account
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -2151,10 +2126,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap depositedAmount to 100T
-        depositedAmount = bound(depositedAmount, 1, tested.public_toDecimals(100_000_000_000_000));
+        depositedAmount = bound(depositedAmount, 1, 100_000_000_000_000 * 10 ** decimals);
 
         // Deposit underlying token amount with another account
         deal(address(underlyingToken), account, depositedAmount, true);
@@ -2231,7 +2206,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap requestAmount to uint96.max which is the maximum amount of underlying tokens that can be requested at once
         requestAmount = bound(requestAmount, 1, type(uint96).max);
@@ -2319,7 +2294,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap requestAmount to uint96.max which is the maximum amount of underlying tokens that can be requested at once
         requestAmount = bound(requestAmount, 1, type(uint96).max);
@@ -2490,7 +2465,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap amount of requests to 30
         // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -2566,7 +2541,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
@@ -2658,7 +2633,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
@@ -2738,7 +2713,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
@@ -2824,7 +2799,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
@@ -2910,7 +2885,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
@@ -2990,7 +2965,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Set random fees rate
         tested.setFeesRate(feesRateUD7x3);
@@ -3083,7 +3058,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3138,7 +3113,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3196,7 +3171,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3269,7 +3244,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setFeesRate(0);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3343,7 +3318,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setFeesRate(0);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3409,7 +3384,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3418,7 +3393,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setFeesRate(feesRateUD7x3);
 
         // Prevent amount from overflowing max withdrawal request amount
-        amount = bound(amount, tested.public_toDecimals(20000) + 1, type(uint96).max);
+        amount = bound(amount, 20_000 * 10 ** decimals + 1, type(uint96).max);
 
         // Deposit random amount
         deal(address(underlyingToken), account, amount, true);
@@ -3466,7 +3441,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3525,7 +3500,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 100%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(100)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
 
         // Set random retention rate
         tested.tool_setRetentionRate(retentionRateUD7x3);
@@ -3648,8 +3623,8 @@ contract Tests is Test, ModifiersExpectations {
         requestedAmount = bound(
             requestedAmount,
             uint256(type(uint96).max) + 1,
-            tested.public_toDecimals(100_000_000_000_000) > uint256(type(uint96).max) + 1
-                ? tested.public_toDecimals(100_000_000_000_000)
+            100_000_000_000_000 * 10 ** decimals > uint256(type(uint96).max) + 1
+                ? 100_000_000_000_000 * 10 ** decimals
                 : uint256(type(uint96).max) + 1
         );
 
@@ -4307,7 +4282,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         // Set random retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -4352,7 +4327,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         // Set random retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -4400,7 +4375,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         // Set random retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -4416,7 +4391,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Force retention rate to 100% so it won't be exceeded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Store old fund wallet and L-token contract underlying balances for later comparison
         uint256 oldFundWalletUnderlyingBalance = underlyingToken.balanceOf(fundWallet);
@@ -4460,7 +4435,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Cap retention rate to 10%
-        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, AS3.scaleUp(10)));
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 10 * 10 ** 3));
 
         // Set random retention rate
         tested.setRetentionRate(retentionRateUD7x3);
@@ -4476,7 +4451,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Force retention rate to 100% so it won't be exceeded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Store old usable underlying amount for later comparison
         uint256 oldUsableUnderlyings = tested.usableUnderlyings();
@@ -4539,7 +4514,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4583,7 +4558,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4634,7 +4609,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -4678,7 +4653,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so the contract doesn't need to be funded
-        tested.tool_setRetentionRate(uint32(AS3.scaleUp(100)));
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
 
         // Cap requested amount to max withdrawal request amount
         depositedAmount = bound(depositedAmount, 1, type(uint96).max);
