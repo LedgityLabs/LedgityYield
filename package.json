@@ -17,7 +17,7 @@
     "graph:node": "cd thegraph/local-node && docker-compose up",
     "graph:local-create": "graph create --node http://0.0.0.0:8020/ localhost-subgraph ",
     "graph:local-remove": "graph remove --node http://0.0.0.0:8020/ localhost-subgraph",
-    "graph:local-deploy": "graph deploy --node http://0.0.0.0:8020/ --ipfs http://0.0.0.0:5001 localhost-subgraph ./thegraph/localhost-subgraph.yaml"
+    "graph:local-deploy": "graph deploy --node http://0.0.0.0:8020/ --ipfs http://0.0.0.0:5001 localhost-subgraph ./subgraph/localhost-subgraph.yaml"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.4",

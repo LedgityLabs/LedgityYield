@@ -1,0 +1,90 @@
+
+©¡dataSources:
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmYMRhBZ9wdWCUb3A2BxtAaMGHLo7cqEASLwCzMTpnr7J2
+          name: LTYStaking
+      apiVersion: 0.0.7
+      entities:
+        - LTYStaking
+        - TotalStakedUpdate
+      eventHandlers:
+        - event: TotalStakedUpdateEvent(uint256)
+          handler: handleTotalStakedEvent
+      file:
+        /: /ipfs/Qmb3ozSTNtXyeFrcmHJ7qqv5swdRooyVQWiar37UoiSEjv
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: LTYStaking
+    network: mainnet
+    source:
+      abi: LTYStaking
+      address: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6'
+      startBlock: 0
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmdhYC4r2TD3qcdGecvA6b7WAR85N5xsK3S4cm7fZCGr7P
+          name: LTokenSignaler
+        - file:
+            /: /ipfs/QmTmYGeYCyuk6HK6MPSzvqd2JAWHpfbHKFFyD2XGiPRckk
+          name: LToken
+      apiVersion: 0.0.7
+      entities:
+        - LToken
+      eventHandlers:
+        - event: LTokenSignalEvent(indexed address)
+          handler: handleSignaledLToken
+      file:
+        /: /ipfs/Qmb3ozSTNtXyeFrcmHJ7qqv5swdRooyVQWiar37UoiSEjv
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: LTokenSignaler
+    network: mainnet
+    source:
+      abi: LTokenSignaler
+      address: '0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1'
+      startBlock: 0
+description: A subgraph of Ledgity DeFi data
+repository: 'https://github.com/ledgity-labs/dapp'
+schema:
+  file:
+    /: /ipfs/QmdjYv6NsbZb3HFJRHNXmTBra7UvXxZuMsUeG5wtsUmaxk
+specVersion: 0.0.6
+templates:
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmTmYGeYCyuk6HK6MPSzvqd2JAWHpfbHKFFyD2XGiPRckk
+          name: LToken
+      apiVersion: 0.0.7
+      entities:
+        - LToken
+        - TVLUpdate
+        - APRUpdate
+        - Activity
+        - RewardsMint
+      eventHandlers:
+        - event: TVLUpdateEvent(uint256)
+          handler: handleTVLUpdateEvent
+        - event: APRUpdateEvent(uint16)
+          handler: handleAPRUpdateEvent
+        - event: >-
+            ActivityEvent(indexed int256,indexed address,indexed
+            uint8,uint256,uint256,uint8)
+          handler: handleActivityEvent
+        - event: 'MintedRewardsEvent(indexed address,uint256,uint256)'
+          handler: handleMintedRewardsEvent
+      file:
+        /: /ipfs/Qmb3ozSTNtXyeFrcmHJ7qqv5swdRooyVQWiar37UoiSEjv
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: LToken
+    network: mainnet
+    source:
+      abi: LToken
+¡
