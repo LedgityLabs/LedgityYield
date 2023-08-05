@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 /**
- * @title SUD
+ * @title APRCheckpoints
  * @author Lila Rest (lila@ledgity.com)
  * @notice This library provides utilities to create and interact with APR checkpoints.
  * APR checkpoints are basically a way to efficiently store an history of APRs on-chain.
