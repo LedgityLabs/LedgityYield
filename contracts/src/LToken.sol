@@ -259,10 +259,12 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     }
 
     /**
-     * @dev Allow given contract to listen to L-Token transfers. To do so the
+     * @notice Allow given contract to listen to L-Token transfers. To do so the
      * onLTokenTransfer() function of the given contract will be called each time
      * a transfer occurs.
      * @param listenerContract The address of the contract to allow listening to transfers
+     * @dev IMPORTANT: This method is not intended to be used with contract not owned by
+     * the Ledgity team.
      */
     function listenToTransfers(address listenerContract) public onlyOwner {
         transfersListeners.push(ITransfersListener(listenerContract));

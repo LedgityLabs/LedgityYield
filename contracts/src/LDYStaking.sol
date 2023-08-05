@@ -11,8 +11,6 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
-import "hardhat/console.sol";
-
 /**
  * @title LDYStaking
  * @author Lila Rest (lila@ledgity.com)

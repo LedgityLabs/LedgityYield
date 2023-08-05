@@ -821,8 +821,9 @@ contract Tests is Test, ModifiersExpectations {
         // Set a first random APR
         tested.setAPR(aprUD7x3);
 
-        // Force retention rate to 100% so it doesn't interfer in calculations
-        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+        // Force retention rate to 200% so it accepts deposited amount x 2 (as funded amount
+        // is capped to deposited amount)
+        tested.tool_setRetentionRate(uint32(200 * 10 ** 3));
 
         // Bound deposited amount to [2, 1T]
         depositedAmount = uint216(bound(depositedAmount, 2, 100_000_000_000_000 * 10 ** decimals));
@@ -1117,8 +1118,8 @@ contract Tests is Test, ModifiersExpectations {
         uint256 expectedRetained = tested.getExpectedRetained();
 
         // Obtain retention rate from total supply and expected retained
-        uint256 totalSupplySUD = SUD.fromAmount(totalSupply);
-        uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained);
+        uint256 totalSupplySUD = SUD.fromAmount(totalSupply, decimals);
+        uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained, decimals);
         uint256 retentionRateSUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) / totalSupplySUD;
         uint256 expectedRetentionRateUD7x3 = SUD.toRate(retentionRateSUD, decimals);
 
@@ -1171,9 +1172,9 @@ contract Tests is Test, ModifiersExpectations {
 
         // Obtain expected total supply from retention rate and expected retained
         uint256 retentionRateSUD = SUD.fromRate(retentionRateUD7x3, decimals);
-        uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained);
+        uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained, decimals);
         uint256 totalSupplySUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) / retentionRateSUD;
-        uint256 expectedTotalSupply = SUD.toAmount(totalSupplySUD);
+        uint256 expectedTotalSupply = SUD.toAmount(totalSupplySUD, decimals);
 
         // Compute difference between expected retention rate and actual retention rate
         uint256 difference = expectedTotalSupply > totalSupply
@@ -1696,8 +1697,8 @@ contract Tests is Test, ModifiersExpectations {
         (, uint256 fees) = tested.getWithdrawnAmountAndFees(account, amount);
 
         // Obtain applied feesRateUD7x3 from input amount and fees amount
-        uint256 feesRateSUD = (SUD.fromAmount(fees) * SUD.fromInt(100, decimals)) /
-            SUD.fromAmount(amount);
+        uint256 feesRateSUD = (SUD.fromAmount(fees, decimals) * SUD.fromInt(100, decimals)) /
+            SUD.fromAmount(amount, decimals);
         uint256 appliedFeesRateUD7x3 = SUD.toRate(feesRateSUD, decimals);
 
         // Compute difference between applied fees rate and expected fees rate

@@ -1,6 +1,6 @@
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-toolbox";
-// import "hardhat-contract-sizer";
+import "hardhat-contract-sizer";
 import { HardhatUserConfig } from "hardhat/config";
 
 const config: HardhatUserConfig = {

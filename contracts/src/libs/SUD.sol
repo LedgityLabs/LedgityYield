@@ -52,6 +52,14 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * - Rate (UD7x3) <--> SUD
  * - Integer      <--> SUD
  *
+ * @dev Optimization note: Functions of this library haven't been made external because
+ * including them directly in contracts is actually cheaper than making them external.
+ * Those are so minimal and used so much time in InvestUpgradeable, LDYStaking and LToken
+ * contracts, that bytecode saving of making them those is far outweighed by all extra
+ * bytecode generated to perform external calls to this library.
+ * This can be easily checked by comparing the output of `pnpm cc:size` when those
+ * functions are external or internal.
+ *
  * @dev For further details, see "SUD" section of whitepaper.
  */
 library SUD {
@@ -60,7 +68,7 @@ library SUD {
      * @param tokenAddress The address to retrieve decimals number from.
      * @return decimals The decimals number of the given ERC20 contract address.
      */
-    function decimalsOf(address tokenAddress) external view returns (uint256 decimals) {
+    function decimalsOf(address tokenAddress) internal view returns (uint256 decimals) {
         return IERC20MetadataUpgradeable(tokenAddress).decimals();
     }
 
@@ -70,7 +78,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nSUD The amount in SUD format
      */
-    function fromAmount(uint256 nAmount, uint256 decimals) external pure returns (uint256 nSUD) {
+    function fromAmount(uint256 nAmount, uint256 decimals) internal pure returns (uint256 nSUD) {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return nAmount * 10 ** (6 - decimals);
 
@@ -84,7 +92,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nAmount The amount in decimals format
      */
-    function toAmount(uint256 nSUD, uint256 decimals) external pure returns (uint256 nAmount) {
+    function toAmount(uint256 nSUD, uint256 decimals) internal pure returns (uint256 nAmount) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** (6 - decimals);
 
@@ -100,7 +108,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nSUD The rate in SUD format.
      */
-    function fromRate(uint256 nUD7x3, uint256 decimals) external pure returns (uint256 nSUD) {
+    function fromRate(uint256 nUD7x3, uint256 decimals) internal pure returns (uint256 nSUD) {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return nUD7x3 * 10 ** 3;
 
@@ -116,7 +124,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nUD7x3 The number in UD7x3 rate format.
      */
-    function toRate(uint256 nSUD, uint256 decimals) external pure returns (uint256 nUD7x3) {
+    function toRate(uint256 nSUD, uint256 decimals) internal pure returns (uint256 nUD7x3) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** 3;
 
@@ -130,7 +138,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nSUD The integer in SUD format.
      */
-    function fromInt(uint256 n, uint256 decimals) external pure returns (uint256 nSUD) {
+    function fromInt(uint256 n, uint256 decimals) internal pure returns (uint256 nSUD) {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return n * 10 ** 6;
 
@@ -144,7 +152,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return n The number as an integer.
      */
-    function toInt(uint256 nSUD, uint256 decimals) external pure returns (uint256 n) {
+    function toInt(uint256 nSUD, uint256 decimals) internal pure returns (uint256 n) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** 6;
 
