@@ -1,3 +1,28 @@
+## [1.126.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.125.0...v1.126.0) (2023-08-05)
+
+
+### Features
+
+* new app logo! ([f2ee95e](https://github.com/ledgity-labs/Ledgity-Yield/commit/f2ee95e10eb6d3660c0b6e01d8b31ee2168ab1ab))
+* rename AS3 -> SUD and enforce 3 scaled decimals + highly improve accuracy of _calculatePeriodR ([2691bd5](https://github.com/ledgity-labs/Ledgity-Yield/commit/2691bd542181301ade30edc824f6acfccfd39bbb))
+
+
+### Tests
+
+* add missing unit test for SUD.decimalsOf() ([1539d6b](https://github.com/ledgity-labs/Ledgity-Yield/commit/1539d6b10b0969e749fbf1a234f4d628b118698a))
+* fix wrong parameters names in SUD.t.sol ([0794afd](https://github.com/ledgity-labs/Ledgity-Yield/commit/0794afd091b859cc2e4d5f56077c28a1e2f3b300))
+* re-enable and adapt LDYStaking unit tests to fit SUD.sol changes ([13c1402](https://github.com/ledgity-labs/Ledgity-Yield/commit/13c140294b0f6854a3aaef6539c04cd92e729e1c))
+* re-enable SUD.sol unit tests and adapt those to fit library's changes ([09057c6](https://github.com/ledgity-labs/Ledgity-Yield/commit/09057c628640558494d83b26a82738f3250667fa))
+
+
+### Others
+
+* **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.1.0 ([ad265f6](https://github.com/ledgity-labs/Ledgity-Yield/commit/ad265f66315cf8bb736672544134198dc2db5936))
+* hide some additional files hide settings.json ([34e8382](https://github.com/ledgity-labs/Ledgity-Yield/commit/34e8382a88da5a9d3acf4900451028a5e2576557))
+* rename TheGraph folder ([c6abe99](https://github.com/ledgity-labs/Ledgity-Yield/commit/c6abe99cb5ee8c3240e70ca4b671e5ed73ef3c5c))
+* rename UDS3 to AS3, move some func from InvestUpgradeable to AS3, and improves AS3 docs ([4151b36](https://github.com/ledgity-labs/Ledgity-Yield/commit/4151b36d8fea0233f7a519df1e628cdb530b4676))
+* set back SUD functions as external and document the decision ([56e79bb](https://github.com/ledgity-labs/Ledgity-Yield/commit/56e79bbfa1b72678eb64f4fabe72a9fd2841bf4b))
+
 ## [1.125.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.2...v1.125.0) (2023-08-02)
 
 
