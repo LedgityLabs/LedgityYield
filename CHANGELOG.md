@@ -1,3 +1,17 @@
+## [1.126.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.0...v1.126.1) (2023-08-05)
+
+
+### Fixes
+
+* fix contract name in APRCheckpoints docs ([17d49c2](https://github.com/ledgity-labs/Ledgity-Yield/commit/17d49c253cbd543bcb1cd165bc9b878a96b4d616))
+
+
+### Others
+
+* add back pnpm-lock.yaml + add 'pnpm add hardhat' in cc:compile to try fixing Vercel error ([a6e8412](https://github.com/ledgity-labs/Ledgity-Yield/commit/a6e8412a6b7dc69c6b8fdb5c735e25f7137fc03f))
+* **deps:** upgrade dependencies ([9741aed](https://github.com/ledgity-labs/Ledgity-Yield/commit/9741aed20e29fd205f739310b1265078ed0b03e3))
+* temporarily remove pnpm-lock.yaml ([665e5ba](https://github.com/ledgity-labs/Ledgity-Yield/commit/665e5ba1be9cf0f9e16fd2eff186b1bc48c022d1))
+
 ## [1.126.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.125.0...v1.126.0) (2023-08-05)
 
 
