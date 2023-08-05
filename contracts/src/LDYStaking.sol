@@ -11,6 +11,8 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
+import "hardhat/console.sol";
+
 /**
  * @title LDYStaking
  * @author Lila Rest (lila@ledgity.com)
@@ -168,24 +170,30 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     function _getLockDurationIncrease(
         address account,
         uint256 addedAmount
-    ) internal view returns (uint40 lockEndIncrease) {
+    ) internal view returns (uint40 lockDurationIncrease) {
         // Retrieve account's stake infos
         AccountStake memory accountStake = accountsStakes[account];
 
         // If the account has no previous stake, return a full lock duration
         if (accountStake.amount == 0) return stakeLockDuration;
 
-        // Else, calculate the stake growth
-        uint256 growthRate = (addedAmount * HUNDRED_UD60x18) / accountStake.amount;
+        // Convert added amount, account stake and stake lock duration to SUD
+        uint256 addedAmountSUD = SUD.fromAmount(addedAmount, 18);
+        uint256 accountStakeSUD = SUD.fromAmount(accountStake.amount, 18);
+        uint256 stakeLockDurationSUD = SUD.fromInt(stakeLockDuration, 18);
 
-        // Then, calculate lock end increase proportionnally to amount growth
-        // - If the lockEndIncrease is going to overflow (this helps supporting bigger growth rates)
-        if (growthRate > type(uint40).max / stakeLockDuration) {
-            // Set it to the maximum possible value
-            lockEndIncrease = type(uint40).max;
-        }
-        // - Else, compute the lockEndIncrease
-        else lockEndIncrease = uint40((stakeLockDuration * growthRate) / HUNDRED_UD60x18);
+        // Calculate the stake growth
+        uint256 growthRateSUD = (addedAmountSUD * SUD.fromInt(100, 18)) / accountStakeSUD;
+
+        // Compute the lock end increase proportionnally to stake growth
+        uint256 lockDurationIncreaseSUD = (stakeLockDurationSUD * growthRateSUD) / SUD.fromInt(100, 18);
+        uint256 _lockDurationIncrease = SUD.toInt(lockDurationIncreaseSUD, 18);
+
+        // Cast _lockDurationIncrease to uint40.
+        // If the lock end is going to overflow uint40, set it to the uint40 max value
+        lockDurationIncrease = _lockDurationIncrease > type(uint40).max
+            ? type(uint40).max
+            : uint40(_lockDurationIncrease);
 
         // Compute the remaining lock duration of the account
         // If the lock end is in the past, the remaining lock duration is 0
@@ -193,10 +201,14 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
             ? 0
             : accountStake.lockEnd - uint40(block.timestamp);
 
+        // Compute the sum of remaining and new lock durations
+        // uint256 is used to avoid overflow
+        uint256 lockDurationsSum = uint256(remainingLockDuration) + uint256(lockDurationIncrease);
+
         // Ensure the new lock duration will not exceed the stakeLockDuration
-        lockEndIncrease = lockEndIncrease + remainingLockDuration > stakeLockDuration
+        lockDurationIncrease = lockDurationsSum > stakeLockDuration
             ? stakeLockDuration - remainingLockDuration
-            : lockEndIncrease;
+            : lockDurationIncrease;
     }
 
     /**
@@ -256,8 +268,10 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         accountStake.lockEnd = uint40(block.timestamp);
 
         // Calculate unlock fees/tax
-        uint256 unlockFeesRateUD60x18 = unlockFeesRateUD7x3 * 10 ** (18 - 3);
-        uint256 fees = (accountStake.amount * unlockFeesRateUD60x18) / HUNDRED_UD60x18;
+        uint256 unlockFeesRateSUD = SUD.fromRate(unlockFeesRateUD7x3, 18);
+        uint256 accountStakeSUD = SUD.fromAmount(accountStake.amount, 18);
+        uint256 feesSUD = (accountStakeSUD * unlockFeesRateSUD) / SUD.fromInt(100, 18);
+        uint256 fees = SUD.toAmount(feesSUD, 18);
 
         // Remove fees from the account stake
         accountStake.amount -= uint216(fees);
@@ -281,7 +295,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         require(invested().balanceOf(_msgSender()) >= amount, "L26");
 
         // Reset account's investment period
-        _onInvestmentChange(_msgSender(), false);
+        _beforeInvestmentChange(_msgSender(), false);
 
         // Retrieve account stake infos
         AccountStake memory accountStake = accountsStakes[_msgSender()];
@@ -321,7 +335,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         require(accountStake.lockEnd <= block.timestamp, "L29");
 
         // Reset its investment period
-        _onInvestmentChange(_msgSender(), false);
+        _beforeInvestmentChange(_msgSender(), false);
 
         // Update the amount staked by the account and the total amount staked
         accountStake.amount -= amount;
@@ -343,7 +357,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     function claim() public whenNotPaused notBlacklisted(_msgSender()) {
         // Reset account investment period. This will accumualte current unclaimed
         // rewards into the account's virtual balance.
-        _onInvestmentChange(_msgSender(), false);
+        _beforeInvestmentChange(_msgSender(), false);
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
@@ -375,7 +389,7 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
 
         // Reset account investment period. This will accumualte current unclaimed
         // rewards into the account's virtual balance.
-        _onInvestmentChange(_msgSender(), false);
+        _beforeInvestmentChange(_msgSender(), false);
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
         uint256 rewards = accountsInfos[_msgSender()].virtualBalance;

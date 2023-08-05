@@ -4486,7 +4486,7 @@
     "elements": [
       {
         "type": "function",
-        "name": "_onInvestmentChange",
+        "name": "_beforeInvestmentChange",
         "source_mapping": {
           "start": 17851,
           "length": 1811,
@@ -4543,7 +4543,7 @@
               "ending_column": 2
             }
           },
-          "signature": "_onInvestmentChange(address,bool)"
+          "signature": "_beforeInvestmentChange(address,bool)"
         }
       },
       {
@@ -4563,7 +4563,7 @@
         "type_specific_fields": {
           "parent": {
             "type": "function",
-            "name": "_onInvestmentChange",
+            "name": "_beforeInvestmentChange",
             "source_mapping": {
               "start": 17851,
               "length": 1811,
@@ -4621,14 +4621,14 @@
                   "ending_column": 2
                 }
               },
-              "signature": "_onInvestmentChange(address,bool)"
+              "signature": "_beforeInvestmentChange(address,bool)"
             }
           }
         }
       }
     ],
-    "description": "InvestUpgradeable._onInvestmentChange(address,bool) (contracts/src/abstracts/InvestUpgradeable.sol#415-453) uses a dangerous strict equality:\n\t- accountsInfos[account].period.timestamp == uint40(block.timestamp) (contracts/src/abstracts/InvestUpgradeable.sol#422)\n",
-    "markdown": "[InvestUpgradeable._onInvestmentChange(address,bool)](contracts/src/abstracts/InvestUpgradeable.sol#L415-L453) uses a dangerous strict equality:\n\t- [accountsInfos[account].period.timestamp == uint40(block.timestamp)](contracts/src/abstracts/InvestUpgradeable.sol#L422)\n",
+    "description": "InvestUpgradeable._beforeInvestmentChange(address,bool) (contracts/src/abstracts/InvestUpgradeable.sol#415-453) uses a dangerous strict equality:\n\t- accountsInfos[account].period.timestamp == uint40(block.timestamp) (contracts/src/abstracts/InvestUpgradeable.sol#422)\n",
+    "markdown": "[InvestUpgradeable._beforeInvestmentChange(address,bool)](contracts/src/abstracts/InvestUpgradeable.sol#L415-L453) uses a dangerous strict equality:\n\t- [accountsInfos[account].period.timestamp == uint40(block.timestamp)](contracts/src/abstracts/InvestUpgradeable.sol#L422)\n",
     "first_markdown_element": "contracts/src/abstracts/InvestUpgradeable.sol#L415-L453",
     "id": "ce88587a147e1e7308593f97bc13bd79909eb1b0e747d3c3f17ef70a31daac76",
     "check": "incorrect-equality",
@@ -4711,7 +4711,7 @@
         "type_specific_fields": {
           "parent": {
             "type": "function",
-            "name": "_onInvestmentChange",
+            "name": "_beforeInvestmentChange",
             "source_mapping": {
               "start": 17851,
               "length": 1811,
@@ -4769,7 +4769,7 @@
                   "ending_column": 2
                 }
               },
-              "signature": "_onInvestmentChange(address,bool)"
+              "signature": "_beforeInvestmentChange(address,bool)"
             }
           }
         }
@@ -4791,7 +4791,7 @@
         "type_specific_fields": {
           "parent": {
             "type": "function",
-            "name": "_onInvestmentChange",
+            "name": "_beforeInvestmentChange",
             "source_mapping": {
               "start": 17851,
               "length": 1811,
@@ -4849,7 +4849,7 @@
                   "ending_column": 2
                 }
               },
-              "signature": "_onInvestmentChange(address,bool)"
+              "signature": "_beforeInvestmentChange(address,bool)"
             }
           }
         }
@@ -8839,7 +8839,7 @@
     "elements": [
       {
         "type": "function",
-        "name": "_onInvestmentChange",
+        "name": "_beforeInvestmentChange",
         "source_mapping": {
           "start": 17851,
           "length": 1811,
@@ -8896,7 +8896,7 @@
               "ending_column": 2
             }
           },
-          "signature": "_onInvestmentChange(address,bool)"
+          "signature": "_beforeInvestmentChange(address,bool)"
         }
       },
       {
@@ -8916,7 +8916,7 @@
         "type_specific_fields": {
           "parent": {
             "type": "function",
-            "name": "_onInvestmentChange",
+            "name": "_beforeInvestmentChange",
             "source_mapping": {
               "start": 17851,
               "length": 1811,
@@ -8974,14 +8974,14 @@
                   "ending_column": 2
                 }
               },
-              "signature": "_onInvestmentChange(address,bool)"
+              "signature": "_beforeInvestmentChange(address,bool)"
             }
           }
         }
       }
     ],
-    "description": "InvestUpgradeable._onInvestmentChange(address,bool) (contracts/src/abstracts/InvestUpgradeable.sol#415-453) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- accountsInfos[account].period.timestamp == uint40(block.timestamp) (contracts/src/abstracts/InvestUpgradeable.sol#422)\n",
-    "markdown": "[InvestUpgradeable._onInvestmentChange(address,bool)](contracts/src/abstracts/InvestUpgradeable.sol#L415-L453) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [accountsInfos[account].period.timestamp == uint40(block.timestamp)](contracts/src/abstracts/InvestUpgradeable.sol#L422)\n",
+    "description": "InvestUpgradeable._beforeInvestmentChange(address,bool) (contracts/src/abstracts/InvestUpgradeable.sol#415-453) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- accountsInfos[account].period.timestamp == uint40(block.timestamp) (contracts/src/abstracts/InvestUpgradeable.sol#422)\n",
+    "markdown": "[InvestUpgradeable._beforeInvestmentChange(address,bool)](contracts/src/abstracts/InvestUpgradeable.sol#L415-L453) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [accountsInfos[account].period.timestamp == uint40(block.timestamp)](contracts/src/abstracts/InvestUpgradeable.sol#L422)\n",
     "first_markdown_element": "contracts/src/abstracts/InvestUpgradeable.sol#L415-L453",
     "id": "46bf152671fcc8b1ae78deb561ecb4bf3b1a2dfa3633270fc07eb9045ba6d17e",
     "check": "timestamp",

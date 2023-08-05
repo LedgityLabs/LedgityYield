@@ -428,8 +428,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         ERC20BaseUpgradeable._beforeTokenTransfer(from, to, amount);
 
         // Reset investment period of involved accounts
-        if (from != address(0)) _onInvestmentChange(from, true);
-        if (to != address(0)) _onInvestmentChange(to, true);
+        if (from != address(0)) _beforeInvestmentChange(from, true);
+        if (to != address(0)) _beforeInvestmentChange(to, true);
 
         // In some L-Token are burned or minted, inform listeners of a TVL change
         if (from == address(0) || to == address(0)) emit TVLUpdateEvent(totalSupply());

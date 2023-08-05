@@ -49,7 +49,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      * @dev Represents investment information of an account (a.k.a investor or user).
      * @param period The current investment period of the account.
      * @param virtualBalance May hold a part of account rewards until they are claimed
-     * (see _onInvestmentChange())
+     * (see _beforeInvestmentChange())
      */
     struct AccountInfos {
         InvestmentPeriod period;
@@ -149,8 +149,8 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         require(_msgSender() == owner() || _msgSender() == from, "L15");
 
         // Reset investment period of involved accounts
-        _onInvestmentChange(from, true);
-        _onInvestmentChange(to, true);
+        _beforeInvestmentChange(from, true);
+        _beforeInvestmentChange(to, true);
 
         // Apply rewards redirection
         rewardsRedirectsFromTo[from] = to;
@@ -177,8 +177,8 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         require(rewardsRedirectsFromTo[from] == to, "L19");
 
         // Reset investment period of involved accounts
-        _onInvestmentChange(from, true);
-        _onInvestmentChange(to, true);
+        _beforeInvestmentChange(from, true);
+        _beforeInvestmentChange(to, true);
 
         // Compute from index in to's redirection array
         int256 fromIndex = -1;
@@ -251,7 +251,8 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     }
 
     /**
-     * @dev Returns the sum of given account invested amount plus the invested amount of all accounts that directly or indirectly redirect rewards to this account.
+     * @dev Returns the sum of given account invested amount plus the invested amount of
+     * all accounts that directly or indirectly redirect rewards to this account.
      * @param account The account to calculate the deep investment of.
      * @return deepInvestedAmount The deep invested amount.
      */
@@ -377,7 +378,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      * @param account The account to reset the investment period of.
      * @param autocompound Whether to autocompound the rewards.
      */
-    function _onInvestmentChange(address account, bool autocompound) internal {
+    function _beforeInvestmentChange(address account, bool autocompound) internal {
         // As this function is called inside of _beforeTokenTransfer in LToken contract
         // and as claiming implies minting in LToken contract, this state prevents infinite
         // re-entrancy by skipping this function body while a claim is in progress.
@@ -389,9 +390,9 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         // If account redirects its rewards
         address redirectRewardsTo = rewardsRedirectsFromTo[account];
         if (redirectRewardsTo != address(0)) {
-            // Reset investment period of redirection target
+            // Call hook of redirection target
             // This will indirectly reset the investment period of the account itself
-            _onInvestmentChange(redirectRewardsTo, autocompound);
+            _beforeInvestmentChange(redirectRewardsTo, autocompound);
 
             // Then return
             return;

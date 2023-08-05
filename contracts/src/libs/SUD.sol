@@ -70,7 +70,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nSUD The amount in SUD format
      */
-    function fromAmount(uint256 nAmount, uint256 decimals) public pure returns (uint256 nSUD) {
+    function fromAmount(uint256 nAmount, uint256 decimals) external pure returns (uint256 nSUD) {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return nAmount * 10 ** (6 - decimals);
 
@@ -84,7 +84,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nAmount The amount in decimals format
      */
-    function toAmount(uint256 nSUD, uint256 decimals) public pure returns (uint256 nAmount) {
+    function toAmount(uint256 nSUD, uint256 decimals) external pure returns (uint256 nAmount) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** (6 - decimals);
 
@@ -100,7 +100,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nSUD The rate in SUD format.
      */
-    function fromRate(uint256 nUD7x3, uint256 decimals) public pure returns (uint256 nSUD) {
+    function fromRate(uint256 nUD7x3, uint256 decimals) external pure returns (uint256 nSUD) {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return nUD7x3 * 10 ** 3;
 
@@ -116,7 +116,7 @@ library SUD {
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nUD7x3 The number in UD7x3 rate format.
      */
-    function toRate(uint256 nSUD, uint256 decimals) public pure returns (uint256 nUD7x3) {
+    function toRate(uint256 nSUD, uint256 decimals) external pure returns (uint256 nUD7x3) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** 3;
 
@@ -135,7 +135,7 @@ library SUD {
         if (decimals < 3) return n * 10 ** 6;
 
         // Else
-        return fromRate(fromAmount(n, decimals), decimals);
+        return n * 10 ** (decimals + 3);
     }
 
     /**
@@ -149,6 +149,6 @@ library SUD {
         if (decimals < 3) return nSUD / 10 ** 6;
 
         // Else
-        return toRate(toAmount(nSUD, decimals), decimals);
+        return nSUD / 10 ** (decimals + 3);
     }
 }
