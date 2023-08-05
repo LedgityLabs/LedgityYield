@@ -1,3 +1,27 @@
+## [1.125.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.2...v1.125.0) (2023-08-02)
+
+
+### Features
+
+* deploy scripts for 08/23 deployment + dummy LDY staking contract + some components fixes ([eeb0f3d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/eeb0f3d7d6b512ce1d2b4c7bbfd6f75614a00d7e))
+* **globalownableupgradeable:** revert on renounceOwnership as for transferOwnership + unit tests ([9e85e17](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9e85e172243b2d0d5830a04c3b968ca0446bd6e7))
+
+
+### Fixes
+
+* **contracts:** process new slither report findings ([13b2fed](https://github.com/ledgity-labs/Ledgity-DeFi/commit/13b2feda02d601ccaeb146d7caa8f700d9b90dd6))
+
+
+### Tests
+
+* add additional invariant tests to LToken and LDYStaking contracts ([75debc3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/75debc36191d485cf38b6a89de8fed594c3adbe7))
+
+
+### Others
+
+* add missing env var to force Forge profile to 'ci' while running tests in GH workflow ([04e577a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/04e577adaaf89c077bd392bc8526626240543ada))
+* **deps:** upgrade dependencies ([0fddf65](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0fddf65e04c221e615cdd324d94a4165c8ad4c8f))
+
 ## [1.124.2](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.1...v1.124.2) (2023-08-01)
 
 
