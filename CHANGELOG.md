@@ -1,3 +1,15 @@
+## [1.126.3](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.2...v1.126.3) (2023-08-05)
+
+
+### Fixes
+
+* try fixing Vercel deployment issue 2 ([9a5fb8c](https://github.com/ledgity-labs/Ledgity-Yield/commit/9a5fb8c43ceff55bb56f0f7e40038ef3595425a2))
+
+
+### Others
+
+* merge ([921692c](https://github.com/ledgity-labs/Ledgity-Yield/commit/921692c45d2483339d50a24f99da07340dbbf172))
+
 ## [1.126.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.1...v1.126.2) (2023-08-05)
 
 
