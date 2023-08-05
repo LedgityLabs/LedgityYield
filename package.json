@@ -12,7 +12,7 @@
     "cc:slither:triage": "slither . --compile-force-framework hardhat --triage-mode ",
     "cc:slither:pausable": "slither . --compile-force-framework hardhat --print not-pausable",
     "cc:node": "hardhat node --hostname 0.0.0.0",
-    "cc:compile": "pnpm add hardhat && hardhat compile && wagmi generate && ts-node ./contracts/extract-abis.ts",
+    "cc:compile": "pnpm add hardhat && pnpm hardhat compile && pnpm wagmi generate && pnpm ts-node ./contracts/extract-abis.ts",
     "cc:local-deploy": "npx hardhat run contracts/hardhat/scripts/deploy-all-august-2023.ts --network localhost",
     "graph:node": "cd thegraph/local-node && docker-compose up",
     "graph:local-create": "graph create --node http://0.0.0.0:8020/ localhost-subgraph ",
