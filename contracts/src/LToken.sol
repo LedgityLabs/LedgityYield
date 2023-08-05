@@ -461,10 +461,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         uint256 d = SUD.decimalsOf(address(invested()));
 
         // Compute expected retained amount
-        uint256 totalSupplySUD = SUD.fromAmount(totalSupply());
+        uint256 totalSupplySUD = SUD.fromAmount(totalSupply(), d);
         uint256 retentionRateSUD = SUD.fromRate(retentionRateUD7x3, d);
         uint256 expectedRetainedSUD = (totalSupplySUD * retentionRateSUD) / SUD.fromInt(100, d);
-        return SUD.toAmount(expectedRetainedSUD);
+        return SUD.toAmount(expectedRetainedSUD, d);
     }
 
     /**
@@ -547,10 +547,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         uint256 d = SUD.decimalsOf(address(invested()));
 
         // Else calculate withdrawal fees as well as final withdrawn amount
-        uint256 amountSUD = SUD.fromAmount(amount);
+        uint256 amountSUD = SUD.fromAmount(amount, d);
         uint256 feesRateSUD = SUD.fromRate(feesRateUD7x3, d);
         uint256 feesSUD = (amountSUD * feesRateSUD) / SUD.fromInt(100, d);
-        fees = SUD.toAmount(feesSUD);
+        fees = SUD.toAmount(feesSUD, d);
         withdrawnAmount = amount - fees;
     }
 

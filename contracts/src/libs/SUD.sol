@@ -52,10 +52,6 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * - Rate (UD7x3) <--> SUD
  * - Integer      <--> SUD
  *
- * @dev Functions aren't made external because they are so minimal that including
- * those directly in contracts produce less bytecode than the bytecode required to
- * perform delegatecalls if those were external.
- *
  * @dev For further details, see "SUD" section of whitepaper.
  */
 library SUD {
