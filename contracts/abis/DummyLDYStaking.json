@@ -1,0 +1,1 @@
+[{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"tierOf","outputs":[{"internalType":"uint256","name":"tier","type":"uint256"}],"stateMutability":"pure","type":"function"}]
