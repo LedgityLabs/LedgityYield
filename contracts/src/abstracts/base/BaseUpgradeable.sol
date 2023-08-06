@@ -10,10 +10,13 @@ import {RecoverableUpgradeable} from "../RecoverableUpgradeable.sol";
 
 /**
  * @title BaseUpgradeable
- * @author Lila Rest (lila@ledgity.com)
- * @notice This abstract contract serves as a base for many contract in this code base. It
- * reduces code repetitions, makes code more readable and so maintainable.
- * @dev For further details, see "Base contracts" section of whitepaper.
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+ *
+ * @notice This abstract contract acts as a base for numerous contracts contract in this
+ * codebase, minimizing code repetition and enhancing readability and maintainability.
+ *
+ * @dev For further details, see "Base" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract BaseUpgradeable is
@@ -25,9 +28,9 @@ abstract contract BaseUpgradeable is
     RecoverableUpgradeable
 {
     /**
-     * @dev Prevents implementation contract from being initialized as recommended by
+     * @notice Prevents implementation contract from being initialized as recommended by
      * OpenZeppelin.
-     * See: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Initializable-_disableInitializers--
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Initializable-_disableInitializers--
      * @custom:oz-upgrades-unsafe-allow constructor
      */
     constructor() {
@@ -35,12 +38,12 @@ abstract contract BaseUpgradeable is
     }
 
     /**
-     * @dev Initializer functions of the contract. They replace the constructor() function
-     * in context of upgradeable contracts.
-     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalOwner_ The address of the GlobalOwner contract
-     * @param globalPause_ The address of the GlobalPause contract
-     * @param globalBlacklist_ The address of the GlobalBlacklist contract
+     * @notice Initializer functions of the contract. They replace the constructor()
+     * function in the context of upgradeable contracts.
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalOwner_ The address of the GlobalOwner contract.
+     * @param globalPause_ The address of the GlobalPause contract.
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract.
      */
     function __Base_init(
         address globalOwner_,
@@ -58,9 +61,9 @@ abstract contract BaseUpgradeable is
     function __Base_init_unchained() internal onlyInitializing {}
 
     /**
-     * @dev Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global
-     * owner. Note that this function is called by the proxy contract while upgrading.
-     * @param newImplementation The address of the new implementation contract
+     * @notice Override of UUPSUpgradeable._authorizeUpgrade() function restricted to
+     * global owner. It is called by the proxy contract during an upgrade.
+     * @param newImplementation The address of the new implementation contract.
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
