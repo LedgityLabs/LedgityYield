@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import {GlobalPause} from "../GlobalPause.sol";
 
@@ -19,7 +20,7 @@ import {GlobalPause} from "../GlobalPause.sol";
  * @dev For further details, see "GlobalPausableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract GlobalPausableUpgradeable is PausableUpgradeable {
+abstract contract GlobalPausableUpgradeable is Initializable, PausableUpgradeable {
     /**
      * @notice The GlobalPause contract the pause state will be inherited from.
      * @dev This state is private so derived contracts cannot change its value.
@@ -30,7 +31,7 @@ abstract contract GlobalPausableUpgradeable is PausableUpgradeable {
      * @notice Initializer functions of the contract. They replace the constructor()
      * function in the context of upgradeable contracts.
      * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalPause_ The address of the GlobalPause contract
+     * @param globalPause_ The address of the GlobalPause contract.
      */
     function __GlobalPausable_init(address globalPause_) internal onlyInitializing {
         __Pausable_init();
@@ -43,7 +44,7 @@ abstract contract GlobalPausableUpgradeable is PausableUpgradeable {
 
     /**
      * @notice Retrieves the address of GlobalPause contract.
-     * @return The address of the GlobalPause contract
+     * @return The address of the GlobalPause contract.
      */
     function globalPause() public view returns (address) {
         return address(_globalPause);
@@ -52,7 +53,7 @@ abstract contract GlobalPausableUpgradeable is PausableUpgradeable {
     /**
      * @notice Override of PausableUpgradeable.pause() that retrieves the pause state
      * from the GlobalPause contract instead.
-     * @return Whether the contract is paused or not
+     * @return Whether the contract is paused or not.
      */
     function paused() public view virtual override returns (bool) {
         return _globalPause.paused();

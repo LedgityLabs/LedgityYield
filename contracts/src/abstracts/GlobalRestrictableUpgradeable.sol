@@ -1,49 +1,58 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {GlobalBlacklist} from "../GlobalBlacklist.sol";
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {GlobalBlacklist} from "../GlobalBlacklist.sol";
 
 /**
  * @title GlobalRestrictableUpgradeable
- * @author Lila Rest (lila@ledgity.com)
- * @notice This abstract contract allows inheriting children contracts to be restricted to
- * addresses non-blacklisted by the GlobalBlacklist contract (see GlobalBlacklist.sol).
- * @dev Note that children inheriting contract must set the globalBlacklist at initialization
- * time. For obvious security reasons, the globalBlacklist can't be changed afterwards.
- * For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+ *
+ * @notice Derived contracts will inherit blacklist state from the specified
+ * GlobalBlacklist contract (see GlobalBlacklist.sol). This design facilitates
+ * centralized management of a blacklist for all the Ledgity Yield contracts.
+ *
+ * @dev Note: The _globalBlacklist state must be set at initialization-time and for
+ * evident security reasons cannot be changed afterwards.
+ *
+ * @dev For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalRestrictableUpgradeable is Initializable {
-    /// @dev The GlobalBlacklist contract.
+    /**
+     * @notice The GlobalBlacklist contract the blacklist state will be inherited from.
+     * @dev This state is private so derived contracts cannot change its value.
+     */
     GlobalBlacklist private _globalBlacklist;
 
     /**
-     * @dev Initializer functions of the contract. They replace the constructor() function
-     * in context of upgradeable contracts.
-     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalBlacklist_ The address of the GlobalBlacklist contract
+     * @notice Initializer functions of the contract. They replace the constructor()
+     * function in the context of upgradeable contracts.
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract.
      */
     function __GlobalRestrictable_init(address globalBlacklist_) internal onlyInitializing {
         __GlobalRestrictable_init_unchained(globalBlacklist_);
     }
 
-    function __GlobalRestrictable_init_unchained(address globalBlacklist_) internal onlyInitializing {
+    function __GlobalRestrictable_init_unchained(
+        address globalBlacklist_
+    ) internal onlyInitializing {
         _globalBlacklist = GlobalBlacklist(globalBlacklist_);
     }
 
     /**
-     * @dev Getter for the GlobalBlacklist contract.
-     * @return The address of the GlobalBlacklist contract
+     * @notice Retrieves the address of GlobalBlacklist contract.
+     * @return The address of the GlobalBlacklist contract.
      */
     function globalBlacklist() public view returns (address) {
         return address(_globalBlacklist);
     }
 
     /**
-     * @dev Modifier that reverts the wrapped function call if called by an account
-     * blacklisted by the GlobalBlacklist contract.
-     * @param account Address to check against the GlobalBlacklist contract.
+     * @notice Reverts if the given account is blacklisted by the GlobalBlacklist contract.
+     * @param account Address to verify.
      */
     modifier notBlacklisted(address account) {
         require(isBlacklisted(account) == false, "L9");
@@ -51,9 +60,9 @@ abstract contract GlobalRestrictableUpgradeable is Initializable {
     }
 
     /**
-     * @dev Tests against the GlobalBlacklist whether a given account is blacklisted.
-     * @param account The account to check
-     * @return (true/false) Whether the account is blacklisted
+     * @notice Checks if the given account is blacklisted by the GlobalBlacklist contract.
+     * @param account Address to verify.
+     * @return Whether the account is blacklisted.
      */
     function isBlacklisted(address account) internal view returns (bool) {
         return _globalBlacklist.isBlacklisted(account);
