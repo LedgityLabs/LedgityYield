@@ -1004,10 +1004,12 @@ contract Tests is Test, ModifiersExpectations {
         // Set a first random APR
         tested.setAPR(aprUD7x3);
 
-        // Assert that accounts are different and aren't zero address
+        // Assert that accounts are different, aren't zero address nor the contract address
         vm.assume(account1 != account2);
         vm.assume(account1 != address(0));
         vm.assume(account2 != address(0));
+        vm.assume(account1 != address(tested));
+        vm.assume(account2 != address(tested));
 
         // Listen to transfers from vault1 and vault2
         tested.listenToTransfers(address(vault1));
