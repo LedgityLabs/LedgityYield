@@ -1,3 +1,27 @@
+## [1.126.5](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.4...v1.126.5) (2023-08-06)
+
+
+### Fixes
+
+* tiny adjustments in APRHistory.sol ([cb960c2](https://github.com/ledgity-labs/Ledgity-Yield/commit/cb960c26d4c541089abf689bde4d66ee5c17217b))
+
+
+### Docs
+
+* improve Natspec of SUD.sol ([5e16dab](https://github.com/ledgity-labs/Ledgity-Yield/commit/5e16dab0e2606581a9c353a69d4445824fe7c10f))
+* rename APRCheckpoints to APRHistory + improve docs and readability of the library ([d1cbdb8](https://github.com/ledgity-labs/Ledgity-Yield/commit/d1cbdb839ee8671263a852a71918439486e27877))
+
+
+### Tests
+
+* **ltoken:** fix testFuzz_afterTokenTransfer_1 error ([e508d71](https://github.com/ledgity-labs/Ledgity-Yield/commit/e508d717fbd0a7daf60054da62305c009b0d814b))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.4.8 ([62b3df5](https://github.com/ledgity-labs/Ledgity-Yield/commit/62b3df52765a352ea3a46f13ba8d8e3df6475b3b))
+* **deps:** update dependency @types/react to v18.2.18 ([4c23cb1](https://github.com/ledgity-labs/Ledgity-Yield/commit/4c23cb1827d03c87628b32a240deef04c369ff7e))
+
 ## [1.126.4](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.3...v1.126.4) (2023-08-05)
 
 
