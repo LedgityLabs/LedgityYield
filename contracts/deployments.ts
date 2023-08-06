@@ -7,7 +7,7 @@ import LTokenJSON from "./hardhat/artifacts/contracts/src/LToken.sol/LToken.json
 import ERC20JSON from "./hardhat/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json";
 import LTokenSignalerJSON from "./hardhat/artifacts/contracts/src/LTokenSignaler.sol/LTokenSignaler.json";
 import Multicall3JSON from "./hardhat/artifacts/contracts/src/Multicall3.sol/Multicall3.json";
-import APRCheckpointsJSON from "./hardhat/artifacts/contracts/src/libs/APRCheckpoints.sol/APRCheckpoints.json";
+import APRHistoryJSON from "./hardhat/artifacts/contracts/src/libs/APRHistory.sol/APRHistory.json";
 
 interface Contract {
   contractName?: string;
@@ -37,8 +37,8 @@ const _contracts = {
       31337: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
     },
   },
-  APRCheckpoints: {
-    abi: APRCheckpointsJSON.abi,
+  APRHistory: {
+    abi: APRHistoryJSON.abi,
     address: {
       31337: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
     },

@@ -2,9 +2,9 @@
 pragma solidity ^0.8.18;
 
 // Contracts
-import "./abstracts/base/BaseUpgradeable.sol";
-import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {SUD} from "./libs/SUD.sol";
+import "../src/abstracts/base/BaseUpgradeable.sol";
+import {InvestUpgradeable} from "../src/abstracts/InvestUpgradeable.sol";
+import {SUD} from "../src/libs/SUD.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 // Libraries & interfaces
@@ -112,7 +112,8 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
     function recoverLDY() public onlyOwner {
         // Compute the amount of $LDY that can be recovered by taking the difference between
         // the contract's $LDY balance and the total amount staked plus the rewards reserve
-        uint256 recoverableAmount = invested().balanceOf(address(this)) - (totalStaked + rewardsReserve);
+        uint256 recoverableAmount = invested().balanceOf(address(this)) -
+            (totalStaked + rewardsReserve);
 
         // Revert if there are no recoverable $LDY
         require(recoverableAmount > 0, "L22");
@@ -184,7 +185,8 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         uint256 growthRateSUD = (addedAmountSUD * SUD.fromInt(100, 18)) / accountStakeSUD;
 
         // Compute the lock end increase proportionnally to stake growth
-        uint256 lockDurationIncreaseSUD = (stakeLockDurationSUD * growthRateSUD) / SUD.fromInt(100, 18);
+        uint256 lockDurationIncreaseSUD = (stakeLockDurationSUD * growthRateSUD) /
+            SUD.fromInt(100, 18);
         uint256 _lockDurationIncrease = SUD.toInt(lockDurationIncreaseSUD, 18);
 
         // Cast _lockDurationIncrease to uint40.

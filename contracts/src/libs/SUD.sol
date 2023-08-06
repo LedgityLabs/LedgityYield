@@ -12,8 +12,7 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * codebase. It ensures consistency and reduces precision losses. This library
  * facilitates conversions between various number formats and the SUD format.
  *
- * @dev What's the purpose of this library?
- *
+ * @dev Intuition:
  * This codebase employs UD (unsigned decimal fixed-point numbers) format to represent
  * both percentage rates and tokens amounts.
  *
@@ -34,7 +33,7 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  *
  * SUD is an acronym for either "Scaled UD" or "Safe UD".
  *
- * @dev Some definitions:
+ * @dev Definitions:
  * - Integer: A number without fractional part, e.g., block.timestamp
  *
  * - UD: A decimal unsigned fixed-point number. The "UD" notation is inspired from
@@ -75,6 +74,7 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * counts and supply will experience less precision loss.
  *
  * @dev For further details, see "SUD" section of whitepaper.
+ * @custom:security-contact security@ledgity.com
  */
 library SUD {
     /**

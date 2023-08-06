@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 /**
- * @title DummyLDYStaking
+ * @title LDYStaking
  * @author Lila Rest (lila@ledgity.com)
  * @notice This contract will replace the LDYStaking contract in L-Tokens contracts until
  * the $LDY token is available and the real LDYStaking contract is deployed so.
@@ -10,7 +10,7 @@ pragma solidity ^0.8.18;
  * the LToken contract relies on.
  * @custom:security-contact security@ledgity.com
  */
-contract DummyLDYStaking {
+contract LDYStaking {
     /**
      * @dev Dummy tierOf() function that always return that the given account is not
      * ellgible to any LDY staking tier.

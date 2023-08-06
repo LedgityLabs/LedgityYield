@@ -4,9 +4,9 @@ import { getContractAddress } from "./lib/getContractAddress";
 const main = async () => {
   const underlyingAddress = getContractAddress("USDC");
   const ldyStakingAddress = getContractAddress("LDYStaking");
-  const aprCheckpointsAddress = getContractAddress("APRCheckpoints");
+  const aprCheckpointsAddress = getContractAddress("APRHistory");
   return await deployProxy("LUSDC", true, true, true, [ldyStakingAddress, underlyingAddress], {
-    APRCheckpoints: aprCheckpointsAddress,
+    APRHistory: aprCheckpointsAddress,
   });
 };
 

@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "../../lib/forge-std/src/Test.sol";
 import {SUD} from "../../../src/libs/SUD.sol";
-import {GenericERC20} from "../../../src/GenericERC20.sol";
+import {GenericERC20} from "../../../dev/GenericERC20.sol";
 
 contract Tests is Test {
     // =============================
@@ -82,7 +82,9 @@ contract Tests is Test {
     // ===========================
     // === toAmount() function ===
     function testFuzz_toAmount_1(uint8 decimals, uint256 nSUD) public {
-        console.log("Should return convert an UD71x6 to amount if decimals <3 (non-underflow cases)");
+        console.log(
+            "Should return convert an UD71x6 to amount if decimals <3 (non-underflow cases)"
+        );
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
@@ -225,7 +227,9 @@ contract Tests is Test {
     }
 
     function testFuzz_toRate_3(uint8 decimals, uint256 nSUD) public {
-        console.log("Should return input divided by 10^decimals if decimals >=3 (non-underflow cases)");
+        console.log(
+            "Should return input divided by 10^decimals if decimals >=3 (non-underflow cases)"
+        );
 
         // Bound decimals to [3, 18]
         decimals = uint8(bound(decimals, 3, 18));
@@ -253,7 +257,9 @@ contract Tests is Test {
     // ==========================
     // === fromInt() function ===
     function testFuzz_fromInt_1(uint8 decimals, uint256 n) public {
-        console.log("Should scale input by 6 decimals (UD71x6) if decimals <3 (non-overflow cases)");
+        console.log(
+            "Should scale input by 6 decimals (UD71x6) if decimals <3 (non-overflow cases)"
+        );
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
@@ -310,7 +316,9 @@ contract Tests is Test {
     // =========================
     // === toInt() function ===
     function testFuzz_toInt_1(uint8 decimals, uint256 n) public {
-        console.log("Should return convert an UD71x6 to integer if decimals <3 (non-underflow cases)");
+        console.log(
+            "Should return convert an UD71x6 to integer if decimals <3 (non-underflow cases)"
+        );
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));

@@ -5,7 +5,7 @@ pragma solidity ^0.8.18;
 import "./abstracts/base/ERC20BaseUpgradeable.sol";
 import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {LDYStaking} from "./LDYStaking.sol";
+import {LDYStaking} from "./DummyLDYStaking.sol";
 
 // Libraries & interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
@@ -300,7 +300,12 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * amount of the underlying wrapped token.
      * @inheritdoc ERC20WrapperUpgradeable
      */
-    function decimals() public view override(ERC20Upgradeable, ERC20WrapperUpgradeable) returns (uint8) {
+    function decimals()
+        public
+        view
+        override(ERC20Upgradeable, ERC20WrapperUpgradeable)
+        returns (uint8)
+    {
         return ERC20WrapperUpgradeable.decimals();
     }
 

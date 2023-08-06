@@ -7,10 +7,10 @@ Instead the contracts use the `DELEGATECALL` opcode to execute the library funct
 However libraries can lead to self destruct the delegator contract or may rely on the delegator contract state structure.
 Because libraries source code is not always available locally and the above dangers are difficult to figure out, the OZ team has currently chosen to disable external library linking in their upgradeables plugins.
 
-The `APRCheckpoint` library doesn't include any self destruct mechanism nor rely on the contract state structure directly.
+The `APRHheckpoint` library doesn't include any self destruct mechanism nor rely on the contract state structure directly.
 Instead callers contracts have to pass a state pointers as functions arguments, which means that the library is state structure agnostic.
 
-Therefore, the `APRCheckpoint` library can be considered as upgrade safe.
+Therefore, the `APRHheckpoint` library can be considered as upgrade safe.
 
 Hopefully, OpenZeppelin `hardhat-upgrades` plugin provides a way to enable external library linking through explicit allowance.
 This is why `LToken` and `LDYStaking` contracts have this line in their Natspec documentation:

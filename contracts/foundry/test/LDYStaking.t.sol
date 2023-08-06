@@ -8,14 +8,14 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
-import {LDYStaking} from "../../src/LDYStaking.sol";
+import {LDYStaking} from "../../dev/LDYStaking.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
-import {GenericERC20} from "../../src/GenericERC20.sol";
+import {GenericERC20} from "../../dev/GenericERC20.sol";
 
 import {SUD} from "../../src/libs/SUD.sol";
-import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
+import {APRHistory as APRH} from "../../src/libs/APRHistory.sol";
 
 contract TestedContract is LDYStaking {
     function public_getLockDurationIncrease(
@@ -141,7 +141,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===============================
     // === recoverERC20() function ===
-    function test_recoverERC20_1(address account, address tokenAddress, uint256 recoveredAmount) public {
+    function test_recoverERC20_1(
+        address account,
+        address tokenAddress,
+        uint256 recoveredAmount
+    ) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
@@ -185,8 +189,14 @@ contract Tests is Test, ModifiersExpectations {
         tested.recoverLDY();
     }
 
-    function testFuzz_recoverLDY_3(uint16 aprUD7x3, uint256 fueledAmount, uint256 stakedAmount) public {
-        console.log("Shouldn't allow recovering $LDY deposited through stake() or fuel() functions");
+    function testFuzz_recoverLDY_3(
+        uint16 aprUD7x3,
+        uint256 fueledAmount,
+        uint256 stakedAmount
+    ) public {
+        console.log(
+            "Shouldn't allow recovering $LDY deposited through stake() or fuel() functions"
+        );
 
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -610,7 +620,8 @@ contract Tests is Test, ModifiersExpectations {
 
         // Compute applied fees rate from before and after staking amounts
         uint256 variationSUD = SUD.fromAmount(amount - tested.stakeOf(address(1234)), 18);
-        uint256 appliedFeesRateSUD = (variationSUD * SUD.fromInt(100, 18)) / SUD.fromAmount(amount, 18);
+        uint256 appliedFeesRateSUD = (variationSUD * SUD.fromInt(100, 18)) /
+            SUD.fromAmount(amount, 18);
         uint32 appliedFeesRateUD7x3 = uint32(SUD.toRate(appliedFeesRateSUD, 18));
 
         // Assert that applied fees rate is equal to unlock fees rate
@@ -687,7 +698,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(0);
     }
 
-    function testFuzz_stake_4(uint16 aprUD7x3, uint216 accountBalance, uint216 investedAmount) public {
+    function testFuzz_stake_4(
+        uint16 aprUD7x3,
+        uint216 accountBalance,
+        uint216 investedAmount
+    ) public {
         console.log("Should revert if given amount is lower than account's $LDY balance");
 
         // Set first random APR
@@ -866,7 +881,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.unstake(0);
     }
 
-    function testFuzz_unstake_4(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_4(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint216 withdrawnAmount
+    ) public {
         console.log("Should revert if given amount is lower than account's $LDY stake");
 
         // Set first random APR
@@ -890,7 +909,11 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_unstake_5(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_5(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint216 withdrawnAmount
+    ) public {
         console.log("Should revert if stake is still locked");
 
         // Set first random APR
@@ -951,7 +974,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_unstake_7(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_7(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint216 withdrawnAmount
+    ) public {
         console.log("Should decrease account stake of caller");
 
         // Set first random APR
@@ -984,7 +1011,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.stakeOf(address(1234)), oldStake - withdrawnAmount);
     }
 
-    function testFuzz_unstake_8(uint16 aprUD7x3, uint216 accountStake, uint216 withdrawnAmount) public {
+    function testFuzz_unstake_8(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint216 withdrawnAmount
+    ) public {
         console.log("Should decrease total staked amount");
 
         // Set first random APR
@@ -1076,7 +1107,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.claim();
     }
 
-    function testFuzz_claim_3(uint16 aprUD7x3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_3(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint40 investmentDuration
+    ) public {
         console.log("Should reset investment period of account");
 
         // Set first random APR
@@ -1086,7 +1121,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 0, type(uint40).max - block.timestamp));
+        investmentDuration = uint40(
+            bound(investmentDuration, 0, type(uint40).max - block.timestamp)
+        );
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
@@ -1115,7 +1152,11 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(address(1234)).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_claim_4(uint16 aprUD7x3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_4(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint40 investmentDuration
+    ) public {
         console.log("Should revert when there is no rewards to claim");
 
         // Set first random APR
@@ -1125,7 +1166,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1147,7 +1190,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.claim();
     }
 
-    function testFuzz_claim_5(uint16 aprUD7x3, uint216 accountStake, uint40 investmentDuration) public {
+    function testFuzz_claim_5(
+        uint16 aprUD7x3,
+        uint216 accountStake,
+        uint40 investmentDuration
+    ) public {
         console.log("Should reset account virtual balance");
 
         // Set first random APR
@@ -1157,7 +1204,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
@@ -1203,7 +1252,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1252,7 +1303,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1299,7 +1352,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1375,7 +1430,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 1, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 0, type(uint40).max - block.timestamp));
+        investmentDuration = uint40(
+            bound(investmentDuration, 0, type(uint40).max - block.timestamp)
+        );
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
@@ -1418,7 +1475,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1454,7 +1513,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Fill rewards reserve
         uint256 rewardsAmount = type(uint256).max - accountStake;
@@ -1500,7 +1561,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1549,7 +1612,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1594,7 +1659,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);
@@ -1643,7 +1710,9 @@ contract Tests is Test, ModifiersExpectations {
         accountStake = uint216(bound(accountStake, 2, MAX_SUPPLY_UD60x18));
 
         // Bound duration to prevent overflow
-        investmentDuration = uint40(bound(investmentDuration, 1, block.timestamp + 365 days * 1000));
+        investmentDuration = uint40(
+            bound(investmentDuration, 1, block.timestamp + 365 days * 1000)
+        );
 
         // Mint $LDY to account and stake it
         deal(address(ldyToken), address(1234), accountStake, true);

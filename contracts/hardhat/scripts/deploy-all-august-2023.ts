@@ -20,9 +20,9 @@ export const main = async () => {
     await import("./deploy-GlobalBlacklist")
   ).default;
 
-  // - Deploy APRCheckpoints library
+  // - Deploy APRHistory library
   await (
-    await import("./deploy-APRCheckpoints")
+    await import("./deploy-APRHistory")
   ).default;
 
   // - (if localnet) Deploy a fake $LDY token

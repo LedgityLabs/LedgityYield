@@ -2,7 +2,7 @@ export const displayedErrors: { [key: string]: string } = {
   // From Ownable.sol
   "Ownable: caller is not the owner": "Only contract owner can call this",
 
-  // From APRCheckpoints.sol
+  // From APRHistory.sol
   L1: "Cursor index overflow",
   L2: "Cursor index overflow",
   L3: "Pack index out of bounds",

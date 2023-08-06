@@ -11,10 +11,10 @@ import {GlobalOwner} from "../../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../../src/GlobalBlacklist.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
-import {GenericERC20} from "../../../src/GenericERC20.sol";
+import {GenericERC20} from "../../../dev/GenericERC20.sol";
 
 import {SUD} from "../../../src/libs/SUD.sol";
-import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
+import {APRHistory as APRH} from "../../../src/libs/APRHistory.sol";
 
 contract TestedContract is InvestUpgradeable {
     mapping(address => uint256) public stakeOf;
@@ -105,11 +105,16 @@ contract TestedContract is InvestUpgradeable {
         return _calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD7x3, investedAmount);
     }
 
-    function public_deepInvestmentOf(address account) public view returns (uint256 deepInvestedAmount) {
+    function public_deepInvestmentOf(
+        address account
+    ) public view returns (uint256 deepInvestedAmount) {
         return _deepInvestmentOf(account);
     }
 
-    function public_rewardsOf(address account, bool autocompound) public view returns (uint256 rewards) {
+    function public_rewardsOf(
+        address account,
+        bool autocompound
+    ) public view returns (uint256 rewards) {
         return _rewardsOf(account, autocompound);
     }
 
@@ -315,7 +320,11 @@ contract Tests is Test, ModifiersExpectations {
         tested.startRedirectRewards(account, account);
     }
 
-    function testFuzz_startRedirectRewards_8(address from, address to, address otherAccount) public {
+    function testFuzz_startRedirectRewards_8(
+        address from,
+        address to,
+        address otherAccount
+    ) public {
         console.log("Should revert if caller is neither the owner nor the from account");
 
         // Ensure accounts different and not not the zero address
@@ -602,7 +611,9 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_stopRedirectRewards_11(uint16 aprUD7x3, address from, address to) public {
-        console.log("Should reset to address at index from in rewardsRedirectsFromTo to zero address");
+        console.log(
+            "Should reset to address at index from in rewardsRedirectsFromTo to zero address"
+        );
         // Set first random APR
         tested.setAPR(aprUD7x3);
 
@@ -743,7 +754,12 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(beginTimestamp < endTimestamp);
 
         // Calculate rewards (shouldn't revert)
-        tested.public_calculatePeriodRewards(beginTimestamp, endTimestamp, aprUD7x3, investedAmount);
+        tested.public_calculatePeriodRewards(
+            beginTimestamp,
+            endTimestamp,
+            aprUD7x3,
+            investedAmount
+        );
     }
 
     function testFuzz__calculatePeriodRewards_2(
@@ -1258,7 +1274,9 @@ contract Tests is Test, ModifiersExpectations {
         uint256 investmentDuration,
         bool autocompound
     ) public {
-        console.log("Should properly calculate rewards when no new APR checkpoint after investment");
+        console.log(
+            "Should properly calculate rewards when no new APR checkpoint after investment"
+        );
 
         // Bound decimals to [0, 18] and set random invested token decimals
         decimals = uint8(bound(decimals, 0, 18));
@@ -1726,7 +1744,9 @@ contract Tests is Test, ModifiersExpectations {
         bool autocompound,
         bool isImplemented
     ) public {
-        console.log("Should distribute rewards to account at the very end of the redirection chain");
+        console.log(
+            "Should distribute rewards to account at the very end of the redirection chain"
+        );
         // Set random APR
         tested.setAPR(aprUD7x3);
 

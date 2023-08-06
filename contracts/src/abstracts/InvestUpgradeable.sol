@@ -11,7 +11,7 @@ import {GlobalRestrictableUpgradeable} from "./GlobalRestrictableUpgradeable.sol
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import {APRCheckpoints as APRC} from "../libs/APRCheckpoints.sol";
+import {APRHistory as APRH} from "../libs/APRHistory.sol";
 import {SUD} from "../libs/SUD.sol";
 import {RecoverableUpgradeable} from "../abstracts/RecoverableUpgradeable.sol";
 
@@ -42,7 +42,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      */
     struct InvestmentPeriod {
         uint40 timestamp; // Allows datetime up to 20/02/36812
-        APRC.Reference ref;
+        APRH.Reference ref;
     }
 
     /**
@@ -62,8 +62,8 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     /// @dev Holds investment information of each account
     mapping(address => AccountInfos) internal accountsInfos;
 
-    /// @dev Holds the history of APR through time (see APRCheckpoints.sol)
-    APRC.Pack[] private _packedAPRCheckpoints;
+    /// @dev Holds the history of APR through time (see APRHistory.sol)
+    APRH.Pack[] private _packedAPRHistory;
 
     /// @dev Holds active rewards redirection
     mapping(address => address) public rewardsRedirectsFromTo;
@@ -114,7 +114,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      * @param aprUD7x3 The new APR in UD7x3 format.
      */
     function setAPR(uint16 aprUD7x3) public onlyOwner {
-        APRC.setAPR(_packedAPRCheckpoints, aprUD7x3);
+        APRH.setAPR(_packedAPRHistory, aprUD7x3);
         emit APRUpdateEvent(aprUD7x3);
     }
 
@@ -123,7 +123,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      * @return The current APR in UD7x3 format.
      */
     function getAPR() public view returns (uint16) {
-        return APRC.getAPR(_packedAPRCheckpoints);
+        return APRH.getAPR(_packedAPRHistory);
     }
 
     /**
@@ -272,13 +272,16 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      * @param account The account to calculate the rewards of.
      * @param autocompound Whether to autocompound the rewards between APR checkpoints.
      */
-    function _rewardsOf(address account, bool autocompound) internal view returns (uint256 rewards) {
+    function _rewardsOf(
+        address account,
+        bool autocompound
+    ) internal view returns (uint256 rewards) {
         // Return 0 if packs array is empty
-        uint256 packsLength = _packedAPRCheckpoints.length;
+        uint256 packsLength = _packedAPRHistory.length;
         if (packsLength == 0) return 0;
 
         // Return 0 if only one pack exists but is blank
-        uint256 lastPackCursor = _packedAPRCheckpoints[packsLength - 1].cursor;
+        uint256 lastPackCursor = _packedAPRHistory[packsLength - 1].cursor;
         if (packsLength == 1 && lastPackCursor == 0) return 0;
 
         // Retrieve account infos and deep deposited amount
@@ -286,14 +289,14 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         uint256 depositedAmount = _deepInvestmentOf(account);
 
         // Initialize variables that will be used in the following computations
-        APRC.Reference memory currRef;
-        APRC.Checkpoint memory currCheckpoint;
-        APRC.Reference memory nextRef;
-        APRC.Checkpoint memory nextCheckpoint;
+        APRH.Reference memory currRef;
+        APRH.CheckpointData memory currCheckpoint;
+        APRH.Reference memory nextRef;
+        APRH.CheckpointData memory nextCheckpoint;
 
         // Populate above variables with deposit checkpoint and the one right after it
         currRef = infos.period.ref;
-        currCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, currRef);
+        currCheckpoint = APRH.getDataFromReference(_packedAPRHistory, currRef);
 
         // 1) Fill rewards with virtual balance (rewards not claimed yet)
         // See "InvestUpgradeable > Rewards calculation > 1)" section of the whitepaper
@@ -301,8 +304,8 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
 
         // If current checkpoint is not the last one, retrieve the next checkpoint
         if (currRef.packIndex != packsLength - 1 || currRef.cursorIndex != lastPackCursor - 1) {
-            nextRef = APRC.incrementReference(currRef);
-            nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
+            nextRef = APRH.incrementReference(currRef);
+            nextCheckpoint = APRH.getDataFromReference(_packedAPRHistory, nextRef);
 
             // 2) Calculate rewards from deposit to next checkpoint
             // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
@@ -321,12 +324,14 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
                 currCheckpoint = nextCheckpoint;
 
                 // Break if current checkpoint is the last one
-                if (currRef.packIndex == packsLength - 1 && currRef.cursorIndex == lastPackCursor - 1)
-                    break;
+                if (
+                    currRef.packIndex == packsLength - 1 &&
+                    currRef.cursorIndex == lastPackCursor - 1
+                ) break;
 
                 // Retrieve the new next checkpoint
-                nextRef = APRC.incrementReference(currRef);
-                nextCheckpoint = APRC.getDataFromReference(_packedAPRCheckpoints, nextRef);
+                nextRef = APRH.incrementReference(currRef);
+                nextCheckpoint = APRH.getDataFromReference(_packedAPRHistory, nextRef);
 
                 // Calculate rewards for the current pair of checkpoints
                 rewards += _calculatePeriodRewards(
@@ -365,7 +370,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     function _deepResetInvestmentPeriodOf(address account) internal {
         // Reset account deposit timestamp to current block timestamp and checkpoint reference to the latest one
         accountsInfos[account].period.timestamp = uint40(block.timestamp);
-        accountsInfos[account].period.ref = APRC.getLatestReference(_packedAPRCheckpoints);
+        accountsInfos[account].period.ref = APRH.getLatestReference(_packedAPRHistory);
 
         // Also reset the ones of all accounts that directly or indirectly redirect rewards to this account
         for (uint256 i = 0; i < rewardsRedirectsToFrom[account].length; i++) {

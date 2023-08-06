@@ -9,7 +9,7 @@ import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/U
 import {RecoverableUpgradeable} from "../../../src/abstracts/RecoverableUpgradeable.sol";
 import {GlobalOwner} from "../../../src/GlobalOwner.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
-import {GenericERC20} from "../../../src/GenericERC20.sol";
+import {GenericERC20} from "../../../dev/GenericERC20.sol";
 
 contract TestedContract is Initializable, UUPSUpgradeable, RecoverableUpgradeable {
     constructor() {
@@ -57,7 +57,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===============================
     // === recoverERC20() function ===
-    function test_recoverERC20_1(address account, address tokenAddress, uint256 recoveredAmount) public {
+    function test_recoverERC20_1(
+        address account,
+        address tokenAddress,
+        uint256 recoveredAmount
+    ) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet

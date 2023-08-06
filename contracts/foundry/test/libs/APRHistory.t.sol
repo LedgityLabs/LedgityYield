@@ -2,10 +2,10 @@
 pragma solidity ^0.8.18;
 
 import "../../lib/forge-std/src/Test.sol";
-import {APRCheckpoints as APRC} from "../../../src/libs/APRCheckpoints.sol";
+import {APRHistory as APRH} from "../../../src/libs/APRHistory.sol";
 
 contract Tests is Test {
-    APRC.Pack[] packs;
+    APRH.Pack[] packs;
 
     /**
      * @dev This function populate given number of packs with dummy data to the
@@ -16,9 +16,19 @@ contract Tests is Test {
     function populateDummyPacks(uint256 number) internal {
         // Fill packs with 20 dummy packs
         for (uint256 i = 0; i < number; i++) {
-            APRC.Pack memory pack = APRC.Pack({
-                aprsUD7x3: [uint16(i * 4 + 1), uint16(i * 4 + 2), uint16(i * 4 + 3), uint16(i * 4 + 4)],
-                timestamps: [uint40(i * 4 + 1), uint40(i * 4 + 2), uint40(i * 4 + 3), uint40(i * 4 + 4)],
+            APRH.Pack memory pack = APRH.Pack({
+                aprsUD7x3: [
+                    uint16(i * 4 + 1),
+                    uint16(i * 4 + 2),
+                    uint16(i * 4 + 3),
+                    uint16(i * 4 + 4)
+                ],
+                timestamps: [
+                    uint40(i * 4 + 1),
+                    uint40(i * 4 + 2),
+                    uint40(i * 4 + 3),
+                    uint40(i * 4 + 4)
+                ],
                 cursor: 4
             });
             packs.push(pack);
@@ -33,8 +43,8 @@ contract Tests is Test {
         vm.assume(cursorIndex > 3);
         vm.expectRevert(bytes("L1"));
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
-        APRC.incrementReference(ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, cursorIndex);
+        APRH.incrementReference(ref);
     }
 
     function testFuzz_incrementReference_2(uint256 packIndex, uint32 cursorIndex) public {
@@ -43,8 +53,8 @@ contract Tests is Test {
         // Bound cursor index to [0, 2]
         cursorIndex = uint32(bound(cursorIndex, 0, 2));
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
-        APRC.Reference memory newRef = APRC.incrementReference(ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, cursorIndex);
+        APRH.Reference memory newRef = APRH.incrementReference(ref);
 
         assertEq(newRef.packIndex, ref.packIndex);
         assertEq(newRef.cursorIndex, ref.cursorIndex + 1);
@@ -56,8 +66,8 @@ contract Tests is Test {
         // Ensure packIndex is not equal to max uint256 so incrementing it by 1 will not overflow
         vm.assume(packIndex != type(uint256).max);
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, 3);
-        APRC.Reference memory newRef = APRC.incrementReference(ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, 3);
+        APRH.Reference memory newRef = APRH.incrementReference(ref);
 
         assertEq(newRef.packIndex, ref.packIndex + 1);
         assertEq(newRef.cursorIndex, 0);
@@ -71,8 +81,8 @@ contract Tests is Test {
         vm.assume(cursorIndex > 3);
         vm.expectRevert(bytes("L2"));
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
-        APRC.getDataFromReference(packs, ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, cursorIndex);
+        APRH.getDataFromReference(packs, ref);
     }
 
     function testFuzz_getDataFromReference_2(uint256 packIndex, uint32 cursorIndex) public {
@@ -88,8 +98,8 @@ contract Tests is Test {
 
         vm.expectRevert(bytes("L3"));
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
-        APRC.getDataFromReference(packs, ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, cursorIndex);
+        APRH.getDataFromReference(packs, ref);
     }
 
     function testFuzz_getDataFromReference_3(uint256 packIndex, uint32 cursorIndex) public {
@@ -111,8 +121,8 @@ contract Tests is Test {
 
         vm.expectRevert(bytes("L4"));
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
-        APRC.getDataFromReference(packs, ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, cursorIndex);
+        APRH.getDataFromReference(packs, ref);
     }
 
     function testFuzz_getDataFromReference_4(uint256 packIndex, uint32 cursorIndex) public {
@@ -126,8 +136,8 @@ contract Tests is Test {
         // Bound cursor index to [0, 3]
         cursorIndex = uint32(bound(cursorIndex, 0, 3));
 
-        APRC.Reference memory ref = APRC.Reference(packIndex, cursorIndex);
-        APRC.Checkpoint memory checkpoint = APRC.getDataFromReference(packs, ref);
+        APRH.Reference memory ref = APRH.Reference(packIndex, cursorIndex);
+        APRH.CheckpointData memory checkpoint = APRH.getDataFromReference(packs, ref);
         assertEq(checkpoint.aprUD7x3, packs[packIndex].aprsUD7x3[cursorIndex]);
         assertEq(checkpoint.timestamp, packs[packIndex].timestamps[cursorIndex]);
     }
@@ -137,16 +147,16 @@ contract Tests is Test {
     function test_getLatestReference_1() public {
         console.log("Should revert if packs array is empty");
         vm.expectRevert(bytes("L5"));
-        APRC.getLatestReference(packs);
+        APRH.getLatestReference(packs);
     }
 
     function test_getLatestReference_2() public {
         console.log("Should revert if no checkpoint has been created yet");
         // Create a blank pack
-        APRC.newBlankPack(packs);
+        APRH.newBlankPack(packs);
 
         vm.expectRevert(bytes("L6"));
-        APRC.getLatestReference(packs);
+        APRH.getLatestReference(packs);
     }
 
     function test_getLatestReference_3() public {
@@ -154,7 +164,7 @@ contract Tests is Test {
 
         populateDummyPacks(10);
 
-        APRC.Reference memory ref = APRC.getLatestReference(packs);
+        APRH.Reference memory ref = APRH.getLatestReference(packs);
         assertEq(ref.packIndex, packs.length - 1);
         assertEq(ref.cursorIndex, packs[packs.length - 1].cursor - 1);
     }
@@ -163,9 +173,9 @@ contract Tests is Test {
         console.log("Should return cursor 3 of previous pack if latest pack is empty");
 
         populateDummyPacks(10);
-        APRC.newBlankPack(packs);
+        APRH.newBlankPack(packs);
 
-        APRC.Reference memory ref = APRC.getLatestReference(packs);
+        APRH.Reference memory ref = APRH.getLatestReference(packs);
         assertEq(ref.packIndex, packs.length - 2);
         assertEq(ref.cursorIndex, 3);
     }
@@ -173,15 +183,14 @@ contract Tests is Test {
     // ===============================
     // === newBlankPack() function ===
     function test_newBlankPack_1() public {
-        console.log("Should revert latest pack is not full yet");
+        console.log("Should revert if latest pack is not full yet");
 
         // Populate dummy data and ensure latest pack is not full yet
         populateDummyPacks(10);
         packs[packs.length - 1].cursor = 2;
 
         vm.expectRevert(bytes("L7"));
-
-        APRC.newBlankPack(packs);
+        APRH.newBlankPack(packs);
     }
 
     function test_newBlankPack_2() public {
@@ -190,11 +199,11 @@ contract Tests is Test {
         populateDummyPacks(10);
 
         uint256 oldLength = packs.length;
-        APRC.newBlankPack(packs);
+        APRH.newBlankPack(packs);
 
         assertEq(packs.length, oldLength + 1);
 
-        APRC.Pack memory newPack = packs[packs.length - 1];
+        APRH.Pack memory newPack = packs[packs.length - 1];
         assertEq(newPack.cursor, 0);
         for (uint256 i = 0; i <= 3; i++) {
             assertEq(newPack.aprsUD7x3[i], 0);
@@ -210,7 +219,7 @@ contract Tests is Test {
         console.log("Should create a first pack if packs array is empty");
 
         assertEq(packs.length, 0);
-        APRC.setAPR(packs, 1234);
+        APRH.setAPR(packs, 1234);
         assertEq(packs.length, 1);
     }
 
@@ -221,9 +230,9 @@ contract Tests is Test {
         populateDummyPacks(10);
         packs[packs.length - 1].cursor = 2;
 
-        APRC.setAPR(packs, 1234);
+        APRH.setAPR(packs, 1234);
 
-        APRC.Pack memory writtenPack = packs[packs.length - 1];
+        APRH.Pack memory writtenPack = packs[packs.length - 1];
         assertEq(writtenPack.aprsUD7x3[2], 1234);
         assertEq(writtenPack.timestamps[2], block.timestamp);
     }
@@ -236,10 +245,10 @@ contract Tests is Test {
         populateDummyPacks(10);
 
         uint256 oldLength = packs.length;
-        APRC.setAPR(packs, 1234);
+        APRH.setAPR(packs, 1234);
 
         assertEq(packs.length, oldLength + 1);
-        APRC.Pack memory writtenPack = packs[packs.length - 1];
+        APRH.Pack memory writtenPack = packs[packs.length - 1];
         assertEq(writtenPack.aprsUD7x3[0], 1234);
         assertEq(writtenPack.timestamps[0], block.timestamp);
     }
@@ -251,7 +260,7 @@ contract Tests is Test {
         packs[packs.length - 1].cursor = 2;
 
         uint32 oldCursor = packs[packs.length - 1].cursor;
-        APRC.setAPR(packs, 1234);
+        APRH.setAPR(packs, 1234);
 
         assertEq(packs[packs.length - 1].cursor, oldCursor + 1);
     }
@@ -261,7 +270,7 @@ contract Tests is Test {
 
         populateDummyPacks(10);
 
-        APRC.setAPR(packs, 1234);
+        APRH.setAPR(packs, 1234);
 
         assertEq(packs[packs.length - 1].cursor, 1);
     }
@@ -271,11 +280,11 @@ contract Tests is Test {
 
         populateDummyPacks(10);
 
-        uint256 oldAPR = APRC.getAPR(packs);
-        APRC.setAPR(packs, 1234);
+        uint256 oldAPR = APRH.getAPR(packs);
+        APRH.setAPR(packs, 1234);
 
         assertFalse(oldAPR == 1234);
-        assertEq(APRC.getAPR(packs), 1234);
+        assertEq(APRH.getAPR(packs), 1234);
     }
 
     // =========================
@@ -283,16 +292,7 @@ contract Tests is Test {
     function test_getAPR_1() public {
         console.log("Should return zero if packs array is empty");
 
-        uint256 apr = APRC.getAPR(packs);
-        assertEq(apr, 0);
-    }
-
-    function test_getAPR_2() public {
-        console.log("Should return zero if no checkpoint has been created yet");
-
-        APRC.newBlankPack(packs);
-
-        uint256 apr = APRC.getAPR(packs);
+        uint256 apr = APRH.getAPR(packs);
         assertEq(apr, 0);
     }
 
@@ -301,8 +301,8 @@ contract Tests is Test {
 
         populateDummyPacks(10);
 
-        uint256 apr = APRC.getAPR(packs);
-        APRC.Pack memory latestPack = packs[packs.length - 1];
+        uint256 apr = APRH.getAPR(packs);
+        APRH.Pack memory latestPack = packs[packs.length - 1];
         uint256 latestCursor = latestPack.cursor;
 
         assertEq(apr, latestPack.aprsUD7x3[latestCursor - 1]);

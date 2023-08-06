@@ -10,14 +10,14 @@ import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.s
 
 import {LToken} from "../../src/LToken.sol";
 
-import {LDYStaking} from "../../src/LDYStaking.sol";
+import {LDYStaking} from "../../dev/LDYStaking.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
-import {GenericERC20} from "../../src/GenericERC20.sol";
+import {GenericERC20} from "../../dev/GenericERC20.sol";
 
 import {SUD} from "../../src/libs/SUD.sol";
-import {APRCheckpoints as APRC} from "../../src/libs/APRCheckpoints.sol";
+import {APRHistory as APRH} from "../../src/libs/APRHistory.sol";
 import {ITransfersListener} from "../../src/interfaces/ITransfersListener.sol";
 
 contract Vault is ITransfersListener {
@@ -276,7 +276,9 @@ contract Tests is Test, ModifiersExpectations {
     // ===============================
     // === onlyWithdrawer modifier ===
     function testFuzz_onlyWithdrawer_1(address account) public {
-        console.log("Should revert calls made from non-withdrawer wallet and success withdrawer ones");
+        console.log(
+            "Should revert calls made from non-withdrawer wallet and success withdrawer ones"
+        );
 
         // Ensure that account is not the withdrawer wallet
         vm.assume(account != withdrawerWallet);
@@ -347,7 +349,9 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should revert if trying to set retention rate higher than 10%");
 
         // Ensure the retention rate is >10%
-        _retentionRateUD7x3 = uint32(bound(_retentionRateUD7x3, 10 * 10 ** 3 + 1, type(uint32).max));
+        _retentionRateUD7x3 = uint32(
+            bound(_retentionRateUD7x3, 10 * 10 ** 3 + 1, type(uint32).max)
+        );
 
         // Expect revert
         vm.expectRevert(bytes("L41"));
@@ -468,7 +472,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.listenToTransfers(listenerContract);
     }
 
-    function testFuzz_listenToTransfers_2(address listenersContract1, address listenerContract2) public {
+    function testFuzz_listenToTransfers_2(
+        address listenersContract1,
+        address listenerContract2
+    ) public {
         console.log(
             "Should else push given contract address at the end of  the transfersListeners array"
         );
@@ -723,7 +730,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // ===============================
     // === recoverERC20() function ===
-    function test_recoverERC20_1(address account, address tokenAddress, uint256 recoveredAmount) public {
+    function test_recoverERC20_1(
+        address account,
+        address tokenAddress,
+        uint256 recoveredAmount
+    ) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
@@ -961,7 +972,9 @@ contract Tests is Test, ModifiersExpectations {
         uint256 amount,
         uint256 duration
     ) public {
-        console.log("Should reset from and to accounts investment periods if they are not zero address");
+        console.log(
+            "Should reset from and to accounts investment periods if they are not zero address"
+        );
 
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -1122,7 +1135,8 @@ contract Tests is Test, ModifiersExpectations {
         // Obtain retention rate from total supply and expected retained
         uint256 totalSupplySUD = SUD.fromAmount(totalSupply, decimals);
         uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained, decimals);
-        uint256 retentionRateSUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) / totalSupplySUD;
+        uint256 retentionRateSUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) /
+            totalSupplySUD;
         uint256 expectedRetentionRateUD7x3 = SUD.toRate(retentionRateSUD, decimals);
 
         // Compute difference between expected retention rate and actual retention rate
@@ -1175,7 +1189,8 @@ contract Tests is Test, ModifiersExpectations {
         // Obtain expected total supply from retention rate and expected retained
         uint256 retentionRateSUD = SUD.fromRate(retentionRateUD7x3, decimals);
         uint256 expectedRetainedSUD = SUD.fromAmount(expectedRetained, decimals);
-        uint256 totalSupplySUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) / retentionRateSUD;
+        uint256 totalSupplySUD = (expectedRetainedSUD * SUD.fromInt(100, decimals)) /
+            retentionRateSUD;
         uint256 expectedTotalSupply = SUD.toAmount(totalSupplySUD, decimals);
 
         // Compute difference between expected retention rate and actual retention rate
@@ -1584,7 +1599,9 @@ contract Tests is Test, ModifiersExpectations {
         uint32 feesRateUD7x3,
         uint216 tier2Amount
     ) public {
-        console.log("Should always return [inputAmount, 0] if account is elligble to staking tier 2");
+        console.log(
+            "Should always return [inputAmount, 0] if account is elligble to staking tier 2"
+        );
 
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -2958,7 +2975,9 @@ contract Tests is Test, ModifiersExpectations {
         uint256 amountBase,
         uint160 accountBase
     ) public {
-        console.log("Should properly increase withdrawal cursor to the next request to be processed");
+        console.log(
+            "Should properly increase withdrawal cursor to the next request to be processed"
+        );
 
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -3303,7 +3322,9 @@ contract Tests is Test, ModifiersExpectations {
         uint32 retentionRateUD7x3,
         uint256 amount
     ) public {
-        console.log("Should use contract tokens to cover request if fund wallet balance is not enough");
+        console.log(
+            "Should use contract tokens to cover request if fund wallet balance is not enough"
+        );
 
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -4301,7 +4322,11 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Ensure funded amount is greater than fund wallet balance
-        fundedAmount = bound(fundedAmount, underlyingToken.balanceOf(fundWallet) + 1, type(uint256).max);
+        fundedAmount = bound(
+            fundedAmount,
+            underlyingToken.balanceOf(fundWallet) + 1,
+            type(uint256).max
+        );
 
         // Expect revert when trying to fund more than fund wallet balance
         vm.expectRevert(bytes("L58"));
@@ -4411,10 +4436,16 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Assert that fund wallet underlying balance has decreased by the funded amount
-        assertEq(underlyingToken.balanceOf(fundWallet), oldFundWalletUnderlyingBalance - fundedAmount);
+        assertEq(
+            underlyingToken.balanceOf(fundWallet),
+            oldFundWalletUnderlyingBalance - fundedAmount
+        );
 
         // Assert that L-Token contract underlying balance has increased by the funded amount
-        assertEq(underlyingToken.balanceOf(address(tested)), oldLTokenUnderlyingBalance + fundedAmount);
+        assertEq(
+            underlyingToken.balanceOf(address(tested)),
+            oldLTokenUnderlyingBalance + fundedAmount
+        );
     }
 
     function testFuzz_repatriate_6(
@@ -4586,10 +4617,16 @@ contract Tests is Test, ModifiersExpectations {
         tested.claimFees();
 
         // Assert that owner underlying balance has increased by the unclaimed fees
-        assertEq(underlyingToken.balanceOf(tested.owner()), oldOwnerUnderlyingBalance + unclaimedFees);
+        assertEq(
+            underlyingToken.balanceOf(tested.owner()),
+            oldOwnerUnderlyingBalance + unclaimedFees
+        );
 
         // Assert that L-Token contract underlying balance has decreased by the unclaimed fees
-        assertEq(underlyingToken.balanceOf(address(tested)), oldLTokenUnderlyingBalance - unclaimedFees);
+        assertEq(
+            underlyingToken.balanceOf(address(tested)),
+            oldLTokenUnderlyingBalance - unclaimedFees
+        );
     }
 
     function testFuzz_claimFees_5(
