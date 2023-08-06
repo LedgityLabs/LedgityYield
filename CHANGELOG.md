@@ -1,3 +1,16 @@
+## [1.126.6](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.5...v1.126.6) (2023-08-06)
+
+
+### Fixes
+
+* **ltoken:** default withdrawer and fund wallet to owner ([b43c756](https://github.com/ledgity-labs/Ledgity-Yield/commit/b43c756260338a0de1a9c735ee66a94225321ed8))
+
+
+### Docs
+
+* improve documentation of GlobalOwnableUpgradeable.sol ([cfe3aad](https://github.com/ledgity-labs/Ledgity-Yield/commit/cfe3aadd48031cb6d9c65e7ca2b03c9a091b0931))
+* improve documentation of GlobalPausableUpgradeable.sol ([1f4a06f](https://github.com/ledgity-labs/Ledgity-Yield/commit/1f4a06f2fb56c38297fa03029796c7cf2962c391))
+
 ## [1.126.5](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.4...v1.126.5) (2023-08-06)
 
 
