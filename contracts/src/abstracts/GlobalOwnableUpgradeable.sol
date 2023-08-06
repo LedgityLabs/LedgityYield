@@ -6,32 +6,37 @@ import {GlobalOwner} from "../GlobalOwner.sol";
 
 /**
  * @title GlobalOwnableUpgradeable
- * @author Lila Rest (lila@ledgity.com)
- * @notice This abstract contract allows inheriting children contracts to be owned by the
- * owner of the GlobalOwner contract (see GlobalOwner.sol).
- * @dev Note that children inheriting contract must set the globalOwner at initialization
- * time. For obvious security reasons, the globalOwner can't be changed afterwards.
- * For further details, see "GlobalOwnableUpgradeable" section of whitepaper.
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+
+ * @notice Derived contracts will inherit ownership from the specified GlobalOwner 
+ * contract (see GlobalOwner.sol). This design facilitates centralized management
+ * of ownership for all the Ledgity Yield contracts.
+ * 
+ * @dev Note: The globalOwner state must be set at initialization-time and for evident
+ * security reasons cannot be changed afterwards.
+ * 
+ * @dev For further details, see "GlobalOwnableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     /**
-     * @dev The GlobalOwner contract.
-     * This state is private so children contracts cannot change its value.
+     * @notice The GlobalOwner contract the contract will inherit ownership from.
+     * @dev This state is private so derived contracts cannot change its value.
      */
     GlobalOwner private _globalOwner;
 
     /**
-     * @dev Initializer functions of the contract. They replace the constructor() function
-     * in context of upgradeable contracts.
-     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @notice Initializer functions of the contract. They replace the constructor()
+     * function in the context of upgradeable contracts.
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
      * @param globalOwner_ The address of the GlobalOwner contract
      */
     function __GlobalOwnable_init(address globalOwner_) internal onlyInitializing {
         __GlobalOwnable_init_unchained(globalOwner_);
-        // Note that __Ownable_init() doesn't have to be called as the overriden
-        // owner() function don't rely anymore on _owner variable. So as __Ownable_init()
-        // only set the initial owner, calling it would have no effect.
+        // Note: __Ownable_init() doesn't have to be called as the overriden owner()
+        // function no longer rely on the _owner state. Since __Ownable_init() only sets
+        // the initial _owner value, calling it would have no effect.
     }
 
     function __GlobalOwnable_init_unchained(address globalOwner_) internal onlyInitializing {
@@ -39,7 +44,7 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     }
 
     /**
-     * @dev Getter for the GlobalOwner contract.
+     * @notice Retrieves the address of GlobalOwner contract.
      * @return The address of the GlobalOwner contract
      */
     function globalOwner() public view returns (address) {
@@ -47,18 +52,17 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     }
 
     /**
-     * @dev Override of OwnableUpgradeable.owner() function that reads the owner address
-     * from the GlobalOwner contract instead of doing it locally.
-     * @return Whether the contract is paused or not
+     * @notice Override of OwnableUpgradeable.owner() that retrieves the owner's address
+     * from the GlobalOwner contract instead.
+     * @return The address of the owner
      */
     function owner() public view override returns (address) {
         return _globalOwner.owner();
     }
 
     /**
-     * @dev Override of OwnableUpgradeable.transferOwnership() function that prevents any
-     * ownership transfer. Ownership is managed by the GlobalOwner contract.
-     * For further details, see "GlobalOwner.sol" section of whitepaper.
+     * @notice Override of OwnableUpgradeable.transferOwnership() that always reverts.
+     * Ownership is managed by the GlobalOwner contract and must be modified there.
      */
     function transferOwnership(address newOwner) public view override onlyOwner {
         newOwner; // Silence unused variable compiler warning
@@ -66,9 +70,8 @@ abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     }
 
     /**
-     * @dev Override of OwnableUpgradeable.renounceOwnership() function that prevents any
-     * ownership renunciation. Ownership is managed by the GlobalOwner contract.
-     * For further details, see "GlobalOwner.sol" section of whitepaper.
+     * @notice Override of OwnableUpgradeable.renounceOwnership() that always reverts.
+     * Ownership is managed by the GlobalOwner contract and must be modified there.
      */
     function renounceOwnership() public view override onlyOwner {
         revert("L65");
