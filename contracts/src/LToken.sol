@@ -185,6 +185,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Set initial retention rate to 5%
         setRetentionRate(5000);
+
+        // Set initial APR to 0% (else getAPR() will revert)
+        setAPR(0);
     }
 
     /**

@@ -36,8 +36,8 @@ pragma solidity ^0.8.18;
  */
 library APRHistory {
     /**
-     * @notice Represents in-memory data of a checkpoint extracted from the on-chain
-     * history. For on-chain representation see "Pack" struct.
+     * @notice Represents data of a checkpoint extracted from the on-chain history.
+     * For on-chain representation see "Pack" struct.
      * @param aprUD7x3 APR in UD7x3 format (e.g., 12.345% = 12345).
      * @param timestamp Timestamp of the checkpoint's creation.
      */
@@ -188,13 +188,10 @@ library APRHistory {
     /**
      * @notice Retrieves the APR of the latest checkpoint written in the APR history.
      * @param history The history array to read APR from.
-     * @return The latest checkpoint's APR, or 0 if history is empty.
+     * @return The latest checkpoint's APR.
      */
     function getAPR(Pack[] storage history) external view returns (uint16) {
-        // If history is empty, returns 0
-        if (history.length == 0) return 0;
-
-        // Else, retrieve the latest checkpoint data
+        // Retrieve the latest checkpoint data
         Reference memory ref = getLatestReference(history);
         CheckpointData memory data = getDataFromReference(history, ref);
 
