@@ -8,14 +8,14 @@ import {GlobalOwner} from "../GlobalOwner.sol";
  * @title GlobalOwnableUpgradeable
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
-
- * @notice Derived contracts will inherit ownership from the specified GlobalOwner 
+ *
+ * @notice Derived contracts will inherit ownership from the specified GlobalOwner
  * contract (see GlobalOwner.sol). This design facilitates centralized management
  * of ownership for all the Ledgity Yield contracts.
- * 
- * @dev Note: The globalOwner state must be set at initialization-time and for evident
+ *
+ * @dev Note: The _globalOwner state must be set at initialization-time and for evident
  * security reasons cannot be changed afterwards.
- * 
+ *
  * @dev For further details, see "GlobalOwnableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
