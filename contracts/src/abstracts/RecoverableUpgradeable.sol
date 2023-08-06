@@ -1,22 +1,36 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 
-import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 /**
  * @title RecoverableUpgradeable
- * @author Lila Rest (lila@ledgity.com)
- * @notice This abstract contract provides helpers functions to recover assets accidentally
- * sent to the contract.
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+ *
+ * @notice Derived contracts are provided with helpers functions that allow recovering
+ * assets accidentally sent to them.
+ *
+ * @dev Note: This abstract contract currently supports only ERC20 tokens. Derived
+ * contracts currently do not implement necessary functions to receive Ether or
+ * ERC721/ERC1155 tokens.
+ *
  * @dev For further details, see "RecoverableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
+abstract contract RecoverableUpgradeable is Initializable, GlobalOwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
+    /**
+     * @notice Initializer functions of the contract. They replace the constructor()
+     * function in the context of upgradeable contracts.
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalOwner_ The address of the GlobalOwner contract.
+     */
     function __Recoverable_init(address globalOwner_) internal onlyInitializing {
         __GlobalOwnable_init(globalOwner_);
         __Recoverable_init_unchained();
@@ -25,22 +39,22 @@ abstract contract RecoverableUpgradeable is GlobalOwnableUpgradeable {
     function __Recoverable_init_unchained() internal onlyInitializing {}
 
     /**
-     * @dev Recover a given amount of tokens of the given contract address. Will fail
-     * if not enough tokens are held by the contract.
-     * @param tokenAddress The address of the token to recover
-     * @param amount The amount of token to recover
+     * @notice Recovers a specified amount of a given token address. Will fail if the
+     * contract doesn't hold enough tokens.
+     * @param tokenAddress The address of the token to recover.
+     * @param amount The amount of token to recover.
      */
     function recoverERC20(address tokenAddress, uint256 amount) public virtual onlyOwner {
-        // Ensure given amount is not zero
+        // Ensure the specified amount is not zero
         require(amount > 0, "L10");
 
         // Retrieve token contract
         IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 
-        // Ensure they is enough token to recover
+        // Ensure there is enough token to recover
         require(tokenContract.balanceOf(address(this)) >= amount, "L11");
 
-        // Transfer recovered ERC20 tokens to sender
+        // Transfer the recovered token amount to the sender
         tokenContract.safeTransfer(_msgSender(), amount);
     }
 
