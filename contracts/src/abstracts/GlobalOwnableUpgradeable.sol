@@ -21,7 +21,7 @@ import {GlobalOwner} from "../GlobalOwner.sol";
  */
 abstract contract GlobalOwnableUpgradeable is OwnableUpgradeable {
     /**
-     * @notice The GlobalOwner contract the contract will inherit ownership from.
+     * @notice The GlobalOwner contract the ownership will be inherited from.
      * @dev This state is private so derived contracts cannot change its value.
      */
     GlobalOwner private _globalOwner;
