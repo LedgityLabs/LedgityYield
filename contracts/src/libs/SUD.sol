@@ -7,58 +7,72 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * @title SUD
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
- * @notice
  *
- * This codebase uses UD (unsigned fixed-point decimals) numbers to represent both
- * percentage rates and tokens amounts.
+ * @notice SUD serves as an intermediary number format for calculations within this
+ * codebase. It ensures consistency and reduces precision losses. This library
+ * facilitates conversions between various number formats and the SUD format.
  *
- * Rates are represented as UD7x3 numbers while token amount format varies with the
- * number of decimals of the involved tokens.
+ * @dev What's the purpose of this library?
  *
- * As values computed together must be in the same fixed-point format, rates, amounts
- * and integers cannot be computed together directly without converting them before
- * to a common decimals number.
+ * This codebase employs UD (unsigned decimal fixed-point numbers) format to represent
+ * both percentage rates and tokens amounts.
  *
- * Also, performing consecutive calculations on UD numbers that involve divisions,
- * often results in a cumulated and so mort import precision loss.
- * A common solution is to scale involved values by a few decimals before performing
- * operations, and then to scale them back to their original format before returning
- * the result.
+ * Rates are expressed in UD7x3 format, whereas the format for tokens amounts depends on
+ * the decimals() value of the involved tokens.
  *
- * This library provides utilities to face both of above mentionned issues, by offering
- * the SUD format, a common and scaled intermediary format to perform calculations on.
+ * Three challenges arise from this:
+ *   1) To compute values together, it's essential that they are in the same format
+ *   2) Calculations involving consecutive divisions on UD numbers lead to accumulated
+ *      precision loss (because division shrinks). A common approach is to scale up and
+ *      down values by a few decimals before and after performing calculations.
+ *   3) Given that rates use the UD7x3 format, if we decided to scale them to and from
+ *      the number of decimals of the involved token, 1 to 3 of the rates' decimals would
+ *      be shrinked in case token's decimals number is in [0, 2].
  *
- * SUD stands for "Scaled UD" and/or "Safe UD".
+ * To address these challenges, this library provides the SUD format, which acts as a
+ * consistent and scaled intermediate format to perform calculations on.
  *
- * @dev Number types definitions:
+ * SUD is an acronym for either "Scaled UD" or "Safe UD".
  *
- * - Integer: A number without decimals (e.g. block.timestamp)
+ * @dev Some definitions:
+ * - Integer: A number without fractional part, e.g., block.timestamp
  *
- * - Amount: An unsigned fixed-point number with an unknown (at writing time) repartition
- *           of digits (integral/fractional parts). Represents a token amount.
+ * - UD: A decimal unsigned fixed-point number. The "UD" notation is inspired from
+ *       libraries like [prb-math](https://github.com/PaulRBerg/prb-math/)
  *
- * - Rate: An unsigned fixed-point number with 7 integral digits and 3 fractional ones.
- *         (a.k.a UD7x3). Represents a percentage rate.
+ * - Amount: An UD with an unknown (at writing time) repartition of digits between
+ *           integral and fractional parts. Represents a token amount.
+ *
+ * - Rate: An UD with 7 integral digits and 3 fractional ones (a.k.a UD7x3).
+ *         Represents a percentage rate.
  *
  * - SUD: An UD with 3 more decimals than the involved rate or amount with the highest
- *        decimals number. As rate are represented by UD7x3, a SUD number has at least 6
+ *        decimals number. As rates are represented by UD7x3, a SUD number has at least 6
  *        decimals (3+3) and so ranges from UD71x6 to UD0x77 formats.
- *        Used as an intermediate format to perform lossless calculations.
- *
- * This UD nomenclature is inspired from libraries like [prb-math](https://github.com/PaulRBerg/prb-math/).
+ *        Used as an intermediate format to perform calculations.
  *
  * @dev This library provides utilities to perform the following conversions:
  * - Amount       <--> SUD
  * - Rate (UD7x3) <--> SUD
  * - Integer      <--> SUD
  *
- * @dev Optimization note: Functions of this library haven't been made external because
- * including them directly in contracts is actually cheaper than making them external.
- * Those are so minimal and used so much time in InvestUpgradeable, LDYStaking and LToken
- * contracts, that bytecode saving of making them those is far outweighed by all extra
- * bytecode generated to perform external calls to this library.
- * This can be easily checked by comparing the output of `pnpm cc:size` when those
- * functions are external or internal.
+ * @dev Why scaling by 3 decimals?
+ * - It provides an adequate degree of precision for this codebase,
+ * - It enables the conversion of a UD7x3 rate to SUD format by merely scaling it up by
+ *   the involved token's decimal number.
+ *
+ * @dev Optimization note: The functions of this library are not set to external because
+ * incorporating them directly into contracts is more gas-efficient. Given their minimal
+ * size and frequent usage in the InvestUpgradeable, LDYStaking, and LToken contracts,
+ * any bytecode savings from making them external are negated by the additional bytecode
+ * required for external calls to this library.
+ * The can be observed by comparing the output of `pnpm cc:size` when those functions's
+ * visibility is set to external or internal.
+ *
+ * @dev Precision note: While this library mitigates precision loss during calculations
+ * on UD numbers, it's important to note that tokens with lower decimal counts and supply
+ * inherently suffer more from precision loss. Conversely, tokens with higher decimal
+ * counts and supply will experience less precision loss.
  *
  * @dev For further details, see "SUD" section of whitepaper.
  */
@@ -87,23 +101,21 @@ library SUD {
     }
 
     /**
-     * @notice Convert a given SUD amount into token amount format.
-     * @param nSUD The SUD amount to convert.
+     * @notice Convert a given SUD number into token amount format.
+     * @param nSUD The SUD number to convert.
      * @param decimals The decimals number of the involved ERC20 token.
-     * @return nAmount The amount in decimals format
+     * @return nAmount The number in amount format
      */
     function toAmount(uint256 nSUD, uint256 decimals) internal pure returns (uint256 nAmount) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** (6 - decimals);
 
-        // Else return a number with decimals+3 fractional digits
+        // Else, convert from a number with decimals+3 fractional digits
         return nSUD / 10 ** 3;
     }
 
     /**
      * @notice Converts a given UD7x3 rate into SUD format.
-     * @dev UD7x3 have the interesting property of being convertible into SUD format by
-     * scaling them up by the token decimals number. See "SUD" section of whitepaper.
      * @param nUD7x3 The UD7x3 rate to convert.
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nSUD The rate in SUD format.
@@ -112,14 +124,12 @@ library SUD {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return nUD7x3 * 10 ** 3;
 
-        // Else return a number with decimals+3 fractional digits
+        // Else, return a number with decimals+3 fractional digits
         return nUD7x3 * 10 ** decimals;
     }
 
     /**
      * @notice Converts a given SUD number into a UD7x3 rate.
-     * @dev SUD have the interesting property of being convertible into UD7x3 rate by
-     * scaling them down by the token decimals number. See "SUD" section of whitepaper.
      * @param nSUD The SUD number to convert.
      * @param decimals The decimals number of the involved ERC20 token.
      * @return nUD7x3 The number in UD7x3 rate format.
@@ -128,7 +138,7 @@ library SUD {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** 3;
 
-        // Else return a number with decimals+3 fractional digits
+        // Else, convert from a number with decimals+3 fractional digits
         return nSUD / 10 ** decimals;
     }
 
@@ -142,7 +152,7 @@ library SUD {
         // If token decimals < 3, return a UD71x6 number
         if (decimals < 3) return n * 10 ** 6;
 
-        // Else
+        // Else, return a number with decimals+3 fractional digits
         return n * 10 ** (decimals + 3);
     }
 
@@ -150,13 +160,13 @@ library SUD {
      * @notice Converts a given SUD number as an integer (all decimals shrinked).
      * @param nSUD The SUD number to convert.
      * @param decimals The decimals number of the involved ERC20 token.
-     * @return n The number as an integer.
+     * @return n The SUD number as an integer.
      */
     function toInt(uint256 nSUD, uint256 decimals) internal pure returns (uint256 n) {
         // If token decimals < 3, convert from a UD71x6 number
         if (decimals < 3) return nSUD / 10 ** 6;
 
-        // Else
+        // Else, convert from a number with decimals+3 fractional digits
         return nSUD / 10 ** (decimals + 3);
     }
 }
