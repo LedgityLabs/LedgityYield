@@ -2,43 +2,51 @@
 pragma solidity ^0.8.18;
 
 // Contracts
-import "./abstracts/base/ERC20BaseUpgradeable.sol";
 import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
+import "./abstracts/base/ERC20BaseUpgradeable.sol";
 import {LDYStaking} from "./DummyLDYStaking.sol";
 
-// Libraries & interfaces
-import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+// Libraries
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import {SUD} from "./libs/SUD.sol";
 
+// Interfaces
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
 
 /**
  * @title LToken
- * @author Lila Rest (lila@ledgity.com)
- * @notice This contract powers every L-Token available on the Ledgity DeFi app
- * A L-Token is:
- * - a wrapper around a stablecoin (e.g., USDC, EUROC)
- * - a yield bearing token (i.e., it generates rewards as soon as a wallet holds it)
- * - backed by RWA (i.e., it is fully collateralized by real world assets)
- * Rewards are distributed in the L-Token itself, and rewarded L-Tokens are auto-compounded
- * and so automatically re-invested through time
- * @dev For further details, see "LToken" section of whitepaper.
+ * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
+ *
+ * @notice Main contract of the Ledgity Yield protocol. It powers every L-Token (i.e,
+ * investment pools backed by RWA). An L-Token is an ERC20 wrapper around a stablecoin.
+ * As soon as a wallet holds some L-Tokens, it starts receiving rewards in
+ * the form of additional L-Tokens, which are auto-compounded over time.
+ *
+ * @dev Intuition:
+ *
+ * @dev Definitions:
+ *
+ * @dev Security: This contract can safely receive funds immediately after initialization.
+ * It is however required to set a non-zero APR for users to start receiving rewards.
+ *
+ * @dev For further details, see "LToken" section of whitepaper.
  * @custom:oz-upgrades-unsafe-allow external-library-linking
+ * @custom:security-contact security@ledgity.com
  */
 contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
-    /// @dev Used to represent the action that triggered an ActivityEvent.
+    /// @dev Represents type of actions triggering ActivityEvent events.
     enum Action {
         Deposit,
         Withdraw
     }
 
-    /// @dev Used to represent the status of the action that triggered an ActivityEvent.
+    /// @dev Represents different status of actions triggering ActivityEvent events.
     enum Status {
         Queued,
         Cancelled,

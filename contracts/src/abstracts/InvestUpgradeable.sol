@@ -9,12 +9,14 @@ import {GlobalRestrictableUpgradeable} from "./GlobalRestrictableUpgradeable.sol
 import "./base/BaseUpgradeable.sol";
 import {RecoverableUpgradeable} from "../abstracts/RecoverableUpgradeable.sol";
 
-// Libraries & interfaces
+// Libraries
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {APRHistory as APRH} from "../libs/APRHistory.sol";
 import {SUD} from "../libs/SUD.sol";
+
+// Interfaces
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 
 /**
  * @title InvestUpgradeable
@@ -24,6 +26,10 @@ import {SUD} from "../libs/SUD.sol";
  * @notice Derived contracts are provided with a bunch of utilities to manage an invested
  * token, users' investment periods, rewards calculation, virtual balances, and
  * auto-compounding.
+ *
+ * @dev Intuition:
+ *
+ * @dev Definitions:
  *
  * @dev Derived contract must:
  *  - Set invested token during initialization
@@ -382,7 +388,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     }
 
     /**
-     * @notice Hook to be invoked before the invested amount of an account changes. It 
+     * @notice Hook to be invoked before the invested amount of an account changes. It
      * ensures that rewards are distributed and that account's investment period is reset.
      * @param account The account whose invested amount is going to change.
      * @param autocompound Whether to autocompound the rewards between APR checkpoints.

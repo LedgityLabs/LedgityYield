@@ -3,9 +3,9 @@ pragma solidity ^0.8.18;
 
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import {ERC20PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PausableUpgradeable.sol";
-import {GlobalPausableUpgradeable} from "../GlobalPausableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "./BaseUpgradeable.sol";
+import {GlobalPausableUpgradeable} from "../GlobalPausableUpgradeable.sol";
 
 /**
  * @title ERC20BaseUpgradeable

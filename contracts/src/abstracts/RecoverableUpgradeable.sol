@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+// Conracts
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
 
+// Libraries
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+
+// Interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 /**
