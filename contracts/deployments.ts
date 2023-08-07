@@ -2,11 +2,11 @@ import { Abi } from "viem";
 import GlobalOwnerJSON from "./hardhat/artifacts/contracts/src/GlobalOwner.sol/GlobalOwner.json";
 import GlobalPauseJSON from "./hardhat/artifacts/contracts/src/GlobalPause.sol/GlobalPause.json";
 import GlobalBlacklistJSON from "./hardhat/artifacts/contracts/src/GlobalBlacklist.sol/GlobalBlacklist.json";
-import LDYStakingJSON from "./hardhat/artifacts/contracts/src/LDYStaking.sol/LDYStaking.json";
+import LDYStakingJSON from "./hardhat/artifacts/contracts/src/dev/LDYStaking.sol/WIP_LDYStaking.json";
 import LTokenJSON from "./hardhat/artifacts/contracts/src/LToken.sol/LToken.json";
 import ERC20JSON from "./hardhat/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json";
 import LTokenSignalerJSON from "./hardhat/artifacts/contracts/src/LTokenSignaler.sol/LTokenSignaler.json";
-import Multicall3JSON from "./hardhat/artifacts/contracts/src/Multicall3.sol/Multicall3.json";
+import Multicall3JSON from "./hardhat/artifacts/contracts/src/dev/Multicall3.sol/Multicall3.json";
 import APRHistoryJSON from "./hardhat/artifacts/contracts/src/libs/APRHistory.sol/APRHistory.json";
 
 interface Contract {

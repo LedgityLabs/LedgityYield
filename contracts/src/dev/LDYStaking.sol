@@ -2,9 +2,9 @@
 pragma solidity ^0.8.18;
 
 // Contracts
-import "../src/abstracts/base/BaseUpgradeable.sol";
-import {InvestUpgradeable} from "../src/abstracts/InvestUpgradeable.sol";
-import {SUD} from "../src/libs/SUD.sol";
+import "../abstracts/base/BaseUpgradeable.sol";
+import {InvestUpgradeable} from "../abstracts/InvestUpgradeable.sol";
+import {SUD} from "../libs/SUD.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 // Libraries & interfaces
@@ -31,7 +31,7 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
  * @custom:security-contact security@ledgity.com
  * @custom:oz-upgrades-unsafe-allow external-library-linking
  */
-contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
+contract WIP_LDYStaking is BaseUpgradeable, InvestUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /**
