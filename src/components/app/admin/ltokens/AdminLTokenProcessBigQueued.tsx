@@ -1,7 +1,7 @@
 import { Card, Input, TxButton } from "@/components/ui";
 import {
   useLdyStakingStakeLockDuration,
-  usePrepareLTokenBigQueuedWithdraw,
+  usePrepareLTokenprocessBigQueuedRequest,
   usePrepareLdyStakingSetStakeLockDuration,
 } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
@@ -16,13 +16,16 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenId }) => {
   const lTokenAddress = useContractAddress(lTokenId);
   const [requestId, setRequestId] = useState(0n);
-  const preparation = usePrepareLTokenBigQueuedWithdraw({ address: lTokenAddress, args: [requestId] });
+  const preparation = usePrepareLTokenprocessBigQueuedRequest({
+    address: lTokenAddress,
+    args: [requestId],
+  });
 
   return (
     <AdminBrick title="Process big queued request">
       <p>
-        This utility can only be called by the fund wallet and will process a given request using the
-        fund&apos;s {lTokenId.slice(1)} balance directly.
+        This utility can only be called by the fund wallet and will process a given request using
+        the fund&apos;s {lTokenId.slice(1)} balance directly.
       </p>
       <div className="flex justify-center items-end gap-3">
         <Input

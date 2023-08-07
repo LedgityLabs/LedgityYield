@@ -62,18 +62,18 @@ templates:
       file: ./mapping.ts
       entities:
         - LToken
-        - TVLUpdate
-        - APRUpdate
+        - TVLChange
+        - APRChange
         - Activity
         - RewardsMint
       abis:
         - name: LToken
           file: ../hardhat/abis/LToken.json
       eventHandlers:
-        - event: TVLUpdateEvent(uint256)
-          handler: handleTVLUpdateEvent
-        - event: APRUpdateEvent(uint16)
-          handler: handleAPRUpdateEvent
+        - event: TVLChangeEvent(uint256)
+          handler: handleTVLChangeEvent
+        - event: APRChangeEvent(uint16)
+          handler: handleAPRChangeEvent
         - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint256,uint8)
           handler: handleActivityEvent
         - event: MintedRewardsEvent(indexed address,uint256,uint256)

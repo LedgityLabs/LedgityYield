@@ -1,21 +1,21 @@
 import {
   LToken,
-  TVLUpdateEvent,
-  APRUpdateEvent,
+  TVLChangeEvent,
+  APRChangeEvent,
   ActivityEvent,
   MintedRewardsEvent,
 } from "./generated/templates/LToken/LToken";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
   LToken as LTokenSchema,
-  TVLUpdate,
+  TVLChange,
   Activity,
-  APRUpdate,
+  APRChange,
   RewardsMint,
   LDYStaking,
   TotalStakedUpdate,
 } from "./generated/schema";
-import { BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { TotalStakedUpdateEvent } from "./generated/LDYStaking/LDYStaking";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 
@@ -34,10 +34,10 @@ export function handleSignaledLToken(event: LTokenSignalEvent): void {
   }
 }
 
-export function handleTVLUpdateEvent(event: TVLUpdateEvent): void {
+export function handleTVLChangeEvent(event: TVLChangeEvent): void {
   let ltoken = LTokenSchema.load(event.address.toHexString());
   if (ltoken) {
-    let tvlUpdate = new TVLUpdate(event.transaction.hash.toHexString());
+    let tvlUpdate = new TVLChange(event.transaction.hash.toHexString());
     tvlUpdate.ltoken = ltoken.id;
     tvlUpdate.timestamp = event.block.timestamp;
     tvlUpdate.amount = event.params.newTVL.toBigDecimal();
@@ -47,10 +47,10 @@ export function handleTVLUpdateEvent(event: TVLUpdateEvent): void {
   }
 }
 
-export function handleAPRUpdateEvent(event: APRUpdateEvent): void {
+export function handleAPRChangeEvent(event: APRChangeEvent): void {
   let ltoken = LTokenSchema.load(event.address.toHexString());
   if (ltoken) {
-    let aprUpdate = new APRUpdate(event.transaction.hash.toHexString());
+    let aprUpdate = new APRChange(event.transaction.hash.toHexString());
     aprUpdate.ltoken = ltoken.id;
     aprUpdate.timestamp = event.block.timestamp;
     aprUpdate.apr = BigInt.fromI32(event.params.newAPR).toBigDecimal();

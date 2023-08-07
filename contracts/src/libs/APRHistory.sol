@@ -38,7 +38,7 @@ library APRHistory {
     /**
      * @notice Represents data of a checkpoint extracted from the on-chain history.
      * For on-chain representation see "Pack" struct.
-     * @param aprUD7x3 APR in UD7x3 format (e.g., 12.345% = 12345).
+     * @param aprUD7x3 APR in UD7x3 format (e.g., 12345 = 12.345%).
      * @param timestamp Timestamp of the checkpoint's creation.
      */
     struct CheckpointData {

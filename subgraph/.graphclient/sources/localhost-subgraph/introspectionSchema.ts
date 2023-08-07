@@ -133,7 +133,7 @@ const schemaAST = {
       kind: "ObjectTypeDefinition",
       name: {
         kind: "Name",
-        value: "APRUpdate",
+        value: "APRChange",
       },
       fields: [
         {
@@ -220,7 +220,7 @@ const schemaAST = {
       kind: "InputObjectTypeDefinition",
       name: {
         kind: "Name",
-        value: "APRUpdate_filter",
+        value: "APRChange_filter",
       },
       fields: [
         {
@@ -978,7 +978,7 @@ const schemaAST = {
               kind: "NamedType",
               name: {
                 kind: "Name",
-                value: "APRUpdate_filter",
+                value: "APRChange_filter",
               },
             },
           },
@@ -996,7 +996,7 @@ const schemaAST = {
               kind: "NamedType",
               name: {
                 kind: "Name",
-                value: "APRUpdate_filter",
+                value: "APRChange_filter",
               },
             },
           },
@@ -1009,7 +1009,7 @@ const schemaAST = {
       kind: "EnumTypeDefinition",
       name: {
         kind: "Name",
-        value: "APRUpdate_orderBy",
+        value: "APRChange_orderBy",
       },
       values: [
         {
@@ -3007,7 +3007,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate_orderBy",
+                  value: "TVLChange_orderBy",
                 },
               },
               directives: [],
@@ -3037,7 +3037,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate_filter",
+                  value: "TVLChange_filter",
                 },
               },
               directives: [],
@@ -3051,7 +3051,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate",
+                  value: "TVLChange",
                 },
               },
             },
@@ -3113,7 +3113,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate_orderBy",
+                  value: "APRChange_orderBy",
                 },
               },
               directives: [],
@@ -3143,7 +3143,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate_filter",
+                  value: "APRChange_filter",
                 },
               },
               directives: [],
@@ -3157,7 +3157,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate",
+                  value: "APRChange",
                 },
               },
             },
@@ -3548,7 +3548,7 @@ const schemaAST = {
             kind: "NamedType",
             name: {
               kind: "Name",
-              value: "TVLUpdate_filter",
+              value: "TVLChange_filter",
             },
           },
           directives: [],
@@ -3563,7 +3563,7 @@ const schemaAST = {
             kind: "NamedType",
             name: {
               kind: "Name",
-              value: "APRUpdate_filter",
+              value: "APRChange_filter",
             },
           },
           directives: [],
@@ -4206,7 +4206,7 @@ const schemaAST = {
             kind: "NamedType",
             name: {
               kind: "Name",
-              value: "TVLUpdate",
+              value: "TVLChange",
             },
           },
           directives: [],
@@ -4266,7 +4266,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate_orderBy",
+                  value: "TVLChange_orderBy",
                 },
               },
               directives: [],
@@ -4296,7 +4296,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate_filter",
+                  value: "TVLChange_filter",
                 },
               },
               directives: [],
@@ -4361,7 +4361,7 @@ const schemaAST = {
                   kind: "NamedType",
                   name: {
                     kind: "Name",
-                    value: "TVLUpdate",
+                    value: "TVLChange",
                   },
                 },
               },
@@ -4448,7 +4448,7 @@ const schemaAST = {
             kind: "NamedType",
             name: {
               kind: "Name",
-              value: "APRUpdate",
+              value: "APRChange",
             },
           },
           directives: [],
@@ -4508,7 +4508,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate_orderBy",
+                  value: "APRChange_orderBy",
                 },
               },
               directives: [],
@@ -4538,7 +4538,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate_filter",
+                  value: "APRChange_filter",
                 },
               },
               directives: [],
@@ -4603,7 +4603,7 @@ const schemaAST = {
                   kind: "NamedType",
                   name: {
                     kind: "Name",
-                    value: "APRUpdate",
+                    value: "APRChange",
                   },
                 },
               },
@@ -7389,7 +7389,7 @@ const schemaAST = {
             kind: "NamedType",
             name: {
               kind: "Name",
-              value: "TVLUpdate",
+              value: "TVLChange",
             },
           },
           directives: [],
@@ -7449,7 +7449,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate_orderBy",
+                  value: "TVLChange_orderBy",
                 },
               },
               directives: [],
@@ -7479,7 +7479,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "TVLUpdate_filter",
+                  value: "TVLChange_filter",
                 },
               },
               directives: [],
@@ -7544,7 +7544,7 @@ const schemaAST = {
                   kind: "NamedType",
                   name: {
                     kind: "Name",
-                    value: "TVLUpdate",
+                    value: "TVLChange",
                   },
                 },
               },
@@ -7631,7 +7631,7 @@ const schemaAST = {
             kind: "NamedType",
             name: {
               kind: "Name",
-              value: "APRUpdate",
+              value: "APRChange",
             },
           },
           directives: [],
@@ -7691,7 +7691,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate_orderBy",
+                  value: "APRChange_orderBy",
                 },
               },
               directives: [],
@@ -7721,7 +7721,7 @@ const schemaAST = {
                 kind: "NamedType",
                 name: {
                   kind: "Name",
-                  value: "APRUpdate_filter",
+                  value: "APRChange_filter",
                 },
               },
               directives: [],
@@ -7786,7 +7786,7 @@ const schemaAST = {
                   kind: "NamedType",
                   name: {
                     kind: "Name",
-                    value: "APRUpdate",
+                    value: "APRChange",
                   },
                 },
               },
@@ -8807,7 +8807,7 @@ const schemaAST = {
       kind: "ObjectTypeDefinition",
       name: {
         kind: "Name",
-        value: "TVLUpdate",
+        value: "TVLChange",
       },
       fields: [
         {
@@ -8894,7 +8894,7 @@ const schemaAST = {
       kind: "InputObjectTypeDefinition",
       name: {
         kind: "Name",
-        value: "TVLUpdate_filter",
+        value: "TVLChange_filter",
       },
       fields: [
         {
@@ -9652,7 +9652,7 @@ const schemaAST = {
               kind: "NamedType",
               name: {
                 kind: "Name",
-                value: "TVLUpdate_filter",
+                value: "TVLChange_filter",
               },
             },
           },
@@ -9670,7 +9670,7 @@ const schemaAST = {
               kind: "NamedType",
               name: {
                 kind: "Name",
-                value: "TVLUpdate_filter",
+                value: "TVLChange_filter",
               },
             },
           },
@@ -9683,7 +9683,7 @@ const schemaAST = {
       kind: "EnumTypeDefinition",
       name: {
         kind: "Name",
-        value: "TVLUpdate_orderBy",
+        value: "TVLChange_orderBy",
       },
       values: [
         {

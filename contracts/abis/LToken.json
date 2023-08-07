@@ -4,7 +4,7 @@
     "inputs": [
       { "indexed": false, "internalType": "uint16", "name": "newAPRUD7x3", "type": "uint16" }
     ],
-    "name": "APRUpdateEvent",
+    "name": "APRChangeEvent",
     "type": "event"
   },
   {
@@ -88,7 +88,7 @@
     "inputs": [
       { "indexed": false, "internalType": "uint256", "name": "newTVL", "type": "uint256" }
     ],
-    "name": "TVLUpdateEvent",
+    "name": "TVLChangeEvent",
     "type": "event"
   },
   {
@@ -146,14 +146,14 @@
   },
   {
     "inputs": [],
-    "name": "batchQueuedWithdraw",
+    "name": "processQueuedRequests",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [{ "internalType": "uint256", "name": "requestId", "type": "uint256" }],
-    "name": "bigQueuedWithdraw",
+    "name": "processBigQueuedRequest",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

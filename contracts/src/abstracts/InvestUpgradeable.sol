@@ -83,7 +83,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      * @notice Emitted to inform listeners about a change in the APR's value.
      * @param newAPRUD7x3 The new APR in UD7x3 format.
      */
-    event APRUpdateEvent(uint16 newAPRUD7x3);
+    event APRChangeEvent(uint16 newAPRUD7x3);
 
     /**
      * @notice Initializer functions of the contract. They replace the constructor()
@@ -122,7 +122,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
      */
     function setAPR(uint16 aprUD7x3) public onlyOwner {
         _aprHistory.setAPR(aprUD7x3);
-        emit APRUpdateEvent(aprUD7x3);
+        emit APRChangeEvent(aprUD7x3);
     }
 
     /**

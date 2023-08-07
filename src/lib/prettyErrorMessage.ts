@@ -70,6 +70,7 @@ export const displayedErrors: { [key: string]: string } = {
   L47: "Insufficient balance",
   L48: "Insufficient balance",
   L49: "Please queue your request",
+  L66: "Request cancelled or already processed",
   L50: "Forbidden",
   L51: "Not a big request",
   L52: "Insufficient funds",

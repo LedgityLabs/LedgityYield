@@ -7,7 +7,9 @@ export namespace LocalhostSubgraphTypes {
   export type Maybe<T> = T | null;
   export type InputMaybe<T> = Maybe<T>;
   export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-  export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+  export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+    [SubKey in K]?: Maybe<T[SubKey]>;
+  };
   export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
   /** All built-in and custom scalars, mapped to their actual values */
   export type Scalars = {
@@ -21,14 +23,14 @@ export namespace LocalhostSubgraphTypes {
     Bytes: any;
   };
 
-  export type APRUpdate = {
+  export type APRChange = {
     id: Scalars["ID"];
     ltoken: LToken;
     timestamp: Scalars["BigInt"];
     apr: Scalars["BigDecimal"];
   };
 
-  export type APRUpdate_filter = {
+  export type APRChange_filter = {
     id?: InputMaybe<Scalars["ID"]>;
     id_not?: InputMaybe<Scalars["ID"]>;
     id_gt?: InputMaybe<Scalars["ID"]>;
@@ -76,11 +78,11 @@ export namespace LocalhostSubgraphTypes {
     apr_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
     /** Filter for the block changed event. */
     _change_block?: InputMaybe<BlockChangedFilter>;
-    and?: InputMaybe<Array<InputMaybe<APRUpdate_filter>>>;
-    or?: InputMaybe<Array<InputMaybe<APRUpdate_filter>>>;
+    and?: InputMaybe<Array<InputMaybe<APRChange_filter>>>;
+    or?: InputMaybe<Array<InputMaybe<APRChange_filter>>>;
   };
 
-  export type APRUpdate_orderBy =
+  export type APRChange_orderBy =
     | "id"
     | "ltoken"
     | "ltoken__id"
@@ -252,8 +254,8 @@ export namespace LocalhostSubgraphTypes {
     id: Scalars["ID"];
     symbol: Scalars["String"];
     decimals: Scalars["Int"];
-    tvlUpdates?: Maybe<Array<TVLUpdate>>;
-    aprUpdates?: Maybe<Array<APRUpdate>>;
+    tvlUpdates?: Maybe<Array<TVLChange>>;
+    aprUpdates?: Maybe<Array<APRChange>>;
     activities?: Maybe<Array<Activity>>;
     rewardsMints?: Maybe<Array<RewardsMint>>;
     totalMintedRewards: Scalars["BigInt"];
@@ -262,17 +264,17 @@ export namespace LocalhostSubgraphTypes {
   export type LTokentvlUpdatesArgs = {
     skip?: InputMaybe<Scalars["Int"]>;
     first?: InputMaybe<Scalars["Int"]>;
-    orderBy?: InputMaybe<TVLUpdate_orderBy>;
+    orderBy?: InputMaybe<TVLChange_orderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
-    where?: InputMaybe<TVLUpdate_filter>;
+    where?: InputMaybe<TVLChange_filter>;
   };
 
   export type LTokenaprUpdatesArgs = {
     skip?: InputMaybe<Scalars["Int"]>;
     first?: InputMaybe<Scalars["Int"]>;
-    orderBy?: InputMaybe<APRUpdate_orderBy>;
+    orderBy?: InputMaybe<APRChange_orderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
-    where?: InputMaybe<APRUpdate_filter>;
+    where?: InputMaybe<APRChange_filter>;
   };
 
   export type LTokenactivitiesArgs = {
@@ -328,8 +330,8 @@ export namespace LocalhostSubgraphTypes {
     decimals_lte?: InputMaybe<Scalars["Int"]>;
     decimals_in?: InputMaybe<Array<Scalars["Int"]>>;
     decimals_not_in?: InputMaybe<Array<Scalars["Int"]>>;
-    tvlUpdates_?: InputMaybe<TVLUpdate_filter>;
-    aprUpdates_?: InputMaybe<APRUpdate_filter>;
+    tvlUpdates_?: InputMaybe<TVLChange_filter>;
+    aprUpdates_?: InputMaybe<APRChange_filter>;
     activities_?: InputMaybe<Activity_filter>;
     rewardsMints_?: InputMaybe<RewardsMint_filter>;
     totalMintedRewards?: InputMaybe<Scalars["BigInt"]>;
@@ -362,10 +364,10 @@ export namespace LocalhostSubgraphTypes {
   export type Query = {
     ltoken?: Maybe<LToken>;
     ltokens: Array<LToken>;
-    tvlupdate?: Maybe<TVLUpdate>;
-    tvlupdates: Array<TVLUpdate>;
-    aprupdate?: Maybe<APRUpdate>;
-    aprupdates: Array<APRUpdate>;
+    tvlupdate?: Maybe<TVLChange>;
+    tvlupdates: Array<TVLChange>;
+    aprupdate?: Maybe<APRChange>;
+    aprupdates: Array<APRChange>;
     activity?: Maybe<Activity>;
     activities: Array<Activity>;
     rewardsMint?: Maybe<RewardsMint>;
@@ -403,9 +405,9 @@ export namespace LocalhostSubgraphTypes {
   export type QuerytvlupdatesArgs = {
     skip?: InputMaybe<Scalars["Int"]>;
     first?: InputMaybe<Scalars["Int"]>;
-    orderBy?: InputMaybe<TVLUpdate_orderBy>;
+    orderBy?: InputMaybe<TVLChange_orderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
-    where?: InputMaybe<TVLUpdate_filter>;
+    where?: InputMaybe<TVLChange_filter>;
     block?: InputMaybe<Block_height>;
     subgraphError?: _SubgraphErrorPolicy_;
   };
@@ -419,9 +421,9 @@ export namespace LocalhostSubgraphTypes {
   export type QueryaprupdatesArgs = {
     skip?: InputMaybe<Scalars["Int"]>;
     first?: InputMaybe<Scalars["Int"]>;
-    orderBy?: InputMaybe<APRUpdate_orderBy>;
+    orderBy?: InputMaybe<APRChange_orderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
-    where?: InputMaybe<APRUpdate_filter>;
+    where?: InputMaybe<APRChange_filter>;
     block?: InputMaybe<Block_height>;
     subgraphError?: _SubgraphErrorPolicy_;
   };
@@ -598,10 +600,10 @@ export namespace LocalhostSubgraphTypes {
   export type Subscription = {
     ltoken?: Maybe<LToken>;
     ltokens: Array<LToken>;
-    tvlupdate?: Maybe<TVLUpdate>;
-    tvlupdates: Array<TVLUpdate>;
-    aprupdate?: Maybe<APRUpdate>;
-    aprupdates: Array<APRUpdate>;
+    tvlupdate?: Maybe<TVLChange>;
+    tvlupdates: Array<TVLChange>;
+    aprupdate?: Maybe<APRChange>;
+    aprupdates: Array<APRChange>;
     activity?: Maybe<Activity>;
     activities: Array<Activity>;
     rewardsMint?: Maybe<RewardsMint>;
@@ -639,9 +641,9 @@ export namespace LocalhostSubgraphTypes {
   export type SubscriptiontvlupdatesArgs = {
     skip?: InputMaybe<Scalars["Int"]>;
     first?: InputMaybe<Scalars["Int"]>;
-    orderBy?: InputMaybe<TVLUpdate_orderBy>;
+    orderBy?: InputMaybe<TVLChange_orderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
-    where?: InputMaybe<TVLUpdate_filter>;
+    where?: InputMaybe<TVLChange_filter>;
     block?: InputMaybe<Block_height>;
     subgraphError?: _SubgraphErrorPolicy_;
   };
@@ -655,9 +657,9 @@ export namespace LocalhostSubgraphTypes {
   export type SubscriptionaprupdatesArgs = {
     skip?: InputMaybe<Scalars["Int"]>;
     first?: InputMaybe<Scalars["Int"]>;
-    orderBy?: InputMaybe<APRUpdate_orderBy>;
+    orderBy?: InputMaybe<APRChange_orderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
-    where?: InputMaybe<APRUpdate_filter>;
+    where?: InputMaybe<APRChange_filter>;
     block?: InputMaybe<Block_height>;
     subgraphError?: _SubgraphErrorPolicy_;
   };
@@ -730,14 +732,14 @@ export namespace LocalhostSubgraphTypes {
     block?: InputMaybe<Block_height>;
   };
 
-  export type TVLUpdate = {
+  export type TVLChange = {
     id: Scalars["ID"];
     ltoken: LToken;
     timestamp: Scalars["BigInt"];
     amount: Scalars["BigDecimal"];
   };
 
-  export type TVLUpdate_filter = {
+  export type TVLChange_filter = {
     id?: InputMaybe<Scalars["ID"]>;
     id_not?: InputMaybe<Scalars["ID"]>;
     id_gt?: InputMaybe<Scalars["ID"]>;
@@ -785,11 +787,11 @@ export namespace LocalhostSubgraphTypes {
     amount_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
     /** Filter for the block changed event. */
     _change_block?: InputMaybe<BlockChangedFilter>;
-    and?: InputMaybe<Array<InputMaybe<TVLUpdate_filter>>>;
-    or?: InputMaybe<Array<InputMaybe<TVLUpdate_filter>>>;
+    and?: InputMaybe<Array<InputMaybe<TVLChange_filter>>>;
+    or?: InputMaybe<Array<InputMaybe<TVLChange_filter>>>;
   };
 
-  export type TVLUpdate_orderBy =
+  export type TVLChange_orderBy =
     | "id"
     | "ltoken"
     | "ltoken__id"
@@ -940,17 +942,37 @@ export namespace LocalhostSubgraphTypes {
     /** null **/
     ltokens: InContextSdkMethod<Subscription["ltokens"], SubscriptionltokensArgs, MeshContext>;
     /** null **/
-    tvlupdate: InContextSdkMethod<Subscription["tvlupdate"], SubscriptiontvlupdateArgs, MeshContext>;
+    tvlupdate: InContextSdkMethod<
+      Subscription["tvlupdate"],
+      SubscriptiontvlupdateArgs,
+      MeshContext
+    >;
     /** null **/
-    tvlupdates: InContextSdkMethod<Subscription["tvlupdates"], SubscriptiontvlupdatesArgs, MeshContext>;
+    tvlupdates: InContextSdkMethod<
+      Subscription["tvlupdates"],
+      SubscriptiontvlupdatesArgs,
+      MeshContext
+    >;
     /** null **/
-    aprupdate: InContextSdkMethod<Subscription["aprupdate"], SubscriptionaprupdateArgs, MeshContext>;
+    aprupdate: InContextSdkMethod<
+      Subscription["aprupdate"],
+      SubscriptionaprupdateArgs,
+      MeshContext
+    >;
     /** null **/
-    aprupdates: InContextSdkMethod<Subscription["aprupdates"], SubscriptionaprupdatesArgs, MeshContext>;
+    aprupdates: InContextSdkMethod<
+      Subscription["aprupdates"],
+      SubscriptionaprupdatesArgs,
+      MeshContext
+    >;
     /** null **/
     activity: InContextSdkMethod<Subscription["activity"], SubscriptionactivityArgs, MeshContext>;
     /** null **/
-    activities: InContextSdkMethod<Subscription["activities"], SubscriptionactivitiesArgs, MeshContext>;
+    activities: InContextSdkMethod<
+      Subscription["activities"],
+      SubscriptionactivitiesArgs,
+      MeshContext
+    >;
     /** null **/
     rewardsMint: InContextSdkMethod<
       Subscription["rewardsMint"],
@@ -964,7 +986,11 @@ export namespace LocalhostSubgraphTypes {
       MeshContext
     >;
     /** null **/
-    ldystaking: InContextSdkMethod<Subscription["ldystaking"], SubscriptionldystakingArgs, MeshContext>;
+    ldystaking: InContextSdkMethod<
+      Subscription["ldystaking"],
+      SubscriptionldystakingArgs,
+      MeshContext
+    >;
     /** null **/
     ldystakings: InContextSdkMethod<
       Subscription["ldystakings"],
@@ -988,6 +1014,10 @@ export namespace LocalhostSubgraphTypes {
   };
 
   export type Context = {
-    ["localhost-subgraph"]: { Query: QuerySdk; Mutation: MutationSdk; Subscription: SubscriptionSdk };
+    ["localhost-subgraph"]: {
+      Query: QuerySdk;
+      Mutation: MutationSdk;
+      Subscription: SubscriptionSdk;
+    };
   };
 }

@@ -49,14 +49,14 @@ export type Scalars = {
   Bytes: any;
 };
 
-export type APRUpdate = {
+export type APRChange = {
   id: Scalars["ID"];
   ltoken: LToken;
   timestamp: Scalars["BigInt"];
   apr: Scalars["BigDecimal"];
 };
 
-export type APRUpdate_filter = {
+export type APRChange_filter = {
   id?: InputMaybe<Scalars["ID"]>;
   id_not?: InputMaybe<Scalars["ID"]>;
   id_gt?: InputMaybe<Scalars["ID"]>;
@@ -104,11 +104,11 @@ export type APRUpdate_filter = {
   apr_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<APRUpdate_filter>>>;
-  or?: InputMaybe<Array<InputMaybe<APRUpdate_filter>>>;
+  and?: InputMaybe<Array<InputMaybe<APRChange_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<APRChange_filter>>>;
 };
 
-export type APRUpdate_orderBy =
+export type APRChange_orderBy =
   | "id"
   | "ltoken"
   | "ltoken__id"
@@ -280,8 +280,8 @@ export type LToken = {
   id: Scalars["ID"];
   symbol: Scalars["String"];
   decimals: Scalars["Int"];
-  tvlUpdates?: Maybe<Array<TVLUpdate>>;
-  aprUpdates?: Maybe<Array<APRUpdate>>;
+  tvlUpdates?: Maybe<Array<TVLChange>>;
+  aprUpdates?: Maybe<Array<APRChange>>;
   activities?: Maybe<Array<Activity>>;
   rewardsMints?: Maybe<Array<RewardsMint>>;
   totalMintedRewards: Scalars["BigInt"];
@@ -290,17 +290,17 @@ export type LToken = {
 export type LTokentvlUpdatesArgs = {
   skip?: InputMaybe<Scalars["Int"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TVLUpdate_orderBy>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<TVLUpdate_filter>;
+  where?: InputMaybe<TVLChange_filter>;
 };
 
 export type LTokenaprUpdatesArgs = {
   skip?: InputMaybe<Scalars["Int"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<APRUpdate_orderBy>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<APRUpdate_filter>;
+  where?: InputMaybe<APRChange_filter>;
 };
 
 export type LTokenactivitiesArgs = {
@@ -356,8 +356,8 @@ export type LToken_filter = {
   decimals_lte?: InputMaybe<Scalars["Int"]>;
   decimals_in?: InputMaybe<Array<Scalars["Int"]>>;
   decimals_not_in?: InputMaybe<Array<Scalars["Int"]>>;
-  tvlUpdates_?: InputMaybe<TVLUpdate_filter>;
-  aprUpdates_?: InputMaybe<APRUpdate_filter>;
+  tvlUpdates_?: InputMaybe<TVLChange_filter>;
+  aprUpdates_?: InputMaybe<APRChange_filter>;
   activities_?: InputMaybe<Activity_filter>;
   rewardsMints_?: InputMaybe<RewardsMint_filter>;
   totalMintedRewards?: InputMaybe<Scalars["BigInt"]>;
@@ -390,10 +390,10 @@ export type OrderDirection = "asc" | "desc";
 export type Query = {
   ltoken?: Maybe<LToken>;
   ltokens: Array<LToken>;
-  tvlupdate?: Maybe<TVLUpdate>;
-  tvlupdates: Array<TVLUpdate>;
-  aprupdate?: Maybe<APRUpdate>;
-  aprupdates: Array<APRUpdate>;
+  tvlupdate?: Maybe<TVLChange>;
+  tvlupdates: Array<TVLChange>;
+  aprupdate?: Maybe<APRChange>;
+  aprupdates: Array<APRChange>;
   activity?: Maybe<Activity>;
   activities: Array<Activity>;
   rewardsMint?: Maybe<RewardsMint>;
@@ -431,9 +431,9 @@ export type QuerytvlupdateArgs = {
 export type QuerytvlupdatesArgs = {
   skip?: InputMaybe<Scalars["Int"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TVLUpdate_orderBy>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<TVLUpdate_filter>;
+  where?: InputMaybe<TVLChange_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -447,9 +447,9 @@ export type QueryaprupdateArgs = {
 export type QueryaprupdatesArgs = {
   skip?: InputMaybe<Scalars["Int"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<APRUpdate_orderBy>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<APRUpdate_filter>;
+  where?: InputMaybe<APRChange_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -626,10 +626,10 @@ export type RewardsMint_orderBy =
 export type Subscription = {
   ltoken?: Maybe<LToken>;
   ltokens: Array<LToken>;
-  tvlupdate?: Maybe<TVLUpdate>;
-  tvlupdates: Array<TVLUpdate>;
-  aprupdate?: Maybe<APRUpdate>;
-  aprupdates: Array<APRUpdate>;
+  tvlupdate?: Maybe<TVLChange>;
+  tvlupdates: Array<TVLChange>;
+  aprupdate?: Maybe<APRChange>;
+  aprupdates: Array<APRChange>;
   activity?: Maybe<Activity>;
   activities: Array<Activity>;
   rewardsMint?: Maybe<RewardsMint>;
@@ -667,9 +667,9 @@ export type SubscriptiontvlupdateArgs = {
 export type SubscriptiontvlupdatesArgs = {
   skip?: InputMaybe<Scalars["Int"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<TVLUpdate_orderBy>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<TVLUpdate_filter>;
+  where?: InputMaybe<TVLChange_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -683,9 +683,9 @@ export type SubscriptionaprupdateArgs = {
 export type SubscriptionaprupdatesArgs = {
   skip?: InputMaybe<Scalars["Int"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  orderBy?: InputMaybe<APRUpdate_orderBy>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<APRUpdate_filter>;
+  where?: InputMaybe<APRChange_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -758,14 +758,14 @@ export type Subscription_metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
-export type TVLUpdate = {
+export type TVLChange = {
   id: Scalars["ID"];
   ltoken: LToken;
   timestamp: Scalars["BigInt"];
   amount: Scalars["BigDecimal"];
 };
 
-export type TVLUpdate_filter = {
+export type TVLChange_filter = {
   id?: InputMaybe<Scalars["ID"]>;
   id_not?: InputMaybe<Scalars["ID"]>;
   id_gt?: InputMaybe<Scalars["ID"]>;
@@ -813,11 +813,11 @@ export type TVLUpdate_filter = {
   amount_not_in?: InputMaybe<Array<Scalars["BigDecimal"]>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<TVLUpdate_filter>>>;
-  or?: InputMaybe<Array<InputMaybe<TVLUpdate_filter>>>;
+  and?: InputMaybe<Array<InputMaybe<TVLChange_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TVLChange_filter>>>;
 };
 
-export type TVLUpdate_orderBy =
+export type TVLChange_orderBy =
   | "id"
   | "ltoken"
   | "ltoken__id"
@@ -966,7 +966,13 @@ export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
   subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
   resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
@@ -1014,9 +1020,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  APRUpdate: ResolverTypeWrapper<APRUpdate>;
-  APRUpdate_filter: APRUpdate_filter;
-  APRUpdate_orderBy: APRUpdate_orderBy;
+  APRChange: ResolverTypeWrapper<APRChange>;
+  APRChange_filter: APRChange_filter;
+  APRChange_orderBy: APRChange_orderBy;
   Activity: ResolverTypeWrapper<Activity>;
   ActivityAction: ActivityAction;
   ActivityStatus: ActivityStatus;
@@ -1044,9 +1050,9 @@ export type ResolversTypes = ResolversObject<{
   RewardsMint_orderBy: RewardsMint_orderBy;
   String: ResolverTypeWrapper<Scalars["String"]>;
   Subscription: ResolverTypeWrapper<{}>;
-  TVLUpdate: ResolverTypeWrapper<TVLUpdate>;
-  TVLUpdate_filter: TVLUpdate_filter;
-  TVLUpdate_orderBy: TVLUpdate_orderBy;
+  TVLChange: ResolverTypeWrapper<TVLChange>;
+  TVLChange_filter: TVLChange_filter;
+  TVLChange_orderBy: TVLChange_orderBy;
   TotalStakedUpdate: ResolverTypeWrapper<TotalStakedUpdate>;
   TotalStakedUpdate_filter: TotalStakedUpdate_filter;
   TotalStakedUpdate_orderBy: TotalStakedUpdate_orderBy;
@@ -1057,8 +1063,8 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  APRUpdate: APRUpdate;
-  APRUpdate_filter: APRUpdate_filter;
+  APRChange: APRChange;
+  APRChange_filter: APRChange_filter;
   Activity: Activity;
   Activity_filter: Activity_filter;
   BigDecimal: Scalars["BigDecimal"];
@@ -1079,8 +1085,8 @@ export type ResolversParentTypes = ResolversObject<{
   RewardsMint_filter: RewardsMint_filter;
   String: Scalars["String"];
   Subscription: {};
-  TVLUpdate: TVLUpdate;
-  TVLUpdate_filter: TVLUpdate_filter;
+  TVLChange: TVLChange;
+  TVLChange_filter: TVLChange_filter;
   TotalStakedUpdate: TotalStakedUpdate;
   TotalStakedUpdate_filter: TotalStakedUpdate_filter;
   _Block_: _Block_;
@@ -1118,9 +1124,9 @@ export type derivedFromDirectiveResolver<
   Args = derivedFromDirectiveArgs,
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type APRUpdateResolvers<
+export type APRChangeResolvers<
   ContextType = MeshContext,
-  ParentType extends ResolversParentTypes["APRUpdate"] = ResolversParentTypes["APRUpdate"],
+  ParentType extends ResolversParentTypes["APRChange"] = ResolversParentTypes["APRChange"],
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   ltoken?: Resolver<ResolversTypes["LToken"], ParentType, ContextType>;
@@ -1180,13 +1186,13 @@ export type LTokenResolvers<
   symbol?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   decimals?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   tvlUpdates?: Resolver<
-    Maybe<Array<ResolversTypes["TVLUpdate"]>>,
+    Maybe<Array<ResolversTypes["TVLChange"]>>,
     ParentType,
     ContextType,
     RequireFields<LTokentvlUpdatesArgs, "skip" | "first">
   >;
   aprUpdates?: Resolver<
-    Maybe<Array<ResolversTypes["APRUpdate"]>>,
+    Maybe<Array<ResolversTypes["APRChange"]>>,
     ParentType,
     ContextType,
     RequireFields<LTokenaprUpdatesArgs, "skip" | "first">
@@ -1224,25 +1230,25 @@ export type QueryResolvers<
     RequireFields<QueryltokensArgs, "skip" | "first" | "subgraphError">
   >;
   tvlupdate?: Resolver<
-    Maybe<ResolversTypes["TVLUpdate"]>,
+    Maybe<ResolversTypes["TVLChange"]>,
     ParentType,
     ContextType,
     RequireFields<QuerytvlupdateArgs, "id" | "subgraphError">
   >;
   tvlupdates?: Resolver<
-    Array<ResolversTypes["TVLUpdate"]>,
+    Array<ResolversTypes["TVLChange"]>,
     ParentType,
     ContextType,
     RequireFields<QuerytvlupdatesArgs, "skip" | "first" | "subgraphError">
   >;
   aprupdate?: Resolver<
-    Maybe<ResolversTypes["APRUpdate"]>,
+    Maybe<ResolversTypes["APRChange"]>,
     ParentType,
     ContextType,
     RequireFields<QueryaprupdateArgs, "id" | "subgraphError">
   >;
   aprupdates?: Resolver<
-    Array<ResolversTypes["APRUpdate"]>,
+    Array<ResolversTypes["APRChange"]>,
     ParentType,
     ContextType,
     RequireFields<QueryaprupdatesArgs, "skip" | "first" | "subgraphError">
@@ -1295,7 +1301,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QuerytotalStakedUpdatesArgs, "skip" | "first" | "subgraphError">
   >;
-  _meta?: Resolver<Maybe<ResolversTypes["_Meta_"]>, ParentType, ContextType, Partial<Query_metaArgs>>;
+  _meta?: Resolver<
+    Maybe<ResolversTypes["_Meta_"]>,
+    ParentType,
+    ContextType,
+    Partial<Query_metaArgs>
+  >;
 }>;
 
 export type RewardsMintResolvers<
@@ -1331,28 +1342,28 @@ export type SubscriptionResolvers<
     RequireFields<SubscriptionltokensArgs, "skip" | "first" | "subgraphError">
   >;
   tvlupdate?: SubscriptionResolver<
-    Maybe<ResolversTypes["TVLUpdate"]>,
+    Maybe<ResolversTypes["TVLChange"]>,
     "tvlupdate",
     ParentType,
     ContextType,
     RequireFields<SubscriptiontvlupdateArgs, "id" | "subgraphError">
   >;
   tvlupdates?: SubscriptionResolver<
-    Array<ResolversTypes["TVLUpdate"]>,
+    Array<ResolversTypes["TVLChange"]>,
     "tvlupdates",
     ParentType,
     ContextType,
     RequireFields<SubscriptiontvlupdatesArgs, "skip" | "first" | "subgraphError">
   >;
   aprupdate?: SubscriptionResolver<
-    Maybe<ResolversTypes["APRUpdate"]>,
+    Maybe<ResolversTypes["APRChange"]>,
     "aprupdate",
     ParentType,
     ContextType,
     RequireFields<SubscriptionaprupdateArgs, "id" | "subgraphError">
   >;
   aprupdates?: SubscriptionResolver<
-    Array<ResolversTypes["APRUpdate"]>,
+    Array<ResolversTypes["APRChange"]>,
     "aprupdates",
     ParentType,
     ContextType,
@@ -1423,9 +1434,9 @@ export type SubscriptionResolvers<
   >;
 }>;
 
-export type TVLUpdateResolvers<
+export type TVLChangeResolvers<
   ContextType = MeshContext,
-  ParentType extends ResolversParentTypes["TVLUpdate"] = ResolversParentTypes["TVLUpdate"],
+  ParentType extends ResolversParentTypes["TVLChange"] = ResolversParentTypes["TVLChange"],
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   ltoken?: Resolver<ResolversTypes["LToken"], ParentType, ContextType>;
@@ -1467,7 +1478,7 @@ export type _Meta_Resolvers<
 }>;
 
 export type Resolvers<ContextType = MeshContext> = ResolversObject<{
-  APRUpdate?: APRUpdateResolvers<ContextType>;
+  APRChange?: APRChangeResolvers<ContextType>;
   Activity?: ActivityResolvers<ContextType>;
   BigDecimal?: GraphQLScalarType;
   BigInt?: GraphQLScalarType;
@@ -1477,7 +1488,7 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   RewardsMint?: RewardsMintResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
-  TVLUpdate?: TVLUpdateResolvers<ContextType>;
+  TVLChange?: TVLChangeResolvers<ContextType>;
   TotalStakedUpdate?: TotalStakedUpdateResolvers<ContextType>;
   _Block_?: _Block_Resolvers<ContextType>;
   _Meta_?: _Meta_Resolvers<ContextType>;

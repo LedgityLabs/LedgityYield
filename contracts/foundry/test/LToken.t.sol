@@ -10,11 +10,11 @@ import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.s
 
 import {LToken} from "../../src/LToken.sol";
 
-import {LDYStaking} from "../../dev/LDYStaking.sol";
+import {WIP_LDYStaking as LDYStaking} from "../../src/dev/LDYStaking.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
-import {GenericERC20} from "../../dev/GenericERC20.sol";
+import {GenericERC20} from "../../src/dev/GenericERC20.sol";
 
 import {SUD} from "../../src/libs/SUD.sol";
 import {APRHistory as APRH} from "../../src/libs/APRHistory.sol";
@@ -2169,8 +2169,8 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     // ======================================
-    // === batchQueuedWithdraw() function ===
-    function testFuzz_batchQueuedWithdraw_1(address account) public {
+    // === processQueuedRequests() function ===
+    function testFuzz_processQueuedRequests_1(address account) public {
         console.log("Should revert if not called by withdrawer wallet");
 
         // Ensure the random account is not the withdrawer wallet
@@ -2179,18 +2179,18 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L39"));
         vm.prank(account);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
     }
 
-    function test_batchQueuedWithdraw_2() public {
+    function test_processQueuedRequests_2() public {
         console.log("Should revert if contract is paused");
         globalPause.pause();
         expectRevertPaused();
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
     }
 
-    function testFuzz_batchQueuedWithdraw_3() public {
+    function testFuzz_processQueuedRequests_3() public {
         console.log("Should don't change any state if queue is empty");
 
         // Store old states for later comparison
@@ -2200,7 +2200,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert that states haven't changed
         assertEq(tested.usableUnderlyings(), oldUsableUnderlying);
@@ -2208,7 +2208,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), oldTotalQueued);
     }
 
-    function testFuzz_batchQueuedWithdraw_4(
+    function testFuzz_processQueuedRequests_4(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2288,13 +2288,13 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert that all non-empty requested have been successfully processed
         assertEq(tested.totalQueued(), 0);
     }
 
-    function testFuzz_batchQueuedWithdraw_5(
+    function testFuzz_processQueuedRequests_5(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2376,7 +2376,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert that underlying balances are still 0
         for (uint8 n = 0; n < blacklistedRequestsIds.length; n++) {
@@ -2392,7 +2392,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), blacklistedRequestsIdsLength * requestAmount);
     }
 
-    function testFuzz_batchQueuedWithdraw_6(
+    function testFuzz_processQueuedRequests_6(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2458,14 +2458,14 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // // Assert that states haven't changed
         assertEq(tested.unclaimedFees(), oldUnclaimedFees);
         assertEq(tested.totalQueued(), oldTotalQueued);
     }
 
-    function testFuzz_batchQueuedWithdraw_7(
+    function testFuzz_processQueuedRequests_7(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2536,14 +2536,14 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert that states haven't changed
         uint256 expectedStillQueued = numberOfNotCoveredRequests * requestAmount;
         assertEq(tested.totalQueued(), expectedStillQueued);
     }
 
-    function testFuzz_batchQueuedWithdraw_8(
+    function testFuzz_processQueuedRequests_8(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2614,7 +2614,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert that accounts underlying token balances have increased by the withdrawn amount
         for (uint8 i = 0; i < numberOfRequests; i++) {
@@ -2635,7 +2635,7 @@ contract Tests is Test, ModifiersExpectations {
         }
     }
 
-    function testFuzz_batchQueuedWithdraw_9(
+    function testFuzz_processQueuedRequests_9(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2699,7 +2699,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert that request have been deleted
         for (uint8 i = 0; i < numberOfRequests; i++) {
@@ -2715,7 +2715,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.withdrawalQueueCursor(), oldQueueLength);
     }
 
-    function testFuzz_batchQueuedWithdraw_10(
+    function testFuzz_processQueuedRequests_10(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2779,7 +2779,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Compute the expected amount of unclaimed fees
         uint256 expectedUnclaimedFees;
@@ -2801,7 +2801,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.unclaimedFees(), expectedUnclaimedFees);
     }
 
-    function testFuzz_batchQueuedWithdraw_11(
+    function testFuzz_processQueuedRequests_11(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2865,7 +2865,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Compute the expected amount decreased from usableUnderlyings
         uint256 expectedDecrease;
@@ -2887,7 +2887,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.usableUnderlyings(), oldUsableUnderlyings - expectedDecrease);
     }
 
-    function testFuzz_batchQueuedWithdraw_12(
+    function testFuzz_processQueuedRequests_12(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2951,7 +2951,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Compute the expected amount decreased from usableUnderlyings
         uint256 expectedDecrease;
@@ -2967,7 +2967,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), oldTotalQueued - expectedDecrease);
     }
 
-    function testFuzz_batchQueuedWithdraw_13(
+    function testFuzz_processQueuedRequests_13(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -3030,15 +3030,15 @@ contract Tests is Test, ModifiersExpectations {
 
         // Proceed to batch queued withdraw
         vm.prank(withdrawerWallet);
-        tested.batchQueuedWithdraw();
+        tested.processQueuedRequests();
 
         // Assert withdrawal cursor is set to next request to be processed (= queue length)
         assertEq(tested.withdrawalQueueCursor(), tested.public_withdrawalQueueLength());
     }
 
     // ====================================
-    // === bigQueuedWithdraw() function ===
-    function testFuzz_bigQueuedWithdraw_1(address account, uint256 requestId) public {
+    // === processBigQueuedRequest() function ===
+    function testFuzz_processBigQueuedRequest_1(address account, uint256 requestId) public {
         console.log("Should revert if not called by fund wallet");
 
         // Ensure the random account is not the fund wallet
@@ -3047,18 +3047,18 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L40"));
         vm.prank(account);
-        tested.bigQueuedWithdraw(requestId);
+        tested.processBigQueuedRequest(requestId);
     }
 
-    function testFuzz_bigQueuedWithdraw_2(uint256 requestId) public {
+    function testFuzz_processBigQueuedRequest_2(uint256 requestId) public {
         console.log("Should revert if contract is paused");
         globalPause.pause();
         expectRevertPaused();
         vm.prank(fundWallet);
-        tested.bigQueuedWithdraw(requestId);
+        tested.processBigQueuedRequest(requestId);
     }
 
-    function testFuzz_bigQueuedWithdraw_3(
+    function testFuzz_processBigQueuedRequest_3(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3110,10 +3110,10 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L50"));
         vm.prank(address(fundWallet));
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
     }
 
-    function testFuzz_bigQueuedWithdraw_4(
+    function testFuzz_processBigQueuedRequest_4(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3166,10 +3166,10 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L51"));
         vm.prank(address(fundWallet));
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
     }
 
-    function testFuzz_bigQueuedWithdraw_5(
+    function testFuzz_processBigQueuedRequest_5(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3237,11 +3237,11 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert because 1 token is missing to cover the request
         vm.startPrank(address(fundWallet));
         vm.expectRevert(bytes("L52"));
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
     }
 
-    function testFuzz_bigQueuedWithdraw_6(
+    function testFuzz_processBigQueuedRequest_6(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3301,7 +3301,7 @@ contract Tests is Test, ModifiersExpectations {
         // Proceed to big queued withdraw
         vm.startPrank(fundWallet);
         underlyingToken.approve(address(tested), amount);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
 
         // LToken contract balance shouldn't have changed
@@ -3315,7 +3315,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(underlyingToken.balanceOf(account), oldAccountBalance + withdrawnAmount);
     }
 
-    function testFuzz_bigQueuedWithdraw_7(
+    function testFuzz_processBigQueuedRequest_7(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3373,7 +3373,7 @@ contract Tests is Test, ModifiersExpectations {
         // Proceed to big queued withdraw
         vm.startPrank(fundWallet);
         underlyingToken.approve(address(tested), amount);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
 
         // LToken contract balance shouldn't have changed
@@ -3386,7 +3386,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(underlyingToken.balanceOf(account), amount);
     }
 
-    function testFuzz_bigQueuedWithdraw_8(
+    function testFuzz_processBigQueuedRequest_8(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3435,7 +3435,7 @@ contract Tests is Test, ModifiersExpectations {
         // Process queued withdrawal
         vm.startPrank(address(fundWallet));
         underlyingToken.approve(address(tested), amount);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
 
         // Assert that unclaimed fees has increased by the expected amount
@@ -3443,7 +3443,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.unclaimedFees(), expectedFees);
     }
 
-    function testFuzz_bigQueuedWithdraw_9(
+    function testFuzz_processBigQueuedRequest_9(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3495,14 +3495,14 @@ contract Tests is Test, ModifiersExpectations {
         // Process queued withdrawal
         vm.startPrank(address(fundWallet));
         underlyingToken.approve(address(tested), amount);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
 
         // Assert that totalQueued has decreased by the expected amount
         assertEq(tested.totalQueued(), oldTotalQueued - amount);
     }
 
-    function testFuzz_bigQueuedWithdraw_10(
+    function testFuzz_processBigQueuedRequest_10(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3551,7 +3551,7 @@ contract Tests is Test, ModifiersExpectations {
         // Process queued withdrawal
         vm.startPrank(address(fundWallet));
         underlyingToken.approve(address(tested), amount);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
 
         // Assert that request has been deleted from queue
@@ -3898,7 +3898,7 @@ contract Tests is Test, ModifiersExpectations {
         // Process account 1 first request to withdrwalCursor from 0
         vm.startPrank(address(fundWallet));
         underlyingToken.approve(address(tested), requestedAmount1);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
         assertEq(tested.withdrawalQueueCursor(), 1);
 
@@ -3985,7 +3985,7 @@ contract Tests is Test, ModifiersExpectations {
         // Process account 1 first request to withdrwalCursor from 0
         vm.startPrank(address(fundWallet));
         underlyingToken.approve(address(tested), requestedAmount1);
-        tested.bigQueuedWithdraw(0);
+        tested.processBigQueuedRequest(0);
         vm.stopPrank();
         assertEq(tested.withdrawalQueueCursor(), 1);
 

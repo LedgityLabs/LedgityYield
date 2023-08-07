@@ -1,6 +1,6 @@
 import { Card, Rate, Spinner } from "@/components/ui";
 import { FC, useEffect, useState } from "react";
-import { APRUpdate, execute } from "../../../../.graphclient";
+import { APRChange, execute } from "../../../../.graphclient";
 
 const secondsInOneYear = 60 * 60 * 24 * 365;
 
@@ -32,8 +32,8 @@ export const AppInvestVariation: FC = () => {
           data: {
             ltokens: [
               {
-                latestAprUpdate: APRUpdate[];
-                aprUpdateOneYearAgo: APRUpdate[];
+                latestAprUpdate: APRChange[];
+                aprUpdateOneYearAgo: APRChange[];
               },
             ];
           };

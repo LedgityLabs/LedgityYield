@@ -4,7 +4,7 @@
     "inputs": [
       { "indexed": false, "internalType": "uint16", "name": "newAPRUD7x3", "type": "uint16" }
     ],
-    "name": "APRUpdateEvent",
+    "name": "APRChangeEvent",
     "type": "event"
   },
   {

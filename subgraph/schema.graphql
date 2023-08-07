@@ -3,20 +3,20 @@ type LToken @entity {
   symbol: String!
   decimals: Int!
   totalMintedRewards: BigDecimal!
-  tvlUpdates: [TVLUpdate!] @derivedFrom(field: "ltoken")
-  aprUpdates: [APRUpdate!] @derivedFrom(field: "ltoken")
+  tvlUpdates: [TVLChange!] @derivedFrom(field: "ltoken")
+  aprUpdates: [APRChange!] @derivedFrom(field: "ltoken")
   activities: [Activity!] @derivedFrom(field: "ltoken")
   rewardsMints: [RewardsMint!] @derivedFrom(field: "ltoken")
 }
 
-type TVLUpdate @entity(immutable: true) {
+type TVLChange @entity(immutable: true) {
   id: ID!
   ltoken: LToken!
   timestamp: BigInt!
   amount: BigDecimal!
 }
 
-type APRUpdate @entity(immutable: true) {
+type APRChange @entity(immutable: true) {
   id: ID!
   ltoken: LToken!
   timestamp: BigInt!
