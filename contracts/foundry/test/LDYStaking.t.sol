@@ -25,8 +25,8 @@ contract TestedContract is LDYStaking {
         return _getLockDurationIncrease(account, addedAmount);
     }
 
-    function public_accountsInfos(address account) public view returns (AccountInfos memory) {
-        return accountsInfos[account];
+    function public_accountsInfos(address account) public view returns (AccountDetails memory) {
+        return accountsDetails[account];
     }
 
     function public_tiers(uint256 id) public view returns (uint256) {

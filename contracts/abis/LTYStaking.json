@@ -1,7 +1,9 @@
 [
   {
     "anonymous": false,
-    "inputs": [{ "indexed": false, "internalType": "uint16", "name": "newAPRUD7x3", "type": "uint16" }],
+    "inputs": [
+      { "indexed": false, "internalType": "uint16", "name": "newAPRUD7x3", "type": "uint16" }
+    ],
     "name": "APRUpdateEvent",
     "type": "event"
   },
@@ -37,7 +39,9 @@
   },
   {
     "anonymous": false,
-    "inputs": [{ "indexed": false, "internalType": "address", "name": "account", "type": "address" }],
+    "inputs": [
+      { "indexed": false, "internalType": "address", "name": "account", "type": "address" }
+    ],
     "name": "Paused",
     "type": "event"
   },
@@ -51,7 +55,9 @@
   },
   {
     "anonymous": false,
-    "inputs": [{ "indexed": false, "internalType": "address", "name": "account", "type": "address" }],
+    "inputs": [
+      { "indexed": false, "internalType": "address", "name": "account", "type": "address" }
+    ],
     "name": "Unpaused",
     "type": "event"
   },
@@ -63,7 +69,13 @@
     "name": "Upgraded",
     "type": "event"
   },
-  { "inputs": [], "name": "claim", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  {
+    "inputs": [],
+    "name": "claim",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
   {
     "inputs": [],
     "name": "compound",
@@ -282,7 +294,7 @@
       { "internalType": "address", "name": "from", "type": "address" },
       { "internalType": "address", "name": "to", "type": "address" }
     ],
-    "name": "startRedirectRewards",
+    "name": "startRewardsRedirection",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -292,7 +304,7 @@
       { "internalType": "address", "name": "from", "type": "address" },
       { "internalType": "address", "name": "to", "type": "address" }
     ],
-    "name": "stopRedirectRewards",
+    "name": "stopRewardsRedirection",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -318,7 +330,13 @@
     "stateMutability": "view",
     "type": "function"
   },
-  { "inputs": [], "name": "unlock", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  {
+    "inputs": [],
+    "name": "unlock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
   {
     "inputs": [],
     "name": "unlockFeesRateUD7x3",

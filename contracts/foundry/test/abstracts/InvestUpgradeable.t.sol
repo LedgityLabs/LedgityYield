@@ -126,8 +126,8 @@ contract TestedContract is InvestUpgradeable {
         _deepResetInvestmentPeriodOf(account);
     }
 
-    function public_accountsInfos(address account) public view returns (AccountInfos memory) {
-        return accountsInfos[account];
+    function public_accountsInfos(address account) public view returns (AccountDetails memory) {
+        return accountsDetails[account];
     }
 }
 
@@ -214,15 +214,15 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     // =======================================
-    // === startRedirectRewards() function ===
-    function testFuzz_startRedirectRewards_1(address from, address to) public {
+    // === startRewardsRedirection() function ===
+    function testFuzz_startRewardsRedirection_1(address from, address to) public {
         console.log("Should revert if contract is paused ");
         globalPause.pause();
         expectRevertPaused();
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
     }
 
-    function testFuzz_startRedirectRewards_2(address from, address to) public {
+    function testFuzz_startRewardsRedirection_2(address from, address to) public {
         console.log("Should revert if from account is blacklisted");
 
         // Ensure accounts different and not not the zero address
@@ -235,10 +235,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         expectRevertRestricted();
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
     }
 
-    function testFuzz_startRedirectRewards_3(address from, address to) public {
+    function testFuzz_startRewardsRedirection_3(address from, address to) public {
         console.log("Should revert if to account is blacklisted");
 
         // Ensure accounts different and not not the zero address
@@ -251,10 +251,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         expectRevertRestricted();
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
     }
 
-    function testFuzz_startRedirectRewards_4(
+    function testFuzz_startRewardsRedirection_4(
         uint16 aprUD7x3,
         address from,
         address to1,
@@ -274,20 +274,20 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(from != to2);
 
         // First redirection
-        tested.startRedirectRewards(from, to1);
+        tested.startRewardsRedirection(from, to1);
 
         // Expect revert on a second redirection
         vm.expectRevert(bytes("L62"));
-        tested.startRedirectRewards(from, to2);
+        tested.startRewardsRedirection(from, to2);
 
         // Now stop the first redirection
-        tested.stopRedirectRewards(from, to1);
+        tested.stopRewardsRedirection(from, to1);
 
         // Second redirection should now work
-        tested.startRedirectRewards(from, to2);
+        tested.startRewardsRedirection(from, to2);
     }
 
-    function testFuzz_startRedirectRewards_5(address to) public {
+    function testFuzz_startRewardsRedirection_5(address to) public {
         console.log("Should revert if from account is zero address");
 
         // Ensure to is not the zero address
@@ -295,10 +295,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         vm.expectRevert(bytes("L12"));
-        tested.startRedirectRewards(address(0), to);
+        tested.startRewardsRedirection(address(0), to);
     }
 
-    function testFuzz_startRedirectRewards_6(address from) public {
+    function testFuzz_startRewardsRedirection_6(address from) public {
         console.log("Should revert if to account is zero address");
 
         // Ensure from is not the zero address
@@ -306,10 +306,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         vm.expectRevert(bytes("L13"));
-        tested.startRedirectRewards(from, address(0));
+        tested.startRewardsRedirection(from, address(0));
     }
 
-    function testFuzz_startRedirectRewards_7(address account) public {
+    function testFuzz_startRewardsRedirection_7(address account) public {
         console.log("Should revert if from and to are the same account");
 
         // Ensure account is not the zero address
@@ -317,10 +317,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         vm.expectRevert(bytes("L14"));
-        tested.startRedirectRewards(account, account);
+        tested.startRewardsRedirection(account, account);
     }
 
-    function testFuzz_startRedirectRewards_8(
+    function testFuzz_startRewardsRedirection_8(
         address from,
         address to,
         address otherAccount
@@ -340,10 +340,10 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L15"));
         vm.prank(otherAccount);
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
     }
 
-    function testFuzz_startRedirectRewards_9(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_startRewardsRedirection_9(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is owner");
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -354,10 +354,10 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
     }
 
-    function testFuzz_startRedirectRewards_10(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_startRewardsRedirection_10(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is from");
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -369,10 +369,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Start redirect
         vm.prank(from);
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
     }
 
-    function testFuzz_startRedirectRewards_11(
+    function testFuzz_startRewardsRedirection_11(
         uint16 aprUD7x3,
         address from,
         address to,
@@ -392,7 +392,7 @@ contract Tests is Test, ModifiersExpectations {
         skip(duration);
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
 
         // Assert that block timestamp is not 0
         assertNotEq(block.timestamp, 0);
@@ -402,7 +402,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_startRedirectRewards_12(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_startRewardsRedirection_12(uint16 aprUD7x3, address from, address to) public {
         console.log("Should set to at from index in rewardsRedirectsFromTo");
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -413,13 +413,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
 
         // Assert that to has properly been set in rewardsRedirectsFromTo
         assertEq(tested.rewardsRedirectsFromTo(from), to);
     }
 
-    function testFuzz_startRedirectRewards_13(
+    function testFuzz_startRewardsRedirection_13(
         uint16 aprUD7x3,
         address from1,
         address from2,
@@ -438,28 +438,28 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(from1 != from2);
 
         // Start redirect from from1 to to
-        tested.startRedirectRewards(from1, to);
+        tested.startRewardsRedirection(from1, to);
 
         // Assert that from1 has properly been set in rewardsRedirectsToFrom
         assertEq(tested.rewardsRedirectsToFrom(to, 0), from1);
 
         // Start redirect from from2 to to
-        tested.startRedirectRewards(from2, to);
+        tested.startRewardsRedirection(from2, to);
 
         // Assert that from2 has properly been set in rewardsRedirectsToFrom
         assertEq(tested.rewardsRedirectsToFrom(to, 1), from2);
     }
 
     // ======================================
-    // === stopRedirectRewards() function ===
-    function testFuzz_stopRedirectRewards_1(address from, address to) public {
+    // === stopRewardsRedirection() function ===
+    function testFuzz_stopRewardsRedirection_1(address from, address to) public {
         console.log("Should revert if contract is paused ");
         globalPause.pause();
         expectRevertPaused();
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_2(address from, address to) public {
+    function testFuzz_stopRewardsRedirection_2(address from, address to) public {
         console.log("Should revert if from account is blacklisted");
 
         // Ensure accounts different and not not the zero address
@@ -472,10 +472,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         expectRevertRestricted();
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_3(address from, address to) public {
+    function testFuzz_stopRewardsRedirection_3(address from, address to) public {
         console.log("Should revert if to account is blacklisted");
 
         // Ensure accounts different and not not the zero address
@@ -488,10 +488,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         expectRevertRestricted();
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_4(address to) public {
+    function testFuzz_stopRewardsRedirection_4(address to) public {
         console.log("Should revert if from account is zero address");
 
         // Ensure to is not the zero address
@@ -499,10 +499,10 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         vm.expectRevert(bytes("L16"));
-        tested.stopRedirectRewards(address(0), to);
+        tested.stopRewardsRedirection(address(0), to);
     }
 
-    function testFuzz_stopRedirectRewards_5(address from) public {
+    function testFuzz_stopRewardsRedirection_5(address from) public {
         console.log("Should revert if to account is zero address");
 
         // Ensure from is not the zero address
@@ -510,10 +510,14 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         vm.expectRevert(bytes("L17"));
-        tested.stopRedirectRewards(from, address(0));
+        tested.stopRewardsRedirection(from, address(0));
     }
 
-    function testFuzz_stopRedirectRewards_6(address from, address to, address otherAccount) public {
+    function testFuzz_stopRewardsRedirection_6(
+        address from,
+        address to,
+        address otherAccount
+    ) public {
         console.log("Should revert if caller is neither the owner nor the from account");
 
         // Ensure accounts different and not not the zero address
@@ -529,10 +533,10 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L18"));
         vm.prank(otherAccount);
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_7(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_stopRewardsRedirection_7(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is owner");
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -543,11 +547,11 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
-        tested.stopRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_8(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_stopRewardsRedirection_8(uint16 aprUD7x3, address from, address to) public {
         console.log("Should success if caller is from");
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -558,12 +562,12 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
         vm.prank(from);
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_9(address from, address to) public {
+    function testFuzz_stopRewardsRedirection_9(address from, address to) public {
         console.log("Should revert there were no redirect for given from and to accounts");
 
         // Ensure accounts different and not not the zero address
@@ -574,10 +578,10 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         vm.expectRevert(bytes("L19"));
         vm.prank(from);
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
     }
 
-    function testFuzz_stopRedirectRewards_10(
+    function testFuzz_stopRewardsRedirection_10(
         uint16 aprUD7x3,
         address from,
         address to,
@@ -593,14 +597,14 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
 
         // Move time forward to simulate investment period
         vm.assume(duration > 0);
         skip(duration);
 
         // Stop redirect
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
 
         // Assert that block timestamp is not 0
         assertNotEq(block.timestamp, 0);
@@ -610,7 +614,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_accountsInfos(to).period.timestamp, block.timestamp);
     }
 
-    function testFuzz_stopRedirectRewards_11(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_stopRewardsRedirection_11(uint16 aprUD7x3, address from, address to) public {
         console.log(
             "Should reset to address at index from in rewardsRedirectsFromTo to zero address"
         );
@@ -623,19 +627,19 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
 
         // Assert that rewardsRedirectsFromTo[from] is currently equal to to
         assertEq(tested.rewardsRedirectsFromTo(from), to);
 
         // Stop redirect
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
 
         // Assert that rewardsRedirectsFromTo[from] is now equal to zero address
         assertEq(tested.rewardsRedirectsFromTo(from), address(0));
     }
 
-    function testFuzz_stopRedirectRewards_12(uint16 aprUD7x3, address from, address to) public {
+    function testFuzz_stopRewardsRedirection_12(uint16 aprUD7x3, address from, address to) public {
         console.log("Should properly remove from address from index to in rewardsRedirectsToFrom");
         // Set first random APR
         tested.setAPR(aprUD7x3);
@@ -646,20 +650,20 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect
-        tested.startRedirectRewards(from, to);
+        tested.startRewardsRedirection(from, to);
 
         // Assert that rewardsRedirectsToFrom[to][] is currently equal to from
         assertEq(tested.rewardsRedirectsToFrom(to, 0), from);
 
         // Stop redirect
-        tested.stopRedirectRewards(from, to);
+        tested.stopRewardsRedirection(from, to);
 
         // Assert that index doesn't exist anymore
         vm.expectRevert();
         tested.rewardsRedirectsToFrom(to, 0);
     }
 
-    function testFuzz_stopRedirectRewards_13(
+    function testFuzz_stopRewardsRedirection_13(
         uint16 aprUD7x3,
         address from1,
         address from2,
@@ -686,9 +690,9 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(to != address(0));
 
         // Start redirect all from to to
-        tested.startRedirectRewards(from1, to);
-        tested.startRedirectRewards(from2, to);
-        tested.startRedirectRewards(from3, to);
+        tested.startRewardsRedirection(from1, to);
+        tested.startRewardsRedirection(from2, to);
+        tested.startRewardsRedirection(from3, to);
 
         // Assert that they have properly been set in rewardsRedirectsToFrom
         assertEq(tested.rewardsRedirectsToFrom(to, 0), from1);
@@ -696,7 +700,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.rewardsRedirectsToFrom(to, 2), from3);
 
         // Stop redirect from2 to to
-        tested.stopRedirectRewards(from2, to);
+        tested.stopRewardsRedirection(from2, to);
 
         // Assert that index have been properly updated without letting blank slot
         assertEq(tested.rewardsRedirectsToFrom(to, 0), from1);
@@ -709,11 +713,16 @@ contract Tests is Test, ModifiersExpectations {
 
     // =========================
     // === getAPR() function ===
-    function testFuzz_getAPR_1(uint16 newAPRUD7x3) public {
-        console.log("Should return last set APR");
+    function test_getAPR_1() public {
+        console.log("Should revert when no APR is set yet");
 
-        // Ensure initial APR is 0
-        assertEq(tested.getAPR(), 0);
+        // Expect revert
+        vm.expectRevert(bytes("L5"));
+        tested.getAPR();
+    }
+
+    function testFuzz_getAPR_2(uint16 newAPRUD7x3) public {
+        console.log("Should return last set APR");
 
         // Set a new latest APR and ensure getAPR() returns it
         vm.assume(newAPRUD7x3 > 0);
@@ -1215,19 +1224,19 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.public_deepInvestmentOf(account1), amount + 1);
 
         // Redirect account2 rewards to account1
-        tested.startRedirectRewards(account2, account1);
+        tested.startRewardsRedirection(account2, account1);
 
         // Assert that deep investment of account1 is equal to its investment plus account2 investment
         assertEq(tested.public_deepInvestmentOf(account1), amount + 1 + amount + 2);
 
         // Redirect account3 rewards to account2
-        tested.startRedirectRewards(account3, account2);
+        tested.startRewardsRedirection(account3, account2);
 
         // Assert that deep investment of account1 is equal to its investment plus account2 investment plus account3 investment
         assertEq(tested.public_deepInvestmentOf(account1), amount + 1 + amount + 2 + amount + 3);
 
         // Stop redirect account2 rewards to account1
-        tested.stopRedirectRewards(account2, account1);
+        tested.stopRewardsRedirection(account2, account1);
 
         // Assert that deep investment of account1 is equal to its investment plus account3 investment
         assertEq(tested.public_deepInvestmentOf(account1), amount + 1);
@@ -1433,10 +1442,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(investedAmount + 3);
 
         // Redirect account2 rewards to account1
-        tested.startRedirectRewards(account2, account1);
+        tested.startRewardsRedirection(account2, account1);
 
         // Redirect account3 rewards to account2
-        tested.startRedirectRewards(account3, account2);
+        tested.startRewardsRedirection(account3, account2);
 
         // Consider that now account1 deposited amount is equal to account1 + account2 deposited amounts
         uint256 depositedAmount = investedAmount + 1 + investedAmount + 2 + investedAmount + 3;
@@ -1595,10 +1604,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(amount + 3);
 
         // Redirect account2 rewards to account1
-        tested.startRedirectRewards(account2, account1);
+        tested.startRewardsRedirection(account2, account1);
 
         // Redirect account3 rewards to account2
-        tested.startRedirectRewards(account3, account2);
+        tested.startRewardsRedirection(account3, account2);
 
         // Assert that current accounts investment period is 1 (first block timestamp)
         assertEq(tested.public_accountsInfos(account1).period.timestamp, 1);
@@ -1778,10 +1787,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(investedAmount + 3);
 
         // Redirect account2 rewards to account1
-        tested.startRedirectRewards(account2, account1);
+        tested.startRewardsRedirection(account2, account1);
 
         // Redirect account3 rewards to account2
-        tested.startRedirectRewards(account3, account2);
+        tested.startRewardsRedirection(account3, account2);
 
         // Assert that current accounts stakes are equal to invested amount
         assertEq(tested.stakeOf(account1), investedAmount + 1);
@@ -1901,10 +1910,10 @@ contract Tests is Test, ModifiersExpectations {
         tested.stake(investedAmount + 3);
 
         // Redirect account2 rewards to account1
-        tested.startRedirectRewards(account2, account1);
+        tested.startRewardsRedirection(account2, account1);
 
         // Redirect account3 rewards to account2
-        tested.startRedirectRewards(account3, account2);
+        tested.startRewardsRedirection(account3, account2);
 
         // Assert that current accounts investment period is 1 (first block timestamp)
         assertEq(tested.public_accountsInfos(account1).period.timestamp, 1);

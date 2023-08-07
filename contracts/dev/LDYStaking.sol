@@ -360,13 +360,13 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         _beforeInvestmentChange(_msgSender(), false);
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
-        uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
+        uint256 rewards = accountsDetails[_msgSender()].virtualBalance;
 
         // Ensure there are some rewards to claim
         require(rewards > 0, "L30");
 
         // Reset account's virtual balance
-        accountsInfos[_msgSender()].virtualBalance = 0;
+        accountsDetails[_msgSender()].virtualBalance = 0;
 
         // Ensure the contract has enough rewards to distribute
         require(rewardsReserve >= rewards, "L31");
@@ -392,13 +392,13 @@ contract LDYStaking is BaseUpgradeable, InvestUpgradeable {
         _beforeInvestmentChange(_msgSender(), false);
 
         // Retrieve and reset account's unclaimed rewards from virtual balance
-        uint256 rewards = accountsInfos[_msgSender()].virtualBalance;
+        uint256 rewards = accountsDetails[_msgSender()].virtualBalance;
 
         // Ensure there are some rewards to claim
         require(rewards > 0, "L32");
 
         // Reset account's virtual balance
-        accountsInfos[_msgSender()].virtualBalance = 0;
+        accountsDetails[_msgSender()].virtualBalance = 0;
 
         // Ensure the contract has enough rewards to distribute
         require(rewardsReserve >= rewards, "L33");

@@ -91,8 +91,8 @@ contract TestedContract is LToken {
     /**
      * @dev Make some useful InvestUpgradeable functions public to use them in tests
      */
-    function public_accountsInfos(address account) public view returns (AccountInfos memory) {
-        return accountsInfos[account];
+    function public_accountsInfos(address account) public view returns (AccountDetails memory) {
+        return accountsDetails[account];
     }
 
     /**

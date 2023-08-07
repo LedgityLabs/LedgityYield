@@ -48,7 +48,7 @@ abstract contract RecoverableUpgradeable is Initializable, GlobalOwnableUpgradea
         // Ensure the specified amount is not zero
         require(amount > 0, "L10");
 
-        // Retrieve token contract
+        // Create a reference to token's contract
         IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 
         // Ensure there is enough token to recover

@@ -290,10 +290,11 @@ contract Tests is Test {
     // =========================
     // === getAPR() function ===
     function test_getAPR_1() public {
-        console.log("Should return zero if packs array is empty");
+        console.log("Should revert if no APR has been set yet");
 
-        uint256 apr = APRH.getAPR(packs);
-        assertEq(apr, 0);
+        // Expect revert
+        vm.expectRevert(bytes("L5"));
+        APRH.getAPR(packs);
     }
 
     function test_getAPR_3() public {

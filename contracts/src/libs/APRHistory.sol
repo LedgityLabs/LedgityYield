@@ -43,7 +43,7 @@ library APRHistory {
      */
     struct CheckpointData {
         uint16 aprUD7x3; // Allows up to 65.536%
-        uint40 timestamp; // Allows datetime up to 20/02/36812
+        uint40 timestamp; // Supports dates up to 20/02/36812
     }
 
     /**
@@ -70,6 +70,16 @@ library APRHistory {
     }
 
     /**
+     * @notice Compares two checkpoints references.
+     * @param ref1 The first reference to compare.
+     * @param ref2 The second reference to compare.
+     * @return Whether the two references points to the same checkpoint.
+     */
+    function eq(Reference memory ref1, Reference memory ref2) external pure returns (bool) {
+        return ref1.packIndex == ref2.packIndex && ref1.cursorIndex == ref2.cursorIndex;
+    }
+
+    /**
      * @notice Returns the reference of the checkpoint that should come right after the
      * referenced checkpoint in the APR history.
      * @param ref The reference to be incremented.
@@ -88,22 +98,22 @@ library APRHistory {
 
     /**
      * @notice Extracts checkpoint data from a given reference and in APR history.
-     * @param history The APR history to extract the checkpoint from.
+     * @param self The APR history to extract the checkpoint from.
      * @param ref The reference of the checkpoint data to extract.
      * @return The extracted checkpoint's data.
      */
     function getDataFromReference(
-        Pack[] storage history,
+        Pack[] storage self,
         Reference memory ref
     ) public view returns (CheckpointData memory) {
         // Ensure cursor index of the given ref is within valid range [0, 3]
         require(ref.cursorIndex <= 3, "L2");
 
         // Ensure pack index of the given ref exists in history
-        require(ref.packIndex < history.length, "L3");
+        require(ref.packIndex < self.length, "L3");
 
         // Retrieve pack data from history
-        Pack memory pack = history[ref.packIndex];
+        Pack memory pack = self[ref.packIndex];
 
         // Ensure cursor index of the given ref has been written
         require(ref.cursorIndex < pack.cursor, "L4");
@@ -118,16 +128,16 @@ library APRHistory {
 
     /**
      * @notice Retrieves the reference to the most recently added checkpoint in the APR history.
-     * @param history The history to extract the reference from.
+     * @param self The history to extract the reference from.
      * @return The reference of the latest checkpoint.
      */
-    function getLatestReference(Pack[] storage history) public view returns (Reference memory) {
+    function getLatestReference(Pack[] storage self) public view returns (Reference memory) {
         // Ensure the given history is not empty
-        require(history.length != 0, "L5");
+        require(self.length != 0, "L5");
 
         // Retrieve latest pack's index and cursor
-        uint256 packIndex = history.length - 1;
-        uint32 packCursor = history[packIndex].cursor;
+        uint256 packIndex = self.length - 1;
+        uint32 packCursor = self[packIndex].cursor;
 
         // If this is the first pack ever, ensure it is not empty
         if (packIndex == 0) require(packCursor != 0, "L6");
@@ -141,14 +151,14 @@ library APRHistory {
 
     /**
      * @notice Appends a new empty pack to the end of the given APR history array.
-     * @param history The APR history to append an empty to.
+     * @param self The APR history to append an empty to.
      */
-    function newBlankPack(Pack[] storage history) internal {
+    function newBlankPack(Pack[] storage self) internal {
         // If history is not empty, ensure the latest pack is full
-        require(history.length == 0 || getLatestReference(history).cursorIndex == 3, "L7");
+        require(self.length == 0 || getLatestReference(self).cursorIndex == 3, "L7");
 
         // Push a new blank pack to the history array
-        history.push(
+        self.push(
             Pack({
                 aprsUD7x3: [uint16(0), uint16(0), uint16(0), uint16(0)],
                 timestamps: [uint40(0), uint40(0), uint40(0), uint40(0)],
@@ -159,20 +169,20 @@ library APRHistory {
 
     /**
      * @notice Write a new APR checkpoint at the end of the given history array.
-     * @param history The array of packs to write the new checkpoint to.
+     * @param self The array of packs to write the new checkpoint to.
      * @param aprUD7x3 The new APR in UD7x3 format.
      */
-    function setAPR(Pack[] storage history, uint16 aprUD7x3) external {
+    function setAPR(Pack[] storage self, uint16 aprUD7x3) external {
         // Determine the reference where the new checkpoint should be written
-        Reference memory newRef = history.length == 0
+        Reference memory newRef = self.length == 0
             ? Reference(0, 0)
-            : incrementReference(getLatestReference(history));
+            : incrementReference(getLatestReference(self));
 
         // If pack to be written doesn't exist yet, push a new blank pack in history
-        if (newRef.packIndex >= history.length) newBlankPack(history);
+        if (newRef.packIndex >= self.length) newBlankPack(self);
 
         // Retrieve the pack where the new checkpoint will be stored
-        Pack memory pack = history[newRef.packIndex];
+        Pack memory pack = self[newRef.packIndex];
 
         // Add new checkpoint's data to the pack
         pack.aprsUD7x3[newRef.cursorIndex] = aprUD7x3;
@@ -182,18 +192,18 @@ library APRHistory {
         pack.cursor++;
 
         // Write the updated pack in storage
-        history[newRef.packIndex] = pack;
+        self[newRef.packIndex] = pack;
     }
 
     /**
      * @notice Retrieves the APR of the latest checkpoint written in the APR history.
-     * @param history The history array to read APR from.
+     * @param self The history array to read APR from.
      * @return The latest checkpoint's APR.
      */
-    function getAPR(Pack[] storage history) external view returns (uint16) {
+    function getAPR(Pack[] storage self) public view returns (uint16) {
         // Retrieve the latest checkpoint data
-        Reference memory ref = getLatestReference(history);
-        CheckpointData memory data = getDataFromReference(history, ref);
+        Reference memory ref = getLatestReference(self);
+        CheckpointData memory data = getDataFromReference(self, ref);
 
         // Return the latest checkpoint's APR
         return data.aprUD7x3;

@@ -7,7 +7,7 @@ export const displayedErrors: { [key: string]: string } = {
   L2: "Cursor index overflow",
   L3: "Pack index out of bounds",
   L4: "Cursor index not written yet",
-  L5: "No pack yet",
+  L5: "No APR yet",
   L6: "No checkpoint yet",
   L7: "Latest pack not full yet",
 
