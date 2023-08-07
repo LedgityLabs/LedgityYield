@@ -1,3 +1,20 @@
+## [1.127.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.6...v1.127.0) (2023-08-07)
+
+
+### Features
+
+* upload new logos ([96ea2c8](https://github.com/ledgity-labs/Ledgity-Yield/commit/96ea2c8bd5a3495a5df4e4c2a512013fe6b99a5a))
+
+
+### Docs
+
+* improve docs of BaseUpgradeable.sol ([180db3f](https://github.com/ledgity-labs/Ledgity-Yield/commit/180db3f9f6109261b9d8e68ecea1daf915993d40))
+* improve docs of ERC20BaseUpgradeable.sol ([808e170](https://github.com/ledgity-labs/Ledgity-Yield/commit/808e170f6dacef67f16c4176ecf59483ec7713f3))
+* improve docs of InvestUpgradeable.sol + usage of APRH library ([05857c7](https://github.com/ledgity-labs/Ledgity-Yield/commit/05857c7c75c27b68f150d4dcbfcfdb91c9573efd))
+* improve docs of RecoverableUpgradeable.sol ([7f71a7c](https://github.com/ledgity-labs/Ledgity-Yield/commit/7f71a7c4aae25740b5d12ea65312346e1b7a2950))
+* improve documentation of GlobalRestrictableUpgradeable.sol ([17e28c9](https://github.com/ledgity-labs/Ledgity-Yield/commit/17e28c9bbf9d60d5a8ea6768322a32ad423c160f))
+* start improving LToken documentation ([d9eaaac](https://github.com/ledgity-labs/Ledgity-Yield/commit/d9eaaac61c0f8fc529ccb81ba31b5cd4b1fc453d))
+
 ## [1.126.6](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.5...v1.126.6) (2023-08-06)
 
 
