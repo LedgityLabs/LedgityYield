@@ -19,7 +19,7 @@ export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => 
 
     // Deploy fake underlying token if running on localnet
     let underlyingAddress: string;
-    if (chainId == "31337") {
+    if (chainId === "31337") {
       const fakeUnderlying = await deployments.deploy(underlyingSymbol, {
         contract: "GenericERC20",
         from: deployer,
@@ -45,6 +45,10 @@ export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => 
       underlyingAddress = dependencies[underlyingSymbol][chainId];
     }
 
+    console.log("underlyingAddress");
+    console.log(underlyingAddress);
+    console.log(chainId);
+
     // Deploy the LToken
     await deployments.deploy(lTokenSymbol, {
       contract: "LToken",
@@ -65,10 +69,11 @@ export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => 
           },
         },
       },
+      gasLimit: 1000000, // Required as RPC node fails to estimate gas limit
       libraries: {
         APRHistory: aprHistory.address,
       },
-      waitConfirmations: chainId == "31337" ? 1 : 6,
+      waitConfirmations: chainId == "31337" ? 1 : 1,
     });
   }) as DeployFunction;
 };

@@ -1,3 +1,3 @@
 import { deployLToken } from "../lib/deployLToken";
 
-module.exports.default = deployLToken("LUSDC", "USDC");
+module.exports = deployLToken("LUSDC", "USDC");

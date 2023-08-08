@@ -1,6 +1,6 @@
 import { type DeployFunction } from "hardhat-deploy/dist/types";
 
-module.exports.default = (async ({ getNamedAccounts, deployments, getChainId }) => {
+module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
@@ -16,6 +16,6 @@ module.exports.default = (async ({ getNamedAccounts, deployments, getChainId }) 
         },
       },
     },
-    waitConfirmations: chainId == "31337" ? 1 : 6,
+    waitConfirmations: chainId == "31337" ? 1 : 1,
   });
 }) as DeployFunction;
