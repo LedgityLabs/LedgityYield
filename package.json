@@ -1,6 +1,6 @@
 {
   "name": "ledgity-yield",
-  "version": "1.128.1",
+  "version": "1.128.2",
   "scripts": {
     "dev": "next dev",
     "build": "pnpm cc:compile && next build",
