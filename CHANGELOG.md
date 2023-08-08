@@ -1,3 +1,15 @@
+## [1.128.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.127.0...v1.128.0) (2023-08-08)
+
+
+### Features
+
+* configure launch chains + fix missings logos + new favicons ([f479417](https://github.com/ledgity-labs/Ledgity-Yield/commit/f4794177a9a0142fc9484a0106c3c33b6043e072))
+
+
+### Docs
+
+* improvements in the LToken contract documentation + some renamings ([a1e56b5](https://github.com/ledgity-labs/Ledgity-Yield/commit/a1e56b5f77115e1fc380c6df47560e442701e38d))
+
 ## [1.127.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.6...v1.127.0) (2023-08-07)
 
 ### Features
