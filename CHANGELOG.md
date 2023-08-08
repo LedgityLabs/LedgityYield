@@ -1,3 +1,15 @@
+## [1.130.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.129.0...v1.130.0) (2023-08-08)
+
+
+### Features
+
+* deploy app on Linea Goerli and Arbitrum Goerli ([872a6c5](https://github.com/ledgity-labs/Ledgity-Yield/commit/872a6c5375f35ce5dd426e4c531cbee8c3ee6c60))
+
+
+### Docs
+
+* document contracts/ directory ([a8b04f5](https://github.com/ledgity-labs/Ledgity-Yield/commit/a8b04f55e80cdb6cb340041093d31c64ab6609e9))
+
 ## [1.129.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.128.2...v1.129.0) (2023-08-08)
 
 
