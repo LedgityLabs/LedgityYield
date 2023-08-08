@@ -4,6 +4,7 @@ import { Button, Scroller, Card, Cube } from "@/components/ui";
 import { clsx } from "clsx";
 import { gsap } from "@/lib/gsap";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -37,7 +38,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_30%_bottom_0%]",
         "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0",
-        className
+        className,
       )}
     >
       <div
@@ -116,12 +117,17 @@ const HomeHero: FC<Props> = ({ className }) => {
                   </h3>
                 </li>
 
-                <li className={clsx("relative flex items-center justify-center px-[4vw]", "bg-fg/[5%]")}>
+                <li
+                  className={clsx(
+                    "relative flex items-center justify-center px-[4vw]",
+                    "bg-fg/[5%]",
+                  )}
+                >
                   <p className="mb-3 text-4xl font-bold text-fg/80">±0.1%</p>
                   <h3
                     className={clsx(
                       "absolute bottom-3 text-[0.92rem] font-semibold text-primary/50 font-heading",
-                      "whitespace-nowrap"
+                      "whitespace-nowrap",
                     )}
                   >
                     1Y stability
@@ -138,17 +144,10 @@ const HomeHero: FC<Props> = ({ className }) => {
           </div>
         </section>
         <div className="flex flex-row flex-wrap px-8 justify-center items-center gap-14">
-          <Button
-            size="large"
-            data-tf-popup="J2ENFK9t"
-            data-tf-opacity="100"
-            data-tf-size="100"
-            data-tf-iframe-props="title=Subscribe to app release"
-            data-tf-transitive-search-params
-            data-tf-medium="snippet"
-          >
-            Invest now
-          </Button>
+          <Link href="/app">
+            <Button size="large">Invest now</Button>
+          </Link>
+
           <Button
             className="sm:block hidden"
             variant="outline"

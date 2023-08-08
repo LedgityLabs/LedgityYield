@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Button, Cube, FadeIn } from "@/components/ui";
+import Link from "next/link";
 
 const HomeCTA: FC = () => {
   return (
@@ -9,17 +10,9 @@ const HomeCTA: FC = () => {
         <h3 className="text-center font-semibold text-4xl font-heading ">
           Ready to get <span className="whitespace-nowrap">started ?</span>
         </h3>
-        <Button
-          data-tf-popup="J2ENFK9t"
-          data-tf-opacity="100"
-          data-tf-size="100"
-          data-tf-iframe-props="title=Subscribe to app release"
-          data-tf-transitive-search-params
-          data-tf-medium="snippet"
-          size="large"
-        >
-          Take me to the app
-        </Button>
+        <Link href="/app">
+          <Button size="large">Take me to the app</Button>
+        </Link>
       </section>
     </FadeIn>
   );

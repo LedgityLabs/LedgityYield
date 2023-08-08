@@ -15,7 +15,6 @@ const description =
 export const metadata = {
   metadataBase: new URL("https://ledgity.finance"),
   applicationName: name,
-  // referrer: "origin",
   title: {
     template: `${name} • %s`,
     default: "Untitled Page",
@@ -60,12 +59,14 @@ const RootLayout: NextPage<Props> = ({ children }) => {
         className={clsx(
           fonts,
           "min-h-screen",
-          "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200"
+          "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200",
         )}
       >
         <CardsHelper />
         <TooltipProvider delayDuration={400}>
-          <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">{children}</div>
+          <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">
+            {children}
+          </div>
         </TooltipProvider>
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Button, Card, Cube, FadeIn } from "@/components/ui";
+import Link from "next/link";
 
 const HomeFeatures: FC = () => {
   return (
@@ -48,8 +49,8 @@ const HomeFeatures: FC = () => {
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
-              Our team of experts provide financial engineering to achieve the best risk-adjusted return
-              from RWA.
+              Our team of experts provide financial engineering to achieve the best risk-adjusted
+              return from RWA.
             </p>
           </Card>
           <Card
@@ -69,7 +70,8 @@ const HomeFeatures: FC = () => {
               }}
             ></div>
             <p className="absolute bottom-7 left-7 right-7 -mt-4 text-fg/80 text-lg text-center bg-gradient-radial from-bg to-transparent rounded-2xl backdrop-blur-md">
-              The collateralized portoflio of RWA is allocated accross hundreds of yield opportunities.
+              The collateralized portoflio of RWA is allocated accross hundreds of yield
+              opportunities.
             </p>
           </Card>
 
@@ -136,18 +138,11 @@ const HomeFeatures: FC = () => {
             </p>
           </Card>
         </div>
-        <Button
-          data-tf-popup="J2ENFK9t"
-          data-tf-opacity="100"
-          data-tf-size="100"
-          data-tf-iframe-props="title=Subscribe to app release"
-          data-tf-transitive-search-params
-          data-tf-medium="snippet"
-          className="mt-12"
-          size="large"
-        >
-          Browse available yields
-        </Button>
+        <Link href="/app">
+          <Button className="mt-12" size="large">
+            Browse available yields
+          </Button>
+        </Link>
       </section>
     </FadeIn>
   );

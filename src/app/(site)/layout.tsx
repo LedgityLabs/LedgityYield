@@ -17,7 +17,6 @@ const SiteLayout: NextPage<Props> = ({ children }) => {
       <SiteHeader />
       <main>{children}</main>
       <SiteFooter />
-      <Script src="//embed.typeform.com/next/embed.js" defer async></Script>
     </>
   );
 };
