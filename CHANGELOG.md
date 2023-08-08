@@ -1,3 +1,15 @@
+## [1.128.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.128.0...v1.128.1) (2023-08-08)
+
+
+### Fixes
+
+* broken wagmi hooks causing build failure ([a518890](https://github.com/ledgity-labs/Ledgity-Yield/commit/a518890724f39a279d7031ff040c91ad9e69112b))
+
+
+### Others
+
+* **deps:** update nextjs monorepo to v13.4.13 ([db6862f](https://github.com/ledgity-labs/Ledgity-Yield/commit/db6862fffa819628b560b672d13d7223fe3d2da8))
+
 ## [1.128.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.127.0...v1.128.0) (2023-08-08)
 
 
