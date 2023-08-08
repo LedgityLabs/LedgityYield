@@ -2,15 +2,14 @@ import { Card, Input, TxButton } from "@/components/ui";
 import { usePrepareLTokenProcessBigQueuedRequest } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenId }) => {
-  const lTokenAddress = useContractAddress(lTokenId);
+export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
+  const lTokenAddress = useContractAddress(lTokenSymbol);
   const [requestId, setRequestId] = useState(0n);
   const preparation = usePrepareLTokenProcessBigQueuedRequest({
     address: lTokenAddress,
@@ -21,7 +20,7 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenId }) => {
     <AdminBrick title="Process big queued request">
       <p>
         This utility can only be called by the fund wallet and will process a given request using
-        the fund&apos;s {lTokenId.slice(1)} balance directly.
+        the fund&apos;s {lTokenSymbol.slice(1)} balance directly.
       </p>
       <div className="flex justify-center items-end gap-3">
         <Input

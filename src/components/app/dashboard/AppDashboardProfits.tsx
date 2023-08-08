@@ -13,15 +13,16 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
     const combination: [number, number][] = [];
 
     // Loop over all keys in the object
-    for (const lTokenId in data) {
+    for (const lTokenSymbol in data) {
       // Compute cumulative revenue for this L-Token
-      const lTokenTotalRevenue = data[lTokenId].reduce((acc, value) => acc + value.revenue, 0);
+      const lTokenTotalRevenue = data[lTokenSymbol].reduce((acc, value) => acc + value.revenue, 0);
       _totalRevenue += lTokenTotalRevenue;
 
       //  Compute cumulative growth and average balance before for this L-Token
-      const cumulativeGrowth = data[lTokenId].reduce((acc, val) => acc + val.growth, 0);
+      const cumulativeGrowth = data[lTokenSymbol].reduce((acc, val) => acc + val.growth, 0);
       const averageBalanceBefore =
-        data[lTokenId].reduce((acc, val) => acc + val.balanceBefore, 0) / data[lTokenId].length;
+        data[lTokenSymbol].reduce((acc, val) => acc + val.balanceBefore, 0) /
+        data[lTokenSymbol].length;
       combination.push([averageBalanceBefore, cumulativeGrowth]);
     }
     setTotalRevenue(_totalRevenue);
@@ -53,7 +54,12 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
       )) || (
         <>
           <span className="text-center text-4xl font-heavy font-heading text-emerald-500 transition-opacity">
-            <Rate value={totalGrowth * 100} prefix="+" isUD7x3={false} className="transition-opacity" />
+            <Rate
+              value={totalGrowth * 100}
+              prefix="+"
+              isUD7x3={false}
+              className="transition-opacity"
+            />
           </span>
           <span className="text-center text-xl font-heavy font-heading text-emerald-500 opacity-50 transition-opacity">
             <span className="text-fg/20">(</span>

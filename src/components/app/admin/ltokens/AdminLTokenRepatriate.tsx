@@ -2,27 +2,29 @@ import { AmountInput, Card, Input, TxButton } from "@/components/ui";
 import { useLTokenDecimals, usePrepareLTokenRepatriate } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { parseUnits } from "viem";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLTokenRepatriate: FC<Props> = ({ lTokenId }) => {
-  const lTokenAddress = useContractAddress(lTokenId);
+export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
+  const lTokenAddress = useContractAddress(lTokenSymbol);
   const { data: lTokenDecimals } = useLTokenDecimals({
     address: lTokenAddress,
   });
   const [repatriatedAmount, setRepatriatedAmount] = useState(0n);
-  const preparation = usePrepareLTokenRepatriate({ address: lTokenAddress, args: [repatriatedAmount] });
+  const preparation = usePrepareLTokenRepatriate({
+    address: lTokenAddress,
+    args: [repatriatedAmount],
+  });
 
   return (
     <AdminBrick title="Fund contract">
       <p>
-        This utility can only be called by the fund wallet and will safely transfer a given amount of{" "}
-        {lTokenId.slice(1)} from fund to {lTokenId} contract.
+        This utility can only be called by the fund wallet and will safely transfer a given amount
+        of {lTokenSymbol.slice(1)} from fund to {lTokenSymbol} contract.
       </p>
       <div className="flex justify-center items-end gap-3">
         <AmountInput

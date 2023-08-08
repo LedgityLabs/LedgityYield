@@ -5,16 +5,15 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminBrick } from "../AdminBrick";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenId }) => {
-  const underlyingTokenName = lTokenId.slice(1);
-  const lTokenAddress = useContractAddress(lTokenId);
+export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol }) => {
+  const underlyingTokenName = lTokenSymbol.slice(1);
+  const lTokenAddress = useContractAddress(lTokenSymbol);
   const { data: retentionRate } = useLTokenRetentionRateUd7x3({
     address: lTokenAddress,
     watch: true,
@@ -28,8 +27,8 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenId }) => 
   return (
     <AdminBrick title="Retention rate">
       <p>
-        This rate corresponds to the target and maximal amount of {underlyingTokenName} to retain on the
-        contract.
+        This rate corresponds to the target and maximal amount of {underlyingTokenName} to retain on
+        the contract.
       </p>
       <p>
         Current value: <Rate value={retentionRate} className="font-bold" />

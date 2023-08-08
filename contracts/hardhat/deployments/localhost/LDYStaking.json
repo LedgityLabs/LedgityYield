@@ -1,0 +1,71 @@
+{
+  "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "tierOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "tier",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xc67dbe0e4f3b9c8bbd551c092accb1864828e7637f90d49532edb8dd57c084bc",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+    "transactionIndex": 0,
+    "gasUsed": "92309",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x16483e83bf33a2c9f098a0464c31210fcd3a7cae93cfbe48f73547520363aa4e",
+    "transactionHash": "0xc67dbe0e4f3b9c8bbd551c092accb1864828e7637f90d49532edb8dd57c084bc",
+    "logs": [],
+    "blockNumber": 8,
+    "cumulativeGasUsed": "92309",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "ebb5f54f65cdb54946fa40b3124d0220",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"tierOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"tier\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lila Rest (lila@ledgity.com)\",\"custom:security-contact\":\"security@ledgity.com\",\"kind\":\"dev\",\"methods\":{\"tierOf(address)\":{\"details\":\"Dummy tierOf() function that always return that the given account is not ellgible to any LDY staking tier.\",\"params\":{\"account\":\"@\"}}},\"title\":\"LDYStaking\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"This contract will replace the LDYStaking contract in L-Tokens contracts until the $LDY token is available and the real LDYStaking contract is deployed so. This contract only implements tierOf() function of LDYStaking as it is the only one the LToken contract relies on.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/src/DummyLDYStaking.sol\":\"LDYStaking\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/src/DummyLDYStaking.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.18;\\n\\n/**\\n * @title LDYStaking\\n * @author Lila Rest (lila@ledgity.com)\\n * @notice This contract will replace the LDYStaking contract in L-Tokens contracts until\\n * the $LDY token is available and the real LDYStaking contract is deployed so.\\n * This contract only implements tierOf() function of LDYStaking as it is the only one\\n * the LToken contract relies on.\\n * @custom:security-contact security@ledgity.com\\n */\\ncontract LDYStaking {\\n    /**\\n     * @dev Dummy tierOf() function that always return that the given account is not\\n     * ellgible to any LDY staking tier.\\n     * @param account @\\n     */\\n    function tierOf(address account) public pure returns (uint256 tier) {\\n        account; // Silence unused variable compiler warning\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x67e50aac984a7eddb00a41ac0bd37743775b7bd7148b47d6c2967498b45528da\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060b48061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063c8f74bb814602d575b600080fd5b603e60383660046050565b50600090565b60405190815260200160405180910390f35b600060208284031215606157600080fd5b81356001600160a01b0381168114607757600080fd5b939250505056fea2646970667358221220198af31521c8cfda70f47ea61139d5113b469dcbc7985882699402b476d0401f64736f6c63430008120033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c8063c8f74bb814602d575b600080fd5b603e60383660046050565b50600090565b60405190815260200160405180910390f35b600060208284031215606157600080fd5b81356001600160a01b0381168114607757600080fd5b939250505056fea2646970667358221220198af31521c8cfda70f47ea61139d5113b469dcbc7985882699402b476d0401f64736f6c63430008120033",
+  "devdoc": {
+    "author": "Lila Rest (lila@ledgity.com)",
+    "custom:security-contact": "security@ledgity.com",
+    "kind": "dev",
+    "methods": {
+      "tierOf(address)": {
+        "details": "Dummy tierOf() function that always return that the given account is not ellgible to any LDY staking tier.",
+        "params": {
+          "account": "@"
+        }
+      }
+    },
+    "title": "LDYStaking",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "This contract will replace the LDYStaking contract in L-Tokens contracts until the $LDY token is available and the real LDYStaking contract is deployed so. This contract only implements tierOf() function of LDYStaking as it is the only one the LToken contract relies on.",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

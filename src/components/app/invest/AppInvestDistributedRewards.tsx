@@ -2,7 +2,6 @@ import { Amount, Card, Spinner } from "@/components/ui";
 import { FC, useEffect, useState } from "react";
 import { LToken, execute } from "../../../../.graphclient";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
-import { ContractId, LTokenId } from "../../../../contracts/deployments";
 import { parseUnits } from "viem";
 
 export const AppInvestDistributedRewards: FC = () => {
@@ -31,9 +30,7 @@ export const AppInvestDistributedRewards: FC = () => {
           let newTotalMintedRewardsUsd = 0n;
           const proms: Promise<string>[] = [];
           for (const lToken of result.data.ltokens) {
-            proms.push(
-              getTokenUSDRate(lToken.symbol.slice(1) as ContractId).then((rate) => rate.toString()),
-            );
+            proms.push(getTokenUSDRate(lToken.symbol.slice(1)).then((rate) => rate.toString()));
           }
           Promise.all(proms).then((usdRates) => {
             for (let i = 0; i < usdRates.length; i++) {

@@ -16,7 +16,6 @@ import {
   usePrepareLTokenRequestWithdrawal,
 } from "@/generated";
 import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
-import { LTokenId } from "../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { TxButton } from "../ui/TxButton";
 import { useWalletClient } from "wagmi";
@@ -28,7 +27,7 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
 
 export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
   const { data: walletClient } = useWalletClient();
-  const lTokenAddress = useContractAddress(`L${underlyingSymbol}` as LTokenId);
+  const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useLTokenDecimals({ address: lTokenAddress! });
   const { data: balance } = useLTokenBalanceOf({
     address: lTokenAddress!,
@@ -71,9 +70,9 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                   <i className="ri-information-line"></i> Your request will be queued
                 </h4>
                 <p>
-                  Only a small portion of deposited funds are kept on the contract as they are invested
-                  off-chain. Actually, the contract doesn&apos;t hold enough funds to cover your request
-                  plus already queued ones.
+                  Only a small portion of deposited funds are kept on the contract as they are
+                  invested off-chain. Actually, the contract doesn&apos;t hold enough funds to cover
+                  your request plus already queued ones.
                   <br />
                   <br />
                   Once a request has been queued, it will be automatically processed as soon as the
@@ -83,8 +82,8 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                   <span className="font-semibold">
                     You&apos;ll be invited to pay a small 0.004ETH
                   </span>{" "}
-                  fee to cover the gas cost of the transaction that will process your withdrawal when the
-                  time comes.
+                  fee to cover the gas cost of the transaction that will process your withdrawal
+                  when the time comes.
                 </p>
               </span>
             )}

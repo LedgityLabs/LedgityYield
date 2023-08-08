@@ -1,14 +1,13 @@
 import { FC } from "react";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminBrick } from "../AdminBrick";
 import { AdminAddressSetter } from "../AdminAddressSetter";
 import { Card } from "@/components/ui";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLTokenAddresses: FC<Props> = ({ className, lTokenId }) => {
+export const AdminLTokenAddresses: FC<Props> = ({ className, lTokenSymbol }) => {
   const addressesAccesses = [
     ["Withdrawer wallet", "withdrawer", "setWithdrawer"],
     ["Fund wallet", "fund", "setFund"],
@@ -21,7 +20,7 @@ export const AdminLTokenAddresses: FC<Props> = ({ className, lTokenId }) => {
         <AdminAddressSetter
           key={getterName}
           displayName={displayName}
-          contractName={lTokenId}
+          contractName={lTokenSymbol}
           getterFunctionName={getterName}
           setterFunctionName={setterName}
         />

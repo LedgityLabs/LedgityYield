@@ -9,7 +9,6 @@ import {
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
-import { ContractId } from "../../../../../contracts/deployments";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
 import { createTestClient, http, parseUnits } from "viem";
@@ -18,9 +17,9 @@ import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 import { hardhat } from "wagmi/chains";
 
-const MintFakeToken: FC<{ contractId: ContractId }> = ({ contractId, ...props }) => {
+const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props }) => {
   const { data: walletClient } = useWalletClient();
-  const address = useContractAddress(contractId);
+  const address = useContractAddress(contractName);
   const { data: tokenSymbol } = useGenericErc20Symbol({ address: address });
   const { data: tokenName } = useGenericErc20Name({ address: address });
   const { data: tokenDecimals } = useGenericErc20Decimals({
@@ -97,13 +96,13 @@ export const AdminTesting: FC = () => {
     <AdminMasonry>
       <AdminBrick title="Underlying tokens">
         <p>
-          When Ledgity Yield is deployed locally or on a testnet, fake stablecoins contracts are also
-          automatically deployed to mimic mainnets&apos; ones.
+          When Ledgity Yield is deployed locally or on a testnet, fake stablecoins contracts are
+          also automatically deployed to mimic mainnets&apos; ones.
           <br />
           Here are those for the current test network:
         </p>
         {lTokens.map((lToken) => (
-          <MintFakeToken key={lToken} contractId={lToken.slice(1) as ContractId} />
+          <MintFakeToken key={lToken} contractName={lToken.slice(1)} />
         ))}
       </AdminBrick>
       <AdminBrick title="LDY token">
@@ -113,14 +112,14 @@ export const AdminTesting: FC = () => {
           <br />
           Here is the one for the current test network:
         </p>
-        <MintFakeToken contractId="LDY" />
+        <MintFakeToken contractName="LDY" />
       </AdminBrick>
       <AdminBrick title="Increase block time">
         <div className="flex flex-col justify-center items-center gap-3">
           <p>
-            Warning: When local chain timestamp is moved forward, the JS `Date.now()` is still at current
-            timestamp. This may produce unwanted results if on-chain timestamps are for example compared
-            to JS ones.
+            Warning: When local chain timestamp is moved forward, the JS `Date.now()` is still at
+            current timestamp. This may produce unwanted results if on-chain timestamps are for
+            example compared to JS ones.
           </p>
           <Input
             type="number"

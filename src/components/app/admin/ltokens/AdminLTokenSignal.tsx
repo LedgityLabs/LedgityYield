@@ -2,15 +2,14 @@ import { Card, TxButton } from "@/components/ui";
 import { usePrepareLTokenSignalerSignalLToken } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminBrick } from "../AdminBrick";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLTokenSignal: FC<Props> = ({ lTokenId }) => {
-  const lTokenAddress = useContractAddress(lTokenId);
+export const AdminLTokenSignal: FC<Props> = ({ lTokenSymbol }) => {
+  const lTokenAddress = useContractAddress(lTokenSymbol);
   const preparation = usePrepareLTokenSignalerSignalLToken({ args: [lTokenAddress!] });
 
   return (

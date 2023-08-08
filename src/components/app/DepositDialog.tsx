@@ -18,7 +18,6 @@ import {
   usePrepareLTokenDeposit,
 } from "../../generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { LTokenId } from "../../../contracts/deployments";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { useWalletClient } from "wagmi";
 
@@ -29,7 +28,7 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
 
 export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
   const { data: walletClient } = useWalletClient();
-  const lTokenAddress = useContractAddress(`L${underlyingSymbol}` as LTokenId);
+  const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useLTokenDecimals({ address: lTokenAddress! });
   const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
   const { data: underlyingBalance } = useGenericErc20BalanceOf({
@@ -61,9 +60,9 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             You will receive L{underlyingSymbol} in a 1:1 ratio.
             <br />
             <br />
-            As soon as you hold some L{underlyingSymbol}, you start earning annouced yields on those.
-            There is no need to stake or else, your balance will magically grow through time. Note that
-            your rewards are auto-compounded.
+            As soon as you hold some L{underlyingSymbol}, you start earning annouced yields on
+            those. There is no need to stake or else, your balance will magically grow through time.
+            Note that your rewards are auto-compounded.
             <br />
             <br />
             At any time, you&apos;ll be able to withdraw your L{underlyingSymbol} tokens against{" "}

@@ -9,14 +9,13 @@ import {
 } from "@/components/ui";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { AdminLToken } from "./AdminLToken";
-import { LTokenId } from "../../../../../contracts/deployments";
 
 export const AdminLTokens: FC = () => {
   const lTokens = useAvailableLTokens();
   const [lToken, setLToken] = useState(lTokens.length > 0 ? lTokens[0] : undefined);
   return (
     <section className="flex flex-col gap-6 justify-center items-center">
-      <Select onValueChange={(value: LTokenId) => setLToken(value)} value={lToken}>
+      <Select onValueChange={(value: string) => setLToken(value)} value={lToken}>
         <SelectTrigger>
           <SelectValue placeholder="No L-Tokens available" />
         </SelectTrigger>
@@ -31,7 +30,7 @@ export const AdminLTokens: FC = () => {
           ))}
         </SelectContent>
       </Select>
-      {lToken && <AdminLToken lTokenId={lToken} />}
+      {lToken && <AdminLToken lTokenSymbol={lToken} />}
     </section>
   );
 };

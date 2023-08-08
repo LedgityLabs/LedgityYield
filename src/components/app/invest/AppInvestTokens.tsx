@@ -18,7 +18,6 @@ import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
-import { ContractId } from "../../../../contracts/deployments";
 import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
@@ -77,7 +76,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       cell: (info) => {
         const [amount, decimals] = info.getValue() as [bigint, number];
         const tokenSymbol = info.row.getValue("tokenSymbol") as string;
-        return <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />;
+        return (
+          <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />
+        );
       },
       header: "TVL",
     }),
@@ -85,7 +86,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       cell: (info) => {
         const [amount, decimals] = info.getValue() as [bigint, number];
         const tokenSymbol = info.row.getValue("tokenSymbol") as string;
-        return <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />;
+        return (
+          <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />
+        );
       },
       header: "Invested",
     }),
@@ -145,10 +148,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   function watchData() {
     if (publicClient.chain) {
       let reads: Parameters<typeof watchReadContracts>[0]["contracts"] = [];
-      for (const lTokenId of lTokens) {
-        const lTokenContractAddress = getContractAddress(lTokenId, publicClient.chain.id);
+      for (const lTokenSymbol of lTokens) {
+        const lTokenContractAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
         const underlyingContractAddress = getContractAddress(
-          lTokenId.slice(1) as ContractId,
+          lTokenSymbol.slice(1),
           publicClient.chain.id,
         );
         if (!lTokenContractAddress || !underlyingContractAddress)
@@ -249,12 +252,17 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 if (sortableColumns.includes(header.column.id))
                   return (
                     <button
-                      onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
+                      onClick={() =>
+                        header.column.toggleSorting(header.column.getIsSorted() === "asc")
+                      }
                       className="relative flex items-center gap-1"
                     >
                       {content}
                       <span
-                        className={clsx("text-fg/60", header.column.id !== "apr" && "absolute -right-5")}
+                        className={clsx(
+                          "text-fg/60",
+                          header.column.id !== "apr" && "absolute -right-5",
+                        )}
                       >
                         {(() => {
                           switch (header.column.getIsSorted()) {
@@ -308,7 +316,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               </Card>
             ))
           ) : (
-            <p className="text-center mt-10 block">No investment opportunities on this chain yet.</p>
+            <p className="text-center mt-10 block">
+              No investment opportunities on this chain yet.
+            </p>
           )}
         </>
       )}

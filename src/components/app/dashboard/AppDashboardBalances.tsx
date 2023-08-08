@@ -15,32 +15,31 @@ import { WithdrawDialog } from "../WithdrawDialog";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { useLTokenBalanceOf, useLTokenDecimals, useLTokenUnderlying } from "@/generated";
-import { LTokenId } from "../../../../contracts/deployments";
 import { useWalletClient } from "wagmi";
 
-const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
+const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props }) => {
   const { data: walletClient } = useWalletClient();
-  const address = useContractAddress(lTokenId);
+  const address = useContractAddress(lTokenSymbol);
   const { data: balance } = useLTokenBalanceOf({
     address: address!,
     args: [walletClient ? walletClient.account.address : "0x0"],
     watch: true,
   });
   const { data: decimals } = useLTokenDecimals({ address: address! });
-  const underlyingSymbol = lTokenId.slice(1);
+  const underlyingSymbol = lTokenSymbol.slice(1);
 
   return (
     <li className="flex justify-between  items-center w-full" {...props}>
       <div className="flex gap-2 items-center font-medium text-fg/[0.85]">
-        <TokenLogo symbol={lTokenId} wrapped={true} size={30} />
-        {lTokenId}
+        <TokenLogo symbol={lTokenSymbol} wrapped={true} size={30} />
+        {lTokenSymbol}
       </div>
       <div className="flex gap-2 items-center">
         <Amount
           value={balance!}
           decimals={decimals}
           className="font-bold pr-2"
-          suffix={lTokenId}
+          suffix={lTokenSymbol}
           displaySymbol={false}
         />
         <Tooltip>
@@ -52,20 +51,24 @@ const LTokenBalance: FC<{ lTokenId: LTokenId }> = ({ lTokenId, ...props }) => {
             </DepositDialog>
           </TooltipTrigger>
           <TooltipContent>
-            Deposit {underlyingSymbol} against {lTokenId}
+            Deposit {underlyingSymbol} against {lTokenSymbol}
           </TooltipContent>
         </Tooltip>
 
         <Tooltip>
           <TooltipTrigger>
             <WithdrawDialog underlyingSymbol={underlyingSymbol}>
-              <Button variant="outline" size="tiny" className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]">
+              <Button
+                variant="outline"
+                size="tiny"
+                className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
+              >
                 <i className="ri-subtract-fill text-lg"></i>
               </Button>
             </WithdrawDialog>
           </TooltipTrigger>
           <TooltipContent>
-            Withdraw {underlyingSymbol} from {lTokenId}
+            Withdraw {underlyingSymbol} from {lTokenSymbol}
           </TooltipContent>
         </Tooltip>
       </div>
@@ -84,7 +87,7 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
       {(lTokens.length !== 0 && (
         <ul className="w-full h-full flex flex-col justify-center gap-5 pl-3 pr-2">
           {lTokens.map((lToken) => (
-            <LTokenBalance key={lToken} lTokenId={lToken} />
+            <LTokenBalance key={lToken} lTokenSymbol={lToken} />
           ))}
         </ul>
       )) ||

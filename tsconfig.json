@@ -25,6 +25,14 @@
       "graphclient": ["./.graphclient/"]
     }
   },
-  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "~/src/env.mjs"],
-  "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts",
+    "~/src/env.mjs",
+    "./hardhat.config.ts",
+    "contracts/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }

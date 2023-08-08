@@ -5,15 +5,14 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminBrick } from "../AdminBrick";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLTokenAPR: FC<Props> = ({ className, lTokenId }) => {
-  const lTokenAddress = useContractAddress(lTokenId);
+export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
+  const lTokenAddress = useContractAddress(lTokenSymbol);
   const { data: apr } = useLTokenGetApr({
     address: lTokenAddress,
     watch: true,

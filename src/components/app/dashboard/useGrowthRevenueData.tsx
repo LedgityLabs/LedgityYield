@@ -1,6 +1,5 @@
 import { usePublicClient, useWalletClient } from "wagmi";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
-import { ContractId } from "../../../../contracts/deployments";
 import { formatUnits } from "viem";
 import { readLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
@@ -118,7 +117,7 @@ export const useGrowthRevenueData = () => {
 
     // Push each reward mint as data point
     for (const rewardsMint of mintsEventsRequest.data.rewardsMints) {
-      const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1) as ContractId);
+      const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1));
 
       // Convert revenue to decimals and then to USD
       let revenue = Number(formatUnits(BigInt(rewardsMint.revenue), rewardsMint.ltoken.decimals));
@@ -155,7 +154,7 @@ export const useGrowthRevenueData = () => {
         functionName: "unmintedRewardsOf",
         args: [walletClient!.account.address],
       });
-      const usdRate = await getTokenUSDRate(lToken.slice(1) as ContractId);
+      const usdRate = await getTokenUSDRate(lToken.slice(1));
 
       // Convert revenue to decimals and then to USD
       let revenue = Number(formatUnits(unclaimedRewards, decimals));

@@ -1,10 +1,7 @@
-import { ContractId, contracts } from "../../contracts/deployments";
+import * as generated from "../generated";
 
-export const getContractABI = (contractId: ContractId) => {
-  const contract = contracts[contractId];
-  if (contract) {
-    const abi = contract.abi;
-    if (abi) return abi;
-  }
-  return undefined;
+export const getContractABI = (contractName: string) => {
+  const propName = contractName.charAt(0).toLowerCase() + contractName.slice(1) + "ABI";
+  // @ts-ignore
+  return generated[propName];
 };

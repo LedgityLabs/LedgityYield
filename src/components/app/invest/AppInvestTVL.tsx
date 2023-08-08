@@ -2,7 +2,6 @@ import { Amount, Card, Spinner } from "@/components/ui";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { FC, useEffect, useState } from "react";
-import { ContractId } from "../../../../contracts/deployments";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { usePublicClient } from "wagmi";
 import { readLToken } from "@/generated";
@@ -20,15 +19,15 @@ export const AppInvestTVL: FC<Props> = ({}) => {
     setIsLoading(true);
     let newTvlUsd = 0n;
     const proms: Promise<bigint | string | number>[] = [];
-    for (const lTokenId of lTokens) {
-      const lTokenAddress = getContractAddress(lTokenId, publicClient.chain.id);
+    for (const lTokenSymbol of lTokens) {
+      const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
       proms.push(
         readLToken({
           address: lTokenAddress!,
           functionName: "totalSupply",
         }),
       );
-      proms.push(getTokenUSDRate(lTokenId.slice(1) as ContractId).then((rate) => rate.toString()));
+      proms.push(getTokenUSDRate(lTokenSymbol.slice(1)).then((rate) => rate.toString()));
       proms.push(
         readLToken({
           address: lTokenAddress!,
@@ -40,7 +39,8 @@ export const AppInvestTVL: FC<Props> = ({}) => {
       const lTokensData = chunkArray(results, 3) as [bigint, string, number][];
       for (const lTokenData of lTokensData) {
         newTvlUsd +=
-          (lTokenData[0] * parseUnits(lTokenData[1], lTokenData[2])) / parseUnits("1", lTokenData[2]);
+          (lTokenData[0] * parseUnits(lTokenData[1], lTokenData[2])) /
+          parseUnits("1", lTokenData[2]);
       }
       setTvlUsd(newTvlUsd);
       setIsLoading(false);

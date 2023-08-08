@@ -60,3 +60,6 @@ contracts/foundry/out/
 
 # Dotenv file
 .env
+
+
+secrets.json

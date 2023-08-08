@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { LTokenId } from "../../../../../contracts/deployments";
 import { AdminLTokenAPR } from "./AdminLTokenAPR";
 import { AdminLTokenRetentionRate } from "./AdminLTokenRetentionRate";
 import { AdminMasonry } from "../AdminMasonry";
@@ -10,19 +9,19 @@ import { AdminLTokenAddresses } from "./AdminLTokenAddresses";
 import { AdminLTokenSignal } from "./AdminLTokenSignal";
 
 interface Props {
-  lTokenId: LTokenId;
+  lTokenSymbol: string;
 }
 
-export const AdminLToken: FC<Props> = ({ lTokenId }) => {
+export const AdminLToken: FC<Props> = ({ lTokenSymbol }) => {
   return (
     <AdminMasonry>
-      <AdminLTokenAPR lTokenId={lTokenId} />
-      <AdminLTokenRetentionRate lTokenId={lTokenId} />
-      <AdminLTokenClaimFees lTokenId={lTokenId} />
-      <AdminLTokenProcessBigQueued lTokenId={lTokenId} />
-      <AdminLTokenRepatriate lTokenId={lTokenId} />
-      <AdminLTokenAddresses lTokenId={lTokenId} />
-      <AdminLTokenSignal lTokenId={lTokenId} />
+      <AdminLTokenAPR lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenRetentionRate lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenClaimFees lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenProcessBigQueued lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenRepatriate lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenAddresses lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenSignal lTokenSymbol={lTokenSymbol} />
     </AdminMasonry>
   );
 };

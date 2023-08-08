@@ -32,7 +32,6 @@ import {
 import clsx from "clsx";
 import { Activity, LToken, execute } from "graphclient";
 import { useWalletClient } from "wagmi";
-import { LTokenId } from "../../../../contracts/deployments";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useLTokenDecimals,
@@ -41,12 +40,12 @@ import {
 } from "@/generated";
 import { zeroAddress } from "viem";
 
-const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint; amount: bigint }> = ({
-  ltokenId,
+const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint }> = ({
+  lTokenSymbol,
   requestId,
 }) => {
   const { data: walletClient } = useWalletClient();
-  const ltokenAddress = useContractAddress(ltokenId);
+  const ltokenAddress = useContractAddress(lTokenSymbol);
   const { data: decimals } = useLTokenDecimals({
     address: ltokenAddress,
   });
@@ -85,14 +84,15 @@ const CancelButton: FC<{ ltokenId: LTokenId; requestId: bigint; amount: bigint }
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone and{" "}
-            <span className="font-semibold">you will loose your current position</span> in the withdrawal
-            queue.
+            <span className="font-semibold">you will loose your current position</span> in the
+            withdrawal queue.
             <br />
             <br />
             By cancelling this request{" "}
             <span className="font-semibold">
               you will receive your{" "}
-              <Amount value={amountAndFees ? amountAndFees[0] : 0n} decimals={decimals} /> {ltokenId}{" "}
+              <Amount value={amountAndFees ? amountAndFees[0] : 0n} decimals={decimals} />{" "}
+              {lTokenSymbol}{" "}
             </span>
             tokens back to your wallet.
           </AlertDialogDescription>
@@ -242,7 +242,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             </div>
             {status === "Queued" && (
               <CancelButton
-                ltokenId={ltoken.symbol as LTokenId}
+                lTokenSymbol={ltoken.symbol}
                 requestId={BigInt(requestId)}
                 amount={BigInt(amount)}
               />
