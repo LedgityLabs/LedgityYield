@@ -2,8 +2,8 @@ import { Amount, AmountInput, Card, TxButton } from "@/components/ui";
 import {
   useGenericErc20Decimals,
   useGenericErc20TotalSupply,
-  useLdyStakingGetTier,
-  usePrepareLdyStakingSetTier,
+  useWipLdyStakingGetTier,
+  usePrepareWipLdyStakingSetTier,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
@@ -19,13 +19,13 @@ const TierSetter: FC<{ tierId: number }> = ({ tierId }) => {
   const { data: ldySupply } = useGenericErc20TotalSupply({
     address: ldyAddress,
   });
-  const { data: tierAmount } = useLdyStakingGetTier({
+  const { data: tierAmount } = useWipLdyStakingGetTier({
     args: [BigInt(tierId)],
     watch: true,
   });
 
   const [newTierAmount, setNewTierAmount] = useState(0n);
-  const preparation = usePrepareLdyStakingSetTier({
+  const preparation = usePrepareWipLdyStakingSetTier({
     args: [BigInt(tierId), newTierAmount],
   });
 

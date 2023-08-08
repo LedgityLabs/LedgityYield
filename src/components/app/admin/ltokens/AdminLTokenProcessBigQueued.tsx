@@ -1,9 +1,5 @@
 import { Card, Input, TxButton } from "@/components/ui";
-import {
-  useLdyStakingStakeLockDuration,
-  usePrepareLTokenprocessBigQueuedRequest,
-  usePrepareLdyStakingSetStakeLockDuration,
-} from "@/generated";
+import { usePrepareLTokenProcessBigQueuedRequest } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { LTokenId } from "../../../../../contracts/deployments";
@@ -16,7 +12,7 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenId }) => {
   const lTokenAddress = useContractAddress(lTokenId);
   const [requestId, setRequestId] = useState(0n);
-  const preparation = usePrepareLTokenprocessBigQueuedRequest({
+  const preparation = usePrepareLTokenProcessBigQueuedRequest({
     address: lTokenAddress,
     args: [requestId],
   });

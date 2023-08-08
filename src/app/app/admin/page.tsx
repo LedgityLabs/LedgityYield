@@ -1,7 +1,7 @@
 "use client";
 import { AdminDashboard } from "@/components/app/admin/dashboard/AdminDashboard";
 import { AdminLTokens } from "@/components/app/admin/ltokens/AdminLTokens";
-import { AdminStaking } from "@/components/app/admin/staking/AdminStaking";
+// import { AdminStaking } from "@/components/app/admin/staking/AdminStaking";
 import { AdminBlacklist } from "@/components/app/admin/blacklist/AdminBlacklist";
 import { AdminRecover } from "@/components/app/admin/recover/AdminRecover";
 import { AdminTesting } from "@/components/app/admin/testing/AdminTesting";
@@ -45,9 +45,9 @@ const Page: NextPage = () => {
             <AdminLTokens />
           </TabsContent>
 
-          <TabsContent value="staking">
+          {/* <TabsContent value="staking">
             <AdminStaking />
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="recover">
             <AdminRecover />

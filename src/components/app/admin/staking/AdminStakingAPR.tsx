@@ -1,17 +1,17 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useLdyStakingGetApr, usePrepareLdyStakingSetApr } from "@/generated";
+import { useWipLdyStakingGetApr, usePrepareWipLdyStakingSetApr } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
 
 export const AdminStakingAPR: FC<React.ComponentPropsWithRef<typeof Card>> = ({ className }) => {
-  const { data: apr } = useLdyStakingGetApr({
+  const { data: apr } = useWipLdyStakingGetApr({
     watch: true,
   });
   const [newApr, setNewApr] = useState(0);
-  const preparation = usePrepareLdyStakingSetApr({ args: [newApr] });
+  const preparation = usePrepareWipLdyStakingSetApr({ args: [newApr] });
 
   return (
     <AdminBrick title="APR">

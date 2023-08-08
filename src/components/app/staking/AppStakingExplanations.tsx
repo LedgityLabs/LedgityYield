@@ -1,5 +1,5 @@
 import { Amount, Card } from "@/components/ui";
-import { useGenericErc20Decimals, useLdyStakingGetTier } from "@/generated";
+import { useGenericErc20Decimals, useWipLdyStakingGetTier } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -11,9 +11,9 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
   const { data: ldyDecimals } = useGenericErc20Decimals({
     address: ldyAddress,
   });
-  const { data: tier1Amount } = useLdyStakingGetTier({ args: [1n] });
-  const { data: tier2Amount } = useLdyStakingGetTier({ args: [2n] });
-  const { data: tier3Amount } = useLdyStakingGetTier({ args: [3n] });
+  const { data: tier1Amount } = useWipLdyStakingGetTier({ args: [1n] });
+  const { data: tier2Amount } = useWipLdyStakingGetTier({ args: [2n] });
+  const { data: tier3Amount } = useWipLdyStakingGetTier({ args: [3n] });
 
   return (
     <Card circleIntensity={0.07} className={twMerge("flex flex-col p-8", className)}>

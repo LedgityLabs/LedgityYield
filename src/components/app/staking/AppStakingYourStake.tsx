@@ -1,5 +1,5 @@
 import { Amount, Card } from "@/components/ui";
-import { useGenericErc20Decimals, useLdyStakingStakeOf } from "@/generated";
+import { useGenericErc20Decimals, useWipLdyStakingStakeOf } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -14,7 +14,7 @@ export const AppStakingYourStake: FC<Props> = ({ className }) => {
   const { data: ldyDecimals } = useGenericErc20Decimals({
     address: ldyAddress,
   });
-  const { data: stake } = useLdyStakingStakeOf({
+  const { data: stake } = useWipLdyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });

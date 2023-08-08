@@ -1,9 +1,9 @@
 import { Card, Amount, TxButton } from "@/components/ui";
 import {
   useGenericErc20Decimals,
-  useLdyStakingRewardsOf,
-  usePrepareLdyStakingClaim,
-  usePrepareLdyStakingCompound,
+  useWipLdyStakingRewardsOf,
+  usePrepareWipLdyStakingClaim,
+  usePrepareWipLdyStakingCompound,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
@@ -19,7 +19,7 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
   const { data: ldyDecimals } = useGenericErc20Decimals({
     address: ldyAddress,
   });
-  const { data: unclaimedRewards } = useLdyStakingRewardsOf({
+  const { data: unclaimedRewards } = useWipLdyStakingRewardsOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
@@ -27,9 +27,10 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
   // if they are <1, testing if rounded value is > 0 prevents display 0.00 of unclaimed
   // rewards to users.
   const hasUnclaimedRewards =
-    unclaimedRewards && Math.round(Number(formatUnits(unclaimedRewards, ldyDecimals!)) * 100) / 100 > 0;
-  const claimPreparation = usePrepareLdyStakingClaim();
-  const compoundPreparation = usePrepareLdyStakingCompound();
+    unclaimedRewards &&
+    Math.round(Number(formatUnits(unclaimedRewards, ldyDecimals!)) * 100) / 100 > 0;
+  const claimPreparation = usePrepareWipLdyStakingClaim();
+  const compoundPreparation = usePrepareWipLdyStakingCompound();
 
   return (
     <Card
@@ -40,7 +41,12 @@ export const AppStakingClaim: FC<Props> = ({ className }) => {
       {(hasUnclaimedRewards && (
         <p>
           You&apos;ve{" "}
-          <Amount className="font-bold" value={unclaimedRewards} decimals={ldyDecimals} suffix={"LDY"} />{" "}
+          <Amount
+            className="font-bold"
+            value={unclaimedRewards}
+            decimals={ldyDecimals}
+            suffix={"LDY"}
+          />{" "}
           of unclaimed rewards.
         </p>
       )) || <p>No rewards yet.</p>}

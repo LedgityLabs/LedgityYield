@@ -2,13 +2,13 @@ import { AllowanceTxButton, AmountInput, Card, DateTime, Rate, TxButton } from "
 import {
   useGenericErc20BalanceOf,
   useGenericErc20Decimals,
-  useLdyStakingGetNewLockEndFor,
-  useLdyStakingLockEndOf,
-  useLdyStakingStakeOf,
-  useLdyStakingUnlockFeesRateUd7x3,
-  usePrepareLdyStakingStake,
-  usePrepareLdyStakingUnlock,
-  usePrepareLdyStakingUnstake,
+  useWipLdyStakingGetNewLockEndFor,
+  useWipLdyStakingLockEndOf,
+  useWipLdyStakingStakeOf,
+  useWipLdyStakingUnlockFeesRateUd7x3,
+  usePrepareWipLdyStakingStake,
+  usePrepareWipLdyStakingUnlock,
+  usePrepareWipLdyStakingUnstake,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import Link from "next/link";
@@ -33,25 +33,25 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
-  const { data: stakedAmount } = useLdyStakingStakeOf({
+  const { data: stakedAmount } = useWipLdyStakingStakeOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
-  const { data: lockEnd } = useLdyStakingLockEndOf({
+  const { data: lockEnd } = useWipLdyStakingLockEndOf({
     args: [walletClient ? walletClient.account.address : zeroAddress],
     watch: true,
   });
 
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const { data: newLockEnd } = useLdyStakingGetNewLockEndFor({
+  const { data: newLockEnd } = useWipLdyStakingGetNewLockEndFor({
     args: [walletClient ? walletClient.account.address : zeroAddress, depositedAmount],
   });
-  const { data: unlockFees } = useLdyStakingUnlockFeesRateUd7x3();
+  const { data: unlockFees } = useWipLdyStakingUnlockFeesRateUd7x3();
 
-  const stakePreparation = usePrepareLdyStakingStake({ args: [depositedAmount] });
-  const unstakePreparation = usePrepareLdyStakingUnstake({ args: [withdrawnAmount] });
-  const unlockNowPreparation = usePrepareLdyStakingUnlock();
+  const stakePreparation = usePrepareWipLdyStakingStake({ args: [depositedAmount] });
+  const unstakePreparation = usePrepareWipLdyStakingUnstake({ args: [withdrawnAmount] });
+  const unlockNowPreparation = usePrepareWipLdyStakingUnlock();
 
   useEffect(() => {
     stakePreparation.refetch();
@@ -91,11 +91,14 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
               Stake
             </AllowanceTxButton>
           </div>
-          {stakedAmount && depositedAmount > 0n && !["0.0", "NaN"].includes(lockDurationDaysIncrease) ? (
+          {stakedAmount &&
+          depositedAmount > 0n &&
+          !["0.0", "NaN"].includes(lockDurationDaysIncrease) ? (
             <p>
-              Increasing your stake by {formatUnits(depositedAmount, ldyDecimals!)} LDY will increase
-              your lock period by <span className="font-semibold">{lockDurationDaysIncrease} days</span>.
-              Your can <Link href="/">learn more</Link> about lock period increase calculation.
+              Increasing your stake by {formatUnits(depositedAmount, ldyDecimals!)} LDY will
+              increase your lock period by{" "}
+              <span className="font-semibold">{lockDurationDaysIncrease} days</span>. Your can{" "}
+              <Link href="/">learn more</Link> about lock period increase calculation.
             </p>
           ) : (
             <p></p>
@@ -129,7 +132,8 @@ export const AppStakingStake: FC<Props> = ({ className }) => {
               <br />
               <span className="pt-4 inline-flex flex-col justify-center items-center gap-3">
                 <span className="text-center">
-                  But you can prematurely unlock it by burning <Rate value={unlockFees} /> of your stake.
+                  But you can prematurely unlock it by burning <Rate value={unlockFees} /> of your
+                  stake.
                 </span>
                 <TxButton preparation={unlockNowPreparation} className="inline" size="tiny">
                   Unlock now

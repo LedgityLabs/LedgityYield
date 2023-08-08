@@ -1,16 +1,19 @@
 import { Card, Input, TxButton } from "@/components/ui";
-import { useLdyStakingStakeLockDuration, usePrepareLdyStakingSetStakeLockDuration } from "@/generated";
+import {
+  useWipLdyStakingStakeLockDuration,
+  usePrepareWipLdyStakingSetStakeLockDuration,
+} from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 
 const secondsPerDay = 60 * 60 * 24;
 
 export const AdminStakingLockDuration: FC<React.ComponentPropsWithRef<typeof Card>> = () => {
-  const { data: stakeLockDuration } = useLdyStakingStakeLockDuration({
+  const { data: stakeLockDuration } = useWipLdyStakingStakeLockDuration({
     watch: true,
   });
   const [newStakeLockDuration, setNewStakeLockDuration] = useState(0);
-  const preparation = usePrepareLdyStakingSetStakeLockDuration({ args: [newStakeLockDuration] });
+  const preparation = usePrepareWipLdyStakingSetStakeLockDuration({ args: [newStakeLockDuration] });
 
   return (
     <AdminBrick title="Stake lock duration">
