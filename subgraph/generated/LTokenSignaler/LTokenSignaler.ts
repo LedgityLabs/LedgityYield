@@ -224,7 +224,7 @@ export class InitializeCall__Inputs {
     this._call = call;
   }
 
-  get _globalOwner(): Address {
+  get globalOwner_(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
@@ -233,62 +233,6 @@ export class InitializeCall__Outputs {
   _call: InitializeCall;
 
   constructor(call: InitializeCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall extends ethereum.Call {
-  get inputs(): RenounceOwnershipCall__Inputs {
-    return new RenounceOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): RenounceOwnershipCall__Outputs {
-    return new RenounceOwnershipCall__Outputs(this);
-  }
-}
-
-export class RenounceOwnershipCall__Inputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall__Outputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class SetGlobalOwnerCall extends ethereum.Call {
-  get inputs(): SetGlobalOwnerCall__Inputs {
-    return new SetGlobalOwnerCall__Inputs(this);
-  }
-
-  get outputs(): SetGlobalOwnerCall__Outputs {
-    return new SetGlobalOwnerCall__Outputs(this);
-  }
-}
-
-export class SetGlobalOwnerCall__Inputs {
-  _call: SetGlobalOwnerCall;
-
-  constructor(call: SetGlobalOwnerCall) {
-    this._call = call;
-  }
-
-  get contractAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetGlobalOwnerCall__Outputs {
-  _call: SetGlobalOwnerCall;
-
-  constructor(call: SetGlobalOwnerCall) {
     this._call = call;
   }
 }

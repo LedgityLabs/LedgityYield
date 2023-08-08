@@ -1,30 +1,30 @@
 specVersion: 0.0.6
-description: A subgraph of Ledgity DeFi data
+description: A subgraph of Ledgity Yield data
 repository: https://github.com/ledgity-labs/dapp
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum/contract
-    name: LDYStaking
-    network: mainnet
-    source:
-      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-      abi: LDYStaking
-      startBlock: 0
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: ./mapping.ts
-      entities:
-        - LDYStaking
-        - TotalStakedUpdate
-      abis:
-        - name: LDYStaking
-          file: ../hardhat/abis/LDYStaking.json
-      eventHandlers:
-        - event: TotalStakedUpdateEvent(uint256)
-          handler: handleTotalStakedEvent
+  # - kind: ethereum/contract
+  #   name: LDYStaking
+  #   network: mainnet
+  #   source:
+  #     address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+  #     abi: LDYStaking
+  #     startBlock: 0
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     file: ./mapping.ts
+  #     entities:
+  #       - LDYStaking
+  #       - TotalStakedUpdate
+  #     abis:
+  #       - name: LDYStaking
+  #         file: ../contracts/abis/LDYStaking.json
+  #     eventHandlers:
+  #       - event: TotalStakedUpdateEvent(uint256)
+  #         handler: handleTotalStakedEvent
 
   - kind: ethereum/contract
     name: LTokenSignaler
@@ -42,9 +42,9 @@ dataSources:
         - LToken
       abis:
         - name: LTokenSignaler
-          file: ../hardhat/abis/LTokenSignaler.json
+          file: ../contracts/abis/LTokenSignaler.json
         - name: LToken
-          file: ../hardhat/abis/LToken.json
+          file: ../contracts/abis/LToken.json
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
@@ -68,7 +68,7 @@ templates:
         - RewardsMint
       abis:
         - name: LToken
-          file: ../hardhat/abis/LToken.json
+          file: ../contracts/abis/LToken.json
       eventHandlers:
         - event: TVLChangeEvent(uint256)
           handler: handleTVLChangeEvent

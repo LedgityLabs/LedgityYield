@@ -14,7 +14,7 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
 /**
  * @title LDYStaking
  * @author Lila Rest (lila@ledgity.com)
- * @notice This contract powers the $LDY staking mechanism of the Ledgity DeFi app. It allows
+ * @notice This contract powers the $LDY staking mechanism of the Ledgity Yield app. It allows
  * users to stake their $LDY tokens and earn rewards in $LDY.
  * @dev
  * Security note: InvestmentUpgradeable.AccountInfos.virtualBalance (uint88) allows storing up

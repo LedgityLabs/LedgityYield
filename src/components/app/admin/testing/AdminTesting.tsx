@@ -97,7 +97,7 @@ export const AdminTesting: FC = () => {
     <AdminMasonry>
       <AdminBrick title="Underlying tokens">
         <p>
-          When Ledgity DeFi is deployed locally or on a testnet, fake stablecoins contracts are also
+          When Ledgity Yield is deployed locally or on a testnet, fake stablecoins contracts are also
           automatically deployed to mimic mainnets&apos; ones.
           <br />
           Here are those for the current test network:
@@ -108,7 +108,7 @@ export const AdminTesting: FC = () => {
       </AdminBrick>
       <AdminBrick title="LDY token">
         <p>
-          When Ledgity DeFi is deployed locally or on a testnet, a fake $LDY token contract is also
+          When Ledgity Yield is deployed locally or on a testnet, a fake $LDY token contract is also
           automatically deployed to mimic the mainnets one.
           <br />
           Here is the one for the current test network:

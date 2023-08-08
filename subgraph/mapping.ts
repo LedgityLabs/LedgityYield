@@ -16,8 +16,8 @@ import {
   TotalStakedUpdate,
 } from "./generated/schema";
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
-import { TotalStakedUpdateEvent } from "./generated/LDYStaking/LDYStaking";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
+// import { TotalStakedUpdateEvent } from "./generated/LDYStaking/LDYStaking";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
   // Start indexing the signaled LToken
@@ -53,7 +53,7 @@ export function handleAPRChangeEvent(event: APRChangeEvent): void {
     let aprUpdate = new APRChange(event.transaction.hash.toHexString());
     aprUpdate.ltoken = ltoken.id;
     aprUpdate.timestamp = event.block.timestamp;
-    aprUpdate.apr = BigInt.fromI32(event.params.newAPR).toBigDecimal();
+    aprUpdate.apr = BigInt.fromI32(event.params.newAPRUD7x3).toBigDecimal();
 
     aprUpdate.save();
     ltoken.save();
@@ -156,16 +156,16 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
   }
 }
 
-export function handleTotalStakedEvent(event: TotalStakedUpdateEvent): void {
-  const ldyStakingAddress = event.address.toHexString();
-  let ldyStaking = LDYStaking.load(ldyStakingAddress);
-  if (ldyStaking == null) ldyStaking = new LDYStaking(ldyStakingAddress);
+// export function handleTotalStakedEvent(event: TotalStakedUpdateEvent): void {
+//   const ldyStakingAddress = event.address.toHexString();
+//   let ldyStaking = LDYStaking.load(ldyStakingAddress);
+//   if (ldyStaking == null) ldyStaking = new LDYStaking(ldyStakingAddress);
 
-  let totalStakedUpdate = new TotalStakedUpdate(event.transaction.hash.toHexString());
-  totalStakedUpdate.staking = ldyStaking.id;
-  totalStakedUpdate.timestamp = event.block.timestamp;
-  totalStakedUpdate.amount = event.params.newTotalStaked.toBigDecimal();
+//   let totalStakedUpdate = new TotalStakedUpdate(event.transaction.hash.toHexString());
+//   totalStakedUpdate.staking = ldyStaking.id;
+//   totalStakedUpdate.timestamp = event.block.timestamp;
+//   totalStakedUpdate.amount = event.params.newTotalStaked.toBigDecimal();
 
-  totalStakedUpdate.save();
-  ldyStaking.save();
-}
+//   totalStakedUpdate.save();
+//   ldyStaking.save();
+// }

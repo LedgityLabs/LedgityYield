@@ -50,7 +50,7 @@ export const ConnectButton = () => {
                   src={chainsIcons[_chain.id] ?? ""}
                   width={20}
                   height={20}
-                  className="w-6 h-6"
+                  className="w-6 h-6 rounded-md overflow-hidden"
                 />
                 <p className="font-semibold">{_chain.name}</p>
               </div>
@@ -64,7 +64,10 @@ export const ConnectButton = () => {
           onClick={openAccountModal}
           size="medium"
           variant={wrongNetwork ? "destructive" : "primary"}
-          className={clsx("flex justify-between gap-3 overflow-hidden", !wrongNetwork && "pr-[5px]")}
+          className={clsx(
+            "flex justify-between gap-3 overflow-hidden",
+            !wrongNetwork && "pr-[5px]",
+          )}
         >
           {(!wrongNetwork && (
             <>

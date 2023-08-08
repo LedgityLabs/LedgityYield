@@ -1,20 +1,22 @@
 type LToken @entity {
-  id: ID! # Token symbol
-  tvlUpdates: [TVLUpdate!] @derivedFrom(field: "ltoken")
-  aprUpdates: [APRUpdate!] @derivedFrom(field: "ltoken")
+  id: ID! # Token address
+  symbol: String!
+  decimals: Int!
+  totalMintedRewards: BigDecimal!
+  tvlUpdates: [TVLChange!] @derivedFrom(field: "ltoken")
+  aprUpdates: [APRChange!] @derivedFrom(field: "ltoken")
   activities: [Activity!] @derivedFrom(field: "ltoken")
   rewardsMints: [RewardsMint!] @derivedFrom(field: "ltoken")
-  totalMintedRewards: BigDecimal!
 }
 
-type TVLUpdate @entity(immutable: true) {
+type TVLChange @entity(immutable: true) {
   id: ID!
   ltoken: LToken!
   timestamp: BigInt!
   amount: BigDecimal!
 }
 
-type APRUpdate @entity(immutable: true) {
+type APRChange @entity(immutable: true) {
   id: ID!
   ltoken: LToken!
   timestamp: BigInt!
@@ -22,23 +24,26 @@ type APRUpdate @entity(immutable: true) {
 }
 
 enum ActivityAction {
-  WITHDRAW
-  DEPOSIT
+  Deposit
+  Withdraw
 }
 
 enum ActivityStatus {
-  SUCCESS
-  CANCELLED
-  QUEUED
+  Queued
+  Cancelled
+  Success # Sucess for deposits
+  Fulfilled # Success for withdrawals
 }
 
 type Activity @entity {
-  id: ID! # Witdhrawal request ID, or random ID if not provided in event data
+  id: ID!
+  requestId: BigInt! # Withdrawal request ID, or -1
   ltoken: LToken!
   timestamp: BigInt!
   account: Bytes!
   action: ActivityAction!
   amount: BigDecimal!
+  amountAfterFees: BigDecimal!
   status: ActivityStatus!
 }
 
@@ -52,14 +57,14 @@ type RewardsMint @entity(immutable: true) {
   growth: BigDecimal!
 }
 
-type LTYStaking @entity {
+type LDYStaking @entity {
   id: ID!
   totalStakedUpdates: [TotalStakedUpdate!] @derivedFrom(field: "staking")
 }
 
 type TotalStakedUpdate @entity(immutable: true) {
   id: ID!
-  staking: LTYStaking!
+  staking: LDYStaking!
   timestamp: BigInt!
   amount: BigDecimal!
 }

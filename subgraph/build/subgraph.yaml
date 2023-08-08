@@ -5,72 +5,53 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: LTYStaking
-    network: http://localhost:8000/
-    source:
-      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-      abi: LTYStaking
-      startBlock: 0
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: LTYStaking/LTYStaking.wasm
-      entities:
-        - LTYStaking
-        - TotalStakedUpdate
-      abis:
-        - name: LTYStaking
-          file: hardhat/abis/LTYStaking.json
-      eventHandlers:
-        - event: TotalStakedUpdateEvent(uint256)
-          handler: handleTotalStakedEvent
-  - kind: ethereum/contract
     name: LTokenSignaler
-    network: http://localhost:8000/
+    network: mainnet
     source:
-      address: "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
+      address: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1"
       abi: LTokenSignaler
       startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: LTYStaking/LTYStaking.wasm
+      file: LTokenSignaler/LTokenSignaler.wasm
       entities:
         - LToken
       abis:
         - name: LTokenSignaler
-          file: hardhat/abis/LTokenSignaler.json
+          file: contracts/abis/LTokenSignaler.json
+        - name: LToken
+          file: contracts/abis/LToken.json
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: http://localhost:8000/
+    network: mainnet
     source:
       abi: LToken
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: LTYStaking/LTYStaking.wasm
+      file: LTokenSignaler/LTokenSignaler.wasm
       entities:
         - LToken
-        - TVLUpdate
-        - APRUpdate
+        - TVLChange
+        - APRChange
         - Activity
         - RewardsMint
       abis:
         - name: LToken
-          file: hardhat/abis/LToken.json
+          file: contracts/abis/LToken.json
       eventHandlers:
-        - event: TVLUpdateEvent(uint256)
-          handler: handleTVLUpdateEvent
-        - event: APRUpdateEvent(uint16)
-          handler: handleAPRUpdateEvent
-        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint8)
+        - event: TVLChangeEvent(uint256)
+          handler: handleTVLChangeEvent
+        - event: APRChangeEvent(uint16)
+          handler: handleAPRChangeEvent
+        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint256,uint8)
           handler: handleActivityEvent
         - event: MintedRewardsEvent(indexed address,uint256,uint256)
           handler: handleMintedRewardsEvent

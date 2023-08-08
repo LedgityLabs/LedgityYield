@@ -20,8 +20,8 @@ export const AppStakingExplanations: FC<Props> = ({ className }) => {
       <div>
         <h2 className="text-xl font-bold text-fg/80 mb-4 font-heading">What is LDY token?</h2>
         <p className="ml-4">
-          The LDY token is the utility token of the whole Ledgity ecosystem. Ledgity DeFi allows wallets
-          to stake their LDY tokens against juicy advantages classified by tiers.
+          The LDY token is the utility token of the whole Ledgity ecosystem. Ledgity Yield allows
+          wallets to stake their LDY tokens against juicy advantages classified by tiers.
         </p>
         <h2 className="text-xl font-bold text-fg/80 mb-6 mt-9 font-heading">Staking tiers</h2>
         <div className="grid grid-cols-[130px,auto] gap-y-7 ml-2">

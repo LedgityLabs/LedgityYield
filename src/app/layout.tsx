@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const name = "Ledgity DeFi";
+const name = "Ledgity Yield";
 const description =
   "Earn up to 7% APY on your stablecoins backed by Real World Assets (RWA). Access low-risk & stable yield directly from your wallet.";
 export const metadata = {

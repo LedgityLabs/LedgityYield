@@ -15,7 +15,8 @@
     "cc:compile": "hardhat compile",
     "cc:compile-doesnt-work-on-vercel": "hardhat compile && wagmi generate && ts-node ./contracts/extract-abis.ts",
     "cc:local-deploy": "npx hardhat run contracts/hardhat/scripts/deploy-all-august-2023.ts --network localhost",
-    "graph:node": "cd thegraph/local-node && docker-compose up",
+    "graph:node": "cd subgraph/local-node && docker-compose up",
+    "graph:local-build": "cd subgraph && graph codegen ./localhost-subgraph.yaml && graph build ./localhost-subgraph.yaml",
     "graph:local-create": "graph create --node http://0.0.0.0:8020/ localhost-subgraph ",
     "graph:local-remove": "graph remove --node http://0.0.0.0:8020/ localhost-subgraph",
     "graph:local-deploy": "graph deploy --node http://0.0.0.0:8020/ --ipfs http://0.0.0.0:5001 localhost-subgraph ./subgraph/localhost-subgraph.yaml"

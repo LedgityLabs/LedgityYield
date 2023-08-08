@@ -1,385 +1,358 @@
 ## [1.127.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.6...v1.127.0) (2023-08-07)
 
-
 ### Features
 
-* upload new logos ([96ea2c8](https://github.com/ledgity-labs/Ledgity-Yield/commit/96ea2c8bd5a3495a5df4e4c2a512013fe6b99a5a))
-
+- upload new logos ([96ea2c8](https://github.com/ledgity-labs/Ledgity-Yield/commit/96ea2c8bd5a3495a5df4e4c2a512013fe6b99a5a))
 
 ### Docs
 
-* improve docs of BaseUpgradeable.sol ([180db3f](https://github.com/ledgity-labs/Ledgity-Yield/commit/180db3f9f6109261b9d8e68ecea1daf915993d40))
-* improve docs of ERC20BaseUpgradeable.sol ([808e170](https://github.com/ledgity-labs/Ledgity-Yield/commit/808e170f6dacef67f16c4176ecf59483ec7713f3))
-* improve docs of InvestUpgradeable.sol + usage of APRH library ([05857c7](https://github.com/ledgity-labs/Ledgity-Yield/commit/05857c7c75c27b68f150d4dcbfcfdb91c9573efd))
-* improve docs of RecoverableUpgradeable.sol ([7f71a7c](https://github.com/ledgity-labs/Ledgity-Yield/commit/7f71a7c4aae25740b5d12ea65312346e1b7a2950))
-* improve documentation of GlobalRestrictableUpgradeable.sol ([17e28c9](https://github.com/ledgity-labs/Ledgity-Yield/commit/17e28c9bbf9d60d5a8ea6768322a32ad423c160f))
-* start improving LToken documentation ([d9eaaac](https://github.com/ledgity-labs/Ledgity-Yield/commit/d9eaaac61c0f8fc529ccb81ba31b5cd4b1fc453d))
+- improve docs of BaseUpgradeable.sol ([180db3f](https://github.com/ledgity-labs/Ledgity-Yield/commit/180db3f9f6109261b9d8e68ecea1daf915993d40))
+- improve docs of ERC20BaseUpgradeable.sol ([808e170](https://github.com/ledgity-labs/Ledgity-Yield/commit/808e170f6dacef67f16c4176ecf59483ec7713f3))
+- improve docs of InvestUpgradeable.sol + usage of APRH library ([05857c7](https://github.com/ledgity-labs/Ledgity-Yield/commit/05857c7c75c27b68f150d4dcbfcfdb91c9573efd))
+- improve docs of RecoverableUpgradeable.sol ([7f71a7c](https://github.com/ledgity-labs/Ledgity-Yield/commit/7f71a7c4aae25740b5d12ea65312346e1b7a2950))
+- improve documentation of GlobalRestrictableUpgradeable.sol ([17e28c9](https://github.com/ledgity-labs/Ledgity-Yield/commit/17e28c9bbf9d60d5a8ea6768322a32ad423c160f))
+- start improving LToken documentation ([d9eaaac](https://github.com/ledgity-labs/Ledgity-Yield/commit/d9eaaac61c0f8fc529ccb81ba31b5cd4b1fc453d))
 
 ## [1.126.6](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.5...v1.126.6) (2023-08-06)
 
-
 ### Fixes
 
-* **ltoken:** default withdrawer and fund wallet to owner ([b43c756](https://github.com/ledgity-labs/Ledgity-Yield/commit/b43c756260338a0de1a9c735ee66a94225321ed8))
-
+- **ltoken:** default withdrawer and fund wallet to owner ([b43c756](https://github.com/ledgity-labs/Ledgity-Yield/commit/b43c756260338a0de1a9c735ee66a94225321ed8))
 
 ### Docs
 
-* improve documentation of GlobalOwnableUpgradeable.sol ([cfe3aad](https://github.com/ledgity-labs/Ledgity-Yield/commit/cfe3aadd48031cb6d9c65e7ca2b03c9a091b0931))
-* improve documentation of GlobalPausableUpgradeable.sol ([1f4a06f](https://github.com/ledgity-labs/Ledgity-Yield/commit/1f4a06f2fb56c38297fa03029796c7cf2962c391))
+- improve documentation of GlobalOwnableUpgradeable.sol ([cfe3aad](https://github.com/ledgity-labs/Ledgity-Yield/commit/cfe3aadd48031cb6d9c65e7ca2b03c9a091b0931))
+- improve documentation of GlobalPausableUpgradeable.sol ([1f4a06f](https://github.com/ledgity-labs/Ledgity-Yield/commit/1f4a06f2fb56c38297fa03029796c7cf2962c391))
 
 ## [1.126.5](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.4...v1.126.5) (2023-08-06)
 
-
 ### Fixes
 
-* tiny adjustments in APRHistory.sol ([cb960c2](https://github.com/ledgity-labs/Ledgity-Yield/commit/cb960c26d4c541089abf689bde4d66ee5c17217b))
-
+- tiny adjustments in APRHistory.sol ([cb960c2](https://github.com/ledgity-labs/Ledgity-Yield/commit/cb960c26d4c541089abf689bde4d66ee5c17217b))
 
 ### Docs
 
-* improve Natspec of SUD.sol ([5e16dab](https://github.com/ledgity-labs/Ledgity-Yield/commit/5e16dab0e2606581a9c353a69d4445824fe7c10f))
-* rename APRCheckpoints to APRHistory + improve docs and readability of the library ([d1cbdb8](https://github.com/ledgity-labs/Ledgity-Yield/commit/d1cbdb839ee8671263a852a71918439486e27877))
-
+- improve Natspec of SUD.sol ([5e16dab](https://github.com/ledgity-labs/Ledgity-Yield/commit/5e16dab0e2606581a9c353a69d4445824fe7c10f))
+- rename APRCheckpoints to APRHistory + improve docs and readability of the library ([d1cbdb8](https://github.com/ledgity-labs/Ledgity-Yield/commit/d1cbdb839ee8671263a852a71918439486e27877))
 
 ### Tests
 
-* **ltoken:** fix testFuzz_afterTokenTransfer_1 error ([e508d71](https://github.com/ledgity-labs/Ledgity-Yield/commit/e508d717fbd0a7daf60054da62305c009b0d814b))
-
+- **ltoken:** fix testFuzz_afterTokenTransfer_1 error ([e508d71](https://github.com/ledgity-labs/Ledgity-Yield/commit/e508d717fbd0a7daf60054da62305c009b0d814b))
 
 ### Others
 
-* **deps:** update dependency @types/node to v20.4.8 ([62b3df5](https://github.com/ledgity-labs/Ledgity-Yield/commit/62b3df52765a352ea3a46f13ba8d8e3df6475b3b))
-* **deps:** update dependency @types/react to v18.2.18 ([4c23cb1](https://github.com/ledgity-labs/Ledgity-Yield/commit/4c23cb1827d03c87628b32a240deef04c369ff7e))
+- **deps:** update dependency @types/node to v20.4.8 ([62b3df5](https://github.com/ledgity-labs/Ledgity-Yield/commit/62b3df52765a352ea3a46f13ba8d8e3df6475b3b))
+- **deps:** update dependency @types/react to v18.2.18 ([4c23cb1](https://github.com/ledgity-labs/Ledgity-Yield/commit/4c23cb1827d03c87628b32a240deef04c369ff7e))
 
 ## [1.126.4](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.3...v1.126.4) (2023-08-05)
 
-
 ### Fixes
 
-* try fixing Vercel deployment issue 3 ([de67377](https://github.com/ledgity-labs/Ledgity-Yield/commit/de67377d1f52663a5e85274a8b710eb854cc7498))
-* try fixing Vercel deployment issue 4 ([950fc33](https://github.com/ledgity-labs/Ledgity-Yield/commit/950fc33cc06dd10d23b60a3f09843d66d4963ce9))
+- try fixing Vercel deployment issue 3 ([de67377](https://github.com/ledgity-labs/Ledgity-Yield/commit/de67377d1f52663a5e85274a8b710eb854cc7498))
+- try fixing Vercel deployment issue 4 ([950fc33](https://github.com/ledgity-labs/Ledgity-Yield/commit/950fc33cc06dd10d23b60a3f09843d66d4963ce9))
 
 ## [1.126.3](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.2...v1.126.3) (2023-08-05)
 
-
 ### Fixes
 
-* try fixing Vercel deployment issue 2 ([9a5fb8c](https://github.com/ledgity-labs/Ledgity-Yield/commit/9a5fb8c43ceff55bb56f0f7e40038ef3595425a2))
-
+- try fixing Vercel deployment issue 2 ([9a5fb8c](https://github.com/ledgity-labs/Ledgity-Yield/commit/9a5fb8c43ceff55bb56f0f7e40038ef3595425a2))
 
 ### Others
 
-* merge ([921692c](https://github.com/ledgity-labs/Ledgity-Yield/commit/921692c45d2483339d50a24f99da07340dbbf172))
+- merge ([921692c](https://github.com/ledgity-labs/Ledgity-Yield/commit/921692c45d2483339d50a24f99da07340dbbf172))
 
 ## [1.126.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.1...v1.126.2) (2023-08-05)
 
-
 ### Fixes
 
-* try fixing Vercel deployment issue ([e65fb42](https://github.com/ledgity-labs/Ledgity-Yield/commit/e65fb420151511dacfea3f6734d0604b213c8efc))
+- try fixing Vercel deployment issue ([e65fb42](https://github.com/ledgity-labs/Ledgity-Yield/commit/e65fb420151511dacfea3f6734d0604b213c8efc))
 
 ## [1.126.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.126.0...v1.126.1) (2023-08-05)
 
-
 ### Fixes
 
-* fix contract name in APRCheckpoints docs ([17d49c2](https://github.com/ledgity-labs/Ledgity-Yield/commit/17d49c253cbd543bcb1cd165bc9b878a96b4d616))
-
+- fix contract name in APRCheckpoints docs ([17d49c2](https://github.com/ledgity-labs/Ledgity-Yield/commit/17d49c253cbd543bcb1cd165bc9b878a96b4d616))
 
 ### Others
 
-* add back pnpm-lock.yaml + add 'pnpm add hardhat' in cc:compile to try fixing Vercel error ([a6e8412](https://github.com/ledgity-labs/Ledgity-Yield/commit/a6e8412a6b7dc69c6b8fdb5c735e25f7137fc03f))
-* **deps:** upgrade dependencies ([9741aed](https://github.com/ledgity-labs/Ledgity-Yield/commit/9741aed20e29fd205f739310b1265078ed0b03e3))
-* temporarily remove pnpm-lock.yaml ([665e5ba](https://github.com/ledgity-labs/Ledgity-Yield/commit/665e5ba1be9cf0f9e16fd2eff186b1bc48c022d1))
+- add back pnpm-lock.yaml + add 'pnpm add hardhat' in cc:compile to try fixing Vercel error ([a6e8412](https://github.com/ledgity-labs/Ledgity-Yield/commit/a6e8412a6b7dc69c6b8fdb5c735e25f7137fc03f))
+- **deps:** upgrade dependencies ([9741aed](https://github.com/ledgity-labs/Ledgity-Yield/commit/9741aed20e29fd205f739310b1265078ed0b03e3))
+- temporarily remove pnpm-lock.yaml ([665e5ba](https://github.com/ledgity-labs/Ledgity-Yield/commit/665e5ba1be9cf0f9e16fd2eff186b1bc48c022d1))
 
 ## [1.126.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.125.0...v1.126.0) (2023-08-05)
 
-
 ### Features
 
-* new app logo! ([f2ee95e](https://github.com/ledgity-labs/Ledgity-Yield/commit/f2ee95e10eb6d3660c0b6e01d8b31ee2168ab1ab))
-* rename AS3 -> SUD and enforce 3 scaled decimals + highly improve accuracy of _calculatePeriodR ([2691bd5](https://github.com/ledgity-labs/Ledgity-Yield/commit/2691bd542181301ade30edc824f6acfccfd39bbb))
-
+- new app logo! ([f2ee95e](https://github.com/ledgity-labs/Ledgity-Yield/commit/f2ee95e10eb6d3660c0b6e01d8b31ee2168ab1ab))
+- rename AS3 -> SUD and enforce 3 scaled decimals + highly improve accuracy of \_calculatePeriodR ([2691bd5](https://github.com/ledgity-labs/Ledgity-Yield/commit/2691bd542181301ade30edc824f6acfccfd39bbb))
 
 ### Tests
 
-* add missing unit test for SUD.decimalsOf() ([1539d6b](https://github.com/ledgity-labs/Ledgity-Yield/commit/1539d6b10b0969e749fbf1a234f4d628b118698a))
-* fix wrong parameters names in SUD.t.sol ([0794afd](https://github.com/ledgity-labs/Ledgity-Yield/commit/0794afd091b859cc2e4d5f56077c28a1e2f3b300))
-* re-enable and adapt LDYStaking unit tests to fit SUD.sol changes ([13c1402](https://github.com/ledgity-labs/Ledgity-Yield/commit/13c140294b0f6854a3aaef6539c04cd92e729e1c))
-* re-enable SUD.sol unit tests and adapt those to fit library's changes ([09057c6](https://github.com/ledgity-labs/Ledgity-Yield/commit/09057c628640558494d83b26a82738f3250667fa))
-
+- add missing unit test for SUD.decimalsOf() ([1539d6b](https://github.com/ledgity-labs/Ledgity-Yield/commit/1539d6b10b0969e749fbf1a234f4d628b118698a))
+- fix wrong parameters names in SUD.t.sol ([0794afd](https://github.com/ledgity-labs/Ledgity-Yield/commit/0794afd091b859cc2e4d5f56077c28a1e2f3b300))
+- re-enable and adapt LDYStaking unit tests to fit SUD.sol changes ([13c1402](https://github.com/ledgity-labs/Ledgity-Yield/commit/13c140294b0f6854a3aaef6539c04cd92e729e1c))
+- re-enable SUD.sol unit tests and adapt those to fit library's changes ([09057c6](https://github.com/ledgity-labs/Ledgity-Yield/commit/09057c628640558494d83b26a82738f3250667fa))
 
 ### Others
 
-* **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.1.0 ([ad265f6](https://github.com/ledgity-labs/Ledgity-Yield/commit/ad265f66315cf8bb736672544134198dc2db5936))
-* hide some additional files hide settings.json ([34e8382](https://github.com/ledgity-labs/Ledgity-Yield/commit/34e8382a88da5a9d3acf4900451028a5e2576557))
-* rename TheGraph folder ([c6abe99](https://github.com/ledgity-labs/Ledgity-Yield/commit/c6abe99cb5ee8c3240e70ca4b671e5ed73ef3c5c))
-* rename UDS3 to AS3, move some func from InvestUpgradeable to AS3, and improves AS3 docs ([4151b36](https://github.com/ledgity-labs/Ledgity-Yield/commit/4151b36d8fea0233f7a519df1e628cdb530b4676))
-* set back SUD functions as external and document the decision ([56e79bb](https://github.com/ledgity-labs/Ledgity-Yield/commit/56e79bbfa1b72678eb64f4fabe72a9fd2841bf4b))
+- **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.1.0 ([ad265f6](https://github.com/ledgity-labs/Ledgity-Yield/commit/ad265f66315cf8bb736672544134198dc2db5936))
+- hide some additional files hide settings.json ([34e8382](https://github.com/ledgity-labs/Ledgity-Yield/commit/34e8382a88da5a9d3acf4900451028a5e2576557))
+- rename TheGraph folder ([c6abe99](https://github.com/ledgity-labs/Ledgity-Yield/commit/c6abe99cb5ee8c3240e70ca4b671e5ed73ef3c5c))
+- rename UDS3 to AS3, move some func from InvestUpgradeable to AS3, and improves AS3 docs ([4151b36](https://github.com/ledgity-labs/Ledgity-Yield/commit/4151b36d8fea0233f7a519df1e628cdb530b4676))
+- set back SUD functions as external and document the decision ([56e79bb](https://github.com/ledgity-labs/Ledgity-Yield/commit/56e79bbfa1b72678eb64f4fabe72a9fd2841bf4b))
 
-## [1.125.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.2...v1.125.0) (2023-08-02)
-
+## [1.125.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.124.2...v1.125.0) (2023-08-02)
 
 ### Features
 
-* deploy scripts for 08/23 deployment + dummy LDY staking contract + some components fixes ([eeb0f3d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/eeb0f3d7d6b512ce1d2b4c7bbfd6f75614a00d7e))
-* **globalownableupgradeable:** revert on renounceOwnership as for transferOwnership + unit tests ([9e85e17](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9e85e172243b2d0d5830a04c3b968ca0446bd6e7))
-
+- deploy scripts for 08/23 deployment + dummy LDY staking contract + some components fixes ([eeb0f3d](https://github.com/ledgity-labs/Ledgity-Yield/commit/eeb0f3d7d6b512ce1d2b4c7bbfd6f75614a00d7e))
+- **globalownableupgradeable:** revert on renounceOwnership as for transferOwnership + unit tests ([9e85e17](https://github.com/ledgity-labs/Ledgity-Yield/commit/9e85e172243b2d0d5830a04c3b968ca0446bd6e7))
 
 ### Fixes
 
-* **contracts:** process new slither report findings ([13b2fed](https://github.com/ledgity-labs/Ledgity-DeFi/commit/13b2feda02d601ccaeb146d7caa8f700d9b90dd6))
-
+- **contracts:** process new slither report findings ([13b2fed](https://github.com/ledgity-labs/Ledgity-Yield/commit/13b2feda02d601ccaeb146d7caa8f700d9b90dd6))
 
 ### Tests
 
-* add additional invariant tests to LToken and LDYStaking contracts ([75debc3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/75debc36191d485cf38b6a89de8fed594c3adbe7))
-
-
-### Others
-
-* add missing env var to force Forge profile to 'ci' while running tests in GH workflow ([04e577a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/04e577adaaf89c077bd392bc8526626240543ada))
-* **deps:** upgrade dependencies ([0fddf65](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0fddf65e04c221e615cdd324d94a4165c8ad4c8f))
-
-## [1.124.2](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.1...v1.124.2) (2023-08-01)
-
-
-### Fixes
-
-* **ltoken:** fix broken claimFees() after Slither patches ([053d2ac](https://github.com/ledgity-labs/Ledgity-DeFi/commit/053d2ac17c9b1a55a5c00e0b128b1416bbd82773))
-
-## [1.124.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.124.0...v1.124.1) (2023-07-31)
-
-
-### Fixes
-
-* try removing hardhat contract sizer to fix vercel deployment ([d035ba4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d035ba43039501c5052c2999680dfc018792f0bc))
-
+- add additional invariant tests to LToken and LDYStaking contracts ([75debc3](https://github.com/ledgity-labs/Ledgity-Yield/commit/75debc36191d485cf38b6a89de8fed594c3adbe7))
 
 ### Others
 
-* add Slither analysis GH workflow ([379f0f7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/379f0f7ebbdf8d39e2946f555da6f80b5a1de148))
-* fix missing slither action arguments ([4047ced](https://github.com/ledgity-labs/Ledgity-DeFi/commit/4047ced3496af55b373ab65b44b62e558d3dedd6))
+- add missing env var to force Forge profile to 'ci' while running tests in GH workflow ([04e577a](https://github.com/ledgity-labs/Ledgity-Yield/commit/04e577adaaf89c077bd392bc8526626240543ada))
+- **deps:** upgrade dependencies ([0fddf65](https://github.com/ledgity-labs/Ledgity-Yield/commit/0fddf65e04c221e615cdd324d94a4165c8ad4c8f))
 
-## [1.124.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.123.0...v1.124.0) (2023-07-31)
+## [1.124.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.124.1...v1.124.2) (2023-08-01)
 
+### Fixes
+
+- **ltoken:** fix broken claimFees() after Slither patches ([053d2ac](https://github.com/ledgity-labs/Ledgity-Yield/commit/053d2ac17c9b1a55a5c00e0b128b1416bbd82773))
+
+## [1.124.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.124.0...v1.124.1) (2023-07-31)
+
+### Fixes
+
+- try removing hardhat contract sizer to fix vercel deployment ([d035ba4](https://github.com/ledgity-labs/Ledgity-Yield/commit/d035ba43039501c5052c2999680dfc018792f0bc))
+
+### Others
+
+- add Slither analysis GH workflow ([379f0f7](https://github.com/ledgity-labs/Ledgity-Yield/commit/379f0f7ebbdf8d39e2946f555da6f80b5a1de148))
+- fix missing slither action arguments ([4047ced](https://github.com/ledgity-labs/Ledgity-Yield/commit/4047ced3496af55b373ab65b44b62e558d3dedd6))
+
+## [1.124.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.123.0...v1.124.0) (2023-07-31)
 
 ### Features
 
-* **contracts:** process Slither reports ([e1bdecd](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e1bdecdcedd6e7ef3f5172f76e306be1d570a119))
-* setup slither + fix the failing unit test ([9c96e06](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9c96e06878ddc18f031c2d3a2af34ce074274b45))
-
-
-### Fixes
-
-* **contracts:** deployments issues ([e031490](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e0314903133d1ced726378de6caace0b97c9e965))
-
-
-### Others
-
-* downgrade to Solidity 0.8.18 which is a more trusted version ([52e1272](https://github.com/ledgity-labs/Ledgity-DeFi/commit/52e12727e64bd0b515443a47ac60b7dc6071daa7))
-* make APRCheckpoints an external library + use errors codes to reduce contracts sizes ([ba4e579](https://github.com/ledgity-labs/Ledgity-DeFi/commit/ba4e5796f76a71703a0866eb7d151617c8692444))
-
-## [1.123.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.122.1...v1.123.0) (2023-07-30)
-
-### Features
-
-- **contracts:** make some libraries external + update to solidity 0.8.18 + use london evm version ([7e7ebc4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7e7ebc455d2efcc16f3f5085e73732aa7efeb6ac))
-- fill some networks and contracts addresses ([7657b7d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7657b7d23e04296f8d17072f3773021d7e050b21))
-
-### Others
-
-- rename utility token to $LDY ([4405372](https://github.com/ledgity-labs/Ledgity-DeFi/commit/4405372ff150e29f3b25fb55e6174a7b1bf39a1f))
-
-## [1.122.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.122.0...v1.122.1) (2023-07-30)
+- **contracts:** process Slither reports ([e1bdecd](https://github.com/ledgity-labs/Ledgity-Yield/commit/e1bdecdcedd6e7ef3f5172f76e306be1d570a119))
+- setup slither + fix the failing unit test ([9c96e06](https://github.com/ledgity-labs/Ledgity-Yield/commit/9c96e06878ddc18f031c2d3a2af34ce074274b45))
 
 ### Fixes
 
-- **app:** mirrors contracts functions names changes in the frontend source code ([36c79a3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/36c79a3269718190d4fb00f58baab7c4deeb811b))
+- **contracts:** deployments issues ([e031490](https://github.com/ledgity-labs/Ledgity-Yield/commit/e0314903133d1ced726378de6caace0b97c9e965))
 
 ### Others
 
-- **deps:** upgrade dependencies ([b3ff051](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b3ff0519e3db8caea2ca1c795a545179175d08c0))
+- downgrade to Solidity 0.8.18 which is a more trusted version ([52e1272](https://github.com/ledgity-labs/Ledgity-Yield/commit/52e12727e64bd0b515443a47ac60b7dc6071daa7))
+- make APRCheckpoints an external library + use errors codes to reduce contracts sizes ([ba4e579](https://github.com/ledgity-labs/Ledgity-Yield/commit/ba4e5796f76a71703a0866eb7d151617c8692444))
 
-## [1.122.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.121.0...v1.122.0) (2023-07-30)
+## [1.123.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.122.1...v1.123.0) (2023-07-30)
 
 ### Features
 
-- **ltoken:** first version of transfers listeners ([a5bf23a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/a5bf23af2f445382c577073ef13f94fb83115937))
+- **contracts:** make some libraries external + update to solidity 0.8.18 + use london evm version ([7e7ebc4](https://github.com/ledgity-labs/Ledgity-Yield/commit/7e7ebc455d2efcc16f3f5085e73732aa7efeb6ac))
+- fill some networks and contracts addresses ([7657b7d](https://github.com/ledgity-labs/Ledgity-Yield/commit/7657b7d23e04296f8d17072f3773021d7e050b21))
+
+### Others
+
+- rename utility token to $LDY ([4405372](https://github.com/ledgity-labs/Ledgity-Yield/commit/4405372ff150e29f3b25fb55e6174a7b1bf39a1f))
+
+## [1.122.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.122.0...v1.122.1) (2023-07-30)
+
+### Fixes
+
+- **app:** mirrors contracts functions names changes in the frontend source code ([36c79a3](https://github.com/ledgity-labs/Ledgity-Yield/commit/36c79a3269718190d4fb00f58baab7c4deeb811b))
+
+### Others
+
+- **deps:** upgrade dependencies ([b3ff051](https://github.com/ledgity-labs/Ledgity-Yield/commit/b3ff0519e3db8caea2ca1c795a545179175d08c0))
+
+## [1.122.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.121.0...v1.122.0) (2023-07-30)
+
+### Features
+
+- **ltoken:** first version of transfers listeners ([a5bf23a](https://github.com/ledgity-labs/Ledgity-Yield/commit/a5bf23af2f445382c577073ef13f94fb83115937))
 
 ### Tests
 
-- **ltoken:** new transfers listeners unit tests ([cd0b2f9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/cd0b2f962a4cd137513f1da060bfa510af5a61c6))
+- **ltoken:** new transfers listeners unit tests ([cd0b2f9](https://github.com/ledgity-labs/Ledgity-Yield/commit/cd0b2f962a4cd137513f1da060bfa510af5a61c6))
 
-## [1.121.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.120.0...v1.121.0) (2023-07-29)
+## [1.121.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.120.0...v1.121.0) (2023-07-29)
 
 ### Features
 
-- investUpgradeable rewards redirection + end of unit tests V1 ! ([b83aba3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b83aba3c9a543125e990576272eea784bce52b0f))
+- investUpgradeable rewards redirection + end of unit tests V1 ! ([b83aba3](https://github.com/ledgity-labs/Ledgity-Yield/commit/b83aba3c9a543125e990576272eea784bce52b0f))
 
 ### Tests
 
-- add missing GlobalBlacklist.isBlacklisted() unit tests ([8b462a5](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8b462a52aa3543d32e59527004bc872b7f07a01d))
-- improve RecoverableUpgradeable unit tests ([aa3d0ec](https://github.com/ledgity-labs/Ledgity-DeFi/commit/aa3d0ec058782db0403415503f8988d917be6974))
-- new APRCheckpoints library unit tests ([05f0b60](https://github.com/ledgity-labs/Ledgity-DeFi/commit/05f0b60b20ec8235882a3dcea0d873e287ab3a29))
-- new BaseUpgradeable unit tests ([107fe4c](https://github.com/ledgity-labs/Ledgity-DeFi/commit/107fe4ce8e9decc10b2fb7eb156a2e33ecc19538))
-- new ERC20BaseUpgradeable tests + some tiny improvements in other tests files ([5410dc1](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5410dc151f0d1dd95d40a02ec5dd0ffb0970ffbe))
-- new GlobalBlacklist unit tests ([5472f2b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5472f2b32656d0d3422bcd046967671b492d238e))
-- new GlobalOwner unit tests ([01280f3](https://github.com/ledgity-labs/Ledgity-DeFi/commit/01280f3a72545b0963cd059922328f0848c931ef))
-- new GlobalPausableUpgradeable unit tests ([58f6602](https://github.com/ledgity-labs/Ledgity-DeFi/commit/58f66022481b2139d8deb75f2cd7da26ddbf9356))
-- new GlobalPause unit tests ([507b740](https://github.com/ledgity-labs/Ledgity-DeFi/commit/507b740aecf308182b04867c9a6fbd64be82e3e1))
-- new GlobalRestrictableUpgradeable unit tests + remove ownable from GlobalRestrictable/Pausable ([c43aea7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/c43aea72f3cf0d62c8a2840076809a5a0c6dec31))
-- new InvestUpgradeable unit tests ([c7a6a2c](https://github.com/ledgity-labs/Ledgity-DeFi/commit/c7a6a2cbd72135fe76f38fb5417be9d19de6ff6f))
-- new LDYStaking unit tests ([0967e61](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0967e61b9252850bb74e0ced603277097acca12b))
-- new RecoverableUpgradeable unit tests ([bc3d62d](https://github.com/ledgity-labs/Ledgity-DeFi/commit/bc3d62d735b4840b9b87773cd8768ab1c99c303a))
-- new UDS3 libary tests ([b79b0b1](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b79b0b1c6c9ac7e5af792e3f3ea9c0b814af7814))
-- re-organize test folder to match source one ([147e306](https://github.com/ledgity-labs/Ledgity-DeFi/commit/147e3060f3373e26537851bce26fdd7b8499eee9))
-- replace usage of assume() per bound() whenever it is more relevant ([9397c9a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9397c9ad60357273a4757cc76de274c00bf6b047))
+- add missing GlobalBlacklist.isBlacklisted() unit tests ([8b462a5](https://github.com/ledgity-labs/Ledgity-Yield/commit/8b462a52aa3543d32e59527004bc872b7f07a01d))
+- improve RecoverableUpgradeable unit tests ([aa3d0ec](https://github.com/ledgity-labs/Ledgity-Yield/commit/aa3d0ec058782db0403415503f8988d917be6974))
+- new APRCheckpoints library unit tests ([05f0b60](https://github.com/ledgity-labs/Ledgity-Yield/commit/05f0b60b20ec8235882a3dcea0d873e287ab3a29))
+- new BaseUpgradeable unit tests ([107fe4c](https://github.com/ledgity-labs/Ledgity-Yield/commit/107fe4ce8e9decc10b2fb7eb156a2e33ecc19538))
+- new ERC20BaseUpgradeable tests + some tiny improvements in other tests files ([5410dc1](https://github.com/ledgity-labs/Ledgity-Yield/commit/5410dc151f0d1dd95d40a02ec5dd0ffb0970ffbe))
+- new GlobalBlacklist unit tests ([5472f2b](https://github.com/ledgity-labs/Ledgity-Yield/commit/5472f2b32656d0d3422bcd046967671b492d238e))
+- new GlobalOwner unit tests ([01280f3](https://github.com/ledgity-labs/Ledgity-Yield/commit/01280f3a72545b0963cd059922328f0848c931ef))
+- new GlobalPausableUpgradeable unit tests ([58f6602](https://github.com/ledgity-labs/Ledgity-Yield/commit/58f66022481b2139d8deb75f2cd7da26ddbf9356))
+- new GlobalPause unit tests ([507b740](https://github.com/ledgity-labs/Ledgity-Yield/commit/507b740aecf308182b04867c9a6fbd64be82e3e1))
+- new GlobalRestrictableUpgradeable unit tests + remove ownable from GlobalRestrictable/Pausable ([c43aea7](https://github.com/ledgity-labs/Ledgity-Yield/commit/c43aea72f3cf0d62c8a2840076809a5a0c6dec31))
+- new InvestUpgradeable unit tests ([c7a6a2c](https://github.com/ledgity-labs/Ledgity-Yield/commit/c7a6a2cbd72135fe76f38fb5417be9d19de6ff6f))
+- new LDYStaking unit tests ([0967e61](https://github.com/ledgity-labs/Ledgity-Yield/commit/0967e61b9252850bb74e0ced603277097acca12b))
+- new RecoverableUpgradeable unit tests ([bc3d62d](https://github.com/ledgity-labs/Ledgity-Yield/commit/bc3d62d735b4840b9b87773cd8768ab1c99c303a))
+- new UDS3 libary tests ([b79b0b1](https://github.com/ledgity-labs/Ledgity-Yield/commit/b79b0b1c6c9ac7e5af792e3f3ea9c0b814af7814))
+- re-organize test folder to match source one ([147e306](https://github.com/ledgity-labs/Ledgity-Yield/commit/147e3060f3373e26537851bce26fdd7b8499eee9))
+- replace usage of assume() per bound() whenever it is more relevant ([9397c9a](https://github.com/ledgity-labs/Ledgity-Yield/commit/9397c9ad60357273a4757cc76de274c00bf6b047))
 
 ### Others
 
-- fix workflow file typo ([0174631](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0174631b06bfb6d7cb71dac14b0cc52b102d01a3))
-- try fixing contracts tests workflow ([649c123](https://github.com/ledgity-labs/Ledgity-DeFi/commit/649c12367512892db72a26676cc1c241b5e1c734))
-- update contracts tests workflow ([fef42ba](https://github.com/ledgity-labs/Ledgity-DeFi/commit/fef42baa15786d538283f949fbc47869c3558d96))
+- fix workflow file typo ([0174631](https://github.com/ledgity-labs/Ledgity-Yield/commit/0174631b06bfb6d7cb71dac14b0cc52b102d01a3))
+- try fixing contracts tests workflow ([649c123](https://github.com/ledgity-labs/Ledgity-Yield/commit/649c12367512892db72a26676cc1c241b5e1c734))
+- update contracts tests workflow ([fef42ba](https://github.com/ledgity-labs/Ledgity-Yield/commit/fef42baa15786d538283f949fbc47869c3558d96))
 
-## [1.120.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.119.1...v1.120.0) (2023-07-14)
+## [1.120.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.119.1...v1.120.0) (2023-07-14)
 
 ### Features
 
-- include back foundry lib folder ([65af4fe](https://github.com/ledgity-labs/Ledgity-DeFi/commit/65af4fe72e2e9dc85cf6ca131613bf7f0134f67b))
+- include back foundry lib folder ([65af4fe](https://github.com/ledgity-labs/Ledgity-Yield/commit/65af4fe72e2e9dc85cf6ca131613bf7f0134f67b))
 
 ### Others
 
-- test if forge-std has successfully been added as a git submodule ([091270e](https://github.com/ledgity-labs/Ledgity-DeFi/commit/091270e60a628d64a15866364a578692fd9ce993))
-- **tests:** run tests on main branch push ([fa6632e](https://github.com/ledgity-labs/Ledgity-DeFi/commit/fa6632e9ddb0fbd483a9b9e782c6abd3f7ca0454))
+- test if forge-std has successfully been added as a git submodule ([091270e](https://github.com/ledgity-labs/Ledgity-Yield/commit/091270e60a628d64a15866364a578692fd9ce993))
+- **tests:** run tests on main branch push ([fa6632e](https://github.com/ledgity-labs/Ledgity-Yield/commit/fa6632e9ddb0fbd483a9b9e782c6abd3f7ca0454))
 
-## [1.119.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.119.0...v1.119.1) (2023-07-14)
+## [1.119.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.119.0...v1.119.1) (2023-07-14)
 
 ### Fixes
 
-- restore accidentally deleted contracts sources + fix old contracts functions calls ([d1fb982](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d1fb9820b024e0819527855141883b154a859356))
+- restore accidentally deleted contracts sources + fix old contracts functions calls ([d1fb982](https://github.com/ledgity-labs/Ledgity-Yield/commit/d1fb9820b024e0819527855141883b154a859356))
 
 ### Tests
 
-- add common modifiers expectations ([641f0f0](https://github.com/ledgity-labs/Ledgity-DeFi/commit/641f0f0697d089591904f724b0a303c289ab25c2))
-- **foundry:** new GlobalOwnableUpgradeable tests units ([b963a1a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b963a1a174e4b1605db138616cdb7e8025e24f90))
+- add common modifiers expectations ([641f0f0](https://github.com/ledgity-labs/Ledgity-Yield/commit/641f0f0697d089591904f724b0a303c289ab25c2))
+- **foundry:** new GlobalOwnableUpgradeable tests units ([b963a1a](https://github.com/ledgity-labs/Ledgity-Yield/commit/b963a1a174e4b1605db138616cdb7e8025e24f90))
 
 ### Others
 
-- **deps:** update dependency @types/react to v18.2.15 ([e31e217](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e31e2177f52edb8af06cbf71680404c3894b82e9))
-- **deps:** update dependency postcss to v8.4.26 ([9f27e0b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/9f27e0ba49401a6a6cb5b09fc8a89cd09f648548))
-- **deps:** update dependency tailwindcss to v3.3.3 ([e9dc2b2](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e9dc2b26b9e57305676cff5b892f5be34ea6153c))
-- restrict Renovate to non-working hours ([7f5a873](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7f5a8737316cbf4f28afbddb2349e2eb3d81ee7c))
+- **deps:** update dependency @types/react to v18.2.15 ([e31e217](https://github.com/ledgity-labs/Ledgity-Yield/commit/e31e2177f52edb8af06cbf71680404c3894b82e9))
+- **deps:** update dependency postcss to v8.4.26 ([9f27e0b](https://github.com/ledgity-labs/Ledgity-Yield/commit/9f27e0ba49401a6a6cb5b09fc8a89cd09f648548))
+- **deps:** update dependency tailwindcss to v3.3.3 ([e9dc2b2](https://github.com/ledgity-labs/Ledgity-Yield/commit/e9dc2b26b9e57305676cff5b892f5be34ea6153c))
+- restrict Renovate to non-working hours ([7f5a873](https://github.com/ledgity-labs/Ledgity-Yield/commit/7f5a8737316cbf4f28afbddb2349e2eb3d81ee7c))
 
-## [1.119.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.118.1...v1.119.0) (2023-07-13)
+## [1.119.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.118.1...v1.119.0) (2023-07-13)
 
 ### Features
 
-- **contracts:** setup foundry next to hardhat for unit tests ([f23b851](https://github.com/ledgity-labs/Ledgity-DeFi/commit/f23b851e1a962f9cfe2b8bb63a682688bf8e4626))
+- **contracts:** setup foundry next to hardhat for unit tests ([f23b851](https://github.com/ledgity-labs/Ledgity-Yield/commit/f23b851e1a962f9cfe2b8bb63a682688bf8e4626))
 
 ### Others
 
-- forge init ([b0e44b4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b0e44b4a9f7ff6a2f3d9dd0c79596c6490dc1afa))
+- forge init ([b0e44b4](https://github.com/ledgity-labs/Ledgity-Yield/commit/b0e44b4a9f7ff6a2f3d9dd0c79596c6490dc1afa))
 
-## [1.118.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.118.0...v1.118.1) (2023-07-13)
+## [1.118.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.118.0...v1.118.1) (2023-07-13)
 
 ### Fixes
 
-- fix build error ([bf09e61](https://github.com/ledgity-labs/Ledgity-DeFi/commit/bf09e61ca5263b584ea48bf6aa5e04ac8a188ad1))
+- fix build error ([bf09e61](https://github.com/ledgity-labs/Ledgity-Yield/commit/bf09e61ca5263b584ea48bf6aa5e04ac8a188ad1))
 
 ### Others
 
-- **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.0.1 ([8c741ce](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8c741cecda1e9d5329ba269e53d15594b8f39c5a))
-- **deps:** update dependency @types/node to v20.4.2 ([b157a7f](https://github.com/ledgity-labs/Ledgity-DeFi/commit/b157a7ff74543d75834b8d7a257c2a2427a68bbc))
-- **deps:** update dependency @types/react-dom to v18.2.7 ([0680d30](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0680d3097e1c8ba894003f73b2adf6724c6d5ef4))
+- **deps:** update dependency @openzeppelin/hardhat-upgrades to v2.0.1 ([8c741ce](https://github.com/ledgity-labs/Ledgity-Yield/commit/8c741cecda1e9d5329ba269e53d15594b8f39c5a))
+- **deps:** update dependency @types/node to v20.4.2 ([b157a7f](https://github.com/ledgity-labs/Ledgity-Yield/commit/b157a7ff74543d75834b8d7a257c2a2427a68bbc))
+- **deps:** update dependency @types/react-dom to v18.2.7 ([0680d30](https://github.com/ledgity-labs/Ledgity-Yield/commit/0680d3097e1c8ba894003f73b2adf6724c6d5ef4))
 
-## [1.118.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.2...v1.118.0) (2023-07-13)
+## [1.118.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.117.2...v1.118.0) (2023-07-13)
 
 ### Features
 
-- **contracts:** don't rely anymore on Beacon, rewrite deploy scripts to fit new contracts and ([334c0dc](https://github.com/ledgity-labs/Ledgity-DeFi/commit/334c0dceeaf8c67efc19ccfe0782ab584174772a))
-- **contracts:** track and allow funding a rewards reserve in LDYStaking contract ([f172369](https://github.com/ledgity-labs/Ledgity-DeFi/commit/f17236957c57eaa7c5140ec1b172b1c7be57a772))
+- **contracts:** don't rely anymore on Beacon, rewrite deploy scripts to fit new contracts and ([334c0dc](https://github.com/ledgity-labs/Ledgity-Yield/commit/334c0dceeaf8c67efc19ccfe0782ab584174772a))
+- **contracts:** track and allow funding a rewards reserve in LDYStaking contract ([f172369](https://github.com/ledgity-labs/Ledgity-Yield/commit/f17236957c57eaa7c5140ec1b172b1c7be57a772))
 
 ### Docs
 
-- **contracts:** document LTokenSignaler contract ([97e4690](https://github.com/ledgity-labs/Ledgity-DeFi/commit/97e469096c779a82a45d23f52c74d135100e3da1))
+- **contracts:** document LTokenSignaler contract ([97e4690](https://github.com/ledgity-labs/Ledgity-Yield/commit/97e469096c779a82a45d23f52c74d135100e3da1))
 
 ### Others
 
-- **contracts:** improve docs and code readability of LToken contract ([e97c7e2](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e97c7e2ce7873cf483fce20cce8513e452e3c342))
-- **contracts:** improve docs and code readability of LDYStaking contract ([af15bd9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/af15bd9d5bf087de55a517ce8ee43e05b418181e))
+- **contracts:** improve docs and code readability of LToken contract ([e97c7e2](https://github.com/ledgity-labs/Ledgity-Yield/commit/e97c7e2ce7873cf483fce20cce8513e452e3c342))
+- **contracts:** improve docs and code readability of LDYStaking contract ([af15bd9](https://github.com/ledgity-labs/Ledgity-Yield/commit/af15bd9d5bf087de55a517ce8ee43e05b418181e))
 
-## [1.117.2](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.1...v1.117.2) (2023-07-11)
+## [1.117.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.117.1...v1.117.2) (2023-07-11)
 
 ### Fixes
 
-- **contracts:** ensure GlobalBlacklist cannot blacklist zero address ([6e05249](https://github.com/ledgity-labs/Ledgity-DeFi/commit/6e05249199fdb9052ec5153eaad79c7774a14f63))
+- **contracts:** ensure GlobalBlacklist cannot blacklist zero address ([6e05249](https://github.com/ledgity-labs/Ledgity-Yield/commit/6e05249199fdb9052ec5153eaad79c7774a14f63))
 
 ### Docs
 
-- **contracts:** document GlobalBlacklist, GlobalOwner and GlobalPauser contracts ([c2eb5f5](https://github.com/ledgity-labs/Ledgity-DeFi/commit/c2eb5f58ff9729d3120610ef03255b8e72d71bab))
+- **contracts:** document GlobalBlacklist, GlobalOwner and GlobalPauser contracts ([c2eb5f5](https://github.com/ledgity-labs/Ledgity-Yield/commit/c2eb5f58ff9729d3120610ef03255b8e72d71bab))
 
 ### Others
 
-- **contracts:** rename GlobalPauser to GlobalPause ([e28e8d2](https://github.com/ledgity-labs/Ledgity-DeFi/commit/e28e8d238fe9df03497699fccbbf9ddac086d0f6))
+- **contracts:** rename GlobalPauser to GlobalPause ([e28e8d2](https://github.com/ledgity-labs/Ledgity-Yield/commit/e28e8d238fe9df03497699fccbbf9ddac086d0f6))
 
-## [1.117.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.117.0...v1.117.1) (2023-07-11)
+## [1.117.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.117.0...v1.117.1) (2023-07-11)
 
 ### Fixes
 
-- **contracts:** add missing RecoverableUpgradeable initializer call in BaseUpgradeable.sol ([7c7b18b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7c7b18b279a008d5e176a913bc69bb0b597029eb))
-- **contracts:** fix typo in LToken.getWithdrawnAmountAndFees() ([d96c859](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d96c859e54adcc12756274f62043a70ed473720d))
+- **contracts:** add missing RecoverableUpgradeable initializer call in BaseUpgradeable.sol ([7c7b18b](https://github.com/ledgity-labs/Ledgity-Yield/commit/7c7b18b279a008d5e176a913bc69bb0b597029eb))
+- **contracts:** fix typo in LToken.getWithdrawnAmountAndFees() ([d96c859](https://github.com/ledgity-labs/Ledgity-Yield/commit/d96c859e54adcc12756274f62043a70ed473720d))
 
-## [1.117.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.116.0...v1.117.0) (2023-07-11)
+## [1.117.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.116.0...v1.117.0) (2023-07-11)
 
 ### Features
 
-- **contracts:** make global contracts addresses states private and offer getter for those + ([8dce56f](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8dce56f4f0e26bf471344453d6b571a40b24e9e1))
+- **contracts:** make global contracts addresses states private and offer getter for those + ([8dce56f](https://github.com/ledgity-labs/Ledgity-Yield/commit/8dce56f4f0e26bf471344453d6b571a40b24e9e1))
 
 ### Fixes
 
-- some calculation were still using old ud3ToDecimals pattern, which may incur precision loss if ([7bd4cc8](https://github.com/ledgity-labs/Ledgity-DeFi/commit/7bd4cc80173727cb7ec59eb6c5b3cc3bc0c592f8))
+- some calculation were still using old ud3ToDecimals pattern, which may incur precision loss if ([7bd4cc8](https://github.com/ledgity-labs/Ledgity-Yield/commit/7bd4cc80173727cb7ec59eb6c5b3cc3bc0c592f8))
 
 ### Others
 
-- **contracts:** end improving InvestUpgradeable code readability and documentation ([0ba4848](https://github.com/ledgity-labs/Ledgity-DeFi/commit/0ba48489345b93b366dba2503f384da3625f3870))
-- **deps:** update dependency @types/node to v20.4.1 ([068e40b](https://github.com/ledgity-labs/Ledgity-DeFi/commit/068e40b624ac32822f1488d5cb6059c94431bcbb))
-- **deps:** update dependency prettier to v3 ([5739d9f](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5739d9f3bbb8eee9c6a357fec3439b8c1262cd58))
+- **contracts:** end improving InvestUpgradeable code readability and documentation ([0ba4848](https://github.com/ledgity-labs/Ledgity-Yield/commit/0ba48489345b93b366dba2503f384da3625f3870))
+- **deps:** update dependency @types/node to v20.4.1 ([068e40b](https://github.com/ledgity-labs/Ledgity-Yield/commit/068e40b624ac32822f1488d5cb6059c94431bcbb))
+- **deps:** update dependency prettier to v3 ([5739d9f](https://github.com/ledgity-labs/Ledgity-Yield/commit/5739d9f3bbb8eee9c6a357fec3439b8c1262cd58))
 
-## [1.116.0](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.115.1...v1.116.0) (2023-07-11)
+## [1.116.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.115.1...v1.116.0) (2023-07-11)
 
 ### Features
 
-- **contracts:** security: makes all global contracts addresses immutable after initialization ([37a0765](https://github.com/ledgity-labs/Ledgity-DeFi/commit/37a0765658fba6c3af8d656fc2f36e319d2221fc))
+- **contracts:** security: makes all global contracts addresses immutable after initialization ([37a0765](https://github.com/ledgity-labs/Ledgity-Yield/commit/37a0765658fba6c3af8d656fc2f36e319d2221fc))
 
 ### Fixes
 
-- **contracts:** properly and explicitely check in Global abstracts that global contract is set ([34a415a](https://github.com/ledgity-labs/Ledgity-DeFi/commit/34a415a75bd2b97dab85d1418fba6b577780a8cc))
+- **contracts:** properly and explicitely check in Global abstracts that global contract is set ([34a415a](https://github.com/ledgity-labs/Ledgity-Yield/commit/34a415a75bd2b97dab85d1418fba6b577780a8cc))
 
 ### Docs
 
-- **contracts:** document GlobalOwnable, GlobalPausable and GlobalRestrictable contracts ([d312182](https://github.com/ledgity-labs/Ledgity-DeFi/commit/d3121828f32c0006d355e941e831c7525344966d))
-- **contracts:** improve docs of ERC20BaseUpgradeable ([32a33e4](https://github.com/ledgity-labs/Ledgity-DeFi/commit/32a33e495f27dcf7839c985bdf89a3da4386c348))
-- **contracts:** improve documentation of BaseUpgradeable ([ada81b9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/ada81b9fb7c1ce0a0bd5bceaef1008456ecca65f))
+- **contracts:** document GlobalOwnable, GlobalPausable and GlobalRestrictable contracts ([d312182](https://github.com/ledgity-labs/Ledgity-Yield/commit/d3121828f32c0006d355e941e831c7525344966d))
+- **contracts:** improve docs of ERC20BaseUpgradeable ([32a33e4](https://github.com/ledgity-labs/Ledgity-Yield/commit/32a33e495f27dcf7839c985bdf89a3da4386c348))
+- **contracts:** improve documentation of BaseUpgradeable ([ada81b9](https://github.com/ledgity-labs/Ledgity-Yield/commit/ada81b9fb7c1ce0a0bd5bceaef1008456ecca65f))
 
 ### Others
 
-- **contracts:** prefix global abstracts by "Global" + strictly follow the unchained pattern ([dacd5b9](https://github.com/ledgity-labs/Ledgity-DeFi/commit/dacd5b9b1db5ae6db2d2ee6bb46af728394b0e21))
-- **contracts:** some readability improvements over performances ([5c57d1e](https://github.com/ledgity-labs/Ledgity-DeFi/commit/5c57d1e765d1db545c44a4ed4f262d5e0a01fbcf))
+- **contracts:** prefix global abstracts by "Global" + strictly follow the unchained pattern ([dacd5b9](https://github.com/ledgity-labs/Ledgity-Yield/commit/dacd5b9b1db5ae6db2d2ee6bb46af728394b0e21))
+- **contracts:** some readability improvements over performances ([5c57d1e](https://github.com/ledgity-labs/Ledgity-Yield/commit/5c57d1e765d1db545c44a4ed4f262d5e0a01fbcf))
 
-## [1.115.1](https://github.com/ledgity-labs/Ledgity-DeFi/compare/v1.115.0...v1.115.1) (2023-07-10)
+## [1.115.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.115.0...v1.115.1) (2023-07-10)
 
 ### Fixes
 
-- fix build error (since Amount component API change) ([8cdeb98](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8cdeb983039dbb9766e72853bcf10f56e0749365))
+- fix build error (since Amount component API change) ([8cdeb98](https://github.com/ledgity-labs/Ledgity-Yield/commit/8cdeb983039dbb9766e72853bcf10f56e0749365))
 
 ### Others
 
-- **contracts:** improve UDS3 and APRCheckpoints docs, code readability and code logic safety ([986b395](https://github.com/ledgity-labs/Ledgity-DeFi/commit/986b39515fb3b09e63a2ba2d85f79937d2a9c584))
-- **deps:** update dependency postcss to v8.4.25 ([91081d7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/91081d7f03b563c088a04072301e3e92fb725740))
-- **deps:** update ipfs/go-ipfs docker tag to v0.21.0 ([8702ab7](https://github.com/ledgity-labs/Ledgity-DeFi/commit/8702ab787d399f674d7d80254e7da5ead65a7d90))
-- **deps:** update nextjs monorepo to v13.4.9 ([1f2952c](https://github.com/ledgity-labs/Ledgity-DeFi/commit/1f2952ce341ff9a9dc0417d05e20a7aa35582941))
+- **contracts:** improve UDS3 and APRCheckpoints docs, code readability and code logic safety ([986b395](https://github.com/ledgity-labs/Ledgity-Yield/commit/986b39515fb3b09e63a2ba2d85f79937d2a9c584))
+- **deps:** update dependency postcss to v8.4.25 ([91081d7](https://github.com/ledgity-labs/Ledgity-Yield/commit/91081d7f03b563c088a04072301e3e92fb725740))
+- **deps:** update ipfs/go-ipfs docker tag to v0.21.0 ([8702ab7](https://github.com/ledgity-labs/Ledgity-Yield/commit/8702ab787d399f674d7d80254e7da5ead65a7d90))
+- **deps:** update nextjs monorepo to v13.4.9 ([1f2952c](https://github.com/ledgity-labs/Ledgity-Yield/commit/1f2952ce341ff9a9dc0417d05e20a7aa35582941))
 
 ## [1.115.0](https://github.com/ledgity-labs/dapp/compare/v1.114.1...v1.115.0) (2023-07-09)
 

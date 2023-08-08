@@ -30,7 +30,7 @@ export const main = async () => {
 
   // - Deploy a dummy LDYStaking contract (until real one is available)
   await (
-    await import("./deploy-DummyLDYStaking")
+    await import("./deploy-LDYStaking")
   ).default;
 
   // - (if localnet) Deploy a fake USDC token

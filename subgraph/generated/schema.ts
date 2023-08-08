@@ -89,16 +89,16 @@ export class LToken extends Entity {
     this.set("totalMintedRewards", Value.fromBigDecimal(value));
   }
 
-  get tvlUpdates(): TVLUpdateLoader {
-    return new TVLUpdateLoader(
+  get tvlUpdates(): TVLChangeLoader {
+    return new TVLChangeLoader(
       "LToken",
       this.get("id")!.toString(),
       "tvlUpdates"
     );
   }
 
-  get aprUpdates(): APRUpdateLoader {
-    return new APRUpdateLoader(
+  get aprUpdates(): APRChangeLoader {
+    return new APRChangeLoader(
       "LToken",
       this.get("id")!.toString(),
       "aprUpdates"
@@ -122,7 +122,7 @@ export class LToken extends Entity {
   }
 }
 
-export class TVLUpdate extends Entity {
+export class TVLChange extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -130,22 +130,22 @@ export class TVLUpdate extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save TVLUpdate entity without an ID");
+    assert(id != null, "Cannot save TVLChange entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type TVLUpdate must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type TVLChange must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("TVLUpdate", id.toString(), this);
+      store.set("TVLChange", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): TVLUpdate | null {
-    return changetype<TVLUpdate | null>(store.get_in_block("TVLUpdate", id));
+  static loadInBlock(id: string): TVLChange | null {
+    return changetype<TVLChange | null>(store.get_in_block("TVLChange", id));
   }
 
-  static load(id: string): TVLUpdate | null {
-    return changetype<TVLUpdate | null>(store.get("TVLUpdate", id));
+  static load(id: string): TVLChange | null {
+    return changetype<TVLChange | null>(store.get("TVLChange", id));
   }
 
   get id(): string {
@@ -201,7 +201,7 @@ export class TVLUpdate extends Entity {
   }
 }
 
-export class APRUpdate extends Entity {
+export class APRChange extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -209,22 +209,22 @@ export class APRUpdate extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save APRUpdate entity without an ID");
+    assert(id != null, "Cannot save APRChange entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type APRUpdate must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type APRChange must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("APRUpdate", id.toString(), this);
+      store.set("APRChange", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): APRUpdate | null {
-    return changetype<APRUpdate | null>(store.get_in_block("APRUpdate", id));
+  static loadInBlock(id: string): APRChange | null {
+    return changetype<APRChange | null>(store.get_in_block("APRChange", id));
   }
 
-  static load(id: string): APRUpdate | null {
-    return changetype<APRUpdate | null>(store.get("APRUpdate", id));
+  static load(id: string): APRChange | null {
+    return changetype<APRChange | null>(store.get("APRChange", id));
   }
 
   get id(): string {
@@ -544,7 +544,7 @@ export class RewardsMint extends Entity {
   }
 }
 
-export class LTYStaking extends Entity {
+export class LDYStaking extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -552,22 +552,22 @@ export class LTYStaking extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save LTYStaking entity without an ID");
+    assert(id != null, "Cannot save LDYStaking entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type LTYStaking must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type LDYStaking must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("LTYStaking", id.toString(), this);
+      store.set("LDYStaking", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): LTYStaking | null {
-    return changetype<LTYStaking | null>(store.get_in_block("LTYStaking", id));
+  static loadInBlock(id: string): LDYStaking | null {
+    return changetype<LDYStaking | null>(store.get_in_block("LDYStaking", id));
   }
 
-  static load(id: string): LTYStaking | null {
-    return changetype<LTYStaking | null>(store.get("LTYStaking", id));
+  static load(id: string): LDYStaking | null {
+    return changetype<LDYStaking | null>(store.get("LDYStaking", id));
   }
 
   get id(): string {
@@ -585,7 +585,7 @@ export class LTYStaking extends Entity {
 
   get totalStakedUpdates(): TotalStakedUpdateLoader {
     return new TotalStakedUpdateLoader(
-      "LTYStaking",
+      "LDYStaking",
       this.get("id")!.toString(),
       "totalStakedUpdates"
     );
@@ -675,7 +675,7 @@ export class TotalStakedUpdate extends Entity {
   }
 }
 
-export class TVLUpdateLoader extends Entity {
+export class TVLChangeLoader extends Entity {
   _entity: string;
   _field: string;
   _id: string;
@@ -687,13 +687,13 @@ export class TVLUpdateLoader extends Entity {
     this._field = field;
   }
 
-  load(): TVLUpdate[] {
+  load(): TVLChange[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<TVLUpdate[]>(value);
+    return changetype<TVLChange[]>(value);
   }
 }
 
-export class APRUpdateLoader extends Entity {
+export class APRChangeLoader extends Entity {
   _entity: string;
   _field: string;
   _id: string;
@@ -705,9 +705,9 @@ export class APRUpdateLoader extends Entity {
     this._field = field;
   }
 
-  load(): APRUpdate[] {
+  load(): APRChange[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<APRUpdate[]>(value);
+    return changetype<APRChange[]>(value);
   }
 }
 

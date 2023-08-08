@@ -46,7 +46,7 @@
       "@semantic-release/git",
       {
         "assets": ["package.json", "pnpm-lock.yaml", "CHANGELOG.md"],
-        "message": "release: Ledgity DeFi v${nextRelease.version} [skip ci]"
+        "message": "release: Ledgity Yield v${nextRelease.version} [skip ci]"
       }
     ],
     [

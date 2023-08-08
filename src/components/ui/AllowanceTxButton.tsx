@@ -51,7 +51,7 @@ export const AllowanceTxButton: FC<Props> = ({
     return (
       <TxButton
         preparation={allowancePreparation}
-        transactionSummary={`Allow Ledgity DeFi to spend ${formatUnits(amount, decimals!)} ${symbol}`}
+        transactionSummary={`Allow Ledgity Yield to spend ${formatUnits(amount, decimals!)} ${symbol}`}
         {...props}
         disabled={amount === 0n}
       >
