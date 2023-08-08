@@ -1,3 +1,10 @@
+## [1.129.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.128.2...v1.129.0) (2023-08-08)
+
+
+### Features
+
+* entire rewrite of contracts deployment (using hardhat-deploy) + get ready for deployment ([bfe3a7b](https://github.com/ledgity-labs/Ledgity-Yield/commit/bfe3a7bb8f9a3ce5dafa242285dd03a709beffab))
+
 ## [1.128.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.128.1...v1.128.2) (2023-08-08)
 
 
