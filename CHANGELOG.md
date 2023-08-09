@@ -1,3 +1,10 @@
+## [1.133.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.132.1...v1.133.0) (2023-08-09)
+
+
+### Features
+
+* make USD TVL updating in real-time and reactive to network changes ([84266ab](https://github.com/ledgity-labs/Ledgity-Yield/commit/84266ab4636470547fbb9bf257ab159f0a388bef))
+
 ## [1.132.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.132.0...v1.132.1) (2023-08-09)
 
 
