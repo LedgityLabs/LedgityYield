@@ -25,7 +25,6 @@ export const SwitchNetworkProvider: FC<Props> = ({ children }) => {
     setIsSwitching(true);
     // Ensure the id is a number
     if (typeof id === "string") id = Number.parseInt(id);
-
     let error: Error | null = null;
     // If a wallet is connected, switch the wallet network
     if (switchWalletNetwork) {
@@ -38,7 +37,7 @@ export const SwitchNetworkProvider: FC<Props> = ({ children }) => {
     if (!error) {
       // Switch public client
       config.setPublicClient((config: { chainId?: number }) =>
-        chainAwarePublicClient({ chainId: config.chainId || (id as number) })
+        chainAwarePublicClient({ chainId: config.chainId || (id as number) }),
       );
     }
     setIsSwitching(false);

@@ -78,9 +78,13 @@ const connectors = connectorsForWallets([
 ]);
 
 // Retrieve public clients and setup Wagmi config
-export const { publicClient: chainAwarePublicClient } = configureChains(chains, [publicProvider()], {
-  rank: true,
-});
+export const { publicClient: chainAwarePublicClient } = configureChains(
+  chains,
+  [publicProvider()],
+  {
+    rank: true,
+  },
+);
 const config = createConfig({
   autoConnect: true,
   connectors,

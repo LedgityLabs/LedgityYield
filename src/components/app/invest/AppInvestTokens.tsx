@@ -12,16 +12,15 @@ import { twMerge } from "tailwind-merge";
 import { TokenLogo } from "../../ui/TokenLogo";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
-import { getGenericErc20, getLToken } from "@/generated";
+import { lTokenABI, genericErc20ABI } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
-import { formatUnits, parseUnits, zeroAddress } from "viem";
+import { zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
 import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
-import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
-import { chunkArray } from "@/lib/chunkArray";
+import { JSONStringify } from "@/lib/json-stringify";
 
 interface Pool {
   tokenSymbol: string;
@@ -34,8 +33,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 /**
  * About 'tableData', 'futureTableData' and 'isActionsDialogOpen': As the table is automatically
  * refreshed when on-chain data changes, and while DepositDialog and WithdrawDialog contained in the
- * table, if the data changes while the dialog is open, the dialog will be closed. This incurs a bad user
- * experience. To prevent this:
+ * table, if the data changes while the dialog is open, the dialog will be closed. To avoid a poor UX:
  *
  * 1. We track if any actions dialog is opened in 'isActionsDialogOpen' ref
  * 2. When new data are received, if not actions dialog are opened -> call setTableData() instantly
@@ -50,8 +48,11 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
   const lTokens = useAvailableLTokens();
+  const [readsConfig, setReadsConfig] = useState<
+    Parameters<typeof watchReadContracts>[0]["contracts"]
+  >([]);
   const [tableData, setTableData] = useState<Pool[]>([]);
-  const [initialFetch, setInitialFetch] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   let isActionsDialogOpen = useRef(false);
   let futureTableData = useRef<Pool[]>([]);
 
@@ -145,93 +146,84 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
 
   const headerGroup = table.getHeaderGroups()[0];
 
-  function watchData() {
-    if (publicClient.chain) {
-      let reads: Parameters<typeof watchReadContracts>[0]["contracts"] = [];
-      for (const lTokenSymbol of lTokens) {
-        const lTokenContractAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
-        const underlyingContractAddress = getContractAddress(
-          lTokenSymbol.slice(1),
-          publicClient.chain.id,
-        );
-        if (!lTokenContractAddress || !underlyingContractAddress)
-          console.error(
-            "Some contracts addresses are missing for the current chain. Cannot watch data.",
-          );
-        else {
-          const lTokenContract = getLToken({ address: lTokenContractAddress });
-          const underlyingContract = getGenericErc20({ address: underlyingContractAddress });
-          reads = [
-            ...reads,
-            {
-              address: underlyingContract.address,
-              abi: underlyingContract.abi,
-              functionName: "symbol",
-            },
-            {
-              address: lTokenContract.address,
-              abi: lTokenContract.abi,
-              functionName: "balanceOf",
-              args: [walletClient ? walletClient.account.address : zeroAddress],
-            },
-            {
-              address: lTokenContract.address,
-              abi: lTokenContract.abi,
-              functionName: "decimals",
-            },
-            {
-              address: lTokenContract.address,
-              abi: lTokenContract.abi,
-              functionName: "totalSupply",
-            },
-            {
-              address: lTokenContract.address,
-              abi: lTokenContract.abi,
-              functionName: "getApr",
-            },
-          ];
-        }
-      }
+  function populateReadsConfig() {
+    const newReadsConfig = [] as {
+      address: `0x${string}`;
+      abi: any;
+      functionName: string;
+      args?: any[];
+    }[];
 
-      // If there are nothing to read, set initial fetch to true
-      if (reads.length === 0) setInitialFetch(true);
-      // Else, watch array of function reads
-      else {
-        return watchReadContracts(
-          {
-            contracts: reads,
-            listenToBlock: true,
-          },
-          (data) => {
-            const _tableData: Pool[] = [];
-            for (const rowData of chunkArray(data, 5)) {
-              const tokenSymbol = rowData[0].result! as string;
-              const investedAmount = rowData[1].result! as bigint;
-              const decimals = rowData[2].result! as number;
-              const tvl = rowData[3].result! as bigint;
-              const apr = rowData[4].result! as number;
+    // Push read calls for total supply and decimals of each lToken
+    for (const lTokenSymbol of lTokens) {
+      // Retrieve contracts addresses
+      const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
+      const underlyingAddress = getContractAddress(lTokenSymbol.slice(1), publicClient.chain.id);
 
-              _tableData.push({
-                tokenSymbol: tokenSymbol,
-                invested: [investedAmount, decimals],
-                tvl: [tvl, decimals],
-                apr: apr,
-              });
-            }
-            if (!isActionsDialogOpen.current) setTableData(_tableData);
-            else futureTableData.current = _tableData;
-            setInitialFetch(true);
-          },
-        );
-      }
+      // Ensure no address is missing
+      if (!lTokenAddress || !underlyingAddress)
+        throw "Some contracts addresses are missing for the current chain. Cannot watch data.";
+
+      // Populate required reads requests
+      newReadsConfig.push({
+        address: lTokenAddress,
+        abi: lTokenABI,
+        functionName: "balanceOf",
+        args: [walletClient ? walletClient.account.address : zeroAddress],
+      });
+      ["decimals", "totalSupply", "getApr"].forEach((functionName) => {
+        newReadsConfig.push({
+          address: lTokenAddress,
+          abi: lTokenABI,
+          functionName: functionName,
+        });
+      });
+    }
+
+    if (JSON.stringify(newReadsConfig) !== JSON.stringify(readsConfig)) {
+      setIsLoading(true);
+      setReadsConfig(newReadsConfig);
     }
   }
 
-  useEffect(() => {
-    setInitialFetch(false);
-    return watchData();
-  }, [walletClient, publicClient.chain]);
+  useEffect(populateReadsConfig, [publicClient.chain.id, walletClient, readsConfig]);
 
+  useEffect(
+    () =>
+      watchReadContracts(
+        {
+          contracts: readsConfig,
+          listenToBlock: true,
+        },
+        (data) => {
+          const _tableData: Pool[] = [];
+          for (const lTokenSymbol of lTokens) {
+            const underlyingSymbol = lTokenSymbol.slice(1);
+            const investedAmount = data.shift()!.result! as bigint;
+            const decimals = data.shift()!.result! as number;
+            const tvl = data.shift()!.result! as bigint;
+            const apr = data.shift()!.result! as number;
+
+            _tableData.push({
+              tokenSymbol: underlyingSymbol,
+              invested: [investedAmount, decimals],
+              tvl: [tvl, decimals],
+              apr: apr,
+            });
+          }
+
+          // Update table data only if it has changed
+          if (JSONStringify(tableData) != JSONStringify(_tableData)) {
+            if (!isActionsDialogOpen.current) setTableData(_tableData);
+            else futureTableData.current = _tableData;
+          }
+          setIsLoading(false);
+        },
+      ),
+    [readsConfig, tableData, walletClient],
+  );
+
+  console.log("RENDER > AppInvestTokens");
   return (
     <article className={className}>
       <div className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] font-semibold mb-3 px-6 text-fg/80">
@@ -283,7 +275,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
           );
         })}
       </div>
-      {(!initialFetch && (
+      {(isLoading && (
         <div className="w-full flex justify-center items-center mt-10">
           <Spinner />
         </div>

@@ -11,14 +11,17 @@ import { parseUnits } from "viem";
 interface Props {}
 export const AppInvestTVL: FC<Props> = ({}) => {
   const publicClient = usePublicClient();
-  const [rawData, setRawData] = useState<[string, bigint, number][]>([]);
+  const [readsConfig, setReadsConfig] = useState<
+    Parameters<typeof watchReadContracts>[0]["contracts"]
+  >([]);
   const [tvlUsd, setTvlUsd] = useState(0n);
   const lTokens = useAvailableLTokens();
   const [isLoading, setIsLoading] = useState(false);
 
   // This function retrieve symbol, total supply and decimals of each lToken
-  const watchRawData = () => {
-    const contractsConfig = [] as {
+  const populateReadsConfig = () => {
+    //
+    const newReadsConfig = [] as {
       address: `0x${string}`;
       abi: any;
       functionName: string;
@@ -27,56 +30,63 @@ export const AppInvestTVL: FC<Props> = ({}) => {
     // Push read calls for total supply and decimals of each lToken
     for (const lTokenSymbol of lTokens) {
       const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
-      contractsConfig.push({
-        address: lTokenAddress!,
-        abi: lTokenABI,
-        functionName: "totalSupply",
-      });
-      contractsConfig.push({
-        address: lTokenAddress!,
-        abi: lTokenABI,
-        functionName: "decimals",
+
+      // Ensure no address is missing
+      if (!lTokenAddress)
+        throw "Some contracts addresses are missing for the current chain. Cannot watch data.";
+
+      // Populate required reads requests
+      ["totalSupply", "decimals"].forEach((functionName) => {
+        newReadsConfig.push({
+          address: lTokenAddress,
+          abi: lTokenABI,
+          functionName: functionName,
+        });
       });
     }
 
-    // Watch on those read calls
-    return watchReadContracts(
-      {
-        contracts: contractsConfig,
-        listenToBlock: true,
-      },
-      (res) => {
-        const newRawData: [string, bigint, number][] = [];
-        for (const lTokenSymbol of lTokens) {
-          const lTokenTotalSupply = res.shift()?.result as bigint;
-          const lTokenDecimals = res.shift()?.result as number;
-          if (!lTokenTotalSupply || !lTokenDecimals) continue;
-          newRawData.push([lTokenSymbol, lTokenTotalSupply, lTokenDecimals]);
-        }
-        setRawData(newRawData);
-      },
-    );
-  };
-
-  // This function compute the TVL in USD from the raw L-Tokens data
-  const computeTvlUsd = async () => {
-    setIsLoading(true);
-    let newTvlUsd = 0n;
-    for (const lTokenData of rawData) {
-      const usdRate = await getTokenUSDRate(lTokenData[0].slice(1)).then((rate) => rate.toString());
-      newTvlUsd +=
-        (lTokenData[1] * parseUnits(usdRate, lTokenData[2])) / parseUnits("1", lTokenData[2]);
+    if (JSON.stringify(newReadsConfig) !== JSON.stringify(readsConfig)) {
+      setIsLoading(true);
+      setReadsConfig(newReadsConfig);
     }
-    setTvlUsd(newTvlUsd);
-    setIsLoading(false);
   };
 
-  useEffect(watchRawData, []);
+  useEffect(populateReadsConfig, [publicClient.chain.id, readsConfig]);
 
-  useEffect(() => {
-    computeTvlUsd();
-  }, [publicClient, rawData]);
+  useEffect(
+    () =>
+      watchReadContracts(
+        {
+          contracts: readsConfig,
+          listenToBlock: true,
+        },
+        async (data) => {
+          let newTvlUsd = 0n;
+          for (const lTokenSymbol of lTokens) {
+            // Extract data
+            const lTokenTotalSupply = data.shift()!.result! as bigint;
+            const lTokenDecimals = data.shift()!.result! as number;
+            const underlyingSymbol = lTokenSymbol.slice(1);
 
+            // Skip, if data is not available
+            if (!lTokenTotalSupply || !lTokenDecimals) continue;
+
+            // Retrieve underlying token USD rate
+            const usdRate = await getTokenUSDRate(underlyingSymbol).then((rate) => rate.toString());
+
+            newTvlUsd +=
+              (lTokenTotalSupply * parseUnits(usdRate, lTokenDecimals)) /
+              parseUnits("1", lTokenDecimals);
+          }
+
+          if (tvlUsd.toString() !== newTvlUsd.toString()) setTvlUsd(newTvlUsd);
+          setIsLoading(false);
+        },
+      ),
+    [readsConfig, tvlUsd],
+  );
+
+  console.log("RENDER > AppInvestTVL");
   return (
     <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
       <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>

@@ -1,9 +1,5 @@
 "use client";
-import {
-  ConnectButton as _ConnectButton,
-  useAccountModal,
-  useConnectModal,
-} from "@rainbow-me/rainbowkit";
+import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import {
   Button,
