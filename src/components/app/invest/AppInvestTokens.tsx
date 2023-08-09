@@ -223,7 +223,6 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
     [readsConfig, tableData, walletClient],
   );
 
-  console.log("RENDER > AppInvestTokens");
   return (
     <article className={className}>
       <div className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] font-semibold mb-3 px-6 text-fg/80">

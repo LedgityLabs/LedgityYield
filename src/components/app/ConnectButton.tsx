@@ -14,7 +14,7 @@ import {
 import { chains, chainsIcons } from "@/lib/chains";
 import clsx from "clsx";
 import { useSwitchNetwork } from "@/hooks/useSwitchNetwork";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNetwork, usePublicClient, useWalletClient } from "wagmi";
 
 // Used as select value when no network or a wrong one is selected

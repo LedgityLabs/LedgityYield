@@ -86,7 +86,6 @@ export const AppInvestTVL: FC<Props> = ({}) => {
     [readsConfig, tvlUsd],
   );
 
-  console.log("RENDER > AppInvestTVL");
   return (
     <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
       <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
