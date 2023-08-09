@@ -1,3 +1,10 @@
+## [1.134.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.133.0...v1.134.0) (2023-08-09)
+
+
+### Features
+
+* prevent invest components from re-rendering when data hasn't changed ([55929f6](https://github.com/ledgity-labs/Ledgity-Yield/commit/55929f66a06d3336a1f4aabb6cd7e96a9fdba27b))
+
 ## [1.133.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.132.1...v1.133.0) (2023-08-09)
 
 
