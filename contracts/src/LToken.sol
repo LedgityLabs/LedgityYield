@@ -210,8 +210,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Default withdrawer and fund wallet to contract owner address. This prevents
         // any loss of funds if a deposit/withdrawal is made before those are manually set.
-        setWithdrawer(payable(globalOwner_));
-        setFund(payable(globalOwner_));
+        setWithdrawer(payable(owner()));
+        setFund(payable(owner()));
     }
 
     /**

@@ -67,14 +67,14 @@ export const AppLDYToken: FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="">
+              <Link href="https://t.me/LedgityYield">
                 <Button size="small" className="bg-[#229ED9] text-white">
                   <i className="ri-telegram-fill text-[1.33rem] mr-1.5"></i>Join our Telegram
                 </Button>
               </Link>
             </li>
             <li>
-              <Link href="">
+              <Link href="/">
                 <Button size="small" className="bg-[#7289da] text-white">
                   <i className="ri-discord-fill text-[1.33rem] mr-1.5"></i>Join our Discord
                 </Button>
