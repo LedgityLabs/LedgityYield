@@ -10,7 +10,7 @@ export const AppLDYToken: FC = () => {
       <Card className="flex flex-col items-center gap-11 pt-10">
         <h2 className="text-center font-bold text-3xl font-heading text-fg/90">Lockdrop</h2>
         <p className="font-bold text-lg text-center text-primary -mt-4">
-          Lock USDC and receive very first LDY tokens.
+          <span className="text-xl">Lock USDC and receive very first LDY tokens.</span>
           <br />
           <span className="text-fg">You&apos;ll receive back your USDC after the lock period.</span>
         </p>
