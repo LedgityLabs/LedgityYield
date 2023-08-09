@@ -1,3 +1,10 @@
+## [1.131.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.130.0...v1.131.0) (2023-08-08)
+
+
+### Features
+
+* open app to users ([6658554](https://github.com/ledgity-labs/Ledgity-Yield/commit/6658554d65e66cc93fce30f78decda36ff11a215))
+
 ## [1.130.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.129.0...v1.130.0) (2023-08-08)
 
 
