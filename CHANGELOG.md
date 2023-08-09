@@ -1,3 +1,10 @@
+## [1.135.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.134.0...v1.135.0) (2023-08-09)
+
+
+### Features
+
+* upload new og image ([a8a6233](https://github.com/ledgity-labs/Ledgity-Yield/commit/a8a6233cce1f177376dbc46d8830a623b62ad378))
+
 ## [1.134.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.133.0...v1.134.0) (2023-08-09)
 
 
