@@ -1,3 +1,10 @@
+## [1.132.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.132.0...v1.132.1) (2023-08-09)
+
+
+### Fixes
+
+* missing links urls ([741e62a](https://github.com/ledgity-labs/Ledgity-Yield/commit/741e62a50cbbb516007b4482652d9b42e38c2378))
+
 ## [1.132.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.131.0...v1.132.0) (2023-08-09)
 
 
