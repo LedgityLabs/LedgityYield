@@ -1,3 +1,17 @@
+## [1.132.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.131.0...v1.132.0) (2023-08-09)
+
+
+### Features
+
+* publish lockdrop teasing page ([26670ef](https://github.com/ledgity-labs/Ledgity-Yield/commit/26670efeb4664980f4ef3ec77b47b44273e45126))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.4.9 ([3a5bba2](https://github.com/ledgity-labs/Ledgity-Yield/commit/3a5bba2177ffe83b008a24f01a6c5a0f05d0262f))
+* **deps:** update dependency @types/react to v18.2.19 ([7dc5ba8](https://github.com/ledgity-labs/Ledgity-Yield/commit/7dc5ba82762a1c332d9b7840afd06e89620a361a))
+* **deps:** update ipfs/go-ipfs docker tag to v0.22.0 ([2c4c016](https://github.com/ledgity-labs/Ledgity-Yield/commit/2c4c016733b25e339a304c1d13a8366416496fb5))
+
 ## [1.131.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.130.0...v1.131.0) (2023-08-08)
 
 
