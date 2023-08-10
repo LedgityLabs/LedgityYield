@@ -54,7 +54,7 @@ export const Card: FC<CardProps> = ({
           default: "rounded-[1.8rem] before:rounded-[1.7rem]",
           full: "rounded-full before:rounded-full",
         }[radius],
-        className
+        className,
       )}
       {...props}
     >

@@ -8,6 +8,8 @@
     /* Default mouse position for all cards. This allows showing cards colored even before hydration. */
     --mouse-x: -1000px;
     --mouse-y: -1000px;
+    --circle-size: 0px;
+    --circle-intensity: 0;
   }
 
   * {
