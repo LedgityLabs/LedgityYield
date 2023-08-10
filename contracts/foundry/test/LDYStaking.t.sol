@@ -8,11 +8,11 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
-import {LDYStaking} from "../../dev/LDYStaking.sol";
+import {WIP_LDYStaking as LDYStaking} from "../../src/dev/LDYStaking.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
-import {GenericERC20} from "../../dev/GenericERC20.sol";
+import {GenericERC20} from "../../src/dev/GenericERC20.sol";
 
 import {SUD} from "../../src/libs/SUD.sol";
 import {APRHistory as APRH} from "../../src/libs/APRHistory.sol";

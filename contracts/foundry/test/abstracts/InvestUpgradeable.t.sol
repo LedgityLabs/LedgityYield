@@ -11,7 +11,7 @@ import {GlobalOwner} from "../../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../../src/GlobalBlacklist.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
-import {GenericERC20} from "../../../dev/GenericERC20.sol";
+import {GenericERC20} from "../../../src/dev/GenericERC20.sol";
 
 import {SUD} from "../../../src/libs/SUD.sol";
 import {APRHistory as APRH} from "../../../src/libs/APRHistory.sol";

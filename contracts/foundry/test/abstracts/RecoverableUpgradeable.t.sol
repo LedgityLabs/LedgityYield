@@ -9,7 +9,7 @@ import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/U
 import {RecoverableUpgradeable} from "../../../src/abstracts/RecoverableUpgradeable.sol";
 import {GlobalOwner} from "../../../src/GlobalOwner.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
-import {GenericERC20} from "../../../dev/GenericERC20.sol";
+import {GenericERC20} from "../../../src/dev/GenericERC20.sol";
 
 contract TestedContract is Initializable, UUPSUpgradeable, RecoverableUpgradeable {
     constructor() {
