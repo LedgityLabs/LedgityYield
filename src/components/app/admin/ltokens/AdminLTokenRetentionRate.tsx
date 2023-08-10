@@ -3,7 +3,6 @@ import { RateInput } from "@/components/ui/RateInput";
 import { useLTokenRetentionRateUd7x3, usePrepareLTokenSetRetentionRate } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
 
@@ -23,6 +22,7 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
     address: lTokenAddress,
     args: [newRetentionRate],
   });
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   return (
     <AdminBrick title="Retention rate">
@@ -35,11 +35,13 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
       </p>
       <div className="flex justify-center items-end gap-3">
         <RateInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setNewRetentionRate(Number(parseUnits(e.target.value, 3)))
-          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setNewRetentionRate(Number(parseUnits(e.target.value, 3)));
+            if (hasUserInteracted === false) setHasUserInteracted(true);
+            if (e.target.value === "") setHasUserInteracted(false);
+          }}
         />
-        <TxButton preparation={preparation} size="medium">
+        <TxButton preparation={preparation} hasUserInteracted={hasUserInteracted} size="medium">
           Set
         </TxButton>
       </div>

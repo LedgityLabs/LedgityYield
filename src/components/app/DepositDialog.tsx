@@ -36,6 +36,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
     args: [walletClient?.account.address || zeroAddress],
     watch: true,
   });
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
@@ -75,9 +76,11 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             maxValue={underlyingBalance}
             decimals={decimals}
             symbol={underlyingSymbol}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setDepositedAmount(parseUnits(e.target.value, decimals!))
-            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setDepositedAmount(parseUnits(e.target.value, decimals!));
+              if (hasUserInteracted === false) setHasUserInteracted(true);
+              if (e.target.value === "") setHasUserInteracted(false);
+            }}
           />
           <AllowanceTxButton
             size="medium"
@@ -92,6 +95,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
               depositedAmount,
               decimals!,
             )} L${underlyingSymbol}`}
+            hasUserInteracted={hasUserInteracted}
           >
             Deposit
           </AllowanceTxButton>

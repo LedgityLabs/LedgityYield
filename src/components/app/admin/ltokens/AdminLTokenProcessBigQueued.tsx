@@ -15,6 +15,7 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
     address: lTokenAddress,
     args: [requestId],
   });
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   return (
     <AdminBrick title="Process big queued request">
@@ -25,11 +26,15 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
       <div className="flex justify-center items-end gap-3">
         <Input
           type="number"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setRequestId(BigInt(e.target.value))}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setRequestId(BigInt(e.target.value));
+            if (hasUserInteracted === false) setHasUserInteracted(true);
+            if (e.target.value === "") setHasUserInteracted(false);
+          }}
           placeholder="Request ID"
           step={1}
         />
-        <TxButton preparation={preparation} size="medium">
+        <TxButton preparation={preparation} hasUserInteracted={hasUserInteracted} size="medium">
           Process
         </TxButton>
       </div>

@@ -19,20 +19,23 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
     address: lTokenAddress,
     args: [repatriatedAmount],
   });
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   return (
-    <AdminBrick title="Fund contract">
+    <AdminBrick title="Repatriate funds">
       <p>
         This utility can only be called by the fund wallet and will safely transfer a given amount
         of {lTokenSymbol.slice(1)} from fund to {lTokenSymbol} contract.
       </p>
       <div className="flex justify-center items-end gap-3">
         <AmountInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setRepatriatedAmount(parseUnits(e.target.value, lTokenDecimals!))
-          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setRepatriatedAmount(parseUnits(e.target.value, lTokenDecimals!));
+            if (hasUserInteracted === false) setHasUserInteracted(true);
+            if (e.target.value === "") setHasUserInteracted(false);
+          }}
         />
-        <TxButton preparation={preparation} size="medium">
+        <TxButton preparation={preparation} hasUserInteracted={hasUserInteracted} size="medium">
           Fund
         </TxButton>
       </div>

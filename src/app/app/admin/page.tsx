@@ -14,7 +14,7 @@ import { AdminPause } from "@/components/app/admin/pause/AdminPause";
 const Page: NextPage = () => {
   const publicClient = usePublicClient();
   if (!publicClient.chain) return null;
-  const isTestnet = !publicClient.chain?.testnet || !(publicClient.chain.id === 31337);
+  const isLocalnet = publicClient.chain.id === 31337;
   return (
     <>
       <h2 className="text-center font-bold text-4xl font-heading text-fg/90">Admin</h2>
@@ -25,18 +25,18 @@ const Page: NextPage = () => {
         <TabsList className="mt-6 mb-6">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="ltokens">L-Tokens</TabsTrigger>
-          <TabsTrigger value="staking">Staking</TabsTrigger>
+          {/* <TabsTrigger value="staking">Staking</TabsTrigger> */}
           <TabsTrigger value="recover">Recover</TabsTrigger>
           <TabsTrigger value="ownership">Ownership</TabsTrigger>
           <TabsTrigger value="pause">Pause</TabsTrigger>
           <TabsTrigger value="blacklist">Blacklist</TabsTrigger>
-          {isTestnet && (
+          {isLocalnet && (
             <TabsTrigger value="testing" className="!text-blue-500">
               Testing
             </TabsTrigger>
           )}
         </TabsList>
-        <div className="[&_>_*]:animate-fadeAndMoveIn">
+        <div className="[&_>_*]:animate-fadeAndMoveIn pb-10">
           <TabsContent value="dashboard">
             <AdminDashboard />
           </TabsContent>
@@ -65,7 +65,7 @@ const Page: NextPage = () => {
             <AdminBlacklist />
           </TabsContent>
 
-          {isTestnet && (
+          {isLocalnet && (
             <TabsContent value="testing">
               <AdminTesting />
             </TabsContent>

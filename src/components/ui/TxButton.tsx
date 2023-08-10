@@ -13,12 +13,15 @@ import { BaseError } from "viem";
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: ReturnType<typeof usePrepareContractWrite>;
   transactionSummary?: string | ReactNode;
+  // This prevents displaying errors when user hasn't interacted with the button or input yet
+  hasUserInteracted?: boolean;
 }
 
 export const TxButton: FC<Props> = ({
   preparation,
   transactionSummary = "",
   disabled,
+  hasUserInteracted = false,
   ...props
 }) => {
   const { isSwitching } = useSwitchNetwork();
@@ -58,7 +61,12 @@ export const TxButton: FC<Props> = ({
         <Dialog>
           <Tooltip
             open={
-              walletClient && preparation.isError && !isLoading && !isSwitching ? true : undefined
+              hasUserInteracted &&
+              (!walletClient || preparation.isError) &&
+              !isLoading &&
+              !isSwitching
+                ? true
+                : undefined
             }
           >
             <TooltipTrigger>

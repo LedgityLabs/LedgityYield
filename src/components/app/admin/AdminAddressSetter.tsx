@@ -35,6 +35,7 @@ export const AdminAddressSetter: FC<Props> = ({
     functionName: setterFunctionName,
     args: [newAddress],
   });
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   return (
     <div className="flex flex-col gap-5">
@@ -45,10 +46,19 @@ export const AdminAddressSetter: FC<Props> = ({
       <div className="flex justify-center items-end gap-3">
         <Input
           type="text"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setNewAddress(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setNewAddress(e.target.value);
+            if (hasUserInteracted === false) setHasUserInteracted(true);
+            if (e.target.value === "") setHasUserInteracted(false);
+          }}
         />
-        {/* @ts-ignore */}
-        <TxButton preparation={preparation} disabled={newAddress === zeroAddress} size="medium">
+        <TxButton
+          size="medium"
+          // @ts-ignore
+          preparation={preparation}
+          disabled={newAddress === zeroAddress}
+          hasUserInteracted={hasUserInteracted}
+        >
           {txButtonName}
         </TxButton>
       </div>

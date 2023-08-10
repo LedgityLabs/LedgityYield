@@ -34,6 +34,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
     args: [walletClient?.account.address || zeroAddress],
     watch: true,
   });
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
@@ -95,9 +96,11 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             maxValue={balance}
             decimals={decimals}
             symbol={`L${underlyingSymbol}`}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setWithdrawnAmount(parseUnits(e.target.value, decimals!))
-            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setWithdrawnAmount(parseUnits(e.target.value, decimals!));
+              if (hasUserInteracted === false) setHasUserInteracted(true);
+              if (e.target.value === "") setHasUserInteracted(false);
+            }}
           />
           {/* If instant withdrawal is possible actually */}
           {(!instantWithdrawalalPreparation.isError && (
@@ -111,6 +114,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                   {formatUnits(withdrawnAmount, decimals!)} {underlyingSymbol}
                 </p>
               }
+              hasUserInteracted={hasUserInteracted}
             >
               Withdraw
             </TxButton>
@@ -126,6 +130,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                   {formatUnits(withdrawnAmount, decimals!)} {underlyingSymbol}
                 </p>
               }
+              hasUserInteracted={hasUserInteracted}
             >
               Request
             </TxButton>

@@ -16,6 +16,8 @@ interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   amount?: bigint;
   preparation: ReturnType<typeof usePrepareContractWrite>;
   transactionSummary?: string;
+  // This prevents displaying errors when user hasn't interacted with the button or input yet
+  hasUserInteracted?: boolean;
 }
 /**
  * A version of the TxButton that allows to ensure and set (if needed) a given ERC20 allowance before
@@ -27,6 +29,7 @@ export const AllowanceTxButton: FC<Props> = ({
   amount = 0n,
   preparation,
   transactionSummary = "",
+  hasUserInteracted = false,
   ...props
 }) => {
   const { data: walletClient } = useWalletClient();
@@ -46,14 +49,20 @@ export const AllowanceTxButton: FC<Props> = ({
   }, [allowance]);
 
   if (allowance && allowance >= amount) {
-    return <TxButton preparation={preparation} transactionSummary={transactionSummary} {...props} />;
+    return (
+      <TxButton preparation={preparation} transactionSummary={transactionSummary} {...props} />
+    );
   } else {
     return (
       <TxButton
         preparation={allowancePreparation}
-        transactionSummary={`Allow Ledgity Yield to spend ${formatUnits(amount, decimals!)} ${symbol}`}
+        transactionSummary={`Allow Ledgity Yield to spend ${formatUnits(
+          amount,
+          decimals!,
+        )} ${symbol}`}
         {...props}
         disabled={amount === 0n}
+        hasUserInteracted={hasUserInteracted}
       >
         Allow
       </TxButton>
