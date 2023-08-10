@@ -1,3 +1,10 @@
+## [1.137.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.137.0...v1.137.1) (2023-08-10)
+
+
+### Fixes
+
+* fix getContractABI() and admin LTokens addresses ([8080c1a](https://github.com/ledgity-labs/Ledgity-Yield/commit/8080c1a35fbbfeda007ed2af12d71e57f22def0f))
+
 ## [1.137.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.136.0...v1.137.0) (2023-08-10)
 
 
