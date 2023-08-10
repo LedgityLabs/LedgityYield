@@ -1,3 +1,10 @@
+## [1.139.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.138.1...v1.139.0) (2023-08-10)
+
+
+### Features
+
+* create the dots menu + new Popover component  + add Discord in site's footer ([259c394](https://github.com/ledgity-labs/Ledgity-Yield/commit/259c394497defbba3d922d371ddb4a550a766b71))
+
 ## [1.138.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.138.0...v1.138.1) (2023-08-10)
 
 
