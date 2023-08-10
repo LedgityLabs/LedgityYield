@@ -724,7 +724,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             // loop and properly end the function call. This prevents an attacker from
             // blocking the withdrawal processing by creating a ton of tiny requests so
             // this function call cannot fit anymore in block gas limit.
-            if (gasleft() < 200_000) break;
+            // if (gasleft() < 200_000) break;
 
             // Retrieve request data
             WithdrawalRequest memory request = withdrawalQueue[nextRequestId];

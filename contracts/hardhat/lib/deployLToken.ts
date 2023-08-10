@@ -45,10 +45,6 @@ export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => 
       underlyingAddress = dependencies[underlyingSymbol][chainId];
     }
 
-    console.log("underlyingAddress");
-    console.log(underlyingAddress);
-    console.log(chainId);
-
     // Deploy the LToken
     await deployments.deploy(lTokenSymbol, {
       contract: "LToken",
