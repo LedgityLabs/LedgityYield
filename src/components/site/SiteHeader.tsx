@@ -4,6 +4,7 @@ import { Button } from "@/components/ui";
 import Logo from "@/components/ui/Logo";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
+import { DotsMenu } from "../DotsMenu";
 
 const SiteHeader: FC = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -30,12 +31,7 @@ const SiteHeader: FC = () => {
             </Button>
           </Link>
 
-          <Button
-            className="flex justify-center items-center font-bold w-12 sm:static absolute top-6 right-6"
-            variant="outline"
-          >
-            <i className="ri-more-2-fill text-2xl "></i>
-          </Button>
+          <DotsMenu className="sm:static absolute top-6 right-6" />
         </div>
       </nav>
     </header>

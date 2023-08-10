@@ -196,26 +196,28 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
           listenToBlock: true,
         },
         (data) => {
-          const _tableData: Pool[] = [];
-          for (const lTokenSymbol of lTokens) {
-            const underlyingSymbol = lTokenSymbol.slice(1);
-            const investedAmount = data.shift()!.result! as bigint;
-            const decimals = data.shift()!.result! as number;
-            const tvl = data.shift()!.result! as bigint;
-            const apr = data.shift()!.result! as number;
+          if (data.length > 0) {
+            const _tableData: Pool[] = [];
+            for (const lTokenSymbol of lTokens) {
+              const underlyingSymbol = lTokenSymbol.slice(1);
+              const investedAmount = data.shift()!.result! as bigint;
+              const decimals = data.shift()!.result! as number;
+              const tvl = data.shift()!.result! as bigint;
+              const apr = data.shift()!.result! as number;
 
-            _tableData.push({
-              tokenSymbol: underlyingSymbol,
-              invested: [investedAmount, decimals],
-              tvl: [tvl, decimals],
-              apr: apr,
-            });
-          }
+              _tableData.push({
+                tokenSymbol: underlyingSymbol,
+                invested: [investedAmount, decimals],
+                tvl: [tvl, decimals],
+                apr: apr,
+              });
+            }
 
-          // Update table data only if it has changed
-          if (JSONStringify(tableData) != JSONStringify(_tableData)) {
-            if (!isActionsDialogOpen.current) setTableData(_tableData);
-            else futureTableData.current = _tableData;
+            // Update table data only if it has changed
+            if (JSONStringify(tableData) != JSONStringify(_tableData)) {
+              if (!isActionsDialogOpen.current) setTableData(_tableData);
+              else futureTableData.current = _tableData;
+            }
           }
           setIsLoading(false);
         },

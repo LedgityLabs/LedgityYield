@@ -18,8 +18,8 @@ const Page: NextPage = () => {
         <TabsTrigger value="invest">Invest</TabsTrigger>
         <TabsTrigger value="ldy-token">
           LDY Token
-          <span className="absolute -top-5 -right-[50%] bg-primary text-bg text-xs rounded-md px-2 py-1">
-            Early investors
+          <span className="absolute -top-5 -right-[50%] bg-primary text-bg text-[0.8rem] rounded-xl px-[0.47rem] py-[0.04rem] text-center">
+            Early Investors
           </span>
         </TabsTrigger>
         {/* <TabsTrigger value="staking">Staking</TabsTrigger> */}

@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Button } from "@/components/ui";
 import Logo from "@/components/ui/Logo";
 import { ConnectButton } from "@/components/app/ConnectButton";
+import { DotsMenu } from "../DotsMenu";
 
 const AppHeader: FC = () => {
   return (
@@ -12,9 +13,7 @@ const AppHeader: FC = () => {
 
         <div className="flex gap-6">
           <ConnectButton />
-          <Button className="flex justify-center items-center font-bold w-12" variant="outline">
-            <i className="ri-more-2-fill text-2xl "></i>
-          </Button>
+          <DotsMenu />
         </div>
       </nav>
     </header>

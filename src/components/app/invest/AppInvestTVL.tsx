@@ -61,25 +61,29 @@ export const AppInvestTVL: FC<Props> = ({}) => {
           listenToBlock: true,
         },
         async (data) => {
-          let newTvlUsd = 0n;
-          for (const lTokenSymbol of lTokens) {
-            // Extract data
-            const lTokenTotalSupply = data.shift()!.result! as bigint;
-            const lTokenDecimals = data.shift()!.result! as number;
-            const underlyingSymbol = lTokenSymbol.slice(1);
+          if (data.length > 0) {
+            let newTvlUsd = 0n;
+            for (const lTokenSymbol of lTokens) {
+              // Extract data
+              const lTokenTotalSupply = data.shift()!.result! as bigint;
+              const lTokenDecimals = data.shift()!.result! as number;
+              const underlyingSymbol = lTokenSymbol.slice(1);
 
-            // Skip, if data is not available
-            if (!lTokenTotalSupply || !lTokenDecimals) continue;
+              // Skip, if data is not available
+              if (!lTokenTotalSupply || !lTokenDecimals) continue;
 
-            // Retrieve underlying token USD rate
-            const usdRate = await getTokenUSDRate(underlyingSymbol).then((rate) => rate.toString());
+              // Retrieve underlying token USD rate
+              const usdRate = await getTokenUSDRate(underlyingSymbol).then((rate) =>
+                rate.toString(),
+              );
 
-            newTvlUsd +=
-              (lTokenTotalSupply * parseUnits(usdRate, lTokenDecimals)) /
-              parseUnits("1", lTokenDecimals);
+              newTvlUsd +=
+                (lTokenTotalSupply * parseUnits(usdRate, lTokenDecimals)) /
+                parseUnits("1", lTokenDecimals);
+            }
+
+            if (tvlUsd.toString() !== newTvlUsd.toString()) setTvlUsd(newTvlUsd);
           }
-
-          if (tvlUsd.toString() !== newTvlUsd.toString()) setTvlUsd(newTvlUsd);
           setIsLoading(false);
         },
       ),
