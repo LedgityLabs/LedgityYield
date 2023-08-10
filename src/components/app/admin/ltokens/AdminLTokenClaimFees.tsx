@@ -1,5 +1,5 @@
 import { Amount, Card, TxButton } from "@/components/ui";
-import { useLTokenUnclaimedFees, usePrepareLTokenClaimFees } from "@/generated";
+import { useLTokenDecimals, useLTokenUnclaimedFees, usePrepareLTokenClaimFees } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { AdminBrick } from "../AdminBrick";
@@ -14,12 +14,19 @@ export const AdminLTokenClaimFees: FC<Props> = ({ lTokenSymbol }) => {
     address: lTokenAddress,
     watch: true,
   });
+  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
   const preparation = usePrepareLTokenClaimFees({ address: lTokenAddress });
 
   return (
     <AdminBrick title="Unclaimed fees">
       <p>
-        Current amount: <Amount value={unclaimedFees} className="font-bold" suffix="LDY" />
+        Current amount:{" "}
+        <Amount
+          value={unclaimedFees}
+          className="font-bold"
+          suffix={lTokenSymbol}
+          decimals={decimals}
+        />
       </p>
       <div className="flex justify-center items-end gap-3">
         <TxButton preparation={preparation} size="medium" disabled={unclaimedFees === 0n}>
