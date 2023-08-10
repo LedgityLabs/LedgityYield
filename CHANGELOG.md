@@ -1,3 +1,10 @@
+## [1.137.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.136.0...v1.137.0) (2023-08-10)
+
+
+### Features
+
+* show error messages only when the user currently interacts with the input ([68212f9](https://github.com/ledgity-labs/Ledgity-Yield/commit/68212f93a29ecadde6f981c1686660dbd10decd4))
+
 ## [1.136.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.135.1...v1.136.0) (2023-08-10)
 
 
