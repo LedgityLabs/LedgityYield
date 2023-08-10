@@ -1,3 +1,15 @@
+## [1.135.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.135.0...v1.135.1) (2023-08-10)
+
+
+### Fixes
+
+* error message were broken since Viem update in errors representation ([436f043](https://github.com/ledgity-labs/Ledgity-Yield/commit/436f04391fa9aa45f7095f3bea3050286d250ff5))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.20 ([71a71e5](https://github.com/ledgity-labs/Ledgity-Yield/commit/71a71e5b5cde3bdaee95f5d32222ee53106bf01e))
+
 ## [1.135.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.134.0...v1.135.0) (2023-08-09)
 
 
