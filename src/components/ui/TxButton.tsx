@@ -4,30 +4,38 @@ import { Button } from "./Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./Dialog";
 import { Spinner } from "./Spinner";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
-import { useContractWrite, usePrepareContractWrite, useWalletClient } from "wagmi";
+import { useContractWrite, usePrepareContractWrite, usePublicClient, useWalletClient } from "wagmi";
 import { useSwitchNetwork } from "@/hooks";
 import { prettyErrorMessage } from "@/lib/prettyErrorMessage";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import { BaseError } from "viem";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: ReturnType<typeof usePrepareContractWrite>;
   transactionSummary?: string | ReactNode;
 }
 
-export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disabled, ...props }) => {
+export const TxButton: FC<Props> = ({
+  preparation,
+  transactionSummary = "",
+  disabled,
+  ...props
+}) => {
   const { isSwitching } = useSwitchNetwork();
   const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   const {
     write,
     isLoading: txIsLoading,
     isError: txIsError,
     isSuccess: txIsSuccess,
     error: txError,
-    status: txStatus,
   } = useContractWrite(preparation.config);
+
+  // Refetch preparation on wallet or network change
   useEffect(() => {
     if (walletClient) preparation.refetch();
-  }, [walletClient]);
+  }, [walletClient, publicClient]);
 
   const isLoading = preparation.isFetching || preparation.isLoading || txIsLoading;
 
@@ -41,7 +49,7 @@ export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disa
     tooltipMessage = "No wallet connected";
   } else if (preparation.error) {
     tooltipIsError = true;
-    tooltipMessage = prettyErrorMessage(preparation.error);
+    tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
   }
 
   return (
@@ -49,7 +57,9 @@ export const TxButton: FC<Props> = ({ preparation, transactionSummary = "", disa
       <div className="relative flex flex-col">
         <Dialog>
           <Tooltip
-            open={walletClient && preparation.isError && !isLoading && !isSwitching ? true : undefined}
+            open={
+              walletClient && preparation.isError && !isLoading && !isSwitching ? true : undefined
+            }
           >
             <TooltipTrigger>
               <DialogTrigger asChild>

@@ -1,3 +1,4 @@
+import { BaseError } from "viem";
 export const displayedErrors: { [key: string]: string } = {
   // From Ownable.sol
   "Ownable: caller is not the owner": "Only contract owner can call this",
@@ -77,7 +78,7 @@ export const displayedErrors: { [key: string]: string } = {
   L53: "Insufficient balance",
   L54: "Amount exceeds max withdrawal amount",
   L55: "Must attach 0.004 ETH as processing fees",
-  L56: "Failed fees forward",
+  L56: "Fees forwarding failed. Please contact support.",
   L57: "Request doesn't belong to you",
   L58: "Insufficient balance",
   L59: "Retention rate exceeded",
@@ -85,19 +86,35 @@ export const displayedErrors: { [key: string]: string } = {
   L61: "Insufficient funds",
 };
 
-export const prettyErrorMessage = (error: Error) => {
-  let prettyError = "An unknown error occurred";
-  //@ts-ignore
-  let details = error.details;
-  if (details) {
-    // If ethjs-query error
-    if (details.startsWith("[ethjs-query]")) {
-      details = details.replace("[ethjs-query] while formatting outputs from RPC '", "");
-      details = details.slice(0, -1);
-      const errObj = JSON.parse(details);
-      prettyError = errObj.value.data.message;
-    } else prettyError = details.split("'")[1];
-  } else if (error.message) prettyError = error.message;
+export const prettyErrorMessage = (error: BaseError | Error) => {
+  console.log("PRETTY ERROR MESSAGE");
+  console.log(error);
+  // Populate default error message
+  let prettyError = "Unknown error. Please contact support.";
+
+  // If this is a Viem error
+  if (error instanceof BaseError) {
+    // If the error is a function call error
+    if (error.name === "ContractFunctionExecutionError") {
+      // Extract contract's error message
+      prettyError = error.shortMessage.split("\n")[1];
+    }
+  }
+  // For other errors, use the error message
+  else if (error.message) prettyError = error.message;
+
+  // //@ts-ignore
+  // let details = error.details;
+  // console.log(details);
+  // if (details) {
+  //   // If ethjs-query error
+  //   if (details.startsWith("[ethjs-query]")) {
+  //     details = details.replace("[ethjs-query] while formatting outputs from RPC '", "");
+  //     details = details.slice(0, -1);
+  //     const errObj = JSON.parse(details);
+  //     prettyError = errObj.value.data.message;
+  //   } else prettyError = details.split("'")[1];
+  // }
 
   // If the error has a displayed override, use it instead
   const displayOverride = displayedErrors[prettyError];

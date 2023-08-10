@@ -20,7 +20,7 @@ import { zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
 import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
-import { JSONStringify } from "@/lib/json-stringify";
+import { JSONStringify } from "@/lib/jsonStringify";
 
 interface Pool {
   tokenSymbol: string;
