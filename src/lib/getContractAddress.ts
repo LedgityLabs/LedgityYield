@@ -3,25 +3,26 @@ import dependencies from "../../contracts/dependencies.json";
 
 export const getContractAddress = (
   contractName: string,
-  networkId: number | string,
+  chainId: number | string,
 ): `0x${string}` | undefined => {
   let contractAddress: `0x${string}` | undefined;
-  // Ensure networkId is a string
-  networkId = networkId.toString();
+
+  // Ensure chainId is a string
+  chainId = chainId.toString();
 
   // Search address in dependencies
   // @ts-ignore
-  if (dependencies[contractName] && dependencies[contractName][networkId]) {
+  if (dependencies[contractName] && dependencies[contractName][chainId]) {
     // @ts-ignore
-    contractAddress = dependencies[contractName][networkId];
+    contractAddress = dependencies[contractName][chainId];
   }
 
   // If not found yet, search it in deployed contracts
   if (!contractAddress) {
     // @ts-ignore
-    if (deployments[networkId] && deployments[networkId][0].contracts[contractName]) {
+    if (deployments[chainId] && deployments[chainId][0].contracts[contractName]) {
       // @ts-ignore
-      contractAddress = deployments[networkId][0].contracts[contractName].address;
+      contractAddress = deployments[chainId][0].contracts[contractName].address;
     }
   }
 

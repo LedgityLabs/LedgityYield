@@ -4,6 +4,7 @@ import { ChangeEvent, FC, useState } from "react";
 import { useContractRead, usePrepareContractWrite } from "wagmi";
 import { getContractABI } from "@/lib/getContractABI";
 import { zeroAddress } from "viem";
+import { useContractABI } from "@/hooks/useContractABI";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   displayName?: string;
@@ -21,7 +22,7 @@ export const AdminAddressSetter: FC<Props> = ({
   txButtonName = "Set",
 }) => {
   const contractAddress = useContractAddress(contractName);
-  const contractABI = getContractABI(contractName);
+  const contractABI = useContractABI(contractName);
   const { data: currentAddress } = useContractRead({
     address: contractAddress,
     abi: contractABI,

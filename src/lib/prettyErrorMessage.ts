@@ -92,6 +92,10 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
 
   // If this is a Viem error
   if (error instanceof BaseError) {
+    // If this is a address arg format error
+    if (error.name === "InvalidAddressError") {
+      prettyError = "Invalid address format";
+    }
     // If the error is a function call error
     if (error.name === "ContractFunctionExecutionError") {
       // Extract contract's error message

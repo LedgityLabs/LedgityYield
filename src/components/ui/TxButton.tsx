@@ -1,5 +1,5 @@
 "use client";
-import { FC, type ReactNode, useEffect } from "react";
+import { FC, type ReactNode, useEffect, useState } from "react";
 import { Button } from "./Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./Dialog";
 import { Spinner } from "./Spinner";
@@ -50,7 +50,7 @@ export const TxButton: FC<Props> = ({
   else if (!walletClient) {
     tooltipIsError = true;
     tooltipMessage = "No wallet connected";
-  } else if (preparation.error) {
+  } else if (preparation.isError) {
     tooltipIsError = true;
     tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
   }
