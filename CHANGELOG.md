@@ -1,3 +1,15 @@
+## [1.138.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.137.1...v1.138.0) (2023-08-10)
+
+
+### Features
+
+* add section to process withdrawals into L-Tokens admin ([1b7c38f](https://github.com/ledgity-labs/Ledgity-Yield/commit/1b7c38ffbb61c6e712646359000e6ff00cef95fe))
+
+
+### Fixes
+
+* unclaimed fees section of L-Tokens admin was using the wrong currency ([315b98e](https://github.com/ledgity-labs/Ledgity-Yield/commit/315b98ea84530bafed3b3f5749d96a2be4fabd30))
+
 ## [1.137.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.137.0...v1.137.1) (2023-08-10)
 
 
