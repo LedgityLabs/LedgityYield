@@ -1,3 +1,10 @@
+## [1.136.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.135.1...v1.136.0) (2023-08-10)
+
+
+### Features
+
+* new dialog closing crosses design ([63e3a33](https://github.com/ledgity-labs/Ledgity-Yield/commit/63e3a3361b3f775136084b310829a6bdb704c94f))
+
 ## [1.135.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.135.0...v1.135.1) (2023-08-10)
 
 
