@@ -67,8 +67,6 @@ export const TxButton: FC<Props> = ({
                   {...props}
                   disabled={disabled || !walletClient || !write || isSwitching}
                   isLoading={isLoading}
-                  // isError={isError}
-                  // isSuccess={isSuccess}
                   onClick={() => write!()}
                 />
               </DialogTrigger>
@@ -83,6 +81,7 @@ export const TxButton: FC<Props> = ({
               </TooltipContent>
             )}
           </Tooltip>
+          {/* Transaction dialog */}
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-center">

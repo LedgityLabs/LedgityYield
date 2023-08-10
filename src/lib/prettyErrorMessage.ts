@@ -87,8 +87,6 @@ export const displayedErrors: { [key: string]: string } = {
 };
 
 export const prettyErrorMessage = (error: BaseError | Error) => {
-  console.log("PRETTY ERROR MESSAGE");
-  console.log(error);
   // Populate default error message
   let prettyError = "Unknown error. Please contact support.";
 

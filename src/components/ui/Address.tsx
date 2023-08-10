@@ -46,7 +46,7 @@ export const Address: FC<Props> = ({
   tooltip = false,
 }) => {
   if (!address) return <span>Unknown</span>;
-  const formattedAddress = address.slice(0, 5) + "..." + address.slice(-4);
+  const formattedAddress = address.slice(0, 6) + "..." + address.slice(-3);
   return (
     <span className="inline-flex gap-2">
       <span>
