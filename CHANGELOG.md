@@ -1,3 +1,15 @@
+## [1.138.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.138.0...v1.138.1) (2023-08-10)
+
+
+### Fixes
+
+* card and Cubes background was not shown until some CSS vars are set ([45e77df](https://github.com/ledgity-labs/Ledgity-Yield/commit/45e77df8d28f3c6d08e7e0966ca2f8686fcfa204))
+
+
+### Tests
+
+* fix broken imports + adjust gasleft threshold in LToken with accurate estimations ([09280a6](https://github.com/ledgity-labs/Ledgity-Yield/commit/09280a6c5352d15dd21c3db4794fd485867935ac))
+
 ## [1.138.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.137.1...v1.138.0) (2023-08-10)
 
 
