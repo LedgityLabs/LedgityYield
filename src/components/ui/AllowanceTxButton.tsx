@@ -9,6 +9,7 @@ import {
 } from "@/generated";
 import { formatUnits, zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
+import clsx from "clsx";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   token: `0x${string}`;
@@ -48,13 +49,17 @@ export const AllowanceTxButton: FC<Props> = ({
     preparation.refetch();
   }, [allowance]);
 
-  if (allowance && allowance >= amount) {
-    return (
-      <TxButton preparation={preparation} transactionSummary={transactionSummary} {...props} />
-    );
-  } else {
-    return (
+  const hasEnoughAllowance = Boolean(allowance && allowance >= amount);
+  return (
+    <div>
       <TxButton
+        className={clsx(!hasEnoughAllowance && "hidden")}
+        preparation={preparation}
+        transactionSummary={transactionSummary}
+        {...props}
+      />
+      <TxButton
+        className={clsx(hasEnoughAllowance && "hidden")}
         preparation={allowancePreparation}
         transactionSummary={`Allow Ledgity Yield to spend ${formatUnits(
           amount,
@@ -66,6 +71,6 @@ export const AllowanceTxButton: FC<Props> = ({
       >
         Allow
       </TxButton>
-    );
-  }
+    </div>
+  );
 };

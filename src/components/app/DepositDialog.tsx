@@ -88,6 +88,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             token={underlyingAddress!}
             spender={lTokenAddress}
             amount={depositedAmount}
+            disabled={depositedAmount === 0n}
             transactionSummary={`Deposit ${formatUnits(
               depositedAmount,
               decimals!,

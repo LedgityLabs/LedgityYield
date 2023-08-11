@@ -4,11 +4,19 @@ import { Button } from "./Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./Dialog";
 import { Spinner } from "./Spinner";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
-import { useContractWrite, usePrepareContractWrite, usePublicClient, useWalletClient } from "wagmi";
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  usePublicClient,
+  useWaitForTransaction,
+  useWalletClient,
+} from "wagmi";
 import { useSwitchNetwork } from "@/hooks";
 import { prettyErrorMessage } from "@/lib/prettyErrorMessage";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { BaseError } from "viem";
+import { Card } from "./Card";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: ReturnType<typeof usePrepareContractWrite>;
@@ -35,12 +43,22 @@ export const TxButton: FC<Props> = ({
   }
 
   const {
+    data: writeData,
     write,
     isLoading: txIsLoading,
     isError: txIsError,
     isSuccess: txIsSuccess,
     error: txError,
   } = useContractWrite(preparation.config);
+
+  const {
+    data: waitData,
+    isLoading: waitIsLoading,
+    isError: waitIsError,
+    isSuccess: waitIsSuccess,
+  } = useWaitForTransaction({
+    hash: writeData?.hash,
+  });
 
   // Refetch preparation on wallet or network change
   useEffect(() => {
@@ -99,15 +117,57 @@ export const TxButton: FC<Props> = ({
           {/* Transaction dialog */}
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-center">
-                {txIsLoading && "Approve transaction in your wallet"}
-                {txIsError && "Transaction failed"}
-                {txIsSuccess && "Transaction succeeded"}
-              </DialogTitle>
-              <DialogDescription className="flex flex-col justify-center items-center gap-3 pt-4">
-                {transactionSummary}
-                {txIsLoading && <Spinner />}
-                {txIsError && txError && (
+              <DialogTitle className="text-center text-fg/90">Ongoing transaction</DialogTitle>
+              <DialogDescription className="flex flex-col justify-center items-center gap-3">
+                <span className="text-lg bg-fg/90 text-bg px-3 py-1 rounded-xl font-semibold text-center inline-block mb-4">
+                  {transactionSummary}
+                </span>
+
+                <ul className="flex flex-col gap-8 py-5">
+                  <li
+                    className={twMerge(
+                      "flex gap-2 justify-start items-center",
+                      txIsSuccess && "grayscale opacity-50",
+                    )}
+                  >
+                    <Card
+                      radius="full"
+                      className="text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                    >
+                      <span className="text-primary-fg font-bold">1</span>
+                    </Card>
+                    <p className="text-lg font-medium">
+                      {(() => {
+                        if (txIsLoading) return "Sign transaction from your wallet";
+                        else if (txIsError) return "Wallet rejected the request";
+                        else if (txIsSuccess) return "Wallet signature successful";
+                      })()}
+                    </p>
+                    {txIsLoading && <Spinner />}
+                  </li>
+                  <li
+                    className={twMerge(
+                      "flex gap-2 justify-start items-center",
+                      !txIsSuccess && "grayscale opacity-50",
+                    )}
+                  >
+                    <Card
+                      radius="full"
+                      className="text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                    >
+                      <span className="text-primary-fg font-bold">2</span>
+                    </Card>
+                    <p className="text-lg font-medium">
+                      {(() => {
+                        if (waitIsError) return "Transaction failed";
+                        else if (waitIsSuccess) return "Transaction succeeded";
+                        else return "Wait until transaction is mined";
+                      })()}
+                    </p>
+                    {waitIsLoading && <Spinner />}
+                  </li>
+                </ul>
+                {/* {txIsError && txError && (
                   <div className="flex flex-col justify-center items-center gap-3">
                     <p className="text-lg text-center mb-4">
                       The transaction failed with error : &quot;{prettyErrorMessage(txError)}&quot;
@@ -120,7 +180,7 @@ export const TxButton: FC<Props> = ({
                     <p className="text-lg text-center mb-4">You can safely close this modal.</p>
                     <i className="ri-checkbox-circle-fill text-green-500 text-5xl"></i>
                   </div>
-                )}
+                )} */}
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
