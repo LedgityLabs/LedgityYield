@@ -71,7 +71,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
               <div className="pl-4">
                 <span className="font-bold">How to get the yield?</span> Your L{underlyingSymbol}{" "}
                 balance will magically grow through time to reflect your rewards. There is no need
-                to stake, lock or claim anything
+                to stake, lock or claim anything.
               </div>
             </div>
           </DialogDescription>

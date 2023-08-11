@@ -73,18 +73,13 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             <br />
             {/* If instant withdrawal is not posssible actually, display info message */}
             {instantWithdrawalalPreparation.isError && (
-              <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4 w-[23rem]">
+              <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">
                 <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
                   <i className="ri-information-line text-2xl" />
                 </div>
                 <div className="pl-4">
                   Your request will be <span className="font-semibold">queued</span> and
-                  automatically processed in{" "}
-                  <span className="font-semibold">
-                    <br />
-                    3-5 working days
-                  </span>
-                  .
+                  auto-processed in <span className="font-semibold">3-5 working days</span>.
                 </div>
               </div>
             )}
