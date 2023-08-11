@@ -1,3 +1,10 @@
+## [1.143.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.142.1...v1.143.0) (2023-08-11)
+
+
+### Features
+
+* improve appearance of TXs dialogs ([ab87d76](https://github.com/ledgity-labs/Ledgity-Yield/commit/ab87d762eb07739535d5cca9415992df3000603d))
+
 ## [1.142.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.142.0...v1.142.1) (2023-08-11)
 
 
