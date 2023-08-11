@@ -1,3 +1,10 @@
+## [1.141.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.140.0...v1.141.0) (2023-08-11)
+
+
+### Features
+
+* add hidden like to administration in dots menu ([b254d29](https://github.com/ledgity-labs/Ledgity-Yield/commit/b254d29563ed27f54ca9aebbfc01a49771b79e9d))
+
 ## [1.140.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.139.0...v1.140.0) (2023-08-11)
 
 
