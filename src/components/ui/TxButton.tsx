@@ -27,6 +27,10 @@ export const TxButton: FC<Props> = ({
   const { isSwitching } = useSwitchNetwork();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
+
+  //@ts-ignore
+  if (!preparation.config.request.value) preparation.config.request.value = 0n;
+
   const {
     write,
     isLoading: txIsLoading,
