@@ -1,3 +1,10 @@
+## [1.140.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.139.0...v1.140.0) (2023-08-11)
+
+
+### Features
+
+* add manifest.json for Gnosis Safe app support ([2343ca3](https://github.com/ledgity-labs/Ledgity-Yield/commit/2343ca303aaaaa5e2bb7aef96b4e66c2f962638e))
+
 ## [1.139.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.138.1...v1.139.0) (2023-08-10)
 
 
