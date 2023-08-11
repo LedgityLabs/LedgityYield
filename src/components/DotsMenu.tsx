@@ -1,6 +1,6 @@
 "use client";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Button, Card } from "./ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
@@ -13,6 +13,53 @@ interface Props extends React.HTMLAttributes<HTMLButtonElement> {}
 
 export const DotsMenu: FC<Props> = ({ className }) => {
   const pathname = usePathname();
+  const [adminKeyPressCount, setAdminKeyPressCount] = useState(0);
+  const [isAdminVisible, setIsAdminVisible] = useState(false);
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (!isAdminVisible) {
+      if (event.key === "Control" || event.key === "Meta") {
+        const newPressCount = adminKeyPressCount + 1;
+        if (newPressCount < 10) setAdminKeyPressCount(newPressCount);
+        else {
+          setAdminKeyPressCount(0);
+          setIsAdminVisible(true);
+          setTimeout(() => {
+            setIsAdminVisible(false);
+          }, 3000);
+        }
+      }
+    }
+  };
+
+  // Listen to keydown events and increment the counter
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isAdminVisible, adminKeyPressCount]);
+
+  // // Display the admin button if the counter is greater than 10
+  // useEffect(() => {
+  //   if (adminKeyPressCount >= 10) {
+  //     setIsAdminVisible(true);
+  //     // Reset the counter
+  //     setAdminKeyPressCount(0);
+
+  //     // Hide the component after 5 seconds
+  //     const timerId = setTimeout(() => {
+  //       if (isAdminVisible) {
+  //         // Check if it's still visible before setting it to false
+  //         setIsAdminVisible(false);
+  //       }
+  //     }, 5000);
+
+  //     return () => {
+  //       clearTimeout(timerId);
+  //     };
+  //   }
+  // }, [adminKeyPressCount]);
 
   return (
     <Popover>
@@ -52,6 +99,13 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                 <i className="ri-external-link-fill" />
               </Link>
             </li>
+            {isAdminVisible && (
+              <li>
+                <Link href="/app/admin" className="hover:opacity-80 text-primary">
+                  Administration
+                </Link>
+              </li>
+            )}
           </ul>
           <div>
             <div className="flex justify-between items-end">

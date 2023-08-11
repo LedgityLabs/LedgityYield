@@ -43,7 +43,7 @@ export const metadata = {
     title: `${name} | Stable Yield For Stablecoins`,
     description: description,
   },
-  manifest: "https://ledgity.finance/manifest.json",
+  manifest: "/manifest.json",
   verification: {
     google: "Gy_ommY7mtAUwTSdS8bNsHmmMeeKSmPAy8H5lEhX738",
   },
