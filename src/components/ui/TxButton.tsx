@@ -28,8 +28,11 @@ export const TxButton: FC<Props> = ({
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
 
-  //@ts-ignore
-  if (!preparation.config.request.value) preparation.config.request.value = 0n;
+  // @ts-ignore
+  if (preparation.config.request && !preparation.config.request.value) {
+    // @ts-ignore
+    preparation.config.request.value = 0n;
+  }
 
   const {
     write,
