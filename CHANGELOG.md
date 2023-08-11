@@ -1,3 +1,10 @@
+## [1.141.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.141.1...v1.141.2) (2023-08-11)
+
+
+### Fixes
+
+* try to fix gnosis safe TX error 2 ([bb1124f](https://github.com/ledgity-labs/Ledgity-Yield/commit/bb1124f50f1c8ca3ba01404aaa05ff388c4b2016))
+
 ## [1.141.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.141.0...v1.141.1) (2023-08-11)
 
 
