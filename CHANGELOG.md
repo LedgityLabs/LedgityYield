@@ -1,3 +1,10 @@
+## [1.142.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.141.2...v1.142.0) (2023-08-11)
+
+
+### Features
+
+* improve transaction dialog display + gray txbutton when inputs are 0 ([38cc311](https://github.com/ledgity-labs/Ledgity-Yield/commit/38cc31134bbb102f050b50f10ddee22ffd63cf16))
+
 ## [1.141.2](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.141.1...v1.141.2) (2023-08-11)
 
 
