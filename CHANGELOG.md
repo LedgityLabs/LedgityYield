@@ -1,3 +1,10 @@
+## [1.144.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.143.0...v1.144.0) (2023-08-11)
+
+
+### Features
+
+* deposit/Withdrawal dialog have been made easier and more readable ([65b406d](https://github.com/ledgity-labs/Ledgity-Yield/commit/65b406de48c74536e18edaa074c93f0ba1a836a0))
+
 ## [1.143.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.142.1...v1.143.0) (2023-08-11)
 
 
