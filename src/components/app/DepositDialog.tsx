@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
   AllowanceTxButton,
+  Amount,
 } from "@/components/ui";
 import {
   useGenericErc20BalanceOf,
@@ -89,14 +90,26 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             spender={lTokenAddress}
             amount={depositedAmount}
             disabled={depositedAmount === 0n}
-            transactionSummary={`Deposit ${formatUnits(
-              depositedAmount,
-              decimals!,
-            )} ${underlyingSymbol} against ${formatUnits(
-              depositedAmount,
-              decimals!,
-            )} L${underlyingSymbol}`}
-            hasUserInteracted={hasUserInteracted}
+            transactionSummary={
+              <span>
+                Deposit{" "}
+                <Amount
+                  value={depositedAmount}
+                  decimals={decimals}
+                  suffix={underlyingSymbol}
+                  displaySymbol={true}
+                  className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                />{" "}
+                against{" "}
+                <Amount
+                  value={depositedAmount}
+                  decimals={decimals}
+                  suffix={"L" + underlyingSymbol}
+                  displaySymbol={true}
+                  className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                />
+              </span>
+            }
           >
             Deposit
           </AllowanceTxButton>

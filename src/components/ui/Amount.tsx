@@ -95,7 +95,7 @@ export const Amount: FC<Props> = ({
           {formattedAmount}
           {displaySymbol && suffix}
         </TooltipTrigger>
-        <TooltipContent className="font-heading font-bold inline-flex flex-col justify-center items-center gap-2">
+        <TooltipContent className="font-heading font-bold inline-flex flex-col justify-center items-center gap-2 whitespace-nowrap">
           <span>
             {prefix}
             {longFormatAmount(value, decimals)}

@@ -40,27 +40,6 @@ export const DotsMenu: FC<Props> = ({ className }) => {
     };
   }, [isAdminVisible, adminKeyPressCount]);
 
-  // // Display the admin button if the counter is greater than 10
-  // useEffect(() => {
-  //   if (adminKeyPressCount >= 10) {
-  //     setIsAdminVisible(true);
-  //     // Reset the counter
-  //     setAdminKeyPressCount(0);
-
-  //     // Hide the component after 5 seconds
-  //     const timerId = setTimeout(() => {
-  //       if (isAdminVisible) {
-  //         // Check if it's still visible before setting it to false
-  //         setIsAdminVisible(false);
-  //       }
-  //     }, 5000);
-
-  //     return () => {
-  //       clearTimeout(timerId);
-  //     };
-  //   }
-  // }, [adminKeyPressCount]);
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -80,7 +59,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                 <i className="ri-external-link-fill" />
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="/"
                 className="opacity-40 inline-flex items-center justify-center cursor-not-allowed"
@@ -92,7 +71,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                   coming soon
                 </span>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/" className="hover:opacity-80">
                 Support&nbsp;

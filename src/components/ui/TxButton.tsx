@@ -23,6 +23,9 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   transactionSummary?: string | ReactNode;
   // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
+
+  // Allow to force hide tooltips
+  hideTooltips?: boolean;
 }
 
 export const TxButton: FC<Props> = ({
@@ -30,6 +33,7 @@ export const TxButton: FC<Props> = ({
   transactionSummary = "",
   disabled,
   hasUserInteracted = false,
+  hideTooltips = false,
   ...props
 }) => {
   const { isSwitching } = useSwitchNetwork();
@@ -52,7 +56,6 @@ export const TxButton: FC<Props> = ({
   } = useContractWrite(preparation.config);
 
   const {
-    data: waitData,
     isLoading: waitIsLoading,
     isError: waitIsError,
     isSuccess: waitIsSuccess,
@@ -104,8 +107,9 @@ export const TxButton: FC<Props> = ({
                 />
               </DialogTrigger>
             </TooltipTrigger>
-            {tooltipMessage && (
+            {tooltipMessage && !hideTooltips && (
               <TooltipContent
+                className="font-semibold"
                 variant={tooltipIsError ? "destructive" : "primary"}
                 side="bottom"
                 sideOffset={4}
@@ -115,13 +119,13 @@ export const TxButton: FC<Props> = ({
             )}
           </Tooltip>
           {/* Transaction dialog */}
-          <DialogContent>
+          <DialogContent className="px-0">
             <DialogHeader>
               <DialogTitle className="text-center text-fg/90">Ongoing transaction</DialogTitle>
               <DialogDescription className="flex flex-col justify-center items-center gap-3">
-                <span className="text-lg bg-fg/90 text-bg px-3 py-1 rounded-xl font-semibold text-center inline-block mb-4">
+                <div className="text-lg bg-fg/90 text-bg px-10 py-10 font-semibold text-center mb-4 mt-2 whitespace-normal w-[calc(100%-4px)]">
                   {transactionSummary}
-                </span>
+                </div>
 
                 <ul className="flex flex-col gap-8 py-5">
                   <li

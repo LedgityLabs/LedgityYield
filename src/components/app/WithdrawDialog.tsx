@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useRef, useState } from "react";
 import {
+  Amount,
   AmountInput,
   Dialog,
   DialogContent,
@@ -110,10 +111,25 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
               className="relative -top-[1.5px]"
               disabled={withdrawnAmount === 0n}
               transactionSummary={
-                <p>
-                  Withdraw {formatUnits(withdrawnAmount, decimals!)} L{underlyingSymbol} against{" "}
-                  {formatUnits(withdrawnAmount, decimals!)} {underlyingSymbol}
-                </p>
+                <span>
+                  Withdraw{" "}
+                  <Amount
+                    value={withdrawnAmount}
+                    decimals={decimals}
+                    suffix={"L" + underlyingSymbol}
+                    displaySymbol={true}
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                  />{" "}
+                  {"L" + underlyingSymbol} against{" "}
+                  <Amount
+                    value={withdrawnAmount}
+                    decimals={decimals}
+                    suffix={underlyingSymbol}
+                    displaySymbol={true}
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                  />{" "}
+                  {underlyingSymbol}
+                </span>
               }
               hasUserInteracted={hasUserInteracted}
             >
@@ -127,10 +143,25 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
               className="relative -top-[1.5px]"
               disabled={withdrawnAmount === 0n}
               transactionSummary={
-                <p>
-                  Withdraw {formatUnits(withdrawnAmount, decimals!)} L{underlyingSymbol} against{" "}
-                  {formatUnits(withdrawnAmount, decimals!)} {underlyingSymbol}
-                </p>
+                <span>
+                  Request withdrawing{" "}
+                  <Amount
+                    value={withdrawnAmount}
+                    decimals={decimals}
+                    suffix={"L" + underlyingSymbol}
+                    displaySymbol={true}
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                  />{" "}
+                  {"L" + underlyingSymbol} against{" "}
+                  <Amount
+                    value={withdrawnAmount}
+                    decimals={decimals}
+                    suffix={underlyingSymbol}
+                    displaySymbol={true}
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                  />{" "}
+                  {underlyingSymbol}
+                </span>
               }
               hasUserInteracted={hasUserInteracted}
             >

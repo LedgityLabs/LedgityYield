@@ -1,5 +1,5 @@
 "use client";
-import { FC, useEffect } from "react";
+import { type FC, useEffect, type ReactNode } from "react";
 import { usePrepareContractWrite, useWalletClient } from "wagmi";
 import {
   useGenericErc20Allowance,
@@ -10,13 +10,14 @@ import {
 import { formatUnits, zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
 import clsx from "clsx";
+import { Amount } from "./Amount";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   token: `0x${string}`;
   spender: `0x${string}`;
   amount?: bigint;
   preparation: ReturnType<typeof usePrepareContractWrite>;
-  transactionSummary?: string;
+  transactionSummary?: string | ReactNode;
   // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
 }
@@ -53,21 +54,32 @@ export const AllowanceTxButton: FC<Props> = ({
   return (
     <div>
       <TxButton
-        className={clsx(!hasEnoughAllowance && "hidden")}
+        className={clsx(!hasEnoughAllowance && "hidden pointer-events-none")}
+        hideTooltips={!hasEnoughAllowance}
+        hasUserInteracted={hasUserInteracted}
         preparation={preparation}
         transactionSummary={transactionSummary}
         {...props}
       />
       <TxButton
-        className={clsx(hasEnoughAllowance && "hidden")}
+        className={clsx(hasEnoughAllowance && "hidden pointer-events-none")}
+        hideTooltips={hasEnoughAllowance}
         preparation={allowancePreparation}
-        transactionSummary={`Allow Ledgity Yield to spend ${formatUnits(
-          amount,
-          decimals!,
-        )} ${symbol}`}
-        {...props}
         disabled={amount === 0n}
         hasUserInteracted={hasUserInteracted}
+        transactionSummary={
+          <span>
+            Allow Ledgity Yield to spend{" "}
+            <Amount
+              value={amount}
+              decimals={decimals}
+              suffix={symbol}
+              displaySymbol={true}
+              className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+            />
+          </span>
+        }
+        {...props}
       >
         Allow
       </TxButton>
