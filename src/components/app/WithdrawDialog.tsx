@@ -62,112 +62,111 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
         <DialogHeader>
           <DialogTitle>Witdhraw {underlyingSymbol}</DialogTitle>
           <DialogDescription>
-            You will receive {underlyingSymbol} in a 1:1 ratio.
+            <div>
+              <span className="text-primary font-semibold text-xl inline-block mb-1">
+                You will receive {underlyingSymbol} in a 1:1 ratio.
+              </span>
+              <br />
+              Note that you won&apos;t receive yield anymore.
+            </div>
             <br />
             <br />
             {/* If instant withdrawal is not posssible actually, display info message */}
             {instantWithdrawalalPreparation.isError && (
-              <span className="inline-block bg-blue-100 rounded-2xl p-6 pt-4">
-                <h4 className="text-blue-500 text-lg font-semibold mb-2">
-                  <i className="ri-information-line"></i> Your request will be queued
-                </h4>
-                <p>
-                  Only a small portion of deposited funds are kept on the contract as they are
-                  invested off-chain. Actually, the contract doesn&apos;t hold enough funds to cover
-                  your request plus already queued ones.
-                  <br />
-                  <br />
-                  Once a request has been queued, it will be automatically processed as soon as the
-                  Ledgity financial team would have repatriated required funds on the contract.
-                  <br />
-                  <br />
+              <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4 w-[23rem]">
+                <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
+                  <i className="ri-information-line text-2xl" />
+                </div>
+                <div className="pl-4">
+                  Your request will be <span className="font-semibold">queued</span> and
+                  automatically processed in{" "}
                   <span className="font-semibold">
-                    You&apos;ll be invited to pay a small 0.004ETH
-                  </span>{" "}
-                  fee to cover the gas cost of the transaction that will process your withdrawal
-                  when the time comes.
-                </p>
-              </span>
+                    <br />
+                    3-5 working days
+                  </span>
+                  .
+                </div>
+              </div>
             )}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="items-end mt-8 flex-nowrap">
-          <AmountInput
-            ref={inputEl}
-            maxValue={balance}
-            decimals={decimals}
-            symbol={`L${underlyingSymbol}`}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setWithdrawnAmount(parseUnits(e.target.value, decimals!));
-              if (hasUserInteracted === false) setHasUserInteracted(true);
-              if (e.target.value === "") setHasUserInteracted(false);
-            }}
-          />
-          {/* If instant withdrawal is possible actually */}
-          {(!instantWithdrawalalPreparation.isError && (
-            <TxButton
-              size="medium"
-              preparation={instantWithdrawalalPreparation}
-              className="relative -top-[1.5px]"
-              disabled={withdrawnAmount === 0n}
-              transactionSummary={
-                <span>
-                  Withdraw{" "}
-                  <Amount
-                    value={withdrawnAmount}
-                    decimals={decimals}
-                    suffix={"L" + underlyingSymbol}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
-                  />{" "}
-                  {"L" + underlyingSymbol} against{" "}
-                  <Amount
-                    value={withdrawnAmount}
-                    decimals={decimals}
-                    suffix={underlyingSymbol}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
-                  />{" "}
-                  {underlyingSymbol}
-                </span>
-              }
-              hasUserInteracted={hasUserInteracted}
-            >
-              Withdraw
-            </TxButton>
-          )) || (
-            <TxButton
-              size="medium"
-              //@ts-ignore
-              preparation={requestWithdrawalPreparation}
-              className="relative -top-[1.5px]"
-              disabled={withdrawnAmount === 0n}
-              transactionSummary={
-                <span>
-                  Request withdrawing{" "}
-                  <Amount
-                    value={withdrawnAmount}
-                    decimals={decimals}
-                    suffix={"L" + underlyingSymbol}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
-                  />{" "}
-                  {"L" + underlyingSymbol} against{" "}
-                  <Amount
-                    value={withdrawnAmount}
-                    decimals={decimals}
-                    suffix={underlyingSymbol}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
-                  />{" "}
-                  {underlyingSymbol}
-                </span>
-              }
-              hasUserInteracted={hasUserInteracted}
-            >
-              Request
-            </TxButton>
-          )}
+        <DialogFooter>
+          <div className="flex gap-4 flex-nowrap items-end justify-center mt-6">
+            <AmountInput
+              ref={inputEl}
+              maxValue={balance}
+              decimals={decimals}
+              symbol={`L${underlyingSymbol}`}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setWithdrawnAmount(parseUnits(e.target.value, decimals!));
+                if (hasUserInteracted === false) setHasUserInteracted(true);
+                if (e.target.value === "") setHasUserInteracted(false);
+              }}
+            />
+            {/* If instant withdrawal is possible actually */}
+            {(!instantWithdrawalalPreparation.isError && (
+              <TxButton
+                size="medium"
+                preparation={instantWithdrawalalPreparation}
+                className="relative -top-[1.5px]"
+                disabled={withdrawnAmount === 0n}
+                transactionSummary={
+                  <span>
+                    Withdraw{" "}
+                    <Amount
+                      value={withdrawnAmount}
+                      decimals={decimals}
+                      suffix={"L" + underlyingSymbol}
+                      displaySymbol={true}
+                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                    />{" "}
+                    against{" "}
+                    <Amount
+                      value={withdrawnAmount}
+                      decimals={decimals}
+                      suffix={underlyingSymbol}
+                      displaySymbol={true}
+                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                    />{" "}
+                  </span>
+                }
+                hasUserInteracted={hasUserInteracted}
+              >
+                Withdraw
+              </TxButton>
+            )) || (
+              <TxButton
+                size="medium"
+                //@ts-ignore
+                preparation={requestWithdrawalPreparation}
+                className="relative -top-[1.5px]"
+                disabled={withdrawnAmount === 0n}
+                transactionSummary={
+                  <span>
+                    Request withdrawal of{" "}
+                    <Amount
+                      value={withdrawnAmount}
+                      decimals={decimals}
+                      suffix={"L" + underlyingSymbol}
+                      displaySymbol={true}
+                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                    />{" "}
+                    against{" "}
+                    <Amount
+                      value={withdrawnAmount}
+                      decimals={decimals}
+                      suffix={underlyingSymbol}
+                      displaySymbol={true}
+                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                    />{" "}
+                  </span>
+                }
+                hasUserInteracted={hasUserInteracted}
+              >
+                Request
+              </TxButton>
+            )}
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

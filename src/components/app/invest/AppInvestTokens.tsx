@@ -196,8 +196,6 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
           listenToBlock: true,
         },
         (data) => {
-          console.log("DATA");
-          console.log([...data]);
           if (data.length > 0) {
             const _tableData: Pool[] = [];
             for (const lTokenSymbol of lTokens) {

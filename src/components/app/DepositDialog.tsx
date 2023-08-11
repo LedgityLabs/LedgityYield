@@ -59,60 +59,67 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
         <DialogHeader>
           <DialogTitle>Deposit {underlyingSymbol}</DialogTitle>
           <DialogDescription>
-            You will receive L{underlyingSymbol} in a 1:1 ratio.
+            <span className="text-primary font-semibold text-xl">
+              You will receive L{underlyingSymbol} in a 1:1 ratio.
+            </span>
             <br />
             <br />
-            As soon as you hold some L{underlyingSymbol}, you start earning annouced yields on
-            those. There is no need to stake or else, your balance will magically grow through time.
-            Note that your rewards are auto-compounded.
-            <br />
-            <br />
-            At any time, you&apos;ll be able to withdraw your L{underlyingSymbol} tokens against{" "}
-            {underlyingSymbol} in a 1:1 ratio.
+            <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">
+              <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
+                <i className="ri-information-line text-2xl" />
+              </div>
+              <div className="pl-4">
+                <span className="font-bold">How to get the yield?</span> Your L{underlyingSymbol}{" "}
+                balance will magically grow through time to reflect your rewards. There is no need
+                to stake, lock or claim anything
+              </div>
+            </div>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="items-end mt-8">
-          <AmountInput
-            ref={inputEl}
-            maxValue={underlyingBalance}
-            decimals={decimals}
-            symbol={underlyingSymbol}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setDepositedAmount(parseUnits(e.target.value, decimals!));
-              if (hasUserInteracted === false) setHasUserInteracted(true);
-              if (e.target.value === "") setHasUserInteracted(false);
-            }}
-          />
-          <AllowanceTxButton
-            size="medium"
-            preparation={preparation}
-            token={underlyingAddress!}
-            spender={lTokenAddress}
-            amount={depositedAmount}
-            disabled={depositedAmount === 0n}
-            transactionSummary={
-              <span>
-                Deposit{" "}
-                <Amount
-                  value={depositedAmount}
-                  decimals={decimals}
-                  suffix={underlyingSymbol}
-                  displaySymbol={true}
-                  className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
-                />{" "}
-                against{" "}
-                <Amount
-                  value={depositedAmount}
-                  decimals={decimals}
-                  suffix={"L" + underlyingSymbol}
-                  displaySymbol={true}
-                  className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
-                />
-              </span>
-            }
-          >
-            Deposit
-          </AllowanceTxButton>
+        <DialogFooter>
+          <div className="flex gap-4 flex-nowrap items-end justify-center mt-6">
+            <AmountInput
+              ref={inputEl}
+              maxValue={underlyingBalance}
+              decimals={decimals}
+              symbol={underlyingSymbol}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setDepositedAmount(parseUnits(e.target.value, decimals!));
+                if (hasUserInteracted === false) setHasUserInteracted(true);
+                if (e.target.value === "") setHasUserInteracted(false);
+              }}
+            />
+            <AllowanceTxButton
+              size="medium"
+              preparation={preparation}
+              token={underlyingAddress!}
+              spender={lTokenAddress}
+              amount={depositedAmount}
+              disabled={depositedAmount === 0n}
+              transactionSummary={
+                <span>
+                  Deposit{" "}
+                  <Amount
+                    value={depositedAmount}
+                    decimals={decimals}
+                    suffix={underlyingSymbol}
+                    displaySymbol={true}
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                  />{" "}
+                  against{" "}
+                  <Amount
+                    value={depositedAmount}
+                    decimals={decimals}
+                    suffix={"L" + underlyingSymbol}
+                    displaySymbol={true}
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                  />
+                </span>
+              }
+            >
+              Deposit
+            </AllowanceTxButton>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

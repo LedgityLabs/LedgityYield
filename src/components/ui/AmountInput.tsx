@@ -40,7 +40,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
         <div className="relative">
           <Input
             ref={inputEl}
-            placeholder="Amount"
+            placeholder={`${symbol} amount`}
             onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
               if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();
             }}
@@ -59,6 +59,6 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
         </div>
       </div>
     );
-  }
+  },
 );
 AmountInput.displayName = "AmountInput";

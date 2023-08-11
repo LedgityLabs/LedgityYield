@@ -121,9 +121,9 @@ export const TxButton: FC<Props> = ({
           {/* Transaction dialog */}
           <DialogContent className="px-0">
             <DialogHeader>
-              <DialogTitle className="text-center text-fg/90">Ongoing transaction</DialogTitle>
+              <DialogTitle>Ongoing transaction</DialogTitle>
               <DialogDescription className="flex flex-col justify-center items-center gap-3">
-                <div className="text-lg bg-fg/90 text-bg px-10 py-10 font-semibold text-center mb-4 mt-2 whitespace-normal w-[calc(100%-4px)]">
+                <div className="text-lg bg-fg/90 text-bg px-10 py-10 font-semibold text-center mb-2 whitespace-normal w-[calc(100%-4px)]">
                   {transactionSummary}
                 </div>
 
@@ -171,20 +171,6 @@ export const TxButton: FC<Props> = ({
                     {waitIsLoading && <Spinner />}
                   </li>
                 </ul>
-                {/* {txIsError && txError && (
-                  <div className="flex flex-col justify-center items-center gap-3">
-                    <p className="text-lg text-center mb-4">
-                      The transaction failed with error : &quot;{prettyErrorMessage(txError)}&quot;
-                    </p>
-                    <i className="ri-close-circle-fill text-red-500 text-5xl"></i>
-                  </div>
-                )}
-                {txIsSuccess && (
-                  <div className="flex flex-col justify-center items-center gap-3">
-                    <p className="text-lg text-center mb-4">You can safely close this modal.</p>
-                    <i className="ri-checkbox-circle-fill text-green-500 text-5xl"></i>
-                  </div>
-                )} */}
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
