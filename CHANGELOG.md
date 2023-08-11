@@ -1,3 +1,10 @@
+## [1.142.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.142.0...v1.142.1) (2023-08-11)
+
+
+### Fixes
+
+* invest tokens list was using wrong APR getter function name ([2cd1b55](https://github.com/ledgity-labs/Ledgity-Yield/commit/2cd1b55863092bd3c4c82a9f817106377e09e128))
+
 ## [1.142.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.141.2...v1.142.0) (2023-08-11)
 
 
