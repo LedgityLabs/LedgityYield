@@ -68,7 +68,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
               <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
                 <i className="ri-information-line text-2xl" />
               </div>
-              <div className="pl-4">
+              <div className="pl-4 text-left">
                 <span className="font-bold">How to get the yield?</span> Your L{underlyingSymbol}{" "}
                 balance will magically grow through time to reflect your rewards. There is no need
                 to stake, lock or claim anything.
@@ -96,6 +96,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
               spender={lTokenAddress}
               amount={depositedAmount}
               disabled={depositedAmount === 0n}
+              hasUserInteracted={hasUserInteracted}
               transactionSummary={
                 <span>
                   Deposit{" "}

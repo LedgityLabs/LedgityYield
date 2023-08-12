@@ -32,6 +32,7 @@ export const AllowanceTxButton: FC<Props> = ({
   preparation,
   transactionSummary = "",
   hasUserInteracted = false,
+  disabled,
   ...props
 }) => {
   const { data: walletClient } = useWalletClient();
@@ -58,6 +59,7 @@ export const AllowanceTxButton: FC<Props> = ({
         hideTooltips={!hasEnoughAllowance}
         hasUserInteracted={hasUserInteracted}
         preparation={preparation}
+        disabled={amount === 0n || disabled}
         transactionSummary={transactionSummary}
         {...props}
       />

@@ -77,7 +77,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                 <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
                   <i className="ri-information-line text-2xl" />
                 </div>
-                <div className="pl-4">
+                <div className="pl-4 text-left">
                   Your request will be <span className="font-semibold">queued</span> and
                   auto-processed in <span className="font-semibold">3-5 working days</span>.
                 </div>

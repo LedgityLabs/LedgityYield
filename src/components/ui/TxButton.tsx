@@ -17,6 +17,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { BaseError } from "viem";
 import { Card } from "./Card";
 import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: ReturnType<typeof usePrepareContractWrite>;
@@ -101,7 +102,9 @@ export const TxButton: FC<Props> = ({
               <DialogTrigger asChild>
                 <Button
                   {...props}
-                  disabled={disabled || !walletClient || !write || isSwitching}
+                  disabled={
+                    disabled || preparation.isError || !walletClient || !write || isSwitching
+                  }
                   isLoading={isLoading}
                   onClick={() => write!()}
                 />
@@ -127,50 +130,79 @@ export const TxButton: FC<Props> = ({
                   {transactionSummary}
                 </div>
 
-                <ul className="flex flex-col gap-8 py-5">
-                  <li
-                    className={twMerge(
-                      "flex gap-2 justify-start items-center",
-                      txIsSuccess && "grayscale opacity-50",
-                    )}
-                  >
+                <ul
+                  className={clsx(
+                    "relative flex flex-col gap-8 my-5",
+                    "before:border-l-[3px] before:border-slate-300 before:absolute before:left-[calc(1.25rem-1.5px)] before:top-10 before:bottom-10 before:-z-1",
+                  )}
+                >
+                  <li className={twMerge("flex gap-2 justify-start items-center")}>
                     <Card
                       radius="full"
-                      className="text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                      className={twMerge(
+                        "text-xl h-10 w-10 before:bg-slate-300 rounded-full flex justify-center items-center",
+                        txIsLoading && "before:bg-primary/75",
+                        txIsError && "before:bg-red-500/75",
+                        txIsSuccess && "before:bg-green-500/75",
+                      )}
                     >
-                      <span className="text-primary-fg font-bold">1</span>
+                      <span className="text-primary-fg font-bold">
+                        {txIsLoading && <Spinner />}
+                        {txIsError && <i className="ri-close-fill text-xl" />}
+                        {txIsSuccess && <i className="ri-check-fill text-xl" />}
+                      </span>
                     </Card>
-                    <p className="text-lg font-medium">
+                    <p
+                      className={twMerge(
+                        "text-lg font-medium text-slate-400",
+                        txIsLoading && "text-fg/90",
+                        txIsError && "text-red-600/75",
+                        txIsSuccess && "grayscale-[100%] opacity-80",
+                      )}
+                    >
                       {(() => {
                         if (txIsLoading) return "Sign transaction from your wallet";
                         else if (txIsError) return "Wallet rejected the request";
                         else if (txIsSuccess) return "Wallet signature successful";
                       })()}
                     </p>
-                    {txIsLoading && <Spinner />}
                   </li>
-                  <li
-                    className={twMerge(
-                      "flex gap-2 justify-start items-center",
-                      !txIsSuccess && "grayscale opacity-50",
-                    )}
-                  >
+                  <li className={twMerge("flex gap-2 justify-start items-center")}>
                     <Card
                       radius="full"
-                      className="text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                      className={twMerge(
+                        "text-xl h-10 w-10 before:bg-slate-300 rounded-full flex justify-center items-center",
+                        waitIsLoading && "before:bg-primary/75",
+                        waitIsError && "before:bg-red-500/75",
+                        waitIsSuccess && "before:bg-green-500/75",
+                      )}
                     >
-                      <span className="text-primary-fg font-bold">2</span>
+                      <span className="text-primary-fg font-bold">
+                        {waitIsLoading && <Spinner />}
+                        {waitIsError && <i className="ri-close-fill text-xl" />}
+                        {waitIsSuccess && <i className="ri-check-fill text-xl" />}
+                      </span>
                     </Card>
-                    <p className="text-lg font-medium">
+                    <p
+                      className={twMerge(
+                        "text-lg font-medium text-slate-400",
+                        waitIsLoading && "text-fg/90",
+                        waitIsError && "text-red-600/75",
+                        waitIsSuccess && "grayscale-[100%] opacity-80",
+                      )}
+                    >
                       {(() => {
                         if (waitIsError) return "Transaction failed";
                         else if (waitIsSuccess) return "Transaction succeeded";
                         else return "Wait until transaction is mined";
                       })()}
                     </p>
-                    {waitIsLoading && <Spinner />}
                   </li>
                 </ul>
+                {(txIsSuccess && waitIsSuccess) ||
+                  ((txIsError || waitIsError) && (
+                    <p className="font-semibold ">You can now safely close this modal</p>
+                  ))}
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
