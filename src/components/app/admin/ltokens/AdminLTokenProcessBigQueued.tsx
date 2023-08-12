@@ -1,5 +1,9 @@
-import { Card, Input, TxButton } from "@/components/ui";
-import { usePrepareLTokenProcessBigQueuedRequest } from "@/generated";
+import { AllowanceTxButton, Card, Input, TxButton } from "@/components/ui";
+import {
+  useLTokenUnderlying,
+  useLTokenWithdrawalQueue,
+  usePrepareLTokenProcessBigQueuedRequest,
+} from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { useContractAddress } from "@/hooks/useContractAddress";
@@ -10,11 +14,17 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 
 export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
+  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
   const [requestId, setRequestId] = useState(0n);
   const preparation = usePrepareLTokenProcessBigQueuedRequest({
     address: lTokenAddress,
     args: [requestId],
   });
+  const { data: requestData } = useLTokenWithdrawalQueue({
+    address: lTokenAddress,
+    args: [requestId],
+  });
+  const requestAmount = requestData ? requestData[1] : 0n;
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   return (
@@ -34,9 +44,16 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
           placeholder="Request ID"
           step={1}
         />
-        <TxButton preparation={preparation} hasUserInteracted={hasUserInteracted} size="medium">
+        <AllowanceTxButton
+          preparation={preparation}
+          hasUserInteracted={hasUserInteracted}
+          token={underlyingAddress!}
+          spender={lTokenAddress!}
+          amount={requestAmount}
+          size="medium"
+        >
           Process
-        </TxButton>
+        </AllowanceTxButton>
       </div>
     </AdminBrick>
   );
