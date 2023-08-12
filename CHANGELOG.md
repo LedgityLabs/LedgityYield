@@ -1,3 +1,10 @@
+## [1.145.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.144.0...v1.145.0) (2023-08-11)
+
+
+### Features
+
+* make withdrawal dialog message shorter ([a516faf](https://github.com/ledgity-labs/Ledgity-Yield/commit/a516faf3d951f59aa4dc0750ee02faceca6622d9))
+
 ## [1.144.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.143.0...v1.144.0) (2023-08-11)
 
 

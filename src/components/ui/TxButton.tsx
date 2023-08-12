@@ -194,7 +194,7 @@ export const TxButton: FC<Props> = ({
                       {(() => {
                         if (waitIsError) return "Transaction failed";
                         else if (waitIsSuccess) return "Transaction succeeded";
-                        else return "Wait until transaction is mined";
+                        else return "Wait for network confirmation";
                       })()}
                     </p>
                   </li>
