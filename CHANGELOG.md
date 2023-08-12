@@ -1,3 +1,10 @@
+## [1.147.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.146.0...v1.147.0) (2023-08-12)
+
+
+### Features
+
+* add allowance tx button to process big requests more easily in the admin ([84ce95f](https://github.com/ledgity-labs/Ledgity-Yield/commit/84ce95f09d56f8705e4efeff2ec893f26989ac29))
+
 ## [1.146.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.145.0...v1.146.0) (2023-08-12)
 
 
