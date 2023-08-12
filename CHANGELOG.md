@@ -1,3 +1,10 @@
+## [1.146.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.145.0...v1.146.0) (2023-08-12)
+
+
+### Features
+
+* improve further the transaction flow ([6cc5902](https://github.com/ledgity-labs/Ledgity-Yield/commit/6cc59022dc6482b078136f914ccbfe5235e18e73))
+
 ## [1.145.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.144.0...v1.145.0) (2023-08-11)
 
 
