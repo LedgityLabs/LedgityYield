@@ -1,3 +1,10 @@
+## [1.151.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.151.0...v1.151.1) (2023-08-13)
+
+
+### Fixes
+
+* **home:** readability radial gradients were broken ([a4c564e](https://github.com/ledgity-labs/Ledgity-Yield/commit/a4c564e7df67cc5092b58218fb820b5d55491308))
+
 ## [1.151.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.150.0...v1.151.0) (2023-08-13)
 
 
