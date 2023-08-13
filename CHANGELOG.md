@@ -1,3 +1,21 @@
+## [1.148.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.147.1...v1.148.0) (2023-08-13)
+
+
+### Features
+
+* new landing page hero + lighter animations and a ton of improvements ([c43f76c](https://github.com/ledgity-labs/Ledgity-Yield/commit/c43f76c74938e0f39aa9954f29f94f9d5e0a435b))
+
+
+### Fixes
+
+* **tmp:** remove lock file ([d64b62c](https://github.com/ledgity-labs/Ledgity-Yield/commit/d64b62cf951b9f6fb120eee179d4054984cb9a5d))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.4.10 ([d901809](https://github.com/ledgity-labs/Ledgity-Yield/commit/d9018093cf474e1c1de37f5a2acb664efad0188a))
+* **deps:** update dependency eslint to v8.47.0 ([8ab9cdf](https://github.com/ledgity-labs/Ledgity-Yield/commit/8ab9cdf671f260dd905c112a53852e46e32ba612))
+
 ## [1.147.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.147.0...v1.147.1) (2023-08-12)
 
 
