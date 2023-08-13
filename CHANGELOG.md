@@ -1,3 +1,11 @@
+## [1.153.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.152.1...v1.153.0) (2023-08-13)
+
+
+### Features
+
+* improve airdrop page wording ([ecf8697](https://github.com/ledgity-labs/Ledgity-Yield/commit/ecf86979c13c37f3035999536f58c8c502d61d3f))
+* v1 of Linea Multi-Airdrop page ([f62bf25](https://github.com/ledgity-labs/Ledgity-Yield/commit/f62bf25f1a6ae3f6307ef5516de95194a3be25b4))
+
 ## [1.152.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.152.0...v1.152.1) (2023-08-13)
 
 
