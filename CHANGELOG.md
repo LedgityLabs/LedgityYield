@@ -1,3 +1,10 @@
+## [1.152.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.152.0...v1.152.1) (2023-08-13)
+
+
+### Fixes
+
+* noise effect was disabled after noise.png path change ([12080b6](https://github.com/ledgity-labs/Ledgity-Yield/commit/12080b6d1f0c02ee076c349f5bc5c9abe58dd2dc))
+
 ## [1.152.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.151.1...v1.152.0) (2023-08-13)
 
 
