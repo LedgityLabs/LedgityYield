@@ -13,10 +13,11 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
   // Randomly figure out if it's a reversed cube
   const reverse = Math.random() < 0.5;
 
+  // return null;
   return (
     <div
       className={twMerge(
-        "absolute backdrop-blur-md rounded-[2rem] opacity-[35%] blur-[1.5px] hover:blur-none",
+        "absolute backdrop-blur-md rounded-[2rem] opacity-[25%] blur-[1.5px] hover:blur-none",
         !reverse &&
           {
             tiny: "animate-[spin_19s_ease-in-out_infinite]",
@@ -31,7 +32,7 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
             medium: "animate-[spin_25s_ease-in-out_infinite_reverse]",
             large: "animate-[spin_28s_ease-in-out_infinite_reverse]",
           }[size],
-        className
+        className,
       )}
       {...props}
     >
@@ -44,7 +45,7 @@ export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...p
             small: "w-32 h-32",
             medium: "w-44 h-44",
             large: "w-52 h-52",
-          }[size]
+          }[size],
         )}
       >
         {children}

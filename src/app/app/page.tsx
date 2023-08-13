@@ -1,7 +1,6 @@
 "use client";
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppInvest } from "@/components/app/invest/AppInvest";
-// import { AppStaking } from "@/components/app/staking/AppStaking";
 import { AppLDYToken } from "@/components/app/ldy-token/AppLDYToken";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 
@@ -11,14 +10,14 @@ const Page: NextPage = () => {
   return (
     <Tabs
       defaultValue="invest"
-      className="flex flex-col gap-10 justify-center w-screen items-center"
+      className="flex w-screen flex-col items-center justify-center gap-10"
     >
-      <TabsList className="mt-12 mb-6">
+      <TabsList className="mb-6 mt-12">
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="invest">Invest</TabsTrigger>
         <TabsTrigger value="ldy-token">
           LDY Token
-          <span className="absolute -top-5 -right-[50%] bg-primary text-bg text-[0.8rem] rounded-xl px-[0.47rem] py-[0.04rem] text-center">
+          <span className="absolute -right-[50%] -top-5 rounded-xl bg-primary px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] text-bg">
             Early Investors
           </span>
         </TabsTrigger>

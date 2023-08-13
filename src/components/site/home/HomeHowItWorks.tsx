@@ -1,30 +1,33 @@
-import { FC } from "react";
+"use client";
+import { FC, useLayoutEffect, useRef } from "react";
 import { Button, Card, Cube, FadeIn } from "@/components/ui";
 
 const HomeHowItWorks: FC = () => {
   return (
     <FadeIn>
-      <section className="relative  flex flex-col justify-center items-center my-56">
-        <Cube size="small" className="right-36 bottom-[55%]" />
+      <section className="relative  my-56 flex flex-col items-center justify-center">
+        <Cube size="small" className="bottom-[55%] right-36" />
         <Cube size="medium" className="left-36 top-[55%]" />
 
-        <h3 className="text-center font-bold text-4xl pb-[4.5rem] font-heading text-fg/90">
-          How it works ?
+        <h3 className="pb-[4.5rem] text-center font-heading text-4xl font-bold text-fg/90">
+          How it works?
         </h3>
-        <ol className="flex flex-wrap justify-center items-center gap-12 px-12">
+        <ol className="flex flex-wrap items-center justify-center gap-12 px-12">
           <li className="flex flex-col justify-center">
             <Card defaultGradient={true} className="relative w-[250px] py-5">
               <div className="absolute -left-3 -top-3">
                 <Card
                   radius="full"
-                  className="text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-xl before:bg-primary/75"
                 >
-                  <span className="text-primary-fg font-bold">1</span>
+                  <span className="font-bold text-primary-fg">1</span>
                 </Card>
               </div>
-              <p className="text-xl text-center w-full font-medium text-fg/90">Deposit stablecoins</p>
+              <p className="w-full text-center text-xl font-medium text-fg/90">
+                Deposit stablecoins
+              </p>
             </Card>
-            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-[1rem] font-medium tracking-wide">
+            <p className="-ml-2 inline-flex h-full items-center justify-center pt-4 text-[1rem] font-medium tracking-wide text-fg/50">
               USDC, EUROC, and more!
             </p>
           </li>
@@ -33,14 +36,14 @@ const HomeHowItWorks: FC = () => {
               <div className="absolute -left-2 -top-3">
                 <Card
                   radius="full"
-                  className="text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-xl before:bg-primary/75"
                 >
-                  <span className="text-primary-fg font-bold">2</span>
+                  <span className="font-bold text-primary-fg">2</span>
                 </Card>
               </div>
-              <p className="text-xl text-center w-full font-medium text-fg/90">Receive L-Tokens</p>
+              <p className="w-full text-center text-xl font-medium text-fg/90">Receive L-Tokens</p>
             </Card>
-            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-[1rem] font-medium tracking-wide">
+            <p className="-ml-2 inline-flex h-full items-center justify-center pt-4 text-[1rem] font-medium tracking-wide text-fg/50">
               Example: LUSDC for USDC
             </p>
           </li>
@@ -49,50 +52,32 @@ const HomeHowItWorks: FC = () => {
               <div className="absolute -left-2 -top-3">
                 <Card
                   radius="full"
-                  className=" text-xl h-10 w-10 before:bg-primary/75 rounded-full flex justify-center items-center"
+                  className=" flex h-10 w-10 items-center justify-center rounded-full text-xl before:bg-primary/75"
                 >
-                  <span className="text-primary-fg font-bold">3</span>
+                  <span className="font-bold text-primary-fg">3</span>
                 </Card>
               </div>
-              <p className="text-xl text-center w-full font-medium text-fg/90">Enjoy stable yield !</p>
+              <p className="w-full text-center text-xl font-medium text-fg/90">
+                Enjoy stable yield !
+              </p>
             </Card>
-            <p className="inline-flex items-center justify-center h-full -ml-2 pt-4 text-fg/50 text-[1rem] font-medium tracking-wide">
+            <p className="-ml-2 inline-flex h-full items-center justify-center pt-4 text-[1rem] font-medium tracking-wide text-fg/50">
               Backed by RWA
             </p>
           </li>
         </ol>
-        <div className="flex flex-col gap-8 justify-center items-center mt-24 bg-primary/5 p-14 rounded-3xl backdrop-blur-md mx-10">
-          <p className="text-xl text-center font-semibold underline decoration-[3px] decoration-primary/30 text-fg/[85%]">
-            Want to learn more ?
+        <div className="mx-10 mt-24 flex flex-wrap items-center justify-center gap-8 rounded-3xl bg-primary/5 p-14 backdrop-blur-xl ">
+          <p className="whitespace-nowrap text-center text-xl font-semibold text-fg/[85%] underline decoration-primary/30 decoration-[3px]">
+            Want to learn more?
           </p>
-          <div className="flex gap-6 flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center gap-6">
             <Button
-              data-tf-popup="J2ENFK9t"
-              data-tf-opacity="100"
-              data-tf-size="100"
-              data-tf-iframe-props="title=Subscribe to app release"
-              data-tf-transitive-search-params
-              data-tf-medium="snippet"
               variant="outline"
               size="medium"
-              className="flex justify-center items-center gap-2"
-            >
-              Read whitepaper
-              <i className="ri-file-paper-2-line text-primary/80"></i>
-            </Button>
-            <Button
-              data-tf-popup="J2ENFK9t"
-              data-tf-opacity="100"
-              data-tf-size="100"
-              data-tf-iframe-props="title=Subscribe to app release"
-              data-tf-transitive-search-params
-              data-tf-medium="snippet"
-              variant="outline"
-              size="medium"
-              className="flex justify-center items-center gap-2"
+              className="flex items-center justify-center gap-2"
             >
               Browse documentation
-              <i className="ri-book-2-fill text-primary/80"></i>
+              <i className="ri-book-2-fill text-xl text-primary/80"></i>
             </Button>
           </div>
         </div>

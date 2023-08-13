@@ -1,163 +1,138 @@
 "use client";
 import React, { FC, useLayoutEffect, useRef } from "react";
-import { Button, Scroller, Card, Cube } from "@/components/ui";
-import { clsx } from "clsx";
-import { gsap } from "@/lib/gsap";
+import { Cube, Amount } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
+import anime from "animejs";
+import { animateScroll } from "@/lib/animateScroll";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const HomeHero: FC<Props> = ({ className }) => {
-  const heroSection = useRef(null);
+  const heroSection = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (window.innerWidth >= 640) {
-      const ctx = gsap.context(() => {
-        gsap.to(heroSection.current, {
-          yPercent: -40,
-          opacity: 0,
-          scale: 1.4,
-          scrollTrigger: {
-            trigger: heroSection.current,
-            start: "top top",
-            end: "80% top",
-            scrub: 1,
-          },
-        });
-      });
-      return () => ctx.revert();
-    }
-    return () => {};
-  });
+    const divAnimation = anime({
+      targets: heroSection.current!,
+      scale: [1, 0.8],
+      translateY: [0, 300],
+      easing: "easeInOutCubic",
+      opacity: [1, 0],
+      duration: 1000,
+      autoplay: false,
+    });
+
+    return animateScroll(divAnimation, heroSection.current!, "top");
+  }, []);
 
   return (
     <section
       className={twMerge(
-        "relative min-h-[140vh] will-change-[transform,opacity]",
-        "bg-[url('/assets/glow-light.webp')] bg-cover md:bg-center bg-[left_30%_bottom_0%]",
-        "before:min-h-[140vh] before:absolute before:inset-0 before:bg-hero before:pointer-events-none before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
-        "after:bg-gradient-to-b after:from-transparent after:to-bg after:absolute after:top-[100vh] after:w-screen after:h-[40vh] after:-z-0",
+        "bg-[url('/assets/glow-light.webp')] bg-cover bg-[left_30%_bottom_0%] md:bg-center",
+        "before:bg-hero before:pointer-events-none before:absolute before:inset-0 before:min-h-[140vh] before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         className,
       )}
     >
       <div
         ref={heroSection}
-        className="relative flex -mt-[92px]  flex-col min-h-screen justify-center items-center gap-[7.5vh]"
+        className="relative flex h-full flex-col items-center justify-center gap-[7vh] sm:gap-[5vh] lg:gap-[7.5vh]"
       >
         <Cube size="tiny" className="right-12" />
-        <Cube size="small" className="right-80 top-[35%] 2xl:block hidden" />
-        <Cube size="small" className="right-14 top-10" />
-        <Cube size="tiny" className="left-44 bottom-12 xl:hidden block" />
-        <Cube size="small" className="left-44 bottom-12 xl:block hidden" />
-        <Cube size="small" className="left-80 bottom-[30%] 2xl:block hidden" />
+        <Cube size="small" className="right-[17%] top-[45%] hidden 2xl:block" />
+        <Cube size="small" className="right-14 top-[10%]" />
+        <Cube size="tiny" className="bottom-12 left-44 block xl:hidden" />
+        <Cube size="small" className="bottom-12 left-44 hidden xl:block" />
+        <Cube size="small" className="bottom-[30%] left-80 hidden 2xl:block" />
         <Cube size="small" className="-left-16 bottom-[40%]" />
         <Cube
           size="medium"
-          className="sm:block hidden lg:right-44 md:right-16 sm:-right-0  lg:bottom-[10%] sm:bottom-0"
+          className="hidden sm:-right-0 sm:bottom-0 sm:block md:right-16  lg:bottom-[10%] lg:right-44"
         />
-        <Cube size="medium" className="lg:block hidden left-44 top-[10%]" />
+        <Cube size="medium" className="left-44 top-[10%] hidden lg:block" />
         <Cube
           size="tiny"
-          className="lg:block hidden lg:right-[47%] 2xl:right-[35%] right-[35%] -bottom-2"
+          className="-bottom-2 right-[35%] hidden lg:right-[47%] lg:block 2xl:right-[28%]"
         />
-        <Cube size="small" className="left-[30%] -bottom-4 2xl:block hidden" />
+        <Cube size="small" className="-bottom-4 left-[30%] hidden 2xl:block" />
 
-        <h2 className="text-center leading-none font-heading xl:text-[7.1rem] lg:text-[6rem] md:text-[10vw] sm:text-[11vw] text-[14vw] sm:block inline-flex flex-col font-bold text-slate-700 relative">
-          Stable
-          <span> yield for</span>
-          <br className="hidden sm:block" />
-          <span className="text-indigo-300 text-transparent bg-clip-text bg-gradient-to-t from-indigo-300 to-indigo-500">
-            stablecoins<span className="text-slate-700">.</span>
-          </span>
-        </h2>
-        <section>
-          <div className="sm:flex hidden content-around justify-around xl:gap-16 md:gap-10 sm:gap-8">
-            <Card
-              defaultGradient={true}
-              className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
-            >
-              <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
-                7%
-              </p>
-              <h3 className="absolute bottom-3 sm:text-lg text-[0.92rem] font-semibold text-primary/50 font-heading">
-                APY
-              </h3>
-            </Card>
-            <Card
-              defaultGradient={true}
-              className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
-            >
-              <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
-                ±0.1%
-              </p>
-              <h3 className="absolute bottom-3 sm:text-lg text-[0.92rem] font-semibold text-primary/50 font-heading">
-                1Y stability
-              </h3>
-            </Card>
-            <Card
-              defaultGradient={true}
-              className="relative flex lg:h-40 lg:w-44 md:h-36 md:w-40 sm:h-32 sm:w-36 h-24 w-24 flex-col items-center justify-center p-6"
-            >
-              <p className="mb-3 lg:text-5xl md:text-[2.75rem] sm:text-4xl text-2xl font-bold text-fg/80">
-                $8k
-              </p>
-              <h3 className="absolute bottom-3 sm:text-lg text-[0.92rem] font-semibold text-primary/50 font-heading">
-                TVL
-              </h3>
-            </Card>
-          </div>
-          <div className="block sm:hidden">
-            <Card>
-              <ul className="flex justify-around h-28">
-                <li className="relative flex items-center justify-center px-[7vw]">
-                  <p className="mb-3 text-4xl font-bold text-fg/80">7%</p>
-                  <h3 className="absolute bottom-3 text-[0.92rem] font-semibold text-primary/50 font-heading">
-                    APY
-                  </h3>
-                </li>
-
-                <li
-                  className={clsx(
-                    "relative flex items-center justify-center px-[4vw]",
-                    "bg-fg/[5%]",
-                  )}
-                >
-                  <p className="mb-3 text-4xl font-bold text-fg/80">±0.1%</p>
-                  <h3
-                    className={clsx(
-                      "absolute bottom-3 text-[0.92rem] font-semibold text-primary/50 font-heading",
-                      "whitespace-nowrap",
-                    )}
-                  >
-                    1Y stability
-                  </h3>
-                </li>
-                <li className="relative flex items-center justify-center px-[7vw]">
-                  <p className="mb-3 text-4xl font-bold text-fg/80">$8k</p>
-                  <h3 className="absolute bottom-3 text-base font-semibold text-primary/50 font-heading">
-                    TVL
-                  </h3>
-                </li>
-              </ul>
-            </Card>
-          </div>
-        </section>
-        <div className="flex flex-row flex-wrap px-8 justify-center items-center gap-14">
-          <Link href="/app">
-            <Button size="large">Invest now</Button>
-          </Link>
-
-          <Button
-            className="sm:block hidden"
-            variant="outline"
-            size="large"
-            onClick={() => scrollTo(0, window.innerHeight - 97.4 - 50)}
+        <section className="flex flex-col items-center justify-center gap-[5vh]">
+          <Link
+            href={{
+              pathname: "/app",
+              query: { ref: "abar" },
+            }}
           >
-            Learn more
-          </Button>
+            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-orange-200 bg-orange-50 opacity-70 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-tr from-orange-500 to-orange-700 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
+                <i className="ri-fire-fill animate-pulse text-xl" />
+                Linea Airdrop
+              </div>
+              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
+                {/* Deposit USDC from Linea and <br className="md:hidden" />
+                receive very first LDY tokens */}
+                Deposit USDC and receive tokens <br className="md:hidden" />
+                from 10+ Linea projects
+                <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
+              </div>
+            </div>
+          </Link>
+          {/* <Link
+        href={{
+          pathname: "/app",
+          query: { ref: "abar" },
+        }}
+      >
+        <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-orange-200 bg-orange-50 opacity-70 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+          <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-tr from-orange-500 to-orange-700 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
+            <i className="ri-fire-fill animate-pulse text-xl" />
+            Arbitrum Lockdrop
+          </div>
+          <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
+            Lock USDC on Arbitrum and <br className="md:hidden" />
+            receive very first LDY tokens
+            <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
+          </div>
         </div>
-        <Scroller className="absolute bottom-[4vh]" />
+      </Link> */}
+          <h2 className="relative inline-flex flex-col text-center font-heading text-[14vw] font-bold leading-none text-slate-700 sm:block sm:text-[11.5vw] md:text-[11.5vw] lg:text-[7.2rem] xl:text-[7.8rem]">
+            <span className="text-[15vw] drop-shadow-xl sm:[font-size:inherit]">
+              Stable <span className="whitespace-nowrap">yield for</span>
+            </span>
+            <br className="hidden sm:block" />
+            <span className="bg-gradient-to-t from-indigo-300 to-indigo-500 bg-clip-text text-indigo-300 text-transparent drop-shadow-md">
+              stablecoins<span className="text-slate-700">.</span>
+            </span>
+          </h2>
+        </section>
+        <div className="mt-14 flex w-screen flex-col items-center justify-center xl:mt-20">
+          <div className="dark-neon min-w-[700px] sm:min-w-[1300px] md:min-w-[1300px] lg:min-w-[1800px]" />
+          <ul className="flex items-center justify-center gap-24 px-14 lg:mt-2 lg:gap-32">
+            <li className="text-center sm:text-left">
+              <Amount
+                value={200000000000n}
+                decimals={6}
+                className="font-heading text-6xl font-bold text-slate-200/90 lg:text-7xl"
+              />
+              <h3 className="font-heading text-xl font-bold text-primary opacity-70">
+                TVL <span className="opacity-70">(in $)</span>
+              </h3>
+            </li>
+            <li className="hidden text-right sm:block">
+              <span
+                prefix="±"
+                className="font-heading text-6xl font-bold text-slate-200/90 lg:text-7xl"
+              >
+                ±0.1%
+              </span>
+              <h3 className="font-heading text-xl font-bold text-primary opacity-70">
+                <span className="opacity-70">(1Y)</span> Stability
+              </h3>
+            </li>
+          </ul>
+        </div>
+        <div className="absolute bottom-[4vh]">
+          <i className="ri-arrow-down-double-fill text-3xl text-fg/50" />
+        </div>
       </div>
     </section>
   );

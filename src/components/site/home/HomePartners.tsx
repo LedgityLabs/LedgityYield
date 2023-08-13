@@ -11,16 +11,18 @@ import circleLogo from "~/assets/partners/circle.png";
 const HomePartners: FC = () => {
   return (
     <FadeIn>
-      <section className="relative  pb-56 flex flex-col items-center">
-        <Cube size="medium" className="left-16 -bottom-40" />
+      <section className="relative  flex flex-col items-center pb-56">
+        <Cube size="medium" className="bottom-2 left-16" />
 
-        <h3 className="text-center font-bold text-4xl pb-16 font-heading text-fg/90">Our partners</h3>
+        <h3 className="pb-16 text-center font-heading text-4xl font-bold text-fg/90">
+          Our partners
+        </h3>
         <ul className="flex flex-wrap justify-center gap-16 px-16">
           <li>
             <Link
               href="https://www.circle.com"
               target="_blank"
-              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              className="min-h-[60px] opacity-80 transition hover:opacity-100"
             >
               <Image src={circleLogo} alt="Circle Logo" height={40} />
             </Link>
@@ -29,7 +31,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.risepartners.org"
               target="_blank"
-              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              className="min-h-[60px] opacity-80 transition hover:opacity-100"
             >
               <Image src={risepartnersLogo} alt="Rise Partners Logo" height={40} />
             </Link>
@@ -38,7 +40,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.adan.eu"
               target="_blank"
-              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              className="min-h-[60px] opacity-80 transition hover:opacity-100"
             >
               <Image src={adanLogo} alt="ADAN Logo" height={40} />
             </Link>
@@ -47,7 +49,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://foundersdao.io/"
               target="_blank"
-              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              className="min-h-[60px] opacity-80 transition hover:opacity-100"
             >
               <Image src={foundersoneLogo} alt="Founders One Logo" height={40} />
             </Link>
@@ -56,9 +58,9 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.delubac.com/"
               target="_blank"
-              className="opacity-80 hover:opacity-100 transition min-h-[60px]"
+              className="min-h-[60px] opacity-80 transition hover:opacity-100"
             >
-              <Image src={delubacLogo} alt="Founders One Logo" height={40} />
+              <Image src={delubacLogo} alt="Delubac Logo" height={40} />
             </Link>
           </li>
         </ul>

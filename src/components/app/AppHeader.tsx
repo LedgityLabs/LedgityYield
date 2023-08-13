@@ -1,15 +1,14 @@
 import { FC } from "react";
-import { Button } from "@/components/ui";
 import Logo from "@/components/ui/Logo";
 import { ConnectButton } from "@/components/app/ConnectButton";
 import { DotsMenu } from "../DotsMenu";
 
 const AppHeader: FC = () => {
   return (
-    <header className="pb-[97px] relative z-50">
-      <nav className="fixed flex items-center px-6 py-6 w-screen sm:backdrop-blur-md justify-between">
-        <Logo className="flex [@media(max-width:500px)]:hidden ml-2" />
-        <Logo className="[@media(max-width:500px)]:flex hidden ml-2" noText={true} />
+    <header className="relative z-50 pb-[97px]">
+      <nav className="fixed flex w-screen items-center justify-between px-6 py-6 backdrop-blur-md">
+        <Logo className="ml-2 hidden md:flex" />
+        <Logo className="ml-2 flex md:hidden" noText={true} />
 
         <div className="flex gap-6">
           <ConnectButton />

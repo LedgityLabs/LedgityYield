@@ -5,8 +5,7 @@ import { Button, Card } from "./ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { NetworkStatus } from "./app/NetworkStatus";
-import { version } from "../../package.json";
-import { useBlockNumber } from "wagmi";
+import packageJSON from "../../package.json";
 import { usePathname } from "next/navigation";
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {}
@@ -44,15 +43,20 @@ export const DotsMenu: FC<Props> = ({ className }) => {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          className={twMerge("flex justify-center items-center font-bold w-12", className)}
+          className={twMerge("flex w-12 items-center justify-center font-bold", className)}
           variant="outline"
         >
           <i className="ri-more-2-fill text-2xl "></i>
         </Button>
       </PopoverTrigger>
       <PopoverContent collisionPadding={20} sideOffset={10}>
-        <Card className="p-10 pb-8 flex flex-col gap-14 backdrop drop-shadow-lg">
+        <Card className="backdrop flex flex-col gap-14 p-10 pb-8 drop-shadow-lg">
           <ul className="flex flex-col gap-3 text-lg font-semibold">
+            <li className="sm:hidden">
+              <Link href="/app" className="font-bold text-primary hover:opacity-80">
+                Enter app
+              </Link>
+            </li>
             <li>
               <Link href="/" className="hover:opacity-80">
                 Documentation&nbsp;
@@ -72,6 +76,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                 </span>
               </Link>
             </li> */}
+
             <li>
               <Link href="/" className="hover:opacity-80">
                 Support&nbsp;
@@ -80,71 +85,73 @@ export const DotsMenu: FC<Props> = ({ className }) => {
             </li>
             {isAdminVisible && (
               <li>
-                <Link href="/app/admin" className="hover:opacity-80 text-primary">
+                <Link href="/app/admin" className="text-primary hover:opacity-80">
                   Administration
                 </Link>
               </li>
             )}
           </ul>
           <div>
-            <div className="flex justify-between items-end">
+            <div className="flex items-end justify-between">
               {(pathname.startsWith("/app") && <NetworkStatus />) || <div></div>}
               <p className="text-center text-sm">
-                <span className="text-fg/70 text-center">Version</span>&nbsp;
+                <span className="text-center text-fg/70">Version</span>&nbsp;
                 <br />
-                <span className="font-semibold text-base text-fg/90 text-center">{version}</span>
+                <span className="text-center text-base font-semibold text-fg/90">
+                  {packageJSON.version}
+                </span>
               </p>
             </div>
             <hr className="mb-5 mt-4 border-fg/20" />
-            <ul className="flex justify-center items-center gap-7">
-              <li className="flex justify-center items-center">
+            <ul className="flex items-center justify-center gap-7">
+              <li className="flex items-center justify-center">
                 <Link
                   aria-label="Twitter"
-                  href="https://twitter.com/LedgityPlatform"
+                  href="https://twitter.com/LedgityYield"
                   target="_blank"
-                  className="w-8 h-8 inline-block"
+                  className="inline-block h-8 w-8"
                 >
-                  <i className="ri-twitter-fill inline-block text-3xl hover:opacity-80 hover:scale-105 transition-[transform,fill]"></i>
+                  <i className="ri-twitter-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
                 </Link>
               </li>
-              <li className="flex justify-center items-center">
+              <li className="flex items-center justify-center">
                 <Link
                   aria-label="Discord"
                   href="https://discord.gg/ledgityyield"
                   target="_blank"
-                  className="w-8 h-8 inline-block"
+                  className="inline-block h-8 w-8"
                 >
-                  <i className="ri-discord-fill inline-block text-3xl hover:opacity-80 hover:scale-105 transition-[transform,fill]"></i>
+                  <i className="ri-discord-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
                 </Link>
               </li>
-              <li className="flex justify-center items-center">
+              <li className="flex items-center justify-center">
                 <Link
                   aria-label="Telegram"
                   href="https://t.me/ledgityapp"
                   target="_blank"
-                  className="w-8 h-8 inline-block"
+                  className="inline-block h-8 w-8"
                 >
-                  <i className="ri-telegram-fill inline-block text-3xl hover:opacity-80 hover:scale-105 transition-[transform,fill]"></i>
+                  <i className="ri-telegram-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
                 </Link>
               </li>
-              <li className="flex justify-center items-center">
+              <li className="flex items-center justify-center">
                 <Link
                   aria-label="Github"
                   href="https://github.com/ledgity-labs/Ledgity-Yield"
                   target="_blank"
-                  className="w-8 h-8 inline-block"
+                  className="inline-block h-8 w-8"
                 >
-                  <i className="ri-github-fill inline-block text-3xl hover:opacity-80 hover:scale-105 transition-[transform,fill]"></i>
+                  <i className="ri-github-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
                 </Link>
               </li>
-              <li className="flex justify-center items-center">
+              <li className="flex items-center justify-center">
                 <Link
                   aria-label="Email"
                   href="mailto:defi@ledgity.com"
                   target="_blank"
-                  className="w-8 h-8 inline-block"
+                  className="inline-block h-8 w-8"
                 >
-                  <i className="ri-mail-fill inline-block text-3xl hover:opacity-80 hover:scale-105 transition-[transform,fill]"></i>
+                  <i className="ri-mail-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
                 </Link>
               </li>
             </ul>

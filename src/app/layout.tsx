@@ -2,12 +2,8 @@ import "@/styles/globals.css";
 import "remixicon/fonts/remixicon.css";
 import { type NextPage } from "next";
 import { CardsHelper, TooltipProvider } from "@/components/ui";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fonts } from "@/lib/fonts";
 import clsx from "clsx";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const name = "Ledgity Yield";
 const description =
@@ -22,7 +18,7 @@ export const metadata = {
   colorScheme: "light",
   themeColor: "rgb(var(--bg))",
   description: description,
-  keywords: ["stablecoins", "yield", "DeFi", "crypto", "rwa", "real world assets", "CeFi"],
+  keywords: ["stablecoins", "yield", "DeFi", "crypto", "RWA", "real world assets", "CeFi"],
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -38,12 +34,12 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@LedgityPlatform",
-    creator: "@LedgityPlatform",
+    site: "@LedgityYield",
+    creator: "@LedgityYield",
     title: `${name} | Stable Yield For Stablecoins`,
     description: description,
   },
-  manifest: "/manifest.json",
+  manifest: "https://ledgity.finance/manifest.json",
   verification: {
     google: "Gy_ommY7mtAUwTSdS8bNsHmmMeeKSmPAy8H5lEhX738",
   },
@@ -60,12 +56,12 @@ const RootLayout: NextPage<Props> = ({ children }) => {
         className={clsx(
           fonts,
           "min-h-screen",
-          "after:absolute after:inset-0 after:bg-[url(/assets/noise.png)] after:z-[1000000] after:pointer-events-none after:opacity-[0.07] after:bg-blend-difference after:contrast-200",
+          "after:pointer-events-none after:absolute after:inset-0 after:z-[1000000] after:bg-[url(/assets/noise.png)] after:opacity-[0.07] after:bg-blend-difference after:contrast-200",
         )}
       >
         <CardsHelper />
         <TooltipProvider delayDuration={400}>
-          <div className="relative max-w-screen overflow-x-hidden overflow-y-hidden">
+          <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
             {children}
           </div>
         </TooltipProvider>

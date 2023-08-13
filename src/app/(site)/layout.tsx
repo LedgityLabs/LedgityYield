@@ -1,11 +1,6 @@
 import { type NextPage } from "next";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Script from "next/script";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface Props {
   children: React.ReactNode;
@@ -16,7 +11,7 @@ const SiteLayout: NextPage<Props> = ({ children }) => {
     <>
       <SiteHeader />
       <main>{children}</main>
-      <SiteFooter />
+      <SiteFooter className="relative z-50" />
     </>
   );
 };

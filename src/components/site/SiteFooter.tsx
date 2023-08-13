@@ -1,17 +1,16 @@
 import { FC } from "react";
 import Link from "next/link";
-import clsx from "clsx";
 import Logo from "../ui/Logo";
 import { FadeIn } from "../ui";
-import ledgityLogoDark from "~/assets/logo/dark.png";
-import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
-const SiteFooter: FC = () => {
+const SiteFooter: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
   return (
-    <FadeIn yOffset={40}>
+    <FadeIn startAt="bottom">
       <footer
-        className={clsx(
+        className={twMerge(
           "bg-fg xl:p-24 p-16 flex flex-col justify-center items-center gap-10 relative overflow-hidden rounded-3xl m-7 shadow-[0px_4px_12px_rgba(0,0,0,0.3)]",
+          className,
         )}
       >
         <section className="grid lg:grid-cols-3 grid-cols-1 lg:gap-0 gap-12 grid-rows-1 w-full ">
@@ -37,7 +36,7 @@ const SiteFooter: FC = () => {
               <li className="flex justify-center items-center">
                 <Link
                   aria-label="Twitter"
-                  href="https://twitter.com/LedgityPlatform"
+                  href="https://twitter.com/LedgityYield"
                   target="_blank"
                   className="w-8 h-8 inline-block"
                 >

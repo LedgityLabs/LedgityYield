@@ -7,31 +7,22 @@ import Link from "next/link";
 import { DotsMenu } from "../DotsMenu";
 
 const SiteHeader: FC = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const handleScroll = () => setScrollY(window.scrollY);
-  useEffect(() => {
-    handleScroll();
-    document.addEventListener("scroll", handleScroll);
-    return () => document.removeEventListener("scroll", handleScroll);
-  });
-
   return (
-    <header className="pb-[97px] relative z-50">
+    <header className="relative z-50 pb-[97px]">
       <nav
         className={twMerge(
-          "fixed flex items-center px-6 py-6 w-screen sm:backdrop-blur-md sm:justify-between justify-center",
-          scrollY > 0 && "backdrop-blur-md",
+          "fixed flex w-screen items-center justify-between px-6 py-6 backdrop-blur-md",
         )}
       >
-        <Logo className="sm:ml-2 ml-0" />
+        <Logo className="ml-2" />
         <div className="static flex gap-6">
           <Link href="/app">
-            <Button size="large" className="sm:block hidden">
+            <Button size="large" className="hidden sm:block">
               Enter app
             </Button>
           </Link>
 
-          <DotsMenu className="sm:static absolute top-6 right-6" />
+          <DotsMenu className="sm:static" />
         </div>
       </nav>
     </header>

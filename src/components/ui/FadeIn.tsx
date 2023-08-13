@@ -1,36 +1,30 @@
 "use client";
 import { FC, useLayoutEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import anime, { type AnimeInstance } from "animejs";
+import { animateScroll } from "@/lib/animateScroll";
 
 interface FadeInProps extends React.HTMLAttributes<HTMLDivElement> {
-  yOffset?: number;
+  startAt?: "top" | "bottom";
 }
 
-export const FadeIn: FC<FadeInProps> = ({ children, yOffset = 200, ...props }) => {
-  const container = useRef<HTMLDivElement>(null);
+export const FadeIn: FC<FadeInProps> = ({ children, startAt = "top", ...props }) => {
+  const fadedDiv = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (container.current && window.innerWidth >= 640) {
-      const ctx = gsap.context(() => {
-        gsap.from(container.current, {
-          y: `${yOffset}px`,
-          scale: 1.4,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: container.current,
-            start: "3% bottom", // when the top of the trigger hits the bottom of the viewport
-            end: "top 75%", // when the top of the trigger hits 70% from top viewport
-            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-          },
-        });
-      });
-      return () => ctx.revert();
-    }
-    return () => {};
-  });
+    const divAnimation = anime({
+      targets: fadedDiv.current!,
+      scale: [1.5, 1],
+      translateY: [200, 0],
+      easing: "easeInOutCubic",
+      opacity: [0, 1],
+      duration: 1000,
+      autoplay: false,
+    });
 
+    return animateScroll(divAnimation, fadedDiv.current!, startAt);
+  }, []);
   return (
-    <div ref={container} className="will-change-[transform,opacity]" {...props}>
+    <div ref={fadedDiv} className="will-change-[transform,opacity]" {...props}>
       {children}
     </div>
   );
