@@ -88,8 +88,12 @@ export const AppInvestAirdrop: FC<Props> = ({ className }) => {
       </h3>
       <ul className="list-disc text-lg font-semibold text-white">
         <li>Proportional to deposited amount</li>
-        <li>Proportional to number of partner DApp the wallet interacted with</li>
-        <li>Weight bonus if the wallet used USDC on partners DApps</li>
+        <li>
+          Proportional to number of interactions with partners&apos; DApps
+          <ul>
+            <li>+ bonus if interactions involve USDC</li>
+          </ul>
+        </li>
         <li>Proportional to time in Ledgity Yield USDC pool</li>
       </ul>
     </Card>
