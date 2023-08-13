@@ -1,3 +1,10 @@
+## [1.149.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.148.0...v1.149.0) (2023-08-13)
+
+
+### Features
+
+* disable home's features scroll animation for now ([585591d](https://github.com/ledgity-labs/Ledgity-Yield/commit/585591d5cb5a4431b0b8eb97be705360adba4e28))
+
 ## [1.148.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.147.1...v1.148.0) (2023-08-13)
 
 
