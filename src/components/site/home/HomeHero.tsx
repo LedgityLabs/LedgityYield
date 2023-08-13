@@ -120,7 +120,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               <Amount
                 value={200000000000n}
                 decimals={6}
-                className="font-heading text-6xl font-bold text-slate-200/90 lg:text-7xl"
+                className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl"
               />
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">
                 TVL <span className="opacity-70">(in $)</span>
@@ -129,7 +129,7 @@ const HomeHero: FC<Props> = ({ className }) => {
             <li className="hidden text-right sm:block">
               <span
                 prefix="±"
-                className="font-heading text-6xl font-bold text-slate-200/90 lg:text-7xl"
+                className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl"
               >
                 ±0.1%
               </span>

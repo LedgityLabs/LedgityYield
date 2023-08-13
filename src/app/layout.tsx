@@ -60,7 +60,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
         className={clsx(
           fonts,
           "min-h-screen",
-          "after:pointer-events-none after:absolute after:inset-0 after:z-[1000000] after:bg-[url(/assets/noise.png)] after:opacity-[0.07] after:bg-blend-difference after:contrast-200",
+          "after:pointer-events-none after:absolute after:inset-0 after:z-[1000000] after:bg-[url(/assets/textures/noise.png)] after:opacity-[0.07] after:bg-blend-difference after:contrast-200",
         )}
       >
         <CardsHelper />
