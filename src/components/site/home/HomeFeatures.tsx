@@ -2,30 +2,10 @@
 import { FC, useLayoutEffect, useRef } from "react";
 import { Button, Card, Cube, FadeIn } from "@/components/ui";
 import Link from "next/link";
-import anime from "animejs";
-import { animateScroll } from "@/lib/animateScroll";
 
 const HomeFeatures: FC = () => {
-  const featuresSection = useRef<HTMLDivElement>(null);
-
-  // useLayoutEffect(() => {
-  //   const divAnimation = anime({
-  //     targets: "section#features-section",
-  //     easing: "easeInOutCubic",
-  //     opacity: [0, 10],
-  //     duration: 1000,
-  //     autoplay: false,
-  //   });
-
-  //   return animateScroll(divAnimation, featuresSection.current!, "top");
-  // }, []);
-
   return (
-    <section
-      ref={featuresSection}
-      id="features-section"
-      className="relative flex flex-col items-center justify-center"
-    >
+    <section className="relative flex flex-col items-center justify-center">
       <Cube size="medium" className="-top-8 left-64" />
       <Cube size="large" className="-right-16 bottom-[35%]" />
       <Cube size="small" className="bottom-[15%] left-8" />

@@ -11,7 +11,7 @@ const SiteLayout: NextPage<Props> = ({ children }) => {
     <>
       <SiteHeader />
       <main>{children}</main>
-      <SiteFooter className="relative z-50" />
+      <SiteFooter />
     </>
   );
 };

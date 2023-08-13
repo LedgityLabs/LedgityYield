@@ -26,13 +26,16 @@ const Page: NextPage = () => {
     >
       <TabsList className="mb-6 mt-12">
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-        <TabsTrigger value="invest">
+        <TabsTrigger
+          value="invest"
+          className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
+        >
           Invest
           {isLinea && (
             <div
               className={twMerge(
                 "absolute -right-[30%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-                currentTab === "invest" && "opacity-60",
+                currentTab === "invest" && "opacity-60 grayscale-[30%]",
               )}
             >
               <i className="ri-fire-fill text-x animate-pulse" />
@@ -42,12 +45,15 @@ const Page: NextPage = () => {
           )}
         </TabsTrigger>
         {isArbitrum && (
-          <TabsTrigger value="ldy-token">
+          <TabsTrigger
+            value="ldy-token"
+            className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
+          >
             LDY Token
             <div
               className={twMerge(
                 "absolute -right-[15%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-                currentTab === "ldy-token" && "opacity-60",
+                currentTab === "ldy-token" && "opacity-60 grayscale-[30%]",
               )}
             >
               <i className="ri-fire-fill text-x animate-pulse" />
