@@ -1,3 +1,10 @@
+## [1.147.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.147.0...v1.147.1) (2023-08-12)
+
+
+### Fixes
+
+* broken cards' default gradient ([c2d139e](https://github.com/ledgity-labs/Ledgity-Yield/commit/c2d139e0d1c33fb2ffdbe6b2bcc74f9a0e51804a))
+
 ## [1.147.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.146.0...v1.147.0) (2023-08-12)
 
 
