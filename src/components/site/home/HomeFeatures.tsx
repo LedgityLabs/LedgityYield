@@ -8,17 +8,17 @@ import { animateScroll } from "@/lib/animateScroll";
 const HomeFeatures: FC = () => {
   const featuresSection = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    const divAnimation = anime({
-      targets: "section#features-section",
-      easing: "easeInOutCubic",
-      opacity: [0, 1],
-      duration: 1000,
-      autoplay: false,
-    });
+  // useLayoutEffect(() => {
+  //   const divAnimation = anime({
+  //     targets: "section#features-section",
+  //     easing: "easeInOutCubic",
+  //     opacity: [0, 10],
+  //     duration: 1000,
+  //     autoplay: false,
+  //   });
 
-    return animateScroll(divAnimation, featuresSection.current!, "top");
-  }, []);
+  //   return animateScroll(divAnimation, featuresSection.current!, "top");
+  // }, []);
 
   return (
     <section
