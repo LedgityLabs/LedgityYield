@@ -4,6 +4,8 @@ import { type NextPage } from "next";
 import { CardsHelper, TooltipProvider } from "@/components/ui";
 import { fonts } from "@/lib/fonts";
 import clsx from "clsx";
+import dynamic from "next/dynamic";
+import Loader from "@/app/loading";
 
 const name = "Ledgity Yield";
 const description =
@@ -50,6 +52,8 @@ interface Props {
 }
 
 const RootLayout: NextPage<Props> = ({ children }) => {
+  const DApp = dynamic(() => import("@/components/app/DApp"), { loading: Loader, ssr: false });
+
   return (
     <html lang="en">
       <body
@@ -61,9 +65,11 @@ const RootLayout: NextPage<Props> = ({ children }) => {
       >
         <CardsHelper />
         <TooltipProvider delayDuration={400}>
-          <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
-            {children}
-          </div>
+          <DApp>
+            <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
+              {children}
+            </div>
+          </DApp>
         </TooltipProvider>
       </body>
     </html>

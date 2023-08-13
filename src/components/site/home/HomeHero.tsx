@@ -5,11 +5,16 @@ import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import anime from "animejs";
 import { animateScroll } from "@/lib/animateScroll";
+import { usePublicClient } from "wagmi";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const HomeHero: FC<Props> = ({ className }) => {
   const heroSection = useRef<HTMLDivElement>(null);
+  const publicClient = usePublicClient();
+
+  // Figure out if it's an Arbitrum user or not
+  const isArbitrum = publicClient && [42161, 421613].includes(publicClient.chain.id);
 
   useLayoutEffect(() => {
     const divAnimation = anime({
@@ -28,7 +33,7 @@ const HomeHero: FC<Props> = ({ className }) => {
   return (
     <section
       className={twMerge(
-        "bg-[url('/assets/glow-light.webp')] bg-cover bg-[left_30%_bottom_0%] md:bg-center",
+        "bg-[url('/assets/textures/glow-light.webp')] bg-cover bg-[left_30%_bottom_0%] md:bg-center",
         "before:bg-hero before:pointer-events-none before:absolute before:inset-0 before:min-h-[140vh] before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         className,
       )}
@@ -57,6 +62,9 @@ const HomeHero: FC<Props> = ({ className }) => {
 
         <section className="flex flex-col items-center justify-center gap-[5vh]">
           <Link
+            style={{
+              display: !isArbitrum ? "inline-block" : "none",
+            }}
             href={{
               pathname: "/app",
               query: { ref: "abar" },
@@ -68,32 +76,33 @@ const HomeHero: FC<Props> = ({ className }) => {
                 Linea Airdrop
               </div>
               <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
-                {/* Deposit USDC from Linea and <br className="md:hidden" />
-                receive very first LDY tokens */}
                 Deposit USDC and receive tokens <br className="md:hidden" />
                 from 10+ Linea projects
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
               </div>
             </div>
           </Link>
-          {/* <Link
-        href={{
-          pathname: "/app",
-          query: { ref: "abar" },
-        }}
-      >
-        <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-orange-200 bg-orange-50 opacity-70 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
-          <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-tr from-orange-500 to-orange-700 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
-            <i className="ri-fire-fill animate-pulse text-xl" />
-            Arbitrum Lockdrop
-          </div>
-          <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
-            Lock USDC on Arbitrum and <br className="md:hidden" />
-            receive very first LDY tokens
-            <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
-          </div>
-        </div>
-      </Link> */}
+          <Link
+            style={{
+              display: isArbitrum ? "inline-block" : "none",
+            }}
+            href={{
+              pathname: "/app",
+              query: { ref: "abar" },
+            }}
+          >
+            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-orange-200 bg-orange-50 opacity-70 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-tr from-orange-500 to-orange-700 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
+                <i className="ri-fire-fill animate-pulse text-xl" />
+                Arbitrum Lockdrop
+              </div>
+              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
+                Lock USDC on Arbitrum and <br className="md:hidden" />
+                receive very first LDY tokens
+                <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
+              </div>
+            </div>
+          </Link>
           <h2 className="relative inline-flex flex-col text-center font-heading text-[14vw] font-bold leading-none text-slate-700 sm:block sm:text-[11.5vw] md:text-[11.5vw] lg:text-[7.2rem] xl:text-[7.8rem]">
             <span className="text-[15vw] drop-shadow-xl sm:[font-size:inherit]">
               Stable <span className="whitespace-nowrap">yield for</span>

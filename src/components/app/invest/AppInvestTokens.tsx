@@ -21,6 +21,8 @@ import { watchReadContracts } from "@wagmi/core";
 import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
 import { JSONStringify } from "@/lib/jsonStringify";
+import dropIcon from "~/assets/icons/airdrop.svg";
+import Image from "next/image";
 
 interface Pool {
   tokenSymbol: string;
@@ -56,13 +58,15 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   let isActionsDialogOpen = useRef(false);
   let futureTableData = useRef<Pool[]>([]);
 
+  const isLinea = publicClient && [59144, 59140].includes(publicClient.chain.id);
+
   const columns = [
     columnHelper.accessor("tokenSymbol", {
       header: "Name",
       cell: (info) => {
         const tokenSymbol = info.getValue();
         return (
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <TokenLogo symbol={tokenSymbol} size={35} />
             <p>{tokenSymbol}</p>
           </div>
@@ -70,7 +74,25 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       },
     }),
     columnHelper.accessor("apr", {
-      cell: (info) => <Rate value={info.getValue()} />,
+      cell: (info) => (
+        <div className="flex items-center justify-center gap-2">
+          <Rate value={info.getValue()} />
+          {isLinea && (
+            <div className="flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white">
+              + Airdrop
+              <Image
+                src={dropIcon}
+                alt="Drop icons"
+                width={15}
+                height={15}
+                style={{
+                  filter: "invert(100%)",
+                }}
+              />
+            </div>
+          )}
+        </div>
+      ),
       header: "APR",
     }),
     columnHelper.accessor("tvl", {
@@ -227,7 +249,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
 
   return (
     <article className={className}>
-      <div className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] font-semibold mb-3 px-6 text-fg/80">
+      <div className="mb-3 grid grid-cols-[2fr,2fr,2fr,2fr,3fr] px-6 font-semibold text-fg/80">
         {headerGroup.headers.map((header, index) => {
           return (
             <div
@@ -236,7 +258,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 gridColumnStart: index + 1,
               }}
               className={twMerge(
-                "flex justify-center items-center",
+                "flex items-center justify-center",
                 header.column.id === "tokenSymbol" && "justify-start pl-6",
               )}
             >
@@ -277,7 +299,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         })}
       </div>
       {(isLoading && (
-        <div className="w-full flex justify-center items-center mt-10">
+        <div className="mt-10 flex w-full items-center justify-center">
           <Spinner />
         </div>
       )) || (
@@ -288,7 +310,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 key={row.id}
                 circleIntensity={0.07}
                 data-state={row.getIsSelected() && "selected"}
-                className="grid grid-cols-[2fr,2fr,2fr,2fr,3fr] mb-4 py-6 px-6 font-medium text-base animate-fadeAndMoveIn"
+                className="mb-4 grid animate-fadeAndMoveIn grid-cols-[2fr,2fr,2fr,2fr,3fr] px-6 py-6 text-base font-medium"
               >
                 {row.getVisibleCells().map((cell, index) => (
                   <div
@@ -297,7 +319,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                       "flex items-center",
                       cell.column.id !== "tokenSymbol" && "justify-center",
                       cell.column.id === "actions" && "justify-end",
-                      cell.column.id === "apr" && "text-indigo-800 font-bold",
+                      cell.column.id === "apr" && "font-extrabold text-indigo-700",
                     )}
                     style={{
                       gridColumnStart: index + 1,
@@ -309,7 +331,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               </Card>
             ))
           ) : (
-            <p className="text-center mt-10 block">
+            <p className="mt-10 block text-center">
               No investment opportunities on this chain yet.
             </p>
           )}
