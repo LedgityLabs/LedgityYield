@@ -22,7 +22,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.circle.com"
               target="_blank"
-              className="min-h-[60px] opacity-80 transition hover:opacity-100"
+              className="bg-gradient-radial inline-flex min-h-[60px] items-center justify-center rounded-2xl from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
             >
               <Image src={circleLogo} alt="Circle Logo" height={40} />
             </Link>
@@ -31,7 +31,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.risepartners.org"
               target="_blank"
-              className="min-h-[60px] opacity-80 transition hover:opacity-100"
+              className="bg-gradient-radial inline-flex min-h-[60px] items-center justify-center rounded-2xl from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
             >
               <Image src={risepartnersLogo} alt="Rise Partners Logo" height={40} />
             </Link>
@@ -40,7 +40,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.adan.eu"
               target="_blank"
-              className="min-h-[60px] opacity-80 transition hover:opacity-100"
+              className="bg-gradient-radial inline-flex min-h-[60px] items-center justify-center rounded-2xl from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
             >
               <Image src={adanLogo} alt="ADAN Logo" height={40} />
             </Link>
@@ -49,7 +49,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://foundersdao.io/"
               target="_blank"
-              className="min-h-[60px] opacity-80 transition hover:opacity-100"
+              className="bg-gradient-radial inline-flex min-h-[60px] items-center justify-center rounded-2xl from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
             >
               <Image src={foundersoneLogo} alt="Founders One Logo" height={40} />
             </Link>
@@ -58,7 +58,7 @@ const HomePartners: FC = () => {
             <Link
               href="https://www.delubac.com/"
               target="_blank"
-              className="min-h-[60px] opacity-80 transition hover:opacity-100"
+              className="bg-gradient-radial inline-flex min-h-[60px] items-center justify-center rounded-2xl from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
             >
               <Image src={delubacLogo} alt="Delubac Logo" height={40} />
             </Link>

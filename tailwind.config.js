@@ -54,7 +54,7 @@ export const theme = {
   },
   extend: {
     backgroundImage: {
-      // "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       // hero: "repeating-conic-gradient(black 0%, gray 0.7%), repeating-conic-gradient(gray 0.0000001%, grey 0.000104%)",
 
       "card-border": `radial-gradient(var(--circle-size) circle at var(--mouse-x) var(--mouse-y), rgb(var(--primary-bg) / 0.8), transparent), linear-gradient(rgb(var(--border) / 0.8), rgb(var(--border) / 0.8))`,
