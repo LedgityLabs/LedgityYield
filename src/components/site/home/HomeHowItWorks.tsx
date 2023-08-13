@@ -66,8 +66,8 @@ const HomeHowItWorks: FC = () => {
             </p>
           </li>
         </ol>
-        <div className="mx-10 mt-24 flex flex-wrap items-center justify-center gap-8 rounded-3xl bg-primary/5 p-14 backdrop-blur-xl ">
-          <p className="whitespace-nowrap text-center text-xl font-semibold text-fg/[85%] underline decoration-primary/30 decoration-[3px]">
+        <div className="mx-10 mt-24 flex flex-wrap items-center justify-center gap-8 rounded-3xl bg-primary/10 p-14 backdrop-blur-xl ">
+          <p className="whitespace-nowrap text-center text-xl font-semibold text-fg/90 underline decoration-primary/30 decoration-[3px]">
             Want to learn more?
           </p>
           <div className="flex flex-wrap justify-center gap-6">
@@ -76,8 +76,8 @@ const HomeHowItWorks: FC = () => {
               size="medium"
               className="flex items-center justify-center gap-2"
             >
-              Browse documentation
               <i className="ri-book-2-fill text-xl text-primary/80"></i>
+              Browse documentation
             </Button>
           </div>
         </div>
