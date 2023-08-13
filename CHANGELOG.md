@@ -1,3 +1,10 @@
+## [1.151.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.150.0...v1.151.0) (2023-08-13)
+
+
+### Features
+
+* add radius effect to landing page's body top + create invest airdrop component ([e48c155](https://github.com/ledgity-labs/Ledgity-Yield/commit/e48c1550e69098d52a55d9d1a6c58c92dedfde28))
+
 ## [1.150.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.149.0...v1.150.0) (2023-08-13)
 
 
