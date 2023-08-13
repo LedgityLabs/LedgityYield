@@ -1,3 +1,10 @@
+## [1.150.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.149.0...v1.150.0) (2023-08-13)
+
+
+### Features
+
+* conditionally display airdrop/lockdrop infos based on current user network ([1add4e0](https://github.com/ledgity-labs/Ledgity-Yield/commit/1add4e04040fcecbbcbf41503da4bb5bacfd2695))
+
 ## [1.149.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.148.0...v1.149.0) (2023-08-13)
 
 
