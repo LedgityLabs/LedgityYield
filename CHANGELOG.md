@@ -1,3 +1,10 @@
+## [1.152.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.151.1...v1.152.0) (2023-08-13)
+
+
+### Features
+
+* tiny landing page adjustments ([3701e50](https://github.com/ledgity-labs/Ledgity-Yield/commit/3701e5064f4652f317edcc777d5a49ea24b8875d))
+
 ## [1.151.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.151.0...v1.151.1) (2023-08-13)
 
 
