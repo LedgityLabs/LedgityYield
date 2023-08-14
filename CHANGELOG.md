@@ -1,3 +1,10 @@
+## [1.154.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.153.0...v1.154.0) (2023-08-14)
+
+
+### Features
+
+* **app:** add prefered chain cookie and campaign URL parameter ([83fcef5](https://github.com/ledgity-labs/Ledgity-Yield/commit/83fcef57bb3b6a9db6a27c9df890bbed6222a684))
+
 ## [1.153.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.152.1...v1.153.0) (2023-08-13)
 
 
