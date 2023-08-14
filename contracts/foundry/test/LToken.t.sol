@@ -3036,6 +3036,52 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.withdrawalQueueCursor(), tested.public_withdrawalQueueLength());
     }
 
+    function test_processQueuedRequests_14() public {
+        console.log("Should never revert from out of gas and properly end instead");
+
+        // Set decimals to 18
+        underlyingToken.setDecimals(18);
+
+        // Set APR to 7%
+        tested.setAPR(7000);
+
+        // Set retention rate to 100% so it doesn't interfer
+        tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+
+        // Set fees rate to 0.3%
+        tested.setFeesRate(300);
+
+        //
+        uint256 requestsNumber = 5000;
+
+        // Mint enough processing fees to account
+        uint256 processingFees = 0.004 ether;
+        deal(address(1234), processingFees * requestsNumber);
+
+        // Give 2000 tokens to test account and deposit those
+        deal(address(underlyingToken), address(1234), requestsNumber, true);
+        vm.startPrank(address(1234));
+        underlyingToken.approve(address(tested), requestsNumber);
+        tested.deposit(requestsNumber);
+
+        // Now send 2000 requests of 1 L-token
+        for (uint256 i = 0; i < requestsNumber; i++) {
+            // Queue request
+            tested.requestWithdrawal{value: processingFees}(1);
+        }
+        vm.stopPrank();
+
+        // Process requests queued withdraw with a limit of 5M
+        // It should revert from OOG
+        vm.prank(withdrawerWallet);
+        tested.processQueuedRequests{gas: 5000000}();
+
+        // Assert not all request have been processed
+        // And so should have reverted from OOG if it didn't properly ended
+        assertLe(tested.public_withdrawalQueueCursor(), requestsNumber);
+        assertGt(tested.public_withdrawalQueueLength(), tested.public_withdrawalQueueCursor());
+    }
+
     // ====================================
     // === processBigQueuedRequest() function ===
     function testFuzz_processBigQueuedRequest_1(address account, uint256 requestId) public {

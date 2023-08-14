@@ -466,9 +466,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Invoke _beforeInvestmentChange() hook for non-zero accounts
         if (from != address(0)) _beforeInvestmentChange(from, true);
         if (to != address(0)) _beforeInvestmentChange(to, true);
-
-        // If some L-Token are being burned/minted, inform listeners of a TVL change
-        if (from == address(0) || to == address(0)) emit TVLChangeEvent(totalSupply());
     }
 
     /**
@@ -486,6 +483,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         for (uint256 i = 0; i < transfersListeners.length; i++) {
             transfersListeners[i].onLTokenTransfer(from, to, amount);
         }
+
+        // If some L-Token have been burned/minted, inform listeners of a TVL change
+        if (from == address(0) || to == address(0)) emit TVLChangeEvent(totalSupply());
     }
 
     /**
@@ -724,7 +724,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             // loop and properly end the function call. This prevents an attacker from
             // blocking the withdrawal processing by creating a ton of tiny requests so
             // this function call cannot fit anymore in block gas limit.
-            if (gasleft() < 45_000) break;
+            if (gasleft() < 45000) break;
 
             // Retrieve request data
             WithdrawalRequest memory request = withdrawalQueue[nextRequestId];
@@ -804,10 +804,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Update new queue cursor
         withdrawalQueueCursor = nextRequestId;
 
-        // Retention rate cannot be exceeded as the withdrawal decreases both usable
-        // underlyings and expected retained amounts by the same number. So as the
-        // expected retained is a subset of usable underlyings, the decreases is in
-        // any case greater in expected retained than in usable underlyings.
+        // Retention rate cannot exceeds as the withdrawal decreases both usable
+        // underlyings and expected retained amounts by the same number. And as the
+        // expected retained amount is a subset of usable underlyings amount, their is no
+        // way for it to exceed the retention rate.
     }
 
     /**
