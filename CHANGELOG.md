@@ -1,3 +1,10 @@
+## [1.159.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.159.0...v1.159.1) (2023-08-14)
+
+
+### Fixes
+
+* setup GA ([3296515](https://github.com/ledgity-labs/Ledgity-Yield/commit/32965159d585a0b7c33e262c2c26bb962461537f))
+
 ## [1.159.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.158.0...v1.159.0) (2023-08-14)
 
 
