@@ -1,3 +1,15 @@
+## [1.160.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.159.1...v1.160.0) (2023-08-14)
+
+
+### Features
+
+* add app tabs into page url so its easier for users to reference them ([95b1335](https://github.com/ledgity-labs/Ledgity-Yield/commit/95b1335fc07c1e920b92c959afeee1f6e01b4c8c))
+
+
+### Fixes
+
+* broken /app redirection ([669826c](https://github.com/ledgity-labs/Ledgity-Yield/commit/669826c310362aef186fd9df25e8c36246fb6c20))
+
 ## [1.159.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.159.0...v1.159.1) (2023-08-14)
 
 
