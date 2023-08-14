@@ -64,7 +64,7 @@ export const AppInvestAirdrop: FC<Props> = ({ className }) => {
       </h3>
 
       <div className="inline-flex flex-col items-center gap-3 rounded-3xl bg-white/90 p-16">
-        <div className="flex w-full flex-wrap items-center justify-center gap-16">
+        <div className="grid w-full grid-cols-3 justify-between gap-16">
           <Project name="Ledgity Yield" logo={pfp} percentage={500} />
           <Project name="Available Slot" logo={null} percentage={0} />
           <Project name="Available Slot" logo={null} percentage={0} />

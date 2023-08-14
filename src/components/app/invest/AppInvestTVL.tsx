@@ -91,9 +91,11 @@ export const AppInvestTVL: FC<Props> = ({}) => {
   );
 
   return (
-    <Card circleIntensity={0.07} className="h-52 flex-col justify-center items-center py-4 px-10">
-      <h2 className="text-center text-lg font-medium text-indigo-900/80">TVL</h2>
-      <div className="h-full -mt-5 flex justify-center items-center text-5xl font-heavy font-heading">
+    <Card circleIntensity={0.07} className="h-52 flex-col items-center justify-center px-10 py-4">
+      <h2 className="text-center font-heading text-xl font-bold text-indigo-300 grayscale-[50%]">
+        TVL
+      </h2>
+      <div className="-mt-5 flex h-full items-center justify-center font-heading text-5xl font-bold text-fg/[85%]">
         {(isLoading && <Spinner />) || <Amount prefix="$" value={tvlUsd} decimals={6} />}
       </div>
     </Card>

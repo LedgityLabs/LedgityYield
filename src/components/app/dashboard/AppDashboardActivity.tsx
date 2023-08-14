@@ -71,7 +71,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             <Button
               size="tiny"
               variant="destructive"
-              className="w-full h-full rounded-lg opacity-0 transition-opacity flex justify-center items-center hover:opacity-100 hover:bg-opacity-100"
+              className="flex h-full w-full items-center justify-center rounded-lg opacity-0 transition-opacity hover:bg-opacity-100 hover:opacity-100"
             >
               <i className="ri-close-fill text-xl"></i>
             </Button>
@@ -169,7 +169,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           <DateTime
             timestamp={Number.parseInt(info.getValue()) * 1000}
             output="date"
-            className="cursor-help text-fg/50 font-normal"
+            className="cursor-help font-normal text-fg/50"
           />
         );
       },
@@ -224,15 +224,15 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
             <div
               className={clsx(
-                "block w-3 h-3 aspect-square border-2 rounded-full",
-                ["Fulfilled", "Success"].includes(status) && "bg-emerald-200 border-emerald-500",
-                status === "Queued" && "bg-amber-200 border-amber-500",
-                status === "Cancelled" && "bg-red-200 border-red-500",
+                "block aspect-square h-3 w-3 rounded-full border-2",
+                ["Fulfilled", "Success"].includes(status) && "border-emerald-500 bg-emerald-200",
+                status === "Queued" && "border-amber-500 bg-amber-200",
+                status === "Cancelled" && "border-red-500 bg-red-200",
               )}
             ></div>
             <div
               className={clsx(
-                "font-semibold flex gap-2 justify-center items-center",
+                "flex items-center justify-center gap-2 font-semibold",
                 ["Fulfilled", "Success"].includes(status) && "text-emerald-500",
                 status === "Queued" && "text-amber-500",
                 status === "Cancelled" && "text-red-500",
@@ -269,11 +269,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   return (
     <Card
       circleIntensity={0.07}
-      className={twMerge("flex flex-col items-center px-4 pt-10 pb-6", className)}
+      className={twMerge("flex flex-col items-center px-4 pb-6 pt-10", className)}
     >
-      <h2 className="text-center font-bold text-2xl pb-4 font-heading text-fg/90">Activity</h2>
+      <h2 className="pb-4 text-center font-heading text-2xl font-bold text-fg/90">Activity</h2>
 
-      <div className="w-full grid grid-cols-[repeat(5,minmax(0,200px))] text-sm overflow-y-scroll font-medium rounded-3xl px-2">
+      <div className="grid w-full grid-cols-[repeat(5,minmax(0,200px))] overflow-y-scroll rounded-3xl px-2 text-sm font-medium">
         {headerGroup.headers.map((header, cellIndex) => {
           const content = flexRender(header.column.columnDef.header, header.getContext());
           return (
@@ -309,12 +309,12 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           const tableRows = table.getRowModel().rows;
           if (isLoading)
             return (
-              <div className="col-span-full py-4 flex justify-center items-center">
+              <div className="col-span-full flex items-center justify-center py-4">
                 <Spinner />
               </div>
             );
           else if (tableRows.length === 0)
-            return <p className="col-span-full text-center py-4">Nothing yet.</p>;
+            return <p className="col-span-full py-4 text-center">No activity yet.</p>;
           else {
             return tableRows.map((row, rowIndex) =>
               row.getVisibleCells().map((cell, cellIndex) => (

@@ -19,9 +19,6 @@ export const AppBridgeUSDC: FC = () => {
         <div className="flex h-full w-full items-center justify-center rounded-3xl bg-gradient-to-bl from-fg/10 to-fg/25 text-lg font-semibold text-fg/70 opacity-70">
           Partner to be revealed
         </div>
-        <div className="flex h-full w-full items-center justify-center rounded-3xl bg-gradient-to-bl from-fg/10 to-fg/25 text-lg font-semibold text-fg/70 opacity-70">
-          Partner to be revealed
-        </div>
       </div>
     </Card>
   );

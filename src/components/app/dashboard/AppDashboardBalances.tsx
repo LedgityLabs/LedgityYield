@@ -29,28 +29,28 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
   const underlyingSymbol = lTokenSymbol.slice(1);
 
   return (
-    <li className="flex justify-between  items-center w-full" {...props}>
-      <div className="flex gap-2 items-center font-medium text-fg/[0.85]">
+    <li className="flex w-full  items-center justify-between" {...props}>
+      <div className="flex items-center gap-2 font-semibold text-fg/80">
         <TokenLogo symbol={lTokenSymbol} wrapped={true} size={30} />
         {lTokenSymbol}
       </div>
-      <div className="flex gap-2 items-center">
+      <div className="flex items-center gap-2">
         <Amount
           value={balance!}
           decimals={decimals}
-          className="font-bold pr-2"
+          className="pr-2 font-semibold"
           suffix={lTokenSymbol}
           displaySymbol={false}
         />
         <Tooltip>
           <TooltipTrigger>
             <DepositDialog underlyingSymbol={underlyingSymbol}>
-              <Button size="tiny" className="w-8 h-8">
+              <Button size="tiny" className="h-8 w-8">
                 <i className="ri-add-fill text-lg"></i>
               </Button>
             </DepositDialog>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="font-heading font-semibold text-bg">
             Deposit {underlyingSymbol} against {lTokenSymbol}
           </TooltipContent>
         </Tooltip>
@@ -61,13 +61,13 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
               <Button
                 variant="outline"
                 size="tiny"
-                className="w-[calc(2rem+3px)] h-[calc(2rem+3px)]"
+                className="h-[calc(2rem+3px)] w-[calc(2rem+3px)]"
               >
                 <i className="ri-subtract-fill text-lg"></i>
               </Button>
             </WithdrawDialog>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="font-heading font-semibold text-bg">
             Withdraw {underlyingSymbol} from {lTokenSymbol}
           </TooltipContent>
         </Tooltip>
@@ -81,17 +81,19 @@ export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ class
   return (
     <Card
       circleIntensity={0.07}
-      className={twMerge("flex flex-col justify-center items-center p-4", className)}
+      className={twMerge("flex flex-col items-center justify-center p-4", className)}
     >
-      <h2 className="text-center text-lg font-medium text-indigo-900/80">L-Tokens balances</h2>
+      <h2 className="text-center font-heading text-xl font-bold tracking-wide text-indigo-300 grayscale-[50%]">
+        L-Tokens balances
+      </h2>
       {(lTokens.length !== 0 && (
-        <ul className="w-full h-full flex flex-col justify-center gap-5 pl-3 pr-2">
+        <ul className="flex h-full w-full flex-col gap-7 py-7 pl-4 pr-3">
           {lTokens.map((lToken) => (
             <LTokenBalance key={lToken} lTokenSymbol={lToken} />
           ))}
         </ul>
       )) ||
-        "No L-Tokens available"}
+        "No balances on this chain."}
     </Card>
   );
 };

@@ -42,18 +42,20 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
     <Card
       circleIntensity={0.07}
       className={twMerge(
-        "flex flex-col justify-between items-center py-4 px-7 [&:hover_>_span:last-of-type]:opacity-100 [&:hover_>_span:first-of-type_>_span]:opacity-50",
+        "flex flex-col items-center justify-between px-7 py-4 [&:hover_>_span:first-of-type_>_span]:opacity-50 [&:hover_>_span:last-of-type]:opacity-100",
         className,
       )}
     >
-      <h2 className="text-center text-lg font-medium text-indigo-900/80">Total profits</h2>
+      <h2 className="text-center font-heading text-xl font-bold text-indigo-300 grayscale-[50%]">
+        Total profits
+      </h2>
       {(isDataLoading && (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex h-full items-center justify-center">
           <Spinner />
         </div>
       )) || (
         <>
-          <span className="text-center text-4xl font-heavy font-heading text-emerald-500 transition-opacity">
+          <span className="font-heavy text-center font-heading text-5xl font-bold text-emerald-500 transition-opacity">
             <Rate
               value={totalGrowth * 100}
               prefix="+"
@@ -61,7 +63,7 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
               className="transition-opacity"
             />
           </span>
-          <span className="text-center text-xl font-heavy font-heading text-emerald-500 opacity-50 transition-opacity">
+          <span className="font-heavy text-center font-heading text-2xl text-emerald-500 opacity-50 transition-opacity">
             <span className="text-fg/20">(</span>
             <Amount value={totalRevenue} prefix="+$" />
             <span className="text-fg/20">)</span>

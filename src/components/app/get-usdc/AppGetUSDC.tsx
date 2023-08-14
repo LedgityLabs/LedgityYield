@@ -5,7 +5,7 @@ import { AppBorrowUSDC } from "./AppBorrowUSDC";
 
 export const AppGetUSDC: FC = () => {
   return (
-    <section className="grid h-[900px] w-[1200px] grid-cols-[repeat(3,1fr)] gap-10 pb-10">
+    <section className="grid h-[700px] w-[1200px] grid-cols-[repeat(3,1fr)] gap-10 pb-10">
       <AppBridgeUSDC />
       <AppSwapUSDC />
       <AppBorrowUSDC />
