@@ -1,5 +1,6 @@
 "use client";
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
+import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
 import { AppLDYToken } from "@/components/app/ldy-token/AppLDYToken";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
@@ -62,7 +63,7 @@ const Page: NextPage = () => {
             </div>
           </TabsTrigger>
         )}
-        {isLinea && <TabsTrigger value="bridge">Bridge USDC</TabsTrigger>}
+        {isLinea && <TabsTrigger value="get-usdc">Get USDC</TabsTrigger>}
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms]">
         <TabsContent value="dashboard">
@@ -71,11 +72,11 @@ const Page: NextPage = () => {
         <TabsContent value="invest">
           <AppInvest />
         </TabsContent>
-        {/* <TabsContent value="staking">
-          <AppStaking />
-        </TabsContent> */}
         <TabsContent value="ldy-token">
           <AppLDYToken />
+        </TabsContent>
+        <TabsContent value="get-usdc">
+          <AppGetUSDC />
         </TabsContent>
       </div>
     </Tabs>
