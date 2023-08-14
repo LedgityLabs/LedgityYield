@@ -1,3 +1,10 @@
+## [1.155.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.154.0...v1.155.0) (2023-08-14)
+
+
+### Features
+
+* move admin to /admin and combine app/site headers/footers and components ([d2fdafc](https://github.com/ledgity-labs/Ledgity-Yield/commit/d2fdafc3c3110b21539d2cc8e342184140347118))
+
 ## [1.154.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.153.0...v1.154.0) (2023-08-14)
 
 
