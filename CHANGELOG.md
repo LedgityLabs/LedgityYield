@@ -1,3 +1,16 @@
+## [1.159.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.158.0...v1.159.0) (2023-08-14)
+
+
+### Features
+
+* display "unavailable" message for small screens in the app ([1403659](https://github.com/ledgity-labs/Ledgity-Yield/commit/14036595d9f5eafc38aa95edd38bb5c897edba15))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.5.0 ([a99f46e](https://github.com/ledgity-labs/Ledgity-Yield/commit/a99f46ec8980cba6e533704aa8197ae52b0ddcce))
+* **deps:** update dependency autoprefixer to v10.4.15 ([30dd0f1](https://github.com/ledgity-labs/Ledgity-Yield/commit/30dd0f10fc423f261160a610ff129e06e7a101b1))
+
 ## [1.158.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.157.0...v1.158.0) (2023-08-14)
 
 
