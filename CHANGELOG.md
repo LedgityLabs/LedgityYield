@@ -1,3 +1,10 @@
+## [1.157.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.156.0...v1.157.0) (2023-08-14)
+
+
+### Features
+
+* popoulate Get USDC cards ([36e77a1](https://github.com/ledgity-labs/Ledgity-Yield/commit/36e77a141314e0a49877d97b170ef695a1ad60a9))
+
 ## [1.156.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.155.0...v1.156.0) (2023-08-14)
 
 
