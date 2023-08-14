@@ -1,3 +1,4 @@
+import { SmallScreenMessage } from "@/components/SmallScreenMessage";
 import { type NextPage } from "next";
 
 interface Props {
@@ -8,6 +9,13 @@ export const metadata = {
   title: "App",
 };
 
-const AppLayout: NextPage<Props> = ({ children }) => children;
+const AppLayout: NextPage<Props> = ({ children }) => {
+  return (
+    <>
+      <SmallScreenMessage />
+      {children}
+    </>
+  );
+};
 
 export default AppLayout;
