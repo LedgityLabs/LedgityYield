@@ -85,7 +85,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
             </li>
             {isAdminVisible && (
               <li>
-                <Link href="/app/admin" className="text-primary hover:opacity-80">
+                <Link href="/admin" className="text-primary hover:opacity-80">
                   Administration
                 </Link>
               </li>

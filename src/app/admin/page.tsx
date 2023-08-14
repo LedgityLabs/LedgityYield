@@ -1,15 +1,14 @@
 "use client";
-import { AdminDashboard } from "@/components/app/admin/dashboard/AdminDashboard";
-import { AdminLTokens } from "@/components/app/admin/ltokens/AdminLTokens";
-// import { AdminStaking } from "@/components/app/admin/staking/AdminStaking";
-import { AdminBlacklist } from "@/components/app/admin/blacklist/AdminBlacklist";
-import { AdminRecover } from "@/components/app/admin/recover/AdminRecover";
-import { AdminTesting } from "@/components/app/admin/testing/AdminTesting";
+import { AdminDashboard } from "@/components/admin/dashboard/AdminDashboard";
+import { AdminLTokens } from "@/components/admin/ltokens/AdminLTokens";
+import { AdminBlacklist } from "@/components/admin/blacklist/AdminBlacklist";
+import { AdminRecover } from "@/components/admin/recover/AdminRecover";
+import { AdminTesting } from "@/components/admin/testing/AdminTesting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { type NextPage } from "next";
 import { usePublicClient } from "wagmi";
-import { AdminOwnership } from "@/components/app/admin/ownership/AdminOwnership";
-import { AdminPause } from "@/components/app/admin/pause/AdminPause";
+import { AdminOwnership } from "@/components/admin/ownership/AdminOwnership";
+import { AdminPause } from "@/components/admin/pause/AdminPause";
 
 const Page: NextPage = () => {
   const publicClient = usePublicClient();
@@ -17,15 +16,14 @@ const Page: NextPage = () => {
   const isLocalnet = publicClient.chain.id === 31337;
   return (
     <>
-      <h2 className="text-center font-bold text-4xl font-heading text-fg/90">Admin</h2>
+      <h2 className="text-center font-heading text-4xl font-bold text-fg/90">Admin</h2>
       <Tabs
         defaultValue="dashboard"
-        className="flex flex-col gap-10 justify-center w-screen items-center"
+        className="flex w-screen flex-col items-center justify-center gap-10"
       >
-        <TabsList className="mt-6 mb-6">
+        <TabsList className="mb-6 mt-6">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="ltokens">L-Tokens</TabsTrigger>
-          {/* <TabsTrigger value="staking">Staking</TabsTrigger> */}
           <TabsTrigger value="recover">Recover</TabsTrigger>
           <TabsTrigger value="ownership">Ownership</TabsTrigger>
           <TabsTrigger value="pause">Pause</TabsTrigger>
@@ -36,7 +34,7 @@ const Page: NextPage = () => {
             </TabsTrigger>
           )}
         </TabsList>
-        <div className="[&_>_*]:animate-fadeAndMoveIn pb-10">
+        <div className="pb-10 [&_>_*]:animate-fadeAndMoveIn">
           <TabsContent value="dashboard">
             <AdminDashboard />
           </TabsContent>
@@ -44,10 +42,6 @@ const Page: NextPage = () => {
           <TabsContent value="ltokens">
             <AdminLTokens />
           </TabsContent>
-
-          {/* <TabsContent value="staking">
-            <AdminStaking />
-          </TabsContent> */}
 
           <TabsContent value="recover">
             <AdminRecover />

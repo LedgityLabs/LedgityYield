@@ -1,13 +1,12 @@
 "use client";
 import { FC, createContext } from "react";
-import { chainAwarePublicClient } from "@/components/app/DApp";
+import { chainAwarePublicClient } from "@/components/DApp";
 import { useState } from "react";
 import { usePublicClient, useSwitchNetwork } from "wagmi";
 import { getConfig } from "@wagmi/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { setCookie, getCookie } from "cookies-next";
-import { useDisconnect } from "wagmi";
 
 interface ISwitchNetworkContext {
   switchNetwork: (id: string | number) => void;

@@ -1,11 +1,15 @@
 import "@/styles/globals.css";
 import "remixicon/fonts/remixicon.css";
+import "@rainbow-me/rainbowkit/styles.css";
+
 import { type NextPage } from "next";
 import { CardsHelper, TooltipProvider } from "@/components/ui";
 import { fonts } from "@/lib/fonts";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
 import Loader from "@/app/loading";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const name = "Ledgity Yield";
 const description =
@@ -52,7 +56,8 @@ interface Props {
 }
 
 const RootLayout: NextPage<Props> = ({ children }) => {
-  const DApp = dynamic(() => import("@/components/app/DApp"), { loading: Loader, ssr: false });
+  // Force DApp to be loaded dynamically without SSR
+  const DApp = dynamic(() => import("@/components/DApp"), { loading: Loader, ssr: false });
 
   return (
     <html lang="en">
@@ -67,7 +72,9 @@ const RootLayout: NextPage<Props> = ({ children }) => {
         <TooltipProvider delayDuration={400}>
           <DApp>
             <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
-              {children}
+              <Header />
+              <main>{children}</main>
+              <Footer />
             </div>
           </DApp>
         </TooltipProvider>

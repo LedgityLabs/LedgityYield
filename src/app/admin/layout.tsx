@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const metadata = {
-  title: "App",
+  title: "Admin",
 };
 
 const AppLayout: NextPage<Props> = ({ children }) => children;
