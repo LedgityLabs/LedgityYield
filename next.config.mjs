@@ -28,5 +28,14 @@ const nextConfig = withBundleAnalyzer({
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/app",
+        destination: "/app/invest",
+        permanent: true,
+      },
+    ];
+  },
 });
 export default nextConfig;

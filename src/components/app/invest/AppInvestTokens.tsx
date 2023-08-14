@@ -331,7 +331,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               </Card>
             ))
           ) : (
-            <p className="mt-10 block text-center">
+            <p className="mt-10 block text-center text-lg font-semibold ">
               No investment opportunities on this chain yet.
             </p>
           )}
