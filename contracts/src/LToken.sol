@@ -803,6 +803,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Update new queue cursor
         withdrawalQueueCursor = nextRequestId;
+
+        // Retention rate cannot be exceeded as the withdrawal decreases both usable
+        // underlyings and expected retained amounts by the same number. So as the
+        // expected retained is a subset of usable underlyings, the decreases is in
+        // any case greater in expected retained than in usable underlyings.
     }
 
     /**
@@ -876,6 +881,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             // Transfer missing amount from contract balance to request emitter
             underlying().safeTransfer(request.account, missingAmount);
         }
+
+        // Transfer exceeding underlying tokens to the fund wallet
+        _transferExceedingToFund();
     }
 
     /**
