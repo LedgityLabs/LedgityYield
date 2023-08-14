@@ -144,7 +144,7 @@ const HomeFeatures: FC = () => {
           </p>
         </Card>
       </div>
-      <Link href="/app">
+      <Link href="/app/invest">
         <Button className="mt-12" size="large">
           Browse available yields
         </Button>

@@ -66,7 +66,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               display: !isArbitrum ? "inline-block" : "none",
             }}
             href={{
-              pathname: "/app",
+              pathname: "/app/invest",
               query: { ref: "abar" },
             }}
           >
@@ -87,7 +87,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               display: isArbitrum ? "inline-block" : "none",
             }}
             href={{
-              pathname: "/app",
+              pathname: "/app/invest",
               query: { ref: "abar" },
             }}
           >

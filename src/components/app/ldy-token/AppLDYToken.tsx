@@ -63,7 +63,7 @@ export const AppLDYToken: FC = () => {
           </p>
           <ul className="mt-10 flex max-w-[30rem] flex-wrap items-center justify-center gap-5">
             <li>
-              <div className="absolute -right-[10%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white">
+              <div className="absolute -right-[10%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.08rem] text-center text-[0.8rem] font-bold text-white">
                 <i className="ri-heart-3-fill text-x animate-pulse" />
                 Prefered option
                 <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-orange-500"></i>
