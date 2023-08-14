@@ -1,3 +1,10 @@
+## [1.158.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.157.0...v1.158.0) (2023-08-14)
+
+
+### Features
+
+* new dashboard layout ([dd6221a](https://github.com/ledgity-labs/Ledgity-Yield/commit/dd6221a8062bd3220dc17e8b9b4a919072a1be9f))
+
 ## [1.157.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.156.0...v1.157.0) (2023-08-14)
 
 
