@@ -385,7 +385,6 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
       </div>
       <div className="items center mt-10 flex flex-col justify-center gap-5">
         <div className="flex items-center justify-center gap-3 text-base font-semibold">
-          {isDataLoading}
           <p>Revenue ($)</p>
           <Switch
             disabled={isDataLoading || isDataError}
@@ -394,7 +393,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           <p>Growth (%)</p>
         </div>
         <RadioGroup
-          disabled={isDataLoading}
+          disabled={isDataLoading || isDataError}
           defaultValue="90"
           onValueChange={(value) => setPeriod(value)}
           className="flex items-center justify-center gap-3"

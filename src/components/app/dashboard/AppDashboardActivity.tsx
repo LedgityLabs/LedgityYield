@@ -273,7 +273,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       circleIntensity={0.07}
       className={twMerge("flex flex-col items-center px-4 pb-6 pt-10", className)}
     >
-      <h2 className="pb-4 text-center font-heading text-2xl font-bold text-fg/90">Activity</h2>
+      <h2 className="pb-4 text-center font-heading text-3xl font-bold text-fg/90">Activity</h2>
 
       <div className="grid w-full grid-cols-[repeat(5,minmax(0,200px))] overflow-y-scroll rounded-3xl px-2 text-sm font-medium">
         {headerGroup.headers.map((header, cellIndex) => {
@@ -316,7 +316,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
               </div>
             );
           else if (tableRows.length === 0)
-            return <p className="col-span-full py-4 text-center">No activity yet.</p>;
+            return (
+              <p className="col-span-full py-4 text-center text-lg font-semibold text-fg/80">
+                No activity yet.
+              </p>
+            );
           else {
             return tableRows.map((row, rowIndex) =>
               row.getVisibleCells().map((cell, cellIndex) => (
