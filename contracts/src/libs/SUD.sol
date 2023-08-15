@@ -35,16 +35,12 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  *
  * @dev Definitions:
  * - Integer: A number without fractional part, e.g., block.timestamp
- *
  * - UD: A decimal unsigned fixed-point number. The "UD" notation is inspired from
  *       libraries like [prb-math](https://github.com/PaulRBerg/prb-math/)
- *
  * - Amount: An UD with an unknown (at writing time) repartition of digits between
  *           integral and fractional parts. Represents a token amount.
- *
  * - Rate: An UD with 7 integral digits and 3 fractional ones (a.k.a UD7x3).
  *         Represents a percentage rate.
- *
  * - SUD: An UD with 3 more decimals than the involved rate or amount with the highest
  *        decimals number. As rates are represented by UD7x3, a SUD number has at least 6
  *        decimals (3+3) and so ranges from UD71x6 to UD0x77 formats.

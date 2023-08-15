@@ -23,13 +23,22 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Derived contracts are provided with a bunch of utilities to manage an invested
- * token, users' investment periods, rewards calculation, virtual balances, and
- * auto-compounding.
+ * @notice Derived contracts are provided with utilities to manage an invested token,
+ * users' investment periods, rewards calculations, virtual balances, and auto-compounding.
  *
  * @dev Intuition:
+ * This contract primarily exists for code splitting and reusability. It unburdens the
+ * LToken contract code, making it easier to understand and maintain.
+ *
+ * This contract is generic because it may be used in the LDYStaking contract in the future.
  *
  * @dev Definitions:
+ * - Investment: The act of depositing or investing tokens into the contract.
+ * - Investment period: Time between the start of an investment or the last rewards
+ *                      distribution for an account to the present.
+ * - Virtual balance: Temporary storage for account rewards, used when those can't be
+ *                    distributed between investment periods.
+ * - Rewards redirection: Mechanism allowing an account to redirect its rewards to another.
  *
  * @dev Derived contract must:
  *  - Set invested token during initialization

@@ -26,18 +26,28 @@ import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
  * As soon as a wallet holds some L-Tokens, it starts receiving rewards in
  * the form of additional L-Tokens, which are auto-compounded over time.
  *
- * @dev Intuition:
- *
- *
  * @dev Definitions:
- * - (withdrawal) request: A request to withdraw some underlying tokens from some L-Tokens.
- * - (withdrawal) queue: Array containing all withdrawal requests.
- * - Request ID: The index of a withdrawal request in the queue.
+ * - Deposit: Swap of underlying tokens for L-Tokens (1:1 ratio).
+ * - Withdrawal: Swap of L-Tokens for underlying tokens (1:1 ratio, minus applicable fees).
+ *   - Instant: Processed immediately.
+ *   - Requested: Queued for later processing.
+ *   - Big Requested: A requested withdrawal exceeding half of the retention rate.
+ * - (Withdrawal) queue: An list of all requested withdrawals sorted by priority.
+ * - Request ID: The index of a withdrawal request in the queue array.
+ * - Retention rate: Maximum fraction of underlying tokens TVL that the contract can retain.
+ * - Fees Rate: Percentage of fees applied to successful withdrawals.
+ * - Usable underlyings: Amount of underlying tokens that have been deposited through
+ *                       expected ways and are so considered as safe to use by the contract.
+ * - Transfers listeners: External contracts listening on L-Tokens transfers.
+ * - Fund wallet: Wallet managed by the Ledgity's financial team.
+ * - Withdrawer wallet: Managed by an off-chain server to automate withdrawal request
+ *                      processing.
  *
- * Note that words between parentheses are sometimes omitted for brevity.
+ * Note that words between parenthesis are sometimes omitted for brevity.
  *
  * @dev Security: This contract can safely receive funds immediately after initialization.
- * It is however required to set a non-zero APR for users to start receiving rewards.
+ * (i.e., there is no way for funds to be sent to non-owned addresses). It is however
+ * recommended to replace ASAP owner and fund wallets by multi-sig wallets.
  *
  * @dev For further details, see "LToken" section of whitepaper.
  * @custom:oz-upgrades-unsafe-allow external-library-linking
@@ -805,9 +815,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         withdrawalQueueCursor = nextRequestId;
 
         // Retention rate cannot exceeds as the withdrawal decreases both usable
-        // underlyings and expected retained amounts by the same number. And as the
-        // expected retained amount is a subset of usable underlyings amount, their is no
-        // way for it to exceed the retention rate.
+        // underlyings and expected retained amounts by the same number and as the
+        // expected retained amount is a subset of usable underlyings amount.
     }
 
     /**
@@ -944,7 +953,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         underlying().safeTransferFrom(_msgSender(), address(this), amount);
     }
 
-    /// @notice Used by owner to claim fees generated from successful withdrawal.
+    /// @notice Used by owner to claim fees generated from successful withdrawals.
     function claimFees() external onlyOwner {
         // Ensure there are some fees to claim
         require(unclaimedFees > 0, "L60");
