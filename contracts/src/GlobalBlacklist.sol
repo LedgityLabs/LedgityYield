@@ -7,25 +7,32 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
 
 /**
  * @title GlobalBlacklist
- * @author Lila Rest (lila@ledgity.com)
- * @notice This contract is used to maintain a mapping of blacklisted accounts on chain.
- * It is then read by all contracts that inherit from GlobalRestrictableUpgradeable abstract
- * contract to restrict access to some functions to non-blacklisted accounts.
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+ *
+ * @notice Maintains a global mapping of blacklisted accounts on-chain. All contracts
+ * within the Ledgity Yield codebase reference this mapping to prevent access by
+ * blacklisted accounts.
+ *
+ * @dev Specifically, some contracts within the codebase inherit from
+ * the GlobalRestrictableUpgradeable abstract contract. This provides them with modifiers
+ * and getter functions to easily check against this global blacklist.
+ *
  * @dev For further details, see "GlobalBlacklist" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
 contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgradeable {
     /**
-     * @dev This mapping is made private and the getter function isBlacklisted() function is
-     * used instead to read it. This helps saving gas in some scenario. See isBlacklisted()
-     * documentation for more details.
+     * @notice Mapping of accounts to their blacklist status.
+     * @dev This mapping is made private and isBlacklisted() should be used instead.This
+     * helps saving gas in some scenario. See isBlacklisted() documentation for more details.
      */
     mapping(address => bool) private _list;
 
     /**
-     * @dev Prevents implementation contract from being initialized as recommended by
+     * @notice Prevents implementation contract from being initialized as recommended by
      * OpenZeppelin.
-     * See: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Initializable-_disableInitializers--
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Initializable-_disableInitializers--
      * @custom:oz-upgrades-unsafe-allow constructor
      */
     constructor() {
@@ -33,9 +40,10 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
     }
 
     /**
-     * @dev Replaces the constructor() function in context of an upgradeable contract.
-     * See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalOwner_ The address of the GlobalOwner contract
+     * @notice Initializer function of the contract. It replaces the constructor()
+     * function in the context of upgradeable contracts.
+     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+     * @param globalOwner_ The address of the GlobalOwner contract.
      */
     function initialize(address globalOwner_) public initializer {
         __GlobalOwnable_init(globalOwner_);
@@ -43,15 +51,15 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
     }
 
     /**
-     * @dev Override of UUPSUpgradeable._authorizeUpgrade() function restricted to the global
-     * owner. Note that this function is called by the proxy contract while upgrading.
-     * @param newImplementation The address of the new implementation contract
+     * @notice Override of UUPSUpgradeable._authorizeUpgrade() function restricted to
+     * global owner. It is called by the proxy contract during an upgrade.
+     * @param newImplementation The address of the new implementation contract.
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**
-     * @dev Sets a given account as blacklisted.
-     * @param account The account's address to blacklist
+     * @notice Adds a given account to the blacklist.
+     * @param account The account's address to be blacklisted.
      */
     function blacklist(address account) external onlyOwner {
         require(account != address(0), "L20");
@@ -59,22 +67,24 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
     }
 
     /**
-     * @dev Removes a given account from blacklist.
-     * @param account The account's address to unblacklist
+     * @notice Removes a given account from the blacklist.
+     * @param account The account's address to be un-blacklisted.
      */
     function unBlacklist(address account) external onlyOwner {
         _list[account] = false;
     }
 
     /**
-     * @dev Checks if given account is blacklisted.
-     * @param account The account to check
+     * @notice Checks whether a given account is blacklisted.
+     * @param account Address of the account to check.
      * @return 'true' if the account is blacklisted, 'false' otherwise
      */
     function isBlacklisted(address account) external view returns (bool) {
-        // Avoir reading chain storage if account is the zero address (e.g, during a mint or a burn)
+        // Gas optimization: Avoid accessing storage if account is the zero address
+        // (e.g, during a mint or a burn of tokens)
         if (account == address(0)) return false;
-        // Else return current blacklist status of the account
+
+        // Else, return current account's blacklist status
         return _list[account];
     }
 }

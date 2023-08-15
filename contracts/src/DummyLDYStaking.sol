@@ -3,11 +3,15 @@ pragma solidity ^0.8.18;
 
 /**
  * @title LDYStaking
- * @author Lila Rest (lila@ledgity.com)
- * @notice This contract will replace the LDYStaking contract in L-Tokens contracts until
- * the $LDY token is available and the real LDYStaking contract is deployed so.
- * This contract only implements tierOf() function of LDYStaking as it is the only one
- * the LToken contract relies on.
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+ *
+ * @notice Replacement of the LDYStaking until the $LDY token is available and the real
+ * LDYStaking contract is deployed.
+ *
+ * @dev This contract only implements tierOf() function from LDYStaking as it's the only
+ * one the LToken contract relies on.
+ *
  * @custom:security-contact security@ledgity.com
  */
 contract LDYStaking {
