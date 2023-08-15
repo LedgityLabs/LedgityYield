@@ -14,8 +14,8 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
  * within the Ledgity Yield codebase reference this mapping to prevent access by
  * blacklisted accounts.
  *
- * @dev Specifically, some contracts within the codebase inherit from
- * the GlobalRestrictableUpgradeable abstract contract. This provides them with modifiers
+ * @dev Specifically, some contracts within the codebase inherit from the
+ * GlobalRestrictableUpgradeable abstract contract. This provides them with modifiers
  * and getter functions to easily check against this global blacklist.
  *
  * @dev For further details, see "GlobalBlacklist" section of whitepaper.
