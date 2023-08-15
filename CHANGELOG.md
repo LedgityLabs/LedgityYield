@@ -1,3 +1,29 @@
+## [1.161.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.160.0...v1.161.0) (2023-08-15)
+
+
+### Features
+
+* last adjustments and fixes before launch ([2065184](https://github.com/ledgity-labs/Ledgity-Yield/commit/2065184afc9c2f0334a2583788d5b3b4e9fc0d34))
+
+
+### Docs
+
+* improve docs of DummyLDYStaking and GlobalBlacklist contracts ([2f2b813](https://github.com/ledgity-labs/Ledgity-Yield/commit/2f2b813c8b246f76a57e8c6c08b7a610ba1b30c0))
+* improve docs of GlobalPause and GlobalOwner contracts ([abf3e1a](https://github.com/ledgity-labs/Ledgity-Yield/commit/abf3e1a07afa48878b773c78c59e5e310fd0708a))
+* improve InvestUpgradeable and LToken documentations ([aa27a5a](https://github.com/ledgity-labs/Ledgity-Yield/commit/aa27a5a8dad3376f14e67d360962f9b63fdcff68))
+* improve LTokenSignaler docs ([c0557d7](https://github.com/ledgity-labs/Ledgity-Yield/commit/c0557d7ddca11b9422fa2fc9368c9af96a781ece))
+
+
+### Tests
+
+* add test that ensure that processQueuedRequests() cannot be DOS because of OOG ([5b1f20b](https://github.com/ledgity-labs/Ledgity-Yield/commit/5b1f20b47f875d5167ce463de98aa8c4199d06fe))
+* process Slither report ([d51b5b8](https://github.com/ledgity-labs/Ledgity-Yield/commit/d51b5b8c3e9c293c2006e3aa2ce508f936fc234f))
+
+
+### Others
+
+* **deps:** update nextjs monorepo to v13.4.16 ([9a67ae1](https://github.com/ledgity-labs/Ledgity-Yield/commit/9a67ae12d0c6139b65ab31f2b65c14e9750c4b02))
+
 ## [1.160.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.159.1...v1.160.0) (2023-08-14)
 
 
