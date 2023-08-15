@@ -489,13 +489,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     function _afterTokenTransfer(address from, address to, uint256 amount) internal override {
         super._afterTokenTransfer(from, to, amount);
 
+        // If some L-Token have been burned/minted, inform listeners of a TVL change
+        if (from == address(0) || to == address(0)) emit TVLChangeEvent(totalSupply());
+
         // Trigger onLTokenTransfer() functions of all the transfers listeners
         for (uint256 i = 0; i < transfersListeners.length; i++) {
             transfersListeners[i].onLTokenTransfer(from, to, amount);
         }
-
-        // If some L-Token have been burned/minted, inform listeners of a TVL change
-        if (from == address(0) || to == address(0)) emit TVLChangeEvent(totalSupply());
     }
 
     /**
@@ -909,9 +909,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // Ensure request belongs to caller
         require(_msgSender() == request.account, "L57");
 
-        // Mint back L-Tokens to account
-        _mint(request.account, uint256(request.amount));
-
         // Decrease total amount queued accordingly
         totalQueued -= request.amount;
 
@@ -927,6 +924,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             request.amount,
             Status.Cancelled
         );
+
+        // Mint back L-Tokens to account
+        _mint(request.account, uint256(request.amount));
     }
 
     /**
