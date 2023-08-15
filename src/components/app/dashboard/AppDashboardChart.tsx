@@ -30,7 +30,7 @@ Chart.register(
   Tooltip,
   TimeScale,
   TimeSeriesScale,
-  LogarithmicScale
+  LogarithmicScale,
 );
 
 const secondsPerDay = 60 * 60 * 24;
@@ -38,7 +38,7 @@ const secondsPerDay = 60 * 60 * 24;
 export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ className }) => {
   const [period, setPeriod] = useState("90");
   const [type, setType] = useState<"revenue" | "growth">("revenue");
-  const { data, isDataLoading } = useGrowthRevenueData();
+  const { data, isDataLoading, isDataError, dataErrorMessage } = useGrowthRevenueData();
   const [labels, setLabels] = useState<Date[]>([]);
   const [revenueData, setRevenueData] = useState<number[]>([]);
   const [growthData, setGrowthData] = useState<number[]>([]);
@@ -47,6 +47,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
 
   const computeLabels = () => {
     let _labels: Date[] = [];
+
     let numberOfDays = 0;
     if (period !== "all") numberOfDays = Number(period);
     else {
@@ -57,7 +58,8 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
         }
       }
 
-      console.log(investmentStarts);
+      if (investmentStarts.length === 0) return { _labels, chunkTime: 0 };
+
       const oldestInvestmentStart = Math.min(...investmentStarts);
       numberOfDays =
         oldestInvestmentStart !== null
@@ -66,6 +68,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
     }
 
     const startTimestamp = Math.floor(Date.now() / 1000) - numberOfDays * secondsPerDay;
+
     let chunksNumber;
     if (numberOfDays === 7) chunksNumber = 7;
     else if (numberOfDays === 30) chunksNumber = 10;
@@ -75,6 +78,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
 
     const chunkSize = numberOfDays / chunksNumber;
     const chunkTime = chunkSize * secondsPerDay;
+
     for (let i = 0; i < chunksNumber; i++) {
       const timestamp = startTimestamp + i * chunkTime;
       const datetime = new Date(timestamp * 1000);
@@ -89,6 +93,9 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
   };
 
   const computeChartData = () => {
+    // Return  if there is a data error
+    if (isDataError) return;
+
     // Compute labels (x axis)
     const { _labels, chunkTime } = computeLabels();
 
@@ -120,7 +127,8 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
       };
 
       function fillCurrentLabelGrowthData() {
-        if (currentLabelGrowthData.count == 0) perLabelGrowthData[currentLabelIndex][lToken] = [0, 0];
+        if (currentLabelGrowthData.count == 0)
+          perLabelGrowthData[currentLabelIndex][lToken] = [0, 0];
         else
           perLabelGrowthData[currentLabelIndex][lToken] = [
             currentLabelGrowthData.cumulatedBalanceBefore / currentLabelGrowthData.count,
@@ -244,126 +252,143 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
   return (
     <Card
       circleIntensity={0.07}
-      className={twMerge("flex flex-col justify-center items-center p-7 pb-10", className)}
+      className={twMerge("flex flex-col items-center justify-center p-7 pb-10", className)}
     >
-      <div className="h-full w-full bg-primary/10 rounded-3xl flex justify-center items-end">
-        <div className="p-4 w-full h-full ">
-          {isDataLoading ? (
-            <div className="w-full h-full flex justify-center items-center bg/primary-10 animate-fadeIn">
-              <Spinner />
-            </div>
-          ) : (
-            <div className="w-full h-full pt-3">
-              <Bar
-                options={{
-                  layout: {
-                    padding: {
-                      left: 0,
-                    },
-                  },
-                  plugins: {
-                    tooltip: {
-                      backgroundColor: "rgb(30 41 59)",
-                      footerSpacing: 5,
-                      titleSpacing: 10,
-                      titleFont: {
-                        family: "var(--font-body)",
-                        weight: "bold",
-                        size: 18,
-                      },
-                      footerFont: {
-                        family: "var(--font-body)",
-                        size: 13,
-                      },
-                      footerColor: "rgb(255 255 255 / 0.6)",
-                      padding: 15,
-                      cornerRadius: 10,
-                      callbacks: {
-                        title: function (tooltipItems) {
-                          if (type === "revenue")
-                            return `Revenue:  $${formatAmount(tooltipItems[0].parsed.y)}`;
-                          else return `Growth:  ${formatRate(tooltipItems[0].parsed.y * 100, false)}%`;
+      <div className="flex h-full w-full items-end justify-center rounded-3xl bg-primary/10">
+        <div className="h-full w-full p-4 ">
+          {(() => {
+            if (isDataLoading)
+              return (
+                <div className="bg/primary-10 flex h-full w-full animate-fadeIn items-center justify-center">
+                  <Spinner />
+                </div>
+              );
+            else if (isDataError)
+              return (
+                <div className="bg/primary-10 flex h-full w-full animate-fadeIn items-center justify-center text-center text-lg font-semibold">
+                  {dataErrorMessage}.
+                </div>
+              );
+            else
+              return (
+                <div className="h-full w-full pt-3">
+                  <Bar
+                    options={{
+                      layout: {
+                        padding: {
+                          left: 0,
                         },
-                        label: function (tooltipItem) {
-                          return "";
-                        },
-                        footer(tooltipItems) {
-                          const dataIndex = tooltipItems[0].dataIndex;
+                      },
+                      plugins: {
+                        tooltip: {
+                          backgroundColor: "rgb(30 41 59)",
+                          footerSpacing: 5,
+                          titleSpacing: 10,
+                          titleFont: {
+                            family: "var(--font-body)",
+                            weight: "bold",
+                            size: 18,
+                          },
+                          footerFont: {
+                            family: "var(--font-body)",
+                            size: 13,
+                          },
+                          footerColor: "rgb(255 255 255 / 0.6)",
+                          padding: 15,
+                          cornerRadius: 10,
+                          callbacks: {
+                            title: function (tooltipItems) {
+                              if (type === "revenue")
+                                return `Revenue:  $${formatAmount(tooltipItems[0].parsed.y)}`;
+                              else
+                                return `Growth:  ${formatRate(
+                                  tooltipItems[0].parsed.y * 100,
+                                  false,
+                                )}%`;
+                            },
+                            label: function (tooltipItem) {
+                              return "";
+                            },
+                            footer(tooltipItems) {
+                              const dataIndex = tooltipItems[0].dataIndex;
 
-                          let from = labels![dataIndex].toLocaleDateString();
-                          let to = "now";
-                          if (labels![dataIndex + 1]) to = labels![dataIndex + 1].toLocaleDateString();
+                              let from = labels![dataIndex].toLocaleDateString();
+                              let to = "now";
+                              if (labels![dataIndex + 1])
+                                to = labels![dataIndex + 1].toLocaleDateString();
 
-                          // Return the appropriate label here
-                          return `From:  ${from}\nTo:       ${to}`;
+                              // Return the appropriate label here
+                              return `From:  ${from}\nTo:       ${to}`;
+                            },
+                          },
                         },
                       },
-                    },
-                  },
-                  // Taken from: https://www.chartjs.org/docs/latest/samples/animations/delay.html
-                  animation: {
-                    onComplete: () => {
-                      delayed = true;
-                    },
-                    delay: (context) => {
-                      let delay = 0;
-                      if (context.type === "data" && context.mode === "default" && !delayed) {
-                        delay = context.dataIndex * 25;
-                      }
-                      return delay;
-                    },
-                  },
-                  elements: {
-                    bar: {
-                      borderRadius: 10,
-                      backgroundColor: "rgb(99 102 241 / 0.7)",
-                      hoverBackgroundColor: "rgb(99 102 241)",
-                      borderWidth: 0,
-                    },
-                  },
-                  scales: {
-                    y: {
-                      display: false,
-                    },
-                    x: {
-                      type: "time",
-                      ticks: {
-                        source: "labels",
-                        font: {
-                          family: "var(--font-body)",
-                          weight: "bold",
+                      // Taken from: https://www.chartjs.org/docs/latest/samples/animations/delay.html
+                      animation: {
+                        onComplete: () => {
+                          delayed = true;
+                        },
+                        delay: (context) => {
+                          let delay = 0;
+                          if (context.type === "data" && context.mode === "default" && !delayed) {
+                            delay = context.dataIndex * 25;
+                          }
+                          return delay;
                         },
                       },
-                    },
-                  },
-                  responsive: true,
-                  maintainAspectRatio: false,
-                }}
-                data={{
-                  labels: labels,
-                  datasets: [
-                    {
-                      label: "Revenue",
-                      data: revenueData,
-                      hidden: type !== "revenue",
-                    },
-                    {
-                      label: "Growth",
-                      data: growthData,
-                      hidden: type !== "growth",
-                    },
-                  ],
-                }}
-              />
-            </div>
-          )}
+                      elements: {
+                        bar: {
+                          borderRadius: 10,
+                          backgroundColor: "rgb(99 102 241 / 0.7)",
+                          hoverBackgroundColor: "rgb(99 102 241)",
+                          borderWidth: 0,
+                        },
+                      },
+                      scales: {
+                        y: {
+                          display: false,
+                        },
+                        x: {
+                          type: "time",
+                          ticks: {
+                            source: "labels",
+                            font: {
+                              family: "var(--font-body)",
+                              weight: "bold",
+                            },
+                          },
+                        },
+                      },
+                      responsive: true,
+                      maintainAspectRatio: false,
+                    }}
+                    data={{
+                      labels: labels,
+                      datasets: [
+                        {
+                          label: "Revenue",
+                          data: revenueData,
+                          hidden: type !== "revenue",
+                        },
+                        {
+                          label: "Growth",
+                          data: growthData,
+                          hidden: type !== "growth",
+                        },
+                      ],
+                    }}
+                  />
+                </div>
+              );
+          })()}
         </div>
       </div>
-      <div className="flex flex-col gap-5 justify-center items center mt-10">
-        <div className="flex gap-3 justify-center items-center text-base font-semibold">
+      <div className="items center mt-10 flex flex-col justify-center gap-5">
+        <div className="flex items-center justify-center gap-3 text-base font-semibold">
+          {isDataLoading}
           <p>Revenue ($)</p>
           <Switch
-            disabled={isDataLoading}
+            disabled={isDataLoading || isDataError}
             onCheckedChange={(checked) => setType(checked ? "growth" : "revenue")}
           />
           <p>Growth (%)</p>
@@ -372,12 +397,12 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           disabled={isDataLoading}
           defaultValue="90"
           onValueChange={(value) => setPeriod(value)}
-          className="flex gap-3 justify-center items-center"
+          className="flex items-center justify-center gap-3"
         >
           <RadioGroupItem
             value="7"
             id="7"
-            className="h-12 w-12 aspect-square flex justify-center items-center"
+            className="flex aspect-square h-12 w-12 items-center justify-center"
           >
             <label htmlFor="7" className="pointer-events-none">
               7D
@@ -386,7 +411,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           <RadioGroupItem
             value="30"
             id="30"
-            className="h-12 w-12 aspect-square flex justify-center items-center"
+            className="flex aspect-square h-12 w-12 items-center justify-center"
           >
             <label htmlFor="30" className="pointer-events-none">
               1M
@@ -395,7 +420,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           <RadioGroupItem
             value="90"
             id="90"
-            className="h-12 w-12 aspect-square flex justify-center items-center"
+            className="flex aspect-square h-12 w-12 items-center justify-center"
           >
             <label htmlFor="90" className="pointer-events-none">
               3M
@@ -404,7 +429,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           <RadioGroupItem
             value="365"
             id="365"
-            className="h-12 w-12 aspect-square flex justify-center items-center"
+            className="flex aspect-square h-12 w-12 items-center justify-center"
           >
             <label htmlFor="365" className="pointer-events-none">
               1Y
@@ -413,7 +438,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           <RadioGroupItem
             value="all"
             id="all"
-            className="h-12 w-12 aspect-square flex justify-center items-center"
+            className="flex aspect-square h-12 w-12 items-center justify-center"
           >
             <label htmlFor="all" className="pointer-events-none">
               All

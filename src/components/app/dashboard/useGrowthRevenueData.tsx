@@ -5,7 +5,7 @@ import { readLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { useEffect, useState } from "react";
-import { Activity, LToken, RewardsMint, execute } from "../../../../.graphclient";
+import { Activity, LToken, RewardsMint, execute } from "graphclient";
 
 type Data = Record<
   string,
@@ -18,7 +18,7 @@ type Data = Record<
 >;
 
 const dataCacheDuration = 60 * 10; // 10 minutes
-let dataCache: Promise<Data> | null = null;
+let dataCache: Data | null = null;
 let lastCacheTimestamp: number | null = null;
 
 export const useGrowthRevenueData = () => {
@@ -27,21 +27,46 @@ export const useGrowthRevenueData = () => {
   const { data: walletClient } = useWalletClient();
   const [data, setData] = useState<Data>({});
   const [isDataLoading, setIsDataLoading] = useState(true);
+  const [isDataError, setIsError] = useState(false);
+  const [dataErrorMessage, setDataErrorMessage] = useState<string>();
 
   const computeData = async () => {
+    // If no wallet connected
+    if (!walletClient) {
+      setIsError(true);
+      setDataErrorMessage("No wallet connected");
+      return;
+    }
+
     // If data cache doesn't exist or isn't valid anymore
     if (
       lastCacheTimestamp === null ||
       dataCache === null ||
       Date.now() / 1000 - lastCacheTimestamp > dataCacheDuration
     ) {
-      // Refresh cache data
-      dataCache = _computeData();
-      lastCacheTimestamp = Date.now() / 1000;
-    }
+      // Get new data
+      const newData = await _computeData();
 
-    setData(await dataCache);
+      // If there is no data
+      if (newData === null) {
+        setIsError(true);
+        setDataErrorMessage("No data yet");
+        return;
+      }
+
+      // Else remove errors
+      setIsError(false);
+      setDataErrorMessage(undefined);
+
+      // Refresh cached data
+      dataCache = newData;
+      lastCacheTimestamp = Date.now() / 1000;
+
+      // Update data
+      setData(dataCache);
+    }
   };
+
   const _computeData = async () => {
     // Else compute new data
     const newData: Data = {};
@@ -72,7 +97,7 @@ export const useGrowthRevenueData = () => {
     );
 
     // Return empty data if there is no investment start
-    if (!investmentStartRequest.data) return newData;
+    if (!investmentStartRequest.data) return null;
 
     // Push investment start as first data point
     for (const lToken of investmentStartRequest.data.ltokens) {
@@ -171,19 +196,21 @@ export const useGrowthRevenueData = () => {
         growth: balanceBefore ? revenue / balanceBefore : 0,
       });
     }
+
+    setDataErrorMessage(undefined);
+    setIsError(false);
     return newData;
   };
 
   useEffect(() => {
-    if (walletClient) {
-      setIsDataLoading(true);
-      computeData().then(() => setIsDataLoading(false));
-    }
+    setIsDataLoading(true);
+    computeData().then(() => setIsDataLoading(false));
   }, []);
 
   useEffect(() => {
     setIsDataLoading(true);
     computeData().then(() => setIsDataLoading(false));
-  }, [walletClient]);
-  return { data, isDataLoading };
+  }, [walletClient, publicClient]);
+
+  return { data, isDataLoading, isDataError, dataErrorMessage };
 };

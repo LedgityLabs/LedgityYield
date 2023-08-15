@@ -6,6 +6,7 @@ import { DotsMenu } from "./DotsMenu";
 import Link from "next/link";
 import { Button } from "./ui";
 import { usePathname } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 const EnterAppButton = () => {
   return (
@@ -22,14 +23,8 @@ const Header: FC = () => {
   return (
     <header className="relative z-50 pb-[97px]">
       <nav className="fixed flex w-screen items-center justify-between px-6 py-6 backdrop-blur-md">
-        {isAppOrAdmin ? (
-          <>
-            <Logo className="ml-2 hidden md:flex" />
-            <Logo className="ml-2 flex md:hidden" noText={true} />
-          </>
-        ) : (
-          <Logo className="ml-2" />
-        )}
+        <Logo className={twMerge("ml-2", isAppOrAdmin && "hidden md:flex")} />
+        <Logo className={twMerge("ml-2 hidden", isAppOrAdmin && "flex md:hidden")} noText={true} />
 
         <div className="flex gap-6">
           {isAppOrAdmin ? <ConnectButton /> : <EnterAppButton />}

@@ -150,6 +150,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
               activities: Activity[];
             };
           }) => {
+            console.log("New activities");
+            console.log(result.data.activities);
             setActivityData(result.data.activities);
             setIsLoading(false);
           },
@@ -179,7 +181,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("ltoken", {
-      header: "Token",
+      header: "L-Token",
       cell: (info) => info.getValue().symbol,
     }),
     columnHelper.accessor("amount", {

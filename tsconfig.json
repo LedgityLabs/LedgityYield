@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "~/*": ["./public/*"],
-      "graphclient": ["./.graphclient/"]
+      "graphclient": ["./subgraph/.graphclient/"]
     }
   },
   "include": [
@@ -32,7 +32,9 @@
     ".next/types/**/*.ts",
     "~/src/env.mjs",
     "./hardhat.config.ts",
-    "contracts/**/*.ts"
+    "contracts/**/*.ts",
+    "scripts/**/*.ts",
+    "subgraph/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

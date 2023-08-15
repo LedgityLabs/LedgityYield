@@ -7,7 +7,7 @@ const Page = () => {
   return (
     <main
       className={clsx(
-        "relative z-[100] flex flex-col justify-end items-center gap-3 pb-6 w-screen h-screen bg-gradient-to-tr from-bg to-accent transition-opacity duration-1000 animate-fadeIn",
+        "fixed inset-0 z-[10000000000000000000000] flex h-full w-screen animate-fadeIn flex-col items-center justify-end gap-3 bg-gradient-to-tr from-bg to-accent pb-6 transition-opacity duration-1000",
       )}
     >
       <Image

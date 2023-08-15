@@ -14,6 +14,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
   const pathname = usePathname();
   const [adminKeyPressCount, setAdminKeyPressCount] = useState(0);
   const [isAdminVisible, setIsAdminVisible] = useState(false);
+  const isAppOrAdmin = pathname.startsWith("/app") || pathname.startsWith("/admin");
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (!isAdminVisible) {
@@ -93,7 +94,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
           </ul>
           <div>
             <div className="flex items-end justify-between">
-              {(pathname.startsWith("/app") && <NetworkStatus />) || <div></div>}
+              {(isAppOrAdmin && <NetworkStatus />) || <div></div>}
               <p className="text-center text-sm">
                 <span className="text-center text-fg/70">Version</span>&nbsp;
                 <br />

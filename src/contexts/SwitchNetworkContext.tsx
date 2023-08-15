@@ -70,7 +70,8 @@ export const SwitchNetworkProvider: FC<Props> = ({ children }) => {
       }
     }
     if (!hasBeenSet && getCookie("preferedChain")) {
-      switchNetwork(getCookie("preferedChain")!.toString());
+      // Change the network to the prefered one (if the wallet is not connected)
+      if (!switchWalletNetwork) switchNetwork(getCookie("preferedChain")!.toString());
     }
   };
 

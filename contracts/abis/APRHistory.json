@@ -1,0 +1,93 @@
+[
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "packIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint32",
+            "name": "cursorIndex",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct APRHistory.Reference",
+        "name": "ref1",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "packIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint32",
+            "name": "cursorIndex",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct APRHistory.Reference",
+        "name": "ref2",
+        "type": "tuple"
+      }
+    ],
+    "name": "eq",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "packIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint32",
+            "name": "cursorIndex",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct APRHistory.Reference",
+        "name": "ref",
+        "type": "tuple"
+      }
+    ],
+    "name": "incrementReference",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "packIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint32",
+            "name": "cursorIndex",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct APRHistory.Reference",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]

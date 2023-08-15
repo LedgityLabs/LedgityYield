@@ -1,6 +1,6 @@
 import { Card, Rate, Spinner } from "@/components/ui";
 import { FC, useEffect, useState } from "react";
-import { APRChange, execute } from "../../../../.graphclient";
+import { APRChange, execute } from "graphclient";
 
 const secondsInOneYear = 60 * 60 * 24 * 365;
 

@@ -12,16 +12,23 @@ import {
   Activity,
   APRChange,
   RewardsMint,
-  LDYStaking,
-  TotalStakedUpdate,
 } from "./generated/schema";
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
-// import { TotalStakedUpdateEvent } from "./generated/LDYStaking/LDYStaking";
+import { log } from "@graphprotocol/graph-ts";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
-  // Start indexing the signaled LToken
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
+  log.info("SIGNAL HEEERRE", []);
 
+  // Start indexing the signaled LToken
   const ltokenAddress = event.params.lTokenAddress.toHexString();
   let ltoken = LTokenSchema.load(ltokenAddress);
   if (ltoken == null) {
@@ -155,17 +162,3 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
     ltoken.save();
   }
 }
-
-// export function handleTotalStakedEvent(event: TotalStakedUpdateEvent): void {
-//   const ldyStakingAddress = event.address.toHexString();
-//   let ldyStaking = LDYStaking.load(ldyStakingAddress);
-//   if (ldyStaking == null) ldyStaking = new LDYStaking(ldyStakingAddress);
-
-//   let totalStakedUpdate = new TotalStakedUpdate(event.transaction.hash.toHexString());
-//   totalStakedUpdate.staking = ldyStaking.id;
-//   totalStakedUpdate.timestamp = event.block.timestamp;
-//   totalStakedUpdate.amount = event.params.newTotalStaked.toBigDecimal();
-
-//   totalStakedUpdate.save();
-//   ldyStaking.save();
-// }

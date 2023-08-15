@@ -1,36 +1,14 @@
 specVersion: 0.0.6
 description: A subgraph of Ledgity Yield data
-repository: https://github.com/ledgity-labs/dapp
+repository: https://github.com/ledgity-labs/Ledgity-Yield
 schema:
   file: ./schema.graphql
 dataSources:
-  # - kind: ethereum/contract
-  #   name: LDYStaking
-  #   network: mainnet
-  #   source:
-  #     address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-  #     abi: LDYStaking
-  #     startBlock: 0
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.7
-  #     language: wasm/assemblyscript
-  #     file: ./mapping.ts
-  #     entities:
-  #       - LDYStaking
-  #       - TotalStakedUpdate
-  #     abis:
-  #       - name: LDYStaking
-  #         file: ../contracts/abis/LDYStaking.json
-  #     eventHandlers:
-  #       - event: TotalStakedUpdateEvent(uint256)
-  #         handler: handleTotalStakedEvent
-
   - kind: ethereum/contract
     name: LTokenSignaler
     network: mainnet
     source:
-      address: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1"
+      address: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0"
       abi: LTokenSignaler
       startBlock: 0
     mapping:
