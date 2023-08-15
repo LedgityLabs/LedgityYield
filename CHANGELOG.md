@@ -1,3 +1,10 @@
+## [1.161.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.161.0...v1.161.1) (2023-08-15)
+
+
+### Fixes
+
+* dashboard chart buttons not disabled when no data ([5ba19ad](https://github.com/ledgity-labs/Ledgity-Yield/commit/5ba19ad8a4bc6b466f9f5ea69fdbc8f73259d5f4))
+
 ## [1.161.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.160.0...v1.161.0) (2023-08-15)
 
 
