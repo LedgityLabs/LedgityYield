@@ -1,3 +1,10 @@
+## [1.164.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.163.0...v1.164.0) (2023-08-16)
+
+
+### Features
+
+* use symbol() instead of name() to build L-Tokens names + optimizations + new contracts ([247c8ae](https://github.com/ledgity-labs/Ledgity-Yield/commit/247c8ae15e06691ac9c4a0b1ab1315d93eab1b63))
+
 ## [1.163.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.162.0...v1.163.0) (2023-08-16)
 
 
