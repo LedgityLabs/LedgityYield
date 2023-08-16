@@ -18,15 +18,6 @@ import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 import { log } from "@graphprotocol/graph-ts";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
-  log.info("SIGNAL HEEERRE", []);
 
   // Start indexing the signaled LToken
   const ltokenAddress = event.params.lTokenAddress.toHexString();
