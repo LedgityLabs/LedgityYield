@@ -1,3 +1,11 @@
+## [1.166.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.165.0...v1.166.0) (2023-08-16)
+
+
+### Features
+
+* added subgraph YAML file for Linea and Arbitrum ([5ea15d4](https://github.com/ledgity-labs/Ledgity-Yield/commit/5ea15d4155ea8d33fae6b0ae4916b4f5058df9ac))
+* hide TVL growth until it is available ([38192b1](https://github.com/ledgity-labs/Ledgity-Yield/commit/38192b1018849f90fc245c152eb061c5d21ee0c4))
+
 ## [1.165.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.164.0...v1.165.0) (2023-08-16)
 
 
