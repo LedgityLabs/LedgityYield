@@ -1,3 +1,10 @@
+## [1.162.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.161.1...v1.162.0) (2023-08-16)
+
+
+### Features
+
+* Linea + Arbitrum deployment + UI render artifacts on Mac,etc ([31e6f32](https://github.com/ledgity-labs/Ledgity-Yield/commit/31e6f326e7fffefc442722cd5799301f5822d3b6))
+
 ## [1.161.1](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.161.0...v1.161.1) (2023-08-15)
 
 
