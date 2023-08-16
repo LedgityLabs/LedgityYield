@@ -1,3 +1,10 @@
+## [1.163.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.162.0...v1.163.0) (2023-08-16)
+
+
+### Features
+
+* arbitrum and Linea now available on the frontend ([c13a366](https://github.com/ledgity-labs/Ledgity-Yield/commit/c13a366d324db900649b6d1e908f06d2ea00d50d))
+
 ## [1.162.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.161.1...v1.162.0) (2023-08-16)
 
 
