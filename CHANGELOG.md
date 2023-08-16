@@ -1,3 +1,10 @@
+## [1.165.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.164.0...v1.165.0) (2023-08-16)
+
+
+### Features
+
+* new contracts addresses ([5346622](https://github.com/ledgity-labs/Ledgity-Yield/commit/5346622c6e9e491f9f0741bfebf6db738282be7e))
+
 ## [1.164.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.163.0...v1.164.0) (2023-08-16)
 
 
