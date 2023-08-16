@@ -10,19 +10,20 @@ interface FadeInProps extends React.HTMLAttributes<HTMLDivElement> {
 export const FadeIn: FC<FadeInProps> = ({ children, startAt = "top", ...props }) => {
   const fadedDiv = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    const divAnimation = anime({
-      targets: fadedDiv.current!,
-      scale: [1.5, 1],
-      translateY: [200, 0],
-      easing: "easeInOutCubic",
-      opacity: [0, 1],
-      duration: 1000,
-      autoplay: false,
-    });
+  // useLayoutEffect(() => {
+  //   const divAnimation = anime({
+  //     targets: fadedDiv.current!,
+  //     // scale: [1.5, 1],
+  //     translateY: [200, 0],
+  //     easing: "easeInOutCubic",
+  //     // opacity: [0, 1],
+  //     duration: 1000,
+  //     autoplay: false,
+  //   });
 
-    return animateScroll(divAnimation, fadedDiv.current!, startAt);
-  }, []);
+  //   return animateScroll(divAnimation, fadedDiv.current!, startAt);
+  // }, []);
+
   return (
     <div ref={fadedDiv} className="will-change-[transform,opacity]" {...props}>
       {children}

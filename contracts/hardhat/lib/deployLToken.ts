@@ -65,7 +65,7 @@ export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => 
           },
         },
       },
-      gasLimit: 1000000, // Required as RPC node fails to estimate gas limit
+      // gasLimit: 10000000, // Required as RPC node fails to estimate gas limit
       libraries: {
         APRHistory: aprHistory.address,
       },

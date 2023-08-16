@@ -1,0 +1,205 @@
+{
+  "address": "0x3F0Ff9947550d7Cf26549136552C785446ad4Ac5",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "packIndex",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "cursorIndex",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct APRHistory.Reference",
+          "name": "ref1",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "packIndex",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "cursorIndex",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct APRHistory.Reference",
+          "name": "ref2",
+          "type": "tuple"
+        }
+      ],
+      "name": "eq",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "packIndex",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "cursorIndex",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct APRHistory.Reference",
+          "name": "ref",
+          "type": "tuple"
+        }
+      ],
+      "name": "incrementReference",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "packIndex",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint32",
+              "name": "cursorIndex",
+              "type": "uint32"
+            }
+          ],
+          "internalType": "struct APRHistory.Reference",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x20b1b7cb369c3221cd153726d48e9099807657eb2a6e6b50659727e6e5786da6",
+  "receipt": {
+    "to": null,
+    "from": "0x9644fFCE92Ff305f14AF9aCD71c7ccbBE6478023",
+    "contractAddress": "0x3F0Ff9947550d7Cf26549136552C785446ad4Ac5",
+    "transactionIndex": 1,
+    "gasUsed": "20712941",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x37ed86ebfe4d88d7b12983a519d54307117999da74c6fda9ddf36e371b383bf9",
+    "transactionHash": "0x20b1b7cb369c3221cd153726d48e9099807657eb2a6e6b50659727e6e5786da6",
+    "logs": [],
+    "blockNumber": 121727124,
+    "cumulativeGasUsed": "20712941",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "3973b96c15e5ff9e2610ddf3b51d9d8f",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"packIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"cursorIndex\",\"type\":\"uint32\"}],\"internalType\":\"struct APRHistory.Reference\",\"name\":\"ref1\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"packIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"cursorIndex\",\"type\":\"uint32\"}],\"internalType\":\"struct APRHistory.Reference\",\"name\":\"ref2\",\"type\":\"tuple\"}],\"name\":\"eq\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"packIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"cursorIndex\",\"type\":\"uint32\"}],\"internalType\":\"struct APRHistory.Reference\",\"name\":\"ref\",\"type\":\"tuple\"}],\"name\":\"incrementReference\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"packIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint32\",\"name\":\"cursorIndex\",\"type\":\"uint32\"}],\"internalType\":\"struct APRHistory.Reference\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lila Rest (https://lila.rest)\",\"custom:security-contact\":\"security@ledgity.comsecurity@ledgity.com\",\"details\":\"Intuition: Each checkpoint in an APR history consists in two data: - the creation timestamp - the APR at that time Given that reads and writes to storage slots are among the most costly operations in Solidity, this library provides a way to store those data on chain in a way that minimizes the number of used storage slots. Instead of storing each checkpoint in a separate storage slot, this library facilitates the packing of up to 4 checkpoints in a single storage slot.Definitions: - Checkpoint: A record of an APR change - Pack: A collection of 4 checkpoints stored in a single storage slot - History: A dynamic array of packs - Reference: A storage pointer to a checkpoint in the APR history - CheckpointData: An in-memory representation of a checkpoint dataLimitation: This library can accommodate APRs only up to 65.536%. This is however sufficient for APR in LToken contract, which is expected to remain below 10%.For further details, see \\\"APRHistory\\\" section of whitepaper.\",\"kind\":\"dev\",\"methods\":{\"eq(APRHistory.Reference,APRHistory.Reference)\":{\"params\":{\"ref1\":\"The first reference to compare.\",\"ref2\":\"The second reference to compare.\"},\"returns\":{\"_0\":\"Whether the two references points to the same checkpoint.\"}},\"getAPR(APRHistory.Pack[] storage)\":{\"params\":{\"self\":\"The history array to read APR from.\"},\"returns\":{\"_0\":\"The latest checkpoint's APR.\"}},\"getDataFromReference(APRHistory.Pack[] storage,APRHistory.Reference)\":{\"params\":{\"ref\":\"The reference of the checkpoint data to extract.\",\"self\":\"The APR history to extract the checkpoint from.\"},\"returns\":{\"_0\":\"The extracted checkpoint's data.\"}},\"getLatestReference(APRHistory.Pack[] storage)\":{\"params\":{\"self\":\"The history to extract the reference from.\"},\"returns\":{\"_0\":\"The reference of the latest checkpoint.\"}},\"incrementReference(APRHistory.Reference)\":{\"params\":{\"ref\":\"The reference to be incremented.\"},\"returns\":{\"_0\":\"The incremented reference.\"}},\"setAPR(APRHistory.Pack[] storage,uint16)\":{\"params\":{\"aprUD7x3\":\"The new APR in UD7x3 format.\",\"self\":\"The array of packs to write the new checkpoint to.\"}}},\"title\":\"APRHistory\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"eq(APRHistory.Reference,APRHistory.Reference)\":{\"notice\":\"Compares two checkpoints references.\"},\"getAPR(APRHistory.Pack[] storage)\":{\"notice\":\"Retrieves the APR of the latest checkpoint written in the APR history.\"},\"getDataFromReference(APRHistory.Pack[] storage,APRHistory.Reference)\":{\"notice\":\"Extracts checkpoint data from a given reference and in APR history.\"},\"getLatestReference(APRHistory.Pack[] storage)\":{\"notice\":\"Retrieves the reference to the most recently added checkpoint in the APR history.\"},\"incrementReference(APRHistory.Reference)\":{\"notice\":\"Returns the reference of the checkpoint that should come right after the referenced checkpoint in the APR history.\"},\"setAPR(APRHistory.Pack[] storage,uint16)\":{\"notice\":\"Write a new APR checkpoint at the end of the given history array.\"}},\"notice\":\"This library offers utilities to efficiently maintain on chain, the history of an APR (Annual Percentage Rate). Each entry in this history is called a \\\"checkpoint\\\".\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/src/libs/APRHistory.sol\":\"APRHistory\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/src/libs/APRHistory.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.18;\\n\\n/**\\n * @title APRHistory\\n * @author Lila Rest (https://lila.rest)\\n * @custom:security-contact security@ledgity.com\\n *\\n * @notice This library offers utilities to efficiently maintain on chain, the history of\\n * an APR (Annual Percentage Rate). Each entry in this history is called a \\\"checkpoint\\\".\\n *\\n * @dev Intuition:\\n * Each checkpoint in an APR history consists in two data:\\n * - the creation timestamp\\n * - the APR at that time\\n *\\n * Given that reads and writes to storage slots are among the most costly operations in\\n * Solidity, this library provides a way to store those data on chain in a way that\\n * minimizes the number of used storage slots.\\n *\\n * Instead of storing each checkpoint in a separate storage slot, this library\\n * facilitates the packing of up to 4 checkpoints in a single storage slot.\\n *\\n * @dev Definitions:\\n * - Checkpoint: A record of an APR change\\n * - Pack: A collection of 4 checkpoints stored in a single storage slot\\n * - History: A dynamic array of packs\\n * - Reference: A storage pointer to a checkpoint in the APR history\\n * - CheckpointData: An in-memory representation of a checkpoint data\\n *\\n * @dev Limitation: This library can accommodate APRs only up to 65.536%. This is however\\n * sufficient for APR in LToken contract, which is expected to remain below 10%.\\n *\\n * @dev For further details, see \\\"APRHistory\\\" section of whitepaper.\\n * @custom:security-contact security@ledgity.com\\n */\\nlibrary APRHistory {\\n    /**\\n     * @notice Represents data of a checkpoint extracted from the on-chain history.\\n     * For on-chain representation see \\\"Pack\\\" struct.\\n     * @param aprUD7x3 APR in UD7x3 format (e.g., 12345 = 12.345%).\\n     * @param timestamp Timestamp of the checkpoint's creation.\\n     */\\n    struct CheckpointData {\\n        uint16 aprUD7x3; // Allows up to 65.536%\\n        uint40 timestamp; // Supports dates up to 20/02/36812\\n    }\\n\\n    /**\\n     * @notice Represents how APR checkpoints are stored on chain. Each pack can contain\\n     * the data 4 checkpoints. Packs are then stored in a dynamic array (the history).\\n     * @param aprsUD7x3 Array of checkpoints' APRs.\\n     * @param timestamps Array of checkpoints' timestamps.\\n     * @param cursor Index of the next checkpoint to be written.\\n     */\\n    struct Pack {\\n        uint16[4] aprsUD7x3;\\n        uint40[4] timestamps;\\n        uint32 cursor;\\n    }\\n\\n    /**\\n     * @notice Represents a storage pointer to a specific checkpoint in the history.\\n     * @param packIndex Index of the pack the checkpoint belongs to.\\n     * @param cursorIndex Index of the checkpoint in this pack (between 0 and 3).\\n     */\\n    struct Reference {\\n        uint256 packIndex;\\n        uint32 cursorIndex;\\n    }\\n\\n    /**\\n     * @notice Compares two checkpoints references.\\n     * @param ref1 The first reference to compare.\\n     * @param ref2 The second reference to compare.\\n     * @return Whether the two references points to the same checkpoint.\\n     */\\n    function eq(Reference memory ref1, Reference memory ref2) external pure returns (bool) {\\n        return ref1.packIndex == ref2.packIndex && ref1.cursorIndex == ref2.cursorIndex;\\n    }\\n\\n    /**\\n     * @notice Returns the reference of the checkpoint that should come right after the\\n     * referenced checkpoint in the APR history.\\n     * @param ref The reference to be incremented.\\n     * @return The incremented reference.\\n     */\\n    function incrementReference(Reference memory ref) public pure returns (Reference memory) {\\n        // Ensure cursor index of the given ref is within valid range [0, 3]\\n        require(ref.cursorIndex <= 3, \\\"L1\\\");\\n\\n        // If the given ref is the last slot in its pack, return ref of next pack's first slot\\n        if (ref.cursorIndex == 3) return Reference(ref.packIndex + 1, 0);\\n        //\\n        // Else, return ref of next slot in current pack\\n        else return Reference(ref.packIndex, ref.cursorIndex + 1);\\n    }\\n\\n    /**\\n     * @notice Extracts checkpoint data from a given reference and in APR history.\\n     * @param self The APR history to extract the checkpoint from.\\n     * @param ref The reference of the checkpoint data to extract.\\n     * @return The extracted checkpoint's data.\\n     */\\n    function getDataFromReference(\\n        Pack[] storage self,\\n        Reference memory ref\\n    ) public view returns (CheckpointData memory) {\\n        // Ensure cursor index of the given ref is within valid range [0, 3]\\n        require(ref.cursorIndex <= 3, \\\"L2\\\");\\n\\n        // Ensure pack index of the given ref exists in history\\n        require(ref.packIndex < self.length, \\\"L3\\\");\\n\\n        // Retrieve pack data from history\\n        Pack memory pack = self[ref.packIndex];\\n\\n        // Ensure cursor index of the given ref has been written\\n        require(ref.cursorIndex < pack.cursor, \\\"L4\\\");\\n\\n        // Build and return the checkpoint data\\n        return\\n            CheckpointData({\\n                aprUD7x3: pack.aprsUD7x3[ref.cursorIndex],\\n                timestamp: pack.timestamps[ref.cursorIndex]\\n            });\\n    }\\n\\n    /**\\n     * @notice Retrieves the reference to the most recently added checkpoint in the APR history.\\n     * @param self The history to extract the reference from.\\n     * @return The reference of the latest checkpoint.\\n     */\\n    function getLatestReference(Pack[] storage self) public view returns (Reference memory) {\\n        // Ensure the given history is not empty\\n        require(self.length != 0, \\\"L5\\\");\\n\\n        // Retrieve latest pack's index and cursor\\n        uint256 packIndex = self.length - 1;\\n        uint32 packCursor = self[packIndex].cursor;\\n\\n        // If this is the first pack ever, ensure it is not empty\\n        if (packIndex == 0) require(packCursor != 0, \\\"L6\\\");\\n\\n        // If the pack is empty, return ref of previous pack's latest slot\\n        if (packCursor == 0) return Reference(packIndex - 1, 3);\\n        //\\n        // Else, return ref of previous slot in current pack\\n        else return Reference(packIndex, packCursor - 1);\\n    }\\n\\n    /**\\n     * @notice Appends a new empty pack to the end of the given APR history array.\\n     * @param self The APR history to append an empty to.\\n     */\\n    function newBlankPack(Pack[] storage self) internal {\\n        // If history is not empty, ensure the latest pack is full\\n        require(self.length == 0 || getLatestReference(self).cursorIndex == 3, \\\"L7\\\");\\n\\n        // Push a new blank pack to the history array\\n        self.push(\\n            Pack({\\n                aprsUD7x3: [uint16(0), uint16(0), uint16(0), uint16(0)],\\n                timestamps: [uint40(0), uint40(0), uint40(0), uint40(0)],\\n                cursor: 0\\n            })\\n        );\\n    }\\n\\n    /**\\n     * @notice Write a new APR checkpoint at the end of the given history array.\\n     * @param self The array of packs to write the new checkpoint to.\\n     * @param aprUD7x3 The new APR in UD7x3 format.\\n     */\\n    function setAPR(Pack[] storage self, uint16 aprUD7x3) external {\\n        // Determine the reference where the new checkpoint should be written\\n        Reference memory newRef = self.length == 0\\n            ? Reference(0, 0)\\n            : incrementReference(getLatestReference(self));\\n\\n        // If pack to be written doesn't exist yet, push a new blank pack in history\\n        if (newRef.packIndex >= self.length) newBlankPack(self);\\n\\n        // Retrieve the pack where the new checkpoint will be stored\\n        Pack memory pack = self[newRef.packIndex];\\n\\n        // Add new checkpoint's data to the pack\\n        pack.aprsUD7x3[newRef.cursorIndex] = aprUD7x3;\\n        pack.timestamps[newRef.cursorIndex] = uint40(block.timestamp);\\n\\n        // Increment the pack's cursor\\n        pack.cursor++;\\n\\n        // Write the updated pack in storage\\n        self[newRef.packIndex] = pack;\\n    }\\n\\n    /**\\n     * @notice Retrieves the APR of the latest checkpoint written in the APR history.\\n     * @param self The history array to read APR from.\\n     * @return The latest checkpoint's APR.\\n     */\\n    function getAPR(Pack[] storage self) public view returns (uint16) {\\n        // Retrieve the latest checkpoint data\\n        Reference memory ref = getLatestReference(self);\\n        CheckpointData memory data = getDataFromReference(self, ref);\\n\\n        // Return the latest checkpoint's APR\\n        return data.aprUD7x3;\\n    }\\n}\\n\",\"keccak256\":\"0x7954e7130fb127fc8cd81fb852de2df2eda688c0d4ef6cdd9280809cdf2815c3\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x610c8561003a600b82828239805160001a60731461002d57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe730000000000000000000000000000000000000000301460806040526004361061006c5760003560e01c80630704abfa146100715780634ead0c53146100aa578063593e7d88146100cd5780637c3cb8a614610106578063836b267814610119578063867c775a1461013f575b600080fd5b61008461007f366004610a63565b610161565b604080518251815260209283015163ffffffff1692810192909252015b60405180910390f35b6100bd6100b8366004610aed565b61029a565b60405190151581526020016100a1565b6100e06100db366004610b22565b6102ca565b60408051825161ffff16815260209283015164ffffffffff1692810192909252016100a1565b610084610114366004610b46565b610506565b61012c610127366004610a63565b6105cc565b60405161ffff90911681526020016100a1565b81801561014b57600080fd5b5061015f61015a366004610b62565b6105ef565b005b604080518082019091526000808252602082015281546000036101b05760405162461bcd60e51b81526020600482015260026024820152614c3560f01b60448201526064015b60405180910390fd5b81546000906101c190600190610baf565b905060008382815481106101d7576101d7610bc2565b6000918252602082206002600390920201015463ffffffff169150829003610234578063ffffffff166000036102345760405162461bcd60e51b8152602060048201526002602482015261261b60f11b60448201526064016101a7565b8063ffffffff1660000361026c57604051806040016040528060018461025a9190610baf565b81526003602090910152949350505050565b604051806040016040528083815260200160018361028a9190610bd8565b63ffffffff169052949350505050565b805182516000911480156102c15750816020015163ffffffff16836020015163ffffffff16145b90505b92915050565b60408051808201909152600080825260208201526003826020015163ffffffff16111561031e5760405162461bcd60e51b8152602060048201526002602482015261261960f11b60448201526064016101a7565b82548251106103545760405162461bcd60e51b81526020600482015260026024820152614c3360f01b60448201526064016101a7565b60008383600001518154811061036c5761036c610bc2565b600091825260209091206040805160e08101909152916003020181606081018260048282826020028201916000905b82829054906101000a900461ffff1661ffff168152602001906002019060208260010104928301926001038202915080841161039b57505050928452505060408051608081019182905260209093019291506001840190600490826000855b82829054906101000a900464ffffffffff1664ffffffffff16815260200190600501906020826004010492830192600103820291508084116103fa575050509284525050506002919091015463ffffffff9081166020928301526040830151918601519293509081169116106104975760405162461bcd60e51b8152602060048201526002602482015261130d60f21b60448201526064016101a7565b60405180604001604052808260000151856020015163ffffffff16600481106104c2576104c2610bc2565b602002015161ffff1681526020018260200151856020015163ffffffff16600481106104f0576104f0610bc2565b602002015164ffffffffff169052949350505050565b60408051808201909152600080825260208201526003826020015163ffffffff16111561055a5760405162461bcd60e51b81526020600482015260026024820152614c3160f01b60448201526064016101a7565b816020015163ffffffff16600303610598576040518060400160405280836000015160016105889190610bfc565b8152600060209091015292915050565b604051806040016040528083600001518152602001836020015160016105be9190610c0f565b63ffffffff16905292915050565b6000806105d883610161565b905060006105e684836102ca565b51949350505050565b81546000901561060a5761060561011484610161565b61061f565b60408051808201909152600080825260208201525b83548151919250116106345761063483610824565b60008382600001518154811061064c5761064c610bc2565b600091825260209091206040805160e08101909152916003020181606081018260048282826020028201916000905b82829054906101000a900461ffff1661ffff168152602001906002019060208260010104928301926001038202915080841161067b57505050928452505060408051608081019182905260209093019291506001840190600490826000855b82829054906101000a900464ffffffffff1664ffffffffff16815260200190600501906020826004010492830192600103820291508084116106da575050509284525050506002919091015463ffffffff9081166020928301528251918501519293508592166004811061075057610750610bc2565b602002019061ffff16908161ffff1681525050428160200151836020015163ffffffff166004811061078457610784610bc2565b64ffffffffff9092166020929092020152604081018051906107a582610c2c565b63ffffffff16905250815184548291869181106107c4576107c4610bc2565b600091825260209091208251600390920201906107e4908290600461092b565b5060208201516107fa90600183019060046109c1565b50604091909101516002909101805463ffffffff191663ffffffff90921691909117905550505050565b80541580610844575061083681610161565b6020015163ffffffff166003145b6108755760405162461bcd60e51b81526020600482015260026024820152614c3760f01b60448201526064016101a7565b6040805160e08101825260006060808301828152608080850184905260a0850184905260c085018490529084528451908101855282815260208181018490528186018490529181018390528184015292820181905283546001810185558482529290208151919260030201906108ee908290600461092b565b50602082015161090490600183019060046109c1565b50604091909101516002909101805463ffffffff191663ffffffff90921691909117905550565b6001830191839082156109b15791602002820160005b8382111561098157835183826101000a81548161ffff021916908361ffff1602179055509260200192600201602081600101049283019260010302610941565b80156109af5782816101000a81549061ffff0219169055600201602081600101049283019260010302610981565b505b506109bd929150610a4e565b5090565b6001830191839082156109b15791602002820160005b83821115610a1d57835183826101000a81548164ffffffffff021916908364ffffffffff16021790555092602001926005016020816004010492830192600103026109d7565b80156109af5782816101000a81549064ffffffffff0219169055600501602081600401049283019260010302610a1d565b5b808211156109bd5760008155600101610a4f565b600060208284031215610a7557600080fd5b5035919050565b600060408284031215610a8e57600080fd5b6040516040810181811067ffffffffffffffff82111715610abf57634e487b7160e01b600052604160045260246000fd5b60405282358152905080602083013563ffffffff81168114610ae057600080fd5b6020919091015292915050565b60008060808385031215610b0057600080fd5b610b0a8484610a7c565b9150610b198460408501610a7c565b90509250929050565b60008060608385031215610b3557600080fd5b82359150610b198460208501610a7c565b600060408284031215610b5857600080fd5b6102c18383610a7c565b60008060408385031215610b7557600080fd5b82359150602083013561ffff81168114610b8e57600080fd5b809150509250929050565b634e487b7160e01b600052601160045260246000fd5b818103818111156102c4576102c4610b99565b634e487b7160e01b600052603260045260246000fd5b63ffffffff828116828216039080821115610bf557610bf5610b99565b5092915050565b808201808211156102c4576102c4610b99565b63ffffffff818116838216019080821115610bf557610bf5610b99565b600063ffffffff808316818103610c4557610c45610b99565b600101939250505056fea26469706673582212200e329fe9da7eb31b10be3b7e59dda8f4c3d79b2336a8ccac62e5aedaa27a7a3f64736f6c63430008120033",
+  "deployedBytecode": "0x730000000000000000000000000000000000000000301460806040526004361061006c5760003560e01c80630704abfa146100715780634ead0c53146100aa578063593e7d88146100cd5780637c3cb8a614610106578063836b267814610119578063867c775a1461013f575b600080fd5b61008461007f366004610a63565b610161565b604080518251815260209283015163ffffffff1692810192909252015b60405180910390f35b6100bd6100b8366004610aed565b61029a565b60405190151581526020016100a1565b6100e06100db366004610b22565b6102ca565b60408051825161ffff16815260209283015164ffffffffff1692810192909252016100a1565b610084610114366004610b46565b610506565b61012c610127366004610a63565b6105cc565b60405161ffff90911681526020016100a1565b81801561014b57600080fd5b5061015f61015a366004610b62565b6105ef565b005b604080518082019091526000808252602082015281546000036101b05760405162461bcd60e51b81526020600482015260026024820152614c3560f01b60448201526064015b60405180910390fd5b81546000906101c190600190610baf565b905060008382815481106101d7576101d7610bc2565b6000918252602082206002600390920201015463ffffffff169150829003610234578063ffffffff166000036102345760405162461bcd60e51b8152602060048201526002602482015261261b60f11b60448201526064016101a7565b8063ffffffff1660000361026c57604051806040016040528060018461025a9190610baf565b81526003602090910152949350505050565b604051806040016040528083815260200160018361028a9190610bd8565b63ffffffff169052949350505050565b805182516000911480156102c15750816020015163ffffffff16836020015163ffffffff16145b90505b92915050565b60408051808201909152600080825260208201526003826020015163ffffffff16111561031e5760405162461bcd60e51b8152602060048201526002602482015261261960f11b60448201526064016101a7565b82548251106103545760405162461bcd60e51b81526020600482015260026024820152614c3360f01b60448201526064016101a7565b60008383600001518154811061036c5761036c610bc2565b600091825260209091206040805160e08101909152916003020181606081018260048282826020028201916000905b82829054906101000a900461ffff1661ffff168152602001906002019060208260010104928301926001038202915080841161039b57505050928452505060408051608081019182905260209093019291506001840190600490826000855b82829054906101000a900464ffffffffff1664ffffffffff16815260200190600501906020826004010492830192600103820291508084116103fa575050509284525050506002919091015463ffffffff9081166020928301526040830151918601519293509081169116106104975760405162461bcd60e51b8152602060048201526002602482015261130d60f21b60448201526064016101a7565b60405180604001604052808260000151856020015163ffffffff16600481106104c2576104c2610bc2565b602002015161ffff1681526020018260200151856020015163ffffffff16600481106104f0576104f0610bc2565b602002015164ffffffffff169052949350505050565b60408051808201909152600080825260208201526003826020015163ffffffff16111561055a5760405162461bcd60e51b81526020600482015260026024820152614c3160f01b60448201526064016101a7565b816020015163ffffffff16600303610598576040518060400160405280836000015160016105889190610bfc565b8152600060209091015292915050565b604051806040016040528083600001518152602001836020015160016105be9190610c0f565b63ffffffff16905292915050565b6000806105d883610161565b905060006105e684836102ca565b51949350505050565b81546000901561060a5761060561011484610161565b61061f565b60408051808201909152600080825260208201525b83548151919250116106345761063483610824565b60008382600001518154811061064c5761064c610bc2565b600091825260209091206040805160e08101909152916003020181606081018260048282826020028201916000905b82829054906101000a900461ffff1661ffff168152602001906002019060208260010104928301926001038202915080841161067b57505050928452505060408051608081019182905260209093019291506001840190600490826000855b82829054906101000a900464ffffffffff1664ffffffffff16815260200190600501906020826004010492830192600103820291508084116106da575050509284525050506002919091015463ffffffff9081166020928301528251918501519293508592166004811061075057610750610bc2565b602002019061ffff16908161ffff1681525050428160200151836020015163ffffffff166004811061078457610784610bc2565b64ffffffffff9092166020929092020152604081018051906107a582610c2c565b63ffffffff16905250815184548291869181106107c4576107c4610bc2565b600091825260209091208251600390920201906107e4908290600461092b565b5060208201516107fa90600183019060046109c1565b50604091909101516002909101805463ffffffff191663ffffffff90921691909117905550505050565b80541580610844575061083681610161565b6020015163ffffffff166003145b6108755760405162461bcd60e51b81526020600482015260026024820152614c3760f01b60448201526064016101a7565b6040805160e08101825260006060808301828152608080850184905260a0850184905260c085018490529084528451908101855282815260208181018490528186018490529181018390528184015292820181905283546001810185558482529290208151919260030201906108ee908290600461092b565b50602082015161090490600183019060046109c1565b50604091909101516002909101805463ffffffff191663ffffffff90921691909117905550565b6001830191839082156109b15791602002820160005b8382111561098157835183826101000a81548161ffff021916908361ffff1602179055509260200192600201602081600101049283019260010302610941565b80156109af5782816101000a81549061ffff0219169055600201602081600101049283019260010302610981565b505b506109bd929150610a4e565b5090565b6001830191839082156109b15791602002820160005b83821115610a1d57835183826101000a81548164ffffffffff021916908364ffffffffff16021790555092602001926005016020816004010492830192600103026109d7565b80156109af5782816101000a81549064ffffffffff0219169055600501602081600401049283019260010302610a1d565b5b808211156109bd5760008155600101610a4f565b600060208284031215610a7557600080fd5b5035919050565b600060408284031215610a8e57600080fd5b6040516040810181811067ffffffffffffffff82111715610abf57634e487b7160e01b600052604160045260246000fd5b60405282358152905080602083013563ffffffff81168114610ae057600080fd5b6020919091015292915050565b60008060808385031215610b0057600080fd5b610b0a8484610a7c565b9150610b198460408501610a7c565b90509250929050565b60008060608385031215610b3557600080fd5b82359150610b198460208501610a7c565b600060408284031215610b5857600080fd5b6102c18383610a7c565b60008060408385031215610b7557600080fd5b82359150602083013561ffff81168114610b8e57600080fd5b809150509250929050565b634e487b7160e01b600052601160045260246000fd5b818103818111156102c4576102c4610b99565b634e487b7160e01b600052603260045260246000fd5b63ffffffff828116828216039080821115610bf557610bf5610b99565b5092915050565b808201808211156102c4576102c4610b99565b63ffffffff818116838216019080821115610bf557610bf5610b99565b600063ffffffff808316818103610c4557610c45610b99565b600101939250505056fea26469706673582212200e329fe9da7eb31b10be3b7e59dda8f4c3d79b2336a8ccac62e5aedaa27a7a3f64736f6c63430008120033",
+  "devdoc": {
+    "author": "Lila Rest (https://lila.rest)",
+    "custom:security-contact": "security@ledgity.comsecurity@ledgity.com",
+    "details": "Intuition: Each checkpoint in an APR history consists in two data: - the creation timestamp - the APR at that time Given that reads and writes to storage slots are among the most costly operations in Solidity, this library provides a way to store those data on chain in a way that minimizes the number of used storage slots. Instead of storing each checkpoint in a separate storage slot, this library facilitates the packing of up to 4 checkpoints in a single storage slot.Definitions: - Checkpoint: A record of an APR change - Pack: A collection of 4 checkpoints stored in a single storage slot - History: A dynamic array of packs - Reference: A storage pointer to a checkpoint in the APR history - CheckpointData: An in-memory representation of a checkpoint dataLimitation: This library can accommodate APRs only up to 65.536%. This is however sufficient for APR in LToken contract, which is expected to remain below 10%.For further details, see \"APRHistory\" section of whitepaper.",
+    "kind": "dev",
+    "methods": {
+      "eq(APRHistory.Reference,APRHistory.Reference)": {
+        "params": {
+          "ref1": "The first reference to compare.",
+          "ref2": "The second reference to compare."
+        },
+        "returns": {
+          "_0": "Whether the two references points to the same checkpoint."
+        }
+      },
+      "getAPR(APRHistory.Pack[] storage)": {
+        "params": {
+          "self": "The history array to read APR from."
+        },
+        "returns": {
+          "_0": "The latest checkpoint's APR."
+        }
+      },
+      "getDataFromReference(APRHistory.Pack[] storage,APRHistory.Reference)": {
+        "params": {
+          "ref": "The reference of the checkpoint data to extract.",
+          "self": "The APR history to extract the checkpoint from."
+        },
+        "returns": {
+          "_0": "The extracted checkpoint's data."
+        }
+      },
+      "getLatestReference(APRHistory.Pack[] storage)": {
+        "params": {
+          "self": "The history to extract the reference from."
+        },
+        "returns": {
+          "_0": "The reference of the latest checkpoint."
+        }
+      },
+      "incrementReference(APRHistory.Reference)": {
+        "params": {
+          "ref": "The reference to be incremented."
+        },
+        "returns": {
+          "_0": "The incremented reference."
+        }
+      },
+      "setAPR(APRHistory.Pack[] storage,uint16)": {
+        "params": {
+          "aprUD7x3": "The new APR in UD7x3 format.",
+          "self": "The array of packs to write the new checkpoint to."
+        }
+      }
+    },
+    "title": "APRHistory",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "eq(APRHistory.Reference,APRHistory.Reference)": {
+        "notice": "Compares two checkpoints references."
+      },
+      "getAPR(APRHistory.Pack[] storage)": {
+        "notice": "Retrieves the APR of the latest checkpoint written in the APR history."
+      },
+      "getDataFromReference(APRHistory.Pack[] storage,APRHistory.Reference)": {
+        "notice": "Extracts checkpoint data from a given reference and in APR history."
+      },
+      "getLatestReference(APRHistory.Pack[] storage)": {
+        "notice": "Retrieves the reference to the most recently added checkpoint in the APR history."
+      },
+      "incrementReference(APRHistory.Reference)": {
+        "notice": "Returns the reference of the checkpoint that should come right after the referenced checkpoint in the APR history."
+      },
+      "setAPR(APRHistory.Pack[] storage,uint16)": {
+        "notice": "Write a new APR checkpoint at the end of the given history array."
+      }
+    },
+    "notice": "This library offers utilities to efficiently maintain on chain, the history of an APR (Annual Percentage Rate). Each entry in this history is called a \"checkpoint\".",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

@@ -16,19 +16,20 @@ const HomeHero: FC<Props> = ({ className }) => {
   // Figure out if it's an Arbitrum user or not
   const isArbitrum = publicClient && [42161, 421613].includes(publicClient.chain.id);
 
-  useLayoutEffect(() => {
-    const divAnimation = anime({
-      targets: heroSection.current!,
-      scale: [1, 0.8],
-      translateY: [0, 300],
-      easing: "easeInOutCubic",
-      opacity: [1, 0],
-      duration: 1000,
-      autoplay: false,
-    });
+  // useLayoutEffect(() => {
+  //   const divAnimation = anime({
+  //     targets: heroSection.current!,
+  //     // scale: [1, 0.8],
+  //     // translateY: [0, 450],
+  //     easing: "easeInOutCubic",
 
-    return animateScroll(divAnimation, heroSection.current!, "top");
-  }, []);
+  //     // opacity: [1, 0],
+  //     duration: 2000,
+  //     autoplay: false,
+  //   });
+
+  //   return animateScroll(divAnimation, heroSection.current!, "top");
+  // }, []);
 
   return (
     <section
