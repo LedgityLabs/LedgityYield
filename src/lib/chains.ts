@@ -93,6 +93,6 @@ if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains = [arbitrum, linea, arbitrumGoerli, lineaTestnet];
-const devChains = [...prodChains, hederaChain, hardhat];
+const prodChains = [arbitrum, linea];
+const devChains = [...prodChains, hederaChain, hardhat, arbitrumGoerli, lineaTestnet];
 export const chains = chainsEnv === "prod" ? prodChains : devChains;
