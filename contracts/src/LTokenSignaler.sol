@@ -4,7 +4,6 @@ pragma solidity ^0.8.18;
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol";
-import {LToken} from "./LToken.sol";
 
 /**
  * @title LTokenSignaler

@@ -118,20 +118,24 @@ const HomeHero: FC<Props> = ({ className }) => {
           <div className="dark-neon min-w-[700px] sm:min-w-[1300px] md:min-w-[1300px] lg:min-w-[1800px]" />
           <ul className="flex items-center justify-center gap-24 px-14 lg:mt-2 lg:gap-32">
             <li className="text-center sm:text-left">
-              <Amount
-                value={200000000000n}
-                decimals={6}
-                className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl"
-              />
+              <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl">
+                314%
+              </span>
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">
-                TVL <span className="opacity-70">(in $)</span>
+                TVL growth <span className="opacity-70">(7d)</span>
               </h3>
             </li>
-            <li className="hidden text-right sm:block">
+            <li className="hidden text-center md:block">
               <span
                 prefix="±"
                 className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl"
               >
+                7%
+              </span>
+              <h3 className="font-heading text-xl font-bold text-primary opacity-70">APR</h3>
+            </li>
+            <li className="hidden text-right sm:block">
+              <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl">
                 ±0.1%
               </span>
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">

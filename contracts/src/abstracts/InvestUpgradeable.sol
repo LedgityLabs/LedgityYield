@@ -114,7 +114,12 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     }
 
     function __Invest_init_unchained(address invested_) internal onlyInitializing {
+        // Set invested token
         _invested = IERC20Upgradeable(invested_);
+
+        // Define initial APR to 0%. This would prevent getAPR() from reverting because
+        // of an empty APR history
+        _aprHistory.setAPR(0);
     }
 
     /**

@@ -7,6 +7,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   const globalOwner = await deployments.get("GlobalOwner");
 
   await deployments.deploy("LTokenSignaler", {
+    // gasLimit: 30000000, // prevent unpredictable gas limit
     from: deployer,
     log: true,
     proxy: {

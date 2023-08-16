@@ -259,7 +259,7 @@ contract Tests is Test, ModifiersExpectations {
 
     function test_initialize_5() public {
         console.log("Should properly set L-Token name and symbol from underlying token ones");
-        assertEq(tested.name(), string.concat("Ledgity ", underlyingToken.name()));
+        assertEq(tested.name(), string.concat("Ledgity ", underlyingToken.symbol()));
         assertEq(tested.symbol(), string.concat("L", underlyingToken.symbol()));
     }
 
@@ -269,8 +269,8 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function test_initialize_7() public {
-        console.log("Should initialize retention rate to 5%");
-        assertEq(tested.feesRateUD7x3(), 300);
+        console.log("Should initialize retention rate to 10%");
+        assertEq(tested.retentionRateUD7x3(), 10_000);
     }
 
     // ===============================

@@ -714,11 +714,12 @@ contract Tests is Test, ModifiersExpectations {
     // =========================
     // === getAPR() function ===
     function test_getAPR_1() public {
-        console.log("Should revert when no APR is set yet");
+        console.log(
+            "Should not revert and return 0 before APR is manually set (first APR is created to 0% during init)"
+        );
 
-        // Expect revert
-        vm.expectRevert(bytes("L5"));
-        tested.getAPR();
+        // Expect returning 0
+        assertEq(tested.getAPR(), 0);
     }
 
     function testFuzz_getAPR_2(uint16 newAPRUD7x3) public {
@@ -1558,14 +1559,14 @@ contract Tests is Test, ModifiersExpectations {
 
         // Assert that account investment period has been reset
         assertEq(tested.public_accountsInfos(account1).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 2);
 
         // Assert that other accounts investment period haven't been reset
         assertEq(tested.public_accountsInfos(account2).period.timestamp, 1);
-        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 0);
+        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 1);
 
         assertEq(tested.public_accountsInfos(account3).period.timestamp, 1);
-        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 0);
+        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 1);
     }
 
     function testFuzz__deepResetInvestmentPeriodOf_3(
@@ -1627,14 +1628,14 @@ contract Tests is Test, ModifiersExpectations {
 
         // Assert that account investment period has been reset
         assertEq(tested.public_accountsInfos(account1).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 2);
 
         // Assert that other accounts investment period have been reset
         assertEq(tested.public_accountsInfos(account2).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 2);
 
         assertEq(tested.public_accountsInfos(account3).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 2);
     }
 
     // ===========================================
@@ -1933,13 +1934,13 @@ contract Tests is Test, ModifiersExpectations {
 
         // Assert that account investment period has been reset
         assertEq(tested.public_accountsInfos(account1).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account1).period.ref.cursorIndex, 2);
 
         // Assert that other accounts investment period have been reset
         assertEq(tested.public_accountsInfos(account2).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account2).period.ref.cursorIndex, 2);
 
         assertEq(tested.public_accountsInfos(account3).period.timestamp, block.timestamp);
-        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 1);
+        assertEq(tested.public_accountsInfos(account3).period.ref.cursorIndex, 2);
     }
 }

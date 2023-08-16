@@ -9,6 +9,20 @@ try {
   deployerPrivateKey = secrets.CONTRACT_DEPLOYER_PRIVATE_KEY;
 } catch (e) {}
 
+// Retrieve Lineascan API key from secrets.json (if available)
+let lineascanApiKey: string | undefined;
+try {
+  const secrets = require("./secrets.json");
+  lineascanApiKey = secrets.LINEASCAN_API_KEY;
+} catch (e) {}
+
+// Retrive Arbiscan API key from secrets.json (if available)
+let arbiscanApiKey: string | undefined;
+try {
+  const secrets = require("./secrets.json");
+  arbiscanApiKey = secrets.ARBISCAN_API_KEY;
+} catch (e) {}
+
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.18",
@@ -43,6 +57,12 @@ const config: HardhatUserConfig = {
       url: "https://linea-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: lineascanApiKey,
+          apiUrl: "https://api.lineascan.build",
+        },
+      },
     },
     lineaGoerli: {
       chainId: 59140,
@@ -55,6 +75,12 @@ const config: HardhatUserConfig = {
       url: "https://arbitrum-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: arbiscanApiKey,
+          apiUrl: "https://api.arbiscan.io/",
+        },
+      },
     },
     arbitrumGoerli: {
       chainId: 421613,

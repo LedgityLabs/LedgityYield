@@ -7583,7 +7583,7 @@
           ]
         },
         "LTokenSignaler": {
-          "address": "0x5BFFC5303719f0dC6050a2D8042936714109985f",
+          "address": "0x3352B01E26F5e65CE2779aC01161a56E1b844398",
           "abi": [
             {
               "anonymous": false,
@@ -7818,7 +7818,7 @@
           ]
         },
         "LTokenSignaler_Implementation": {
-          "address": "0xe8A6C46683f4Cd2C6aE723542d61EB973B08e806",
+          "address": "0xD723df4a6051ac696EC3fffb7621Fc143DDbCA1D",
           "abi": [
             {
               "inputs": [],
@@ -8034,7 +8034,7 @@
           ]
         },
         "LTokenSignaler_Proxy": {
-          "address": "0x5BFFC5303719f0dC6050a2D8042936714109985f",
+          "address": "0x3352B01E26F5e65CE2779aC01161a56E1b844398",
           "abi": [
             {
               "inputs": [
@@ -8108,7 +8108,7 @@
           ]
         },
         "LUSDC": {
-          "address": "0x1549647606A71B2a79b85AEb54631b8eA2a1939a",
+          "address": "0xBA427517505b14C560854aED003304Fc69cbadfb",
           "abi": [
             {
               "anonymous": false,
@@ -9430,7 +9430,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0xADf8d77A856Ff2267029aCE5dCeD4972c649E683",
+          "address": "0xEEe2CA6f97aC13D2D0dF1a2d45fC9ec30939c331",
           "abi": [
             {
               "anonymous": false,
@@ -10728,7 +10728,7 @@
           ]
         },
         "LUSDC_Proxy": {
-          "address": "0x1549647606A71B2a79b85AEb54631b8eA2a1939a",
+          "address": "0xBA427517505b14C560854aED003304Fc69cbadfb",
           "abi": [
             {
               "inputs": [
@@ -17587,7 +17587,7 @@
           ]
         },
         "LTokenSignaler": {
-          "address": "0x5BFFC5303719f0dC6050a2D8042936714109985f",
+          "address": "0xBA427517505b14C560854aED003304Fc69cbadfb",
           "abi": [
             {
               "anonymous": false,
@@ -17822,7 +17822,7 @@
           ]
         },
         "LTokenSignaler_Implementation": {
-          "address": "0xe8A6C46683f4Cd2C6aE723542d61EB973B08e806",
+          "address": "0xEEe2CA6f97aC13D2D0dF1a2d45fC9ec30939c331",
           "abi": [
             {
               "inputs": [],
@@ -18038,7 +18038,7 @@
           ]
         },
         "LTokenSignaler_Proxy": {
-          "address": "0x5BFFC5303719f0dC6050a2D8042936714109985f",
+          "address": "0xBA427517505b14C560854aED003304Fc69cbadfb",
           "abi": [
             {
               "inputs": [
@@ -18112,7 +18112,7 @@
           ]
         },
         "LUSDC": {
-          "address": "0x1549647606A71B2a79b85AEb54631b8eA2a1939a",
+          "address": "0x4AF215DbE27fc030F37f73109B85F421FAB45B7a",
           "abi": [
             {
               "anonymous": false,
@@ -19434,7 +19434,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0xADf8d77A856Ff2267029aCE5dCeD4972c649E683",
+          "address": "0xB644f32ec6CB162e766289a7b915b02D4611F667",
           "abi": [
             {
               "anonymous": false,
@@ -20732,7 +20732,7 @@
           ]
         },
         "LUSDC_Proxy": {
-          "address": "0x1549647606A71B2a79b85AEb54631b8eA2a1939a",
+          "address": "0x4AF215DbE27fc030F37f73109B85F421FAB45B7a",
           "abi": [
             {
               "inputs": [

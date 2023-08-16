@@ -192,36 +192,37 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         address ldyStaking_,
         address underlyingToken
     ) public initializer {
-        // Retrieve underlying token metadata
-        IERC20MetadataUpgradeable underlyingMetadata = IERC20MetadataUpgradeable(underlyingToken);
-
-        // Initialize ancestors contracts
+        // Initialize ERC20 base.
+        string memory underlyingSymbol = IERC20MetadataUpgradeable(underlyingToken).symbol();
         __ERC20Base_init(
             globalOwner_,
             globalPause_,
             globalBlacklist_,
-            string(abi.encodePacked("Ledgity ", underlyingMetadata.name())),
-            string(abi.encodePacked("L", underlyingMetadata.symbol()))
+            string(abi.encodePacked("Ledgity ", underlyingSymbol)),
+            string(abi.encodePacked("L", underlyingSymbol))
         );
+
+        // IMPORTANT: Below calls must not be restricted to owner at any point.
+        // This is because the GlobalOwner contract may not be a fresh one, and so
+        // the contract deployer may not be the owner anymore after ERC20Base init.
+
+        // Initialize other parents contracts.
         __ERC20Wrapper_init(IERC20Upgradeable(underlyingToken));
         __Invest_init_unchained(address(this));
 
         // Set LDYStaking contract
-        setLDYStaking(ldyStaking_);
+        ldyStaking = LDYStaking(ldyStaking_);
 
         // Set initial withdrawal fees rate to 0.3%
-        setFeesRate(300);
+        feesRateUD7x3 = 300;
 
-        // Set initial retention rate to 5%
-        setRetentionRate(5000);
-
-        // Set initial APR to 0%
-        setAPR(0);
+        // Set initial retention rate to 10%
+        retentionRateUD7x3 = 10_000;
 
         // Default withdrawer and fund wallet to contract owner address. This prevents
         // any loss of funds if a deposit/withdrawal is made before those are manually set.
-        setWithdrawer(payable(owner()));
-        setFund(payable(owner()));
+        withdrawer = payable(owner());
+        fund = payable(owner());
     }
 
     /**
