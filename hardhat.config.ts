@@ -1,6 +1,7 @@
+import { type HardhatUserConfig } from "hardhat/config";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
-import { type HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-verify";
 
 // Retrieve deployer private key from secrets.json (if available)
 let deployerPrivateKey: string | undefined;
@@ -88,6 +89,22 @@ const config: HardhatUserConfig = {
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
     },
+  },
+  etherscan: {
+    apiKey: {
+      linea: lineascanApiKey!,
+      arbitrumOne: arbiscanApiKey!,
+    },
+    customChains: [
+      {
+        network: "linea",
+        chainId: 59144,
+        urls: {
+          apiURL: "https://api.lineascan.build/api",
+          browserURL: "https://lineascan.build",
+        },
+      },
+    ],
   },
   defaultNetwork: "hardhat",
 };
