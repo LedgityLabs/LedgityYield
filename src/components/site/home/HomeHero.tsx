@@ -119,7 +119,7 @@ const HomeHero: FC<Props> = ({ className }) => {
           <ul className="flex items-center justify-center gap-24 px-14 lg:mt-2 lg:gap-32">
             <li className="text-center sm:text-left">
               <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl">
-                314%
+                --%
               </span>
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">
                 TVL growth <span className="opacity-70">(7d)</span>
