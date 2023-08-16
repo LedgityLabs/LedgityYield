@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: mainnet
+    network: linea-mainnet
     source:
       address: "0xBA427517505b14C560854aED003304Fc69cbadfb"
       abi: LTokenSignaler
@@ -30,7 +30,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: mainnet
+    network: linea-mainnet
     source:
       abi: LToken
     mapping:
