@@ -54,17 +54,17 @@ export const useGrowthRevenueData = () => {
         return;
       }
 
-      // Else remove errors
-      setIsError(false);
-      setDataErrorMessage(undefined);
-
       // Refresh cached data
       dataCache = newData;
       lastCacheTimestamp = Date.now() / 1000;
-
-      // Update data
-      setData(dataCache);
     }
+
+    // Else remove errors
+    setIsError(false);
+    setDataErrorMessage(undefined);
+
+    // Update data
+    setData(dataCache);
   };
 
   const _computeData = async () => {
@@ -203,6 +203,7 @@ export const useGrowthRevenueData = () => {
   };
 
   useEffect(() => {
+    console.log("use growth revenue data");
     setIsDataLoading(true);
     computeData().then(() => setIsDataLoading(false));
   }, []);
