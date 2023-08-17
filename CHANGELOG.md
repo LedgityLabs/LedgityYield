@@ -1,3 +1,10 @@
+## [1.169.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.169.0...v1.169.1) (2023-08-17)
+
+
+### Fixes
+
+* replace old Github URL ([568c51a](https://github.com/LedgityLabs/LedgityYield/commit/568c51acb3e743d9a1feb7b209325bf58998bb03))
+
 ## [1.169.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.168.0...v1.169.0) (2023-08-17)
 
 
