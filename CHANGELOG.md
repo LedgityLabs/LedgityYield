@@ -1,3 +1,15 @@
+## [1.167.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.166.1...v1.167.0) (2023-08-17)
+
+
+### Features
+
+* setup TheGraph mainnets endpoints ([00d1e61](https://github.com/LedgityLabs/LedgityYield/commit/00d1e61c0263bffd4a00c020c63edf57cff3da69))
+
+
+### Others
+
+* **deps:** update dependency postcss to v8.4.28 ([5b31d0c](https://github.com/LedgityLabs/LedgityYield/commit/5b31d0cb80ed28eefcbed518c3b3af96e25aa9c5))
+
 ## [1.166.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.166.0...v1.166.1) (2023-08-16)
 
 
