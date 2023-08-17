@@ -71,7 +71,7 @@ const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
               <li className="flex items-center justify-center">
                 <Link
                   aria-label="Github"
-                  href="https://github.com/ledgity-labs/Ledgity-Yield"
+                  href="https://github.com/LedgityLabs/Ledgity-Yield"
                   target="_blank"
                   className="inline-block h-8 w-8"
                 >

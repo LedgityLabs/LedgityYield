@@ -1,6 +1,6 @@
 specVersion: 0.0.6
 description: A subgraph of Ledgity Yield data
-repository: https://github.com/ledgity-labs/Ledgity-Yield
+repository: https://github.com/LedgityLabs/LedgityYield
 schema:
   file: ./schema.graphql
 dataSources:

@@ -138,7 +138,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
               <li className="flex items-center justify-center">
                 <Link
                   aria-label="Github"
-                  href="https://github.com/ledgity-labs/Ledgity-Yield"
+                  href="https://github.com/LedgityLabs/LedgityYield"
                   target="_blank"
                   className="inline-block h-8 w-8"
                 >
