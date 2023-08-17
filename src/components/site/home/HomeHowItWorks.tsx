@@ -1,6 +1,14 @@
 "use client";
 import { FC, useLayoutEffect, useRef } from "react";
-import { Button, Card, Cube, FadeIn } from "@/components/ui";
+import {
+  Button,
+  Card,
+  Cube,
+  FadeIn,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 
 const HomeHowItWorks: FC = () => {
   return (
@@ -71,14 +79,20 @@ const HomeHowItWorks: FC = () => {
             Want to learn more?
           </p>
           <div className="flex flex-wrap justify-center gap-6">
-            <Button
-              variant="outline"
-              size="medium"
-              className="flex items-center justify-center gap-2"
-            >
-              <i className="ri-book-2-fill text-xl text-primary/80"></i>
-              Browse documentation
-            </Button>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  disabled={true}
+                  variant="outline"
+                  size="medium"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <i className="ri-book-2-fill text-xl text-primary/80"></i>
+                  Browse documentation
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="font-semibold">Coming soon</TooltipContent>
+            </Tooltip>
           </div>
         </div>
       </section>

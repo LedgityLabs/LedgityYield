@@ -58,25 +58,25 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                 Enter app
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/" className="hover:opacity-80">
                 Documentation&nbsp;
                 <i className="ri-external-link-fill" />
               </Link>
-            </li>
-            {/* <li>
+            </li> */}
+            <li>
               <Link
                 href="/"
                 className="opacity-40 inline-flex items-center justify-center cursor-not-allowed"
                 aria-disabled
               >
-                Whitepaper&nbsp;
+                Documentation&nbsp;
                 <i className="ri-external-link-fill" />
                 <span className="inline-block bg-fg/80 text-bg ml-3 px-2 py-0.5 rounded-full text-xs">
                   coming soon
                 </span>
               </Link>
-            </li> */}
+            </li>
 
             <li>
               <Link href="/" className="hover:opacity-80">
