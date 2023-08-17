@@ -1,3 +1,10 @@
+## [1.168.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.167.1...v1.168.0) (2023-08-17)
+
+
+### Features
+
+* set documentation links as coming soon ([0d6cd03](https://github.com/LedgityLabs/LedgityYield/commit/0d6cd038046818eccf3e50541cf2bb607d9f5dde))
+
 ## [1.167.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.167.0...v1.167.1) (2023-08-17)
 
 

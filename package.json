@@ -1,6 +1,6 @@
 {
   "name": "ledgity-yield",
-  "version": "1.167.1",
+  "version": "1.168.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
