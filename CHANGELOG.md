@@ -1,3 +1,10 @@
+## [1.167.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.167.0...v1.167.1) (2023-08-17)
+
+
+### Fixes
+
+* fix dashboard data not retrieved after tab switch ([34b8619](https://github.com/LedgityLabs/LedgityYield/commit/34b86190f8611f9fb29f6d2ffd8bc5ae8d00fd8e))
+
 ## [1.167.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.166.1...v1.167.0) (2023-08-17)
 
 
