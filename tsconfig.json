@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "~/*": ["./public/*"],
-      "graphclient": ["./subgraph/.graphclient/"]
+      "graphclient": ["./.graphclient/"]
     }
   },
   "include": [

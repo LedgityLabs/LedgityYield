@@ -22,7 +22,9 @@
     "graph:linea-gen": "cd subgraph && graph codegen ./linea-subgraph.yaml && graph build ./linea-subgraph.yaml",
     "graph:linea-create": "graph create --node https://graph-deploy.linea.build/ LedgityLabs/LedgityYield",
     "graph:linea-deploy": "graph deploy --node https://graph-deploy.linea.build/ --ipfs https://graph-ipfs.linea.build LedgityLabs/LedgityYield ./subgraph/linea-subgraph.yaml",
-    "graph:linea-remove": "graph remove --node https://graph-deploy.linea.build/ LedgityLabs/LedgityYield"
+    "graph:linea-remove": "graph remove --node https://graph-deploy.linea.build/ LedgityLabs/LedgityYield",
+    "graph:arbitrum-gen": "cd subgraph && graph codegen ./arbitrum-subgraph.yaml && graph build ./arbitrum-subgraph.yaml",
+    "graph:arbitrum-deploy": "graph deploy --studio ledgityyield-arbitrum ./subgraph/arbitrum-subgraph.yaml"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.4",

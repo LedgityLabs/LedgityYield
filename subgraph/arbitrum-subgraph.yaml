@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: mainnet
+    network: arbitrum-one
     source:
       address: "0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1"
       abi: LTokenSignaler
@@ -30,7 +30,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: mainnet
+    network: arbitrum-one
     source:
       abi: LToken
     mapping:

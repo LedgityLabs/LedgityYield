@@ -67,17 +67,11 @@ input APRChange_filter {
   apr_not_in: [BigDecimal!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
-  and: [APRChange_filter]
-  or: [APRChange_filter]
 }
 
 enum APRChange_orderBy {
   id
   ltoken
-  ltoken__id
-  ltoken__symbol
-  ltoken__decimals
-  ltoken__totalMintedRewards
   timestamp
   apr
 }
@@ -154,10 +148,6 @@ input Activity_filter {
   timestamp_not_in: [BigInt!]
   account: Bytes
   account_not: Bytes
-  account_gt: Bytes
-  account_lt: Bytes
-  account_gte: Bytes
-  account_lte: Bytes
   account_in: [Bytes!]
   account_not_in: [Bytes!]
   account_contains: Bytes
@@ -188,18 +178,12 @@ input Activity_filter {
   status_not_in: [ActivityStatus!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
-  and: [Activity_filter]
-  or: [Activity_filter]
 }
 
 enum Activity_orderBy {
   id
   requestId
   ltoken
-  ltoken__id
-  ltoken__symbol
-  ltoken__decimals
-  ltoken__totalMintedRewards
   timestamp
   account
   action
@@ -286,8 +270,6 @@ input LToken_filter {
   rewardsMints_: RewardsMint_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
-  and: [LToken_filter]
-  or: [LToken_filter]
 }
 
 enum LToken_orderBy {
@@ -492,10 +474,6 @@ input RewardsMint_filter {
   timestamp_not_in: [BigInt!]
   account: Bytes
   account_not: Bytes
-  account_gt: Bytes
-  account_lt: Bytes
-  account_gte: Bytes
-  account_lte: Bytes
   account_in: [Bytes!]
   account_not_in: [Bytes!]
   account_contains: Bytes
@@ -526,17 +504,11 @@ input RewardsMint_filter {
   growth_not_in: [BigDecimal!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
-  and: [RewardsMint_filter]
-  or: [RewardsMint_filter]
 }
 
 enum RewardsMint_orderBy {
   id
   ltoken
-  ltoken__id
-  ltoken__symbol
-  ltoken__decimals
-  ltoken__totalMintedRewards
   timestamp
   account
   balanceBefore
@@ -734,17 +706,11 @@ input TVLChange_filter {
   amount_not_in: [BigDecimal!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
-  and: [TVLChange_filter]
-  or: [TVLChange_filter]
 }
 
 enum TVLChange_orderBy {
   id
   ltoken
-  ltoken__id
-  ltoken__symbol
-  ltoken__decimals
-  ltoken__totalMintedRewards
   timestamp
   amount
 }

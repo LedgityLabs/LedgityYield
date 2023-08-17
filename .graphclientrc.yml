@@ -1,5 +1,13 @@
 sources:
-  - name: localhost-subgraph
+  # - name: localhost
+  #   handler:
+  #     graphql:
+  #       endpoint: http://0.0.0.0:8000/subgraphs/name/localhost-subgraph
+  - name: linea
     handler:
       graphql:
-        endpoint: http://0.0.0.0:8000/subgraphs/name/localhost-subgraph
+        endpoint: https://graph-query.linea.build/subgraphs/name/LedgityLabs/LedgityYield
+  - name: arbitrum
+    handler:
+      graphql:
+        endpoint: https://gateway-arbitrum.network.thegraph.com/api/cfd41a9b70fcff12512d9fafecc0387d/subgraphs/id/eVibF32AJuoYG4DorvFTrJ6hH7ZxZdpMj1Jg6iAfbHb
