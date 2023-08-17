@@ -1,3 +1,15 @@
+## [1.166.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.166.0...v1.166.1) (2023-08-16)
+
+
+### Fixes
+
+* fix Linea subgraph network ([dcca16e](https://github.com/LedgityLabs/LedgityYield/commit/dcca16ec2efde471b7c324e4038fb52f49b48969))
+
+
+### Others
+
+* new pnpm scripts to manage Linea subgraph ([fc50bd9](https://github.com/LedgityLabs/LedgityYield/commit/fc50bd9733a61116e1472c80b8790650d79869b9))
+
 ## [1.166.0](https://github.com/ledgity-labs/Ledgity-Yield/compare/v1.165.0...v1.166.0) (2023-08-16)
 
 
