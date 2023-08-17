@@ -1,3 +1,10 @@
+## [1.169.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.168.0...v1.169.0) (2023-08-17)
+
+
+### Features
+
+* updated partners list ([9242dcd](https://github.com/LedgityLabs/LedgityYield/commit/9242dcd1caae20660df24aac180000d01e68e994))
+
 ## [1.168.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.167.1...v1.168.0) (2023-08-17)
 
 ### Features
