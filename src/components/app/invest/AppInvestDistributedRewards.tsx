@@ -5,6 +5,8 @@ import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { parseUnits } from "viem";
 import { usePublicClient } from "wagmi";
 
+const availableChains = ["42161", "59144"];
+
 export const AppInvestDistributedRewards: FC = () => {
   const publicClient = usePublicClient();
   const [totalMintedRewardsUsd, setTotalMintedRewardsUsd] = useState<bigint | "N/A">(0n);
@@ -12,40 +14,41 @@ export const AppInvestDistributedRewards: FC = () => {
 
   const computeTotalMintedRewardsUsd = async () => {
     setIsLoading(true);
-    return execute(
-      `
-      {
-        c${publicClient!.chain.id}_ltokens {
+
+    // Build GraphQL query string
+    let queryString = "{\n"
+    for (const chainId of availableChains) {
+      queryString += `
+        c${chainId}_ltokens {
           totalMintedRewards
           symbol
           decimals
-        }
-      }
-      `,
-      {},
-    )
+        }`
+    }
+    queryString += "\n}"
+
+    return execute(queryString, {})
       .then(
         async (result: {
           data: {
             [key: string]: LToken[];
           };
         }) => {
-          const rewardsMintsData = result.data[`c${publicClient!.chain.id}_ltokens`];
           let newTotalMintedRewardsUsd = 0n;
-          const proms: Promise<string>[] = [];
-          for (const lToken of rewardsMintsData) {
-            proms.push(getTokenUSDRate(lToken.symbol.slice(1)).then((rate) => rate.toString()));
-          }
-          await Promise.all(proms).then((usdRates) => {
-            for (let i = 0; i < usdRates.length; i++) {
-              const usdRate = usdRates[i];
-              const lToken = rewardsMintsData[i];
+          const proms: Promise<void>[] = [];
 
+          for (const chainId of availableChains) {
+            const rewardsMintsData = result.data[`c${chainId}_ltokens`];
+            for (const lToken of rewardsMintsData) {
+              proms.push(getTokenUSDRate(lToken.symbol.slice(1)).then((usdRate) => {
               newTotalMintedRewardsUsd +=
-                (BigInt(lToken.totalMintedRewards) * parseUnits(usdRate, lToken.decimals)) /
+                (BigInt(lToken.totalMintedRewards) * parseUnits(usdRate.toString(), lToken.decimals)) /
                 parseUnits("1", lToken.decimals);
-              
+              }));
             }
+          }
+
+          await Promise.all(proms).then(() => {
             setTotalMintedRewardsUsd(newTotalMintedRewardsUsd);
             setIsLoading(false);
           });
@@ -59,10 +62,6 @@ export const AppInvestDistributedRewards: FC = () => {
   useEffect(() => {
     computeTotalMintedRewardsUsd();
   }, []);
-  useEffect(() => {
-    computeTotalMintedRewardsUsd();
-  }, [publicClient]);
-
 
   return (
     <Card circleIntensity={0.07} className="h-52 flex-col items-center justify-center px-10 py-4">
