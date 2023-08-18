@@ -1,3 +1,10 @@
+## [1.172.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.171.0...v1.172.0) (2023-08-18)
+
+
+### Features
+
+* setup cross-chain distributed rewards ([a78972d](https://github.com/LedgityLabs/LedgityYield/commit/a78972d3dba36508f70b12bebe50a3aa35d70c18))
+
 ## [1.171.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.170.0...v1.171.0) (2023-08-18)
 
 
