@@ -3,14 +3,14 @@ import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { FC, useEffect, useState } from "react";
 import { getContractAddress } from "@/lib/getContractAddress";
-import { usePublicClient } from "wagmi";
 import { watchReadContracts } from "@wagmi/core";
 import { lTokenABI } from "@/generated";
 import { parseUnits } from "viem";
 
+const availableChains = [42161, 59144];
+
 interface Props {}
 export const AppInvestTVL: FC<Props> = ({}) => {
-  const publicClient = usePublicClient();
   const [readsConfig, setReadsConfig] = useState<
     Parameters<typeof watchReadContracts>[0]["contracts"]
   >([]);
@@ -25,24 +25,28 @@ export const AppInvestTVL: FC<Props> = ({}) => {
       address: `0x${string}`;
       abi: any;
       functionName: string;
+      chainId: number;
     }[];
 
     // Push read calls for total supply and decimals of each lToken
-    for (const lTokenSymbol of lTokens) {
-      const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
-
-      // Ensure no address is missing
-      if (!lTokenAddress)
-        throw "Some contracts addresses are missing for the current chain. Cannot watch data.";
-
-      // Populate required reads requests
-      ["totalSupply", "decimals"].forEach((functionName) => {
-        newReadsConfig.push({
-          address: lTokenAddress,
-          abi: lTokenABI,
-          functionName: functionName,
+    for (const chainId of availableChains) {
+      for (const lTokenSymbol of lTokens) {
+        const lTokenAddress = getContractAddress(lTokenSymbol, chainId);
+  
+        // Ensure no address is missing
+        if (!lTokenAddress)
+          throw "Some contracts addresses are missing for the current chain. Cannot watch data.";
+  
+        // Populate required reads requests
+        ["symbol", "totalSupply", "decimals"].forEach((functionName) => {
+          newReadsConfig.push({
+            address: lTokenAddress,
+            abi: lTokenABI,
+            functionName: functionName,
+            chainId: chainId,
+          });
         });
-      });
+    }
     }
 
     if (JSON.stringify(newReadsConfig) !== JSON.stringify(readsConfig)) {
@@ -51,7 +55,7 @@ export const AppInvestTVL: FC<Props> = ({}) => {
     }
   };
 
-  useEffect(populateReadsConfig, [publicClient.chain.id, readsConfig]);
+  useEffect(populateReadsConfig, [readsConfig]);
 
   useEffect(
     () =>
@@ -63,8 +67,9 @@ export const AppInvestTVL: FC<Props> = ({}) => {
         async (data) => {
           if (data.length > 0) {
             let newTvlUsd = 0n;
-            for (const lTokenSymbol of lTokens) {
+            while (data.length !== 0) {
               // Extract data
+              const lTokenSymbol = data.shift()!.result! as string;
               const lTokenTotalSupply = data.shift()!.result! as bigint;
               const lTokenDecimals = data.shift()!.result! as number;
               const underlyingSymbol = lTokenSymbol.slice(1);
