@@ -7,6 +7,6 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   await deployments.deploy("APRHistory", {
     from: deployer,
     log: true,
-    waitConfirmations: chainId == "31337" ? 1 : 1,
+    waitConfirmations: chainId == "31337" ? 1 : 2,
   });
 }) as DeployFunction;

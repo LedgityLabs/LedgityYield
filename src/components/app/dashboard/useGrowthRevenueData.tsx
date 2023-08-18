@@ -5,7 +5,12 @@ import { readLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { useEffect, useState } from "react";
-import { Activity, LToken, RewardsMint, execute } from "graphclient";
+import {
+  Activity,
+  LToken,
+  RewardsMint,
+  execute,
+} from "graphclient";
 
 type Data = Record<
   string,
@@ -17,9 +22,13 @@ type Data = Record<
   }[]
 >;
 
+interface CacheEntry {
+  timestamp: number;
+  data: Data;
+}
+
 const dataCacheDuration = 60 * 10; // 10 minutes
-let dataCache: Data | null = null;
-let lastCacheTimestamp: number | null = null;
+let dataCache: Record<number, CacheEntry> = {};
 
 export const useGrowthRevenueData = () => {
   const lTokens = useAvailableLTokens();
@@ -39,10 +48,9 @@ export const useGrowthRevenueData = () => {
     }
 
     // If data cache doesn't exist or isn't valid anymore
-    if (
-      lastCacheTimestamp === null ||
-      dataCache === null ||
-      Date.now() / 1000 - lastCacheTimestamp > dataCacheDuration
+    const cacheEntry = dataCache[walletClient.chain.id];
+    if (!cacheEntry ||
+      Date.now() / 1000 - cacheEntry.timestamp > dataCacheDuration
     ) {
       // Get new data
       const newData = await _computeData();
@@ -55,8 +63,10 @@ export const useGrowthRevenueData = () => {
       }
 
       // Refresh cached data
-      dataCache = newData;
-      lastCacheTimestamp = Date.now() / 1000;
+      dataCache[walletClient.chain.id] = {
+        data: newData,
+        timestamp: Date.now() / 1000,
+      }
     }
 
     // Else remove errors
@@ -64,7 +74,7 @@ export const useGrowthRevenueData = () => {
     setDataErrorMessage(undefined);
 
     // Update data
-    setData(dataCache);
+    setData(dataCache[walletClient.chain.id].data);
   };
 
   const _computeData = async () => {
@@ -77,30 +87,33 @@ export const useGrowthRevenueData = () => {
     // Retrieve investments start timestamps for each L-Token
     const investmentStartRequest: {
       data: {
-        ltokens: LToken[] & {
+        [key: string]: LToken[] & {
           activities: Activity[];
         };
       };
     } = await execute(
       `
-    {
-      ltokens {
-        symbol
-        activities(where: {account: "${
-          walletClient!.account.address
-        }" }, orderBy: timestamp, orderDirection: asc, first: 1) {
-          timestamp
+      {
+        c${walletClient!.chain.id}_ltokens {
+          symbol
+          activities(where: {account: "${
+            walletClient!.account.address
+          }" }, orderBy: timestamp, orderDirection: asc, first: 1) {
+            timestamp
+          }
         }
       }
-    }
-    `,
+      `,
+      {},
     );
 
     // Return empty data if there is no investment start
     if (!investmentStartRequest.data) return null;
+    const investmentStartData = investmentStartRequest.data[`c${walletClient!.chain.id}_ltokens`];
+    if (!investmentStartData) return null;
 
     // Push investment start as first data point
-    for (const lToken of investmentStartRequest.data.ltokens) {
+    for (const lToken of investmentStartData) {
       if (lToken.activities && lToken.activities.length > 0) {
         newData[lToken.symbol].push({
           timestamp: Number(lToken.activities[0].timestamp),
@@ -114,16 +127,16 @@ export const useGrowthRevenueData = () => {
     // Retrieve all rewards mints events data
     const mintsEventsRequest: {
       data: {
-        rewardsMints: [
+        [key: string]: [
           RewardsMint & {
             ltoken: LToken;
           },
         ];
       };
-    } = await await execute(
+    } = await execute(
       `
       {
-        rewardsMints(where: { account: "${
+        c${walletClient!.chain.id}_rewardsMints(where: { account: "${
           walletClient!.account.address
         }" }, orderBy: timestamp, orderDirection: asc) {
           timestamp
@@ -137,11 +150,13 @@ export const useGrowthRevenueData = () => {
           }
         }
       }
-    `,
+      `,
+      {},
     );
 
     // Push each reward mint as data point
-    for (const rewardsMint of mintsEventsRequest.data.rewardsMints) {
+    const mintsEventsData = mintsEventsRequest.data[`c${walletClient!.chain.id}_rewardsMints`];
+    for (const rewardsMint of mintsEventsData) {
       const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1));
 
       // Convert revenue to decimals and then to USD
@@ -203,7 +218,6 @@ export const useGrowthRevenueData = () => {
   };
 
   useEffect(() => {
-    console.log("use growth revenue data");
     setIsDataLoading(true);
     computeData().then(() => setIsDataLoading(false));
   }, []);

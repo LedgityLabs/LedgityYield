@@ -37,7 +37,6 @@ export const SwitchNetworkProvider: FC<Props> = ({ children }) => {
       let error: Error | null = null;
       // If a wallet is connected, switch the wallet network
       if (switchWalletNetwork) {
-        console.log("SWITCH WALLET");
         await switchWalletNetwork(id).catch((e: Error) => {
           // Ignore the error if it's a user rejected switch
           if (!e.message.includes("rejected")) error = e;

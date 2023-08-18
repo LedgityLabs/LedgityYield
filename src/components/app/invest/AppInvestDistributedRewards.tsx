@@ -3,8 +3,10 @@ import { FC, useEffect, useState } from "react";
 import { LToken, execute } from "graphclient";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { parseUnits } from "viem";
+import { usePublicClient } from "wagmi";
 
 export const AppInvestDistributedRewards: FC = () => {
+  const publicClient = usePublicClient();
   const [totalMintedRewardsUsd, setTotalMintedRewardsUsd] = useState<bigint | "N/A">(0n);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -13,33 +15,36 @@ export const AppInvestDistributedRewards: FC = () => {
     return execute(
       `
       {
-        ltokens {
+        c${publicClient!.chain.id}_ltokens {
           totalMintedRewards
           symbol
           decimals
         }
       }
-    `,
+      `,
+      {},
     )
       .then(
         async (result: {
           data: {
-            ltokens: LToken[];
+            [key: string]: LToken[];
           };
         }) => {
+          const rewardsMintsData = result.data[`c${publicClient!.chain.id}_ltokens`];
           let newTotalMintedRewardsUsd = 0n;
           const proms: Promise<string>[] = [];
-          for (const lToken of result.data.ltokens) {
+          for (const lToken of rewardsMintsData) {
             proms.push(getTokenUSDRate(lToken.symbol.slice(1)).then((rate) => rate.toString()));
           }
-          Promise.all(proms).then((usdRates) => {
+          await Promise.all(proms).then((usdRates) => {
             for (let i = 0; i < usdRates.length; i++) {
               const usdRate = usdRates[i];
-              const lToken = result.data.ltokens[i];
+              const lToken = rewardsMintsData[i];
 
               newTotalMintedRewardsUsd +=
                 (BigInt(lToken.totalMintedRewards) * parseUnits(usdRate, lToken.decimals)) /
                 parseUnits("1", lToken.decimals);
+              
             }
             setTotalMintedRewardsUsd(newTotalMintedRewardsUsd);
             setIsLoading(false);
@@ -54,6 +59,10 @@ export const AppInvestDistributedRewards: FC = () => {
   useEffect(() => {
     computeTotalMintedRewardsUsd();
   }, []);
+  useEffect(() => {
+    computeTotalMintedRewardsUsd();
+  }, [publicClient]);
+
 
   return (
     <Card circleIntensity={0.07} className="h-52 flex-col items-center justify-center px-10 py-4">
@@ -62,7 +71,7 @@ export const AppInvestDistributedRewards: FC = () => {
       </h2>
       <div className="-mt-5 flex h-full items-center justify-center font-heading text-5xl font-bold text-fg/[85%]">
         {(isLoading && <Spinner />) ||
-          (typeof totalMintedRewardsUsd === "number" ? (
+          (totalMintedRewardsUsd !== "N/A" ? (
             <Amount prefix="$" value={totalMintedRewardsUsd} decimals={6} />
           ) : (
             "N/A"

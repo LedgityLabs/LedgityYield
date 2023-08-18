@@ -323,29 +323,29 @@ export type OrderDirection =
   | 'desc';
 
 export type Query = {
-  ltoken?: Maybe<LToken>;
-  ltokens: Array<LToken>;
-  tvlchange?: Maybe<TVLChange>;
-  tvlchanges: Array<TVLChange>;
-  aprchange?: Maybe<APRChange>;
-  aprchanges: Array<APRChange>;
-  activity?: Maybe<Activity>;
-  activities: Array<Activity>;
-  rewardsMint?: Maybe<RewardsMint>;
-  rewardsMints: Array<RewardsMint>;
+  c59144_ltoken?: Maybe<LToken>;
+  c59144_ltokens: Array<LToken>;
+  c59144_tvlchange?: Maybe<TVLChange>;
+  c59144_tvlchanges: Array<TVLChange>;
+  c59144_aprchange?: Maybe<APRChange>;
+  c59144_aprchanges: Array<APRChange>;
+  c59144_activity?: Maybe<Activity>;
+  c59144_activities: Array<Activity>;
+  c59144_rewardsMint?: Maybe<RewardsMint>;
+  c59144_rewardsMints: Array<RewardsMint>;
   /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
+  c59144__meta?: Maybe<_Meta_>;
 };
 
 
-export type QueryltokenArgs = {
+export type Queryc59144_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryltokensArgs = {
+export type Queryc59144_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -356,14 +356,14 @@ export type QueryltokensArgs = {
 };
 
 
-export type QuerytvlchangeArgs = {
+export type Queryc59144_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QuerytvlchangesArgs = {
+export type Queryc59144_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -374,14 +374,14 @@ export type QuerytvlchangesArgs = {
 };
 
 
-export type QueryaprchangeArgs = {
+export type Queryc59144_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryaprchangesArgs = {
+export type Queryc59144_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -392,14 +392,14 @@ export type QueryaprchangesArgs = {
 };
 
 
-export type QueryactivityArgs = {
+export type Queryc59144_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryactivitiesArgs = {
+export type Queryc59144_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -410,14 +410,14 @@ export type QueryactivitiesArgs = {
 };
 
 
-export type QueryrewardsMintArgs = {
+export type Queryc59144_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryrewardsMintsArgs = {
+export type Queryc59144_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -428,7 +428,7 @@ export type QueryrewardsMintsArgs = {
 };
 
 
-export type Query_metaArgs = {
+export type Queryc59144__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -524,29 +524,29 @@ export type RewardsMint_orderBy =
   | 'growth';
 
 export type Subscription = {
-  ltoken?: Maybe<LToken>;
-  ltokens: Array<LToken>;
-  tvlchange?: Maybe<TVLChange>;
-  tvlchanges: Array<TVLChange>;
-  aprchange?: Maybe<APRChange>;
-  aprchanges: Array<APRChange>;
-  activity?: Maybe<Activity>;
-  activities: Array<Activity>;
-  rewardsMint?: Maybe<RewardsMint>;
-  rewardsMints: Array<RewardsMint>;
+  c59144_ltoken?: Maybe<LToken>;
+  c59144_ltokens: Array<LToken>;
+  c59144_tvlchange?: Maybe<TVLChange>;
+  c59144_tvlchanges: Array<TVLChange>;
+  c59144_aprchange?: Maybe<APRChange>;
+  c59144_aprchanges: Array<APRChange>;
+  c59144_activity?: Maybe<Activity>;
+  c59144_activities: Array<Activity>;
+  c59144_rewardsMint?: Maybe<RewardsMint>;
+  c59144_rewardsMints: Array<RewardsMint>;
   /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
+  c59144__meta?: Maybe<_Meta_>;
 };
 
 
-export type SubscriptionltokenArgs = {
+export type Subscriptionc59144_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionltokensArgs = {
+export type Subscriptionc59144_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -557,14 +557,14 @@ export type SubscriptionltokensArgs = {
 };
 
 
-export type SubscriptiontvlchangeArgs = {
+export type Subscriptionc59144_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptiontvlchangesArgs = {
+export type Subscriptionc59144_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -575,14 +575,14 @@ export type SubscriptiontvlchangesArgs = {
 };
 
 
-export type SubscriptionaprchangeArgs = {
+export type Subscriptionc59144_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionaprchangesArgs = {
+export type Subscriptionc59144_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -593,14 +593,14 @@ export type SubscriptionaprchangesArgs = {
 };
 
 
-export type SubscriptionactivityArgs = {
+export type Subscriptionc59144_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionactivitiesArgs = {
+export type Subscriptionc59144_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -611,14 +611,14 @@ export type SubscriptionactivitiesArgs = {
 };
 
 
-export type SubscriptionrewardsMintArgs = {
+export type Subscriptionc59144_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionrewardsMintsArgs = {
+export type Subscriptionc59144_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -629,7 +629,7 @@ export type SubscriptionrewardsMintsArgs = {
 };
 
 
-export type Subscription_metaArgs = {
+export type Subscriptionc59144__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -729,27 +729,27 @@ export type _SubgraphErrorPolicy_ =
 
   export type QuerySdk = {
       /** null **/
-  ltoken: InContextSdkMethod<Query['ltoken'], QueryltokenArgs, MeshContext>,
+  c59144_ltoken: InContextSdkMethod<Query['c59144_ltoken'], Queryc59144_ltokenArgs, MeshContext>,
   /** null **/
-  ltokens: InContextSdkMethod<Query['ltokens'], QueryltokensArgs, MeshContext>,
+  c59144_ltokens: InContextSdkMethod<Query['c59144_ltokens'], Queryc59144_ltokensArgs, MeshContext>,
   /** null **/
-  tvlchange: InContextSdkMethod<Query['tvlchange'], QuerytvlchangeArgs, MeshContext>,
+  c59144_tvlchange: InContextSdkMethod<Query['c59144_tvlchange'], Queryc59144_tvlchangeArgs, MeshContext>,
   /** null **/
-  tvlchanges: InContextSdkMethod<Query['tvlchanges'], QuerytvlchangesArgs, MeshContext>,
+  c59144_tvlchanges: InContextSdkMethod<Query['c59144_tvlchanges'], Queryc59144_tvlchangesArgs, MeshContext>,
   /** null **/
-  aprchange: InContextSdkMethod<Query['aprchange'], QueryaprchangeArgs, MeshContext>,
+  c59144_aprchange: InContextSdkMethod<Query['c59144_aprchange'], Queryc59144_aprchangeArgs, MeshContext>,
   /** null **/
-  aprchanges: InContextSdkMethod<Query['aprchanges'], QueryaprchangesArgs, MeshContext>,
+  c59144_aprchanges: InContextSdkMethod<Query['c59144_aprchanges'], Queryc59144_aprchangesArgs, MeshContext>,
   /** null **/
-  activity: InContextSdkMethod<Query['activity'], QueryactivityArgs, MeshContext>,
+  c59144_activity: InContextSdkMethod<Query['c59144_activity'], Queryc59144_activityArgs, MeshContext>,
   /** null **/
-  activities: InContextSdkMethod<Query['activities'], QueryactivitiesArgs, MeshContext>,
+  c59144_activities: InContextSdkMethod<Query['c59144_activities'], Queryc59144_activitiesArgs, MeshContext>,
   /** null **/
-  rewardsMint: InContextSdkMethod<Query['rewardsMint'], QueryrewardsMintArgs, MeshContext>,
+  c59144_rewardsMint: InContextSdkMethod<Query['c59144_rewardsMint'], Queryc59144_rewardsMintArgs, MeshContext>,
   /** null **/
-  rewardsMints: InContextSdkMethod<Query['rewardsMints'], QueryrewardsMintsArgs, MeshContext>,
+  c59144_rewardsMints: InContextSdkMethod<Query['c59144_rewardsMints'], Queryc59144_rewardsMintsArgs, MeshContext>,
   /** Access to subgraph metadata **/
-  _meta: InContextSdkMethod<Query['_meta'], Query_metaArgs, MeshContext>
+  c59144__meta: InContextSdkMethod<Query['c59144__meta'], Queryc59144__metaArgs, MeshContext>
   };
 
   export type MutationSdk = {
@@ -758,27 +758,27 @@ export type _SubgraphErrorPolicy_ =
 
   export type SubscriptionSdk = {
       /** null **/
-  ltoken: InContextSdkMethod<Subscription['ltoken'], SubscriptionltokenArgs, MeshContext>,
+  c59144_ltoken: InContextSdkMethod<Subscription['c59144_ltoken'], Subscriptionc59144_ltokenArgs, MeshContext>,
   /** null **/
-  ltokens: InContextSdkMethod<Subscription['ltokens'], SubscriptionltokensArgs, MeshContext>,
+  c59144_ltokens: InContextSdkMethod<Subscription['c59144_ltokens'], Subscriptionc59144_ltokensArgs, MeshContext>,
   /** null **/
-  tvlchange: InContextSdkMethod<Subscription['tvlchange'], SubscriptiontvlchangeArgs, MeshContext>,
+  c59144_tvlchange: InContextSdkMethod<Subscription['c59144_tvlchange'], Subscriptionc59144_tvlchangeArgs, MeshContext>,
   /** null **/
-  tvlchanges: InContextSdkMethod<Subscription['tvlchanges'], SubscriptiontvlchangesArgs, MeshContext>,
+  c59144_tvlchanges: InContextSdkMethod<Subscription['c59144_tvlchanges'], Subscriptionc59144_tvlchangesArgs, MeshContext>,
   /** null **/
-  aprchange: InContextSdkMethod<Subscription['aprchange'], SubscriptionaprchangeArgs, MeshContext>,
+  c59144_aprchange: InContextSdkMethod<Subscription['c59144_aprchange'], Subscriptionc59144_aprchangeArgs, MeshContext>,
   /** null **/
-  aprchanges: InContextSdkMethod<Subscription['aprchanges'], SubscriptionaprchangesArgs, MeshContext>,
+  c59144_aprchanges: InContextSdkMethod<Subscription['c59144_aprchanges'], Subscriptionc59144_aprchangesArgs, MeshContext>,
   /** null **/
-  activity: InContextSdkMethod<Subscription['activity'], SubscriptionactivityArgs, MeshContext>,
+  c59144_activity: InContextSdkMethod<Subscription['c59144_activity'], Subscriptionc59144_activityArgs, MeshContext>,
   /** null **/
-  activities: InContextSdkMethod<Subscription['activities'], SubscriptionactivitiesArgs, MeshContext>,
+  c59144_activities: InContextSdkMethod<Subscription['c59144_activities'], Subscriptionc59144_activitiesArgs, MeshContext>,
   /** null **/
-  rewardsMint: InContextSdkMethod<Subscription['rewardsMint'], SubscriptionrewardsMintArgs, MeshContext>,
+  c59144_rewardsMint: InContextSdkMethod<Subscription['c59144_rewardsMint'], Subscriptionc59144_rewardsMintArgs, MeshContext>,
   /** null **/
-  rewardsMints: InContextSdkMethod<Subscription['rewardsMints'], SubscriptionrewardsMintsArgs, MeshContext>,
+  c59144_rewardsMints: InContextSdkMethod<Subscription['c59144_rewardsMints'], Subscriptionc59144_rewardsMintsArgs, MeshContext>,
   /** Access to subgraph metadata **/
-  _meta: InContextSdkMethod<Subscription['_meta'], Subscription_metaArgs, MeshContext>
+  c59144__meta: InContextSdkMethod<Subscription['c59144__meta'], Subscriptionc59144__metaArgs, MeshContext>
   };
 
   export type Context = {

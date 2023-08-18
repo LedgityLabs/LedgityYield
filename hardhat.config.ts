@@ -48,10 +48,10 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    hardhat: {},
-    localhost: {
-      chainId: 31337,
-      url: "http://127.0.0.1:8545",
+    hardhat: {
+      // Is used to fix gas estimation error
+      // See: https://github.com/NomicFoundation/hardhat/issues/3089#issuecomment-1366428941
+      initialBaseFeePerGas: 0,
     },
     linea: {
       chainId: 59144,

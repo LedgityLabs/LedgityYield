@@ -30,7 +30,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import { Activity, LToken, execute } from "graphclient";
+import { Activity, LToken, execute } from "../../../../.graphclient";
 import { useWalletClient } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
@@ -123,34 +123,35 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (walletClient) {
+    if (walletClient && walletClient.chain.id) {
       setIsLoading(true);
       execute(
         `
-      {
-        activities(where: { account: "${walletClient.account.address}" }) {
-          id
-          requestId
-          ltoken {
-            symbol
-            decimals
+        {
+          c${walletClient.chain.id}_activities(where: { account: "${walletClient.account.address}" }) {
+            id
+            requestId
+            ltoken {
+              symbol
+              decimals
+            }
+            timestamp
+            action
+            amount
+            amountAfterFees
+            status
           }
-          timestamp
-          action
-          amount
-          amountAfterFees
-          status
         }
-      }
-    `,
+        `,
+        {},
       )
         .then(
           (result: {
             data: {
-              activities: Activity[];
+              [key: string]: Activity[];
             };
           }) => {
-            setActivityData(result.data.activities);
+            setActivityData(result.data[`c${walletClient.chain.id}_activities`]);
             setIsLoading(false);
           },
         )

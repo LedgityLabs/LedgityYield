@@ -1,10 +1,12 @@
 import { Card, Rate, Spinner } from "@/components/ui";
 import { FC, useEffect, useState } from "react";
 import { APRChange, execute } from "graphclient";
+import { usePublicClient } from "wagmi";
 
 const secondsInOneYear = 60 * 60 * 24 * 365;
 
 export const AppInvestVariation: FC = () => {
+  const publicClient = usePublicClient();
   const [variation, setVariation] = useState<number | "N/A">(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +16,7 @@ export const AppInvestVariation: FC = () => {
     return execute(
       `
       {
-        ltokens {
+        c${publicClient!.chain.id}_ltokens {
           latestAprUpdate: aprUpdates(orderBy: timestamp, orderDirection: desc, first: 1) {
             apr
             timestamp
@@ -25,12 +27,13 @@ export const AppInvestVariation: FC = () => {
           }
         }
       }
-    `,
+      `,
+      {},
     )
       .then(
         async (result: {
           data: {
-            ltokens: [
+            [key: string]: [
               {
                 latestAprUpdate: APRChange[];
                 aprUpdateOneYearAgo: APRChange[];
@@ -38,8 +41,9 @@ export const AppInvestVariation: FC = () => {
             ];
           };
         }) => {
+          const aprUpdateData = result.data[`c${publicClient!.chain.id}_ltokens`];
           let newVariation = 0;
-          for (const lToken of result.data.ltokens) {
+          for (const lToken of aprUpdateData) {
             if (!lToken.latestAprUpdate[0]) continue;
             const latestAprUpdate = Number(lToken.latestAprUpdate[0].apr);
             const aprUpdateOneYearAgo = Number(lToken.aprUpdateOneYearAgo[0].apr);
@@ -48,7 +52,8 @@ export const AppInvestVariation: FC = () => {
             else if (latestAprUpdate < aprUpdateOneYearAgo)
               newVariation += (aprUpdateOneYearAgo - latestAprUpdate) / aprUpdateOneYearAgo;
           }
-          newVariation = newVariation / result.data.ltokens.length;
+          newVariation = newVariation / aprUpdateData.length;
+
           // Format variation as UD7x3 as required by <Rate /> component
           newVariation = Math.round(newVariation * 100 * 1000);
           setVariation(newVariation);
@@ -64,6 +69,10 @@ export const AppInvestVariation: FC = () => {
   useEffect(() => {
     computeVariation();
   }, []);
+  useEffect(() => {
+    computeVariation();
+  }, [publicClient]);
+  
   return (
     <Card circleIntensity={0.07} className="h-52 flex-col items-center justify-center px-10 py-4">
       <h2 className="text-center font-heading text-xl font-bold text-indigo-300 grayscale-[50%]">

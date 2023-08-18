@@ -19,6 +19,6 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
         },
       },
     },
-    waitConfirmations: chainId == "31337" ? 1 : 1,
+    waitConfirmations: chainId == "31337" ? 1 : 2,
   });
 }) as DeployFunction;

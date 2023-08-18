@@ -10,6 +10,7 @@ import { fetch as fetchFn } from '@whatwg-node/fetch';
 import { MeshResolvedSource } from '@graphql-mesh/runtime';
 import { MeshTransform, MeshPlugin } from '@graphql-mesh/types';
 import GraphqlHandler from "@graphql-mesh/graphql"
+import PrefixTransform from "@graphql-mesh/transform-prefix";
 import StitchingMerger from "@graphql-mesh/merger-stitching";
 import { createMeshHTTPHandler, MeshHTTPHandler } from '@graphql-mesh/http';
 import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext, MeshInstance } from '@graphql-mesh/runtime';
@@ -18,8 +19,8 @@ import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
 import type { LineaTypes } from './sources/linea/types';
 import type { ArbitrumTypes } from './sources/arbitrum/types';
-import * as importedModule$0 from "./sources/linea/introspectionSchema";
-import * as importedModule$1 from "./sources/arbitrum/introspectionSchema";
+import * as importedModule$0 from "./sources/arbitrum/introspectionSchema";
+import * as importedModule$1 from "./sources/linea/introspectionSchema";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -42,29 +43,41 @@ export type Scalars = {
 };
 
 export type Query = {
-  ltoken?: Maybe<LToken>;
-  ltokens: Array<LToken>;
-  tvlchange?: Maybe<TVLChange>;
-  tvlchanges: Array<TVLChange>;
-  aprchange?: Maybe<APRChange>;
-  aprchanges: Array<APRChange>;
-  activity?: Maybe<Activity>;
-  activities: Array<Activity>;
-  rewardsMint?: Maybe<RewardsMint>;
-  rewardsMints: Array<RewardsMint>;
+  c42161_ltoken?: Maybe<LToken>;
+  c42161_ltokens: Array<LToken>;
+  c42161_tvlchange?: Maybe<TVLChange>;
+  c42161_tvlchanges: Array<TVLChange>;
+  c42161_aprchange?: Maybe<APRChange>;
+  c42161_aprchanges: Array<APRChange>;
+  c42161_activity?: Maybe<Activity>;
+  c42161_activities: Array<Activity>;
+  c42161_rewardsMint?: Maybe<RewardsMint>;
+  c42161_rewardsMints: Array<RewardsMint>;
   /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
+  c42161__meta?: Maybe<_Meta_>;
+  c59144_ltoken?: Maybe<LToken>;
+  c59144_ltokens: Array<LToken>;
+  c59144_tvlchange?: Maybe<TVLChange>;
+  c59144_tvlchanges: Array<TVLChange>;
+  c59144_aprchange?: Maybe<APRChange>;
+  c59144_aprchanges: Array<APRChange>;
+  c59144_activity?: Maybe<Activity>;
+  c59144_activities: Array<Activity>;
+  c59144_rewardsMint?: Maybe<RewardsMint>;
+  c59144_rewardsMints: Array<RewardsMint>;
+  /** Access to subgraph metadata */
+  c59144__meta?: Maybe<_Meta_>;
 };
 
 
-export type QueryltokenArgs = {
+export type Queryc42161_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryltokensArgs = {
+export type Queryc42161_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -75,14 +88,14 @@ export type QueryltokensArgs = {
 };
 
 
-export type QuerytvlchangeArgs = {
+export type Queryc42161_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QuerytvlchangesArgs = {
+export type Queryc42161_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -93,14 +106,14 @@ export type QuerytvlchangesArgs = {
 };
 
 
-export type QueryaprchangeArgs = {
+export type Queryc42161_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryaprchangesArgs = {
+export type Queryc42161_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -111,14 +124,14 @@ export type QueryaprchangesArgs = {
 };
 
 
-export type QueryactivityArgs = {
+export type Queryc42161_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryactivitiesArgs = {
+export type Queryc42161_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -129,14 +142,14 @@ export type QueryactivitiesArgs = {
 };
 
 
-export type QueryrewardsMintArgs = {
+export type Queryc42161_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryrewardsMintsArgs = {
+export type Queryc42161_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -147,34 +160,141 @@ export type QueryrewardsMintsArgs = {
 };
 
 
-export type Query_metaArgs = {
+export type Queryc42161__metaArgs = {
+  block?: InputMaybe<Block_height>;
+};
+
+
+export type Queryc59144_ltokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_ltokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<LToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<LToken_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_tvlchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_tvlchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TVLChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_aprchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_aprchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<APRChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_activityArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_activitiesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Activity_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Activity_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_rewardsMintArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_rewardsMintsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<RewardsMint_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<RewardsMint_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
 export type Subscription = {
-  ltoken?: Maybe<LToken>;
-  ltokens: Array<LToken>;
-  tvlchange?: Maybe<TVLChange>;
-  tvlchanges: Array<TVLChange>;
-  aprchange?: Maybe<APRChange>;
-  aprchanges: Array<APRChange>;
-  activity?: Maybe<Activity>;
-  activities: Array<Activity>;
-  rewardsMint?: Maybe<RewardsMint>;
-  rewardsMints: Array<RewardsMint>;
+  c42161_ltoken?: Maybe<LToken>;
+  c42161_ltokens: Array<LToken>;
+  c42161_tvlchange?: Maybe<TVLChange>;
+  c42161_tvlchanges: Array<TVLChange>;
+  c42161_aprchange?: Maybe<APRChange>;
+  c42161_aprchanges: Array<APRChange>;
+  c42161_activity?: Maybe<Activity>;
+  c42161_activities: Array<Activity>;
+  c42161_rewardsMint?: Maybe<RewardsMint>;
+  c42161_rewardsMints: Array<RewardsMint>;
   /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
+  c42161__meta?: Maybe<_Meta_>;
+  c59144_ltoken?: Maybe<LToken>;
+  c59144_ltokens: Array<LToken>;
+  c59144_tvlchange?: Maybe<TVLChange>;
+  c59144_tvlchanges: Array<TVLChange>;
+  c59144_aprchange?: Maybe<APRChange>;
+  c59144_aprchanges: Array<APRChange>;
+  c59144_activity?: Maybe<Activity>;
+  c59144_activities: Array<Activity>;
+  c59144_rewardsMint?: Maybe<RewardsMint>;
+  c59144_rewardsMints: Array<RewardsMint>;
+  /** Access to subgraph metadata */
+  c59144__meta?: Maybe<_Meta_>;
 };
 
 
-export type SubscriptionltokenArgs = {
+export type Subscriptionc42161_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionltokensArgs = {
+export type Subscriptionc42161_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -185,14 +305,14 @@ export type SubscriptionltokensArgs = {
 };
 
 
-export type SubscriptiontvlchangeArgs = {
+export type Subscriptionc42161_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptiontvlchangesArgs = {
+export type Subscriptionc42161_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -203,14 +323,14 @@ export type SubscriptiontvlchangesArgs = {
 };
 
 
-export type SubscriptionaprchangeArgs = {
+export type Subscriptionc42161_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionaprchangesArgs = {
+export type Subscriptionc42161_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -221,14 +341,14 @@ export type SubscriptionaprchangesArgs = {
 };
 
 
-export type SubscriptionactivityArgs = {
+export type Subscriptionc42161_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionactivitiesArgs = {
+export type Subscriptionc42161_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -239,14 +359,14 @@ export type SubscriptionactivitiesArgs = {
 };
 
 
-export type SubscriptionrewardsMintArgs = {
+export type Subscriptionc42161_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionrewardsMintsArgs = {
+export type Subscriptionc42161_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -257,7 +377,102 @@ export type SubscriptionrewardsMintsArgs = {
 };
 
 
-export type Subscription_metaArgs = {
+export type Subscriptionc42161__metaArgs = {
+  block?: InputMaybe<Block_height>;
+};
+
+
+export type Subscriptionc59144_ltokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_ltokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<LToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<LToken_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_tvlchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_tvlchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TVLChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_aprchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_aprchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<APRChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_activityArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_activitiesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Activity_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Activity_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_rewardsMintArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_rewardsMintsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<RewardsMint_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<RewardsMint_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -323,12 +538,12 @@ export type APRChange_filter = {
 export type APRChange_orderBy =
   | 'id'
   | 'ltoken'
-  | 'timestamp'
-  | 'apr'
   | 'ltoken__id'
   | 'ltoken__symbol'
   | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards';
+  | 'ltoken__totalMintedRewards'
+  | 'timestamp'
+  | 'apr';
 
 export type Activity = {
   id: Scalars['ID'];
@@ -400,6 +615,10 @@ export type Activity_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   account?: InputMaybe<Scalars['Bytes']>;
   account_not?: InputMaybe<Scalars['Bytes']>;
+  account_gt?: InputMaybe<Scalars['Bytes']>;
+  account_lt?: InputMaybe<Scalars['Bytes']>;
+  account_gte?: InputMaybe<Scalars['Bytes']>;
+  account_lte?: InputMaybe<Scalars['Bytes']>;
   account_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_contains?: InputMaybe<Scalars['Bytes']>;
@@ -430,10 +649,6 @@ export type Activity_filter = {
   status_not_in?: InputMaybe<Array<ActivityStatus>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
-  account_gt?: InputMaybe<Scalars['Bytes']>;
-  account_lt?: InputMaybe<Scalars['Bytes']>;
-  account_gte?: InputMaybe<Scalars['Bytes']>;
-  account_lte?: InputMaybe<Scalars['Bytes']>;
   and?: InputMaybe<Array<InputMaybe<Activity_filter>>>;
   or?: InputMaybe<Array<InputMaybe<Activity_filter>>>;
 };
@@ -442,16 +657,16 @@ export type Activity_orderBy =
   | 'id'
   | 'requestId'
   | 'ltoken'
+  | 'ltoken__id'
+  | 'ltoken__symbol'
+  | 'ltoken__decimals'
+  | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'account'
   | 'action'
   | 'amount'
   | 'amountAfterFees'
-  | 'status'
-  | 'ltoken__id'
-  | 'ltoken__symbol'
-  | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards';
+  | 'status';
 
 export type BlockChangedFilter = {
   number_gte: Scalars['Int'];
@@ -630,6 +845,10 @@ export type RewardsMint_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   account?: InputMaybe<Scalars['Bytes']>;
   account_not?: InputMaybe<Scalars['Bytes']>;
+  account_gt?: InputMaybe<Scalars['Bytes']>;
+  account_lt?: InputMaybe<Scalars['Bytes']>;
+  account_gte?: InputMaybe<Scalars['Bytes']>;
+  account_lte?: InputMaybe<Scalars['Bytes']>;
   account_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_contains?: InputMaybe<Scalars['Bytes']>;
@@ -660,10 +879,6 @@ export type RewardsMint_filter = {
   growth_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
-  account_gt?: InputMaybe<Scalars['Bytes']>;
-  account_lt?: InputMaybe<Scalars['Bytes']>;
-  account_gte?: InputMaybe<Scalars['Bytes']>;
-  account_lte?: InputMaybe<Scalars['Bytes']>;
   and?: InputMaybe<Array<InputMaybe<RewardsMint_filter>>>;
   or?: InputMaybe<Array<InputMaybe<RewardsMint_filter>>>;
 };
@@ -671,15 +886,15 @@ export type RewardsMint_filter = {
 export type RewardsMint_orderBy =
   | 'id'
   | 'ltoken'
+  | 'ltoken__id'
+  | 'ltoken__symbol'
+  | 'ltoken__decimals'
+  | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'account'
   | 'balanceBefore'
   | 'revenue'
-  | 'growth'
-  | 'ltoken__id'
-  | 'ltoken__symbol'
-  | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards';
+  | 'growth';
 
 export type TVLChange = {
   id: Scalars['ID'];
@@ -743,12 +958,12 @@ export type TVLChange_filter = {
 export type TVLChange_orderBy =
   | 'id'
   | 'ltoken'
-  | 'timestamp'
-  | 'amount'
   | 'ltoken__id'
   | 'ltoken__symbol'
   | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards';
+  | 'ltoken__totalMintedRewards'
+  | 'timestamp'
+  | 'amount';
 
 export type _Block_ = {
   /** The hash of the block */
@@ -947,31 +1162,53 @@ export type derivedFromDirectiveArgs = {
 export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type QueryResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<QueryltokenArgs, 'id' | 'subgraphError'>>;
-  ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<QueryltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
-  tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<QuerytvlchangeArgs, 'id' | 'subgraphError'>>;
-  tvlchanges?: Resolver<Array<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<QuerytvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  aprchange?: Resolver<Maybe<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<QueryaprchangeArgs, 'id' | 'subgraphError'>>;
-  aprchanges?: Resolver<Array<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<QueryaprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<QueryactivityArgs, 'id' | 'subgraphError'>>;
-  activities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<QueryactivitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  rewardsMint?: Resolver<Maybe<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<QueryrewardsMintArgs, 'id' | 'subgraphError'>>;
-  rewardsMints?: Resolver<Array<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<QueryrewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
+  c42161_ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc42161_ltokenArgs, 'id' | 'subgraphError'>>;
+  c42161_ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc42161_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc42161_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_tvlchanges?: Resolver<Array<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc42161_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_aprchange?: Resolver<Maybe<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc42161_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_aprchanges?: Resolver<Array<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc42161_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc42161_activityArgs, 'id' | 'subgraphError'>>;
+  c42161_activities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc42161_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_rewardsMint?: Resolver<Maybe<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc42161_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c42161_rewardsMints?: Resolver<Array<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc42161_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161__meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Queryc42161__metaArgs>>;
+  c59144_ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc59144_ltokenArgs, 'id' | 'subgraphError'>>;
+  c59144_ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc59144_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc59144_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c59144_tvlchanges?: Resolver<Array<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc59144_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_aprchange?: Resolver<Maybe<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc59144_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c59144_aprchanges?: Resolver<Array<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc59144_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc59144_activityArgs, 'id' | 'subgraphError'>>;
+  c59144_activities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc59144_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_rewardsMint?: Resolver<Maybe<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc59144_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c59144_rewardsMints?: Resolver<Array<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc59144_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144__meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Queryc59144__metaArgs>>;
 }>;
 
 export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
-  ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "ltoken", ParentType, ContextType, RequireFields<SubscriptionltokenArgs, 'id' | 'subgraphError'>>;
-  ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "ltokens", ParentType, ContextType, RequireFields<SubscriptionltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
-  tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "tvlchange", ParentType, ContextType, RequireFields<SubscriptiontvlchangeArgs, 'id' | 'subgraphError'>>;
-  tvlchanges?: SubscriptionResolver<Array<ResolversTypes['TVLChange']>, "tvlchanges", ParentType, ContextType, RequireFields<SubscriptiontvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  aprchange?: SubscriptionResolver<Maybe<ResolversTypes['APRChange']>, "aprchange", ParentType, ContextType, RequireFields<SubscriptionaprchangeArgs, 'id' | 'subgraphError'>>;
-  aprchanges?: SubscriptionResolver<Array<ResolversTypes['APRChange']>, "aprchanges", ParentType, ContextType, RequireFields<SubscriptionaprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  activity?: SubscriptionResolver<Maybe<ResolversTypes['Activity']>, "activity", ParentType, ContextType, RequireFields<SubscriptionactivityArgs, 'id' | 'subgraphError'>>;
-  activities?: SubscriptionResolver<Array<ResolversTypes['Activity']>, "activities", ParentType, ContextType, RequireFields<SubscriptionactivitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  rewardsMint?: SubscriptionResolver<Maybe<ResolversTypes['RewardsMint']>, "rewardsMint", ParentType, ContextType, RequireFields<SubscriptionrewardsMintArgs, 'id' | 'subgraphError'>>;
-  rewardsMints?: SubscriptionResolver<Array<ResolversTypes['RewardsMint']>, "rewardsMints", ParentType, ContextType, RequireFields<SubscriptionrewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
+  c42161_ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "c42161_ltoken", ParentType, ContextType, RequireFields<Subscriptionc42161_ltokenArgs, 'id' | 'subgraphError'>>;
+  c42161_ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "c42161_ltokens", ParentType, ContextType, RequireFields<Subscriptionc42161_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "c42161_tvlchange", ParentType, ContextType, RequireFields<Subscriptionc42161_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_tvlchanges?: SubscriptionResolver<Array<ResolversTypes['TVLChange']>, "c42161_tvlchanges", ParentType, ContextType, RequireFields<Subscriptionc42161_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_aprchange?: SubscriptionResolver<Maybe<ResolversTypes['APRChange']>, "c42161_aprchange", ParentType, ContextType, RequireFields<Subscriptionc42161_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_aprchanges?: SubscriptionResolver<Array<ResolversTypes['APRChange']>, "c42161_aprchanges", ParentType, ContextType, RequireFields<Subscriptionc42161_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_activity?: SubscriptionResolver<Maybe<ResolversTypes['Activity']>, "c42161_activity", ParentType, ContextType, RequireFields<Subscriptionc42161_activityArgs, 'id' | 'subgraphError'>>;
+  c42161_activities?: SubscriptionResolver<Array<ResolversTypes['Activity']>, "c42161_activities", ParentType, ContextType, RequireFields<Subscriptionc42161_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_rewardsMint?: SubscriptionResolver<Maybe<ResolversTypes['RewardsMint']>, "c42161_rewardsMint", ParentType, ContextType, RequireFields<Subscriptionc42161_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c42161_rewardsMints?: SubscriptionResolver<Array<ResolversTypes['RewardsMint']>, "c42161_rewardsMints", ParentType, ContextType, RequireFields<Subscriptionc42161_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161__meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "c42161__meta", ParentType, ContextType, Partial<Subscriptionc42161__metaArgs>>;
+  c59144_ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "c59144_ltoken", ParentType, ContextType, RequireFields<Subscriptionc59144_ltokenArgs, 'id' | 'subgraphError'>>;
+  c59144_ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "c59144_ltokens", ParentType, ContextType, RequireFields<Subscriptionc59144_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "c59144_tvlchange", ParentType, ContextType, RequireFields<Subscriptionc59144_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c59144_tvlchanges?: SubscriptionResolver<Array<ResolversTypes['TVLChange']>, "c59144_tvlchanges", ParentType, ContextType, RequireFields<Subscriptionc59144_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_aprchange?: SubscriptionResolver<Maybe<ResolversTypes['APRChange']>, "c59144_aprchange", ParentType, ContextType, RequireFields<Subscriptionc59144_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c59144_aprchanges?: SubscriptionResolver<Array<ResolversTypes['APRChange']>, "c59144_aprchanges", ParentType, ContextType, RequireFields<Subscriptionc59144_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_activity?: SubscriptionResolver<Maybe<ResolversTypes['Activity']>, "c59144_activity", ParentType, ContextType, RequireFields<Subscriptionc59144_activityArgs, 'id' | 'subgraphError'>>;
+  c59144_activities?: SubscriptionResolver<Array<ResolversTypes['Activity']>, "c59144_activities", ParentType, ContextType, RequireFields<Subscriptionc59144_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144_rewardsMint?: SubscriptionResolver<Maybe<ResolversTypes['RewardsMint']>, "c59144_rewardsMint", ParentType, ContextType, RequireFields<Subscriptionc59144_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c59144_rewardsMints?: SubscriptionResolver<Array<ResolversTypes['RewardsMint']>, "c59144_rewardsMints", ParentType, ContextType, RequireFields<Subscriptionc59144_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c59144__meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "c59144__meta", ParentType, ContextType, Partial<Subscriptionc59144__metaArgs>>;
 }>;
 
 export type APRChangeResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['APRChange'] = ResolversParentTypes['APRChange']> = ResolversObject<{
@@ -1073,7 +1310,7 @@ export type DirectiveResolvers<ContextType = MeshContext> = ResolversObject<{
   derivedFrom?: derivedFromDirectiveResolver<any, any, ContextType>;
 }>;
 
-export type MeshContext = LineaTypes.Context & ArbitrumTypes.Context & BaseMeshContext;
+export type MeshContext = ArbitrumTypes.Context & LineaTypes.Context & BaseMeshContext;
 
 
 const baseDir = pathModule.join(typeof __dirname === 'string' ? __dirname : '/', '..');
@@ -1081,10 +1318,10 @@ const baseDir = pathModule.join(typeof __dirname === 'string' ? __dirname : '/',
 const importFn: ImportFn = <T>(moduleId: string) => {
   const relativeModuleId = (pathModule.isAbsolute(moduleId) ? pathModule.relative(baseDir, moduleId) : moduleId).split('\\').join('/').replace(baseDir + '/', '');
   switch(relativeModuleId) {
-    case ".graphclient/sources/linea/introspectionSchema":
+    case ".graphclient/sources/arbitrum/introspectionSchema":
       return Promise.resolve(importedModule$0) as T;
     
-    case ".graphclient/sources/arbitrum/introspectionSchema":
+    case ".graphclient/sources/linea/introspectionSchema":
       return Promise.resolve(importedModule$1) as T;
     
     default:
@@ -1117,19 +1354,9 @@ const cache = new (MeshCache as any)({
 const sources: MeshResolvedSource[] = [];
 const transforms: MeshTransform[] = [];
 const additionalEnvelopPlugins: MeshPlugin<any>[] = [];
-const lineaTransforms = [];
 const arbitrumTransforms = [];
+const lineaTransforms = [];
 const additionalTypeDefs = [] as any[];
-const lineaHandler = new GraphqlHandler({
-              name: "linea",
-              config: {"endpoint":"https://graph-query.linea.build/subgraphs/name/LedgityLabs/LedgityYield"},
-              baseDir,
-              cache,
-              pubsub,
-              store: sourcesStore.child("linea"),
-              logger: logger.child("linea"),
-              importFn,
-            });
 const arbitrumHandler = new GraphqlHandler({
               name: "arbitrum",
               config: {"endpoint":"https://gateway-arbitrum.network.thegraph.com/api/cfd41a9b70fcff12512d9fafecc0387d/subgraphs/id/eVibF32AJuoYG4DorvFTrJ6hH7ZxZdpMj1Jg6iAfbHb"},
@@ -1140,15 +1367,43 @@ const arbitrumHandler = new GraphqlHandler({
               logger: logger.child("arbitrum"),
               importFn,
             });
+const lineaHandler = new GraphqlHandler({
+              name: "linea",
+              config: {"endpoint":"https://graph-query.linea.build/subgraphs/name/LedgityLabs/LedgityYield"},
+              baseDir,
+              cache,
+              pubsub,
+              store: sourcesStore.child("linea"),
+              logger: logger.child("linea"),
+              importFn,
+            });
+arbitrumTransforms[0] = new PrefixTransform({
+                  apiName: "arbitrum",
+                  config: {"mode":"wrap","value":"c42161_","includeRootOperations":true,"includeTypes":false},
+                  baseDir,
+                  cache,
+                  pubsub,
+                  importFn,
+                  logger,
+                });
+lineaTransforms[0] = new PrefixTransform({
+                  apiName: "linea",
+                  config: {"mode":"wrap","value":"c59144_","includeRootOperations":true,"includeTypes":false},
+                  baseDir,
+                  cache,
+                  pubsub,
+                  importFn,
+                  logger,
+                });
 sources[0] = {
-          name: 'linea',
-          handler: lineaHandler,
-          transforms: lineaTransforms
-        }
-sources[1] = {
           name: 'arbitrum',
           handler: arbitrumHandler,
           transforms: arbitrumTransforms
+        }
+sources[1] = {
+          name: 'linea',
+          handler: lineaHandler,
+          transforms: lineaTransforms
         }
 const additionalResolvers = [] as any[]
 const merger = new(StitchingMerger as any)({

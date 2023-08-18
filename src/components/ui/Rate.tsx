@@ -32,9 +32,8 @@ function longFormatRate(value: number, isUD7x3: boolean = false) {
   const floatValue = getFloatValue(value, isUD7x3);
   let longFormattedRate = "";
   if (floatValue === 0) longFormattedRate = "0";
-  else if (floatValue < 0.00001) longFormattedRate = "<0.00001";
-  if (floatValue < 1) longFormattedRate = d3.format(",.5f")(floatValue);
-  if (floatValue < 1000) longFormattedRate = d3.format(",.4f")(floatValue);
+  else if (floatValue < 0.0001) longFormattedRate = "<0.0001";
+  if (floatValue < 1) longFormattedRate = d3.format(",.4f")(floatValue);
   else longFormattedRate = d3.format(",.3f")(floatValue);
   return longFormattedRate;
 }

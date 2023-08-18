@@ -308,7 +308,7 @@ enum OrderDirection {
 }
 
 type Query {
-  ltoken(
+  c42161_ltoken(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -319,7 +319,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): LToken
-  ltokens(
+  c42161_ltokens(
     skip: Int = 0
     first: Int = 100
     orderBy: LToken_orderBy
@@ -334,7 +334,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [LToken!]!
-  tvlchange(
+  c42161_tvlchange(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -345,7 +345,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): TVLChange
-  tvlchanges(
+  c42161_tvlchanges(
     skip: Int = 0
     first: Int = 100
     orderBy: TVLChange_orderBy
@@ -360,7 +360,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [TVLChange!]!
-  aprchange(
+  c42161_aprchange(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -371,7 +371,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): APRChange
-  aprchanges(
+  c42161_aprchanges(
     skip: Int = 0
     first: Int = 100
     orderBy: APRChange_orderBy
@@ -386,7 +386,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [APRChange!]!
-  activity(
+  c42161_activity(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -397,7 +397,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): Activity
-  activities(
+  c42161_activities(
     skip: Int = 0
     first: Int = 100
     orderBy: Activity_orderBy
@@ -412,7 +412,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [Activity!]!
-  rewardsMint(
+  c42161_rewardsMint(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -423,7 +423,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): RewardsMint
-  rewardsMints(
+  c42161_rewardsMints(
     skip: Int = 0
     first: Int = 100
     orderBy: RewardsMint_orderBy
@@ -439,7 +439,7 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [RewardsMint!]!
   """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
+  c42161__meta(block: Block_height): _Meta_
 }
 
 type RewardsMint {
@@ -545,7 +545,7 @@ enum RewardsMint_orderBy {
 }
 
 type Subscription {
-  ltoken(
+  c42161_ltoken(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -556,7 +556,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): LToken
-  ltokens(
+  c42161_ltokens(
     skip: Int = 0
     first: Int = 100
     orderBy: LToken_orderBy
@@ -571,7 +571,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [LToken!]!
-  tvlchange(
+  c42161_tvlchange(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -582,7 +582,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): TVLChange
-  tvlchanges(
+  c42161_tvlchanges(
     skip: Int = 0
     first: Int = 100
     orderBy: TVLChange_orderBy
@@ -597,7 +597,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [TVLChange!]!
-  aprchange(
+  c42161_aprchange(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -608,7 +608,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): APRChange
-  aprchanges(
+  c42161_aprchanges(
     skip: Int = 0
     first: Int = 100
     orderBy: APRChange_orderBy
@@ -623,7 +623,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [APRChange!]!
-  activity(
+  c42161_activity(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -634,7 +634,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): Activity
-  activities(
+  c42161_activities(
     skip: Int = 0
     first: Int = 100
     orderBy: Activity_orderBy
@@ -649,7 +649,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [Activity!]!
-  rewardsMint(
+  c42161_rewardsMint(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -660,7 +660,7 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): RewardsMint
-  rewardsMints(
+  c42161_rewardsMints(
     skip: Int = 0
     first: Int = 100
     orderBy: RewardsMint_orderBy
@@ -676,7 +676,7 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [RewardsMint!]!
   """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
+  c42161__meta(block: Block_height): _Meta_
 }
 
 type TVLChange {
