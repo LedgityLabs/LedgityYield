@@ -1,3 +1,10 @@
+## [1.170.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.169.1...v1.170.0) (2023-08-18)
+
+
+### Features
+
+* setup multi-subpgraph support ([e2b97d7](https://github.com/LedgityLabs/LedgityYield/commit/e2b97d78388a7355116dbf2c3cb00e4f2dc5c63a))
+
 ## [1.169.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.169.0...v1.169.1) (2023-08-17)
 
 
