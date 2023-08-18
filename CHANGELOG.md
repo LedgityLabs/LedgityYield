@@ -1,3 +1,10 @@
+## [1.171.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.170.0...v1.171.0) (2023-08-18)
+
+
+### Features
+
+* setup cross-chain TVL stats ([5f44209](https://github.com/LedgityLabs/LedgityYield/commit/5f442090557939718593b2870c5e6de4a26c3d7d))
+
 ## [1.170.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.169.1...v1.170.0) (2023-08-18)
 
 
