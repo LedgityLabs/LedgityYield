@@ -24,6 +24,8 @@ import { JSONStringify } from "@/lib/jsonStringify";
 import dropIcon from "~/assets/icons/airdrop.svg";
 import Image from "next/image";
 
+const availableChains = [42161, 59144];
+
 interface Pool {
   tokenSymbol: string;
   apr: number;
@@ -174,32 +176,50 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       abi: any;
       functionName: string;
       args?: any[];
+      chainId?: number;
     }[];
 
     // Push read calls for total supply and decimals of each lToken
     for (const lTokenSymbol of lTokens) {
-      // Retrieve contracts addresses
+      // Retrieve L-Token address on current chain
       const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
-      const underlyingAddress = getContractAddress(lTokenSymbol.slice(1), publicClient.chain.id);
 
-      // Ensure no address is missing
-      if (!lTokenAddress || !underlyingAddress)
-        throw "Some contracts addresses are missing for the current chain. Cannot watch data.";
-
-      // Populate required reads requests
-      newReadsConfig.push({
-        address: lTokenAddress,
-        abi: lTokenABI,
-        functionName: "balanceOf",
-        args: [walletClient ? walletClient.account.address : zeroAddress],
-      });
-      ["decimals", "totalSupply", "getAPR"].forEach((functionName) => {
+        // If L-Token is not available on the current chain, skip
+        if (!lTokenAddress) continue;
+  
+        // Populate required reads requests
+        ["symbol", "decimals", "totalSupply", "getAPR"].forEach((functionName) => {
+          newReadsConfig.push({
+            address: lTokenAddress,
+            abi: lTokenABI,
+            functionName: functionName
+          });
+        });
         newReadsConfig.push({
           address: lTokenAddress,
           abi: lTokenABI,
-          functionName: functionName,
+          functionName: "balanceOf",
+          args: [walletClient ? walletClient.account.address : zeroAddress],
         });
-      });
+      
+      // Also read TVL from each chain the L-Token is available on
+      for (const chainId of availableChains) {
+        // Skip if current chain
+        if (chainId === publicClient.chain.id) continue;
+
+        // Retrieve L-Token address on other chain
+        const chainLTokenAddress = getContractAddress(lTokenSymbol, chainId);
+
+        // If L-Token is not available on the other chain, skip
+        if (!chainLTokenAddress) continue;
+
+        newReadsConfig.push({
+          address: chainLTokenAddress,
+          abi: lTokenABI,
+          functionName: "totalSupply",
+          chainId: chainId,
+        });
+      }
     }
 
     if (JSON.stringify(newReadsConfig) !== JSON.stringify(readsConfig)) {
@@ -219,14 +239,39 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         },
         (data) => {
           if (data.length > 0) {
-            const _tableData: Pool[] = [];
-            for (const lTokenSymbol of lTokens) {
-              const underlyingSymbol = lTokenSymbol.slice(1);
-              const investedAmount = data.shift()!.result! as bigint;
-              const decimals = data.shift()!.result! as number;
-              const tvl = data.shift()!.result! as bigint;
-              const apr = data.shift()!.result! as number;
 
+            const _tableData: Pool[] = [];
+            
+            while (data.length !== 0) {
+              // Retrieve L-Token current chain data
+              const lTokenSymbol = data.shift()!.result! as string;
+              const decimals = data.shift()!.result! as number;
+              let tvl = data.shift()!.result! as bigint;
+              const apr = data.shift()!.result! as number;
+              const investedAmount = data.shift()!.result! as bigint;
+
+              // Accumulate other chain TVLs too
+              for (const chainId of availableChains) {
+                // Skip if current chain
+                if (chainId === publicClient.chain.id) continue;
+
+                // Retrieve L-Token address on other chain
+                const chainLTokenAddress = getContractAddress(lTokenSymbol, chainId);
+
+                // If L-Token is not available on the other chain, skip
+                if (!chainLTokenAddress) continue;
+
+                // Retrieve TVL on other chain
+                const chainTvl = data.shift()!.result! as bigint;
+
+                // Accumulate TVL
+                tvl += chainTvl;
+              }
+              
+              // Build underlying symbol
+              const underlyingSymbol = lTokenSymbol.slice(1);
+
+              // Push data to table data
               _tableData.push({
                 tokenSymbol: underlyingSymbol,
                 invested: [investedAmount, decimals],
