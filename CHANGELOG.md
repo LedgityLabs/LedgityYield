@@ -1,3 +1,10 @@
+## [1.176.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.175.0...v1.176.0) (2023-08-19)
+
+
+### Features
+
+* add spinner while 7d TVL growth is loading ([3efe2cc](https://github.com/LedgityLabs/LedgityYield/commit/3efe2cc4acfec886783af7ac80b62ce3181c1d85))
+
 ## [1.175.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.174.0...v1.175.0) (2023-08-19)
 
 
