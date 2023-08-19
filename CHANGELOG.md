@@ -1,3 +1,10 @@
+## [1.173.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.172.0...v1.173.0) (2023-08-18)
+
+
+### Features
+
+* cross-chain unified L-Tokens pools' TVLs ([3d67434](https://github.com/LedgityLabs/LedgityYield/commit/3d674349d2730c006f7493fc2f3ee8c8c4920476))
+
 ## [1.172.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.171.0...v1.172.0) (2023-08-18)
 
 
