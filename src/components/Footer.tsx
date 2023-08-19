@@ -22,12 +22,12 @@ const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
           <article className="row-start-3 flex items-center justify-center text-bg lg:row-start-1 lg:justify-start">
             <ul className="flex gap-6 xl:gap-8">
               <li className="font-semibold text-bg/70 underline transition hover:text-bg/90">
-                <Link href="/" target="_blank" className="whitespace-nowrap">
+                <Link href="/legal/terms-and-conditions" className="whitespace-nowrap">
                   Terms & Conditions
                 </Link>
               </li>
               <li className="font-semibold text-bg/70 underline transition hover:text-bg/90">
-                <Link href="/" target="_blank" className="whitespace-nowrap">
+                <Link href="/legal/privacy-policy" className="whitespace-nowrap">
                   Privacy Policy
                 </Link>
               </li>

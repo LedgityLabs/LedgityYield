@@ -111,7 +111,7 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
     By connecting your wallet, you agree to <br />
     our&nbsp;
-    <Link href="/legal/terms-of-service">Terms of Service</Link> and&nbsp;
+    <Link href="/legal/terms-and-conditions">Terms & Conditions</Link> and&nbsp;
     <Link href="/legal/privacy-policy">Privacy Policy</Link>.
   </Text>
 );
