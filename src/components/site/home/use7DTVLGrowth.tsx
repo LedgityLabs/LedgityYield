@@ -8,8 +8,10 @@ const availableChains = [42161, 59144];
 
 export const useTVLGrowth7d = () => {
   const [tvlGrowth7d, setTvlGrowth7d] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const compute7DTVLGrowth = async () => {
+    setIsLoading(true);
     const sevenDaysAgo = Math.floor(Date.now() / 1000) - secondsIn7Days;
 
     // Build query string to request TVL data for each chain
@@ -32,7 +34,7 @@ export const useTVLGrowth7d = () => {
     queryString += "\n}";
 
     // Request TVL data for each chain
-    return execute(queryString, {}).then(
+    await execute(queryString, {}).then(
       async (result: {
         data: {
           [key: string]: [
@@ -93,11 +95,12 @@ export const useTVLGrowth7d = () => {
         }
       },
     );
+    setIsLoading(false);
   };
 
   useEffect(() => {
     compute7DTVLGrowth();
   }, []);
 
-  return tvlGrowth7d;
+  return { tvlGrowth7d, isLoading };
 };

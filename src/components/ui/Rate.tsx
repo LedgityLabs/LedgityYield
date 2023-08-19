@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
-import { formatUnits, parseUnits } from "viem";
+import { formatUnits } from "viem";
 import * as d3 from "d3-format";
 
 interface Props extends React.HTMLAttributes<HTMLSpanElement> {
@@ -13,11 +13,11 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 
 function getFloatValue(value: number | undefined, isUD7x3: boolean) {
   if (!value) return 0;
-  return isUD7x3 ? Number(formatUnits(BigInt(value), 3)) / 100 : value;
+  return isUD7x3 ? Number(formatUnits(BigInt(value), 3)) : value;
 }
 
 export function formatRate(value: number, isUD7x3: boolean = false) {
-  const floatValue = getFloatValue(value, isUD7x3) * 100;
+  const floatValue = getFloatValue(value, isUD7x3);
 
   let formattedRate = "";
   if (floatValue === 0) formattedRate = "0";
@@ -30,7 +30,7 @@ export function formatRate(value: number, isUD7x3: boolean = false) {
 }
 
 function longFormatRate(value: number, isUD7x3: boolean = false) {
-  const floatValue = getFloatValue(value, isUD7x3) * 100;
+  const floatValue = getFloatValue(value, isUD7x3);
   let longFormattedRate = "";
   if (floatValue === 0) longFormattedRate = "0";
   else if (floatValue < 0.0001) longFormattedRate = "<0.0001";
