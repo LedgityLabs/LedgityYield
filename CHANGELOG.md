@@ -1,3 +1,10 @@
+## [1.174.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.173.0...v1.174.0) (2023-08-19)
+
+
+### Features
+
+* add "Terms & Conditions" and "Privacy Policy" pages ([acb88bc](https://github.com/LedgityLabs/LedgityYield/commit/acb88bce4e26c90bd3b992f5b13d6e802c97dbe1))
+
 ## [1.173.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.172.0...v1.173.0) (2023-08-18)
 
 
