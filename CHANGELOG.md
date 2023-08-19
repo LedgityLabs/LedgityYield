@@ -1,3 +1,10 @@
+## [1.176.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.0...v1.176.1) (2023-08-19)
+
+
+### Fixes
+
+* add console logs to debug grayed withdrawal button ([af9af00](https://github.com/LedgityLabs/LedgityYield/commit/af9af00ed691defe80438eef5f1670be096becd5))
+
 ## [1.176.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.175.0...v1.176.0) (2023-08-19)
 
 
