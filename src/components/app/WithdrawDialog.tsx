@@ -94,8 +94,9 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
               symbol={`L${underlyingSymbol}`}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setWithdrawnAmount(parseUnits(e.target.value, decimals!));
-                if (hasUserInteracted === false) setHasUserInteracted(true);
-                if (e.target.value === "") setHasUserInteracted(false);
+                if (hasUserInteracted === true && e.target.value === "")
+                  setHasUserInteracted(false);
+                else if (hasUserInteracted === false) setHasUserInteracted(true);
               }}
             />
             {/* If instant withdrawal is possible actually */}
@@ -105,6 +106,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                 preparation={instantWithdrawalalPreparation}
                 className="relative -top-[1.5px]"
                 disabled={withdrawnAmount === 0n}
+                hasUserInteracted={hasUserInteracted}
                 transactionSummary={
                   <span>
                     Withdraw{" "}
@@ -125,17 +127,17 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                     />{" "}
                   </span>
                 }
-                hasUserInteracted={hasUserInteracted}
               >
                 Withdraw
               </TxButton>
             )) || (
               <TxButton
                 size="medium"
-                //@ts-ignore
+                // @ts-ignore
                 preparation={requestWithdrawalPreparation}
                 className="relative -top-[1.5px]"
-                disabled={withdrawnAmount === 0n}
+                // disabled={withdrawnAmount === 0n}
+                // hasUserInteracted={hasUserInteracted}
                 transactionSummary={
                   <span>
                     Request withdrawal of{" "}
@@ -156,7 +158,6 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                     />{" "}
                   </span>
                 }
-                hasUserInteracted={hasUserInteracted}
               >
                 Request
               </TxButton>

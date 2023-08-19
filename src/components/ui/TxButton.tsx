@@ -42,10 +42,10 @@ export const TxButton: FC<Props> = ({
   const publicClient = usePublicClient();
 
   // @ts-ignore
-  if (preparation.config.request && !preparation.config.request.value) {
-    // @ts-ignore
-    preparation.config.request.value = 0n;
-  }
+  // if (preparation.config.request && !preparation.config.request.value) {
+  //   // @ts-ignore
+  //   preparation.config.request.value = 0n;
+  // }
 
   const {
     data: writeData,
@@ -83,6 +83,13 @@ export const TxButton: FC<Props> = ({
     tooltipIsError = true;
     tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
   }
+
+  console.log("DISABLED BECAUSE:");
+  console.log("disabled", disabled);
+  console.log("preparation.isError", preparation.isError);
+  console.log("!walletClient", !walletClient);
+  console.log("!write", !write);
+  console.log("isSwitching", isSwitching);
 
   return (
     <>
