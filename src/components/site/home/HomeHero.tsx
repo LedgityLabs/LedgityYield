@@ -1,15 +1,18 @@
 "use client";
 import React, { FC, useLayoutEffect, useRef } from "react";
-import { Cube, Amount } from "@/components/ui";
+import { Cube, Amount, Rate } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import anime from "animejs";
 import { animateScroll } from "@/lib/animateScroll";
 import { usePublicClient } from "wagmi";
+import { useTVLGrowth7d } from "./use7DTVLGrowth";
+import * as d3 from "d3-format";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const HomeHero: FC<Props> = ({ className }) => {
+  const tvlGrowth7d = useTVLGrowth7d();
   const heroSection = useRef<HTMLDivElement>(null);
   const publicClient = usePublicClient();
 
@@ -119,7 +122,7 @@ const HomeHero: FC<Props> = ({ className }) => {
           <ul className="flex items-center justify-center gap-24 px-14 lg:mt-2 lg:gap-32">
             <li className="text-center sm:text-left">
               <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl">
-                --%
+                {d3.format(".2s")(tvlGrowth7d * 100)}%
               </span>
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">
                 TVL growth <span className="opacity-70">(7d)</span>

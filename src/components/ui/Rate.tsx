@@ -13,23 +13,24 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 
 function getFloatValue(value: number | undefined, isUD7x3: boolean) {
   if (!value) return 0;
-  return isUD7x3 ? Number(formatUnits(BigInt(value), 3)) : value;
+  return isUD7x3 ? Number(formatUnits(BigInt(value), 3)) / 100 : value;
 }
 
 export function formatRate(value: number, isUD7x3: boolean = false) {
-  const floatValue = getFloatValue(value, isUD7x3);
+  const floatValue = getFloatValue(value, isUD7x3) * 100;
 
   let formattedRate = "";
   if (floatValue === 0) formattedRate = "0";
   else if (floatValue < 0.01) formattedRate = "<0.01";
   else if (floatValue < 1) formattedRate = floatValue.toFixed(2);
-  else if (floatValue < 1000) formattedRate = floatValue.toFixed(1);
+  else if (floatValue < 100) formattedRate = floatValue.toFixed(1);
+  else if (floatValue < 1000) formattedRate = floatValue.toFixed(0);
   else formattedRate = ">999";
   return formattedRate;
 }
 
 function longFormatRate(value: number, isUD7x3: boolean = false) {
-  const floatValue = getFloatValue(value, isUD7x3);
+  const floatValue = getFloatValue(value, isUD7x3) * 100;
   let longFormattedRate = "";
   if (floatValue === 0) longFormattedRate = "0";
   else if (floatValue < 0.0001) longFormattedRate = "<0.0001";
