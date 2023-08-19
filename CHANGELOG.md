@@ -1,3 +1,10 @@
+## [1.175.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.174.0...v1.175.0) (2023-08-19)
+
+
+### Features
+
+* populate home page TVL growth stats with real data ([72f1d89](https://github.com/LedgityLabs/LedgityYield/commit/72f1d89399e417db54db545a47956195630ce93f))
+
 ## [1.174.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.173.0...v1.174.0) (2023-08-19)
 
 
