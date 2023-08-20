@@ -1,3 +1,10 @@
+## [1.178.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.0...v1.178.1) (2023-08-20)
+
+
+### Fixes
+
+* fix broken Support link ([767c374](https://github.com/LedgityLabs/LedgityYield/commit/767c374c8b6fac738f5550f519af493fd484ef1f))
+
 ## [1.178.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.177.0...v1.178.0) (2023-08-20)
 
 
