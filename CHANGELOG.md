@@ -1,3 +1,10 @@
+## [1.178.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.177.0...v1.178.0) (2023-08-20)
+
+
+### Features
+
+* add opaque background to landing page's body to remove use of blur ([ccf4843](https://github.com/LedgityLabs/LedgityYield/commit/ccf4843ee97c7b8279f507e9c6c9a720e4fab919))
+
 ## [1.177.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.4...v1.177.0) (2023-08-20)
 
 
