@@ -1,3 +1,10 @@
+## [1.176.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.3...v1.176.4) (2023-08-20)
+
+
+### Fixes
+
+* adjust tiny rates values display ([d17e123](https://github.com/LedgityLabs/LedgityYield/commit/d17e123c56e3281b6e5dfe6812cc43da28b2565a))
+
 ## [1.176.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.2...v1.176.3) (2023-08-20)
 
 
