@@ -1,3 +1,10 @@
+## [1.176.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.2...v1.176.3) (2023-08-20)
+
+
+### Fixes
+
+* fix error.details undefined error ([8c5b387](https://github.com/LedgityLabs/LedgityYield/commit/8c5b38771e984f7a63c2d25523d6f5899a94ef1e))
+
 ## [1.176.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.1...v1.176.2) (2023-08-20)
 
 
