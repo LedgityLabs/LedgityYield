@@ -1,3 +1,10 @@
+## [1.178.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.1...v1.178.2) (2023-08-20)
+
+
+### Fixes
+
+* broken partners list responsivness ([d048a39](https://github.com/LedgityLabs/LedgityYield/commit/d048a3949c23643f30689feb8a3f6803eb6524da))
+
 ## [1.178.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.0...v1.178.1) (2023-08-20)
 
 
