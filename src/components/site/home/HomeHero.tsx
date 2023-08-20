@@ -34,6 +34,25 @@ const HomeHero: FC<Props> = ({ className }) => {
   //   return animateScroll(divAnimation, heroSection.current!, "top");
   // }, []);
 
+  const handleScroll = () => {
+    if (heroSection.current) {
+      const hiddenScrollPos = heroSection.current.offsetTop + heroSection.current.offsetHeight;
+      if (window.scrollY > hiddenScrollPos / 1) {
+        heroSection.current.style.opacity = "0";
+        heroSection.current.style.visibility = "hidden";
+      } else {
+        const opacity = (1 - window.scrollY / (hiddenScrollPos / 1)) * 100;
+        heroSection.current.style.visibility = "visible";
+        heroSection.current.style.opacity = opacity.toFixed(0) + "%";
+      }
+    }
+  };
+
+  useLayoutEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section
       className={twMerge(
