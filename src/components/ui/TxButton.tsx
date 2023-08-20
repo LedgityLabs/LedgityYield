@@ -74,22 +74,17 @@ export const TxButton: FC<Props> = ({
   // Build tooltip message and error state
   let tooltipMessage = "";
   let tooltipIsError = false;
-  if (isLoading) tooltipMessage = "Loading...";
-  else if (isSwitching) tooltipMessage = "Switching network...";
-  else if (!walletClient) {
+  if (isLoading) {
+    tooltipMessage = "Loading...";
+  } else if (isSwitching) {
+    tooltipMessage = "Switching network...";
+  } else if (!walletClient) {
     tooltipIsError = true;
     tooltipMessage = "No wallet connected";
   } else if (preparation.isError) {
     tooltipIsError = true;
     tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
   }
-
-  console.log("DISABLED BECAUSE:");
-  console.log("disabled", disabled);
-  console.log("preparation.isError", preparation.isError);
-  console.log("!walletClient", !walletClient);
-  console.log("!write", !write);
-  console.log("isSwitching", isSwitching);
 
   return (
     <>

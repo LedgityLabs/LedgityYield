@@ -136,8 +136,8 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                 // @ts-ignore
                 preparation={requestWithdrawalPreparation}
                 className="relative -top-[1.5px]"
-                // disabled={withdrawnAmount === 0n}
-                // hasUserInteracted={hasUserInteracted}
+                disabled={withdrawnAmount === 0n}
+                hasUserInteracted={hasUserInteracted}
                 transactionSummary={
                   <span>
                     Request withdrawal of{" "}

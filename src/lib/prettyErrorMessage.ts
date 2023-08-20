@@ -88,7 +88,7 @@ export const displayedErrors: { [key: string]: string } = {
 
 export const prettyErrorMessage = (error: BaseError | Error) => {
   // Populate default error message
-  let prettyError = "Unknown error. Please contact support.";
+  let prettyError = "";
 
   // If this is a Viem error
   if (error instanceof BaseError) {
@@ -99,7 +99,9 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
     // If the error is a function call error
     if (error.name === "ContractFunctionExecutionError") {
       // Extract contract's error message
-      prettyError = error.shortMessage.split("\n")[1];
+      if (error.details.includes("insufficient funds for gas "))
+        prettyError = "Insufficient funds for gas";
+      else prettyError = error.shortMessage.split("\n")[1];
     }
   }
   // For other errors, use the error message
@@ -121,5 +123,6 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
   // If the error has a displayed override, use it instead
   const displayOverride = displayedErrors[prettyError];
   if (displayOverride) prettyError = displayOverride;
+  if (!prettyError) prettyError = "Unknown error. Please contact support.";
   return prettyError;
 };
