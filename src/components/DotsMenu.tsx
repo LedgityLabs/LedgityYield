@@ -79,7 +79,11 @@ export const DotsMenu: FC<Props> = ({ className }) => {
             </li>
 
             <li>
-              <Link href="/" className="hover:opacity-80">
+              <Link
+                href="https://discord.gg/ledgityyield"
+                target="_blank"
+                className="hover:opacity-80"
+              >
                 Support&nbsp;
                 <i className="ri-external-link-fill" />
               </Link>
