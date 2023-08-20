@@ -16,13 +16,13 @@ import risepartnersLogo from "~/assets/partners/risepartners.png";
 const HomePartners: FC = () => {
   return (
     <FadeIn>
-      <section className="relative  flex flex-col items-center pb-56">
+      <section className="relative flex flex-col items-center pb-56">
         <Cube size="medium" className="bottom-2 left-16" />
 
         <h3 className="pb-16 text-center font-heading text-4xl font-bold text-fg/90">
           Our partners
         </h3>
-        <ul className="flex flex-wrap justify-center items-center gap-16 px-16 [max-width:50vw]">
+        <ul className="flex flex-wrap justify-center items-center gap-16 px-16 lg:[max-width:80vw] xl:[max-width:50vw]">
           <li>
             <Link
               href="https://arbitrum.io/"
