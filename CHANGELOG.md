@@ -1,3 +1,10 @@
+## [1.176.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.1...v1.176.2) (2023-08-20)
+
+
+### Fixes
+
+* insufficient funds for gas error wasn't properly handled ([a98a57f](https://github.com/LedgityLabs/LedgityYield/commit/a98a57f021044d0944db9c52d0d28b8a0ddf9eb2))
+
 ## [1.176.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.0...v1.176.1) (2023-08-19)
 
 
