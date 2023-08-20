@@ -99,7 +99,7 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
     // If the error is a function call error
     if (error.name === "ContractFunctionExecutionError") {
       // Extract contract's error message
-      if (error.details.includes("insufficient funds for gas "))
+      if (error.details && error.details.includes("insufficient funds for gas "))
         prettyError = "Insufficient funds for gas";
       else prettyError = error.shortMessage.split("\n")[1];
     }
