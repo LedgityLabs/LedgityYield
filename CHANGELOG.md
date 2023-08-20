@@ -1,3 +1,10 @@
+## [1.177.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.4...v1.177.0) (2023-08-20)
+
+
+### Features
+
+* add opacity animation to home hero on scroll ([cf59d13](https://github.com/LedgityLabs/LedgityYield/commit/cf59d1331d9553c24393d6a2259c5f0808669181))
+
 ## [1.176.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.3...v1.176.4) (2023-08-20)
 
 
