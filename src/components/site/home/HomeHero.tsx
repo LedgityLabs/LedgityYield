@@ -34,37 +34,37 @@ const HomeHero: FC<Props> = ({ className }) => {
   //   return animateScroll(divAnimation, heroSection.current!, "top");
   // }, []);
 
-  const handleScroll = () => {
-    if (heroSection.current) {
-      const hiddenScrollPos = heroSection.current.offsetTop + heroSection.current.offsetHeight;
-      if (window.scrollY > hiddenScrollPos / 1) {
-        heroSection.current.style.opacity = "0";
-        heroSection.current.style.visibility = "hidden";
-      } else {
-        const opacity = (1 - window.scrollY / (hiddenScrollPos / 1)) * 100;
-        heroSection.current.style.visibility = "visible";
-        heroSection.current.style.opacity = opacity.toFixed(0) + "%";
-      }
-    }
-  };
+  // const handleScroll = () => {
+  //   if (heroSection.current) {
+  //     const hiddenScrollPos = heroSection.current.offsetTop + heroSection.current.offsetHeight;
+  //     if (window.scrollY > hiddenScrollPos / 1) {
+  //       heroSection.current.style.opacity = "0";
+  //       heroSection.current.style.visibility = "hidden";
+  //     } else {
+  //       const opacity = (1 - window.scrollY / (hiddenScrollPos / 1)) * 100;
+  //       heroSection.current.style.visibility = "visible";
+  //       heroSection.current.style.opacity = opacity.toFixed(0) + "%";
+  //     }
+  //   }
+  // };
 
-  useLayoutEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // useLayoutEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   handleScroll();
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   return (
     <section
+      ref={heroSection}
       className={twMerge(
+        "-mt-[97px] ",
         "bg-[url('/assets/textures/glow-light.webp')] bg-cover bg-[left_30%_bottom_0%] md:bg-center",
         "before:bg-hero before:pointer-events-none before:absolute before:inset-0 before:min-h-[140vh] before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
         className,
       )}
     >
-      <div
-        ref={heroSection}
-        className="relative flex h-full flex-col items-center justify-center gap-[7vh] sm:gap-[5vh] lg:gap-[7.5vh]"
-      >
+      <div className="relative flex min-h-[calc(100vh+3.5rem)] pb-14 -mb-14 pt-[calc(97px+15px)] flex-col items-center justify-center gap-[7vh] sm:gap-[5vh] lg:gap-[7.5vh]">
         <Cube size="tiny" className="right-12" />
         <Cube size="small" className="right-[17%] top-[45%] hidden 2xl:block" />
         <Cube size="small" className="right-14 top-[10%]" />
@@ -171,7 +171,7 @@ const HomeHero: FC<Props> = ({ className }) => {
             </li>
           </ul>
         </div>
-        <div className="absolute bottom-[4vh]">
+        <div>
           <i className="ri-arrow-down-double-fill text-3xl text-fg/50" />
         </div>
       </div>

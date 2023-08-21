@@ -1,4 +1,3 @@
-"use client";
 import { FC } from "react";
 import Link from "next/link";
 import Logo from "./ui/Logo";
@@ -7,9 +6,6 @@ import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
 
 const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
-  const pathname = usePathname();
-  const isAppOrAdmin = pathname.startsWith("/app") || pathname.startsWith("/admin");
-  if (isAppOrAdmin) return null;
   return (
     <FadeIn startAt="bottom" className="z-50">
       <footer

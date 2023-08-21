@@ -6,7 +6,7 @@ import Link from "next/link";
 const HomeFeatures: FC = () => {
   return (
     <section className="relative flex flex-col items-center justify-center">
-      <Cube size="medium" className="-top-8 left-64" />
+      {/* <Cube size="medium" className="-top-8 left-64" /> */}
       <Cube size="large" className="-right-16 bottom-[35%]" />
       <Cube size="small" className="bottom-[15%] left-8" />
 

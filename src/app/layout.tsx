@@ -75,7 +75,6 @@ const RootLayout: NextPage<Props> = ({ children }) => {
             <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
               <Header />
               <main>{children}</main>
-              <Footer />
             </div>
           </DApp>
         </TooltipProvider>
