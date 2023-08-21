@@ -1,3 +1,10 @@
+## [1.182.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.181.0...v1.182.0) (2023-08-21)
+
+
+### Features
+
+* create new lockdrops tabs and make CTAs pointing to them ([80b543a](https://github.com/LedgityLabs/LedgityYield/commit/80b543a87bdb60f24bcee8eeb147f5dd5c4a8b02))
+
 ## [1.181.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.180.1...v1.181.0) (2023-08-21)
 
 
