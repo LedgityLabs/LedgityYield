@@ -1,3 +1,11 @@
+## [1.181.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.180.1...v1.181.0) (2023-08-21)
+
+
+### Features
+
+* improve cards drop shadow + add some glows to app background ([6f9de54](https://github.com/LedgityLabs/LedgityYield/commit/6f9de541463dd80408db9f13c7eb95f7d2539cb4))
+* new version of Invest and Dashboard UIs ([6214e97](https://github.com/LedgityLabs/LedgityYield/commit/6214e97f94bf4731a1e42e10fdf6ba03cdf1c26d))
+
 ## [1.180.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.180.0...v1.180.1) (2023-08-21)
 
 
