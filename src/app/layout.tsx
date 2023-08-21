@@ -67,6 +67,7 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           fonts,
           "min-h-screen",
           "after:pointer-events-none after:absolute after:inset-0 after:z-[1000000] after:bg-[url(/assets/textures/noise.png)] after:opacity-[0.07] after:bg-blend-difference after:contrast-200",
+          "before:absolute before:inset-0 before:bg-[url('/assets/textures/other-glow.webp')] before:bg-cover before:opacity-50",
         )}
       >
         <CardsHelper />

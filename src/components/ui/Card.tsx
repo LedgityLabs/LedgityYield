@@ -45,10 +45,10 @@ export const Card: FC<CardProps> = ({
       className={twMerge(
         animated && "card", // Used by <CardsHelper />
         defaultGradient ? "bg-card-border-default" : "bg-card-border",
-        "relative shadow-[0px_4px_12px_rgba(0,0,0,0.05)] p-[2px]",
+        "relative drop-shadow-sm p-[2px]",
         "before:absolute before:inset-[2px] before:-z-1",
         defaultGradient ? "before:bg-card-content-default" : "before:bg-card-content",
-
+        // drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))
         // Radiuses
         {
           default: "rounded-[1.8rem] before:rounded-[1.7rem]",
