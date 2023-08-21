@@ -13,7 +13,7 @@ const HomeFeatures: FC = () => {
       <div className="flex max-w-[calc(24rem*3+3rem*3+2*2rem)] flex-wrap justify-center gap-12 px-8 pt-8">
         <Card
           defaultGradient={true}
-          circleIntensity={0.25}
+          circleIntensity={0.2}
           className="relative flex h-[360px] w-96 max-w-[95vw] flex-col items-center justify-between overflow-hidden"
         >
           <h3 className="absolute top-6 z-10 rounded-2xl bg-gradient-radial from-bg/50 to-transparent p-1 text-center font-heading text-2xl font-bold text-fg/80">
@@ -35,7 +35,7 @@ const HomeFeatures: FC = () => {
         </Card>
         <Card
           defaultGradient={true}
-          circleIntensity={0.25}
+          circleIntensity={0.2}
           className="relative flex h-[360px] w-96 max-w-[95vw] flex-col items-center justify-between overflow-hidden"
         >
           <h3 className="absolute top-6 z-10 rounded-2xl bg-gradient-radial from-bg/50 to-transparent p-1 text-center font-heading text-2xl font-bold text-fg/80">
@@ -57,7 +57,7 @@ const HomeFeatures: FC = () => {
         </Card>
         <Card
           defaultGradient={true}
-          circleIntensity={0.25}
+          circleIntensity={0.2}
           className="relative flex h-[360px] w-96 max-w-[95vw] flex-col items-center justify-between overflow-hidden"
         >
           <h3 className="absolute top-6 z-10 rounded-2xl bg-gradient-radial from-bg/50 to-transparent p-1 text-center font-heading text-2xl font-bold text-fg/80">
@@ -80,7 +80,7 @@ const HomeFeatures: FC = () => {
 
         <Card
           defaultGradient={true}
-          circleIntensity={0.25}
+          circleIntensity={0.2}
           className="relative flex h-[360px] w-96 max-w-[95vw] flex-col items-center justify-between overflow-hidden"
         >
           <h3 className="absolute top-6 z-10 rounded-2xl bg-gradient-radial from-bg/50 to-transparent p-1 text-center font-heading text-2xl font-bold text-fg/80">
@@ -102,7 +102,7 @@ const HomeFeatures: FC = () => {
         </Card>
         <Card
           defaultGradient={true}
-          circleIntensity={0.25}
+          circleIntensity={0.2}
           className="relative flex h-[360px] w-96 max-w-[95vw] flex-col items-center justify-between overflow-hidden"
         >
           <h3 className="absolute top-6 z-10 rounded-2xl bg-gradient-radial from-bg/50 to-transparent p-1 text-center font-heading text-2xl font-bold text-fg/80">
@@ -123,7 +123,7 @@ const HomeFeatures: FC = () => {
         </Card>
         <Card
           defaultGradient={true}
-          circleIntensity={0.25}
+          circleIntensity={0.2}
           className="relative flex h-[360px] w-96 max-w-[95vw] flex-col items-center justify-between overflow-hidden"
         >
           <h3 className="absolute top-6 z-10 rounded-2xl bg-gradient-radial from-bg/50 to-transparent p-1 text-center font-heading text-2xl font-bold text-fg/80">

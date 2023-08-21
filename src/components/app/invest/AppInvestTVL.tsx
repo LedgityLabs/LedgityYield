@@ -9,8 +9,9 @@ import { parseUnits } from "viem";
 
 const availableChains = [42161, 59144];
 
-interface Props {}
-export const AppInvestTVL: FC<Props> = ({}) => {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const AppInvestTVL: FC<Props> = (props) => {
   const [readsConfig, setReadsConfig] = useState<
     Parameters<typeof watchReadContracts>[0]["contracts"]
   >([]);
@@ -32,11 +33,11 @@ export const AppInvestTVL: FC<Props> = ({}) => {
     for (const chainId of availableChains) {
       for (const lTokenSymbol of lTokens) {
         const lTokenAddress = getContractAddress(lTokenSymbol, chainId);
-  
+
         // Ensure no address is missing
         if (!lTokenAddress)
           throw "Some contracts addresses are missing for the current chain. Cannot watch data.";
-  
+
         // Populate required reads requests
         ["symbol", "totalSupply", "decimals"].forEach((functionName) => {
           newReadsConfig.push({
@@ -46,7 +47,7 @@ export const AppInvestTVL: FC<Props> = ({}) => {
             chainId: chainId,
           });
         });
-    }
+      }
     }
 
     if (JSON.stringify(newReadsConfig) !== JSON.stringify(readsConfig)) {
@@ -96,13 +97,8 @@ export const AppInvestTVL: FC<Props> = ({}) => {
   );
 
   return (
-    <Card circleIntensity={0.07} className="h-52 flex-col items-center justify-center px-10 py-4">
-      <h2 className="text-center font-heading text-xl font-bold text-indigo-300 grayscale-[50%]">
-        TVL
-      </h2>
-      <div className="-mt-5 flex h-full items-center justify-center font-heading text-5xl font-bold text-fg/[85%]">
-        {(isLoading && <Spinner />) || <Amount prefix="$" value={tvlUsd} decimals={6} />}
-      </div>
-    </Card>
+    <div {...props}>
+      {(isLoading && <Spinner />) || <Amount prefix="$" value={tvlUsd} decimals={6} />}
+    </div>
   );
 };

@@ -5,7 +5,9 @@ import { usePublicClient } from "wagmi";
 
 const secondsInOneYear = 60 * 60 * 24 * 365;
 
-export const AppInvestVariation: FC = () => {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const AppInvestVariation: FC<Props> = (props) => {
   const publicClient = usePublicClient();
   const [variation, setVariation] = useState<number | "N/A">(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -72,16 +74,11 @@ export const AppInvestVariation: FC = () => {
   useEffect(() => {
     computeVariation();
   }, [publicClient]);
-  
+
   return (
-    <Card circleIntensity={0.07} className="h-52 flex-col items-center justify-center px-10 py-4">
-      <h2 className="text-center font-heading text-xl font-bold text-indigo-300 grayscale-[50%]">
-        1 year variation
-      </h2>
-      <div className="-mt-5 flex h-full items-center justify-center font-heading text-5xl font-bold text-fg/[85%]">
-        {(isLoading && <Spinner />) ||
-          (typeof variation === "number" ? <Rate value={variation} prefix={"±"} /> : "N/A")}
-      </div>
-    </Card>
+    <div {...props}>
+      {(isLoading && <Spinner />) ||
+        (typeof variation === "number" ? <Rate value={variation} prefix={"±"} /> : "N/A")}
+    </div>
   );
 };

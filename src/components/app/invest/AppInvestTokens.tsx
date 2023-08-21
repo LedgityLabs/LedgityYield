@@ -68,17 +68,17 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       cell: (info) => {
         const tokenSymbol = info.getValue();
         return (
-          <div className="flex items-center gap-3">
+          <div className="inline-flex items-center gap-2.5">
             <TokenLogo symbol={tokenSymbol} size={35} />
-            <p>{tokenSymbol}</p>
+            <p className="text-lg font-semibold text-fg/90">{tokenSymbol}</p>
           </div>
         );
       },
     }),
     columnHelper.accessor("apr", {
       cell: (info) => (
-        <div className="flex items-center justify-center gap-2">
-          <Rate value={info.getValue()} />
+        <div className="inline-flex items-center gap-2">
+          <Rate value={info.getValue()} className="text-lg font-bold text-primary" />
           {isLinea && (
             <div className="flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white">
               + Airdrop
@@ -102,7 +102,13 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         const [amount, decimals] = info.getValue() as [bigint, number];
         const tokenSymbol = info.row.getValue("tokenSymbol") as string;
         return (
-          <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />
+          <Amount
+            value={amount}
+            decimals={decimals}
+            suffix={tokenSymbol}
+            displaySymbol={false}
+            className="text-lg font-semibold "
+          />
         );
       },
       header: "TVL",
@@ -112,7 +118,13 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         const [amount, decimals] = info.getValue() as [bigint, number];
         const tokenSymbol = info.row.getValue("tokenSymbol") as string;
         return (
-          <Amount value={amount} decimals={decimals} suffix={tokenSymbol} displaySymbol={false} />
+          <Amount
+            value={amount}
+            decimals={decimals}
+            suffix={tokenSymbol}
+            displaySymbol={false}
+            className="text-lg font-semibold text-fg/90"
+          />
         );
       },
       header: "Invested",
@@ -123,7 +135,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       cell: ({ row }) => {
         const tokenSymbol = row.getValue("tokenSymbol") as string;
         return (
-          <div className="inline-flex gap-4">
+          <div className="flex items-center gap-4">
             <DepositDialog
               underlyingSymbol={tokenSymbol}
               onOpenChange={(o) => {
@@ -134,7 +146,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 }
               }}
             >
-              <Button size="small">Deposit</Button>
+              <Button size="small" className="text-lg">
+                Deposit
+              </Button>
             </DepositDialog>
             <WithdrawDialog
               underlyingSymbol={tokenSymbol}
@@ -146,7 +160,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 }
               }}
             >
-              <Button size="small" variant="outline">
+              <Button size="small" variant="outline" className="text-lg">
                 Withdraw
               </Button>
             </WithdrawDialog>
@@ -155,7 +169,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       },
     }),
   ];
-  const sortableColumns = ["apr", "tvl", "invested"];
+  const sortableColumns: string[] = [
+    // "apr", "tvl", "invested"
+  ];
 
   const table = useReactTable({
     data: tableData,
@@ -184,24 +200,24 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       // Retrieve L-Token address on current chain
       const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
 
-        // If L-Token is not available on the current chain, skip
-        if (!lTokenAddress) continue;
-  
-        // Populate required reads requests
-        ["symbol", "decimals", "totalSupply", "getAPR"].forEach((functionName) => {
-          newReadsConfig.push({
-            address: lTokenAddress,
-            abi: lTokenABI,
-            functionName: functionName
-          });
-        });
+      // If L-Token is not available on the current chain, skip
+      if (!lTokenAddress) continue;
+
+      // Populate required reads requests
+      ["symbol", "decimals", "totalSupply", "getAPR"].forEach((functionName) => {
         newReadsConfig.push({
           address: lTokenAddress,
           abi: lTokenABI,
-          functionName: "balanceOf",
-          args: [walletClient ? walletClient.account.address : zeroAddress],
+          functionName: functionName,
         });
-      
+      });
+      newReadsConfig.push({
+        address: lTokenAddress,
+        abi: lTokenABI,
+        functionName: "balanceOf",
+        args: [walletClient ? walletClient.account.address : zeroAddress],
+      });
+
       // Also read TVL from each chain the L-Token is available on
       for (const chainId of availableChains) {
         // Skip if current chain
@@ -239,9 +255,8 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         },
         (data) => {
           if (data.length > 0) {
-
             const _tableData: Pool[] = [];
-            
+
             while (data.length !== 0) {
               // Retrieve L-Token current chain data
               const lTokenSymbol = data.shift()!.result! as string;
@@ -267,7 +282,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 // Accumulate TVL
                 tvl += chainTvl;
               }
-              
+
               // Build underlying symbol
               const underlyingSymbol = lTokenSymbol.slice(1);
 
@@ -293,95 +308,92 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   );
 
   return (
-    <article className={className}>
-      <div className="mb-3 grid grid-cols-[2fr,2fr,2fr,2fr,3fr] px-6 font-semibold text-fg/80">
-        {headerGroup.headers.map((header, index) => {
-          return (
-            <div
-              key={header.id}
-              style={{
-                gridColumnStart: index + 1,
-              }}
-              className={twMerge(
-                "flex items-center justify-center",
-                header.column.id === "tokenSymbol" && "justify-start pl-6",
-              )}
-            >
-              {(() => {
-                const content = flexRender(header.column.columnDef.header, header.getContext());
-                if (sortableColumns.includes(header.column.id))
-                  return (
-                    <button
-                      onClick={() =>
-                        header.column.toggleSorting(header.column.getIsSorted() === "asc")
-                      }
-                      className="relative flex items-center gap-1"
+    <article
+      className={twMerge(
+        "grid w-full grid-cols-[repeat(5,minmax(0,2fr)]) border-b border-b-fg/20",
+        className,
+      )}
+    >
+      {headerGroup.headers.map((header, index) => {
+        return (
+          <div
+            key={header.id}
+            style={{
+              gridColumnStart: index + 1,
+            }}
+            className={twMerge(
+              "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
+              header.column.id === "tokenSymbol" && "justify-start pl-10",
+            )}
+          >
+            {(() => {
+              const content = flexRender(header.column.columnDef.header, header.getContext());
+              if (sortableColumns.includes(header.column.id))
+                return (
+                  <button
+                    onClick={() =>
+                      header.column.toggleSorting(header.column.getIsSorted() === "asc")
+                    }
+                    className="relative flex items-center gap-1"
+                  >
+                    {content}
+                    <span
+                      className={clsx(
+                        "text-fg/50",
+                        // header.column.id !== "apr" && "absolute -right-5",
+                      )}
                     >
-                      {content}
-                      <span
-                        className={clsx(
-                          "text-fg/60",
-                          header.column.id !== "apr" && "absolute -right-5",
-                        )}
-                      >
-                        {(() => {
-                          switch (header.column.getIsSorted()) {
-                            case "asc":
-                              return <i className="ri-sort-desc"></i>;
-                            case "desc":
-                              return <i className="ri-sort-asc"></i>;
-                            default:
-                              return <i className="ri-expand-up-down-fill"></i>;
-                          }
-                        })()}
-                      </span>
-                    </button>
-                  );
-                else return content;
-              })()}
+                      {(() => {
+                        switch (header.column.getIsSorted()) {
+                          case "asc":
+                            return <i className="ri-sort-desc"></i>;
+                          case "desc":
+                            return <i className="ri-sort-asc"></i>;
+                          default:
+                            return <i className="ri-expand-up-down-fill"></i>;
+                        }
+                      })()}
+                    </span>
+                  </button>
+                );
+              else return content;
+            })()}
+          </div>
+        );
+      })}
+      {(() => {
+        const tableRows = table.getRowModel().rows;
+        if (isLoading)
+          return (
+            <div className="my-10 flex col-span-5 w-full items-center justify-center">
+              <Spinner />
             </div>
           );
-        })}
-      </div>
-      {(isLoading && (
-        <div className="mt-10 flex w-full items-center justify-center">
-          <Spinner />
-        </div>
-      )) || (
-        <>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <Card
-                key={row.id}
-                circleIntensity={0.07}
-                data-state={row.getIsSelected() && "selected"}
-                className="mb-4 grid animate-fadeAndMoveIn grid-cols-[2fr,2fr,2fr,2fr,3fr] px-6 py-6 text-base font-medium"
-              >
-                {row.getVisibleCells().map((cell, index) => (
-                  <div
-                    key={cell.id}
-                    className={twMerge(
-                      "flex items-center",
-                      cell.column.id !== "tokenSymbol" && "justify-center",
-                      cell.column.id === "actions" && "justify-end",
-                      cell.column.id === "apr" && "font-extrabold text-indigo-700",
-                    )}
-                    style={{
-                      gridColumnStart: index + 1,
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                ))}
-              </Card>
-            ))
-          ) : (
-            <p className="mt-10 block text-center text-lg font-semibold ">
+        else if (tableRows?.length === 0)
+          return (
+            <p className="my-10 block text-center text-lg font-semibold ">
               No investment opportunities on this chain yet.
             </p>
-          )}
-        </>
-      )}
+          );
+        else
+          return tableRows.map((row, rowIndex) =>
+            row.getVisibleCells().map((cell, cellIndex) => (
+              <div
+                key={cell.id}
+                className={twMerge(
+                  "inline-flex items-center justify-center py-6 border-b border-b-fg/20",
+                  cellIndex === 0 && "justify-start pl-10",
+                  rowIndex == tableRows.length - 1 && "border-b-0",
+                )}
+                style={{
+                  gridColumnStart: cellIndex + 1,
+                }}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </div>
+            )),
+          );
+      })()}
     </article>
   );
 };

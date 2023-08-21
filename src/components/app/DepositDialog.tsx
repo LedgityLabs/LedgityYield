@@ -62,16 +62,14 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             <span className="text-primary font-semibold text-xl">
               You will receive L{underlyingSymbol} in a 1:1 ratio.
             </span>
-            <br />
-            <br />
             <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">
               <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
                 <i className="ri-information-line text-2xl" />
               </div>
               <div className="pl-4 text-left">
                 <span className="font-bold">How to get the yield?</span> Your L{underlyingSymbol}{" "}
-                balance will magically grow through time to reflect your rewards. There is no need
-                to stake, lock or claim anything.
+                balance will automatically grow through time to reflect your rewards. There is no
+                need to stake, lock or claim anything.
               </div>
             </div>
           </DialogDescription>

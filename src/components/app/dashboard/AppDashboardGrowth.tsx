@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useGrowthRevenueData } from "./useGrowthRevenueData";
 
-export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ className }) => {
+export const AppDashboardGrowth: React.PropsWithoutRef<typeof Card> = ({ className }) => {
   const [totalGrowth, setTotalGrowth] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const { data, isDataLoading } = useGrowthRevenueData();
@@ -25,7 +25,6 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
         data[lTokenSymbol].length;
       combination.push([averageBalanceBefore, cumulativeGrowth]);
     }
-    setTotalRevenue(_totalRevenue);
 
     // Compute total growth
     let total_weight = combination.reduce((acc, val) => acc + val[0], 0);
@@ -38,38 +37,6 @@ export const AppDashboardProfits: React.PropsWithoutRef<typeof Card> = ({ classN
     if (!isDataLoading) computeTotalProfits();
   }, [data, isDataLoading]);
 
-  return (
-    <Card
-      circleIntensity={0.07}
-      className={twMerge(
-        "flex flex-col items-center justify-between px-7 py-4 [&:hover_>_span:first-of-type_>_span]:opacity-50 [&:hover_>_span:last-of-type]:opacity-100",
-        className,
-      )}
-    >
-      <h2 className="text-center font-heading text-xl font-bold text-indigo-300 grayscale-[50%]">
-        Total profits
-      </h2>
-      {(isDataLoading && (
-        <div className="flex h-full items-center justify-center">
-          <Spinner />
-        </div>
-      )) || (
-        <>
-          <span className="font-heavy text-center font-heading text-5xl font-bold text-emerald-500 transition-opacity">
-            <Rate
-              value={totalGrowth * 100}
-              prefix="+"
-              isUD7x3={false}
-              className="transition-opacity"
-            />
-          </span>
-          <span className="font-heavy text-center font-heading text-2xl text-emerald-500 opacity-50 transition-opacity">
-            <span className="text-fg/20">(</span>
-            <Amount value={totalRevenue} prefix="+$" />
-            <span className="text-fg/20">)</span>
-          </span>
-        </>
-      )}
-    </Card>
-  );
+  if (isDataLoading) return <Spinner />;
+  else return <Rate value={totalGrowth * 100} prefix="+" isUD7x3={false} className={className} />;
 };

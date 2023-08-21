@@ -250,10 +250,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
   }, [data, isDataLoading, period]);
 
   return (
-    <Card
-      circleIntensity={0.07}
-      className={twMerge("flex flex-col items-center justify-center p-7 pb-10", className)}
-    >
+    <article className={twMerge("flex flex-col items-center justify-center p-7 pb-10", className)}>
       <div className="flex h-full w-full items-end justify-center rounded-3xl bg-primary/10">
         <div className="h-full w-full p-4 ">
           {(() => {
@@ -445,6 +442,6 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           </RadioGroupItem>
         </RadioGroup>
       </div>
-    </Card>
+    </article>
   );
 };

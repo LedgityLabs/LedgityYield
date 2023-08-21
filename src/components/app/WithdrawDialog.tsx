@@ -69,8 +69,6 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
               <br />
               Note that you won&apos;t receive yield anymore.
             </div>
-            <br />
-            <br />
             {/* If instant withdrawal is not posssible actually, display info message */}
             {instantWithdrawalalPreparation.isError && (
               <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">

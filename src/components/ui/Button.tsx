@@ -30,7 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isSuccess = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const isDisabled = disabled || isLoading || isError || isSuccess;
     return (
@@ -41,24 +41,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
           // Variants
           {
-            primary: "bg-primary text-primary-fg ",
+            primary: "bg-primary text-primary-fg border-indigo-200 border-2",
             destructive: "bg-destructive text-destructive-fg ",
-            outline: clsx(
-              "bg-accent text-fg/80 border-2 border-border rounded-[0.85rem]",
-              !isDisabled && "hover:bg-bg"
-            ),
+            outline: clsx("bg-accent text-fg/80 border-2 border-border rounded-[0.85rem]"),
           }[variant],
 
           // Sizes
           {
             tiny: clsx("px-3 text-sm", variant === "outline" ? "h-[calc(2.25rem+3px)]" : "h-9"),
-            small: clsx(
-              "h-10 py-2 px-4 text-base",
-              variant === "outline" ? "h-[calc(2.5rem+3px)]" : "h-10"
-            ),
-            // +2px is used to balance the visual height of the button between outline and default variants
-            medium: clsx("px-4 text-lg", variant === "outline" ? "h-[calc(2.9rem+3px)]" : "h-[2.9rem]"),
-            large: clsx("px-7 text-lg", variant === "outline" ? "h-[calc(2.9rem+3px)]" : "h-[2.9rem]"),
+            small: clsx("h-11 py-2 px-4 text-base"),
+            medium: clsx("px-4 text-lg h-12"),
+            large: clsx("px-7 text-lg h-12"),
           }[size],
 
           // Shadow
@@ -82,7 +75,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }[size][variant === "outline" ? "outline" : "default"],
 
           // Custom classes
-          className
+          className,
         )}
         disabled={isDisabled}
         {...props}
@@ -90,7 +83,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {children}
         <span
-          className={twMerge("hidden absolute inset-0 justify-center items-center", isLoading && "flex")}
+          className={twMerge(
+            "hidden absolute inset-0 justify-center items-center",
+            isLoading && "flex",
+          )}
         >
           <span className="inline-flex items-center justify-center w-6 h-6 min-h-min min-w-min max-w-min max-h-6 aspect-square rounded-full backdrop-blur-xl animate-spin">
             <i className="ri-loader-4-line text-lg text-fg"></i>
@@ -98,7 +94,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </span>
 
         <span
-          className={twMerge("hidden absolute inset-0 justify-center items-center", isError && "flex")}
+          className={twMerge(
+            "hidden absolute inset-0 justify-center items-center",
+            isError && "flex",
+          )}
         >
           <span className="inline-flex items-center justify-center w-6 h-6 min-h-min min-w-min max-w-min max-h-6 aspect-square rounded-full backdrop-blur-xl animate-spin bg-red-340">
             <i className="ri-close-fill text-lg text-fg"></i>
@@ -106,7 +105,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </span>
 
         <span
-          className={twMerge("hidden absolute inset-0 justify-center items-center", isSuccess && "flex")}
+          className={twMerge(
+            "hidden absolute inset-0 justify-center items-center",
+            isSuccess && "flex",
+          )}
         >
           <span className="inline-flex items-center justify-center w-6 h-6 min-h-min min-w-min max-w-min max-h-6 aspect-square rounded-full backdrop-blur-xl animate-spin bg-emerald-340">
             <i className="ri-check- text-lg text-fg"></i>
@@ -114,6 +116,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </span>
       </button>
     );
-  }
+  },
 );
 Button.displayName = "Button";

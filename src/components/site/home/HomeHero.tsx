@@ -6,7 +6,7 @@ import Link from "next/link";
 import anime from "animejs";
 import { animateScroll } from "@/lib/animateScroll";
 import { usePublicClient } from "wagmi";
-import { useTVLGrowth7d } from "./use7DTVLGrowth";
+import { useTVLGrowth7d } from "../../../hooks/use7DTVLGrowth";
 import * as d3 from "d3-format";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}

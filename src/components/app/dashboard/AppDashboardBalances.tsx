@@ -29,7 +29,7 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
   const underlyingSymbol = lTokenSymbol.slice(1);
 
   return (
-    <li className="flex w-full  items-center justify-between" {...props}>
+    <li className="flex w-full gap-4 items-center justify-between" {...props}>
       <div className="flex items-center gap-2 font-semibold text-fg/80">
         <TokenLogo symbol={lTokenSymbol} wrapped={true} size={30} />
         {lTokenSymbol}
@@ -58,11 +58,7 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
         <Tooltip>
           <TooltipTrigger>
             <WithdrawDialog underlyingSymbol={underlyingSymbol}>
-              <Button
-                variant="outline"
-                size="tiny"
-                className="h-[calc(2rem+3px)] w-[calc(2rem+3px)]"
-              >
+              <Button variant="outline" size="tiny" className="h-8 w-8">
                 <i className="ri-subtract-fill text-lg"></i>
               </Button>
             </WithdrawDialog>
@@ -78,22 +74,13 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
 export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ className }) => {
   const lTokens = useAvailableLTokens();
 
-  return (
-    <Card
-      circleIntensity={0.07}
-      className={twMerge("flex flex-col items-center justify-center p-4", className)}
-    >
-      <h2 className="text-center font-heading text-xl font-bold tracking-wide text-indigo-300 grayscale-[50%]">
-        L-Tokens balances
-      </h2>
-      {(lTokens.length !== 0 && (
-        <ul className="flex h-full w-full flex-col gap-7 py-7 pl-4 pr-3">
-          {lTokens.map((lToken) => (
-            <LTokenBalance key={lToken} lTokenSymbol={lToken} />
-          ))}
-        </ul>
-      )) ||
-        "No balances on this chain."}
-    </Card>
-  );
+  if (lTokens.length == 0) return <p>No balances on this chain.</p>;
+  else
+    return (
+      <ul className="flex h-full w-full flex-col gap-7">
+        {lTokens.map((lToken) => (
+          <LTokenBalance key={lToken} lTokenSymbol={lToken} />
+        ))}
+      </ul>
+    );
 };
