@@ -262,7 +262,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
               );
             else if (isDataError)
               return (
-                <div className="bg/primary-10 flex h-full w-full animate-fadeIn items-center justify-center text-center text-lg font-semibold">
+                <div className="bg/primary-10 flex h-full w-full animate-fadeIn items-center justify-center text-center text-lg font-semibold text-primary/80">
                   {dataErrorMessage}.
                 </div>
               );

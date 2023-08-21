@@ -34,7 +34,6 @@
     "./hardhat.config.ts",
     "contracts/**/*.ts",
     "scripts/**/*.ts"
-    // "subgraph/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

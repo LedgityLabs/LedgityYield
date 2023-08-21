@@ -55,26 +55,70 @@ export const AppInvest: FC = () => {
           </Link>
         </p>
       </Card>
-      <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 w-full p-10 py-5 flex justify-between items-center gap-3">
-        <div className="flex flex-col justify-center gap-3">
-          <div className="flex gap-5 items-center">
-            <h3 className="font-extrabold text-3xl text-bg font-heading">Arbitrum Lockdrop</h3>
-            <p className="inline-flex gap-1.5 justify-center items-center bg-indigo-700 px-2 pr-3 py-1 rounded-2xl text-sm text-bg font-semibold">
-              <span className="rinline-block elative h-4 w-4 flex justify-center items-center ">
-                <span className="inline-block absolute h-3 w-3 rounded-full animate-ping duration-[1500ms] bg-bg"></span>
-                <span className="inline-block absolute h-3 w-3 rounded-full bg-bg"></span>
-              </span>
-              Ongoing
-            </p>
-          </div>
-          <div className="text-bg font-semibold">
-            Lock USDC and receive very first $LDY tokens! Limited to first 5M USDC.
-          </div>
-        </div>
-        <Image src={flyingTokens} height={200} width={200} alt="Flying tokens" className="h-full" />
 
-        <i className="ri-arrow-right-line text-4xl text-bg font-black" />
-      </Card>
+      {!isLinea && (
+        <Link href="/app/lockdrop" className="w-full">
+          <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 w-full p-10 py-5 flex justify-between items-center gap-3">
+            <div className="flex flex-col justify-center gap-3">
+              <div className="flex gap-5 items-center">
+                <h3 className="font-extrabold text-3xl text-bg font-heading">Arbitrum Lockdrop</h3>
+                <p className="inline-flex gap-1.5 justify-center items-center bg-indigo-700 px-2 pr-3 py-1 rounded-2xl text-sm text-bg font-semibold">
+                  <span className="rinline-block elative h-4 w-4 flex justify-center items-center ">
+                    <span className="inline-block absolute h-3 w-3 rounded-full animate-ping duration-[1500ms] bg-bg"></span>
+                    <span className="inline-block absolute h-3 w-3 rounded-full bg-bg"></span>
+                  </span>
+                  Ongoing
+                </p>
+              </div>
+              <div className="text-bg font-semibold">
+                Lock USDC and receive very first $LDY tokens! Limited to first 5M USDC.
+              </div>
+            </div>
+            <Image
+              src={flyingTokens}
+              height={200}
+              width={200}
+              alt="Flying tokens"
+              className="h-full"
+            />
+
+            <i className="ri-arrow-right-line text-4xl text-bg font-black" />
+          </Card>
+        </Link>
+      )}
+
+      {isLinea && (
+        <Link href="/app/multi-lockdrop" className="w-full">
+          <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 w-full p-10 py-5 flex justify-between items-center gap-3">
+            <div className="flex flex-col justify-center gap-3">
+              <div className="flex gap-5 items-center">
+                <h3 className="font-extrabold text-3xl text-bg font-heading">
+                  Linea Multi-Lockdrop
+                </h3>
+                <p className="inline-flex gap-1.5 justify-center items-center bg-indigo-700 px-2 pr-3 py-1 rounded-2xl text-sm text-bg font-semibold">
+                  <span className="rinline-block elative h-4 w-4 flex justify-center items-center ">
+                    <span className="inline-block absolute h-3 w-3 rounded-full animate-ping duration-[1500ms] bg-bg"></span>
+                    <span className="inline-block absolute h-3 w-3 rounded-full bg-bg"></span>
+                  </span>
+                  Ongoing
+                </p>
+              </div>
+              <div className="text-bg font-semibold">
+                Lock USDC and receive tokens from 5+ major Linea projects.
+              </div>
+            </div>
+            <Image
+              src={flyingTokens}
+              height={200}
+              width={200}
+              alt="Flying tokens"
+              className="h-full"
+            />
+
+            <i className="ri-arrow-right-line text-4xl text-bg font-black" />
+          </Card>
+        </Link>
+      )}
     </div>
   );
 };

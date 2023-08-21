@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-export const AppLDYToken: FC = () => {
+export const AppLockdrop: FC = () => {
   return (
     <section className="w-[800px] pb-10">
       <Card className="flex flex-col items-center gap-11 pt-10">

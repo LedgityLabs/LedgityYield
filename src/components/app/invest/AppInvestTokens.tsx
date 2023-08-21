@@ -79,20 +79,6 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       cell: (info) => (
         <div className="inline-flex items-center gap-2">
           <Rate value={info.getValue()} className="text-lg font-bold text-primary" />
-          {isLinea && (
-            <div className="flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white">
-              + Airdrop
-              <Image
-                src={dropIcon}
-                alt="Drop icons"
-                width={15}
-                height={15}
-                style={{
-                  filter: "invert(100%)",
-                }}
-              />
-            </div>
-          )}
         </div>
       ),
       header: "APR",
@@ -264,6 +250,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               let tvl = data.shift()!.result! as bigint;
               const apr = data.shift()!.result! as number;
               const investedAmount = data.shift()!.result! as bigint;
+
+              // If some data are missing, skip
+              if (!lTokenSymbol || !decimals || !tvl || !apr || !investedAmount) continue;
 
               // Accumulate other chain TVLs too
               for (const chainId of availableChains) {
