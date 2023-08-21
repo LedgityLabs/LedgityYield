@@ -1,3 +1,10 @@
+## [1.180.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.180.0...v1.180.1) (2023-08-21)
+
+
+### Fixes
+
+* fix landing page footer's margin bottom + few adjustments ([48cdb50](https://github.com/LedgityLabs/LedgityYield/commit/48cdb506cb2a71786fbc205f6153b3719f287958))
+
 ## [1.180.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.179.0...v1.180.0) (2023-08-21)
 
 
