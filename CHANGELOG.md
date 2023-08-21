@@ -1,3 +1,10 @@
+## [1.180.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.179.0...v1.180.0) (2023-08-21)
+
+
+### Features
+
+* improve landing page display on short screens ([751c803](https://github.com/LedgityLabs/LedgityYield/commit/751c8039a0bb0a99300e9b2f137c89abd073f209))
+
 ## [1.179.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.2...v1.179.0) (2023-08-20)
 
 
