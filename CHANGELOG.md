@@ -1,3 +1,10 @@
+## [1.179.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.2...v1.179.0) (2023-08-20)
+
+
+### Features
+
+* upload privacy policy PDF ([0ef0dff](https://github.com/LedgityLabs/LedgityYield/commit/0ef0dff97fdd0b457a6c580a2b9ffeed4ef0b54d))
+
 ## [1.178.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.1...v1.178.2) (2023-08-20)
 
 
