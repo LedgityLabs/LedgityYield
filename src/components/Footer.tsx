@@ -7,10 +7,10 @@ import { usePathname } from "next/navigation";
 
 const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
   return (
-    <FadeIn startAt="bottom" className="z-50">
+    <FadeIn startAt="bottom" className="p-7">
       <footer
         className={twMerge(
-          "relative m-7 flex flex-col items-center justify-center gap-10 overflow-hidden rounded-3xl bg-fg p-16 shadow-[0px_4px_12px_rgba(0,0,0,0.3)] xl:p-24",
+          "relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-3xl bg-fg p-16 shadow-[0px_4px_12px_rgba(0,0,0,0.3)] xl:p-24",
           className,
         )}
       >
