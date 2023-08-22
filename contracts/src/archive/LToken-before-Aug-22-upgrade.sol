@@ -3,18 +3,18 @@ pragma solidity ^0.8.18;
 
 // Contracts
 import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
-import "./abstracts/base/ERC20BaseUpgradeable.sol";
-import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {LDYStaking} from "./DummyLDYStaking.sol";
+import "../abstracts/base/ERC20BaseUpgradeable.sol";
+import {InvestUpgradeable} from "../abstracts/InvestUpgradeable.sol";
+import {LDYStaking} from "../DummyLDYStaking.sol";
 
 // Libraries
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import {SUD} from "./libs/SUD.sol";
+import {SUD} from "../libs/SUD.sol";
 
 // Interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
+import {ITransfersListener} from "../interfaces/ITransfersListener.sol";
 
 /**
  * @title LToken
@@ -53,7 +53,7 @@ import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
  * @custom:oz-upgrades-unsafe-allow external-library-linking
  * @custom:security-contact security@ledgity.com
  */
-contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
+contract OldLToken1 is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
     /// @dev Represents type of actions triggering ActivityEvent events.
@@ -66,8 +66,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     enum Status {
         Queued,
         Cancelled,
-        Success,
-        Moved
+        Success
     }
 
     /**
@@ -147,7 +146,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param action The type of activity.
      * @param amount The amount of underlying tokens involved in the activity.
      * @param newStatus The new status of the activity.
-     * @param newId The new ID of the request if it has been moved in the queue.
      */
     event ActivityEvent(
         int256 indexed id,
@@ -155,8 +153,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         Action indexed action,
         uint256 amount,
         uint256 amountAfterFees,
-        Status newStatus,
-        int256 newId
+        Status newStatus
     );
 
     /**
@@ -572,15 +569,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         usableUnderlyings += amount;
 
         // Inform listeners of the deposit activity event
-        emit ActivityEvent(
-            NO_ID,
-            _msgSender(),
-            Action.Deposit,
-            amount,
-            amount,
-            Status.Success,
-            NO_ID
-        );
+        emit ActivityEvent(NO_ID, _msgSender(), Action.Deposit, amount, amount, Status.Success);
 
         // Receive underlying tokens and mint L-Tokens to the account in a 1:1 ratio
         super.depositFor(_msgSender(), amount);
@@ -653,8 +642,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             Action.Withdraw,
             amount,
             withdrawnAmount,
-            Status.Success,
-            NO_ID
+            Status.Success
         );
 
         // Burn withdrawal fees from the account
@@ -667,7 +655,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /**
      * @notice Allows requesting the exchange of a given amount of L-Tokens for the same
      * amount of underlying tokens. The request will be automatically processed later.
-     * @dev The sender must attach 0.003 ETH to pre-pay the future processing gas fees
+     * @dev The sender must attach 0.004 ETH to pre-pay the future processing gas fees
      * paid by the withdrawer wallet.
      * @param amount The amount L-Tokens to withdraw.
      */
@@ -681,7 +669,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(amount <= type(uint96).max, "L54");
 
         // Ensure the sender attached the pre-paid processing gas fees
-        require(msg.value == 0.003 * 10 ** 18, "L55");
+        require(msg.value == 0.004 * 10 ** 18, "L55");
 
         // Create withdrawal request data
         WithdrawalRequest memory request = WithdrawalRequest({
@@ -715,8 +703,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             Action.Withdraw,
             amount,
             amount,
-            Status.Queued,
-            NO_ID
+            Status.Queued
         );
 
         // Burn withdrawal L-Tokens amount from account's balance
@@ -768,17 +755,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             // Or if request is a big request, move it at the end of the queue for now.
             // This request will be processed manually later using processBigQueuedRequest()
             else if (request.amount > getExpectedRetained() / 2) {
-                // Inform listeners of this queued request being moved at the end of the queue
-                emit ActivityEvent(
-                    int256(nextRequestId),
-                    _msgSender(),
-                    Action.Withdraw,
-                    request.amount,
-                    request.amount,
-                    Status.Moved,
-                    int256(withdrawalQueue.length)
-                );
-
                 // Remove request from queue
                 delete withdrawalQueue[nextRequestId];
 
@@ -808,8 +784,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                     Action.Withdraw,
                     request.amount,
                     withdrawnAmount,
-                    Status.Success,
-                    NO_ID
+                    Status.Success
                 );
 
                 // Remove request from queue
@@ -892,8 +867,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             Action.Withdraw,
             request.amount,
             withdrawnAmount,
-            Status.Success,
-            NO_ID
+            Status.Success
         );
 
         // Remove request from queue
@@ -949,8 +923,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             Action.Withdraw,
             request.amount,
             request.amount,
-            Status.Cancelled,
-            NO_ID
+            Status.Cancelled
         );
 
         // Mint back L-Tokens to account

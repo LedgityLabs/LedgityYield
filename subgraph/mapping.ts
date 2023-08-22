@@ -13,12 +13,12 @@ import {
   APRChange,
   RewardsMint,
 } from "./generated/schema";
-import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 import { log } from "@graphprotocol/graph-ts";
+import { store } from "@graphprotocol/graph-ts";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
-
   // Start indexing the signaled LToken
   const ltokenAddress = event.params.lTokenAddress.toHexString();
   let ltoken = LTokenSchema.load(ltokenAddress);
@@ -67,15 +67,37 @@ class ActivityStatus {
   static Fulfilled: string = "Fulfilled";
   static Cancelled: string = "Cancelled";
   static Queued: string = "Queued";
+  static Moved: string = "Moved";
 }
 class ActivityAction {
   static Withdraw: string = "Withdraw";
   static Deposit: string = "Deposit";
 }
 
+function buildActivityID(
+  id: BigInt,
+  account: Address,
+  action: string,
+  amount: BigInt,
+  symbol: string,
+): string {
+  return (
+    id.toString() +
+    "-" +
+    account.toHexString() +
+    "-" +
+    action +
+    "-" +
+    amount.toString() +
+    "-" +
+    symbol
+  );
+}
+
 export function handleActivityEvent(event: ActivityEvent): void {
   let ltoken = LTokenSchema.load(event.address.toHexString());
   if (ltoken) {
+    // Retrieve activity action
     let action: string = "";
     switch (event.params.action) {
       case 0:
@@ -88,45 +110,77 @@ export function handleActivityEvent(event: ActivityEvent): void {
         action = "Unknown";
         break;
     }
-    const activityID =
-      event.params.id.toString() +
-      "-" +
-      event.params.account.toHexString() +
-      "-" +
-      action +
-      "-" +
-      event.params.amount.toString() +
-      "-" +
-      ltoken.symbol;
+
+    // Build activity ID
+    const activityID = buildActivityID(
+      event.params.id,
+      event.params.account,
+      action,
+      event.params.amount,
+      ltoken.symbol,
+    );
+
+    // Load or create the activity
     let activity = Activity.load(activityID);
     if (activity == null) activity = new Activity(activityID);
 
-    activity.ltoken = ltoken.id;
-    activity.requestId = event.params.id;
-    activity.timestamp = event.block.timestamp;
-    activity.account = event.params.account;
-    activity.action = action;
-    activity.amount = event.params.amount.toBigDecimal();
-    activity.amountAfterFees = event.params.amountAfterFees.toBigDecimal();
-    switch (event.params.newStatus) {
-      case 0:
-        activity.status = ActivityStatus.Queued;
-        break;
-      case 1:
-        activity.status = ActivityStatus.Cancelled;
-        break;
-      case 2:
-        if (activity.action == ActivityAction.Deposit) {
-          activity.status = ActivityStatus.Success;
-        } else activity.status = ActivityStatus.Fulfilled;
-        break;
-      default:
-        activity.status = "Unknown";
-        break;
+    // If this is a "Moved" activity status, move it without changing its data
+    if (event.params.newStatus == 3) {
+      // Create the new request activity
+      const newActitivityID = buildActivityID(
+        event.params.newId,
+        event.params.account,
+        action,
+        event.params.amount,
+        ltoken.symbol,
+      );
+      const newActivity = new Activity(newActitivityID);
+
+      // Copy data from the old request
+      newActivity.ltoken = activity.ltoken;
+      newActivity.timestamp = activity.timestamp;
+      newActivity.account = activity.account;
+      newActivity.action = activity.action;
+      newActivity.amount = activity.amount;
+      newActivity.amountAfterFees = activity.amountAfterFees;
+
+      // Set new activity's request id
+      newActivity.requestId = event.params.newId;
+
+      // Delete the old request activity
+      store.remove("Activity", activity.id);
+
+      // Save the new request activity
+      newActivity.save();
     }
 
-    activity.save();
-    ltoken.save();
+    // Else, set activity data
+    else {
+      activity.ltoken = ltoken.id;
+      activity.requestId = event.params.id;
+      activity.timestamp = event.block.timestamp;
+      activity.account = event.params.account;
+      activity.action = action;
+      activity.amount = event.params.amount.toBigDecimal();
+      activity.amountAfterFees = event.params.amountAfterFees.toBigDecimal();
+      switch (event.params.newStatus) {
+        case 0:
+          activity.status = ActivityStatus.Queued;
+          break;
+        case 1:
+          activity.status = ActivityStatus.Cancelled;
+          break;
+        case 2:
+          if (activity.action == ActivityAction.Deposit) {
+            activity.status = ActivityStatus.Success;
+          } else activity.status = ActivityStatus.Fulfilled;
+          break;
+        default:
+          activity.status = "Unknown";
+          break;
+      }
+      activity.save();
+    }
   }
 }
 

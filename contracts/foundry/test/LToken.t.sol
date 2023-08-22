@@ -1937,7 +1937,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit queued amount and queue it
         deal(address(underlyingToken), account1, queuedAmount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account1, processingFees);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), queuedAmount);
@@ -2250,7 +2250,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Randomly create an empty request
@@ -2339,7 +2339,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2428,7 +2428,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2509,7 +2509,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2588,7 +2588,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2680,7 +2680,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2760,7 +2760,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2846,7 +2846,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -2932,7 +2932,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -3014,7 +3014,7 @@ contract Tests is Test, ModifiersExpectations {
             vm.assume(account != address(tested));
 
             // Mint processing fees to account
-            uint256 processingFees = 0.004 ether;
+            uint256 processingFees = 0.003 ether;
             deal(account, processingFees);
 
             // Deposit underlying token amount with another account
@@ -3055,7 +3055,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 requestsNumber = 5000;
 
         // Mint enough processing fees to account
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(address(1234), processingFees * requestsNumber);
 
         // Give 2000 tokens to test account and deposit those
@@ -3145,7 +3145,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Request withdrawal for the whole amount (big request)
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(amount);
@@ -3204,7 +3204,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(requestedAmount > 0);
 
         // Request withdrawal for the non-big amount
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
@@ -3258,7 +3258,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(amount);
@@ -3322,7 +3322,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit & request amount
         deal(address(underlyingToken), account, amount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
@@ -3398,7 +3398,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit & request amount
         deal(address(underlyingToken), account, amount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
@@ -3473,7 +3473,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(amount);
@@ -3530,7 +3530,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(amount);
@@ -3589,7 +3589,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(amount);
@@ -3719,7 +3719,7 @@ contract Tests is Test, ModifiersExpectations {
         uint256 attachedProcessingFees
     ) public {
         console.log(
-            "Should revert if caller has attached more or less than 0.004ETH of processing fees"
+            "Should revert if caller has attached more or less than 0.003ETH of processing fees"
         );
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
@@ -3742,8 +3742,8 @@ contract Tests is Test, ModifiersExpectations {
         tested.deposit(requestedAmount);
         vm.stopPrank();
 
-        // Ensure processing fees are different than 0.004ETH
-        vm.assume(attachedProcessingFees != 0.004 ether);
+        // Ensure processing fees are different than 0.003ETH
+        vm.assume(attachedProcessingFees != 0.003 ether);
 
         // Expect revert when not attaching processing fees
         deal(account, attachedProcessingFees);
@@ -3758,7 +3758,7 @@ contract Tests is Test, ModifiersExpectations {
         uint16 aprUD7x3,
         uint256 requestedAmount
     ) public {
-        console.log("Should transfer 0.004ETH of processing fees to withdrawer wallet");
+        console.log("Should transfer 0.003ETH of processing fees to withdrawer wallet");
         // Set random underlying token decimals in [0, 18]
         decimals = uint8(bound(decimals, 0, 18));
         underlyingToken.setDecimals(decimals);
@@ -3781,23 +3781,23 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Mint processing fees to account
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         // Assert the withdrawer wallet balance is 0
         assertEq(address(withdrawerWallet).balance, 0);
 
-        // Assert that account balance is 0.004ETH
+        // Assert that account balance is 0.003ETH
         assertEq(address(account).balance, processingFees);
 
         // Request withdrawal
         vm.prank(account);
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
 
-        // Assert that withdrawer wallet balance has increased by 0.004ETH
+        // Assert that withdrawer wallet balance has increased by 0.003ETH
         assertEq(address(withdrawerWallet).balance, processingFees);
 
-        // Assert that account balance has decreased by 0.004ETH
+        // Assert that account balance has decreased by 0.003ETH
         assertEq(address(account).balance, 0);
     }
 
@@ -3830,7 +3830,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Mint processing fees to account
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         // Store old L-Tokens real supply and old account L-Token balance for later comparison
@@ -3879,7 +3879,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Mint processing fees to account
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         // Request withdrawal
@@ -3930,7 +3930,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(requestedAmount1 != requestedAmount2);
 
         // Store amount of processing fees
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
 
         // Account 1 deposit and withdrawal requested
         deal(address(underlyingToken), account1, requestedAmount1, true);
@@ -4017,7 +4017,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.assume(requestedAmount1 != requestedAmount2);
 
         // Store amount of processing fees
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
 
         // Account 1 deposit and withdrawal requested
         deal(address(underlyingToken), account1, requestedAmount1, true);
@@ -4100,7 +4100,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Mint processing fees to account
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         // Request withdrawal
@@ -4162,7 +4162,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit and request amount from account1
         deal(address(underlyingToken), account1, requestedAmount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account1, processingFees);
 
         vm.startPrank(account1);
@@ -4204,7 +4204,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit and request amount
         deal(address(underlyingToken), account, requestedAmount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         vm.startPrank(account);
@@ -4247,7 +4247,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit and request amount
         deal(address(underlyingToken), account, requestedAmount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         vm.startPrank(account);
@@ -4290,7 +4290,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Deposit and request amount
         deal(address(underlyingToken), account, requestedAmount, true);
-        uint256 processingFees = 0.004 ether;
+        uint256 processingFees = 0.003 ether;
         deal(account, processingFees);
 
         vm.startPrank(account);

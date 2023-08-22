@@ -46,7 +46,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
   const requestWithdrawalPreparation = usePrepareLTokenRequestWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
-    value: parseEther("0.004"),
+    value: parseEther("0.003"),
   });
 
   if (!lTokenAddress) return null;

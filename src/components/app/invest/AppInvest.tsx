@@ -56,7 +56,7 @@ export const AppInvest: FC = () => {
         </p>
       </Card>
 
-      {!isLinea && (
+      {/* {!isLinea && (
         <Link href="/app/lockdrop" className="w-full">
           <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 before:hover:bg-gradient-to-br w-full p-10 py-5 flex justify-between items-center gap-3">
             <div className="flex flex-col justify-center gap-3">
@@ -118,7 +118,7 @@ export const AppInvest: FC = () => {
             <i className="ri-arrow-right-line text-4xl text-bg font-black" />
           </Card>
         </Link>
-      )}
+      )} */}
     </div>
   );
 };

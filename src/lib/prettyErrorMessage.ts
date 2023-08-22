@@ -77,7 +77,7 @@ export const displayedErrors: { [key: string]: string } = {
   L52: "Insufficient funds",
   L53: "Insufficient balance",
   L54: "Amount exceeds max withdrawal amount",
-  L55: "Must attach 0.004 ETH as processing fees",
+  L55: "Must attach 0.003 ETH as processing fees",
   L56: "Fees forwarding failed. Please contact support.",
   L57: "Request doesn't belong to you",
   L58: "Insufficient balance",

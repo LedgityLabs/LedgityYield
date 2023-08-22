@@ -29,7 +29,7 @@
       },
       {
         "indexed": true,
-        "internalType": "enum LToken.Action",
+        "internalType": "enum OldLToken.Action",
         "name": "action",
         "type": "uint8"
       },
@@ -47,15 +47,9 @@
       },
       {
         "indexed": false,
-        "internalType": "enum LToken.Status",
+        "internalType": "enum OldLToken.Status",
         "name": "newStatus",
         "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "newId",
-        "type": "int256"
       }
     ],
     "name": "ActivityEvent",
