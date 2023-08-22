@@ -1,3 +1,10 @@
+## [1.185.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.184.0...v1.185.0) (2023-08-22)
+
+
+### Features
+
+* improve Activity table appearance + fix dashboard rendering + add pagination to activities ([d67d618](https://github.com/LedgityLabs/LedgityYield/commit/d67d618e67ac5dea24f4dcbd75ca4716b705adf8))
+
 ## [1.184.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.183.0...v1.184.0) (2023-08-22)
 
 
