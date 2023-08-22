@@ -1,3 +1,10 @@
+## [1.187.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.186.0...v1.187.0) (2023-08-22)
+
+
+### Features
+
+* upgrade Linea LUSDC implementation ([5535342](https://github.com/LedgityLabs/LedgityYield/commit/55353421511ff73cb1a8f02d1914dac3be914557))
+
 ## [1.186.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.185.0...v1.186.0) (2023-08-22)
 
 
