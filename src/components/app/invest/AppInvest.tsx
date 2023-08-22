@@ -58,7 +58,7 @@ export const AppInvest: FC = () => {
 
       {!isLinea && (
         <Link href="/app/lockdrop" className="w-full">
-          <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 w-full p-10 py-5 flex justify-between items-center gap-3">
+          <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 before:hover:bg-gradient-to-br w-full p-10 py-5 flex justify-between items-center gap-3">
             <div className="flex flex-col justify-center gap-3">
               <div className="flex gap-5 items-center">
                 <h3 className="font-extrabold text-3xl text-bg font-heading">Arbitrum Lockdrop</h3>
@@ -89,7 +89,7 @@ export const AppInvest: FC = () => {
 
       {isLinea && (
         <Link href="/app/multi-lockdrop" className="w-full">
-          <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 w-full p-10 py-5 flex justify-between items-center gap-3">
+          <Card className="before:bg-gradient-to-tr before:from-primary before:to-indigo-400 before:hover:bg-gradient-to-br w-full p-10 py-5 flex justify-between items-center gap-3">
             <div className="flex flex-col justify-center gap-3">
               <div className="flex gap-5 items-center">
                 <h3 className="font-extrabold text-3xl text-bg font-heading">

@@ -244,6 +244,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             const _tableData: Pool[] = [];
 
             while (data.length !== 0) {
+              console.log([...data]);
               // Retrieve L-Token current chain data
               const lTokenSymbol = data.shift()!.result! as string;
               const decimals = data.shift()!.result! as number;
