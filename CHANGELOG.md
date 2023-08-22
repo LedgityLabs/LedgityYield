@@ -1,3 +1,17 @@
+## [1.182.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.182.0...v1.182.1) (2023-08-21)
+
+
+### Fixes
+
+* fix broken links of announcement bar ([fbf44d2](https://github.com/LedgityLabs/LedgityYield/commit/fbf44d2d41e30a4d2df5fb61bfa27feae0836805))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.5.1 ([41b968c](https://github.com/LedgityLabs/LedgityYield/commit/41b968cd249e06ae384a59d9ae1ddaf40abb3653))
+* **deps:** update nextjs monorepo to v13.4.19 ([b06af9d](https://github.com/LedgityLabs/LedgityYield/commit/b06af9dc4e7a81b407007408741b4ea2b37cd893))
+* upgrade deps ([2bfdce4](https://github.com/LedgityLabs/LedgityYield/commit/2bfdce4dc6069ad344a55cebc29586e671e4f575))
+
 ## [1.182.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.181.0...v1.182.0) (2023-08-21)
 
 
