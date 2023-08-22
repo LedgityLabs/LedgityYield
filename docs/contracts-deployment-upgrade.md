@@ -12,4 +12,5 @@ In case a new contract/deployment is added to the code base (e.g., a new L-Token
 
 1. Copy current implementation `.json` files from `contracts/hardhat/deployments/<network>` to `contracts/hardhat/archive/<network>`
 2. Run `pnpm hardhat deploy --network <network>` to deploy the new implementation
-3. Goes through OpenZeppelin Defender to propose a new implementation to the multisig owner
+3. Propose the new implementation using OpenZeppelin Defender, to the multisig owner
+4. Verify the new implementation on Etherscan/Arbiscan, etc.

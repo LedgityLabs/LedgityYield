@@ -36,11 +36,9 @@ import { useWalletClient } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useLTokenDecimals,
-  useLTokenGetWithdrawnAmountAndFees,
   useLTokenWithdrawalQueue,
   usePrepareLTokenCancelWithdrawalRequest,
 } from "@/generated";
-import { zeroAddress } from "viem";
 
 const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint }> = ({
   lTokenSymbol,
