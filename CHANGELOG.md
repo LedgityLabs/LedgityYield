@@ -1,3 +1,10 @@
+## [1.184.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.183.0...v1.184.0) (2023-08-22)
+
+
+### Features
+
+* replace custom Linea chain by Wagmi native one (now it's implemented) ([b2d6886](https://github.com/LedgityLabs/LedgityYield/commit/b2d6886600ff4622893ad14e8def53a473219a02))
+
 ## [1.183.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.182.1...v1.183.0) (2023-08-22)
 
 
