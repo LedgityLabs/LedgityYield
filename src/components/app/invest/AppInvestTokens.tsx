@@ -244,16 +244,12 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             const _tableData: Pool[] = [];
 
             while (data.length !== 0) {
-              console.log([...data]);
               // Retrieve L-Token current chain data
               const lTokenSymbol = data.shift()!.result! as string;
               const decimals = data.shift()!.result! as number;
               let tvl = data.shift()!.result! as bigint;
               const apr = data.shift()!.result! as number;
               const investedAmount = data.shift()!.result! as bigint;
-
-              // If some data are missing, skip
-              if (!lTokenSymbol || !decimals || !tvl || !apr || !investedAmount) continue;
 
               // Accumulate other chain TVLs too
               for (const chainId of availableChains) {
@@ -324,15 +320,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                     onClick={() =>
                       header.column.toggleSorting(header.column.getIsSorted() === "asc")
                     }
-                    className="relative flex items-center gap-1"
+                    className="flex items-center gap-1"
                   >
                     {content}
-                    <span
-                      className={clsx(
-                        "text-fg/50",
-                        // header.column.id !== "apr" && "absolute -right-5",
-                      )}
-                    >
+                    <span>
                       {(() => {
                         switch (header.column.getIsSorted()) {
                           case "asc":
@@ -359,10 +350,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               <Spinner />
             </div>
           );
-        else if (tableRows?.length === 0)
+        else if (tableRows.length === 0)
           return (
-            <p className="my-10 block text-center text-lg font-semibold ">
-              No investment opportunities on this chain yet.
+            <p className="my-10 block col-span-5 w-full text-center text-lg font-semibold text-fg/60">
+              No pools on this chain yet.
             </p>
           );
         else

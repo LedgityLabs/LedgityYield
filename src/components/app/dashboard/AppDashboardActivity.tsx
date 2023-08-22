@@ -26,6 +26,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -77,7 +78,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             </Button>
           </AlertDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Cancel withdrawal request</TooltipContent>
+        <TooltipContent className="font-semibold">Cancel withdrawal request</TooltipContent>
       </Tooltip>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -90,7 +91,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             <br />
             By cancelling this request{" "}
             <span className="font-semibold">
-              you will receive your{" "}
+              you will receive your {amountAndFees ? amountAndFees[0].toString() : "N/A"}{" "}
               <Amount value={amountAndFees ? amountAndFees[0] : 0n} decimals={decimals} />{" "}
               {lTokenSymbol}{" "}
             </span>
@@ -122,45 +123,52 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   const [activityData, setActivityData] = useState<Activity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (walletClient && walletClient.chain.id) {
+  const computeActivityData = async () => {
+    if (!isLoading) {
       setIsLoading(true);
-      execute(
-        `
-        {
-          c${walletClient.chain.id}_activities(where: { account: "${walletClient.account.address}" }) {
-            id
-            requestId
-            ltoken {
-              symbol
-              decimals
+      if (walletClient) {
+        await execute(
+          `
+          {
+            c${walletClient.chain.id}_activities(where: { account: "${walletClient.account.address}" }) {
+              id
+              requestId
+              ltoken {
+                symbol
+                decimals
+              }
+              timestamp
+              action
+              amount
+              amountAfterFees
+              status
             }
-            timestamp
-            action
-            amount
-            amountAfterFees
-            status
           }
-        }
-        `,
-        {},
-      )
-        .then(
-          (result: {
-            data: {
-              [key: string]: Activity[];
-            };
-          }) => {
-            setActivityData(result.data[`c${walletClient.chain.id}_activities`]);
-            setIsLoading(false);
-          },
+          `,
+          {},
         )
-        .catch((e: Error) => {
-          setActivityData([]);
-          setIsLoading(false);
-        });
+          .then(
+            (result: {
+              data: {
+                [key: string]: Activity[];
+              };
+            }) => {
+              setActivityData(result.data[`c${walletClient.chain.id}_activities`]);
+              setIsLoading(false);
+            },
+          )
+          .catch((e: Error) => {
+            setActivityData([]);
+            setIsLoading(false);
+          });
+      }
+      setIsLoading(false);
     }
-  }, [setActivityData, walletClient]);
+  };
+
+  useEffect(() => {
+    computeActivityData();
+  }, [walletClient]);
 
   const activityColumns = [
     columnHelper.accessor("timestamp", {
@@ -170,7 +178,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           <DateTime
             timestamp={Number.parseInt(info.getValue()) * 1000}
             output="date"
-            className="cursor-help font-normal text-fg/50"
+            className="cursor-help text-fg/50"
           />
         );
       },
@@ -208,7 +216,6 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                 </span>
               )
             }
-            className="inline-block pl-4"
           />
         );
       },
@@ -264,31 +271,41 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const headerGroup = table.getHeaderGroups()[0];
-  return (
-    <Card
-      circleIntensity={0.07}
-      className={twMerge("flex flex-col items-center px-4 pb-6 pt-10", className)}
-    >
-      <h2 className="pb-4 text-center font-heading text-3xl font-bold text-fg/90">Activity</h2>
+  // Set page size
+  useEffect(() => table.setPageSize(10), []);
 
-      <div className="grid w-full grid-cols-[repeat(5,minmax(0,200px))] overflow-y-scroll rounded-3xl px-2 text-sm font-medium">
-        {headerGroup.headers.map((header, cellIndex) => {
+  const headerGroup = table.getHeaderGroups()[0];
+
+  return (
+    <div className="w-full flex-col">
+      <div
+        className={twMerge(
+          "grid w-full grid-cols-[repeat(5,minmax(0,200px))] border-b border-b-fg/20",
+          className,
+        )}
+      >
+        {headerGroup.headers.map((header, index) => {
           const content = flexRender(header.column.columnDef.header, header.getContext());
           return (
             <div
               key={header.column.id}
-              className={clsx("py-4", cellIndex === 0 && "pl-4", cellIndex === 4 && "pr-4")}
+              style={{
+                gridColumnStart: index + 1,
+              }}
+              className={clsx(
+                "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
+              )}
             >
               {(sortableColumns.includes(header.column.id) && (
                 <button
                   onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
-                  className="flex gap-1 font-semibold text-fg/50"
+                  className="flex items-center gap-1"
                 >
                   {content}
-                  <span className="text-fg/30">
+                  <span>
                     {(() => {
                       switch (header.column.getIsSorted()) {
                         case "asc":
@@ -308,15 +325,16 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         })}
         {(() => {
           const tableRows = table.getRowModel().rows;
+
           if (isLoading)
             return (
-              <div className="col-span-full flex items-center justify-center py-4">
+              <div className="my-10 flex col-span-5 w-full items-center justify-center">
                 <Spinner />
               </div>
             );
           else if (tableRows.length === 0)
             return (
-              <p className="col-span-full py-4 text-center text-lg font-semibold text-fg/80">
+              <p className="my-10 col-span-5 w-full block text-center text-lg font-semibold text-fg/60">
                 No activity yet.
               </p>
             );
@@ -329,10 +347,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                     gridColumnStart: cellIndex + 1,
                   }}
                   className={clsx(
-                    "py-4 font-medium",
-                    rowIndex % 2 === 0 && "bg-fg/5",
-                    cellIndex === 0 && "rounded-l-md pl-4",
-                    cellIndex === 4 && "rounded-r-md pr-4",
+                    "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
+                    rowIndex == tableRows.length - 1 && "border-b-0",
                   )}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -342,6 +358,26 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
           }
         })()}
       </div>
-    </Card>
+      <div className="flex justify-center items-center gap-3 py-4">
+        <Button
+          size="tiny"
+          variant="outline"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <i className="ri-arrow-left-line" />
+          &nbsp; Newer
+        </Button>
+        <Button
+          size="tiny"
+          variant="outline"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Older&nbsp;
+          <i className="ri-arrow-right-line" />
+        </Button>
+      </div>
+    </div>
   );
 };

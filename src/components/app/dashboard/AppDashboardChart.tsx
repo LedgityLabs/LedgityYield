@@ -250,7 +250,7 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
   }, [data, isDataLoading, period]);
 
   return (
-    <article className={twMerge("flex flex-col items-center justify-center p-7 pb-10", className)}>
+    <article className={twMerge("flex flex-col items-center justify-center p-8 pr-5", className)}>
       <div className="flex h-full w-full items-end justify-center rounded-3xl bg-primary/10">
         <div className="h-full w-full p-4 ">
           {(() => {
