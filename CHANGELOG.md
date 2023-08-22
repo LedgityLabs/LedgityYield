@@ -1,3 +1,10 @@
+## [1.183.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.182.1...v1.183.0) (2023-08-22)
+
+
+### Features
+
+* add CTAs hover effect + regenerate Wagmi hooks to fix build error ([24040d1](https://github.com/LedgityLabs/LedgityYield/commit/24040d1a0db577b05188444cf8b348b8eb1d7001))
+
 ## [1.182.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.182.0...v1.182.1) (2023-08-21)
 
 
