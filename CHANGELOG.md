@@ -1,3 +1,15 @@
+## [1.186.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.185.0...v1.186.0) (2023-08-22)
+
+
+### Features
+
+* add new event to LToken contract + use it in subgraph mappings ([2a3bb98](https://github.com/LedgityLabs/LedgityYield/commit/2a3bb98f920cf5c659ced2ae94fe38faceac01ae))
+
+
+### Fixes
+
+* fix GH link, cancel request button was missing amount data + few adjustments ([e8f28cd](https://github.com/LedgityLabs/LedgityYield/commit/e8f28cddcaa8bc0b186a48ad9ccbe39ed0ab9c75))
+
 ## [1.185.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.184.0...v1.185.0) (2023-08-22)
 
 
