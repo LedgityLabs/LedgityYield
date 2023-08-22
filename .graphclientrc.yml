@@ -9,8 +9,7 @@ sources:
           value: "c42161_"
           includeRootOperations: true
           includeTypes: false
-      # - autoPagination:
-      #     validateSchema: true
+
   - name: linea
     handler:
       graphql:
@@ -21,5 +20,14 @@ sources:
           value: "c59144_"
           includeRootOperations: true
           includeTypes: false
-      # - autoPagination:
-      #     validateSchema: true
+
+  - name: localhost
+    handler:
+      graphql:
+        endpoint: http://0.0.0.0:8000/subgraphs/name/LedgityLabs/LedgityYield
+    transforms:
+      - prefix:
+          mode: wrap
+          value: "c31337_"
+          includeRootOperations: true
+          includeTypes: false

@@ -103,7 +103,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                     decimals={decimals}
                     suffix={underlyingSymbol}
                     displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
                   />{" "}
                   against{" "}
                   <Amount
@@ -111,7 +111,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                     decimals={decimals}
                     suffix={"L" + underlyingSymbol}
                     displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
                   />
                 </span>
               }

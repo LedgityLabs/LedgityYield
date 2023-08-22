@@ -37,6 +37,7 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useLTokenDecimals,
   useLTokenGetWithdrawnAmountAndFees,
+  useLTokenWithdrawalQueue,
   usePrepareLTokenCancelWithdrawalRequest,
 } from "@/generated";
 import { zeroAddress } from "viem";
@@ -50,9 +51,9 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   const { data: decimals } = useLTokenDecimals({
     address: ltokenAddress,
   });
-  const { data: amountAndFees } = useLTokenGetWithdrawnAmountAndFees({
+  const { data: requestData } = useLTokenWithdrawalQueue({
     address: ltokenAddress,
-    args: [walletClient ? walletClient.account.address : zeroAddress, requestId],
+    args: [requestId],
     watch: true,
   });
   const preparation = usePrepareLTokenCancelWithdrawalRequest({
@@ -62,8 +63,10 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
 
   useEffect(() => {
     preparation.refetch();
-  }, [amountAndFees]);
+  }, [requestData]);
 
+  console.log("REQUEST DATA");
+  console.log(requestData);
   return (
     <AlertDialog>
       <Tooltip>
@@ -91,8 +94,8 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             <br />
             By cancelling this request{" "}
             <span className="font-semibold">
-              you will receive your {amountAndFees ? amountAndFees[0].toString() : "N/A"}{" "}
-              <Amount value={amountAndFees ? amountAndFees[0] : 0n} decimals={decimals} />{" "}
+              you will receive your{" "}
+              <Amount value={requestData ? requestData[1] : 0n} decimals={decimals} />{" "}
               {lTokenSymbol}{" "}
             </span>
             tokens back to your wallet.

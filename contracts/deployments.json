@@ -2411,6 +2411,12 @@
                   "internalType": "enum LToken.Status",
                   "name": "newStatus",
                   "type": "uint8"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "int256",
+                  "name": "newId",
+                  "type": "int256"
                 }
               ],
               "name": "ActivityEvent",
@@ -3680,6 +3686,12 @@
                   "internalType": "enum LToken.Status",
                   "name": "newStatus",
                   "type": "uint8"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "int256",
+                  "name": "newId",
+                  "type": "int256"
                 }
               ],
               "name": "ActivityEvent",

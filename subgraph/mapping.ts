@@ -143,6 +143,7 @@ export function handleActivityEvent(event: ActivityEvent): void {
       newActivity.action = activity.action;
       newActivity.amount = activity.amount;
       newActivity.amountAfterFees = activity.amountAfterFees;
+      newActivity.status = activity.status;
 
       // Set new activity's request id
       newActivity.requestId = event.params.newId;
