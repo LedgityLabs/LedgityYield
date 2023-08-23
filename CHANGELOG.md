@@ -1,3 +1,10 @@
+## [1.188.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.187.1...v1.188.0) (2023-08-23)
+
+
+### Features
+
+* publish Lockdrop pool contract + subgraph bug fixes ([63a5272](https://github.com/LedgityLabs/LedgityYield/commit/63a52726d8ba9f4bdfb3ec7010893afbba8768ea))
+
 ## [1.187.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.187.0...v1.187.1) (2023-08-22)
 
 
