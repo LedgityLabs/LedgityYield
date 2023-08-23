@@ -1,3 +1,10 @@
+## [1.187.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.187.0...v1.187.1) (2023-08-22)
+
+
+### Fixes
+
+* re-enable Safe BigNumber error patch$ ([a462f89](https://github.com/LedgityLabs/LedgityYield/commit/a462f8983a70c81d2338d23e73fac3d14880144e))
+
 ## [1.187.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.186.0...v1.187.0) (2023-08-22)
 
 
