@@ -120,12 +120,11 @@ export function handleActivityEvent(event: ActivityEvent): void {
       ltoken.symbol,
     );
 
-    // Load or create the activity
+    // Try loading existing activity entry from this ID
     let activity = Activity.load(activityID);
-    if (activity == null) activity = new Activity(activityID);
 
-    // If this is a "Moved" activity status, move it without changing its data
-    if (event.params.newStatus == 3) {
+    // If the activity exists and this is a "Moved" activity status, move activity data to the new one
+    if (activity !== null && event.params.newStatus == 3) {
       // Create the new request activity
       const newActitivityID = buildActivityID(
         event.params.newId,
@@ -137,7 +136,7 @@ export function handleActivityEvent(event: ActivityEvent): void {
       const newActivity = new Activity(newActitivityID);
 
       // Copy data from the old request
-      newActivity.ltoken = activity.ltoken;
+      newActivity.ltoken = ltoken.id;
       newActivity.timestamp = activity.timestamp;
       newActivity.account = activity.account;
       newActivity.action = activity.action;
@@ -149,14 +148,18 @@ export function handleActivityEvent(event: ActivityEvent): void {
       newActivity.requestId = event.params.newId;
 
       // Delete the old request activity
-      store.remove("Activity", activity.id);
+      store.remove("Activity", activityID);
 
       // Save the new request activity
       newActivity.save();
     }
 
     // Else, set activity data
-    else {
+    else if (event.params.newStatus != 3) {
+      // Create activity entry if null
+      if (activity == null) activity = new Activity(activityID);
+
+      // Fill activity data
       activity.ltoken = ltoken.id;
       activity.requestId = event.params.id;
       activity.timestamp = event.block.timestamp;
@@ -180,6 +183,8 @@ export function handleActivityEvent(event: ActivityEvent): void {
           activity.status = "Unknown";
           break;
       }
+
+      // Save the activity
       activity.save();
     }
   }
