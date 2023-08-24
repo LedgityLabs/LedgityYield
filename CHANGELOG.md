@@ -1,3 +1,10 @@
+## [1.190.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.189.0...v1.190.0) (2023-08-24)
+
+
+### Features
+
+* **admin:** new high-level interface for withdrawal processing ([4981aa5](https://github.com/LedgityLabs/LedgityYield/commit/4981aa52ff64ecf9d0b324965b9206bfe219f4fe))
+
 ## [1.189.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.188.0...v1.189.0) (2023-08-24)
 
 
