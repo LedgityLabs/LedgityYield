@@ -251,7 +251,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   return (
     <AdminBrick
       title="Withdrawal requests"
-      className="[column-span:all;] flex flex-col items-center justify-center"
+      className="[column-span:all;] flex flex-col items-center justify-center p-16 pt-8"
     >
       <div className="flex flex-col gap-5">
         <h4 className="font-heading text-xl font-bold">Actions needed</h4>
