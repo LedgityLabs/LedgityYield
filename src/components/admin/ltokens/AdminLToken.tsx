@@ -8,6 +8,7 @@ import { AdminLTokenRepatriate } from "./AdminLTokenRepatriate";
 import { AdminLTokenAddresses } from "./AdminLTokenAddresses";
 import { AdminLTokenSignal } from "./AdminLTokenSignal";
 import { AdminLTokenProcessRequests } from "./AdminLTokenProcessRequests";
+import { AdminLTokenWithdrawalRequests } from "./AdminLTokenWithdrawalRequests";
 
 interface Props {
   lTokenSymbol: string;
@@ -16,13 +17,11 @@ interface Props {
 export const AdminLToken: FC<Props> = ({ lTokenSymbol }) => {
   return (
     <AdminMasonry>
+      <AdminLTokenWithdrawalRequests lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenAddresses lTokenSymbol={lTokenSymbol} />
       <AdminLTokenAPR lTokenSymbol={lTokenSymbol} />
       <AdminLTokenRetentionRate lTokenSymbol={lTokenSymbol} />
       <AdminLTokenClaimFees lTokenSymbol={lTokenSymbol} />
-      <AdminLTokenProcessRequests lTokenSymbol={lTokenSymbol} />
-      <AdminLTokenProcessBigQueued lTokenSymbol={lTokenSymbol} />
-      <AdminLTokenRepatriate lTokenSymbol={lTokenSymbol} />
-      <AdminLTokenAddresses lTokenSymbol={lTokenSymbol} />
       <AdminLTokenSignal lTokenSymbol={lTokenSymbol} />
     </AdminMasonry>
   );

@@ -296,9 +296,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
               style={{
                 gridColumnStart: index + 1,
               }}
-              className={clsx(
-                "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
-              )}
+              className="inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50"
             >
               {(sortableColumns.includes(header.column.id) && (
                 <button
