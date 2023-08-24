@@ -1,3 +1,10 @@
+## [1.191.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.0...v1.191.1) (2023-08-24)
+
+
+### Fixes
+
+* fix documentation link in Invest page ([b76742c](https://github.com/LedgityLabs/LedgityYield/commit/b76742c464186673846a24d72ceb98a3d16cdfee))
+
 ## [1.191.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.190.0...v1.191.0) (2023-08-24)
 
 
