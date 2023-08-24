@@ -1,3 +1,10 @@
+## [1.191.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.190.0...v1.191.0) (2023-08-24)
+
+
+### Features
+
+* few adjustments to withdrawal requests admin display ([5bcec7e](https://github.com/LedgityLabs/LedgityYield/commit/5bcec7eda04b09a78188146113bd884938398743))
+
 ## [1.190.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.189.0...v1.190.0) (2023-08-24)
 
 
