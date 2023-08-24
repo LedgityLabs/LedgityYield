@@ -81,11 +81,11 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Holds the duration of LDY rewards vesting (in months).
     uint8 immutable rewardsVesting;
 
+    /// @notice Holds a reference to the locked L-Token contract.
+    LToken immutable lToken;
+
     /// @notice Holds a reference to the LDY token contract.
     IERC20 ldyToken;
-
-    /// @notice Holds a reference to the locked L-Token contract.
-    LToken lToken;
 
     /// @notice Holds lockers' participations informations.
     mapping(address => AccountLock) accountsLocks;
@@ -117,7 +117,7 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Top-level checks and code shared by both unlock functions.
     modifier safeUnlock() {
         // Ensure that the Deposit phase has ended
-        require(hasDepositPhaseEnded == true, "Deposit phase not ended yet");
+        require(hasDepositPhaseEnded, "Deposit phase not ended yet");
 
         // Ensure that the lock end of the account has ended
         require(
@@ -126,7 +126,7 @@ contract Lockdrop is Ownable2Step, Pausable {
         );
 
         // Ensure the account hasn't already unlocked its tokens
-        require(accountsLocks[msg.sender].hasUnlocked == false, "Already unlocked");
+        require(!accountsLocks[msg.sender].hasUnlocked, "Already unlocked");
 
         // Ensure the account has something to unlock
         require(accountsLocks[msg.sender].amount > 0, "Nothing to unlock");
@@ -174,6 +174,10 @@ contract Lockdrop is Ownable2Step, Pausable {
      * @param ldyTokenAddress Address of the LDY token contract.
      */
     function setLDYToken(address ldyTokenAddress) external onlyOwner {
+        // Prevent owner from changing the LDY address after Claim phase has started
+        require(!hasClaimPhaseStarted, "Cannot change LDY address after Claim phase has started");
+
+        // Set LDY token address
         ldyToken = IERC20(ldyTokenAddress);
     }
 
@@ -191,10 +195,10 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function startClaimPhase() external onlyOwner {
         // Ensure Deposit phase has ended
-        require(hasDepositPhaseEnded == true, "Deposit phase not ended yet");
+        require(hasDepositPhaseEnded, "Deposit phase not ended yet");
 
         // Ensure Claim phase has not already started
-        require(hasClaimPhaseStarted == false, "Claim phase already started");
+        require(!hasClaimPhaseStarted, "Claim phase already started");
 
         // Ensure that LDY token address is available
         require(address(ldyToken) != address(0), "LDY token address not set");
@@ -247,7 +251,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function recoverERC20(address tokenAddress, uint256 amount) public onlyOwner {
         // Ensure recovery phase has started
-        require(hasRecoveryPhaseStarted == true, "Recovery phase has not started yet");
+        require(hasRecoveryPhaseStarted, "Recovery phase has not started yet");
 
         // Ensure a non-zero amount is specified
         require(amount > 0, "Recovered amount cannot be 0");
@@ -304,7 +308,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function lock(uint256 amount, uint8 duration) external whenNotPaused {
         // Ensure Deposit phase has not ended yet
-        require(hasDepositPhaseEnded == false, "Deposit phase has ended");
+        require(!hasDepositPhaseEnded, "Deposit phase has ended");
 
         // Ensure lock duration is in valid range
         require(
@@ -369,12 +373,12 @@ contract Lockdrop is Ownable2Step, Pausable {
      * paid by the withdrawer wallet.
      */
     function requestUnlock() external payable safeUnlock whenNotPaused {
-        // Request underlying tokens to the L-Token contract
-        uint256 unlockedAmount = accountsLocks[msg.sender].amount;
-        lToken.requestWithdrawal(unlockedAmount);
-
         // Put account in the unlock requests queue
         unlockRequests.push(msg.sender);
+
+        // Request underlying tokens to the L-Token contract
+        uint256 unlockedAmount = accountsLocks[msg.sender].amount;
+        lToken.requestWithdrawal{value: msg.value}(unlockedAmount);
     }
 
     /**
@@ -383,7 +387,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function processUnlockRequests() external onlyOwner {
         // Ensure the Claim phase has started
-        require(hasClaimPhaseStarted == true, "Claim phase has not started yet");
+        require(hasClaimPhaseStarted, "Claim phase has not started yet");
 
         // Store the current request ID to process
         uint256 processedId = unlockRequestsCursor;
@@ -453,7 +457,7 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Allows the caller to claim its available LDY rewards.
     function claimRewards() external whenNotPaused {
         // Ensure Claim phase has started
-        require(hasClaimPhaseStarted == true, "Claim phase has not started yet");
+        require(hasClaimPhaseStarted, "Claim phase has not started yet");
 
         // Compute claimable LDY rewards
         uint256 claimableLDY = availableToClaim(msg.sender);
