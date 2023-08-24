@@ -253,145 +253,163 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
       title="Withdrawal requests"
       className="[column-span:all;] flex flex-col items-center justify-center"
     >
-      <ul className="list-disc pl-5 list-inside flex flex-col gap-2 my-5">
-        <li>
-          <div className="inline-flex gap-3 items-center text-lg">
-            {nonBigRequestsCount > 0 ? (
-              <>
-                <p className="text-lg">
-                  <span className="font-bold">{nonBigRequestsCount}</span> non-big requests to
-                  process:
-                </p>
-                <TxButton
-                  size="tiny"
-                  preparation={processNonBigPreparation}
-                  transactionSummary="Process as much as possible non-big requests"
-                >
-                  Process
-                </TxButton>
-              </>
-            ) : (
-              <span className="text-fg/50">No non-big requests to process.</span>
-            )}
+      <div className="flex flex-col gap-5">
+        <h4 className="font-heading text-xl font-bold">Actions needed</h4>
+        {isLoading ? (
+          <div className="my-10 flex w-full items-center justify-center">
+            <Spinner />
           </div>
-        </li>
-
-        <li>
-          <div className="inline-flex gap-3 items-center text-lg">
-            {repatriationNeeded ? (
-              <>
-                <p>
-                  <Amount
-                    value={repatriationAmount}
-                    decimals={decimals}
-                    suffix={lTokenSymbol.slice(1)}
-                    className="font-bold"
-                  />{" "}
-                  are missing to process all non-big requests:
-                </p>
-                <AllowanceTxButton
-                  size="tiny"
-                  token={underlyingAddress!}
-                  spender={lTokenAddress!}
-                  preparation={repatriationPreparation}
-                  transactionSummary={
-                    <>
-                      Repatriate{" "}
+        ) : (
+          <ul className="list-disc pl-5 list-inside flex flex-col gap-2 mb-5 -mt-2">
+            <li>
+              <div className="inline-flex gap-3 items-center text-lg">
+                {nonBigRequestsCount > 0 ? (
+                  <>
+                    <p className="text-lg">
+                      <span className="font-bold">{nonBigRequestsCount}</span> non-big requests to
+                      process:
+                    </p>
+                    <TxButton
+                      size="tiny"
+                      preparation={processNonBigPreparation}
+                      transactionSummary="Process as much as possible non-big requests"
+                    >
+                      Process
+                    </TxButton>
+                  </>
+                ) : (
+                  <span className="text-fg/50">No non-big requests to process.</span>
+                )}
+              </div>
+            </li>
+            <li>
+              <div className="inline-flex gap-3 items-center text-lg">
+                {repatriationNeeded ? (
+                  <>
+                    <p>
                       <Amount
                         value={repatriationAmount}
                         decimals={decimals}
                         suffix={lTokenSymbol.slice(1)}
                         className="font-bold"
                       />{" "}
-                      on {lTokenSymbol} contract.
-                    </>
-                  }
-                >
-                  Repatriate
-                </AllowanceTxButton>
-              </>
-            ) : (
-              <span className="text-fg/50">No repatriation needed.</span>
-            )}
-          </div>
-        </li>
-      </ul>
-
-      <div className="grid grid-cols-[repeat(4,minmax(0,200px))] border-b border-b-fg/20 ">
-        {headerGroup.headers.map((header, index) => {
-          const content = flexRender(header.column.columnDef.header, header.getContext());
-          return (
-            <div
-              key={header.column.id}
-              style={{
-                gridColumnStart: index + 1,
-              }}
-              className="inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50"
-            >
-              {(sortableColumns.includes(header.column.id) && (
-                <button
-                  onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
-                  className="flex items-center gap-1"
-                >
-                  {content}
-                  <span>
-                    {(() => {
-                      switch (header.column.getIsSorted()) {
-                        case "asc":
-                          return <i className="ri-sort-desc"></i>;
-                        case "desc":
-                          return <i className="ri-sort-asc"></i>;
-                        default:
-                          return <i className="ri-expand-up-down-fill"></i>;
+                      are missing to process all non-big requests:
+                    </p>
+                    <AllowanceTxButton
+                      size="tiny"
+                      token={underlyingAddress!}
+                      spender={lTokenAddress!}
+                      preparation={repatriationPreparation}
+                      transactionSummary={
+                        <>
+                          Repatriate{" "}
+                          <Amount
+                            value={repatriationAmount}
+                            decimals={decimals}
+                            suffix={lTokenSymbol.slice(1)}
+                            className="font-bold"
+                          />{" "}
+                          on {lTokenSymbol} contract.
+                        </>
                       }
-                    })()}
-                  </span>
-                </button>
-              )) ||
-                content}
-            </div>
-          );
-        })}
-        {(() => {
-          const tableRows = table.getRowModel().rows;
-
-          if (isLoading)
+                    >
+                      Repatriate
+                    </AllowanceTxButton>
+                  </>
+                ) : (
+                  <span className="text-fg/50">No repatriation needed.</span>
+                )}
+              </div>
+            </li>
+            <li>
+              <div className="inline-flex gap-3 items-center text-lg">
+                {nonBigRequestsCount - requestsData.length > 0 ? (
+                  <p>
+                    <span className="font-bold">
+                      {nonBigRequestsCount - requestsData.length} big requests to process.
+                    </span>
+                  </p>
+                ) : (
+                  <span className="text-fg/50">No big request to process.</span>
+                )}
+              </div>
+            </li>
+          </ul>
+        )}
+        <h4 className="font-heading text-xl font-bold">Requests queue ({requestsData.length})</h4>
+        <div className="grid grid-cols-[repeat(4,minmax(0,200px))] border-b border-b-fg/20 ">
+          {headerGroup.headers.map((header, index) => {
+            const content = flexRender(header.column.columnDef.header, header.getContext());
             return (
-              <div className="my-10 flex col-span-4 w-full items-center justify-center">
-                <Spinner />
+              <div
+                key={header.column.id}
+                style={{
+                  gridColumnStart: index + 1,
+                }}
+                className="inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50"
+              >
+                {(sortableColumns.includes(header.column.id) && (
+                  <button
+                    onClick={() =>
+                      header.column.toggleSorting(header.column.getIsSorted() === "asc")
+                    }
+                    className="flex items-center gap-1"
+                  >
+                    {content}
+                    <span>
+                      {(() => {
+                        switch (header.column.getIsSorted()) {
+                          case "asc":
+                            return <i className="ri-sort-desc"></i>;
+                          case "desc":
+                            return <i className="ri-sort-asc"></i>;
+                          default:
+                            return <i className="ri-expand-up-down-fill"></i>;
+                        }
+                      })()}
+                    </span>
+                  </button>
+                )) ||
+                  content}
               </div>
             );
-          else if (tableRows.length === 0)
-            return (
-              <p className="my-10 col-span-4 w-full block text-center text-lg font-semibold text-fg/60">
-                No requests yet.
-              </p>
-            );
-          else {
-            return tableRows.map((row, rowIndex) =>
-              row.getVisibleCells().map((cell, cellIndex) => (
-                <div
-                  key={cell.id}
-                  style={{
-                    gridColumnStart: cellIndex + 1,
-                  }}
-                  className={clsx(
-                    "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
-                    rowIndex == tableRows.length - 1 && "border-b-0",
-                  )}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          })}
+          {(() => {
+            const tableRows = table.getRowModel().rows;
+
+            if (isLoading)
+              return (
+                <div className="my-10 flex col-span-4 w-full items-center justify-center">
+                  <Spinner />
                 </div>
-              )),
-            );
-          }
-        })()}
+              );
+            else if (tableRows.length === 0)
+              return (
+                <p className="my-10 col-span-4 w-full block text-center text-lg font-semibold text-fg/60">
+                  No requests yet.
+                </p>
+              );
+            else {
+              return tableRows.map((row, rowIndex) =>
+                row.getVisibleCells().map((cell, cellIndex) => (
+                  <div
+                    key={cell.id}
+                    style={{
+                      gridColumnStart: cellIndex + 1,
+                    }}
+                    className={clsx(
+                      "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem] text-lg",
+                      rowIndex == tableRows.length - 1 && "border-b-0",
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </div>
+                )),
+              );
+            }
+          })()}
+        </div>
       </div>
-      {requestsData.length > 0 && !isLoading && (
-        <p>
-          A total of <span className="font-bold">{requestsData.length}</span> requests.
-        </p>
-      )}
     </AdminBrick>
   );
 };
