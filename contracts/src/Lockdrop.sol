@@ -2,71 +2,150 @@
 pragma solidity ^0.8.18;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {LToken} from "./LToken.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
+import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
 
-contract ArbitrumLocdrop is Ownable2Step {
-    // @notice Represent the lock information of an account.
+/**
+ * @title Lockdrop
+ * @author Lila Rest (https://lila.rest)
+ * @custom:security-contact security@ledgity.com
+
+ * @notice Lockdrop pool contract, allowing accounts to lock underlying tokens in a 
+ * pre-defined L-Token contract, over a given duration (in months), in exchange of 
+ * vested LDY rewards.
+ * 
+ * @dev Intuition
+ * 
+ * Lifecycle of a lockdrop pool is composed by 3 main phases:
+ * 1) Deposit: During this phase, users can lock their underlying tokens.
+ * 2) Claim: During this phase, users can claim their LDY rewards.
+ * 3) Recovery: During this phase, owner can recover remaining ERC20 on the contract.
+ * 
+ * Transitioning between two phases is manually triggered by contract's owner.
+ * To ensure fair usage of this power and prevent potential misuse:
+ * - the Claim phase cannot start before Deposit phase has ended,
+ * - the Recovery phase cannot start before 3 months after the end of rewards vesting,
+ * - the Recovery phase cannot start before 3 months after the maximum lock end.
+ * 
+ * Finally, note that this contract proxies main L-Token contract's functions:
+ * - lock() --> deposit()
+ * - instantUnlock() --> instantWithdrawal()
+ * - requestUnlock() --> requestWithdrawal()
+ * This design enables users to interact with the Lockdrop contract in a similar fashion
+ * to the L-Token contract.
+ * 
+ * @dev Definitions:
+ * - Locker: An account that has locked underlying tokens in the pool.
+ * 
+ * @custom:security-contact security@ledgity.com
+ */
+contract Lockdrop is Ownable2Step, Pausable {
+    using SafeERC20 for IERC20;
+
+    /**
+     * @notice Represents the lock information of an account.
+     * @param amount Amount of underlying tokens locked.
+     * @param duration Duration of the lock (in months).
+     * @param hasUnlocked Whether the account has unlocked its locked tokens.
+     * @param claimedRewards Amount of LDY rewards already claimed.
+     * @param lockEndTimestamp Timestamp at which the account's lock ends.
+     */
     struct AccountLock {
-        uint248 amount;
+        uint240 amount;
         uint8 duration;
+        bool hasUnlocked;
         uint216 claimedRewards;
         uint40 lockEndTimestamp;
     }
 
-    /// @notice Represent an unlock request in the request queue.
-    struct UnlockRequest {
-        address account;
-        uint256 amount;
-    }
-
-    /// @notice Number of seconds in a month.
+    /// @notice Holds the number of seconds in a month.
     uint256 constant ONE_MONTH_IN_SECONDS = 60 * 60 * 24 * 30;
 
-    /// @notice Amount of LDY to distribute to lockers
-    uint256 immutable distributedLDY;
+    /// @notice Holds the amount of LDY to be distributed to lockers.
+    uint256 immutable maxDistributedLDY;
 
-    /// @notice Hard cap of L-Tokens that can be locked in this contract.
+    /**
+     * @notice Holds the maximum total amount of L-Tokens that can be locked.
+     * @dev Can be set to -1 to disable hardcap.
+     */
     int256 immutable lockedHardCap;
 
-    /// @notice Min lock duration (in months).
-    uint8 immutable minLockDuration;
+    /// @notice Holds the minimum possible lock duration (in months).
+    uint8 immutable minLockDuration; // LToken lusdcToken;
 
-    /// @notice Max lock duration (in months).
+    /// @notice Holds the maximum possible lock duration (in months).
     uint8 immutable maxLockDuration;
 
-    /// @notice LDY rewards vesting (in months).
+    /// @notice Holds the duration of LDY rewards vesting (in months).
     uint8 immutable rewardsVesting;
 
-    /// @notice Reference to the LDY token contract.
+    /// @notice Holds a reference to the LDY token contract.
     IERC20 ldyToken;
 
-    /// @notice Reference to the locked L-Token contract.
-    // LToken lusdcToken;
+    /// @notice Holds a reference to the locked L-Token contract.
     LToken lToken;
 
-    /// @notice Holds lockers participations informations.
+    /// @notice Holds lockers' participations informations.
     mapping(address => AccountLock) accountsLocks;
 
-    /// @notice Holds the total amount of locked L-Tokens.
+    /// @notice Holds the total amount of locked underlying tokens.
     uint256 totalLocked;
 
-    /// @notice Whether the deposit period has ended and user can start claiming their rewards
-    bool hasDepositPeriodEnded;
+    /// @notice Holds the current total weight of the lockdrop pool.
+    uint256 totalWeight;
 
-    /// @notice Whether the claim period has started and lock can start claiming their LDY rewards
-    bool hasClaimPeriodStarted;
+    /// @notice Holds whether the Deposit phase has ended.
+    bool hasDepositPhaseEnded;
 
-    /// @notice Timestamp at which started the claim period
-    uint256 claimPeriodStartTimestamp;
+    /// @notice Holds whether the Claim phase has started.
+    bool hasClaimPhaseStarted;
 
-    /// @notice Holds the queue of requested unlocks
-    UnlockRequest[] unlockRequests;
+    /// @notice Holds whether the Recovery phase has started.
+    bool hasRecoveryPhaseStarted;
 
-    /// @notice Holds the index of the next unlock request to process
+    /// @notice Holds the timestamp at which the Claim phase started.
+    uint256 claimPhaseStartTimestamp;
+
+    /// @notice Holds an ordered queue of accounts that requested to unlock their tokens.
+    address[] unlockRequests;
+
+    /// @notice Holds the index of the first request in the queue (a.k.a, next one to be processed).
     uint256 unlockRequestsCursor;
 
-    /// @notice Constructor function
+    /// @notice Top-level checks and code shared by both unlock functions.
+    modifier safeUnlock() {
+        // Ensure that the Deposit phase has ended
+        require(hasDepositPhaseEnded == true, "Deposit phase not ended yet");
+
+        // Ensure that the lock end of the account has ended
+        require(
+            accountsLocks[msg.sender].lockEndTimestamp <= block.timestamp,
+            "Lock period not ended yet"
+        );
+
+        // Ensure the account hasn't already unlocked its tokens
+        require(accountsLocks[msg.sender].hasUnlocked == false, "Already unlocked");
+
+        // Ensure the account has something to unlock
+        require(accountsLocks[msg.sender].amount > 0, "Nothing to unlock");
+
+        // Indicate that account has unlocked its tokens
+        accountsLocks[msg.sender].hasUnlocked = true;
+        _;
+    }
+
+    /**
+     * @notice This constructor function etches the lockdrop terms in immutable states.
+     * Ensuring that those terms cannot be modified after deployment.
+     * @param lTokenAddress_ Address of the L-Token contract to use.
+     * @param distributedLDY_ Amount of LDY to be distributed to lockers.
+     * @param lockedHardCap_ Maximum total amount of L-Tokens that can be locked.
+     * @param minLockDuration_ Minimum possible lock duration (in months).
+     * @param maxLockDuration_ Maximum possible lock duration (in months).
+     * @param rewardsVesting_ Duration of LDY rewards vesting (in months).
+     */
     constructor(
         address lTokenAddress_,
         uint256 distributedLDY_,
@@ -75,67 +154,157 @@ contract ArbitrumLocdrop is Ownable2Step {
         uint8 maxLockDuration_,
         uint8 rewardsVesting_
     ) {
-        // Ensure lockHardCap is in valid range.
-        require(lockedHardCap_ >= -1, "Must be >= -1");
+        // Ensure lockHardCap is in valid range
+        require(lockedHardCap_ >= -1, "Locked hardhat cap must be >= -1");
 
-        // Set immutables data
+        // Set immutable states
         lToken = LToken(lTokenAddress_);
         lockedHardCap = lockedHardCap_;
-        distributedLDY = distributedLDY_;
+        maxDistributedLDY = distributedLDY_;
         minLockDuration = minLockDuration_;
         maxLockDuration = maxLockDuration_;
         rewardsVesting = rewardsVesting_;
     }
 
-    /// @notice Setter for the LDY token address
-    function setLDYToken(address ldyTokenAddress) public {
+    /**
+     * @notice Updates the LDY token contract address.
+     * @dev As the first Ledgity Yield lockdrop campaigns will start before the LDY TGE,
+     * this function allows the contract's owner to set the LDY token address once it
+     * becomes available.
+     * @param ldyTokenAddress Address of the LDY token contract.
+     */
+    function setLDYToken(address ldyTokenAddress) external onlyOwner {
         ldyToken = IERC20(ldyTokenAddress);
     }
 
-    /// @notice Compute total pool weight (used to determine rewards of an account)
-    function totalWeight() public view returns (uint256) {
-        // If a hardcap is given, return maximum pool weight
-        if (lockedHardCap != -1) return uint256(lockedHardCap) * maxLockDuration;
-        // Else, return current total pool weight
-        else return totalLocked * maxLockDuration;
+    /**
+     * @notice Closes the Deposit phase. After calling this function, account won't be
+     * able to lock additional underlying tokens anymore.
+     */
+    function endDepositPhase() external onlyOwner {
+        hasDepositPhaseEnded = true;
     }
 
-    /// @notice Closes the deposit period.
-    function endDepositPeriod() public onlyOwner {
-        hasDepositPeriodEnded = true;
-    }
+    /**
+     * @notice Opens the Claim phase. After calling this function, lockers will be able
+     * to start claiming their LDY rewards.
+     */
+    function startClaimPhase() external onlyOwner {
+        // Ensure Deposit phase has ended
+        require(hasDepositPhaseEnded == true, "Deposit phase not ended yet");
 
-    /// @notice Opens the claim period.
-    function startClaimPeriod() public onlyOwner {
-        // Ensure deposit period has ended
-        require(hasDepositPeriodEnded == true, "Deposit period not ended yet");
+        // Ensure Claim phase has not already started
+        require(hasClaimPhaseStarted == false, "Claim phase already started");
 
-        // Ensure LDY token address has been set
+        // Ensure that LDY token address is available
         require(address(ldyToken) != address(0), "LDY token address not set");
 
-        // Set claim period as started and store the start timestamp
-        hasClaimPeriodStarted = true;
-        claimPeriodStartTimestamp = block.timestamp;
+        // Ensure LDY to be distributed are available on the contract
+        uint256 distributedLDY = (maxDistributedLDY * totalWeight) / refWeight();
+        require(ldyToken.balanceOf(address(this)) >= distributedLDY, "Not enough LDY tokens");
+
+        // Set Claim phase as started and store the start timestamp
+        hasClaimPhaseStarted = true;
+        claimPhaseStartTimestamp = block.timestamp;
     }
 
-    /// @notice Compute amount of LDY rewards not yet claimed by the given account
-    /// @dev Note: This function neither considers vesting period nor already claimed rewards.
+    /**
+     * @notice  Opens the Recovery phase. After calling this function, the contract owner
+     * will be able to recover remaining ERC20 tokens on the contract.
+     * Note that this won't close the Claim phase and lockers will still be able to claim
+     * their LDY rewards.
+     */
+    function startRecoveryPhase() external onlyOwner {
+        // Compute some durations in seconds
+        uint256 threeMonthsInSecond = 3 * ONE_MONTH_IN_SECONDS;
+        uint256 rewardsVestingInSecond = uint256(rewardsVesting) * ONE_MONTH_IN_SECONDS;
+        uint256 maxLockInSecond = uint256(maxLockDuration) * ONE_MONTH_IN_SECONDS;
+
+        // Ensure we are at least 3 months after the end of reward vesting
+        // This prevents owner from recovering LDY before lockers can claim their rewards
+        require(
+            block.timestamp >=
+                claimPhaseStartTimestamp + rewardsVestingInSecond + threeMonthsInSecond,
+            "Not enough far from rewards vesting end"
+        );
+
+        // Ensure we are at least 3 months after the maximum lock end
+        // This prevents owner from recovering underlying tokens before lockers can unlock those
+        require(
+            block.timestamp >= claimPhaseStartTimestamp + maxLockInSecond + threeMonthsInSecond,
+            "Not enough far from maximum lock end"
+        );
+
+        // Set recovery phase as started
+        hasRecoveryPhaseStarted = true;
+    }
+
+    /**
+     * @notice Recovers a specified amount of a given token address. Will revert if
+     * recovery phase has not started yet or if the contract doesn't hold enough tokens.
+     * @param tokenAddress The address of the token to recover.
+     * @param amount The amount of token to recover.
+     */
+    function recoverERC20(address tokenAddress, uint256 amount) public onlyOwner {
+        // Ensure recovery phase has started
+        require(hasRecoveryPhaseStarted == true, "Recovery phase has not started yet");
+
+        // Ensure a non-zero amount is specified
+        require(amount > 0, "Recovered amount cannot be 0");
+
+        // Create a reference to token's contract
+        IERC20 tokenContract = IERC20(tokenAddress);
+
+        // Ensure there is enough tokens to recover
+        require(tokenContract.balanceOf(address(this)) >= amount, "Not enough token to recover");
+
+        // Transfer the recovered token amount to the sender (owner)
+        tokenContract.safeTransfer(msg.sender, amount);
+    }
+
+    /**
+     * @notice Computes the reference weight of the lockdrop pool, which is compared to
+     * weight of a locker in eligibleRewardsOf() to dermine to determine the amount of
+     * LDY rewards that locker is eligible to.
+     * @dev For capped lockdrop pools, this function returns the maximum theoretical weight.
+     * This design allows for a  linear distribution of LDY rewards relative to the amount
+     * locked and average lock duration. It's also especially useful for displaying a
+     * predictable a non-volatile LDY allocation on the lockdrop UI.
+     * @return The total or max weight of the lockdrop pool.
+     */
+    function refWeight() public view returns (uint256) {
+        // If the lockdrop pool is capped, return maximum pool weight
+        if (lockedHardCap != -1) return uint256(lockedHardCap) * maxLockDuration;
+        // Else, return current total pool weight
+        else return totalWeight;
+    }
+
+    /**
+     * @notice Compute the total amount of LDY rewards that a given account is eligible to.
+     * @dev Note: This function neither considers vesting nor already claimed rewards.
+     * @param account The account to compute the eligible rewards of.
+     * @return The total amount of LDY rewards that the account is eligible to.
+     */
     function eligibleRewardsOf(address account) public view returns (uint256) {
         // Compute account's lock weight
         uint256 lockWeight = accountsLocks[account].amount * accountsLocks[account].duration;
 
         // Compute amount of LDY that this locker is eligible to
-        return (distributedLDY * lockWeight) / totalWeight();
+        return (maxDistributedLDY * lockWeight) / refWeight();
     }
 
     /**
-     * @notice Used to participate to the lockdrop by providing some underlying tokens over a given period
-     * @param amount USDC amount to lock
-     * @param duration Numbre of months to lock
+     * @notice Allows locking a specified amount of underlying tokens for a given duration.
+     * By locking, an account became eligible to a portion of the distributed LDY rewards.
+     * @dev This function proxies LToken.deposit()
+     * @dev Lockers can extend their lock duration by calling this function again with a
+     * greater duration and 0 as amount.
+     * @param amount Amount of underlying tokens to lock.
+     * @param duration Duration of the lock (in months).
      */
-    function lock(uint256 amount, uint8 duration) public {
-        // Ensure deposit period has not ended yet
-        require(hasDepositPeriodEnded == false, "Deposit period has ended");
+    function lock(uint256 amount, uint8 duration) external whenNotPaused {
+        // Ensure Deposit phase has not ended yet
+        require(hasDepositPhaseEnded == false, "Deposit phase has ended");
 
         // Ensure lock duration is in valid range
         require(
@@ -143,112 +312,131 @@ contract ArbitrumLocdrop is Ownable2Step {
             "Invalid lock duration"
         );
 
-        // Increase account locked amount
-        accountsLocks[msg.sender].amount += uint248(amount);
+        // Remove previous locker's weight from total weight
+        totalWeight -= accountsLocks[msg.sender].amount * accountsLocks[msg.sender].duration;
 
-        // Increase total locked amount
+        // Increase account's locked amount
+        accountsLocks[msg.sender].amount += uint240(amount);
+
+        // Increase total locked amount accordingly
         totalLocked += amount;
 
-        // Used lock duration if account already locked before for a longer duration
-        uint256 appliedDuration = accountsLocks[msg.sender].amount > duration
-            ? accountsLocks[msg.sender].duration
-            : duration;
+        // Use existing lock duration if greater than the new one
+        uint8 existingDuration = accountsLocks[msg.sender].duration;
+        uint8 appliedDuration = existingDuration > duration ? existingDuration : duration;
 
-        // Set lock end of account
+        // Update account's lock duration
+        accountsLocks[msg.sender].duration = appliedDuration;
+
+        // Update account's lock end timestamp
         accountsLocks[msg.sender].lockEndTimestamp = uint40(
             block.timestamp + appliedDuration * ONE_MONTH_IN_SECONDS
         );
 
-        // Transfer underlyingToken from account to contract
-        lToken.underlying().transferFrom(msg.sender, address(this), amount);
+        // Add new locker's weight to total weight
+        totalWeight += accountsLocks[msg.sender].amount * appliedDuration;
 
-        // Deposit USDC in L-Token contract
+        // If amount is 0, skip deposit
+        if (amount == 0) return;
+
+        // Transfer underlyingToken from account to contract
+        IERC20(address(lToken.underlying())).safeTransferFrom(msg.sender, address(this), amount);
+
+        // Deposit USDC in the L-Token contract
         lToken.deposit(amount);
     }
 
-    modifier unlockChecks() {
-        // Ensure claiming period has started
-        require(hasDepositPeriodEnded == true, "Deposit period has not ended yet");
-
-        // Ensure the lock end of the user has ended
-        require(
-            accountsLocks[msg.sender].lockEndTimestamp <= block.timestamp,
-            "Lock period not ended yet"
-        );
-
-        _;
-    }
-
-    function instantUnlock() public unlockChecks {
-        // Ensure the account has something to unlock
+    /**
+     * @notice Allows the caller to instaneously unlock its locked amount of underlying
+     * tokens.
+     * @dev In order to save some gas and time to users, frontends should propose this
+     * function to users only when it has been verified that it will not revert. They
+     * should propose the requestUnlock() function otherwise.
+     */
+    function instantUnlock() external safeUnlock whenNotPaused {
+        // Retrieve underlying tokens from the L-Token contract
         uint256 unlockedAmount = accountsLocks[msg.sender].amount;
-        require(unlockedAmount > 0, "Nothing to unlock");
-
-        // Reset account locked amount
-        accountsLocks[msg.sender].amount = 0;
-
-        // Retrieve USDC from L-Token contract
         lToken.instantWithdrawal(unlockedAmount);
 
-        // Transfer USDC back to account
-        lToken.underlying().transfer(msg.sender, unlockedAmount);
+        // Transfer underlying tokens back to caller
+        IERC20(address(lToken.underlying())).safeTransfer(msg.sender, unlockedAmount);
     }
 
-    function requestUnlock() public unlockChecks {
-        // Ensure the account has something to unlock
+    /**
+     * @notice Allows the call to request for the unlocking of its locked amount of
+     * underlying tokens. The request will be automatically processed later.
+     * @dev The sender must attach 0.003 ETH to pre-pay the future processing gas fees
+     * paid by the withdrawer wallet.
+     */
+    function requestUnlock() external payable safeUnlock whenNotPaused {
+        // Request underlying tokens to the L-Token contract
         uint256 unlockedAmount = accountsLocks[msg.sender].amount;
-        require(unlockedAmount > 0, "Nothing to unlock");
-
-        // Reset account locked amount
-        accountsLocks[msg.sender].amount = 0;
-
-        // Retrieve USDC from L-Token contract
         lToken.requestWithdrawal(unlockedAmount);
 
-        // Put account in the unlock request queue
-        unlockRequests.push(UnlockRequest(msg.sender, unlockedAmount));
+        // Put account in the unlock requests queue
+        unlockRequests.push(msg.sender);
     }
 
-    function processUnlockRequests() public onlyOwner {
-        // Ensure the claim period has started
-        require(hasClaimPeriodStarted == true, "Claim period has not started yet");
+    /**
+     * @notice Processes queued unlock requests until there is else no more requests,
+     * else not enough underlying tokens to continue.
+     */
+    function processUnlockRequests() external onlyOwner {
+        // Ensure the Claim phase has started
+        require(hasClaimPhaseStarted == true, "Claim phase has not started yet");
 
-        // Store the current request to process
-        uint256 processedRequestId = unlockRequestsCursor;
+        // Store the current request ID to process
+        uint256 processedId = unlockRequestsCursor;
 
         // Loop over remaining requests
-        while (processedRequestId < unlockRequests.length) {
-            // Retrieve the request
-            UnlockRequest memory request = unlockRequests[unlockRequestsCursor];
+        while (processedId < unlockRequests.length) {
+            // Prevent OOG by stopping request processing if there is not enough gas left
+            // to continue the loop and properly end the function call.
+            if (gasleft() < 45000) break;
 
-            // If the contract doesn't hold enough underlying tokens to process the request, stop here
-            if (lToken.underlying().balanceOf(address(this)) < request.amount) break;
+            // Retrieve the request account
+            address unlockAccount = unlockRequests[unlockRequestsCursor];
 
-            // Else, transfer underlying back to account
-            lToken.underlying().transfer(request.account, request.amount);
+            // Retrieve the unlocked amount
+            uint256 unlockAmount = accountsLocks[unlockAccount].amount;
 
-            // Delete the request
-            delete unlockRequests[unlockRequestsCursor];
+            // If the request has already been processed, skip it
+            if (unlockAccount != address(0)) {
+                // If the contract doesn't hold enough underlying tokens to process the request, stop here
+                if (lToken.underlying().balanceOf(address(this)) < unlockAmount) break;
 
-            // Increment processed request ID cursor
-            processedRequestId--;
+                // Delete the request
+                delete unlockRequests[unlockRequestsCursor];
+
+                // Transfer underlying back to account
+                IERC20(address(lToken.underlying())).safeTransfer(unlockAccount, unlockAmount);
+            }
+
+            // Increment processed request ID
+            processedId++;
         }
 
-        // Write back the cursor
-        unlockRequestsCursor = processedRequestId;
+        // Write back the cursor in storage
+        unlockRequestsCursor = processedId;
     }
 
+    /**
+     * @notice Computes the amount of LDY rewards available to claim for a given account.
+     * @dev This function considers vesting and already claimed rewards.
+     * @param account The account to compute the available rewards of.
+     * @return The amount of LDY rewards available to claim.
+     */
     function availableToClaim(address account) public view returns (uint256) {
-        // Compute total eligible rewards of the account
+        // Compute total amount of rewards allocated to this locker
         uint256 totalEligibleRewards = eligibleRewardsOf(account);
 
-        // Compute elapsed months since claim period started
+        // Compute elapsed months since claim phase started
         // Note: Numbers are scaled by 3 decimals to retain precision
-        uint256 elapsedTimeS3 = (block.timestamp - claimPeriodStartTimestamp) * 10 ** 3;
+        uint256 elapsedTimeS3 = (block.timestamp - claimPhaseStartTimestamp) * 10 ** 3;
         uint256 ONE_MONTH_IN_SECONDS_S3 = ONE_MONTH_IN_SECONDS * 10 ** 3;
         uint256 elapsedMonthsS3 = (elapsedTimeS3 * 10 ** 3) / ONE_MONTH_IN_SECONDS_S3;
 
-        // Compute portion of those rewards that have been released
+        // Compute portion total rewards that have are released (vesting)
         uint256 rewardsVestingS3 = uint256(rewardsVesting) * 10 ** 3;
         uint256 totalAvailableToClaim = (totalEligibleRewards * elapsedMonthsS3) / rewardsVestingS3;
 
@@ -258,26 +446,22 @@ contract ArbitrumLocdrop is Ownable2Step {
             return totalEligibleRewards - accountsLocks[msg.sender].claimedRewards;
         }
 
-        // Else return net claimable
+        // Else return net claimable (available minus already claimed)
         return totalAvailableToClaim - accountsLocks[msg.sender].claimedRewards;
     }
 
-    function claimRewards() public {
-        // Ensure claim period has started
-        require(hasClaimPeriodStarted == true, "Claim period has not started yet");
+    /// @notice Allows the caller to claim its available LDY rewards.
+    function claimRewards() external whenNotPaused {
+        // Ensure Claim phase has started
+        require(hasClaimPhaseStarted == true, "Claim phase has not started yet");
 
         // Compute claimable LDY rewards
         uint256 claimableLDY = availableToClaim(msg.sender);
 
-        // Increase account claimed amount by claimable amount
+        // Increase account claimed amount accordingly
         accountsLocks[msg.sender].claimedRewards += uint216(claimableLDY);
 
         // Transfer rewards to account
-        ldyToken.transfer(msg.sender, claimableLDY);
+        ldyToken.safeTransfer(msg.sender, claimableLDY);
     }
 }
-
-/**
- * - Add OOG prevention in processUnlockRequests()
- * - Add way to recover LDY, underlying and L-Tokens
- */
