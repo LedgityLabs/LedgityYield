@@ -1,3 +1,10 @@
+## [1.189.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.188.0...v1.189.0) (2023-08-24)
+
+
+### Features
+
+* documented and improved Lockdrop contract ([aae9b87](https://github.com/LedgityLabs/LedgityYield/commit/aae9b87a4e0e8e3552fd9c19b5afb5a86aa42eb5))
+
 ## [1.188.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.187.1...v1.188.0) (2023-08-23)
 
 
