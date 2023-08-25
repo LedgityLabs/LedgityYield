@@ -224,6 +224,12 @@ input Block_height {
 
 scalar Bytes
 
+"""
+8 bytes signed integer
+
+"""
+scalar Int8
+
 type LToken {
   id: ID!
   symbol: String!

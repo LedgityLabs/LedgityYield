@@ -10,7 +10,7 @@ import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.s
 
 import {LToken} from "../../src/LToken.sol";
 
-import {WIP_LDYStaking as LDYStaking} from "../../src/dev/LDYStaking.sol";
+import {LDYStaking} from "../../src/DummyLDYStaking.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
@@ -162,19 +162,10 @@ contract Tests is Test, ModifiersExpectations {
         ldyToken = new GenericERC20("Ledgity Token", "LDY", 18);
         vm.label(address(ldyToken), "LDY token");
 
-        // Deploy LDYStaking
-        LDYStaking impl4 = new LDYStaking();
-        ERC1967Proxy proxy4 = new ERC1967Proxy(address(impl4), "");
-        ldyStaking = LDYStaking(address(proxy4));
-        ldyStaking.initialize(
-            address(globalOwner),
-            address(globalPause),
-            address(globalBlacklist),
-            address(ldyToken)
-        );
-        vm.label(address(ldyStaking), "LDYStaking");
+        // Deploy dummy LDYStaking
+        ldyStaking = new LDYStaking();
 
-        // Deploy GenericERC20 (the $LDY token)
+        // Deploy GenericERC20 (the underlying token)
         underlyingToken = new GenericERC20("Dummy USD", "DUSD", 18);
         vm.label(address(underlyingToken), "Underlying Token");
 
@@ -213,13 +204,13 @@ contract Tests is Test, ModifiersExpectations {
     // ==================
     // === Invariants ===
     // - Usable underlyings should never exceeds expected retained
-    function invariant_retention() external {
+    function invariant_1() external {
         if (tested.decimals() > 18) return;
         assertLe(tested.usableUnderlyings(), tested.getExpectedRetained());
     }
 
     // - Contract underlying balance should never be lower than usable underlyings amount (= missing funds)
-    function invariant_underlyingTokens() external {
+    function invariant_2() external {
         if (tested.decimals() > 18) return;
 
         assertGe(underlyingToken.balanceOf(address(tested)), tested.usableUnderlyings());
@@ -1615,7 +1606,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Set first random APR on LDYStaking contract
-        ldyStaking.setAPR(aprUD7x3);
+        // ldyStaking.setAPR(aprUD7x3);
 
         // Cap fees rate to 100%
         feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 100 * 10 ** 3));
@@ -1627,14 +1618,17 @@ contract Tests is Test, ModifiersExpectations {
         tier2Amount = uint216(bound(tier2Amount, 1, 100_000_000_000_000 * 10 ** decimals));
 
         // Set random tier 2 amount
-        ldyStaking.setTier(2, tier2Amount);
+        // ldyStaking.setTier(2, tier2Amount);
 
-        // Deposit enough $LDY tokens to be eligible to tier 2
-        deal(address(ldyToken), account, tier2Amount, true);
-        vm.startPrank(account);
-        ldyToken.approve(address(ldyStaking), tier2Amount);
-        ldyStaking.stake(tier2Amount);
-        vm.stopPrank();
+        // // Deposit enough $LDY tokens to be eligible to tier 2
+        // deal(address(ldyToken), account, tier2Amount, true);
+        // vm.startPrank(account);
+        // ldyToken.approve(address(ldyStaking), tier2Amount);
+        // ldyStaking.stake(tier2Amount);
+        // vm.stopPrank();
+
+        // Add address to dummy LDYStaking high tier addresses
+        ldyStaking.setHighTierAccount(account, true);
 
         // Get withdraw amount and fees
         (uint256 withdrawnAmount, uint256 fees) = tested.getWithdrawnAmountAndFees(account, amount);
@@ -1860,7 +1854,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Set first random APR on LDYStaking contract
-        ldyStaking.setAPR(aprUD7x3);
+        // ldyStaking.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
         tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
@@ -1874,20 +1868,24 @@ contract Tests is Test, ModifiersExpectations {
         // Cap tier2Amount to 100T
         tier2Amount = uint216(bound(tier2Amount, 1, 100_000_000_000_000 * 10 ** decimals));
 
-        // Set random tier 2 amount
-        ldyStaking.setTier(2, tier2Amount);
+        // // Set random tier 2 amount
+        // ldyStaking.setTier(2, tier2Amount);
 
-        // Deposit enough $LDY tokens to be eligible to tier 2
-        deal(address(ldyToken), account, tier2Amount, true);
-        vm.startPrank(account);
-        ldyToken.approve(address(ldyStaking), tier2Amount);
-        ldyStaking.stake(tier2Amount);
+        // // Deposit enough $LDY tokens to be eligible to tier 2
+        // deal(address(ldyToken), account, tier2Amount, true);
+        // vm.startPrank(account);
+        // ldyToken.approve(address(ldyStaking), tier2Amount);
+        // ldyStaking.stake(tier2Amount);
 
-        // Assert tier of user is equal to 2
-        assertEq(ldyStaking.tierOf(account), 2);
+        // Add address to dummy LDYStaking high tier addresses
+        ldyStaking.setHighTierAccount(account, true);
+
+        // Assert account is eligible to tier 2
+        assertGe(ldyStaking.tierOf(account), 2);
 
         // Deposit underlying token amount
         deal(address(underlyingToken), account, tier2Amount, true);
+        vm.startPrank(account);
         underlyingToken.approve(address(tested), tier2Amount);
         tested.deposit(tier2Amount);
         vm.stopPrank();
@@ -1998,7 +1996,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.setAPR(aprUD7x3);
 
         // Set first random APR on LDYStaking contract
-        ldyStaking.setAPR(aprUD7x3);
+        // ldyStaking.setAPR(aprUD7x3);
 
         // Force retention rate to 100% so it doesn't interfer in calculations
         tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
@@ -2012,20 +2010,24 @@ contract Tests is Test, ModifiersExpectations {
         // Cap tier2Amount to 100T
         tier2Amount = uint216(bound(tier2Amount, 1, 100_000_000_000_000 * 10 ** decimals));
 
-        // Set random tier 2 amount
-        ldyStaking.setTier(2, tier2Amount);
+        // // Set random tier 2 amount
+        // ldyStaking.setTier(2, tier2Amount);
 
-        // Deposit enough $LDY tokens to be eligible to tier 2
-        deal(address(ldyToken), account, tier2Amount, true);
-        vm.startPrank(account);
-        ldyToken.approve(address(ldyStaking), tier2Amount);
-        ldyStaking.stake(tier2Amount);
+        // // Deposit enough $LDY tokens to be eligible to tier 2
+        // deal(address(ldyToken), account, tier2Amount, true);
+        // vm.startPrank(account);
+        // ldyToken.approve(address(ldyStaking), tier2Amount);
+        // ldyStaking.stake(tier2Amount);
 
-        // Assert tier of user is equal to 2
-        assertEq(ldyStaking.tierOf(account), 2);
+        // Add address to dummy LDYStaking high tier addresses
+        ldyStaking.setHighTierAccount(account, true);
+
+        // Assert account is eligible to tier 2
+        assertGe(ldyStaking.tierOf(account), 2);
 
         // Deposit underlying token amount
         deal(address(underlyingToken), account, tier2Amount, true);
+        vm.startPrank(account);
         underlyingToken.approve(address(tested), tier2Amount);
         tested.deposit(tier2Amount);
 
@@ -2191,7 +2193,7 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_processQueuedRequests_3() public {
-        console.log("Should don't change any state if queue is empty");
+        console.log("Should not change any state if queue is empty");
 
         // Store old states for later comparison
         uint256 oldUsableUnderlying = tested.usableUnderlyings();
@@ -3920,7 +3922,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Set first random APRs
         tested.setAPR(aprUD7x3);
-        ldyStaking.setAPR(aprUD7x3);
+        // ldyStaking.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount1 = bound(requestedAmount1, 1, type(uint96).max);
@@ -3957,15 +3959,21 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestWithdrawal{value: processingFees}(requestedAmount1);
         vm.stopPrank();
 
-        // Ensure account 2 is elligible to staking tier 2
-        uint256 tier2Amount = 10;
-        deal(address(ldyToken), account2, tier2Amount, true);
-        ldyStaking.setTier(2, tier2Amount);
-        vm.startPrank(account2);
-        ldyToken.approve(address(ldyStaking), tier2Amount);
-        ldyStaking.stake(uint216(tier2Amount));
-        vm.stopPrank();
-        assertEq(ldyStaking.tierOf(account2), 2);
+        // // Ensure account 2 is elligible to staking tier 2
+        // uint256 tier2Amount = 10;
+        // deal(address(ldyToken), account2, tier2Amount, true);
+        // ldyStaking.setTier(2, tier2Amount);
+        // vm.startPrank(account2);
+        // ldyToken.approve(address(ldyStaking), tier2Amount);
+        // ldyStaking.stake(uint216(tier2Amount));
+        // vm.stopPrank();
+        // assertEq(ldyStaking.tierOf(account2), 2);
+
+        // Add address to dummy LDYStaking high tier addresses
+        ldyStaking.setHighTierAccount(account2, true);
+
+        // Assert account is eligible to tier 2
+        assertGe(ldyStaking.tierOf(account2), 2);
 
         // Account 2 deposit and withdrawal requested
         deal(address(underlyingToken), account2, requestedAmount2, true);
@@ -4007,7 +4015,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Set first random APRs
         tested.setAPR(aprUD7x3);
-        ldyStaking.setAPR(aprUD7x3);
+        // ldyStaking.setAPR(aprUD7x3);
 
         // Cap requested amount to max withdrawal request amount
         requestedAmount1 = bound(requestedAmount1, 1, type(uint96).max);

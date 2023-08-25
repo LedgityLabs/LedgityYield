@@ -1,6 +1,7 @@
 const cache = new Map<string, Promise<number>>();
 
 export const getTokenUSDRate = async (tokenSymbol: string) => {
+  return 1;
   if (cache.has(tokenSymbol)) return cache.get(tokenSymbol)!;
   else {
     cache.set(
