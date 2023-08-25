@@ -1,3 +1,10 @@
+## [1.191.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.2...v1.191.3) (2023-08-25)
+
+
+### Fixes
+
+* temporary patch to USD rate API error ([66b3ab1](https://github.com/LedgityLabs/LedgityYield/commit/66b3ab1351331190024651fd22a2dbd18ba2b87c))
+
 ## [1.191.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.1...v1.191.2) (2023-08-24)
 
 
