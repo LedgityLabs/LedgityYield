@@ -1,3 +1,18 @@
+## [1.191.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.1...v1.191.2) (2023-08-24)
+
+
+### Fixes
+
+* **deps:** update dependency cookies-next to v3 ([acaa63c](https://github.com/LedgityLabs/LedgityYield/commit/acaa63c4a9214618aeabb7e041dc987bef609a7c))
+
+
+### Others
+
+* **deps:** update dependency @types/react to v18.2.21 ([e0a303b](https://github.com/LedgityLabs/LedgityYield/commit/e0a303bb28f611d4d75a3cd263eb0591d523183a))
+* perform first row of static analysis on Lockdrop contract ([d18efc6](https://github.com/LedgityLabs/LedgityYield/commit/d18efc634da05ee78893c3d18af2b6509e147e7b))
+* update Slither report ([53587c8](https://github.com/LedgityLabs/LedgityYield/commit/53587c86cfd3970ff069d971b53333bdf8af3a8c))
+* upgrade deps ([d7a8133](https://github.com/LedgityLabs/LedgityYield/commit/d7a81330e0b5255a6caeadc09a2da6556825f106))
+
 ## [1.191.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.0...v1.191.1) (2023-08-24)
 
 
