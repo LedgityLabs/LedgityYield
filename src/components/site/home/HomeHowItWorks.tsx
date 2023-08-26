@@ -9,6 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui";
+import Link from "next/link";
 
 const HomeHowItWorks: FC = () => {
   return (
@@ -79,20 +80,16 @@ const HomeHowItWorks: FC = () => {
             Want to learn more?
           </p>
           <div className="flex flex-wrap justify-center gap-6">
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  disabled={true}
-                  variant="outline"
-                  size="medium"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <i className="ri-book-2-fill text-xl text-primary/80"></i>
-                  Browse documentation
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="font-semibold">Coming soon</TooltipContent>
-            </Tooltip>
+            <Link href="https://docs.ledgity.finance/" target="_blank">
+              <Button
+                variant="outline"
+                size="medium"
+                className="flex items-center justify-center gap-2"
+              >
+                <i className="ri-book-2-fill text-xl text-primary/80"></i>
+                Browse documentation
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

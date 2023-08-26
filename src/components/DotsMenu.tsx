@@ -58,13 +58,17 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                 Enter app
               </Link>
             </li>
-            {/* <li>
-              <Link href="/" className="hover:opacity-80">
+            <li>
+              <Link
+                href="https://docs.ledgity.finance/"
+                target="_blank"
+                className="hover:opacity-80"
+              >
                 Documentation&nbsp;
                 <i className="ri-external-link-fill" />
               </Link>
-            </li> */}
-            <li>
+            </li>
+            {/* <li>
               <Link
                 href="/"
                 className="opacity-40 inline-flex items-center justify-center cursor-not-allowed"
@@ -76,7 +80,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                   coming soon
                 </span>
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link

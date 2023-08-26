@@ -54,6 +54,7 @@ const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
                   <i className="ri-discord-fill inline-block text-4xl text-bg transition-[transform,fill] hover:scale-110 hover:text-accent"></i>
                 </Link>
               </li>
+
               <li className="flex items-center justify-center">
                 <Link
                   aria-label="Telegram"
@@ -84,6 +85,16 @@ const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
                   <i className="ri-mail-fill inline-block text-4xl text-bg transition-[transform,fill] hover:scale-110 hover:text-accent"></i>
                 </Link>
               </li>
+              {/* <li className="flex items-center justify-center">
+                <Link
+                  aria-label="Gitbook"
+                  href="https://docs.ledgity.finance/"
+                  target="_blank"
+                  className="inline-block h-8 w-8"
+                >
+                  <i className="ri-book-2-fill inline-block text-4xl text-primary transition-[transform,fill] hover:scale-110 hover:text-accent"></i>
+                </Link>
+              </li> */}
             </ul>
           </article>
         </section>

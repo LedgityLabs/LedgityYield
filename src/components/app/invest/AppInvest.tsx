@@ -38,7 +38,7 @@ export const AppInvest: FC = () => {
           Invest USDC and get exposed to stable and high yield backed by RWA (Real World Assets).
           <br />
           <Link
-            href="https://ledgity.gitbook.io/ledgity-yield-protocol/"
+            href="https://docs.ledgity.finance/"
             target="_blank"
             className="text-fg/95 font-semibold underline underline-offset-2 decoration-fg/20 hover:text-slate-900 transition-colors"
           >
