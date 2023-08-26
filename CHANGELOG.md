@@ -1,3 +1,15 @@
+## [1.192.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.3...v1.192.0) (2023-08-26)
+
+
+### Features
+
+* update and enable all docs references ([c16d112](https://github.com/LedgityLabs/LedgityYield/commit/c16d112d5361ad8d3bf098a8555a3305643011ad))
+
+
+### Tests
+
+* partially write unit tests for the Lockdrop contract ([9c577a8](https://github.com/LedgityLabs/LedgityYield/commit/9c577a8decb99fcc83e90695744576b8d754c784))
+
 ## [1.191.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.2...v1.191.3) (2023-08-25)
 
 
