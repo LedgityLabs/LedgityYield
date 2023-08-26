@@ -84,6 +84,32 @@ export const displayedErrors: { [key: string]: string } = {
   L59: "Retention rate exceeded",
   L60: "Nothing to claim yet",
   L61: "Insufficient funds",
+
+  // Lockdrop.sol
+  L67: "Deposit phase not ended yet",
+  L68: "Lock period not ended yet",
+  L69: "Already unlocked",
+  L70: "Nothing to unlock",
+  L71: "Locked hardhat cap must be >= -1",
+  L72: "Min lock duration must be at least 1 month",
+
+  L73: "Min lock duration must be <= max lock duration",
+  L74: "Cannot change LDY address after Claim phase has started",
+  L75: "Deposit phase not ended yet",
+  L76: "Claim phase already started",
+  L77: "LDY token address not set",
+  L78: "Not enough LDY tokens",
+  L79: "Claim phase not started yet",
+
+  L80: "Not enough far from rewards vesting end",
+  L81: "Not enough far from maximum lock end",
+  L82: "Recovery phase not started yet",
+  L83: "Not enough token to recover",
+  L84: "Deposit phase has ended",
+  L85: "Lock duration out-of-bound",
+  L86: "Hard cap reached",
+  L87: "Claim phase not started yet",
+  L88: "Claim phase not started yet",
 };
 
 export const prettyErrorMessage = (error: BaseError | Error) => {

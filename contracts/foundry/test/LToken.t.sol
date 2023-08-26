@@ -626,6 +626,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
         tested.deposit(depositedAmount);
+        vm.stopPrank();
 
         // Assert the balance is currently equal to the minted amount
         assertEq(tested.balanceOf(address(1234)), depositedAmount);

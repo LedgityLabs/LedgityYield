@@ -7,6 +7,8 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
 
+import "hardhat/console.sol";
+
 /**
  * @title Lockdrop
  * @author Lila Rest (https://lila.rest)
@@ -117,19 +119,16 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Top-level checks and code shared by both unlock functions.
     modifier safeUnlock() {
         // Ensure that the Deposit phase has ended
-        require(hasDepositPhaseEnded, "Deposit phase not ended yet");
+        require(hasDepositPhaseEnded, "L67");
 
         // Ensure that the account's lock has ended
-        require(
-            accountsLocks[msg.sender].lockEndTimestamp <= block.timestamp,
-            "Lock period not ended yet"
-        );
+        require(accountsLocks[msg.sender].lockEndTimestamp <= block.timestamp, "L68");
 
         // Ensure the account hasn't already unlocked its tokens
-        require(!accountsLocks[msg.sender].hasUnlocked, "Already unlocked");
+        require(!accountsLocks[msg.sender].hasUnlocked, "L69");
 
         // Ensure the account has something to unlock
-        require(accountsLocks[msg.sender].amount > 0, "Nothing to unlock");
+        require(accountsLocks[msg.sender].amount > 0, "L70");
 
         // Indicate that account has unlocked its tokens
         accountsLocks[msg.sender].hasUnlocked = true;
@@ -155,13 +154,13 @@ contract Lockdrop is Ownable2Step, Pausable {
         uint8 vestingDuration_
     ) {
         // Ensure lockHardCap is in valid range [-1, +inf]
-        require(lockedHardCap_ >= -1, "Locked hardhat cap must be >= -1");
+        require(lockedHardCap_ >= -1, "L71");
+
+        // Ensure minLockDuration is at least 1 month
+        require(minLockDuration_ >= 1, "L72");
 
         // Ensure minLockDuration is not greater than maxLockDuration
-        require(
-            minLockDuration_ <= maxLockDuration_,
-            "Min lock duration must be <= max lock duration"
-        );
+        require(minLockDuration_ <= maxLockDuration_, "L73");
 
         // Set immutable states
         lToken = LToken(lTokenAddress_);
@@ -181,7 +180,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function setLDYToken(address ldyTokenAddress) external onlyOwner {
         // Prevent owner from changing the LDY address after Claim phase has started
-        require(!hasClaimPhaseStarted, "Cannot change LDY address after Claim phase has started");
+        require(!hasClaimPhaseStarted, "L74");
 
         // Set LDY token address
         ldyToken = IERC20(ldyTokenAddress);
@@ -201,17 +200,13 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function startClaimPhase() external onlyOwner {
         // Ensure Deposit phase has ended
-        require(hasDepositPhaseEnded, "Deposit phase not ended yet");
+        require(hasDepositPhaseEnded, "L75");
 
         // Ensure Claim phase has not already started
-        require(!hasClaimPhaseStarted, "Claim phase already started");
+        require(!hasClaimPhaseStarted, "L76");
 
         // Ensure that LDY token address is available
-        require(address(ldyToken) != address(0), "LDY token address not set");
-
-        // Ensure LDY to be distributed are available on the contract
-        uint256 distributedLDY = (maxDistributedLDY * totalWeight) / refWeight();
-        require(ldyToken.balanceOf(address(this)) >= distributedLDY, "Not enough LDY tokens");
+        require(address(ldyToken) != address(0), "L77");
 
         // Set Claim phase as started and store the start timestamp
         hasClaimPhaseStarted = true;
@@ -225,25 +220,33 @@ contract Lockdrop is Ownable2Step, Pausable {
      * their LDY rewards.
      */
     function startRecoveryPhase() external onlyOwner {
+        // Ensure Claim phase has started
+        require(hasClaimPhaseStarted, "L79");
+
         // Compute some durations in seconds
         uint256 threeMonthsInSecond = 3 * ONE_MONTH_IN_SECONDS;
-        uint256 vestingDurationInSecond = uint256(vestingDuration) * ONE_MONTH_IN_SECONDS;
-        uint256 maxLockInSecond = uint256(maxLockDuration) * ONE_MONTH_IN_SECONDS;
+        uint256 vestingInSecond = vestingDuration * ONE_MONTH_IN_SECONDS;
+        uint256 maxLockInSecond = maxLockDuration * ONE_MONTH_IN_SECONDS;
+
+        // Compute timestamp of vesting end + 3 months
+        uint256 afterVestingTimestamp = claimPhaseStartTimestamp +
+            vestingInSecond +
+            threeMonthsInSecond;
 
         // Ensure we are at least 3 months after the end of reward vesting
         // This prevents owner from recovering LDY before lockers can claim their rewards
-        require(
-            block.timestamp >=
-                claimPhaseStartTimestamp + vestingDurationInSecond + threeMonthsInSecond,
-            "Not enough far from rewards vesting end"
-        );
+        require(block.timestamp >= afterVestingTimestamp, "L80");
+
+        // Compute end of maximum lock + 3 months
+        // Note that claimPhaseStartTimestamp is used for simplicity even if it can exist a time
+        // span between Deposit and Claim phases.
+        uint256 afterMaxLockTimestamp = claimPhaseStartTimestamp +
+            maxLockInSecond +
+            threeMonthsInSecond;
 
         // Ensure we are at least 3 months after the maximum lock end
         // This prevents owner from recovering underlying tokens before lockers can unlock those
-        require(
-            block.timestamp >= claimPhaseStartTimestamp + maxLockInSecond + threeMonthsInSecond,
-            "Not enough far from maximum lock end"
-        );
+        require(block.timestamp >= afterMaxLockTimestamp, "L81");
 
         // Set recovery phase as started
         hasRecoveryPhaseStarted = true;
@@ -257,13 +260,13 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function recoverERC20(address tokenAddress, uint256 amount) public onlyOwner {
         // Ensure recovery phase has started
-        require(hasRecoveryPhaseStarted, "Recovery phase has not started yet");
+        require(hasRecoveryPhaseStarted, "L82");
 
         // Create a reference to token's contract
         IERC20 tokenContract = IERC20(tokenAddress);
 
         // Ensure there is enough tokens to recover
-        require(tokenContract.balanceOf(address(this)) >= amount, "Not enough token to recover");
+        require(tokenContract.balanceOf(address(this)) >= amount, "L83");
 
         // Transfer the recovered token amount to the sender (owner)
         tokenContract.safeTransfer(msg.sender, amount);
@@ -280,10 +283,10 @@ contract Lockdrop is Ownable2Step, Pausable {
      * @return The total or max weight of the lockdrop pool.
      */
     function refWeight() public view returns (uint256) {
-        // If the lockdrop pool is capped, return maximum pool weight
-        if (lockedHardCap != -1) return uint256(lockedHardCap) * maxLockDuration;
-        // Else, return current total pool weight
-        else return totalWeight;
+        // If the lockdrop pool is not capped, return current total pool weight
+        if (lockedHardCap < 0) return totalWeight;
+        // Else, return maximum pool weight
+        else return uint256(lockedHardCap) * maxLockDuration;
     }
 
     /**
@@ -297,7 +300,9 @@ contract Lockdrop is Ownable2Step, Pausable {
         uint256 lockerWeight = accountsLocks[account].amount * accountsLocks[account].duration;
 
         // Compute amount of LDY that this locker is eligible to
-        return (maxDistributedLDY * lockerWeight) / refWeight();
+        uint256 _refWeight = refWeight();
+        if (_refWeight == 0) return 0;
+        else return (maxDistributedLDY * lockerWeight) / _refWeight;
     }
 
     /**
@@ -311,13 +316,13 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function lock(uint256 amount, uint8 duration) external whenNotPaused {
         // Ensure Deposit phase has not ended yet
-        require(!hasDepositPhaseEnded, "Deposit phase has ended");
+        require(!hasDepositPhaseEnded, "L84");
 
         // Ensure lock duration is in valid range
-        require(
-            duration >= minLockDuration && duration <= maxLockDuration,
-            "Lock duration out-of-bound"
-        );
+        require(duration >= minLockDuration && duration <= maxLockDuration, "L85");
+
+        // Ensure it won't exceed the hardcap
+        require(lockedHardCap < 0 || totalLocked + amount <= uint256(lockedHardCap), "L86");
 
         // Remove previous locker's weight from total weight
         totalWeight -= accountsLocks[msg.sender].amount * accountsLocks[msg.sender].duration;
@@ -341,7 +346,7 @@ contract Lockdrop is Ownable2Step, Pausable {
         );
 
         // Add new locker's weight to total weight
-        totalWeight += accountsLocks[msg.sender].amount * appliedDuration;
+        totalWeight += accountsLocks[msg.sender].amount * uint256(appliedDuration);
 
         // If amount is 0, skip deposit
         if (amount == 0) return;
@@ -350,6 +355,7 @@ contract Lockdrop is Ownable2Step, Pausable {
         IERC20(address(lToken.underlying())).safeTransferFrom(msg.sender, address(this), amount);
 
         // Deposit USDC in the L-Token contract
+        lToken.underlying().approve(address(lToken), amount);
         lToken.deposit(amount);
     }
 
@@ -390,7 +396,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     function processUnlockRequests() external onlyOwner {
         // Ensure the Claim phase has started
-        require(hasClaimPhaseStarted, "Claim phase has not started yet");
+        require(hasClaimPhaseStarted, "L87");
 
         // Store the current request ID to process
         uint256 processedId = unlockRequestsCursor;
@@ -461,7 +467,7 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Allows the caller to claim its available LDY rewards.
     function claimRewards() external whenNotPaused {
         // Ensure Claim phase has started
-        require(hasClaimPhaseStarted, "Claim phase has not started yet");
+        require(hasClaimPhaseStarted, "L88");
 
         // Compute claimable LDY rewards
         uint256 claimableLDY = availableToClaim(msg.sender);
