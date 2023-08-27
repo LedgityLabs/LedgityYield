@@ -54,7 +54,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
         <Card className="backdrop flex flex-col gap-14 p-10 pb-8 drop-shadow-lg">
           <ul className="flex flex-col gap-3 text-lg font-semibold">
             <li className="sm:hidden">
-              <Link href="/app" className="font-bold text-primary hover:opacity-80">
+              <Link href="/app/invest" className="font-bold text-primary hover:opacity-80">
                 Enter app
               </Link>
             </li>
