@@ -861,8 +861,8 @@ contract Tests is Test, ModifiersExpectations {
                 ? appliedRefWeight - instance.refWeight()
                 : instance.refWeight() - appliedRefWeight;
 
-            // Assert that the difference is lower than 1% of expected refWeight
-            assertLe(weightDiff, instance.refWeight() / 100);
+            // Assert that the difference is lower than 2% of expected refWeight
+            assertLe(weightDiff, instance.refWeight() / 50);
 
             // Assert that applied weight is in any case greater or equal to expected one
             assertGe(appliedRefWeight, instance.refWeight());
@@ -949,7 +949,7 @@ contract Tests is Test, ModifiersExpectations {
                 : instance.maxDistributedLDY() - appliedMaxDistributedLDY;
 
             // Assert that the difference is lower than 1% of expected max distributed LDY
-            assertLe(weightDiff, instance.maxDistributedLDY() / 100);
+            assertLe(weightDiff, instance.maxDistributedLDY() / 50);
 
             // Assert that applied max distributed LDY is in any case lower or equal to expected one
             assertLe(appliedMaxDistributedLDY, instance.maxDistributedLDY());

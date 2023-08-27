@@ -945,6 +945,11 @@ contract Tests is Test, ModifiersExpectations {
         // Set a first random APR
         tested.setAPR(aprUD7x3);
 
+        // Ensure from and to addresses are different and not the zero address
+        vm.assume(from != to);
+        vm.assume(from != address(0));
+        vm.assume(to != address(0));
+
         // Randomly blacklist from address
         if (fromBlacklisted) globalBlacklist.blacklist(from);
 

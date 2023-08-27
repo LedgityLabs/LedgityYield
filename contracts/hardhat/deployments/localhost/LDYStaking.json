@@ -2,6 +2,121 @@
   "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
   "abi": [
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferStarted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "acceptOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "highTierAccounts",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pendingOwner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "status",
+          "type": "bool"
+        }
+      ],
+      "name": "setHighTierAccount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -17,43 +132,96 @@
           "type": "uint256"
         }
       ],
-      "stateMutability": "pure",
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "transactionHash": "0xdb433fbdd587108fe0f909a48e4363f881ae25e5ba677c3853e9a0d93f139d78",
+  "transactionHash": "0x14b15dd1ce91e7cff9a1b1c00f5ec2df6a6fd33b22ba9b8178344838d03bd628",
   "receipt": {
     "to": null,
     "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
     "contractAddress": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
     "transactionIndex": 0,
-    "gasUsed": "92309",
-    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-    "blockHash": "0xf7241378af8fd061b627766c23577ab4f63f079ee2429200d30eaaf289e553de",
-    "transactionHash": "0xdb433fbdd587108fe0f909a48e4363f881ae25e5ba677c3853e9a0d93f139d78",
-    "logs": [],
+    "gasUsed": "312711",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000010000000010000000000000000000000020000000000000100000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000002000000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x2cc5f4c605142860d7c78132c0c38740da2b1febc40b4794769d68d817418027",
+    "transactionHash": "0x14b15dd1ce91e7cff9a1b1c00f5ec2df6a6fd33b22ba9b8178344838d03bd628",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 8,
+        "transactionHash": "0x14b15dd1ce91e7cff9a1b1c00f5ec2df6a6fd33b22ba9b8178344838d03bd628",
+        "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0x2cc5f4c605142860d7c78132c0c38740da2b1febc40b4794769d68d817418027"
+      }
+    ],
     "blockNumber": 8,
-    "cumulativeGasUsed": "92309",
+    "cumulativeGasUsed": "312711",
     "status": 1,
     "byzantium": true
   },
   "args": [],
   "numDeployments": 1,
-  "solcInputHash": "9bd765f05e22b5ec29de574541b9f3c7",
-  "metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"tierOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"tier\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lila Rest (https://lila.rest)\",\"custom:security-contact\":\"security@ledgity.comsecurity@ledgity.com\",\"details\":\"This contract only implements tierOf() function from LDYStaking as it's the only one the LToken contract relies on.\",\"kind\":\"dev\",\"methods\":{\"tierOf(address)\":{\"details\":\"Dummy tierOf() function that always return that the given account is not ellgible to any LDY staking tier.\",\"params\":{\"account\":\"@\"}}},\"title\":\"LDYStaking\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Replacement of the LDYStaking until the $LDY token is available and the real LDYStaking contract is deployed.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/src/DummyLDYStaking.sol\":\"LDYStaking\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/src/DummyLDYStaking.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.18;\\n\\n/**\\n * @title LDYStaking\\n * @author Lila Rest (https://lila.rest)\\n * @custom:security-contact security@ledgity.com\\n *\\n * @notice Replacement of the LDYStaking until the $LDY token is available and the real\\n * LDYStaking contract is deployed.\\n *\\n * @dev This contract only implements tierOf() function from LDYStaking as it's the only\\n * one the LToken contract relies on.\\n *\\n * @custom:security-contact security@ledgity.com\\n */\\ncontract LDYStaking {\\n    /**\\n     * @dev Dummy tierOf() function that always return that the given account is not\\n     * ellgible to any LDY staking tier.\\n     * @param account @\\n     */\\n    function tierOf(address account) public pure returns (uint256 tier) {\\n        account; // Silence unused variable compiler warning\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x8cd4bd13add4048231adb6e74adaecc3958918ae85fd22de106fce63ec806a5e\",\"license\":\"MIT\"}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5060b48061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063c8f74bb814602d575b600080fd5b603e60383660046050565b50600090565b60405190815260200160405180910390f35b600060208284031215606157600080fd5b81356001600160a01b0381168114607757600080fd5b939250505056fea2646970667358221220dce56110b394e9a65bd8f8f13f0296b74e189ee1e4b1afe70da185148326fd5e64736f6c63430008120033",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c8063c8f74bb814602d575b600080fd5b603e60383660046050565b50600090565b60405190815260200160405180910390f35b600060208284031215606157600080fd5b81356001600160a01b0381168114607757600080fd5b939250505056fea2646970667358221220dce56110b394e9a65bd8f8f13f0296b74e189ee1e4b1afe70da185148326fd5e64736f6c63430008120033",
+  "solcInputHash": "024b8981373ac91eb7d3cbe3ebc4e90d",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"highTierAccounts\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingOwner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"status\",\"type\":\"bool\"}],\"name\":\"setHighTierAccount\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"tierOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"tier\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lila Rest (https://lila.rest)\",\"custom:security-contact\":\"security@ledgity.comsecurity@ledgity.com\",\"details\":\"This contract only implements tierOf() function from LDYStaking as it's the only one the LToken contract relies on.\",\"kind\":\"dev\",\"methods\":{\"acceptOwnership()\":{\"details\":\"The new owner accepts the ownership transfer.\"},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"pendingOwner()\":{\"details\":\"Returns the address of the pending owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"setHighTierAccount(address,bool)\":{\"params\":{\"account\":\"The account to update the high tier status of.\"}},\"tierOf(address)\":{\"details\":\"Dummy tierOf() function that always return that the given account is not ellgible to any LDY staking tier, except if the account is in the defaultToHighestTier mapping.\",\"params\":{\"account\":\"The account to check the tier of.\"}},\"transferOwnership(address)\":{\"details\":\"Starts the ownership transfer of the contract to a new account. Replaces the pending transfer if there is one. Can only be called by the current owner.\"}},\"stateVariables\":{\"highTierAccounts\":{\"details\":\"This is notably used to allow Lockdrop contracts to benefit from 0% withdrawal fees in L-Tokens contracts, when accounts unlock their funds.\"}},\"title\":\"LDYStaking\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"highTierAccounts(address)\":{\"notice\":\"Holds a mapping of addresses that default to the highest staking tier.\"},\"setHighTierAccount(address,bool)\":{\"notice\":\"Update high tier status of a given account.\"}},\"notice\":\"Replacement to the LDYStaking contract until the $LDY token is available and the real LDYStaking can be deployed.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/src/DummyLDYStaking.sol\":\"LDYStaking\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.9.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the deployer as the initial owner.\\n     */\\n    constructor() {\\n        _transferOwnership(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        require(owner() == _msgSender(), \\\"Ownable: caller is not the owner\\\");\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        require(newOwner != address(0), \\\"Ownable: new owner is the zero address\\\");\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218\",\"license\":\"MIT\"},\"@openzeppelin/contracts/access/Ownable2Step.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.9.0) (access/Ownable2Step.sol)\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"./Ownable.sol\\\";\\n\\n/**\\n * @dev Contract module which provides access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership} and {acceptOwnership}.\\n *\\n * This module is used through inheritance. It will make available all functions\\n * from parent (Ownable).\\n */\\nabstract contract Ownable2Step is Ownable {\\n    address private _pendingOwner;\\n\\n    event OwnershipTransferStarted(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Returns the address of the pending owner.\\n     */\\n    function pendingOwner() public view virtual returns (address) {\\n        return _pendingOwner;\\n    }\\n\\n    /**\\n     * @dev Starts the ownership transfer of the contract to a new account. Replaces the pending transfer if there is one.\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual override onlyOwner {\\n        _pendingOwner = newOwner;\\n        emit OwnershipTransferStarted(owner(), newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`) and deletes any pending owner.\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual override {\\n        delete _pendingOwner;\\n        super._transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev The new owner accepts the ownership transfer.\\n     */\\n    function acceptOwnership() public virtual {\\n        address sender = _msgSender();\\n        require(pendingOwner() == sender, \\\"Ownable2Step: caller is not the new owner\\\");\\n        _transferOwnership(sender);\\n    }\\n}\\n\",\"keccak256\":\"0xde231558366826d7cb61725af8147965a61c53b77a352cc8c9af38fc5a92ac3c\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts v4.4.1 (utils/Context.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n}\\n\",\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\"},\"contracts/src/DummyLDYStaking.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.18;\\n\\nimport {Ownable2Step} from \\\"@openzeppelin/contracts/access/Ownable2Step.sol\\\";\\n\\n/**\\n * @title LDYStaking\\n * @author Lila Rest (https://lila.rest)\\n * @custom:security-contact security@ledgity.com\\n *\\n * @notice Replacement to the LDYStaking contract until the $LDY token is available and\\n * the real LDYStaking can be deployed.\\n *\\n * @dev This contract only implements tierOf() function from LDYStaking as it's the only\\n * one the LToken contract relies on.\\n *\\n * @custom:security-contact security@ledgity.com\\n */\\ncontract LDYStaking is Ownable2Step {\\n    /**\\n     * @notice Holds a mapping of addresses that default to the highest staking tier.\\n     * @dev This is notably used to allow Lockdrop contracts to benefit from 0%\\n     * withdrawal fees in L-Tokens contracts, when accounts unlock their funds.\\n     */\\n    mapping(address => bool) public highTierAccounts;\\n\\n    /**\\n     * @notice Update high tier status of a given account.\\n     * @param account The account to update the high tier status of.\\n     */\\n    function setHighTierAccount(address account, bool status) external onlyOwner {\\n        highTierAccounts[account] = status;\\n    }\\n\\n    /**\\n     * @dev Dummy tierOf() function that always return that the given account is not\\n     * ellgible to any LDY staking tier, except if the account is in the\\n     * defaultToHighestTier mapping.\\n     * @param account The account to check the tier of.\\n     */\\n    function tierOf(address account) public view returns (uint256 tier) {\\n        if (highTierAccounts[account]) return 3;\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x7498b825df00ceed5c3d04c11cfa484791e6b033e2228305ecbc73e72c089425\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b610096565b600180546001600160a01b031916905561004381610046602090811b6102bc17901c565b50565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b61042f806100a56000396000f3fe608060405234801561001057600080fd5b50600436106100885760003560e01c8063c66120f41161005b578063c66120f4146100dc578063c8f74bb81461010f578063e30c397814610130578063f2fde38b1461014157600080fd5b80634c1fa4b91461008d578063715018a6146100a257806379ba5097146100aa5780638da5cb5b146100b2575b600080fd5b6100a061009b36600461039b565b610154565b005b6100a0610187565b6100a061019b565b6000546001600160a01b03165b6040516001600160a01b0390911681526020015b60405180910390f35b6100ff6100ea3660046103d7565b60026020526000908152604090205460ff1681565b60405190151581526020016100d3565b61012261011d3660046103d7565b61021a565b6040519081526020016100d3565b6001546001600160a01b03166100bf565b6100a061014f3660046103d7565b61024b565b61015c61030c565b6001600160a01b03919091166000908152600260205260409020805460ff1916911515919091179055565b61018f61030c565b6101996000610366565b565b60015433906001600160a01b0316811461020e5760405162461bcd60e51b815260206004820152602960248201527f4f776e61626c6532537465703a2063616c6c6572206973206e6f7420746865206044820152683732bb9037bbb732b960b91b60648201526084015b60405180910390fd5b61021781610366565b50565b6001600160a01b03811660009081526002602052604081205460ff161561024357506003919050565b506000919050565b61025361030c565b600180546001600160a01b0383166001600160a01b031990911681179091556102846000546001600160a01b031690565b6001600160a01b03167f38d16b8cac22d99fc7c124b9cd0de2d3fa1faef420bfe791d8c362d765e2270060405160405180910390a350565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000546001600160a01b031633146101995760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610205565b600180546001600160a01b0319169055610217816102bc565b80356001600160a01b038116811461039657600080fd5b919050565b600080604083850312156103ae57600080fd5b6103b78361037f565b9150602083013580151581146103cc57600080fd5b809150509250929050565b6000602082840312156103e957600080fd5b6103f28261037f565b939250505056fea26469706673582212200d91bf62047f51d44d43f888c824990a8c02519e11ab17a0fa89f14e09aafaeb64736f6c63430008120033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100885760003560e01c8063c66120f41161005b578063c66120f4146100dc578063c8f74bb81461010f578063e30c397814610130578063f2fde38b1461014157600080fd5b80634c1fa4b91461008d578063715018a6146100a257806379ba5097146100aa5780638da5cb5b146100b2575b600080fd5b6100a061009b36600461039b565b610154565b005b6100a0610187565b6100a061019b565b6000546001600160a01b03165b6040516001600160a01b0390911681526020015b60405180910390f35b6100ff6100ea3660046103d7565b60026020526000908152604090205460ff1681565b60405190151581526020016100d3565b61012261011d3660046103d7565b61021a565b6040519081526020016100d3565b6001546001600160a01b03166100bf565b6100a061014f3660046103d7565b61024b565b61015c61030c565b6001600160a01b03919091166000908152600260205260409020805460ff1916911515919091179055565b61018f61030c565b6101996000610366565b565b60015433906001600160a01b0316811461020e5760405162461bcd60e51b815260206004820152602960248201527f4f776e61626c6532537465703a2063616c6c6572206973206e6f7420746865206044820152683732bb9037bbb732b960b91b60648201526084015b60405180910390fd5b61021781610366565b50565b6001600160a01b03811660009081526002602052604081205460ff161561024357506003919050565b506000919050565b61025361030c565b600180546001600160a01b0383166001600160a01b031990911681179091556102846000546001600160a01b031690565b6001600160a01b03167f38d16b8cac22d99fc7c124b9cd0de2d3fa1faef420bfe791d8c362d765e2270060405160405180910390a350565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000546001600160a01b031633146101995760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610205565b600180546001600160a01b0319169055610217816102bc565b80356001600160a01b038116811461039657600080fd5b919050565b600080604083850312156103ae57600080fd5b6103b78361037f565b9150602083013580151581146103cc57600080fd5b809150509250929050565b6000602082840312156103e957600080fd5b6103f28261037f565b939250505056fea26469706673582212200d91bf62047f51d44d43f888c824990a8c02519e11ab17a0fa89f14e09aafaeb64736f6c63430008120033",
   "devdoc": {
     "author": "Lila Rest (https://lila.rest)",
     "custom:security-contact": "security@ledgity.comsecurity@ledgity.com",
     "details": "This contract only implements tierOf() function from LDYStaking as it's the only one the LToken contract relies on.",
     "kind": "dev",
     "methods": {
-      "tierOf(address)": {
-        "details": "Dummy tierOf() function that always return that the given account is not ellgible to any LDY staking tier.",
+      "acceptOwnership()": {
+        "details": "The new owner accepts the ownership transfer."
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "pendingOwner()": {
+        "details": "Returns the address of the pending owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "setHighTierAccount(address,bool)": {
         "params": {
-          "account": "@"
+          "account": "The account to update the high tier status of."
         }
+      },
+      "tierOf(address)": {
+        "details": "Dummy tierOf() function that always return that the given account is not ellgible to any LDY staking tier, except if the account is in the defaultToHighestTier mapping.",
+        "params": {
+          "account": "The account to check the tier of."
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Starts the ownership transfer of the contract to a new account. Replaces the pending transfer if there is one. Can only be called by the current owner."
+      }
+    },
+    "stateVariables": {
+      "highTierAccounts": {
+        "details": "This is notably used to allow Lockdrop contracts to benefit from 0% withdrawal fees in L-Tokens contracts, when accounts unlock their funds."
       }
     },
     "title": "LDYStaking",
@@ -61,12 +229,62 @@
   },
   "userdoc": {
     "kind": "user",
-    "methods": {},
-    "notice": "Replacement of the LDYStaking until the $LDY token is available and the real LDYStaking contract is deployed.",
+    "methods": {
+      "highTierAccounts(address)": {
+        "notice": "Holds a mapping of addresses that default to the highest staking tier."
+      },
+      "setHighTierAccount(address,bool)": {
+        "notice": "Update high tier status of a given account."
+      }
+    },
+    "notice": "Replacement to the LDYStaking contract until the $LDY token is available and the real LDYStaking can be deployed.",
     "version": 1
   },
   "storageLayout": {
-    "storage": [],
-    "types": null
+    "storage": [
+      {
+        "astId": 2904,
+        "contract": "contracts/src/DummyLDYStaking.sol:LDYStaking",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 3017,
+        "contract": "contracts/src/DummyLDYStaking.sol:LDYStaking",
+        "label": "_pendingOwner",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 4710,
+        "contract": "contracts/src/DummyLDYStaking.sol:LDYStaking",
+        "label": "highTierAccounts",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_bool)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      }
+    }
   }
 }
