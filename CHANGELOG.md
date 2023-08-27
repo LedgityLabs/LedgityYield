@@ -1,3 +1,10 @@
+## [1.194.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.193.0...v1.194.0) (2023-08-27)
+
+
+### Features
+
+* add some more meta keywords ([eb850c4](https://github.com/LedgityLabs/LedgityYield/commit/eb850c457efb89a01f1e2f5e466516ee81b651f1))
+
 ## [1.193.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.192.1...v1.193.0) (2023-08-27)
 
 
