@@ -172,6 +172,18 @@ contract Lockdrop is Ownable2Step, Pausable {
     }
 
     /**
+     * @notice Public implementation of Pausable's pausing and unpausing functions, but
+     * restricted to contract's owner.
+     */
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
+    }
+
+    /**
      * @notice Updates the LDY token contract address.
      * @dev As the first Ledgity Yield lockdrop campaigns will start before the LDY TGE,
      * this function allows the contract's owner to set the LDY token address once it
@@ -366,7 +378,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      * function to users only when it has been verified that it will not revert. They
      * should propose the requestUnlock() function otherwise.
      */
-    function instantUnlock() external safeUnlock whenNotPaused {
+    function instantUnlock() external whenNotPaused safeUnlock {
         // Retrieve underlying tokens from the L-Token contract
         uint256 unlockedAmount = accountsLocks[msg.sender].amount;
         lToken.instantWithdrawal(unlockedAmount);
@@ -381,7 +393,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      * @dev The sender must attach 0.003 ETH to pre-pay the future processing gas fees
      * paid by the withdrawer wallet.
      */
-    function requestUnlock() external payable safeUnlock whenNotPaused {
+    function requestUnlock() external payable whenNotPaused safeUnlock {
         // Put account in the unlock requests queue
         unlockRequests.push(msg.sender);
 
@@ -395,9 +407,6 @@ contract Lockdrop is Ownable2Step, Pausable {
      * else not enough underlying tokens to continue.
      */
     function processUnlockRequests() external onlyOwner {
-        // Ensure the Claim phase has started
-        require(hasClaimPhaseStarted, "L87");
-
         // Store the current request ID to process
         uint256 processedId = unlockRequestsCursor;
 
@@ -408,7 +417,7 @@ contract Lockdrop is Ownable2Step, Pausable {
             if (gasleft() < 45000) break;
 
             // Retrieve the request account
-            address unlockAccount = unlockRequests[unlockRequestsCursor];
+            address unlockAccount = unlockRequests[processedId];
 
             // Retrieve the unlocked amount
             uint256 unlockAmount = accountsLocks[unlockAccount].amount;
@@ -419,7 +428,7 @@ contract Lockdrop is Ownable2Step, Pausable {
                 if (lToken.underlying().balanceOf(address(this)) < unlockAmount) break;
 
                 // Delete the request
-                delete unlockRequests[unlockRequestsCursor];
+                delete unlockRequests[processedId];
 
                 // Transfer underlying back to account
                 IERC20(address(lToken.underlying())).safeTransfer(unlockAccount, unlockAmount);
@@ -467,7 +476,7 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Allows the caller to claim its available LDY rewards.
     function claimRewards() external whenNotPaused {
         // Ensure Claim phase has started
-        require(hasClaimPhaseStarted, "L88");
+        require(hasClaimPhaseStarted, "L87");
 
         // Compute claimable LDY rewards
         uint256 claimableLDY = availableToClaim(msg.sender);

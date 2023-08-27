@@ -3075,7 +3075,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // Process requests queued withdraw with a limit of 5M
-        // It should revert from OOG
+        // It should revert from OOG if not prevent by the function
         vm.prank(withdrawerWallet);
         tested.processQueuedRequests{gas: 5000000}();
 

@@ -109,7 +109,6 @@ export const displayedErrors: { [key: string]: string } = {
   L85: "Lock duration out-of-bound",
   L86: "Hard cap reached",
   L87: "Claim phase not started yet",
-  L88: "Claim phase not started yet",
 };
 
 export const prettyErrorMessage = (error: BaseError | Error) => {

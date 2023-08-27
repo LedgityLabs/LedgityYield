@@ -62,7 +62,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // ========================
     // === pause() function ===
-    function test_pause_1(address account) public {
+    function testFuzz_pause_1(address account) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
@@ -80,9 +80,9 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.paused(), true);
     }
 
-    // ========================
+    // ==========================
     // === unpause() function ===
-    function test_unpause_1(address account) public {
+    function testFuzz_unpause_1(address account) public {
         console.log("Should revert if not called by owner");
 
         // Ensure the random account is not the fund wallet
