@@ -177,7 +177,6 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function testFuzz_constructor_4(
-        address lTokenAddress,
         uint256 maxDistributedLDY,
         int256 lockedHardCap,
         uint8 minLockDuration,
@@ -197,7 +196,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Create a new instance of the Lockdrop contract
         Lockdrop instance = new Lockdrop(
-            lTokenAddress,
+            address(lToken),
             maxDistributedLDY,
             lockedHardCap,
             minLockDuration,
@@ -206,7 +205,9 @@ contract Tests is Test, ModifiersExpectations {
         );
 
         // Assert that the immutable states have been properly set
-        assertEq(address(instance.lToken()), lTokenAddress);
+        assertEq(address(instance.lToken()), address(lToken));
+        assertEq(address(instance.underlyingToken()), address(underlyingToken));
+        assertEq(address(instance.underlyingToken()), address(instance.lToken().underlying()));
         assertEq(instance.maxDistributedLDY(), maxDistributedLDY);
         assertEq(instance.lockedHardCap(), lockedHardCap);
         assertEq(instance.minLockDuration(), minLockDuration);
@@ -610,7 +611,6 @@ contract Tests is Test, ModifiersExpectations {
     // ============================
     // === refWeight() function ===
     function test_refWeight_1(
-        address lTokenAddress,
         uint256 maxDistributedLDY,
         int256 lockedHardCap,
         uint8 minLockDuration,
@@ -635,7 +635,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Create an instance of Lockdrop contract with an hard cap
         Lockdrop instance = new Lockdrop(
-            lTokenAddress,
+            address(lToken),
             maxDistributedLDY,
             lockedHardCap,
             minLockDuration,

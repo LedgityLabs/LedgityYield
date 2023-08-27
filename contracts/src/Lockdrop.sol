@@ -7,8 +7,6 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
 
-import "hardhat/console.sol";
-
 /**
  * @title Lockdrop
  * @author Lila Rest (https://lila.rest)
@@ -85,6 +83,9 @@ contract Lockdrop is Ownable2Step, Pausable {
 
     /// @notice Holds a reference to the locked L-Token contract.
     LToken public immutable lToken;
+
+    /// @notice Holds a reference to the L-Token underlying stablecoin.
+    IERC20 public immutable underlyingToken;
 
     /// @notice Holds a reference to the LDY token contract.
     IERC20 public ldyToken;
@@ -164,6 +165,7 @@ contract Lockdrop is Ownable2Step, Pausable {
 
         // Set immutable states
         lToken = LToken(lTokenAddress_);
+        underlyingToken = IERC20(address(lToken.underlying()));
         lockedHardCap = lockedHardCap_;
         maxDistributedLDY = distributedLDY_;
         minLockDuration = minLockDuration_;
@@ -270,7 +272,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      * @param tokenAddress The address of the token to recover.
      * @param amount The amount of token to recover.
      */
-    function recoverERC20(address tokenAddress, uint256 amount) public onlyOwner {
+    function recoverERC20(address tokenAddress, uint256 amount) external onlyOwner {
         // Ensure recovery phase has started
         require(hasRecoveryPhaseStarted, "L82");
 
@@ -364,10 +366,10 @@ contract Lockdrop is Ownable2Step, Pausable {
         if (amount == 0) return;
 
         // Transfer underlyingToken from account to contract
-        IERC20(address(lToken.underlying())).safeTransferFrom(msg.sender, address(this), amount);
+        underlyingToken.safeTransferFrom(msg.sender, address(this), amount);
 
         // Deposit USDC in the L-Token contract
-        lToken.underlying().approve(address(lToken), amount);
+        underlyingToken.safeApprove(address(lToken), amount);
         lToken.deposit(amount);
     }
 
@@ -384,7 +386,7 @@ contract Lockdrop is Ownable2Step, Pausable {
         lToken.instantWithdrawal(unlockedAmount);
 
         // Transfer underlying tokens back to caller
-        IERC20(address(lToken.underlying())).safeTransfer(msg.sender, unlockedAmount);
+        underlyingToken.safeTransfer(msg.sender, unlockedAmount);
     }
 
     /**
@@ -425,13 +427,13 @@ contract Lockdrop is Ownable2Step, Pausable {
             // If the request has already been processed, skip it
             if (unlockAccount != address(0)) {
                 // If the contract doesn't hold enough underlying tokens to process the request, stop here
-                if (lToken.underlying().balanceOf(address(this)) < unlockAmount) break;
+                if (underlyingToken.balanceOf(address(this)) < unlockAmount) break;
 
                 // Delete the request
                 delete unlockRequests[processedId];
 
                 // Transfer underlying back to account
-                IERC20(address(lToken.underlying())).safeTransfer(unlockAccount, unlockAmount);
+                underlyingToken.safeTransfer(unlockAccount, unlockAmount);
             }
 
             // Increment processed request ID
