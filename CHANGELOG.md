@@ -1,3 +1,15 @@
+## [1.192.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.192.0...v1.192.1) (2023-08-27)
+
+
+### Fixes
+
+* fix /app links to /app/invest to remove a redirection ([f8e3b7f](https://github.com/LedgityLabs/LedgityYield/commit/f8e3b7fbe46e64923250473c49dcb1aef8c0c9f9))
+
+
+### Tests
+
+* continue Lockdrop unit tests ([5b1088c](https://github.com/LedgityLabs/LedgityYield/commit/5b1088cd175afe43c8ba8738840e9c5632e19f93))
+
 ## [1.192.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.3...v1.192.0) (2023-08-26)
 
 
