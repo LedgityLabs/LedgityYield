@@ -452,25 +452,18 @@ contract Lockdrop is Ownable2Step, Pausable {
         // Compute total amount of rewards allocated to this locker
         uint256 totalEligibleRewards = eligibleRewardsOf(account);
 
-        // Compute elapsed months since claim phase started
-        // Note: Numbers are scaled by 3 decimals to retain precision
-        uint256 elapsedTimeS3 = (block.timestamp - claimPhaseStartTimestamp) * 10 ** 3;
-        uint256 ONE_MONTH_IN_SECONDS_S3 = ONE_MONTH_IN_SECONDS * 10 ** 3;
-        uint256 elapsedMonthsS3 = (elapsedTimeS3 * 10 ** 3) / ONE_MONTH_IN_SECONDS_S3;
+        // Compute vesting duration in seconds
+        uint256 vestingInSeconds = uint256(vestingDuration) * ONE_MONTH_IN_SECONDS;
 
-        // Compute portion total rewards that have are released (vesting)
-        uint256 vestingDurationS3 = uint256(vestingDuration) * 10 ** 3;
-        uint256 totalAvailableToClaim = (totalEligibleRewards * elapsedMonthsS3) /
-            vestingDurationS3;
+        // Compute elapsed months since claim phase started, and cap it to vesting duration
+        uint256 elapsedTime = block.timestamp - claimPhaseStartTimestamp;
+        if (elapsedTime > vestingInSeconds) elapsedTime = vestingInSeconds;
 
-        // If claimed rewards are slightly greater than total available to claim, return unclaimed rewards
-        // This prevent claiming being blocked by precision loss
-        if (accountsLocks[msg.sender].claimedRewards > totalAvailableToClaim) {
-            return totalEligibleRewards - accountsLocks[msg.sender].claimedRewards;
-        }
+        // Compute total available to claim (proportionally to elapsed time)
+        uint256 totalAvailableToClaim = (totalEligibleRewards * elapsedTime) / vestingInSeconds;
 
         // Else return net claimable (available minus already claimed)
-        return totalAvailableToClaim - accountsLocks[msg.sender].claimedRewards;
+        return totalAvailableToClaim - accountsLocks[account].claimedRewards;
     }
 
     /// @notice Allows the caller to claim its available LDY rewards.
