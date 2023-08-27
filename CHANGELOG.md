@@ -1,3 +1,22 @@
+## [1.194.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.194.0...v1.194.1) (2023-08-27)
+
+
+### Fixes
+
+* few syntactic adjustments to Lockdrop contract + static analysis run ([0ee41a9](https://github.com/LedgityLabs/LedgityYield/commit/0ee41a91c0cd8ecaaebd5f2ac64613b1b933daf6))
+
+
+### Tests
+
+* finzalize Lockdrop unit tests ([9c1a855](https://github.com/LedgityLabs/LedgityYield/commit/9c1a855d01273ffa905563f740474085a948addd))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.5.6 ([ea11979](https://github.com/LedgityLabs/LedgityYield/commit/ea119792cef2f2fbaf0bbc86a76c8a34a83dea17))
+* **deps:** update dependency eslint to v8.48.0 ([abf25ee](https://github.com/LedgityLabs/LedgityYield/commit/abf25ee004db0294d5337e6513d2889749cf66e2))
+* **deps:** update dependency typescript to v5.2.2 ([db3f86d](https://github.com/LedgityLabs/LedgityYield/commit/db3f86d201596f36eb52b860dfcb8fab97dc9e7c))
+
 ## [1.194.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.193.0...v1.194.0) (2023-08-27)
 
 
