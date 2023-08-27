@@ -1,3 +1,10 @@
+## [1.193.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.192.1...v1.193.0) (2023-08-27)
+
+
+### Features
+
+* add auto-generated sitemaps ([025827a](https://github.com/LedgityLabs/LedgityYield/commit/025827a78062cfa2c611446e7ee130d33dda1317))
+
 ## [1.192.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.192.0...v1.192.1) (2023-08-27)
 
 
