@@ -11,6 +11,7 @@ import { formatUnits, zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
 import clsx from "clsx";
 import { Amount } from "./Amount";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   token: `0x${string}`;
@@ -33,6 +34,7 @@ export const AllowanceTxButton: FC<Props> = ({
   transactionSummary = "",
   hasUserInteracted = false,
   disabled,
+  className,
   ...props
 }) => {
   const { data: walletClient } = useWalletClient();
@@ -55,7 +57,7 @@ export const AllowanceTxButton: FC<Props> = ({
   return (
     <div>
       <TxButton
-        className={clsx(!hasEnoughAllowance && "hidden pointer-events-none")}
+        className={twMerge(!hasEnoughAllowance && "pointer-events-none hidden", className)}
         hideTooltips={!hasEnoughAllowance}
         hasUserInteracted={hasUserInteracted}
         preparation={preparation}
@@ -64,7 +66,7 @@ export const AllowanceTxButton: FC<Props> = ({
         {...props}
       />
       <TxButton
-        className={clsx(hasEnoughAllowance && "hidden pointer-events-none")}
+        className={twMerge(hasEnoughAllowance && "pointer-events-none hidden", className)}
         hideTooltips={hasEnoughAllowance}
         preparation={allowancePreparation}
         disabled={amount === 0n}
@@ -77,7 +79,7 @@ export const AllowanceTxButton: FC<Props> = ({
               decimals={decimals}
               suffix={symbol}
               displaySymbol={true}
-              className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2"
+              className="text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
             />
           </span>
         }

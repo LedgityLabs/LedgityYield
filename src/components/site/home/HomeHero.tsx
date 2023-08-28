@@ -120,7 +120,7 @@ const HomeHero: FC<Props> = ({ className }) => {
                 Arbitrum Lockdrop
               </div>
               <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
-                Lock USDC on Arbitrum and <br className="md:hidden" />
+                Lock USDC and <br className="md:hidden" />
                 receive very first LDY tokens
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
               </div>

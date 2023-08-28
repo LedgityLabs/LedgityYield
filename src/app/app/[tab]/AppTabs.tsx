@@ -2,7 +2,8 @@
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
-import { AppLockdrop } from "@/components/app/lockdrop/AppLockdrop";
+import { AppLockdrop as OldAppLockdrop } from "@/components/app/lockdrop/AppLockdrop";
+import { AppLockdrop } from "@/components/app/_lockdrop/AppLockdrop";
 import { AppMultiLockdrop } from "@/components/app/multi-lockdrop/AppMultiLockdrop";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 
@@ -90,6 +91,9 @@ const AppTabs: NextPage<Props> = ({ defaultTab }) => {
           <AppInvest />
         </TabsContent>
         <TabsContent value="lockdrop">
+          <OldAppLockdrop />
+        </TabsContent>
+        <TabsContent value="_lockdrop">
           <AppLockdrop />
         </TabsContent>
         <TabsContent value="multi-lockdrop">

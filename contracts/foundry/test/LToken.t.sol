@@ -3774,6 +3774,7 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure account is not the zero address
         vm.assume(account != address(0));
         vm.assume(account != address(tested));
+        vm.assume(account != address(withdrawerWallet));
 
         // Set first random APR
         tested.setAPR(aprUD7x3);

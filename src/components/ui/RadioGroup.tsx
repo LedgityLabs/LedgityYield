@@ -11,22 +11,20 @@ export const RadioGroup: FC<React.ComponentPropsWithoutRef<typeof RadioGroupPrim
   return <RadioGroupPrimitive.Root className={twMerge("grid gap-2", className)} {...props} />;
 };
 
-export const RadioGroupItem: FC<React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>> = ({
-  className,
-  children,
-  ...props
-}) => {
+export const RadioGroupItem: FC<
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+> = ({ className, children, ...props }) => {
   return (
     <RadioGroupPrimitive.Item
       className={twMerge(
-        "w-5 h-5 rounded-full border-2 border-border shadow-[0px_4px_12px_rgba(0,0,0,0.07)] bg-fg/[0.07] [&[data-state='checked']]:bg-accent text-primary [&[data-state='unchecked']]:text-fg/50 font-medium [&[data-state='checked']]:font-semibold",
-        className
+        "h-5 w-5 rounded-full border-2 border-border bg-fg/[0.07] font-medium text-primary shadow-[0px_4px_12px_rgba(0,0,0,0.07)] [&[data-state='checked']]:bg-accent [&[data-state='checked']]:font-semibold [&[data-state='unchecked']]:text-fg/50",
+        className,
       )}
       {...props}
     >
       {children || (
         <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-          <span className="inline-block h-2.5 aspect-square bg-primary text-fg rounded-full"></span>
+          <span className="inline-block aspect-square h-2.5 rounded-full bg-primary text-fg"></span>
         </RadioGroupPrimitive.Indicator>
       )}
     </RadioGroupPrimitive.Item>

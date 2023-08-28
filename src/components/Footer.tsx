@@ -78,7 +78,7 @@ const Footer: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className }) => {
               <li className="flex items-center justify-center">
                 <Link
                   aria-label="Email"
-                  href="mailto:defi@ledgity.com"
+                  href="mailto:contact@ledgity.finance"
                   target="_blank"
                   className="inline-block h-8 w-8"
                 >

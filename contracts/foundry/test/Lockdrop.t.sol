@@ -1262,6 +1262,8 @@ contract Tests is Test, ModifiersExpectations {
 
         // Ensure locker is not the zero address
         vm.assume(locker != address(0));
+        vm.assume(locker != address(tested));
+        vm.assume(locker != address(lToken));
 
         // Ensure lockAmount is at least equal to 1
         lockAmount = uint240(bound(lockAmount, 0, uint256(LOCKED_HARD_CAP)));
@@ -1513,6 +1515,8 @@ contract Tests is Test, ModifiersExpectations {
 
         // Ensure locker is not the zero address
         vm.assume(locker != address(0));
+        vm.assume(locker != address(tested));
+        vm.assume(locker != address(lToken));
 
         // Ensure lockAmount is at least equal to 1
         lockAmount = uint240(bound(lockAmount, 1, uint256(LOCKED_HARD_CAP)));
