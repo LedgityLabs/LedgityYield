@@ -155,8 +155,8 @@ devDependencies:
     specifier: 10.4.15
     version: 10.4.15(postcss@8.4.28)
   conventional-changelog-conventionalcommits:
-    specifier: ^6.1.0
-    version: 6.1.0
+    specifier: ^7.0.0
+    version: 7.0.1
   cross-env:
     specifier: ^7.0.3
     version: 7.0.3
@@ -7634,9 +7634,9 @@ packages:
       compare-func: 2.0.0
     dev: true
 
-  /conventional-changelog-conventionalcommits@6.1.0:
-    resolution: {integrity: sha512-3cS3GEtR78zTfMzk0AizXKKIdN4OvSh7ibNz6/DPbhWWQu7LqE/8+/GqSodV+sywUR2gpJAdP/1JFf4XtN7Zpw==}
-    engines: {node: '>=14'}
+  /conventional-changelog-conventionalcommits@7.0.1:
+    resolution: {integrity: sha512-VfFJxBmi+LYXeb4pIfZGbuaFCpWZh0qXbUAKP/s6B8tigV6R4D8j5PDlTtMMWawa7+DcNySVoF7kPWz0EMYuCQ==}
+    engines: {node: '>=16'}
     dependencies:
       compare-func: 2.0.0
     dev: true
