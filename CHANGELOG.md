@@ -1,3 +1,10 @@
+## [1.195.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.194.1...v1.195.0) (2023-08-27)
+
+
+### Features
+
+* lockdrop deployments scripts + few unit tests fixes ([d43f17e](https://github.com/LedgityLabs/LedgityYield/commit/d43f17e0c4c5287ccd9cf95e7320d49fefd4ce5e))
+
 ## [1.194.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.194.0...v1.194.1) (2023-08-27)
 
 
