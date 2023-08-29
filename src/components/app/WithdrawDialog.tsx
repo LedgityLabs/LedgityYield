@@ -63,7 +63,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
           <DialogTitle>Witdhraw {underlyingSymbol}</DialogTitle>
           <DialogDescription>
             <div>
-              <span className="text-primary font-semibold text-xl inline-block mb-1">
+              <span className="mb-1 inline-block text-xl font-semibold text-primary">
                 You will receive {underlyingSymbol} in a 1:1 ratio.
               </span>
               <br />
@@ -71,20 +71,20 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             </div>
             {/* If instant withdrawal is not posssible actually, display info message */}
             {instantWithdrawalalPreparation.isError && (
-              <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">
-                <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
+              <div className="flex items-stretch justify-stretch gap-2 rounded-2xl bg-fg/[7%] p-4 text-fg/80">
+                <div className="flex items-center justify-center border-r border-r-fg/20 pr-4">
                   <i className="ri-information-line text-2xl" />
                 </div>
                 <div className="pl-4 text-left">
                   Your request will be <span className="font-semibold">queued</span> and
-                  auto-processed in <span className="font-semibold">3-5 working days</span>.
+                  auto-processed in <span className="font-semibold">1-2 working days</span>.
                 </div>
               </div>
             )}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <div className="flex gap-4 flex-nowrap items-end justify-center mt-6">
+          <div className="mt-6 flex flex-nowrap items-end justify-center gap-4">
             <AmountInput
               ref={inputEl}
               maxValue={balance}
@@ -113,7 +113,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       decimals={decimals}
                       suffix={"L" + underlyingSymbol}
                       displaySymbol={true}
-                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+                      className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                     />{" "}
                     against{" "}
                     <Amount
@@ -121,7 +121,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       decimals={decimals}
                       suffix={underlyingSymbol}
                       displaySymbol={true}
-                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+                      className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                     />{" "}
                   </span>
                 }
@@ -144,7 +144,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       decimals={decimals}
                       suffix={"L" + underlyingSymbol}
                       displaySymbol={true}
-                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+                      className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                     />{" "}
                     against{" "}
                     <Amount
@@ -152,7 +152,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       decimals={decimals}
                       suffix={underlyingSymbol}
                       displaySymbol={true}
-                      className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+                      className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                     />{" "}
                   </span>
                 }

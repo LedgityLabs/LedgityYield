@@ -48,10 +48,10 @@ export const AppLockdrop: FC = () => {
   });
 
   return (
-    <div className="flex w-full flex-col gap-8 pb-8 lg:w-[800px]">
+    <div className="flex w-full flex-col gap-8 pb-8 lg:w-[830px]">
       <Card
-        defaultGradient={true}
-        circleIntensity={0.07}
+        defaultGradient={false}
+        circleIntensity={0}
         className="flex w-full flex-col gap-10 bg-[#28a0f0]/20"
       >
         <div className="flex items-center justify-between p-11 pb-1 pt-12">
@@ -136,7 +136,7 @@ export const AppLockdrop: FC = () => {
               className="self-end opacity-80 transition-opacity hover:opacity-100"
             />
             <div className="flex flex-col gap-1 pb-10">
-              <ol className="list-decimal pl-10 font-medium text-fg/70">
+              <ol className="list-decimal pl-10 font-medium text-[#20456c]/70">
                 <li className="py-1">
                   You get <span className="font-bold text-fg/80">USDC 100% back</span> after the
                   lock period.
@@ -161,10 +161,10 @@ export const AppLockdrop: FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center gap-10 p-10 pt-0">
+        <div className="flex justify-center gap-12 p-12 pt-2">
           <div className="flex flex-col justify-end gap-3">
             <div className="flex items-end gap-5">
-              <p className="pb-3 text-lg font-bold">Lock duration</p>
+              <p className="pb-3 text-lg font-bold text-[#20456c]">Lock duration</p>
               <RadioGroup
                 defaultValue="3"
                 onValueChange={(value) => setLockDuration(Number.parseInt(value))}
@@ -173,45 +173,52 @@ export const AppLockdrop: FC = () => {
                 <RadioGroupItem
                   value="3"
                   id="3m"
-                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center text-[#0472B9]"
+                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
                 >
-                  <label htmlFor="3m" className="pointer-events-none relative">
-                    <span className="absolute -top-10 rounded-lg bg-[#CD7F32] px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                      x3
-                    </span>
+                  <label htmlFor="3m" className="pointer-events-none relative font-heading">
+                    <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
+                      <span className="rounded-lg bg-gradient-to-tr from-[#CD7F32] to-[#CD7F32]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
+                        x3
+                      </span>
+                    </div>
                     3M
                   </label>
                 </RadioGroupItem>
                 <RadioGroupItem
                   value="6"
                   id="6m"
-                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center text-[#0472B9]"
+                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
                 >
-                  <label htmlFor="6m" className="pointer-events-none relative">
-                    <span className="absolute -top-10 rounded-lg bg-[#8c8c8c] px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                      x6
-                    </span>
+                  <label htmlFor="6m" className="pointer-events-none relative font-heading">
+                    <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
+                      <span className="rounded-lg bg-gradient-to-tr from-[#8c8c8c] to-[#8c8c8c]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
+                        x6
+                      </span>
+                    </div>
                     6M
                   </label>
                 </RadioGroupItem>
                 <RadioGroupItem
                   value="12"
                   id="12m"
-                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center text-[#0472B9]"
+                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
                 >
-                  <label htmlFor="12" className="pointer-events-none relative">
-                    <span className="absolute -top-10 rounded-lg bg-[#DAA520] px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                      x12
-                    </span>
+                  <label htmlFor="12" className="pointer-events-none relative font-heading">
+                    <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
+                      <span className="rounded-lg bg-gradient-to-tr from-[#DAA520] to-[#DAA520]/70  px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
+                        x12
+                      </span>
+                    </div>
                     1Y
                   </label>
                 </RadioGroupItem>
               </RadioGroup>
             </div>
-            <div className="mt-6 flex flex-nowrap items-end justify-center gap-4">
+            <div className="mt-6 flex flex-nowrap items-start justify-center gap-4">
               <AmountInput
                 ref={inputEl}
                 maxValue={underlyingBalance}
+                maxToBottom={true}
                 decimals={6}
                 symbol="USDC"
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -219,7 +226,7 @@ export const AppLockdrop: FC = () => {
                   if (hasUserInteracted === false) setHasUserInteracted(true);
                   if (e.target.value === "") setHasUserInteracted(false);
                 }}
-                className="w-56"
+                className="w-64"
               />
               <AllowanceTxButton
                 size="medium"
@@ -255,7 +262,7 @@ export const AppLockdrop: FC = () => {
               </AllowanceTxButton>
             </div>
           </div>
-          <div className=" flex max-w-fit flex-col items-center justify-center gap-5 rounded-2xl border border-[#28a0f0]/20 bg-[#28a0f0]/10 p-5 px-16">
+          <div className=" flex max-w-fit flex-col items-center justify-center gap-5 rounded-3xl border border-[#28a0f0]/20 bg-[#28a0f0]/10 p-5 px-16">
             <div>
               <p className="text-center font-medium text-fg/40">You&apos;ll receive</p>
               <Amount
