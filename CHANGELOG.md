@@ -1,3 +1,10 @@
+## [1.196.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.196.0...v1.196.1) (2023-08-29)
+
+
+### Fixes
+
+* tiny unit tests fixes + fix big requests count in withdrawal requests admin ([d200ece](https://github.com/LedgityLabs/LedgityYield/commit/d200eceb424de8ff9a73864f3224e08ba4470cfa))
+
 ## [1.196.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.195.0...v1.196.0) (2023-08-28)
 
 
