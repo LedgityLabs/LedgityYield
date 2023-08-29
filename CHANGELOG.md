@@ -1,3 +1,10 @@
+## [1.197.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.196.1...v1.197.0) (2023-08-29)
+
+
+### Features
+
+* improved Arbitrum Lockdrop UI ([954cd1f](https://github.com/LedgityLabs/LedgityYield/commit/954cd1f1dc6c99af07ed59341584e2839bf67dc5))
+
 ## [1.196.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.196.0...v1.196.1) (2023-08-29)
 
 
