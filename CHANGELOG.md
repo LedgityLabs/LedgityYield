@@ -1,3 +1,16 @@
+## [1.196.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.195.0...v1.196.0) (2023-08-28)
+
+
+### Features
+
+* v1 of Lockdrop UI, new email address and unit tests fixes ([3382cc7](https://github.com/LedgityLabs/LedgityYield/commit/3382cc793edfafa7d95dacb964cdcf55fb7f465e))
+
+
+### Others
+
+* **deps:** update dependency @types/node to v20.5.7 ([717951d](https://github.com/LedgityLabs/LedgityYield/commit/717951decaab4e443ea3ba25f0b18b4d5e918184))
+* **deps:** update dependency conventional-changelog-conventionalcommits to v7 ([b36e74d](https://github.com/LedgityLabs/LedgityYield/commit/b36e74da0ab79d0fc59c4b55e6da52c68e14b61e))
+
 ## [1.195.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.194.1...v1.195.0) (2023-08-27)
 
 
