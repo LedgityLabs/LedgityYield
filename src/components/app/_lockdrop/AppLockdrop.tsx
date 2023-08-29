@@ -87,9 +87,9 @@ export const AppLockdrop: FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10 border-y border-y-[#28a0f0]/10 bg-[#28a0f0]/5 pr-6">
-          <div className="flex justify-around gap-10 px-10 ">
-            <p className="pt-10 font-heading text-3xl leading-10">
+        <div className="flex flex-col gap-8 border-y border-y-[#28a0f0]/10 bg-[#28a0f0]/5 px-6">
+          <div className="flex justify-around gap-8 px-10 ">
+            <p className="pt-8 font-heading text-3xl leading-10">
               <span className="whitespace-nowrap text-center font-bold text-[#20456c]">
                 Lock{" "}
                 <span className="pl-1 text-[#2676ca]">
@@ -135,7 +135,7 @@ export const AppLockdrop: FC = () => {
               width={180}
               className="self-end opacity-80 transition-opacity hover:opacity-100"
             />
-            <div className="flex flex-col gap-1 pb-10">
+            <div className="flex flex-col gap-1 pb-8">
               <ol className="list-decimal pl-10 font-medium text-[#20456c]/70">
                 <li className="py-1">
                   You get <span className="font-bold text-fg/80">USDC 100% back</span> after the
@@ -154,7 +154,7 @@ export const AppLockdrop: FC = () => {
               <Link
                 href="https://docs.ledgity.finance/opportunities/arbitrum-lockdrop"
                 target="_blank"
-                className="pl-6 font-semibold text-fg/90 underline decoration-fg/20 underline-offset-2 transition-colors hover:text-slate-900"
+                className="pl-6 font-semibold text-[#20456c]/90 underline decoration-fg/20 underline-offset-2 transition-colors hover:text-[#20456c]"
               >
                 Learn more <i className="ri-arrow-right-line" />
               </Link>

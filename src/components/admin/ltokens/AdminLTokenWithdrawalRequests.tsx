@@ -17,6 +17,7 @@ import {
   useLTokenGetExpectedRetained,
   useLTokenUnderlying,
   useLTokenUsableUnderlyings,
+  useLTokenWithdrawalQueue,
   useLTokenWithdrawalQueueCursor,
   usePrepareLTokenProcessBigQueuedRequest,
   usePrepareLTokenProcessQueuedRequests,
@@ -38,10 +39,16 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
     args: [requestId],
   });
   const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress });
+  const { data: requestData } = useLTokenWithdrawalQueue({
+    address: lTokenAddress,
+    args: [requestId],
+  });
+
   return (
     <AllowanceTxButton
       token={underlyingAddress!}
       spender={lTokenAddress!}
+      amount={requestData ? requestData[1] : 0n}
       size="tiny"
       preparation={preparation}
       transactionSummary={`Process big request with ID = ${Number(requestId)}`}
@@ -297,6 +304,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                     </p>
                     <AllowanceTxButton
                       size="tiny"
+                      amount={repatriationAmount}
                       token={underlyingAddress!}
                       spender={lTokenAddress!}
                       preparation={repatriationPreparation}
