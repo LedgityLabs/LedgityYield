@@ -251,7 +251,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   return (
     <AdminBrick
       title="Withdrawal requests"
-      className="[column-span:all;] flex flex-col items-center justify-center p-16 pt-8"
+      className="flex flex-col items-center justify-center p-16 pt-8 [column-span:all;]"
     >
       <div className="flex flex-col gap-5">
         <h4 className="font-heading text-xl font-bold">Actions needed</h4>
@@ -260,9 +260,9 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
             <Spinner />
           </div>
         ) : (
-          <ul className="list-disc pl-5 list-inside flex flex-col gap-2 mb-5 -mt-2">
+          <ul className="-mt-2 mb-5 flex list-inside list-disc flex-col gap-2 pl-5">
             <li>
-              <div className="inline-flex gap-3 items-center text-lg">
+              <div className="inline-flex items-center gap-3 text-lg">
                 {nonBigRequestsCount > 0 ? (
                   <>
                     <p className="text-lg">
@@ -283,7 +283,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
               </div>
             </li>
             <li>
-              <div className="inline-flex gap-3 items-center text-lg">
+              <div className="inline-flex items-center gap-3 text-lg">
                 {repatriationNeeded ? (
                   <>
                     <p>
@@ -322,12 +322,11 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
               </div>
             </li>
             <li>
-              <div className="inline-flex gap-3 items-center text-lg">
-                {nonBigRequestsCount - requestsData.length > 0 ? (
+              <div className="inline-flex items-center gap-3 text-lg">
+                {requestsData.length - nonBigRequestsCount > 0 ? (
                   <p>
-                    <span className="font-bold">
-                      {nonBigRequestsCount - requestsData.length} big requests to process.
-                    </span>
+                    <span className="font-bold">{requestsData.length - nonBigRequestsCount}</span>{" "}
+                    big requests to process.
                   </p>
                 ) : (
                   <span className="text-fg/50">No big request to process.</span>
@@ -346,7 +345,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                 style={{
                   gridColumnStart: index + 1,
                 }}
-                className="inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50"
+                className="inline-flex items-center justify-center border-y border-y-fg/10 bg-fg/5 py-3 font-semibold text-fg/50"
               >
                 {(sortableColumns.includes(header.column.id) && (
                   <button
@@ -379,13 +378,13 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
 
             if (isLoading)
               return (
-                <div className="my-10 flex col-span-4 w-full items-center justify-center">
+                <div className="col-span-4 my-10 flex w-full items-center justify-center">
                   <Spinner />
                 </div>
               );
             else if (tableRows.length === 0)
               return (
-                <p className="my-10 col-span-4 w-full block text-center text-lg font-semibold text-fg/60">
+                <p className="col-span-4 my-10 block w-full text-center text-lg font-semibold text-fg/60">
                   No requests yet.
                 </p>
               );
@@ -398,7 +397,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                       gridColumnStart: cellIndex + 1,
                     }}
                     className={clsx(
-                      "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem] text-lg",
+                      "inline-flex items-center justify-center border-b border-b-fg/20 py-3 text-[0.9rem] text-lg font-medium text-fg/90",
                       rowIndex == tableRows.length - 1 && "border-b-0",
                     )}
                   >

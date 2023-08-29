@@ -722,7 +722,7 @@ contract Tests is Test, ModifiersExpectations {
         maxLockDuration = uint8(bound(maxLockDuration, minLockDuration, type(uint8).max));
 
         // Ensure max distributed LDY is greater than 1 LDY
-        maxDistributedLDY = bound(maxDistributedLDY, 1 * 10 ** 18, 10_000_000 * 10 ** 18);
+        maxDistributedLDY = bound(maxDistributedLDY, 1000 * 10 ** 18, 10_000_000 * 10 ** 18);
 
         // Create an instance of Lockdrop contract without hard cap
         Lockdrop instance = new Lockdrop(
@@ -808,8 +808,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure maxLockDuration is at least equal to minLockDuration
         maxLockDuration = uint8(bound(maxLockDuration, minLockDuration, type(uint8).max));
 
-        // Ensure max distributed LDY is greater than 1 LDY
-        maxDistributedLDY = bound(maxDistributedLDY, 1 * 10 ** 18, 10_000_000 * 10 ** 18);
+        // Ensure max distributed LDY is greater than 1000 LDY
+        maxDistributedLDY = bound(maxDistributedLDY, 1000 * 10 ** 18, 10_000_000 * 10 ** 18);
 
         // Create an instance of Lockdrop contract without hard cap
         Lockdrop instance = new Lockdrop(
@@ -895,7 +895,7 @@ contract Tests is Test, ModifiersExpectations {
         maxLockDuration = uint8(bound(maxLockDuration, minLockDuration, type(uint8).max));
 
         // Ensure max distributed LDY is greater than 1 LDY
-        maxDistributedLDY = bound(maxDistributedLDY, 1 * 10 ** 18, 10_000_000 * 10 ** 18);
+        maxDistributedLDY = bound(maxDistributedLDY, 1000 * 10 ** 18, 10_000_000 * 10 ** 18);
 
         // Create an instance of Lockdrop contract without hard cap
         Lockdrop instance = new Lockdrop(
