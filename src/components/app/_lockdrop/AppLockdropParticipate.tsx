@@ -54,6 +54,20 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
   if (receivedAllocation > 100) receivedAllocation = 100;
   if (receivedLDY > distributedLDY) receivedLDY = distributedLDY;
 
+  // Figure parent error
+  let isParentError = false;
+  let parentError = "";
+  // - Display error if not connected to Arbitrum network
+  if (walletClient && ![42161, 31337].includes(walletClient.chain.id)) {
+    isParentError = true;
+    parentError = "Please switch to Arbitrum network";
+  }
+  // - Display error if trying to lock more than hardcap
+  else if (depositedAmount > parseUnits((5_000_000).toString(), 6)) {
+    isParentError = true;
+    parentError = "Lockdrop is capped to 5M USDC";
+  }
+
   return (
     <div className="flex justify-center gap-12 p-12 pt-2" {...props}>
       <div className="flex flex-col justify-end gap-3">
@@ -132,9 +146,8 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
             amount={depositedAmount}
             disabled={depositedAmount === 0n}
             hasUserInteracted={hasUserInteracted}
-            // Display error if trying to lock more than hardcap
-            parentIsError={depositedAmount > parseUnits((5_000_000).toString(), 6)}
-            parentError={"Lockdrop is capped to 5M USDC"}
+            parentIsError={isParentError}
+            parentError={parentError}
             className="bg-[#0472B9] transition-colors hover:bg-[#0472B9]/90"
             transactionSummary={
               <span>

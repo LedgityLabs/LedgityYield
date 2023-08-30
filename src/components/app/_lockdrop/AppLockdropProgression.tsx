@@ -3,7 +3,6 @@ import { Amount } from "@/components/ui";
 import { useLockdropTotalLocked } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { parseUnits } from "viem";
-import { Lexend_Tera } from "next/font/google";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
