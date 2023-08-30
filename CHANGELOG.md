@@ -1,3 +1,10 @@
+## [1.198.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.197.1...v1.198.0) (2023-08-30)
+
+
+### Features
+
+* make Lockdrop form functional + Disable allowance buttons when insufficient balance ([b26976a](https://github.com/LedgityLabs/LedgityYield/commit/b26976a21dd3e9bbff139462f527d1c713e82377))
+
 ## [1.197.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.197.0...v1.197.1) (2023-08-29)
 
 
