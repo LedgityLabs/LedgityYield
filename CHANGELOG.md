@@ -1,3 +1,10 @@
+## [1.199.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.198.0...v1.199.0) (2023-08-30)
+
+
+### Features
+
+* **lockdrop:** add error message when trying to deposit more than hardcap and cap estimations ([d273b51](https://github.com/LedgityLabs/LedgityYield/commit/d273b51ffa5856b7e635c724f14218ee4b3f43c1))
+
 ## [1.198.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.197.1...v1.198.0) (2023-08-30)
 
 
