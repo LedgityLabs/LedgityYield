@@ -8,9 +8,8 @@ import {
   useGenericErc20Symbol,
   usePrepareGenericErc20Approve,
 } from "@/generated";
-import { formatUnits, zeroAddress } from "viem";
+import { zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
-import clsx from "clsx";
 import { Amount } from "./Amount";
 import { twMerge } from "tailwind-merge";
 
@@ -22,6 +21,10 @@ interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   transactionSummary?: string | ReactNode;
   // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
+
+  // Allow parent to force error state
+  parentIsError?: boolean;
+  parentError?: string;
 }
 /**
  * A version of the TxButton that allows to ensure and set (if needed) a given ERC20 allowance before
@@ -34,6 +37,8 @@ export const AllowanceTxButton: FC<Props> = ({
   preparation,
   transactionSummary = "",
   hasUserInteracted = false,
+  parentIsError = false,
+  parentError = undefined,
   disabled,
   className,
   ...props
@@ -49,6 +54,7 @@ export const AllowanceTxButton: FC<Props> = ({
   const { data: balance } = useGenericErc20BalanceOf({
     address: token,
     args: [walletClient?.account.address || zeroAddress],
+    watch: true,
   });
   const allowancePreparation = usePrepareGenericErc20Approve({
     address: token,
@@ -77,6 +83,8 @@ export const AllowanceTxButton: FC<Props> = ({
         preparation={preparation}
         disabled={amount === 0n || disabled}
         transactionSummary={transactionSummary}
+        parentIsError={isError}
+        parentError={errorMessage}
         {...props}
       />
       <TxButton
@@ -85,8 +93,8 @@ export const AllowanceTxButton: FC<Props> = ({
         preparation={allowancePreparation}
         disabled={amount === 0n}
         hasUserInteracted={hasUserInteracted}
-        parentIsError={isError}
-        parentError={errorMessage}
+        parentIsError={parentIsError || isError}
+        parentError={parentIsError ? parentError : errorMessage}
         transactionSummary={
           <span>
             Allow Ledgity Yield to spend{" "}

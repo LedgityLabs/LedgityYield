@@ -47,10 +47,13 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
   const maxWeight = parseUnits((5_000_000 * 12).toString(), 6);
   const weight = depositedAmount * BigInt(lockDuration);
   const distributedLDY = parseUnits((1_500_000).toString(), 18);
-  const receivedLDY = (distributedLDY * weight) / maxWeight;
-  const receivedAllocation = (Number(receivedLDY) / Number(distributedLDY)) * 100;
+  let receivedLDY = (distributedLDY * weight) / maxWeight;
+  let receivedAllocation = (Number(receivedLDY) / Number(distributedLDY)) * 100;
 
-  // Retrieve
+  // Cap received LDY and allocation to max
+  if (receivedAllocation > 100) receivedAllocation = 100;
+  if (receivedLDY > distributedLDY) receivedLDY = distributedLDY;
+
   return (
     <div className="flex justify-center gap-12 p-12 pt-2" {...props}>
       <div className="flex flex-col justify-end gap-3">
@@ -129,6 +132,9 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
             amount={depositedAmount}
             disabled={depositedAmount === 0n}
             hasUserInteracted={hasUserInteracted}
+            // Display error if trying to lock more than hardcap
+            parentIsError={depositedAmount > parseUnits((5_000_000).toString(), 6)}
+            parentError={"Lockdrop is capped to 5M USDC"}
             className="bg-[#0472B9] transition-colors hover:bg-[#0472B9]/90"
             transactionSummary={
               <span>
@@ -155,7 +161,7 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
           </AllowanceTxButton>
         </div>
       </div>
-      <div className=" flex max-w-fit flex-col items-center justify-center gap-5 rounded-3xl border border-[#28a0f0]/20 bg-[#28a0f0]/10 p-5 px-16">
+      <div className=" flex flex-col items-center justify-center gap-5 rounded-3xl border border-[#28a0f0]/20 bg-[#28a0f0]/10 p-5 w-64">
         <div>
           <p className="text-center font-medium text-[#20456c]/40">You&apos;ll receive</p>
           <Amount
