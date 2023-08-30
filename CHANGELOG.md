@@ -1,3 +1,10 @@
+## [1.202.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.201.0...v1.202.0) (2023-08-30)
+
+
+### Features
+
+* few Lockdrop UI adjustments ([405bbe9](https://github.com/LedgityLabs/LedgityYield/commit/405bbe995704a042e416804d0d71ddd6e90bbf3b))
+
 ## [1.201.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.200.0...v1.201.0) (2023-08-30)
 
 
