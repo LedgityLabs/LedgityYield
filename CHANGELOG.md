@@ -1,3 +1,10 @@
+## [1.201.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.200.0...v1.201.0) (2023-08-30)
+
+
+### Features
+
+* add Lockdrop TXButton error when network is not Arbitrum ([cb8a710](https://github.com/LedgityLabs/LedgityYield/commit/cb8a710523d3cee0563c88fc18a62602c6a9eac0))
+
 ## [1.200.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.199.0...v1.200.0) (2023-08-30)
 
 
