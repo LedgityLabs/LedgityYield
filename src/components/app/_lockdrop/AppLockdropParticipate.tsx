@@ -142,7 +142,7 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
             // @ts-ignore
             preparation={preparation}
             token={underlyingAddress!}
-            spender={lTokenAddress!}
+            spender={lockdropAddress!}
             amount={depositedAmount}
             disabled={depositedAmount === 0n}
             hasUserInteracted={hasUserInteracted}
@@ -151,7 +151,7 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
             className="bg-[#0472B9] transition-colors hover:bg-[#0472B9]/90"
             transactionSummary={
               <span>
-                Deposit{" "}
+                Lock{" "}
                 <Amount
                   value={depositedAmount}
                   decimals={6}
@@ -159,11 +159,15 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
                   displaySymbol={true}
                   className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                 />{" "}
+                during{" "}
+                <span className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4">
+                  {lockDuration} months
+                </span>{" "}
                 against{" "}
                 <Amount
-                  value={depositedAmount}
-                  decimals={6}
-                  suffix="LUSDC"
+                  value={receivedLDY}
+                  decimals={18}
+                  suffix="LDY"
                   displaySymbol={true}
                   className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                 />

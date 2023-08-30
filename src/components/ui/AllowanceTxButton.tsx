@@ -69,11 +69,10 @@ export const AllowanceTxButton: FC<Props> = ({
   // Check if the user has enough balance, and raise error else
   let isError = false;
   let errorMessage: string = "";
-  if (!balance && balance < amount) {
+  if (!balance || balance < amount) {
     isError = true;
     errorMessage = "Insufficient balance";
   }
-  console.log(isError, errorMessage);
 
   return (
     <div>

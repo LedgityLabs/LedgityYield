@@ -107,7 +107,7 @@ export const displayedErrors: { [key: string]: string } = {
   L83: "Not enough token to recover",
   L84: "Deposit phase has ended",
   L85: "Lock duration out-of-bound",
-  L86: "Hard cap reached",
+  L86: "Lockdrop hard cap exceeded. Try with a lower amount.",
   L87: "Claim phase not started yet",
 };
 
@@ -127,6 +127,7 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
       if (error.details && error.details.includes("insufficient funds for gas "))
         prettyError = "Insufficient funds for gas";
       else prettyError = error.shortMessage.split("\n")[1];
+      if (!prettyError) prettyError = error.details.split("'")[error.details.split("'").length - 2];
     }
   }
   // For other errors, use the error message
@@ -148,6 +149,10 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
   // If the error has a displayed override, use it instead
   const displayOverride = displayedErrors[prettyError];
   if (displayOverride) prettyError = displayOverride;
-  if (!prettyError) prettyError = "Unknown error. Please contact support.";
+  if (!prettyError) {
+    console.log(prettyError);
+    console.log(error);
+    prettyError = "Unknown error. Please contact support.";
+  }
   return prettyError;
 };

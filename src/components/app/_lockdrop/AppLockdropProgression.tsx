@@ -11,10 +11,12 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
   const lockdropAddress = useContractAddress("ArbitrumLockdrop");
   const { data: totalLocked } = useLockdropTotalLocked({
     address: lockdropAddress!,
+    watch: true,
   });
   let progression = 0;
   if (totalLocked)
     progression = Number(totalLocked) / Number(parseUnits((5_000_000).toString(), 6));
+  if (progression < 0.01) progression = 0.01;
 
   // Compute time progression
   const endDate = new Date("2023-10-07T00:00:00Z");
