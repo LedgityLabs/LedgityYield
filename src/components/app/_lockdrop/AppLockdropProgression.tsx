@@ -1,10 +1,27 @@
 import { FC } from "react";
 import { Amount } from "@/components/ui";
+import { useLockdropTotalLocked } from "@/generated";
+import { useContractAddress } from "@/hooks/useContractAddress";
+import { parseUnits } from "viem";
+import { Lexend_Tera } from "next/font/google";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
-  const progression = 0.5;
+  // Compute total locked progression
+  const lockdropAddress = useContractAddress("ArbitrumLockdrop");
+  const { data: totalLocked } = useLockdropTotalLocked({
+    address: lockdropAddress!,
+  });
+  let progression = 0;
+  if (totalLocked)
+    progression = Number(totalLocked) / Number(parseUnits((5_000_000).toString(), 6));
+
+  // Compute time progression
+  const endDate = new Date("2023-10-07T00:00:00Z");
+  const oneDay = 24 * 60 * 60 * 1000;
+  let remainingDays = Math.floor((endDate.getTime() - Date.now()) / oneDay);
+  if (remainingDays < 0) remainingDays = 0;
 
   return (
     <div className="relative -mt-3 flex flex-col items-end gap-1" {...props}>
@@ -20,7 +37,7 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
           <div className="absolute -right-[1px] -top-7 flex animate-pulse items-center gap-2">
             <div className="absolute -bottom-[1.25rem] right-0 z-10 h-8 w-0.5  rounded-full bg-[#0472B9]"></div>
             <div className="whitespace-nowrap text-xs font-semibold text-[#20456c]/60 opacity-90">
-              <Amount value={123456780009n} decimals={6} className="text-[#0472B9]" /> /{" "}
+              <Amount value={totalLocked} decimals={6} className="text-[#0472B9]" /> /{" "}
               <Amount value={5000000000000n} decimals={6} />
             </div>
             <div className="rounded-md rounded-br-none bg-[#0472B9] p-1 font-heading text-xs font-bold leading-none text-bg ">
@@ -30,7 +47,13 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
         </div>
       </div>
       <p className="text-sm font-semibold text-[#20456c]/70">
-        Only <span className="font-bold text-[#20456c]/90">28</span> days left.
+        {remainingDays === 0 || progression === 1 ? (
+          <span className="font-bold text-[#20456c]/90">The lockdrop has ended.</span>
+        ) : (
+          <span>
+            Only <span className="font-bold text-[#20456c]/90">{remainingDays}</span> days left.
+          </span>
+        )}
       </p>
     </div>
   );
