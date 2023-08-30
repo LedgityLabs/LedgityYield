@@ -1,3 +1,10 @@
+## [1.197.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.197.0...v1.197.1) (2023-08-29)
+
+
+### Fixes
+
+* fix big-requests allowance button in withdrawal requests admin ([d4b7954](https://github.com/LedgityLabs/LedgityYield/commit/d4b7954fe74b3c952ef4de4ea40eea2eaf4edb8f))
+
 ## [1.197.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.196.1...v1.197.0) (2023-08-29)
 
 
