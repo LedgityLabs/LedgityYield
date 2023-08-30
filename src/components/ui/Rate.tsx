@@ -9,6 +9,7 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   tooltip?: boolean;
   prefix?: string;
   isUD7x3?: boolean;
+  highPrecision?: boolean;
 }
 
 function getFloatValue(value: number | undefined, isUD7x3: boolean) {
@@ -16,16 +17,30 @@ function getFloatValue(value: number | undefined, isUD7x3: boolean) {
   return isUD7x3 ? Number(formatUnits(BigInt(value), 3)) : value;
 }
 
-export function formatRate(value: number, isUD7x3: boolean = false) {
+export function formatRate(
+  value: number,
+  isUD7x3: boolean = false,
+  highPrecision: boolean = false,
+) {
   const floatValue = getFloatValue(value, isUD7x3);
 
   let formattedRate = "";
-  if (floatValue === 0) formattedRate = "0";
-  else if (floatValue < 0.01) formattedRate = "<0.01";
-  else if (floatValue < 1) formattedRate = floatValue.toFixed(2);
-  else if (floatValue < 100) formattedRate = floatValue.toFixed(1);
-  else if (floatValue < 1000) formattedRate = floatValue.toFixed(0);
-  else formattedRate = ">999";
+  if (highPrecision) {
+    if (floatValue === 0) formattedRate = "0";
+    else if (floatValue < 0.001) formattedRate = "<0.001";
+    else if (floatValue < 0.01) formattedRate = d3.format(",.3f")(floatValue);
+    else if (floatValue < 1) formattedRate = floatValue.toFixed(2);
+    else if (floatValue < 100) formattedRate = floatValue.toFixed(1);
+    else if (floatValue < 1000) formattedRate = floatValue.toFixed(0);
+    else formattedRate = ">999";
+  } else {
+    if (floatValue === 0) formattedRate = "0";
+    else if (floatValue < 0.01) formattedRate = "<0.01";
+    else if (floatValue < 1) formattedRate = floatValue.toFixed(2);
+    else if (floatValue < 100) formattedRate = floatValue.toFixed(1);
+    else if (floatValue < 1000) formattedRate = floatValue.toFixed(0);
+    else formattedRate = ">999";
+  }
   return formattedRate;
 }
 
@@ -45,9 +60,10 @@ export const Rate: FC<Props> = ({
   prefix = "",
   tooltip = true,
   isUD7x3 = true,
+  highPrecision = false,
   ...props
 }) => {
-  const formattedValue = formatRate(value || 0, isUD7x3);
+  const formattedValue = formatRate(value || 0, isUD7x3, highPrecision);
 
   if (!tooltip)
     return (

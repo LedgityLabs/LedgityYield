@@ -2,7 +2,7 @@ module.exports = {
   plugins: [
     "prettier-plugin-solidity",
     // "prettier-plugin-jsdoc",
-    "prettier-plugin-tailwindcss",
+    // "prettier-plugin-tailwindcss",
   ],
   tailwindAttributes: ["className"],
   tailwindFunctions: ["clsx", "twMerge"],

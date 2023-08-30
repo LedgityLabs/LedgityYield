@@ -27,6 +27,10 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
 
   // Allow to force hide tooltips
   hideTooltips?: boolean;
+
+  // Allow parent to force error state
+  parentIsError?: boolean;
+  parentError?: string;
 }
 
 export const TxButton: FC<Props> = ({
@@ -35,6 +39,8 @@ export const TxButton: FC<Props> = ({
   disabled,
   hasUserInteracted = false,
   hideTooltips = false,
+  parentIsError = false,
+  parentError = undefined,
   ...props
 }) => {
   const { isSwitching } = useSwitchNetwork();
@@ -53,7 +59,6 @@ export const TxButton: FC<Props> = ({
     isLoading: txIsLoading,
     isError: txIsError,
     isSuccess: txIsSuccess,
-    error: txError,
   } = useContractWrite(preparation.config);
 
   const {
@@ -81,6 +86,9 @@ export const TxButton: FC<Props> = ({
   } else if (!walletClient) {
     tooltipIsError = true;
     tooltipMessage = "No wallet connected";
+  } else if (parentIsError && parentError) {
+    tooltipIsError = true;
+    tooltipMessage = parentError;
   } else if (preparation.isError) {
     tooltipIsError = true;
     tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
@@ -92,21 +100,14 @@ export const TxButton: FC<Props> = ({
         <Dialog>
           <Tooltip
             open={
-              hasUserInteracted &&
-              (!walletClient || preparation.isError) &&
-              !isLoading &&
-              !isSwitching
-                ? true
-                : undefined
+              hasUserInteracted && tooltipIsError && !isLoading && !isSwitching ? true : undefined
             }
           >
             <TooltipTrigger>
               <DialogTrigger asChild>
                 <Button
                   {...props}
-                  disabled={
-                    disabled || preparation.isError || !walletClient || !write || isSwitching
-                  }
+                  disabled={disabled || tooltipIsError || !write || isSwitching}
                   isLoading={isLoading}
                   onClick={() => write!()}
                 />
@@ -127,28 +128,28 @@ export const TxButton: FC<Props> = ({
           <DialogContent className="px-0">
             <DialogHeader>
               <DialogTitle>Ongoing transaction</DialogTitle>
-              <DialogDescription className="flex flex-col justify-center items-center gap-3">
-                <div className="text-lg bg-fg/90 text-bg px-10 py-10 font-semibold text-center mb-2 whitespace-normal w-[calc(100%-4px)]">
+              <DialogDescription className="flex flex-col items-center justify-center gap-3">
+                <div className="mb-2 w-[calc(100%-4px)] whitespace-normal bg-fg/90 px-10 py-10 text-center text-lg font-semibold text-bg">
                   {transactionSummary}
                 </div>
 
                 <ul
                   className={clsx(
-                    "relative flex flex-col gap-8 my-5",
-                    "before:border-l-[3px] before:border-slate-300 before:absolute before:left-[calc(1.25rem-1.5px)] before:top-10 before:bottom-10 before:-z-1",
+                    "relative my-5 flex flex-col gap-8",
+                    "before:-z-1 before:absolute before:bottom-10 before:left-[calc(1.25rem-1.5px)] before:top-10 before:border-l-[3px] before:border-slate-300",
                   )}
                 >
-                  <li className={twMerge("flex gap-2 justify-start items-center")}>
+                  <li className={twMerge("flex items-center justify-start gap-2")}>
                     <Card
                       radius="full"
                       className={twMerge(
-                        "text-xl h-10 w-10 before:bg-slate-300 rounded-full flex justify-center items-center",
+                        "flex h-10 w-10 items-center justify-center rounded-full text-xl before:bg-slate-300",
                         txIsLoading && "before:bg-primary/75",
                         txIsError && "before:bg-red-500/75",
                         txIsSuccess && "before:bg-green-500/75",
                       )}
                     >
-                      <span className="text-primary-fg font-bold">
+                      <span className="font-bold text-primary-fg">
                         {txIsLoading && <Spinner />}
                         {txIsError && <i className="ri-close-fill text-xl" />}
                         {txIsSuccess && <i className="ri-check-fill text-xl" />}
@@ -159,7 +160,7 @@ export const TxButton: FC<Props> = ({
                         "text-lg font-medium text-slate-400",
                         txIsLoading && "text-fg/90",
                         txIsError && "text-red-600/75",
-                        txIsSuccess && "grayscale-[100%] opacity-80",
+                        txIsSuccess && "opacity-80 grayscale-[100%]",
                       )}
                     >
                       {(() => {
@@ -169,17 +170,17 @@ export const TxButton: FC<Props> = ({
                       })()}
                     </p>
                   </li>
-                  <li className={twMerge("flex gap-2 justify-start items-center")}>
+                  <li className={twMerge("flex items-center justify-start gap-2")}>
                     <Card
                       radius="full"
                       className={twMerge(
-                        "text-xl h-10 w-10 before:bg-slate-300 rounded-full flex justify-center items-center",
+                        "flex h-10 w-10 items-center justify-center rounded-full text-xl before:bg-slate-300",
                         waitIsLoading && "before:bg-primary/75",
                         waitIsError && "before:bg-red-500/75",
                         waitIsSuccess && "before:bg-green-500/75",
                       )}
                     >
-                      <span className="text-primary-fg font-bold">
+                      <span className="font-bold text-primary-fg">
                         {waitIsLoading && <Spinner />}
                         {waitIsError && <i className="ri-close-fill text-xl" />}
                         {waitIsSuccess && <i className="ri-check-fill text-xl" />}
@@ -190,7 +191,7 @@ export const TxButton: FC<Props> = ({
                         "text-lg font-medium text-slate-400",
                         waitIsLoading && "text-fg/90",
                         waitIsError && "text-red-600/75",
-                        waitIsSuccess && "grayscale-[100%] opacity-80",
+                        waitIsSuccess && "opacity-80 grayscale-[100%]",
                       )}
                     >
                       {(() => {

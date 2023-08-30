@@ -3,6 +3,7 @@ import { type FC, useEffect, type ReactNode } from "react";
 import { usePrepareContractWrite, useWalletClient } from "wagmi";
 import {
   useGenericErc20Allowance,
+  useGenericErc20BalanceOf,
   useGenericErc20Decimals,
   useGenericErc20Symbol,
   usePrepareGenericErc20Approve,
@@ -45,6 +46,10 @@ export const AllowanceTxButton: FC<Props> = ({
     args: [walletClient?.account.address || zeroAddress, spender],
     watch: true,
   });
+  const { data: balance } = useGenericErc20BalanceOf({
+    address: token,
+    args: [walletClient?.account.address || zeroAddress],
+  });
   const allowancePreparation = usePrepareGenericErc20Approve({
     address: token,
     args: [spender, amount],
@@ -54,6 +59,15 @@ export const AllowanceTxButton: FC<Props> = ({
   }, [allowance]);
 
   const hasEnoughAllowance = Boolean(allowance && allowance >= amount);
+
+  // Check if the user has enough balance, and raise error else
+  let isError = false;
+  let errorMessage: string = "";
+  if (balance && balance < amount) {
+    isError = true;
+    errorMessage = "Insufficient balance";
+  }
+
   return (
     <div>
       <TxButton
@@ -71,6 +85,8 @@ export const AllowanceTxButton: FC<Props> = ({
         preparation={allowancePreparation}
         disabled={amount === 0n}
         hasUserInteracted={hasUserInteracted}
+        parentIsError={isError}
+        parentError={errorMessage}
         transactionSummary={
           <span>
             Allow Ledgity Yield to spend{" "}

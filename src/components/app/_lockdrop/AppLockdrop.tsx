@@ -1,52 +1,17 @@
-"use client";
-
-import {
-  AllowanceTxButton,
-  Amount,
-  AmountInput,
-  Card,
-  RadioGroup,
-  RadioGroupItem,
-  Rate,
-} from "@/components/ui";
+import { Card } from "@/components/ui";
 import Image from "next/image";
-import { ChangeEvent, FC, useRef, useState } from "react";
+import { FC } from "react";
 import arbitrumLogo from "~/assets/chains/arbitrum.svg";
 import usdcIcon from "~/assets/tokens/usdc.png";
 import ldyIcon from "~/assets/logo/pfp.png";
 import tokenBottom from "~/assets/tokens/3d-ldy-bottom.png";
 import tokenTop from "~/assets/tokens/3d-ldy-top.png";
 import Link from "next/link";
-import {
-  useGenericErc20BalanceOf,
-  useLTokenDecimals,
-  useLTokenUnderlying,
-  usePrepareLTokenDeposit,
-} from "@/generated";
-import { useWalletClient } from "wagmi";
-import { useContractAddress } from "@/hooks/useContractAddress";
-import { parseUnits, zeroAddress } from "viem";
+
+import { AppLockdropParticipate } from "./AppLockdropParticipate";
+import { AppLockdropProgression } from "./AppLockdropProgression";
 
 export const AppLockdrop: FC = () => {
-  const progression = 0.5;
-  const { data: walletClient } = useWalletClient();
-  const lTokenAddress = useContractAddress(`LUSDC`);
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
-  const { data: underlyingBalance } = useGenericErc20BalanceOf({
-    address: underlyingAddress,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
-  });
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
-
-  const inputEl = useRef<HTMLInputElement>(null);
-  const [depositedAmount, setDepositedAmount] = useState(0n);
-  const [lockDuration, setLockDuration] = useState(3);
-  const preparation = usePrepareLTokenDeposit({
-    address: "0x0",
-    args: [depositedAmount],
-  });
-
   return (
     <div className="flex w-full flex-col gap-8 pb-8 lg:w-[830px]">
       <Card
@@ -59,32 +24,7 @@ export const AppLockdrop: FC = () => {
             <Image src={arbitrumLogo} alt="Arbitrum" height={50} width={50} />
             <h2 className="font-heading text-4xl font-bold text-[#20456c]">Lockdrop</h2>
           </div>
-          <div className="relative -mt-3 flex flex-col items-end gap-1">
-            <div className="relative mt-7 h-[0.9rem] w-80 rounded-md rounded-r-none border border-r-0 border-fg/20">
-              <div className="absolute -right-[1px] -top-6 drop-shadow-lg">
-                <div className="absolute -bottom-[1.3rem] right-0 z-10 h-8 w-0.5 rounded-full bg-fg/50"></div>
-                <div className="relative z-10 h-4 w-5 rounded-sm rounded-br-none bg-[url('/assets/textures/checkboard.png')] bg-cover"></div>
-              </div>
-              <div
-                className="relative h-full rounded-l-[0.340rem] bg-gradient-to-l from-[#0472B9] to-[#0472B9]/50 transition-[width] !duration-[1500ms]"
-                style={{ width: progression * 100 + "%" }}
-              >
-                <div className="absolute -right-[1px] -top-7 flex animate-pulse items-center gap-2">
-                  <div className="absolute -bottom-[1.25rem] right-0 z-10 h-8 w-0.5  rounded-full bg-[#0472B9]"></div>
-                  <div className="whitespace-nowrap text-xs font-semibold text-fg/60 opacity-90">
-                    <Amount value={123456780009n} decimals={6} className="text-[#0472B9]" /> /{" "}
-                    <Amount value={5000000000000n} decimals={6} />
-                  </div>
-                  <div className="rounded-md rounded-br-none bg-[#0472B9] p-1 font-heading text-xs font-bold leading-none text-bg ">
-                    {(progression * 100).toFixed(0)}%
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p className="text-sm font-semibold text-fg/70">
-              Only <span className="font-bold text-fg/90">28</span> days left.
-            </p>
-          </div>
+          <AppLockdropProgression />
         </div>
 
         <div className="flex flex-col gap-8 border-y border-y-[#28a0f0]/10 bg-[#28a0f0]/5 px-6">
@@ -138,147 +78,34 @@ export const AppLockdrop: FC = () => {
             <div className="flex flex-col gap-1 pb-8">
               <ol className="list-decimal pl-10 font-medium text-[#20456c]/70">
                 <li className="py-1">
-                  You get <span className="font-bold text-fg/80">USDC 100% back</span> after the
-                  lock period.
+                  You get <span className="font-bold text-[#20456c]/80">USDC 100% back</span> after
+                  the lock period.
                 </li>
                 <li className="py-1">
-                  It&apos;s <span className="font-bold text-fg/80">first-come-first-served</span>,
-                  so don&apos;t miss your chance!
+                  It&apos;s{" "}
+                  <span className="font-bold text-[#20456c]/80">first-come-first-served</span>, so
+                  don&apos;t miss your chance!
                 </li>
                 <li className="py-1">
                   This pool distributes{" "}
-                  <span className="font-bold text-fg/80">~13% of the 6-months LDY supply</span>.
+                  <span className="font-bold text-[#20456c]/80">
+                    ~13% of the 6-months LDY supply
+                  </span>
+                  .
                 </li>
               </ol>
 
               <Link
                 href="https://docs.ledgity.finance/opportunities/arbitrum-lockdrop"
                 target="_blank"
-                className="pl-6 font-semibold text-[#20456c]/90 underline decoration-fg/20 underline-offset-2 transition-colors hover:text-[#20456c]"
+                className="pl-6 font-semibold text-[#20456c]/90 underline decoration-[#20456c]/20 underline-offset-2 transition-colors hover:text-[#20456c]"
               >
                 Learn more <i className="ri-arrow-right-line" />
               </Link>
             </div>
           </div>
         </div>
-        <div className="flex justify-center gap-12 p-12 pt-2">
-          <div className="flex flex-col justify-end gap-3">
-            <div className="flex items-end gap-5">
-              <p className="pb-3 text-lg font-bold text-[#20456c]">Lock duration</p>
-              <RadioGroup
-                defaultValue="3"
-                onValueChange={(value) => setLockDuration(Number.parseInt(value))}
-                className="flex items-center justify-center gap-5"
-              >
-                <RadioGroupItem
-                  value="3"
-                  id="3m"
-                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
-                >
-                  <label htmlFor="3m" className="pointer-events-none relative font-heading">
-                    <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
-                      <span className="rounded-lg bg-gradient-to-tr from-[#CD7F32] to-[#CD7F32]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                        x3
-                      </span>
-                    </div>
-                    3M
-                  </label>
-                </RadioGroupItem>
-                <RadioGroupItem
-                  value="6"
-                  id="6m"
-                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
-                >
-                  <label htmlFor="6m" className="pointer-events-none relative font-heading">
-                    <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
-                      <span className="rounded-lg bg-gradient-to-tr from-[#8c8c8c] to-[#8c8c8c]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                        x6
-                      </span>
-                    </div>
-                    6M
-                  </label>
-                </RadioGroupItem>
-                <RadioGroupItem
-                  value="12"
-                  id="12m"
-                  className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
-                >
-                  <label htmlFor="12" className="pointer-events-none relative font-heading">
-                    <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
-                      <span className="rounded-lg bg-gradient-to-tr from-[#DAA520] to-[#DAA520]/70  px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                        x12
-                      </span>
-                    </div>
-                    1Y
-                  </label>
-                </RadioGroupItem>
-              </RadioGroup>
-            </div>
-            <div className="mt-6 flex flex-nowrap items-start justify-center gap-4">
-              <AmountInput
-                ref={inputEl}
-                maxValue={underlyingBalance}
-                maxToBottom={true}
-                decimals={6}
-                symbol="USDC"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setDepositedAmount(parseUnits(e.target.value, 6));
-                  if (hasUserInteracted === false) setHasUserInteracted(true);
-                  if (e.target.value === "") setHasUserInteracted(false);
-                }}
-                className="w-64"
-              />
-              <AllowanceTxButton
-                size="medium"
-                preparation={preparation}
-                token={underlyingAddress!}
-                spender={lTokenAddress!}
-                amount={depositedAmount}
-                disabled={depositedAmount === 0n}
-                hasUserInteracted={hasUserInteracted}
-                className="bg-[#0472B9] transition-colors hover:bg-[#0472B9]/90"
-                transactionSummary={
-                  <span>
-                    Deposit{" "}
-                    <Amount
-                      value={depositedAmount}
-                      decimals={6}
-                      suffix="USDC"
-                      displaySymbol={true}
-                      className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
-                    />{" "}
-                    against{" "}
-                    <Amount
-                      value={depositedAmount}
-                      decimals={6}
-                      suffix="LUSDC"
-                      displaySymbol={true}
-                      className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
-                    />
-                  </span>
-                }
-              >
-                Deposit
-              </AllowanceTxButton>
-            </div>
-          </div>
-          <div className=" flex max-w-fit flex-col items-center justify-center gap-5 rounded-3xl border border-[#28a0f0]/20 bg-[#28a0f0]/10 p-5 px-16">
-            <div>
-              <p className="text-center font-medium text-fg/40">You&apos;ll receive</p>
-              <Amount
-                value={123456781565461650009n}
-                decimals={18}
-                suffix="LDY"
-                className="text-center text-3xl font-bold text-[#0472B9]"
-              />
-            </div>
-            <hr className="w-24 border-2 border-fg/10" />
-            <div>
-              <p className="text-center text-2xl font-bold text-[#0472B9]/60">0.004%</p>
-              <p className="text-center font-medium text-fg/40">Of total allocation</p>
-            </div>
-          </div>
-        </div>
+        <AppLockdropParticipate />
       </Card>
     </div>
   );
