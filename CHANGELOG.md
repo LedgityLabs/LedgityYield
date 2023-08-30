@@ -1,3 +1,10 @@
+## [1.200.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.199.0...v1.200.0) (2023-08-30)
+
+
+### Features
+
+* connect Arbitrum Lockdrop progression bar to contract data ([722e3b3](https://github.com/LedgityLabs/LedgityYield/commit/722e3b3e56a694015c96449f53065feb842567dd))
+
 ## [1.199.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.198.0...v1.199.0) (2023-08-30)
 
 
