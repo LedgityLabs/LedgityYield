@@ -1,3 +1,10 @@
+## [1.207.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.206.0...v1.207.0) (2023-08-31)
+
+
+### Features
+
+* upload and implement final LDY icon ([47b7deb](https://github.com/LedgityLabs/LedgityYield/commit/47b7deb835e47ae83e36130984a591e13a799313))
+
 ## [1.206.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.205.0...v1.206.0) (2023-08-31)
 
 
