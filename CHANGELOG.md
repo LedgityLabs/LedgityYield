@@ -1,3 +1,10 @@
+## [1.207.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.2...v1.207.3) (2023-08-31)
+
+
+### Fixes
+
+* tiny dashboard top card layout fix ([035a664](https://github.com/LedgityLabs/LedgityYield/commit/035a6644718855a94610d95ecc00d5db2f602b61))
+
 ## [1.207.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.1...v1.207.2) (2023-08-31)
 
 
