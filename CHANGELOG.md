@@ -1,3 +1,10 @@
+## [1.205.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.204.0...v1.205.0) (2023-08-31)
+
+
+### Features
+
+* re-enable Arbitrum lockdrop CTA ([518fb24](https://github.com/LedgityLabs/LedgityYield/commit/518fb2402ecb05ec157611aa61353736c392f022))
+
 ## [1.204.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.203.0...v1.204.0) (2023-08-31)
 
 
