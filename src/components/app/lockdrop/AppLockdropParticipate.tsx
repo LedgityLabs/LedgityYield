@@ -21,10 +21,11 @@ import { useWalletClient } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
+export const AppLockdropParticipate: FC<Props> = ({ className, ...props }) => {
   const { data: walletClient } = useWalletClient();
 
   // Retrieve addresses and balances
@@ -100,7 +101,7 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
   }
 
   return (
-    <div className="pb-12 -mt-10 flex flex-col">
+    <div className={twMerge("pb-12 -mt-10 flex flex-col", className)} {...props}>
       {hasLocked && (
         <div className="pb-2 bg-[#0472B9]/10">
           <div className="flex justify-between items-center gap-12 p-12 rounded-b-xl bg-accent">

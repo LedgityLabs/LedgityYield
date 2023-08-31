@@ -16,12 +16,13 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
   let progression = 0;
   if (totalLocked)
     progression = Number(totalLocked) / Number(parseUnits((5_000_000).toString(), 6));
-  if (progression < 0.01) progression = 0.01;
+  // if (progression < 0.01) progression = 0.01;
 
   // Compute time progression
-  const endDate = new Date("2023-10-07T00:00:00Z");
+  // const endDate: Date | null = new Date("2023-10-07T00:00:00Z");
+  const endDate: Date | null = null;
   const oneDay = 24 * 60 * 60 * 1000;
-  let remainingDays = Math.floor((endDate.getTime() - Date.now()) / oneDay);
+  let remainingDays = endDate ? Math.floor((endDate.getTime() - Date.now()) / oneDay) : 0;
   if (remainingDays < 0) remainingDays = 0;
 
   return (
@@ -48,13 +49,20 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
         </div>
       </div>
       <p className="text-sm font-semibold text-[#20456c]/70">
-        {remainingDays === 0 || progression === 1 ? (
-          <span className="font-bold text-[#20456c]/90">The lockdrop has ended.</span>
-        ) : (
-          <span>
-            Only <span className="font-bold text-[#20456c]/90">{remainingDays}</span> days left.
-          </span>
-        )}
+        {(() => {
+          if (!endDate)
+            return (
+              <span className="font-bold text-[#20456c]/90">The lockdrop has not started yet.</span>
+            );
+          else if (remainingDays === 0 || progression === 1)
+            return <span className="font-bold text-[#20456c]/90">The lockdrop has ended.</span>;
+          else
+            return (
+              <span>
+                Only <span className="font-bold text-[#20456c]/90">{remainingDays}</span> days left.
+              </span>
+            );
+        })()}
       </p>
     </div>
   );

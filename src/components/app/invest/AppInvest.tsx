@@ -23,7 +23,7 @@ export const AppInvest: FC = () => {
             defaultGradient={false}
             circleIntensity={0}
             animated={false}
-            className="before:bg-gradient-to-tr before:from-[#20456c]/80 before:to-[#20456c] before:hover:bg-gradient-to-br w-full p-10 py-5 flex justify-between items-center gap-3 bg-[#28a0f0]/20"
+            className="before:bg-gradient-to-tl before:from-[#20456c]/70 before:to-[#20456c] before:hover:opacity-95 before:transition-opacity w-full p-10 py-5 flex justify-between items-center gap-3 bg-[#28a0f0]/20"
           >
             <div className="flex flex-col justify-center gap-4">
               <p className="inline-flex gap-1.5 justify-center items-center bg-[#2676ca] px-2 pr-3 py-1 rounded-2xl text-sm text-bg font-semibold max-w-fit">
