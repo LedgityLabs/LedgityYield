@@ -5,9 +5,11 @@ import { AppInvest } from "@/components/app/invest/AppInvest";
 import { AppLockdrop } from "@/components/app/lockdrop/AppLockdrop";
 import { AppMultiLockdrop } from "@/components/app/multi-lockdrop/AppMultiLockdrop";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
+import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
+import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
 
 import { type NextPage } from "next";
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { usePublicClient } from "wagmi";
 
@@ -15,13 +17,17 @@ interface Props {
   defaultTab: string;
 }
 
-//@ts-ignore
-const AppTabs: NextPage<Props> = ({ defaultTab }) => {
-  const publicClient = usePublicClient();
-
-  const [currentTab, setCurrentTab] = useState(
-    defaultTab && defaultTab !== "" ? defaultTab : "invest",
+const AppTabs: FC<Props> = ({ defaultTab }) => {
+  return (
+    <SwitchAppTabProvider defaultTab={defaultTab}>
+      <_AppTabs />
+    </SwitchAppTabProvider>
   );
+};
+
+const _AppTabs: FC = () => {
+  const publicClient = usePublicClient();
+  const { currentTab, switchTab } = useSwitchAppTab();
 
   // Figure out if it's an Arbitrum/Linea user or not
   const isArbitrum = publicClient && [42161, 421613].includes(publicClient.chain.id);
@@ -29,12 +35,9 @@ const AppTabs: NextPage<Props> = ({ defaultTab }) => {
 
   return (
     <Tabs
-      defaultValue={currentTab}
+      value={currentTab}
       className="flex w-screen flex-col items-center justify-center gap-10"
-      onValueChange={(v) => {
-        history.pushState({}, v, `/app/${v}`);
-        setCurrentTab(v);
-      }}
+      onValueChange={(v) => switchTab(v)}
     >
       <TabsList className="mb-6 mt-12">
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>

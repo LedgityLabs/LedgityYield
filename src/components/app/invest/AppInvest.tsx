@@ -10,15 +10,17 @@ import { Card } from "@/components/ui";
 import Link from "next/link";
 import Image from "next/image";
 import flyingTokens from "~/assets/tokens/flying-ldy.png";
+import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
 
 export const AppInvest: FC = () => {
   const publicClient = usePublicClient();
   const isLinea = publicClient && [59144, 59140].includes(publicClient.chain.id);
+  const { switchTab } = useSwitchAppTab();
 
   return (
     <div className="lg:w-[980px] w-full flex flex-col gap-8 pb-8">
       {!isLinea && (
-        <Link href="/app/lockdrop" className="w-full">
+        <a onClick={() => switchTab("lockdrop")} className="cursor-pointer">
           <Card
             defaultGradient={false}
             circleIntensity={0}
@@ -49,7 +51,7 @@ export const AppInvest: FC = () => {
 
             <i className="ri-arrow-right-line text-4xl text-bg font-black" />
           </Card>
-        </Link>
+        </a>
       )}
 
       <Card defaultGradient={true} circleIntensity={0.07} className="w-full flex flex-col gap-10">

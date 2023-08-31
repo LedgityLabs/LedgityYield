@@ -1,6 +1,6 @@
 import { Button, Card } from "@/components/ui";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, createContext } from "react";
 import arbitrumLogo from "~/assets/chains/arbitrum.svg";
 import usdcIcon from "~/assets/tokens/usdc.png";
 import ldyIcon from "~/assets/tokens/ldy.svg";
@@ -120,12 +120,12 @@ export const AppLockdrop: FC = () => {
           Don&apos;t miss the kick-off! 🏁
         </h3>
         <div className="flex gap-5 items-center justify-center">
-          <Link href="/">
+          <Link href="https://discord.gg/ledgityyield" target="_blank">
             <Button size="small" className="bg-[#7289da] text-white">
               <i className="ri-discord-fill mr-1.5 text-[1.36rem]"></i>Join our Discord
             </Button>
           </Link>
-          <Link href="https://twitter.com/LedgityYield">
+          <Link href="https://twitter.com/LedgityYield" target="_blank">
             <Button
               size="small"
               className="border-2 border-bg/30 bg-[#0f1419] text-bg transition-opacity hover:opacity-60"
