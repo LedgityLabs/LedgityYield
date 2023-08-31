@@ -20,7 +20,7 @@ export const AppDashboard: FC = () => {
           className="w-full flex justify-between "
         >
           <AppDashboardChart className="h-[680px] w-full" />
-          <div className="p-10 flex-col justify-between gap-10 h-full self-stretch flex-grow -mt-1">
+          <div className="p-10 pl-0 w-72 flex-col justify-between gap-10 h-full self-stretch flex-grow -mt-1">
             <div className="flex flex-col gap-10">
               <div className="flex flex-col gap-2 items-end">
                 <h3 className="font-bold text-lg text-fg/50 whitespace-nowrap">Total growth</h3>
