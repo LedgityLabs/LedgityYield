@@ -1,3 +1,10 @@
+## [1.204.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.203.0...v1.204.0) (2023-08-31)
+
+
+### Features
+
+* add UI workflow to allow users to increase their Lock duration or amount ([3f6bd34](https://github.com/LedgityLabs/LedgityYield/commit/3f6bd349aa5392532162703b553496d41c54e66e))
+
 ## [1.203.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.202.0...v1.203.0) (2023-08-30)
 
 
