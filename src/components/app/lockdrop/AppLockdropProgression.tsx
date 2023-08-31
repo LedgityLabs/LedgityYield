@@ -20,10 +20,11 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
 
   // Compute time progression
   // const endDate: Date | null = new Date("2023-10-07T00:00:00Z");
+  // const oneDay = 24 * 60 * 60 * 1000;
+  // let remainingDays = endDate !== null ? Math.floor((endDate.getTime() - Date.now()) / oneDay) : 0;
+  // if (remainingDays < 0) remainingDays = 0;
   const endDate: Date | null = null;
-  const oneDay = 24 * 60 * 60 * 1000;
-  let remainingDays = endDate !== null ? Math.floor((endDate.getTime() - Date.now()) / oneDay) : 0;
-  if (remainingDays < 0) remainingDays = 0;
+  const remainingDays = 0;
 
   return (
     <div className="relative -mt-3 flex flex-col items-end gap-1" {...props}>
