@@ -1,3 +1,10 @@
+## [1.207.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.0...v1.207.1) (2023-08-31)
+
+
+### Fixes
+
+* typo in Lockdrop kick-off CTA ([93936a8](https://github.com/LedgityLabs/LedgityYield/commit/93936a8abc94ee7ecbf67a74a12ca20b6b758eff))
+
 ## [1.207.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.206.0...v1.207.0) (2023-08-31)
 
 
