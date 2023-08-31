@@ -117,7 +117,7 @@ export const AppLockdrop: FC = () => {
         className="before:bg-gradient-to-tl before:from-[#20456c]/70 before:to-[#20456c] before:hover:opacity-95 before:transition-opacity w-full p-10 flex flex-col gap-5 bg-[#28a0f0]/20"
       >
         <h3 className="font-extrabold text-2xl text-center text-bg font-heading w-">
-          Don&apos;t miss the kick-off!! 🏁
+          Don&apos;t miss the kick-off! 🏁
         </h3>
         <div className="flex gap-5 items-center justify-center">
           <Link href="/">
