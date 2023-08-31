@@ -1,3 +1,10 @@
+## [1.203.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.202.0...v1.203.0) (2023-08-30)
+
+
+### Features
+
+* add lock summary section to Lockdrop card ([97bdfcc](https://github.com/LedgityLabs/LedgityYield/commit/97bdfcce47ce735fb71af6db703f7ea7e67f730f))
+
 ## [1.202.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.201.0...v1.202.0) (2023-08-30)
 
 
