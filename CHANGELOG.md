@@ -1,3 +1,10 @@
+## [1.207.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.1...v1.207.2) (2023-08-31)
+
+
+### Fixes
+
+* deployment failure caused by Typescript error ([2a1b006](https://github.com/LedgityLabs/LedgityYield/commit/2a1b0068cd269b424f34a11c4c9e3c8faf7672e4))
+
 ## [1.207.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.0...v1.207.1) (2023-08-31)
 
 
