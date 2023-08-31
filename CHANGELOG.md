@@ -1,3 +1,10 @@
+## [1.206.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.205.0...v1.206.0) (2023-08-31)
+
+
+### Features
+
+* new Arbitrum Lockdrop waiting page ([60027a0](https://github.com/LedgityLabs/LedgityYield/commit/60027a0d9b7a2cb7db2ab7586c4d7ede2e0a94cd))
+
 ## [1.205.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.204.0...v1.205.0) (2023-08-31)
 
 
