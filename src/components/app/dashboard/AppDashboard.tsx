@@ -4,7 +4,9 @@ import { AppDashboardChart } from "./AppDashboardChart";
 import { AppDashboardActivity } from "./AppDashboardActivity";
 import { Button, Card, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { AppDashboardGrowth } from "./AppDashboardGrowth";
-import { AppInvestLUSDCBalance } from "../invest/AppInvestLUSDCBalance";
+import { AppDashboardLUSDCBalance } from "./AppDashboardLUSDCBalance";
+import ldyIcon from "~/assets/tokens/ldy.svg";
+import Image from "next/image";
 
 export const AppDashboard: FC = () => {
   console.log("RENDERED");
@@ -36,9 +38,10 @@ export const AppDashboard: FC = () => {
                       <Button size="tiny" className="-mt-1 pointer-events-none">
                         Stake
                       </Button>
-                      <span className="text-[1.92rem] text-fg font-heading font-bold -none inline-flex item-center align-bottom">
-                        0
-                      </span>
+                      <div className="text-[1.92rem] text-fg font-heading font-bold -none inline-flex items-center justify-center align-bottom gap-2">
+                        0{" "}
+                        <Image src={ldyIcon} alt="LDY icon" width={20} className="w-7 h-7 -mt-1" />
+                      </div>
                     </div>
                   </div>
                 </TooltipTrigger>
@@ -46,7 +49,7 @@ export const AppDashboard: FC = () => {
               </Tooltip>
               <div className="flex flex-col gap-2 items-end">
                 <h3 className="font-bold text-lg text-fg/50 whitespace-nowrap">LUSDC balance</h3>
-                <AppInvestLUSDCBalance />
+                <AppDashboardLUSDCBalance />
               </div>
             </div>
           </div>

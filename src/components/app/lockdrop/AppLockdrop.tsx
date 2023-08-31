@@ -3,14 +3,13 @@ import Image from "next/image";
 import { FC } from "react";
 import arbitrumLogo from "~/assets/chains/arbitrum.svg";
 import usdcIcon from "~/assets/tokens/usdc.png";
-import ldyIcon from "~/assets/logo/pfp.png";
+import ldyIcon from "~/assets/tokens/ldy.svg";
 import tokenBottom from "~/assets/tokens/3d-ldy-bottom.png";
 import tokenTop from "~/assets/tokens/3d-ldy-top.png";
 import Link from "next/link";
 
 import { AppLockdropParticipate } from "./AppLockdropParticipate";
 import { AppLockdropProgression } from "./AppLockdropProgression";
-import clsx from "clsx";
 
 export const AppLockdrop: FC = () => {
   const isWaiting = true;
@@ -58,7 +57,7 @@ export const AppLockdrop: FC = () => {
                     height={22}
                     className="-mt-[0.28rem] inline aspect-square rounded-full opacity-90"
                   />
-                  <span className="bg-gradient-to-t from-fg/90 to-fg/50 bg-clip-text pl-[0.3rem]  font-extrabold text-transparent drop-shadow-md">
+                  <span className="bg-gradient-to-t from-fg/90 to-fg/60 bg-clip-text pl-[0.3rem]  font-extrabold text-transparent drop-shadow-md">
                     LDY
                   </span>
                 </span>
@@ -118,7 +117,7 @@ export const AppLockdrop: FC = () => {
         className="before:bg-gradient-to-tl before:from-[#20456c]/70 before:to-[#20456c] before:hover:opacity-95 before:transition-opacity w-full p-10 flex flex-col gap-5 bg-[#28a0f0]/20"
       >
         <h3 className="font-extrabold text-2xl text-center text-bg font-heading w-">
-          Don&apos;t miss the kickstart! 🏁
+          Don&apos;t miss the kick-off!! 🏁
         </h3>
         <div className="flex gap-5 items-center justify-center">
           <Link href="/">

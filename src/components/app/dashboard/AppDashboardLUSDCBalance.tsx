@@ -5,9 +5,12 @@ import { useLTokenBalanceOf } from "@/generated";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { DepositDialog } from "../DepositDialog";
 import { Amount, Button, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
+import Image from "next/image";
+import lusdcIcon from "~/assets/tokens/lusdc.png";
+
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const AppInvestLUSDCBalance: FC<Props> = (props) => {
+export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
   const { data: walletClient } = useWalletClient();
   const address = useContractAddress("LUSDC");
   const { data: balance } = useLTokenBalanceOf({
@@ -47,13 +50,17 @@ export const AppInvestLUSDCBalance: FC<Props> = (props) => {
           </TooltipContent>
         </Tooltip>
       </div>
-      <Amount
-        value={balance!}
-        decimals={decimals}
-        className="text-[1.92rem] text-fg font-heading font-bold"
-        suffix="LUSDC"
-        displaySymbol={false}
-      />
+
+      <div className="text-[1.92rem] text-fg font-heading font-bold -none inline-flex items-center justify-center align-bottom gap-2">
+        <Amount
+          value={balance!}
+          decimals={decimals}
+          className="text-[1.92rem] text-fg font-heading font-bold"
+          suffix="LUSDC"
+          displaySymbol={false}
+        />{" "}
+        <Image src={lusdcIcon} alt="LUSDC icon" width={20} className="w-7 h-7 -mt-1" />
+      </div>
     </div>
   );
 };

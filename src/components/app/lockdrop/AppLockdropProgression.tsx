@@ -22,7 +22,7 @@ export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
   // const endDate: Date | null = new Date("2023-10-07T00:00:00Z");
   const endDate: Date | null = null;
   const oneDay = 24 * 60 * 60 * 1000;
-  let remainingDays = endDate ? Math.floor((endDate.getTime() - Date.now()) / oneDay) : 0;
+  let remainingDays = endDate !== null ? Math.floor((endDate.getTime() - Date.now()) / oneDay) : 0;
   if (remainingDays < 0) remainingDays = 0;
 
   return (
