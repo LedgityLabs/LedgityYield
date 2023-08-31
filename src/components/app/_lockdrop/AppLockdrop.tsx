@@ -17,6 +17,7 @@ export const AppLockdrop: FC = () => {
       <Card
         defaultGradient={false}
         circleIntensity={0}
+        animated={false}
         className="flex w-full flex-col gap-10 bg-[#28a0f0]/20"
       >
         <div className="flex items-center justify-between p-11 pb-1 pt-12">
