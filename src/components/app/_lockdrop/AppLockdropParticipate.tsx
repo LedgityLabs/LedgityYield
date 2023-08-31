@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FC, useRef, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import {
   AllowanceTxButton,
   Amount,
@@ -7,18 +7,20 @@ import {
   RadioGroup,
   RadioGroupItem,
   Rate,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui";
 import {
   useGenericErc20BalanceOf,
   useLTokenUnderlying,
   useLockdropAccountsLocks,
-  useLockdropEligibleRewardsOf,
-  useLockdropLock,
   usePrepareLockdropLock,
 } from "@/generated";
 import { useWalletClient } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { parseUnits, zeroAddress } from "viem";
+import { formatUnits, parseUnits, zeroAddress } from "viem";
+import clsx from "clsx";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -35,6 +37,16 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
     watch: true,
   });
 
+  // Retrieve lock data
+  const { data: lockData } = useLockdropAccountsLocks({
+    address: lockdropAddress!,
+    args: [walletClient?.account.address || zeroAddress],
+    watch: true,
+  });
+  const hasLocked = lockData && lockData[0] !== 0n;
+  const currentLockedAmount = hasLocked ? lockData[0] : 0n;
+  const currentLockDuration = hasLocked ? lockData[1] : 0;
+
   // Retrieve input data and prepare transaction
   const inputEl = useRef<HTMLInputElement>(null);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
@@ -42,8 +54,25 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
   const [lockDuration, setLockDuration] = useState(12);
   const preparation = usePrepareLockdropLock({
     address: lockdropAddress!,
-    args: [depositedAmount, lockDuration],
+    args: [depositedAmount - currentLockedAmount, lockDuration],
   });
+
+  // Default locked amount and duration to current ones when available
+  useEffect(() => {
+    if (hasLocked) {
+      setDepositedAmount(currentLockedAmount);
+      setLockDuration(currentLockDuration);
+    }
+  }, [lockData]);
+
+  // Ensure deposited amount is always at least equal to currently deposited amount
+  const timeout = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    if (timeout.current) clearTimeout(timeout.current);
+    timeout.current = setTimeout(() => {
+      if (depositedAmount < currentLockedAmount) setDepositedAmount(currentLockedAmount);
+    }, 700);
+  }, [depositedAmount, currentLockedAmount]);
 
   // Compute received LDY amount and % of allocation
   const maxWeight = parseUnits((5_000_000 * 12).toString(), 6);
@@ -70,86 +99,96 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
     parentError = "Lockdrop is capped to 5M USDC";
   }
 
-  // Retrieve lock data
-  const { data: lockData } = useLockdropAccountsLocks({
-    address: lockdropAddress!,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
-  });
-  const { data: eligibleRewards } = useLockdropEligibleRewardsOf({
-    address: lockdropAddress!,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
-  });
-
   return (
-    <div className="py-12 pt-2 flex flex-col gap-12">
-      {lockData && lockData[0] !== 0n && (
-        <div className="flex justify-between items-center gap-12 border-b-8 border-b-[#20456c]/10 pb-12 px-12">
-          <div className="flex flex-col gap-2">
-            <h3 className="font-bold text-3xl font-heading text-[#20456c]/[75%]">Your lock</h3>
-            <p className="text-[#20456c]/70 font-medium">
-              You can increase your lock amount and/or duration using the below update form.
-            </p>
-          </div>
-
-          <div className="flex gap-12">
-            <div className="flex flex-col items-start whitespace-nowrap">
-              <Amount
-                value={lockData[0]}
-                decimals={6}
-                suffix="USDC"
-                displaySymbol={true}
-                className="text-[1.92rem] text-[#20456c]/90 font-heading font-bold"
-              />
-              <h4 className="font-bold text-sm text-[#20456c]/60">Locked amount</h4>
+    <div className="pb-12 -mt-10 flex flex-col">
+      {hasLocked && (
+        <div className="pb-2 bg-[#0472B9]/10">
+          <div className="flex justify-between items-center gap-12 p-12 rounded-b-xl bg-accent">
+            <div className="flex flex-col gap-2">
+              <h3 className="font-bold text-3xl font-heading text-[#20456c]/[75%]">Your lock</h3>
+              <p className="text-[#20456c]/70 font-medium">
+                You can increase your lock amount and/or duration using the below update form.
+              </p>
             </div>
-            <div className="flex flex-col items-end whitespace-nowrap">
-              <span className="text-[1.92rem] text-[#20456c]/90 font-heading font-bold">
-                {lockData[1]}
-              </span>
-              <h4 className="font-bold text-sm text-[#20456c]/60">Lock duration</h4>
+
+            <div className="flex gap-12">
+              <div className="flex flex-col items-start whitespace-nowrap">
+                <Amount
+                  value={currentLockedAmount}
+                  decimals={6}
+                  suffix="USDC"
+                  displaySymbol={true}
+                  className="text-[1.92rem] text-[#20456c]/90 font-heading font-bold"
+                />
+                <h4 className="font-bold text-sm text-[#20456c]/60">Locked amount</h4>
+              </div>
+              <div className="flex flex-col items-end whitespace-nowrap">
+                <span className="text-[1.92rem] text-[#20456c]/90 font-heading font-bold">
+                  {currentLockDuration}
+                </span>
+                <h4 className="font-bold text-sm text-[#20456c]/60">Lock duration</h4>
+              </div>
             </div>
           </div>
         </div>
       )}
-      <div className="flex justify-center gap-12 " {...props}>
+      <div className="flex justify-center gap-12 pt-12" {...props}>
         <div className="flex flex-col justify-end gap-3">
           <div className="flex items-end gap-6">
             <p className="pb-3 text-lg font-bold text-[#20456c]">Lock duration</p>
             <RadioGroup
-              defaultValue="12"
+              value={lockDuration.toString()}
               onValueChange={(value) => setLockDuration(Number.parseInt(value))}
               className="flex items-center justify-center gap-6"
             >
-              <RadioGroupItem
-                value="3"
-                id="3m"
-                className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
-              >
-                <label htmlFor="3m" className="pointer-events-none relative font-heading">
-                  <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
-                    <span className="rounded-lg bg-gradient-to-tr from-[#CD7F32] to-[#CD7F32]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                      x3
-                    </span>
-                  </div>
-                  3M
-                </label>
-              </RadioGroupItem>
-              <RadioGroupItem
-                value="6"
-                id="6m"
-                className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
-              >
-                <label htmlFor="6m" className="pointer-events-none relative font-heading">
-                  <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
-                    <span className="rounded-lg bg-gradient-to-tr from-[#8c8c8c] to-[#8c8c8c]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
-                      x6
-                    </span>
-                  </div>
-                  6M
-                </label>
-              </RadioGroupItem>
+              <Tooltip>
+                <TooltipTrigger>
+                  <RadioGroupItem
+                    value="3"
+                    id="3m"
+                    disabled={currentLockDuration > 3}
+                    className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
+                  >
+                    <label htmlFor="3m" className="pointer-events-none relative font-heading">
+                      <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
+                        <span className="rounded-lg bg-gradient-to-tr from-[#A57164] to-[#A57164]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
+                          x3
+                        </span>
+                      </div>
+                      3M
+                    </label>
+                  </RadioGroupItem>
+                </TooltipTrigger>
+                <TooltipContent
+                  className={clsx("font-semibold", currentLockDuration <= 3 && "hidden")}
+                >
+                  Duration cannot be decreased
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <RadioGroupItem
+                    value="6"
+                    id="6m"
+                    disabled={currentLockDuration > 6}
+                    className="[data-state='unchecked']]:text-red-500 flex aspect-square h-12 w-12 items-center justify-center rounded-2xl text-[#0472B9]"
+                  >
+                    <label htmlFor="6m" className="pointer-events-none relative font-heading">
+                      <div className="absolute -top-10 left-0 right-0 flex items-center justify-center">
+                        <span className="rounded-lg bg-gradient-to-tr from-[#838996] to-[#838996]/70 px-1.5 py-1 font-heading text-sm font-semibold leading-none text-bg">
+                          x6
+                        </span>
+                      </div>
+                      6M
+                    </label>
+                  </RadioGroupItem>
+                </TooltipTrigger>
+                <TooltipContent
+                  className={clsx("font-semibold", currentLockDuration <= 6 && "hidden")}
+                >
+                  Duration cannot be decreased
+                </TooltipContent>
+              </Tooltip>
               <RadioGroupItem
                 value="12"
                 id="12m"
@@ -168,7 +207,7 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
           </div>
           <div className="mt-6 flex flex-nowrap items-start justify-center gap-4">
             <AmountInput
-              defaultValue="100"
+              value={formatUnits(depositedAmount, 6)}
               ref={inputEl}
               maxValue={underlyingBalance}
               maxToBottom={true}
@@ -187,11 +226,14 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
               preparation={preparation}
               token={underlyingAddress!}
               spender={lockdropAddress!}
-              amount={depositedAmount}
-              disabled={depositedAmount === 0n}
+              amount={depositedAmount - currentLockedAmount}
+              disabled={
+                depositedAmount - currentLockedAmount <= 0n && lockDuration === currentLockDuration
+              }
               hasUserInteracted={hasUserInteracted}
               parentIsError={isParentError}
               parentError={parentError}
+              allowZeroAmount={true}
               className="bg-[#0472B9] transition-colors hover:bg-[#0472B9]/90"
               transactionSummary={
                 <span>
@@ -218,7 +260,7 @@ export const AppLockdropParticipate: FC<Props> = ({ ...props }) => {
                 </span>
               }
             >
-              Deposit
+              {hasLocked ? "Update" : "Deposit"}
             </AllowanceTxButton>
           </div>
         </div>

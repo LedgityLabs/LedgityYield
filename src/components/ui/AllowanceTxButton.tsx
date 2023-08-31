@@ -25,6 +25,9 @@ interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   // Allow parent to force error state
   parentIsError?: boolean;
   parentError?: string;
+
+  // Allow 0 amount
+  allowZeroAmount?: boolean;
 }
 /**
  * A version of the TxButton that allows to ensure and set (if needed) a given ERC20 allowance before
@@ -39,6 +42,7 @@ export const AllowanceTxButton: FC<Props> = ({
   hasUserInteracted = false,
   parentIsError = false,
   parentError = undefined,
+  allowZeroAmount = false,
   disabled,
   className,
   ...props
@@ -64,7 +68,7 @@ export const AllowanceTxButton: FC<Props> = ({
     preparation.refetch();
   }, [allowance]);
 
-  const hasEnoughAllowance = Boolean(allowance && allowance >= amount);
+  const hasEnoughAllowance = Boolean(allowance !== undefined && allowance >= amount);
 
   // Check if the user has enough balance, and raise error else
   let isError = false;
@@ -81,7 +85,7 @@ export const AllowanceTxButton: FC<Props> = ({
         hideTooltips={!hasEnoughAllowance}
         hasUserInteracted={hasUserInteracted}
         preparation={preparation}
-        disabled={amount === 0n || disabled}
+        disabled={(amount === 0n && !allowZeroAmount) || disabled}
         transactionSummary={transactionSummary}
         parentIsError={isError}
         parentError={errorMessage}
@@ -91,7 +95,7 @@ export const AllowanceTxButton: FC<Props> = ({
         className={twMerge(hasEnoughAllowance && "pointer-events-none hidden", className)}
         hideTooltips={hasEnoughAllowance}
         preparation={allowancePreparation}
-        disabled={amount === 0n}
+        disabled={(amount === 0n && !allowZeroAmount) || disabled}
         hasUserInteracted={hasUserInteracted}
         parentIsError={parentIsError || isError}
         parentError={parentIsError ? parentError : errorMessage}
