@@ -12,7 +12,7 @@ export const metadata = {
 const AppLayout: NextPage<Props> = ({ children }) => {
   return (
     <>
-      <SmallScreenMessage />
+      {/* <SmallScreenMessage /> */}
       {children}
     </>
   );

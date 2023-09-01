@@ -59,8 +59,7 @@ const HomeHero: FC<Props> = ({ className }) => {
       ref={heroSection}
       className={twMerge(
         "-mt-[97px] ",
-        "bg-[url('/assets/textures/glow-light.webp')] bg-cover bg-[left_30%_bottom_0%] md:bg-center",
-        "before:bg-hero before:pointer-events-none before:absolute before:inset-0 before:min-h-[140vh] before:opacity-[0.006] before:brightness-[250%] before:contrast-[600%]",
+        "before:absolute before:inset-0 before:bg-[url('/assets/textures/glow-light.webp')] before:bg-cover before:bg-[left_30%_bottom_0%] md:before:bg-center before:opacity-90",
         className,
       )}
     >
@@ -84,7 +83,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         <Cube size="small" className="-bottom-4 left-[30%] hidden 2xl:block" />
 
         <section className="flex flex-col items-center justify-center gap-[5vh]">
-          <Link
+          {/* <Link
             style={{
               display: !isArbitrum ? "inline-block" : "none",
             }}
@@ -104,25 +103,27 @@ const HomeHero: FC<Props> = ({ className }) => {
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
               </div>
             </div>
-          </Link>
+          </Link> */}
           <Link
-            style={{
-              display: isArbitrum ? "inline-block" : "none",
-            }}
+            style={
+              {
+                // display: isArbitrum ? "inline-block" : "none",
+              }
+            }
             href={{
               pathname: "/app/lockdrop",
               query: { ref: "abar" },
             }}
           >
-            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-orange-200 bg-orange-50 opacity-70 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
-              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-tr from-orange-500 to-orange-700 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
+            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-white bg-blue-50 opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-[#20456c]/50 to-[#20456c] px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
                 <i className="ri-fire-fill animate-pulse text-xl" />
                 Arbitrum Lockdrop
               </div>
-              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-fg/90 md:px-3 md:py-1.5 ">
+              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-[#20456c] md:px-3 md:py-1.5 ">
                 Lock USDC and <br className="md:hidden" />
                 receive very first LDY tokens
-                <i className="ri-arrow-right-line text-xl font-bold text-orange-700" />
+                <i className="ri-arrow-right-line text-xl font-bold text-orange-[#20456c]" />
               </div>
             </div>
           </Link>
@@ -131,7 +132,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               Stable <span className="whitespace-nowrap">yield for</span>
             </span>
             <br className="hidden sm:block" />
-            <span className="bg-gradient-to-t from-indigo-300 to-indigo-500 bg-clip-text text-indigo-300 text-transparent drop-shadow-md">
+            <span className="bg-gradient-to-t from-indigo-400/30 to-indigo-500 bg-clip-text text-indigo-300 text-transparent drop-shadow-md">
               stablecoins<span className="text-slate-700">.</span>
             </span>
           </h2>
@@ -139,7 +140,7 @@ const HomeHero: FC<Props> = ({ className }) => {
         <div className="mt-14 flex w-screen flex-col items-center justify-center xl:mt-20">
           <div className="dark-neon min-w-[700px] sm:min-w-[1300px] md:min-w-[1300px] lg:min-w-[1800px]" />
           <ul className="flex items-center justify-center gap-24 px-14 lg:mt-2 lg:gap-32">
-            <li className="text-center sm:text-left">
+            {/* <li className="text-center sm:text-left">
               <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl inline-flex items-center">
                 {tvlGrowth7dIsLoading ? (
                   <Spinner className="text-3xl mr-3" />
@@ -151,18 +152,18 @@ const HomeHero: FC<Props> = ({ className }) => {
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">
                 TVL growth <span className="opacity-70">(7d)</span>
               </h3>
-            </li>
-            <li className="hidden text-center md:block">
+            </li> */}
+            <li className="hidden_  sm:text-left text-center md:block_">
               <span
                 prefix="±"
-                className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl"
+                className="font-heading text-7xl font-extrabold text-slate-50/[60%] lg:text-7xl"
               >
                 7%
               </span>
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">APR</h3>
             </li>
             <li className="hidden text-right sm:block">
-              <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl">
+              <span className="font-heading text-7xl font-extrabold text-slate-50/[60%] lg:text-7xl">
                 ±0.1%
               </span>
               <h3 className="font-heading text-xl font-bold text-primary opacity-70">

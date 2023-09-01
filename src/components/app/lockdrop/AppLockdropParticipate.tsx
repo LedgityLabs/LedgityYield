@@ -101,10 +101,10 @@ export const AppLockdropParticipate: FC<Props> = ({ className, ...props }) => {
   }
 
   return (
-    <div className={twMerge("pb-12 -mt-10 flex flex-col", className)} {...props}>
+    <div className={twMerge(" py-12  !pt-0 flex flex-col", className)} {...props}>
       {hasLocked && (
-        <div className="pb-2 bg-[#0472B9]/10">
-          <div className="flex justify-between items-center gap-12 p-12 rounded-b-xl bg-accent">
+        <div className="bg-[#0472B9]/10 p-2">
+          <div className="flex justify-between items-center gap-10 p-10 rounded-b-xl bg-accent md:flex-nowrap flex-wrap">
             <div className="flex flex-col gap-2">
               <h3 className="font-bold text-3xl font-heading text-[#20456c]/[75%]">Your lock</h3>
               <p className="text-[#20456c]/70 font-medium">
@@ -112,7 +112,7 @@ export const AppLockdropParticipate: FC<Props> = ({ className, ...props }) => {
               </p>
             </div>
 
-            <div className="flex gap-12">
+            <div className="flex sm:gap-12 gap-8 sm:flex-nowrap flex-wrap">
               <div className="flex flex-col items-start whitespace-nowrap">
                 <Amount
                   value={currentLockedAmount}
@@ -123,7 +123,7 @@ export const AppLockdropParticipate: FC<Props> = ({ className, ...props }) => {
                 />
                 <h4 className="font-bold text-sm text-[#20456c]/60">Locked amount</h4>
               </div>
-              <div className="flex flex-col items-end whitespace-nowrap">
+              <div className="flex flex-col sm:items-end items-start whitespace-nowrap">
                 <span className="text-[1.92rem] text-[#20456c]/90 font-heading font-bold">
                   {currentLockDuration}
                 </span>
@@ -133,14 +133,18 @@ export const AppLockdropParticipate: FC<Props> = ({ className, ...props }) => {
           </div>
         </div>
       )}
-      <div className="flex justify-center gap-12 pt-12" {...props}>
+      <div
+        className="flex justify-center gap-12  flex-wrap sm:px-12
+px-8 pt-12"
+        {...props}
+      >
         <div className="flex flex-col justify-end gap-3">
-          <div className="flex items-end gap-6">
+          <div className="flex items-end sm:gap-6 gap-3">
             <p className="pb-3 text-lg font-bold text-[#20456c]">Lock duration</p>
             <RadioGroup
               value={lockDuration.toString()}
               onValueChange={(value) => setLockDuration(Number.parseInt(value))}
-              className="flex items-center justify-center gap-6"
+              className="flex items-center justify-center sm:gap-6 gap-3"
             >
               <Tooltip>
                 <TooltipTrigger>
@@ -219,7 +223,7 @@ export const AppLockdropParticipate: FC<Props> = ({ className, ...props }) => {
                 if (hasUserInteracted === false) setHasUserInteracted(true);
                 if (e.target.value === "") setHasUserInteracted(false);
               }}
-              className="w-64"
+              className="sm:w-64 w-48"
             />
             <AllowanceTxButton
               size="medium"

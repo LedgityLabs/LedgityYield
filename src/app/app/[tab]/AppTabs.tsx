@@ -7,6 +7,7 @@ import { AppMultiLockdrop } from "@/components/app/multi-lockdrop/AppMultiLockdr
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
+import clsx from "clsx";
 
 import { type NextPage } from "next";
 import { FC, useEffect, useState } from "react";
@@ -48,20 +49,17 @@ const _AppTabs: FC = () => {
           Invest
         </TabsTrigger>
         {isArbitrum && (
-          <TabsTrigger
-            value="lockdrop"
-            className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
-          >
+          <TabsTrigger value="lockdrop">
             Lockdrop
             <div
               className={twMerge(
-                "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-                currentTab === "ldy-token" && "opacity-60 grayscale-[30%]",
+                "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[#20456c] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
+                currentTab === "lockdrop" && "opacity-50 hover:opacity-100",
               )}
             >
               <i className="ri-fire-fill text-x animate-pulse" />
               Hot
-              <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-orange-600/80"></i>
+              <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
             </div>
           </TabsTrigger>
         )}
@@ -85,7 +83,7 @@ const _AppTabs: FC = () => {
         )} */}
         {isLinea && <TabsTrigger value="get-usdc">Get USDC</TabsTrigger>}
       </TabsList>
-      <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms]">
+      <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] px-5">
         <TabsContent value="dashboard">
           <AppDashboard />
         </TabsContent>
