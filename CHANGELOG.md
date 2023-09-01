@@ -1,3 +1,10 @@
+## [1.207.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.3...v1.207.4) (2023-08-31)
+
+
+### Fixes
+
+* use a react context to handle app tabs state. This fixes some weird tabs behaviors ([6cb8ace](https://github.com/LedgityLabs/LedgityYield/commit/6cb8ace6ca010ff2aebdc1897b21738727335aa0))
+
 ## [1.207.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.2...v1.207.3) (2023-08-31)
 
 
