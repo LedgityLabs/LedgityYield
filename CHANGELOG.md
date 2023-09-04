@@ -1,3 +1,10 @@
+## [1.208.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.4...v1.208.0) (2023-09-01)
+
+
+### Features
+
+* responsive lockdrop page + colors harmonization + lighter home hero ([664971e](https://github.com/LedgityLabs/LedgityYield/commit/664971e4889013f78294e28f178b90e49776d65d))
+
 ## [1.207.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.3...v1.207.4) (2023-08-31)
 
 
