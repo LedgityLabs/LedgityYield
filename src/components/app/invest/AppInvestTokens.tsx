@@ -18,11 +18,8 @@ import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
 import { zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
-import clsx from "clsx";
 import { usePublicClient, useWalletClient } from "wagmi";
 import { JSONStringify } from "@/lib/jsonStringify";
-import dropIcon from "~/assets/icons/airdrop.svg";
-import Image from "next/image";
 
 const availableChains = [42161, 59144];
 
@@ -70,7 +67,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         return (
           <div className="inline-flex items-center gap-2.5">
             <TokenLogo symbol={tokenSymbol} size={35} />
-            <p className="text-lg font-semibold text-fg/90">{tokenSymbol}</p>
+            <p className="text-lg font-semibold text-fg/90 sm:inline hidden">{tokenSymbol}</p>
           </div>
         );
       },
@@ -132,8 +129,14 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 }
               }}
             >
-              <Button size="small" className="text-lg">
-                Deposit
+              <Button
+                size="small"
+                className="text-lg inline-flex gap-1 justify-center items-center"
+              >
+                <span className="rotate-90 text-bg/90">
+                  <i className="ri-login-circle-line" />
+                </span>
+                <span className="sm:inline-block hidden">Deposit</span>
               </Button>
             </DepositDialog>
             <WithdrawDialog
@@ -146,8 +149,15 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 }
               }}
             >
-              <Button size="small" variant="outline" className="text-lg">
-                Withdraw
+              <Button
+                size="small"
+                variant="outline"
+                className="text-lg inline-flex gap-1 justify-center items-center"
+              >
+                <span className="rotate-[270deg] text-fg/70">
+                  <i className="ri-logout-circle-r-line" />
+                </span>
+                <span className="sm:inline-block hidden">Withdraw</span>
               </Button>
             </WithdrawDialog>
           </div>
@@ -296,7 +306,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   return (
     <article
       className={twMerge(
-        "grid w-full grid-cols-[repeat(5,minmax(0,2fr)]) border-b border-b-fg/20",
+        "grid w-full md:grid-cols-[repeat(5,auto)] grid-cols-[repeat(4,auto)] border-b border-b-fg/20",
         className,
       )}
     >
@@ -304,12 +314,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         return (
           <div
             key={header.id}
-            style={{
-              gridColumnStart: index + 1,
-            }}
             className={twMerge(
               "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
               header.column.id === "tokenSymbol" && "justify-start pl-10",
+              header.column.id === "invested" && "md:inline-flex hidden",
             )}
           >
             {(() => {
@@ -365,10 +373,8 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                   "inline-flex items-center justify-center py-6 border-b border-b-fg/20",
                   cellIndex === 0 && "justify-start pl-10",
                   rowIndex == tableRows.length - 1 && "border-b-0",
+                  cell.column.id === "invested" && "md:inline-flex hidden",
                 )}
-                style={{
-                  gridColumnStart: cellIndex + 1,
-                }}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </div>
