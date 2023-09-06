@@ -1,3 +1,10 @@
+## [1.209.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.208.0...v1.209.0) (2023-09-04)
+
+
+### Features
+
+* improve responsivness of Invest app page ([b44dfe8](https://github.com/LedgityLabs/LedgityYield/commit/b44dfe847dd2537f4cd497e170b8d8de2c2664bc))
+
 ## [1.208.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.4...v1.208.0) (2023-09-01)
 
 
