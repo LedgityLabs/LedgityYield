@@ -1,3 +1,10 @@
+## [1.210.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.209.0...v1.210.0) (2023-09-06)
+
+
+### Features
+
+* add beta indicator to enter app buttons ([f126a41](https://github.com/LedgityLabs/LedgityYield/commit/f126a4146e8113f1633ec57f39ce3661671dc66a))
+
 ## [1.209.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.208.0...v1.209.0) (2023-09-04)
 
 
