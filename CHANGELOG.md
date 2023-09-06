@@ -1,3 +1,10 @@
+## [1.211.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.210.0...v1.211.0) (2023-09-06)
+
+
+### Features
+
+* add beta tag to invest page ([2c3161e](https://github.com/LedgityLabs/LedgityYield/commit/2c3161e07f980cc3add3379b35d21a6c2495318b))
+
 ## [1.210.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.209.0...v1.210.0) (2023-09-06)
 
 
