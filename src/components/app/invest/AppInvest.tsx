@@ -59,7 +59,14 @@ export const AppInvest: FC = () => {
         </a>
       )}
 
-      <Card defaultGradient={true} circleIntensity={0.07} className="w-full flex flex-col gap-10">
+      <Card
+        defaultGradient={true}
+        circleIntensity={0.07}
+        className="w-full flex flex-col gap-10 relative overflow-hidden"
+      >
+        <span className="absolute px-2 py-1.5 text-sm leading-none rounded-bl-lg rounded-br-lg text-bg top-0 left-2 bg-orange-700 font-medium">
+          Beta
+        </span>
         <div className="flex gap-10 justify-between flex-wrap-reverse p-10 pt-8 pb-0">
           <div className="flex flex-col gap-2">
             <h3 className="font-bold text-lg text-fg/50">TVL</h3>
