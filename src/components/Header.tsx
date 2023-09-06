@@ -11,8 +11,11 @@ import { twMerge } from "tailwind-merge";
 const EnterAppButton = () => {
   return (
     <Link href="/app/invest">
-      <Button size="large" className="hidden sm:block">
+      <Button size="large" className="relative hidden sm:block">
         Enter app
+        <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-bl-lg text-bg top-0 right-0 bg-orange-700">
+          Beta
+        </span>
       </Button>
     </Link>
   );

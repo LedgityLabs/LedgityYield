@@ -144,9 +144,13 @@ const HomeFeatures: FC = () => {
           </p>
         </Card>
       </div>
+
       <Link href="/app/invest">
-        <Button className="mt-12" size="large">
+        <Button size="large" className="relative hidden sm:block mt-12">
           Browse available yields
+          <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-bl-md text-bg top-0 right-0 bg-orange-700">
+            Beta
+          </span>
         </Button>
       </Link>
     </section>
