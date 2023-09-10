@@ -6,8 +6,8 @@ const pages = [
   "/legal/privacy-policy",
   "/legal/terms-and-conditions",
   "/app/invest",
-  "/app/lockdrop",
-  "/app/multi-lockdrop",
+  // "/app/lockdrop",
+  // "/app/multi-lockdrop",
   "/app/dashboard",
   "/app/get-usdc",
 ];
