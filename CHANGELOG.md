@@ -1,3 +1,10 @@
+## [1.212.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.211.0...v1.212.0) (2023-09-06)
+
+
+### Features
+
+* improve appearance of beta tag ([81f0787](https://github.com/LedgityLabs/LedgityYield/commit/81f07873c3873d83bda1259325b39b6dc6d23ec0))
+
 ## [1.211.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.210.0...v1.211.0) (2023-09-06)
 
 
