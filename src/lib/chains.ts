@@ -17,7 +17,7 @@ const hederaChain: Chain = {
     default: { http: ["https://mainnet.hashio.io/api"] },
   },
   blockExplorers: {
-    hashscan: { name: "HashScan", url: "https://hashscan.io/" },
+    etherscan: { name: "HashScan", url: "https://hashscan.io/" },
     default: { name: "HashScan", url: "https://hashscan.io/" },
   },
 };
