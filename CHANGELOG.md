@@ -1,3 +1,10 @@
+## [1.214.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.214.0...v1.214.1) (2023-09-10)
+
+
+### Fixes
+
+* tS deployment error ([52b11a7](https://github.com/LedgityLabs/LedgityYield/commit/52b11a73bfdde0a49e9080a35186a46523450dff))
+
 ## [1.214.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.213.0...v1.214.0) (2023-09-10)
 
 
