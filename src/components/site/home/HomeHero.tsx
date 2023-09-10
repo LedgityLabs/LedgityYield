@@ -104,7 +104,7 @@ const HomeHero: FC<Props> = ({ className }) => {
               </div>
             </div>
           </Link> */}
-          <Link
+          {/* <Link
             style={
               {
                 // display: isArbitrum ? "inline-block" : "none",
@@ -126,7 +126,7 @@ const HomeHero: FC<Props> = ({ className }) => {
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-[#20456c]" />
               </div>
             </div>
-          </Link>
+          </Link> */}
           <h2 className="relative inline-flex flex-col text-center font-heading text-[14vw] font-bold leading-none text-slate-700 sm:block sm:text-[11.5vw] md:text-[11.5vw] lg:text-[7.2rem] xl:text-[7.8rem]">
             <span className="text-[15vw] drop-shadow-xl sm:[font-size:inherit]">
               Stable <span className="whitespace-nowrap">yield for</span>

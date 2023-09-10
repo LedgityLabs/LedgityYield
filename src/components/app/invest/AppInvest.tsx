@@ -19,7 +19,7 @@ export const AppInvest: FC = () => {
 
   return (
     <div className="lg:w-[980px] w-full flex flex-col gap-8 pb-8">
-      {!isLinea && (
+      {/* {!isLinea && (
         <a onClick={() => switchTab("lockdrop")} className="cursor-pointer">
           <Card
             defaultGradient={false}
@@ -57,7 +57,7 @@ export const AppInvest: FC = () => {
             <i className="ri-arrow-right-line text-4xl text-bg font-black" />
           </Card>
         </a>
-      )}
+      )} */}
 
       <Card
         defaultGradient={true}

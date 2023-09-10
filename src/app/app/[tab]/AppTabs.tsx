@@ -48,7 +48,7 @@ const _AppTabs: FC = () => {
         >
           Invest
         </TabsTrigger>
-        {isArbitrum && (
+        {/* {isArbitrum && (
           <TabsTrigger value="lockdrop">
             Lockdrop
             <div
@@ -62,7 +62,7 @@ const _AppTabs: FC = () => {
               <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
             </div>
           </TabsTrigger>
-        )}
+        )} */}
         {/* {isLinea && (
           <TabsTrigger
             value="multi-lockdrop"
@@ -90,12 +90,12 @@ const _AppTabs: FC = () => {
         <TabsContent value="invest">
           <AppInvest />
         </TabsContent>
-        <TabsContent value="lockdrop">
+        {/* <TabsContent value="lockdrop">
           <AppLockdrop />
         </TabsContent>
         <TabsContent value="multi-lockdrop">
           <AppMultiLockdrop />
-        </TabsContent>
+        </TabsContent> */}
         <TabsContent value="get-usdc">
           <AppGetUSDC />
         </TabsContent>
