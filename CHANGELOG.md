@@ -1,3 +1,10 @@
+## [1.213.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.212.0...v1.213.0) (2023-09-10)
+
+
+### Features
+
+* remove mentions to Lockdrop, it has been merged in the coming marketing action ([bc29232](https://github.com/LedgityLabs/LedgityYield/commit/bc2923238a552bfe023ac0d0b62ae0400c578e77))
+
 ## [1.212.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.211.0...v1.212.0) (2023-09-06)
 
 
