@@ -1,3 +1,10 @@
+## [1.216.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.4...v1.216.0) (2023-09-19)
+
+
+### Features
+
+* update/improved metadata and og-images ([ad5306a](https://github.com/LedgityLabs/LedgityYield/commit/ad5306af9d8db60c09cec12ddd2fccd3205f73fb))
+
 ## [1.215.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.3...v1.215.4) (2023-09-19)
 
 
