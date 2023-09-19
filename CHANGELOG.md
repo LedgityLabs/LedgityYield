@@ -1,3 +1,10 @@
+## [1.217.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.216.0...v1.217.0) (2023-09-19)
+
+
+### Features
+
+* add metadata title to app pages ([38364cb](https://github.com/LedgityLabs/LedgityYield/commit/38364cb2b822ea2a84657a2c0b10b4dc1eec9f6e))
+
 ## [1.216.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.4...v1.216.0) (2023-09-19)
 
 
