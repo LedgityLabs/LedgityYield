@@ -14,7 +14,7 @@ import Script from "next/script";
 
 const name = "Ledgity Yield";
 const description =
-  "Earn up to 7% APY on your stablecoins backed by Real World Assets (RWA). Access low-risk & stable yield directly from your wallet.";
+  "Ledgity Yield provides stablecoins holders with a real, stable and high-efficiency yield backed by Real World Assets (RWA) 💫";
 export const metadata = {
   metadataBase: new URL("https://ledgity.finance"),
   applicationName: name,
@@ -36,6 +36,8 @@ export const metadata = {
     "stable yield for stable coin",
     "ledgity",
     "ledgity.com",
+    "Ledgity Airdrop",
+    "Ledgity Multi-Airdrop",
   ],
   viewport: {
     width: "device-width",
