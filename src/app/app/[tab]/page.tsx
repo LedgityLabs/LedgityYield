@@ -1,7 +1,7 @@
 import AppTabs from "./AppTabs";
 
 export function generateStaticParams() {
-  const tabs = ["dashboard", "invest", "ldy-token", "get-usdc", "lockdrop"];
+  const tabs = ["dashboard", "invest", "airdrop", "get-usdc", "pre-mining"];
 
   return tabs.map((tab) => ({
     tab: tab,
