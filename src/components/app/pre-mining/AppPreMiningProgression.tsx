@@ -1,15 +1,15 @@
 import { FC } from "react";
 import { Amount } from "@/components/ui";
-import { useLockdropTotalLocked } from "@/generated";
+import { usePreMiningTotalLocked } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { parseUnits } from "viem";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const AppLockdropProgression: FC<Props> = ({ ...props }) => {
+export const AppPreMiningProgression: FC<Props> = ({ ...props }) => {
   // Compute total locked progression
-  const lockdropAddress = useContractAddress("ArbitrumLockdrop");
-  const { data: totalLocked } = useLockdropTotalLocked({
+  const lockdropAddress = useContractAddress("ArbitrumPreMining");
+  const { data: totalLocked } = usePreMiningTotalLocked({
     address: lockdropAddress!,
     watch: true,
   });

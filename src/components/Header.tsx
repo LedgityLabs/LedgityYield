@@ -11,9 +11,9 @@ import { twMerge } from "tailwind-merge";
 const EnterAppButton = () => {
   return (
     <Link href="/app/invest">
-      <Button size="large" className="relative hidden sm:block">
+      <Button size="large" className="relative hidden sm:block overflow-visible">
         Enter app
-        <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-bl-lg text-bg top-0 right-0 bg-orange-700">
+        <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-md text-bg -top-0.5 -right-0.5 bg-orange-700">
           Beta
         </span>
       </Button>
@@ -29,7 +29,7 @@ const Header: FC = () => {
         <Logo className={twMerge("ml-2", isAppOrAdmin && "hidden md:flex")} />
         <Logo className={twMerge("ml-2 hidden", isAppOrAdmin && "flex md:hidden")} noText={true} />
 
-        <div className="flex gap-6">
+        <div className="flex sm:gap-6 gap-3 justify-end">
           {isAppOrAdmin ? <ConnectButton /> : <EnterAppButton />}
           <DotsMenu />
         </div>

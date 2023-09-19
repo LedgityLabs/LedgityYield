@@ -24,3 +24,4 @@ export * from "./AllowanceTxButton";
 export * from "./Spinner";
 export * from "./Rate";
 export * from "./RateInput";
+export * from "./DaysUntil";

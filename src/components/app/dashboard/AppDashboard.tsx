@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { AppDashboardRevenue } from "./AppDashboardRevenue";
 import { AppDashboardChart } from "./AppDashboardChart";
 import { AppDashboardActivity } from "./AppDashboardActivity";
@@ -9,7 +9,33 @@ import ldyIcon from "~/assets/tokens/ldy.svg";
 import Image from "next/image";
 
 export const AppDashboard: FC = () => {
-  console.log("RENDERED");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  const figureSmallScreen = () => {
+    if (window.innerWidth <= 750) setIsSmallScreen(true);
+    else setIsSmallScreen(false);
+  };
+  useEffect(() => {
+    figureSmallScreen();
+    window.addEventListener("resize", figureSmallScreen);
+    return () => window.removeEventListener("resize", figureSmallScreen);
+  }, []);
+
+  if (isSmallScreen)
+    return (
+      <div className="lg:w-[900px] w-full flex flex-col gap-10 justify-center items-center mb-10">
+        <Card
+          circleIntensity={0.07}
+          defaultGradient={true}
+          className="w-full flex flex-col gap-3 justify-between p-6"
+        >
+          <h3 className="text-xl text-center font-heading font-bold">Screen size not supported</h3>
+          <p className="text-center font-semibold max-w-[400px]">
+            The user dashboard is not yet supported on small screens, please open it from a laptop.
+          </p>
+        </Card>
+      </div>
+    );
 
   return (
     <>

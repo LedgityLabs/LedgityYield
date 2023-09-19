@@ -146,9 +146,9 @@ const HomeFeatures: FC = () => {
       </div>
 
       <Link href="/app/invest">
-        <Button size="large" className="relative hidden sm:block mt-12">
+        <Button size="large" className="relative hidden sm:block mt-12 overflow-visible">
           Browse available yields
-          <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-bl-md text-bg top-0 right-0 bg-orange-700">
+          <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-md text-bg -top-0.5 -right-0.5 bg-orange-700">
             Beta
           </span>
         </Button>

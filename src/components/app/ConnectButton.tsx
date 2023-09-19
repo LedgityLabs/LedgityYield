@@ -32,7 +32,7 @@ export const ConnectButton = () => {
   const wrongNetwork = !chain.id || chain.unsupported! ? true : false;
 
   return (
-    <div className="flex gap-6 justify-center items-center">
+    <div className="flex sm:gap-6 gap-3 justify-center items-center">
       <Select onValueChange={switchNetwork} value={chain?.id.toString()}>
         <SelectTrigger isLoading={isSwitching}>
           {wrongNetwork ? placeholder : <SelectValue placeholder={placeholder} />}
@@ -46,9 +46,9 @@ export const ConnectButton = () => {
                   src={chainsIcons[_chain.id] ?? ""}
                   width={20}
                   height={20}
-                  className="w-6 h-6 rounded-md overflow-hidden"
+                  className="sm:w-6 w-7 sm:h-6 h-7 rounded-md overflow-hidden"
                 />
-                <p className="font-semibold">{_chain.name}</p>
+                <p className="font-semibold sm:inline hidden">{_chain.name}</p>
               </div>
             </SelectItem>
           ))}
@@ -67,14 +67,17 @@ export const ConnectButton = () => {
         >
           {(!wrongNetwork && (
             <>
-              <p>
+              <p className="min-[420px]:inline-block hidden">
                 <WalletName address={walletClient.account.address as `0x${string}`} />
               </p>
               <WalletAvatar
                 address={walletClient.account.address as `0x${string}`}
                 size={80}
-                className="rounded-r-[0.6rem] rounded-l-sm h-[calc(100%-10px)]"
+                className="rounded-r-[0.6rem] rounded-l-sm h-[calc(100%-10px)] min-[420px]:inline-block hidden"
               />
+              {/* <div className="justify-center items-center sm:hidden inline-flex"> */}
+              <i className="ri-wallet-3-fill min-[420px]:hidden inline text-2xl pr-2" />
+              {/* </div> */}
             </>
           )) || <p>Wrong network</p>}
         </Button>

@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "../lib/forge-std/src/Test.sol";
 import {GenericERC20} from "../../src/dev/GenericERC20.sol";
-import {Lockdrop} from "../../src/Lockdrop.sol";
+import {PreMining} from "../../src/PreMining.sol";
 import {LToken} from "../../src/LToken.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
@@ -23,7 +23,7 @@ contract TestedLToken is LToken {
 }
 
 contract Tests is Test, ModifiersExpectations {
-    Lockdrop tested;
+    PreMining tested;
 
     GenericERC20 ldyToken;
     GenericERC20 underlyingToken;
@@ -35,7 +35,7 @@ contract Tests is Test, ModifiersExpectations {
     LDYStaking ldyStaking;
 
     uint256 constant DISTRIBUTED_LDY = 10_000_000 * 10 ** 18;
-    int256 constant LOCKED_HARD_CAP = int256(uint256(type(uint96).max)); // Max withdrawal request amount (~100T)
+    uint256 constant LOCKED_HARD_CAP = type(uint96).max; // Max withdrawal request amount (~100T)
     uint8 constant MIN_LOCK_DURATION = 1;
     uint8 constant MAX_LOCK_DURATION = 255;
     uint8 constant VESTING_DURATION = 12;
@@ -95,8 +95,8 @@ contract Tests is Test, ModifiersExpectations {
         // Set fund wallet
         lToken.setFund(fundWallet);
 
-        // Deploy the Lockdrop contract
-        tested = new Lockdrop(
+        // Deploy the PreMining contract
+        tested = new PreMining(
             address(lToken),
             DISTRIBUTED_LDY,
             LOCKED_HARD_CAP,
@@ -104,48 +104,21 @@ contract Tests is Test, ModifiersExpectations {
             MAX_LOCK_DURATION,
             VESTING_DURATION
         );
-        vm.label(address(ldyToken), "Lockdrop");
+        vm.label(address(ldyToken), "PreMining");
 
         // Set the lockdrop contract as high tier account in LDYStaking contract
         // This prevents it from having to pay for withdrawal fees
         ldyStaking.setHighTierAccount(address(tested), true);
     }
 
-    // ==================
-    // === Invariants ===
-    // - Total pool weight should never exceeds max pool weight (when hard cap is set)
-    function invariant_1() external {
-        if (tested.lockedHardCap() == -1) return;
-        uint256 maxPoolWeight = uint256(tested.lockedHardCap()) * tested.maxLockDuration();
-        assertLe(tested.totalWeight(), maxPoolWeight);
-    }
-
     // ==============================
     // === constructor() function ===
-    function testFuzz_constructor_1(int256 invalidHardCap) public {
-        console.log("Should revert if invalid locked hardcap is given");
-
-        // Ensure hard cap is in invalid range [-inf, -1)
-        invalidHardCap = bound(invalidHardCap, type(int256).min, -2);
-
-        // Expect revert
-        vm.expectRevert(bytes("L71"));
-        new Lockdrop(
-            address(lToken),
-            DISTRIBUTED_LDY,
-            invalidHardCap,
-            MIN_LOCK_DURATION,
-            MAX_LOCK_DURATION,
-            VESTING_DURATION
-        );
-    }
-
-    function test_constructor_2() public {
+    function test_constructor_1() public {
         console.log("Should revert if minLockDuration is not at least 1 month");
 
         // Expect revert
         vm.expectRevert(bytes("L72"));
-        new Lockdrop(
+        new PreMining(
             address(lToken),
             DISTRIBUTED_LDY,
             LOCKED_HARD_CAP,
@@ -155,7 +128,7 @@ contract Tests is Test, ModifiersExpectations {
         );
     }
 
-    function testFuzz_constructor_3(uint8 minLockDuration, uint8 maxLockDuration) public {
+    function testFuzz_constructor_2(uint8 minLockDuration, uint8 maxLockDuration) public {
         console.log("Should revert if minLockDuration is greater than maxLockDuration");
 
         // Ensure minLockDuration is at least equal to 1
@@ -166,7 +139,7 @@ contract Tests is Test, ModifiersExpectations {
 
         // Expect revert
         vm.expectRevert(bytes("L73"));
-        new Lockdrop(
+        new PreMining(
             address(lToken),
             DISTRIBUTED_LDY,
             LOCKED_HARD_CAP,
@@ -176,17 +149,17 @@ contract Tests is Test, ModifiersExpectations {
         );
     }
 
-    function testFuzz_constructor_4(
+    function testFuzz_constructor_3(
         uint256 maxDistributedLDY,
-        int256 lockedHardCap,
+        uint256 lockedHardCap,
         uint8 minLockDuration,
         uint8 maxLockDuration,
         uint8 vestingDuration
     ) public {
         console.log("Should properly set immutable states else");
 
-        // Ensure hardcap is in valid range [-1, +inf]
-        lockedHardCap = bound(lockedHardCap, -1, type(int256).max);
+        // Cap locked hardcap to 100T (prevents overflow)
+        lockedHardCap = bound(lockedHardCap, 0, 100_000_000_000_000 * 10 ** lToken.decimals());
 
         // Ensure minLockDuration is at least equal to 1
         minLockDuration = uint8(bound(minLockDuration, 1, type(uint8).max));
@@ -194,8 +167,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure maxLockDuration is at least equal to minLockDuration
         maxLockDuration = uint8(bound(maxLockDuration, minLockDuration, type(uint8).max));
 
-        // Create a new instance of the Lockdrop contract
-        Lockdrop instance = new Lockdrop(
+        // Create a new instance of the PreMining contract
+        PreMining instance = new PreMining(
             address(lToken),
             maxDistributedLDY,
             lockedHardCap,
@@ -213,6 +186,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(instance.minLockDuration(), minLockDuration);
         assertEq(instance.maxLockDuration(), maxLockDuration);
         assertEq(instance.vestingDuration(), vestingDuration);
+        assertEq(instance.maxWeight(), lockedHardCap * uint256(maxLockDuration));
     }
 
     // ========================
@@ -335,14 +309,6 @@ contract Tests is Test, ModifiersExpectations {
     }
 
     function test_startClaimPhase_2() public {
-        console.log("Should revert if Deposit phase has not ended yet");
-
-        // Expect revert
-        vm.expectRevert(bytes("L75"));
-        tested.startClaimPhase();
-    }
-
-    function test_startClaimPhase_3() public {
         console.log("Should revert if Claim phase has already started");
 
         // Start Claim phase
@@ -355,7 +321,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.startClaimPhase();
     }
 
-    function test_startClaimPhase_4() public {
+    function test_startClaimPhase_3() public {
         console.log("Should revert if LDY token address is unavailable");
 
         // End Deposit phase
@@ -366,7 +332,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.startClaimPhase();
     }
 
-    function test_startClaimPhase_5() public {
+    function test_startClaimPhase_4() public {
         console.log("Should properly set hasClaimPhaseStarted to true");
 
         // Start Claim phase
@@ -555,7 +521,7 @@ contract Tests is Test, ModifiersExpectations {
         recoveredAmount = bound(recoveredAmount, 1, type(uint256).max);
         availableAmount = bound(availableAmount, 0, recoveredAmount - 1);
 
-        // Mint available tokens to Lockdrop contract
+        // Mint available tokens to PreMining contract
         deal(address(ldyToken), address(tested), availableAmount, true);
 
         // Expect revert
@@ -593,10 +559,10 @@ contract Tests is Test, ModifiersExpectations {
         availableAmount = bound(availableAmount, 0, type(uint256).max);
         recoveredAmount = bound(recoveredAmount, 0, availableAmount);
 
-        // Mint available tokens to Lockdrop contract
+        // Mint available tokens to PreMining contract
         deal(address(ldyToken), address(tested), availableAmount, true);
 
-        // Assert current balances of Lockdrop contract and owner
+        // Assert current balances of PreMining contract and owner
         assertEq(ldyToken.balanceOf(address(tested)), availableAmount);
         assertEq(ldyToken.balanceOf(address(this)), 0);
 
@@ -608,98 +574,12 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(ldyToken.balanceOf(address(this)), recoveredAmount);
     }
 
-    // ============================
-    // === refWeight() function ===
-    function test_refWeight_1(
-        uint256 maxDistributedLDY,
-        int256 lockedHardCap,
-        uint8 minLockDuration,
-        uint8 maxLockDuration,
-        uint8 vestingDuration
-    ) public {
-        console.log("Should return max weight if lockedHardCap is set");
-
-        // Ensure minLockDuration is at least equal to 1
-        minLockDuration = uint8(bound(minLockDuration, 1, type(uint8).max));
-
-        // Ensure maxLockDuration is at least equal to minLockDuration
-        maxLockDuration = uint8(bound(maxLockDuration, minLockDuration, type(uint8).max));
-
-        // Ensure hardcap is in active range (-1, +inf]
-        // Dividing by maxLockDuration prevents overflow
-        lockedHardCap = bound(
-            lockedHardCap,
-            0,
-            type(int256).max / int256(uint256(maxLockDuration))
-        );
-
-        // Create an instance of Lockdrop contract with an hard cap
-        Lockdrop instance = new Lockdrop(
-            address(lToken),
-            maxDistributedLDY,
-            lockedHardCap,
-            minLockDuration,
-            maxLockDuration,
-            vestingDuration
-        );
-
-        // Assert that the refWeight is equal to the max weight
-        assertEq(instance.refWeight(), uint256(lockedHardCap) * maxLockDuration);
-    }
-
-    function test_refWeight_2(
-        address locker,
-        uint256 maxDistributedLDY,
-        uint8 minLockDuration,
-        uint8 maxLockDuration,
-        uint8 vestingDuration,
-        uint240 lockAmount,
-        uint8 lockDuration
-    ) public {
-        console.log("Should return total weight if lockedHardCap is not set");
-
-        // Ensure minLockDuration is at least equal to 1
-        minLockDuration = uint8(bound(minLockDuration, 1, type(uint8).max));
-
-        // Ensure maxLockDuration is at least equal to minLockDuration
-        maxLockDuration = uint8(bound(maxLockDuration, minLockDuration, type(uint8).max));
-
-        // Create an instance of Lockdrop contract without hard cap
-        Lockdrop instance = new Lockdrop(
-            address(lToken),
-            maxDistributedLDY,
-            -1,
-            minLockDuration,
-            maxLockDuration,
-            vestingDuration
-        );
-
-        // Ensure locker is not the zero address
-        vm.assume(locker != address(0));
-
-        // Ensure locked duration is in bounds
-        lockDuration = uint8(bound(lockDuration, minLockDuration, maxLockDuration));
-
-        // Cap locked amount to 100T (prevents overflow)
-        lockAmount = uint240(bound(lockAmount, 0, 100_000_000_000_000 * 10 ** lToken.decimals()));
-
-        // Randomly lock some amount for a random duration
-        deal(address(underlyingToken), locker, lockAmount, true);
-        vm.startPrank(locker);
-        underlyingToken.approve(address(instance), lockAmount);
-        instance.lock(lockAmount, lockDuration);
-        vm.stopPrank();
-
-        // Assert that the refWeight is equal to the max weight
-        assertEq(instance.refWeight(), lockAmount * lockDuration);
-    }
-
     // ====================================
     // === eligibleRewardsOf() function ===
     function testFuzz_eligibleRewardsOf_1(
         address locker,
         uint256 maxDistributedLDY,
-        int256 lockedHardCap,
+        uint256 lockedHardCap,
         uint8 minLockDuration,
         uint8 maxLockDuration,
         uint8 vestingDuration,
@@ -709,11 +589,7 @@ contract Tests is Test, ModifiersExpectations {
         console.log("Should properly apply locker's weight");
 
         // Ensure locked hardcap is in valid range [-1, +inf]
-        lockedHardCap = bound(
-            lockedHardCap,
-            -1,
-            int256(100_000_000_000_000 * 10 ** lToken.decimals())
-        );
+        lockedHardCap = bound(lockedHardCap, 0, 100_000_000_000_000 * 10 ** lToken.decimals());
 
         // Ensure minLockDuration is at least equal to 1
         minLockDuration = uint8(bound(minLockDuration, 1, type(uint8).max));
@@ -724,8 +600,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure max distributed LDY is greater than 1 LDY
         maxDistributedLDY = bound(maxDistributedLDY, 1000 * 10 ** 18, 10_000_000 * 10 ** 18);
 
-        // Create an instance of Lockdrop contract without hard cap
-        Lockdrop instance = new Lockdrop(
+        // Create an instance of PreMining contract without hard cap
+        PreMining instance = new PreMining(
             address(lToken),
             maxDistributedLDY,
             lockedHardCap,
@@ -741,16 +617,7 @@ contract Tests is Test, ModifiersExpectations {
         lockDuration = uint8(bound(lockDuration, minLockDuration, maxLockDuration));
 
         // Cap locked amount to 100T (prevents overflow)
-        lockAmount = uint240(
-            bound(
-                lockAmount,
-                0,
-                // Ensure locked amount doesn't exceeds hardcap (if one is set)
-                lockedHardCap < 0
-                    ? 100_000_000_000_000 * 10 ** lToken.decimals()
-                    : uint256(lockedHardCap)
-            )
-        );
+        lockAmount = uint240(bound(lockAmount, 0, lockedHardCap));
 
         // Randomly lock some amount for a random duration
         deal(address(underlyingToken), locker, lockAmount, true);
@@ -762,9 +629,9 @@ contract Tests is Test, ModifiersExpectations {
         // Retrive eligible rewards of locker
         uint256 eligibleRewards = instance.eligibleRewardsOf(locker);
 
-        if (instance.refWeight() > 0) {
-            // Compute locker weight from rewards, distributed LDY and refWeight()
-            uint256 appliedLockerWeight = (instance.refWeight() * eligibleRewards) /
+        if (instance.maxWeight() > 0) {
+            // Compute locker weight from rewards, distributed LDY and maxWeight()
+            uint256 appliedLockerWeight = (instance.maxWeight() * eligibleRewards) /
                 maxDistributedLDY;
 
             // Compute real locker weight
@@ -786,20 +653,20 @@ contract Tests is Test, ModifiersExpectations {
     function test_eligibleRewardsOf_2(
         address locker,
         uint256 maxDistributedLDY,
-        int256 lockedHardCap,
+        uint256 lockedHardCap,
         uint8 minLockDuration,
         uint8 maxLockDuration,
         uint8 vestingDuration,
         uint240 lockAmount,
         uint8 lockDuration
     ) public {
-        console.log("Should properly apply refWeight");
+        console.log("Should properly apply maxWeight");
 
         // Ensure locked hardcap is in valid range [-1, +inf]
         lockedHardCap = bound(
             lockedHardCap,
-            -1,
-            int256(100_000_000_000_000 * 10 ** lToken.decimals())
+            1 * 10 ** lToken.decimals(),
+            100_000_000_000_000 * 10 ** lToken.decimals()
         );
 
         // Ensure minLockDuration is at least equal to 1
@@ -811,8 +678,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure max distributed LDY is greater than 1000 LDY
         maxDistributedLDY = bound(maxDistributedLDY, 1000 * 10 ** 18, 10_000_000 * 10 ** 18);
 
-        // Create an instance of Lockdrop contract without hard cap
-        Lockdrop instance = new Lockdrop(
+        // Create an instance of PreMining contract without hard cap
+        PreMining instance = new PreMining(
             address(lToken),
             maxDistributedLDY,
             lockedHardCap,
@@ -828,18 +695,7 @@ contract Tests is Test, ModifiersExpectations {
         lockDuration = uint8(bound(lockDuration, minLockDuration, maxLockDuration));
 
         // Cap locked amount to 100T (prevents overflow)
-        lockAmount = uint240(
-            bound(
-                lockAmount,
-                lockedHardCap > -1 && uint256(lockedHardCap) < 1 * 10 ** lToken.decimals()
-                    ? uint256(lockedHardCap)
-                    : 1 * 10 ** lToken.decimals(),
-                // Ensure locked amount doesn't exceeds hardcap (if one is set)
-                lockedHardCap < 0
-                    ? 100_000_000_000_000 * 10 ** lToken.decimals()
-                    : uint256(lockedHardCap)
-            )
-        );
+        lockAmount = uint240(bound(lockAmount, 1 * 10 ** lToken.decimals(), lockedHardCap));
 
         // Randomly lock some amount for a random duration
         deal(address(underlyingToken), locker, lockAmount, true);
@@ -852,27 +708,27 @@ contract Tests is Test, ModifiersExpectations {
         uint256 eligibleRewards = instance.eligibleRewardsOf(locker);
 
         if (eligibleRewards > 0) {
-            // Compute refWeight from rewards, distributed LDY and locker weight
+            // Compute maxWeight from rewards, distributed LDY and locker weight
             uint256 lockWeight = lockAmount * lockDuration;
             uint256 appliedRefWeight = (maxDistributedLDY * lockWeight) / eligibleRewards;
 
             // Compute difference between applied locker weight and expected one
-            uint256 weightDiff = appliedRefWeight > instance.refWeight()
-                ? appliedRefWeight - instance.refWeight()
-                : instance.refWeight() - appliedRefWeight;
+            uint256 weightDiff = appliedRefWeight > instance.maxWeight()
+                ? appliedRefWeight - instance.maxWeight()
+                : instance.maxWeight() - appliedRefWeight;
 
-            // Assert that the difference is lower than 2% of expected refWeight
-            assertLe(weightDiff, instance.refWeight() / 50);
+            // Assert that the difference is lower than 2% of expected maxWeight
+            assertLe(weightDiff, instance.maxWeight() / 50);
 
             // Assert that applied weight is in any case greater or equal to expected one
-            assertGe(appliedRefWeight, instance.refWeight());
+            assertGe(appliedRefWeight, instance.maxWeight());
         }
     }
 
     function testFuzz_eligibleRewardsOf_3(
         address locker,
         uint256 maxDistributedLDY,
-        int256 lockedHardCap,
+        uint256 lockedHardCap,
         uint8 minLockDuration,
         uint8 maxLockDuration,
         uint8 vestingDuration,
@@ -884,8 +740,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure locked hardcap is in valid range [-1, +inf]
         lockedHardCap = bound(
             lockedHardCap,
-            -1,
-            int256(100_000_000_000_000 * 10 ** lToken.decimals())
+            1 * 10 ** lToken.decimals(),
+            100_000_000_000_000 * 10 ** lToken.decimals()
         );
 
         // Ensure minLockDuration is at least equal to 1
@@ -897,8 +753,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure max distributed LDY is greater than 1 LDY
         maxDistributedLDY = bound(maxDistributedLDY, 1000 * 10 ** 18, 10_000_000 * 10 ** 18);
 
-        // Create an instance of Lockdrop contract without hard cap
-        Lockdrop instance = new Lockdrop(
+        // Create an instance of PreMining contract without hard cap
+        PreMining instance = new PreMining(
             address(lToken),
             maxDistributedLDY,
             lockedHardCap,
@@ -914,18 +770,7 @@ contract Tests is Test, ModifiersExpectations {
         lockDuration = uint8(bound(lockDuration, minLockDuration, maxLockDuration));
 
         // Cap locked amount to 100T (prevents overflow)
-        lockAmount = uint240(
-            bound(
-                lockAmount,
-                lockedHardCap > -1 && uint256(lockedHardCap) < 1 * 10 ** lToken.decimals()
-                    ? uint256(lockedHardCap)
-                    : 1 * 10 ** lToken.decimals(),
-                // Ensure locked amount doesn't exceeds hardcap (if one is set)
-                lockedHardCap < 0
-                    ? 100_000_000_000_000 * 10 ** lToken.decimals()
-                    : uint256(lockedHardCap)
-            )
-        );
+        lockAmount = uint240(bound(lockAmount, 1 * 10 ** lToken.decimals(), lockedHardCap));
 
         // Randomly lock some amount for a random duration
         deal(address(underlyingToken), locker, lockAmount, true);
@@ -937,10 +782,10 @@ contract Tests is Test, ModifiersExpectations {
         // Retrive eligible rewards of locker
         uint256 eligibleRewards = instance.eligibleRewardsOf(locker);
 
-        if (instance.refWeight() > 0) {
-            // Compute maxDistributedLDY from rewards, refWeight and locker weight
+        if (instance.maxWeight() > 0) {
+            // Compute maxDistributedLDY from rewards, maxWeight and locker weight
             uint256 lockWeight = lockAmount * lockDuration;
-            uint256 appliedMaxDistributedLDY = (eligibleRewards * instance.refWeight()) /
+            uint256 appliedMaxDistributedLDY = (eligibleRewards * instance.maxWeight()) /
                 lockWeight;
 
             // Compute difference between applied max ditributed LDY amount and expected one
@@ -993,8 +838,8 @@ contract Tests is Test, ModifiersExpectations {
         // Ensure lockDuration is out of bound
         vm.assume(lockDuration < minLockDuration || lockDuration > maxLockDuration);
 
-        // Create an instance of Lockdrop contract
-        Lockdrop instance = new Lockdrop(
+        // Create an instance of PreMining contract
+        PreMining instance = new PreMining(
             address(lToken),
             DISTRIBUTED_LDY,
             LOCKED_HARD_CAP,
@@ -1008,20 +853,20 @@ contract Tests is Test, ModifiersExpectations {
         instance.lock(lockAmount, lockDuration);
     }
 
-    function testFuzz_lock_4(int256 lockedHardCap, uint240 lockAmount, uint8 lockDuration) public {
+    function testFuzz_lock_4(uint256 lockedHardCap, uint240 lockAmount, uint8 lockDuration) public {
         console.log("Should revert if deposited amount makes exceeding the hardcap");
 
         // Ensure locked amount is at least equal to 1
         lockAmount = uint240(bound(lockAmount, 1, type(uint240).max));
 
-        // Ensure locked hardcap lower than locked amount
-        lockedHardCap = bound(lockedHardCap, 0, int256(uint256(lockAmount - 1)));
+        // Ensure locked is hardcap lower than locked amount
+        lockedHardCap = bound(lockedHardCap, 0, lockAmount - 1);
 
         // Ensure lock duration is at least equal to 1
         vm.assume(lockDuration > 0);
 
-        // Create an instance of Lockdrop contract
-        Lockdrop instance = new Lockdrop(
+        // Create an instance of PreMining contract
+        PreMining instance = new PreMining(
             address(lToken),
             DISTRIBUTED_LDY,
             lockedHardCap,
@@ -1035,7 +880,45 @@ contract Tests is Test, ModifiersExpectations {
         instance.lock(lockAmount, lockDuration);
     }
 
-    function testFuzz_lock_5(
+    function testFuzz_lock_5(address locker, uint240 lockAmount, uint8 lockDuration) public {
+        console.log("Should revert if account has already unlocked in the past");
+
+        // Ensure locker is not the zero address
+        vm.assume(locker != address(0));
+
+        // Ensure lockAmount is at least equal to 1
+        lockAmount = uint240(bound(lockAmount, 1, uint256(LOCKED_HARD_CAP)));
+
+        // Ensure lock duration is at least equal to 1
+        lockDuration = uint8(bound(lockDuration, 1, MAX_LOCK_DURATION));
+
+        // Mint underlying tokens to locker
+        deal(address(underlyingToken), locker, lockAmount, true);
+
+        // Force L-Token retention rate to 100% so underlying token are available for instant unlock
+        lToken.tool_setRetentionRate(100 * 10 ** 3);
+
+        // Lock amount
+        vm.startPrank(locker);
+        underlyingToken.approve(address(tested), lockAmount);
+        tested.lock(lockAmount, lockDuration);
+        vm.stopPrank();
+
+        // Ensure lock end is in the past
+        (, , , , uint40 lockEndTimestamp) = tested.accountsLocks(locker);
+        vm.warp(lockEndTimestamp + 1);
+
+        // Unlock
+        vm.prank(locker);
+        tested.instantUnlock();
+
+        // Shourt revert when trying to lok again
+        vm.expectRevert(bytes("L71"));
+        vm.prank(locker);
+        tested.lock(lockAmount, lockDuration);
+    }
+
+    function testFuzz_lock_6(
         address locker,
         uint256 balanceAmount,
         uint240 lockAmount,
@@ -1066,7 +949,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_lock_6(address locker, uint240 lockAmount, uint8 lockDuration) public {
+    function testFuzz_lock_7(address locker, uint240 lockAmount, uint8 lockDuration) public {
         console.log("Should increase lock's amount by the locked amount");
 
         // Ensure locker is not the zero address
@@ -1106,7 +989,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(lockedAmountAfter2, lockAmount * 2);
     }
 
-    function testFuzz_lock_7(address locker, uint240 lockAmount, uint8 lockDuration) public {
+    function testFuzz_lock_8(address locker, uint240 lockAmount, uint8 lockDuration) public {
         console.log("Should increase the total locked amount by the locked amount");
 
         // Ensure locker is not the zero address
@@ -1143,7 +1026,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalLocked(), lockAmount * 2);
     }
 
-    function test_lock_8(address locker, uint240 lockAmount, uint8 lockDuration) public {
+    function test_lock_9(address locker, uint240 lockAmount, uint8 lockDuration) public {
         console.log("Should apply new duration if greater than current one, else keep current one");
 
         // Ensure locker is not the zero address
@@ -1203,60 +1086,6 @@ contract Tests is Test, ModifiersExpectations {
         );
     }
 
-    function testFuzz_lock_9(address locker, uint240 lockAmount, uint8 lockDuration) public {
-        console.log("Should properly increase weight on through locks");
-
-        // Ensure locker is not the zero address
-        vm.assume(locker != address(0));
-
-        // Ensure lockAmount is at least equal to 1
-        lockAmount = uint240(bound(lockAmount, 1, uint256(LOCKED_HARD_CAP) / 4));
-
-        // Ensure lock duration is at least equal to 1 and 2 lower than max lock duration
-        lockDuration = uint8(bound(lockDuration, 1, MAX_LOCK_DURATION - 2));
-
-        // Mint underlying tokens to locker
-        deal(address(underlyingToken), locker, lockAmount * 4, true);
-
-        // Assert that total weight is currently equal to 0
-        assertEq(tested.totalWeight(), 0);
-
-        // Perform a first lock
-        vm.startPrank(locker);
-        underlyingToken.approve(address(tested), lockAmount);
-        tested.lock(lockAmount, lockDuration);
-        vm.stopPrank();
-
-        // Assert that total weight has increased by lockAmount * lockDuration
-        assertEq(tested.totalWeight(), lockAmount * lockDuration);
-
-        // Perform a subsequent lock increasing amount
-        vm.startPrank(locker);
-        underlyingToken.approve(address(tested), lockAmount);
-        tested.lock(lockAmount, lockDuration);
-        vm.stopPrank();
-
-        // Assert that total weight has increased by lockAmount * lockDuration
-        assertEq(tested.totalWeight(), (lockAmount * 2) * lockDuration);
-
-        // Perform a subsequent lock increasing duration
-        vm.startPrank(locker);
-        tested.lock(0, lockDuration + 1);
-        vm.stopPrank();
-
-        // Assert that total weight has increased by lockAmount * lockDuration
-        assertEq(tested.totalWeight(), (lockAmount * 2) * (lockDuration + 1));
-
-        // Perform a subsequent lock increasing both
-        vm.startPrank(locker);
-        underlyingToken.approve(address(tested), lockAmount);
-        tested.lock(lockAmount, lockDuration + 2);
-        vm.stopPrank();
-
-        // Assert that total weight has increased by lockAmount * lockDuration
-        assertEq(tested.totalWeight(), (lockAmount * 3) * (lockDuration + 2));
-    }
-
     function testFuzz_lock_10(address locker, uint240 lockAmount, uint8 lockDuration) public {
         console.log("Should deposit amount to L-Token contract if amount > 0");
 
@@ -1277,7 +1106,7 @@ contract Tests is Test, ModifiersExpectations {
         // Assert current underlying balance of locker is lockAmount
         assertEq(underlyingToken.balanceOf(locker), lockAmount);
 
-        // Assert current L-Token balance of Lockdrop contract is 0
+        // Assert current L-Token balance of PreMining contract is 0
         assertEq(lToken.balanceOf(address(tested)), 0);
 
         // Assert totalSupply of L-Token contract is 0
@@ -1292,7 +1121,7 @@ contract Tests is Test, ModifiersExpectations {
         // Assert current underlying balance of locker is now 0
         assertEq(underlyingToken.balanceOf(locker), 0);
 
-        // Assert current L-Token balance of Lockdrop contract is now lockAmount
+        // Assert current L-Token balance of PreMining contract is now lockAmount
         assertEq(lToken.balanceOf(address(tested)), lockAmount);
 
         // Assert totalSupply of L-Token contract is now lockAmount
@@ -1308,15 +1137,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.instantUnlock();
     }
 
-    function test_instantUnlock_2() public {
-        console.log("Should revert if Deposit phase has not ended yet");
-
-        // Expect revert
-        vm.expectRevert(bytes("L67"));
-        tested.instantUnlock();
-    }
-
-    function testFuzz_instantUnlock_3(
+    function testFuzz_instantUnlock_2(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1350,7 +1171,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.instantUnlock();
     }
 
-    function testFuzz_instantUnlock_4(
+    function testFuzz_instantUnlock_3(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1395,7 +1216,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.instantUnlock();
     }
 
-    function testFuzz_instantUnlock_5(address locker, uint8 lockDuration) public {
+    function testFuzz_instantUnlock_4(address locker, uint8 lockDuration) public {
         console.log("Should revert if account has nothing to unlock");
 
         // Ensure locker is not the zero address
@@ -1422,7 +1243,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.instantUnlock();
     }
 
-    function testFuzz_instantUnlock_6(
+    function testFuzz_instantUnlock_5(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1466,13 +1287,13 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(hasUnlocked, true);
     }
 
-    function testFuzz_instantUnlock_7(
+    function testFuzz_instantUnlock_6(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
     ) public {
         console.log(
-            "Should revert if L-Token doesn't hold enough underlying tokens to cover the request (without considering already queued amount because Lockdrop contract is elligible to tier 2)"
+            "Should revert if L-Token doesn't hold enough underlying tokens to cover the request (without considering already queued amount because PreMining contract is elligible to tier 2)"
         );
 
         // Ensure locker is not the zero address
@@ -1506,7 +1327,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.instantUnlock();
     }
 
-    function testFuzz_instantUnlock_8(
+    function testFuzz_instantUnlock_7(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1546,7 +1367,7 @@ contract Tests is Test, ModifiersExpectations {
         // Assert current underlying balance of locker is 0
         assertEq(underlyingToken.balanceOf(locker), 0);
 
-        // Assert current L-Token balance of Lockdrop contract is lockAmount
+        // Assert current L-Token balance of PreMining contract is lockAmount
         assertEq(lToken.balanceOf(address(tested)), lockAmount);
 
         // Assert totalSupply of L-Token contract is lockAmount
@@ -1559,7 +1380,7 @@ contract Tests is Test, ModifiersExpectations {
         // Assert that underlying balance of locker has increased by lockAmount
         assertEq(underlyingToken.balanceOf(locker), lockAmount);
 
-        // Assert that L-Token balance of Lockdrop contract has decreased by lockAmount
+        // Assert that L-Token balance of PreMining contract has decreased by lockAmount
         assertEq(lToken.balanceOf(address(tested)), 0);
 
         // Assert that totalSupply of L-Token contract has decreased by lockAmount
@@ -1575,15 +1396,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestUnlock();
     }
 
-    function test_requestUnlock_2() public {
-        console.log("Should revert if Deposit phase has not ended yet");
-
-        // Expect revert
-        vm.expectRevert(bytes("L67"));
-        tested.requestUnlock();
-    }
-
-    function testFuzz_requestUnlock_3(
+    function testFuzz_requestUnlock_2(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1617,7 +1430,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestUnlock();
     }
 
-    function testFuzz_requestUnlock_4(
+    function testFuzz_requestUnlock_3(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1661,7 +1474,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestUnlock{value: 0.003 ether}();
     }
 
-    function testFuzz_requestUnlock_5(address locker, uint8 lockDuration) public {
+    function testFuzz_requestUnlock_4(address locker, uint8 lockDuration) public {
         console.log("Should revert if account has nothing to unlock");
 
         // Ensure locker is not the zero address
@@ -1689,7 +1502,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestUnlock{value: 0.003 ether}();
     }
 
-    function testFuzz_requestUnlock_6(
+    function testFuzz_requestUnlock_5(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1731,7 +1544,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(hasUnlocked, true);
     }
 
-    function testFuzz_requestUnlock_7(
+    function testFuzz_requestUnlock_6(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1772,7 +1585,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.unlockRequests(0), locker);
     }
 
-    function testFuzz_requestUnlock_8(
+    function testFuzz_requestUnlock_7(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1810,7 +1623,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestUnlock{value: 0 ether}();
     }
 
-    function testFuzz_requestUnlock_9(
+    function testFuzz_requestUnlock_8(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1849,7 +1662,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestUnlock{value: 1 ether}();
     }
 
-    function testFuzz_requestUnlock_10(
+    function testFuzz_requestUnlock_9(
         address locker,
         uint240 lockAmount,
         uint8 lockDuration
@@ -1881,7 +1694,7 @@ contract Tests is Test, ModifiersExpectations {
         (, , , , uint40 lockEndTimestamp) = tested.accountsLocks(locker);
         vm.warp(lockEndTimestamp + 1);
 
-        // Assert current L-Token balance of Lockdrop contract is lockAmount
+        // Assert current L-Token balance of PreMining contract is lockAmount
         assertEq(lToken.balanceOf(address(tested)), lockAmount);
 
         // Request to unlock locked amount
@@ -1889,7 +1702,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.prank(locker);
         tested.requestUnlock{value: 0.003 ether}();
 
-        // Assert L-Token balance of Lockdrop contract is now 0
+        // Assert L-Token balance of PreMining contract is now 0
         assertEq(lToken.balanceOf(address(tested)), 0);
 
         // Assert request have been appended at the beginning of the L-Token queue
@@ -2200,7 +2013,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(underlyingToken.balanceOf(locker1), 0);
         assertEq(underlyingToken.balanceOf(locker2), 0);
 
-        // Assert Lockdrop contract balance is twice the lockAmount
+        // Assert PreMining contract balance is twice the lockAmount
         assertEq(underlyingToken.balanceOf(address(tested)), lockAmount * 2);
 
         // Process queued requests
@@ -2210,7 +2023,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(underlyingToken.balanceOf(locker1), lockAmount);
         assertEq(underlyingToken.balanceOf(locker2), lockAmount);
 
-        // Assert Lockdrop contract balance is now 0
+        // Assert PreMining contract balance is now 0
         assertEq(underlyingToken.balanceOf(address(tested)), 0);
     }
 
@@ -2340,7 +2153,7 @@ contract Tests is Test, ModifiersExpectations {
             tested.requestUnlock{value: 0.003 ether}();
         }
 
-        // Mint enough underlying tokens to Lockdrop contract to cover all requests
+        // Mint enough underlying tokens to PreMining contract to cover all requests
         deal(address(underlyingToken), address(tested), lockAmount * requestsNumber, true);
 
         // Process queued requests

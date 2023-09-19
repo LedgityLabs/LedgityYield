@@ -2,17 +2,14 @@
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
-import { AppLockdrop } from "@/components/app/lockdrop/AppLockdrop";
-import { AppMultiLockdrop } from "@/components/app/multi-lockdrop/AppMultiLockdrop";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
-import clsx from "clsx";
 
-import { type NextPage } from "next";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { twMerge } from "tailwind-merge";
-import { usePublicClient } from "wagmi";
+import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
+import { AppAirdrop } from "@/components/app/airdrop/AppAirdrop";
 
 interface Props {
   defaultTab: string;
@@ -27,77 +24,58 @@ const AppTabs: FC<Props> = ({ defaultTab }) => {
 };
 
 const _AppTabs: FC = () => {
-  const publicClient = usePublicClient();
   const { currentTab, switchTab } = useSwitchAppTab();
-
-  // Figure out if it's an Arbitrum/Linea user or not
-  const isArbitrum = publicClient && [42161, 421613].includes(publicClient.chain.id);
-  const isLinea = publicClient && [59144, 59140].includes(publicClient.chain.id);
 
   return (
     <Tabs
       value={currentTab}
-      className="flex w-screen flex-col items-center justify-center gap-10"
+      className="flex w-screen max-w-[100vw] flex-col items-center justify-center sm:gap-10 gap-5"
       onValueChange={(v) => switchTab(v)}
     >
-      <TabsList className="mb-6 mt-12">
-        <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+      <TabsList className="mb-6 mt-12 sm:w-fit w-[250px]">
         <TabsTrigger
           value="invest"
           className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
         >
           Invest
         </TabsTrigger>
-        {/* {isArbitrum && (
-          <TabsTrigger value="lockdrop">
-            Lockdrop
-            <div
-              className={twMerge(
-                "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[#20456c] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-                currentTab === "lockdrop" && "opacity-50 hover:opacity-100",
-              )}
-            >
-              <i className="ri-fire-fill text-x animate-pulse" />
-              Hot
-              <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
-            </div>
-          </TabsTrigger>
-        )} */}
-        {/* {isLinea && (
-          <TabsTrigger
-            value="multi-lockdrop"
-            className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
+        <TabsTrigger value="airdrop">
+          Airdrop
+          <div
+            className={twMerge(
+              "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[#20456c] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
+              currentTab === "airdrop" && "opacity-50 hover:opacity-100",
+            )}
           >
-            Multi-Lockdrop
-            <div
-              className={twMerge(
-                "absolute right-[30%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-tr from-orange-500 to-orange-700 px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-                currentTab === "ldy-token" && "opacity-60 grayscale-[30%]",
-              )}
-            >
-              <i className="ri-fire-fill text-x animate-pulse" />
-              Hot
-              <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-orange-600/80"></i>
-            </div>
-          </TabsTrigger>
-        )} */}
-        {isLinea && <TabsTrigger value="get-usdc">Get USDC</TabsTrigger>}
+            <i className="ri-fire-fill text-x animate-pulse" />
+            Hot
+            <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
+          </div>
+        </TabsTrigger>
+        <TabsTrigger
+          value="pre-mining"
+          className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
+        >
+          Pre-Mining
+        </TabsTrigger>
+        {/* <TabsTrigger value="get-usdc">Get USDC</TabsTrigger> */}
+        <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
-      <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] px-5">
-        <TabsContent value="dashboard">
-          <AppDashboard />
-        </TabsContent>
+      <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <TabsContent value="invest">
           <AppInvest />
         </TabsContent>
-        {/* <TabsContent value="lockdrop">
-          <AppLockdrop />
+        <TabsContent value="pre-mining">
+          <AppPreMining />
         </TabsContent>
-        <TabsContent value="multi-lockdrop">
-          <AppMultiLockdrop />
-        </TabsContent> */}
+        <TabsContent value="airdrop">
+          <AppAirdrop />
+        </TabsContent>
         <TabsContent value="get-usdc">
           <AppGetUSDC />
+        </TabsContent>
+        <TabsContent value="dashboard">
+          <AppDashboard />
         </TabsContent>
       </div>
     </Tabs>

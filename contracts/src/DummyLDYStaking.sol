@@ -19,7 +19,7 @@ import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 contract LDYStaking is Ownable2Step {
     /**
      * @notice Holds a mapping of addresses that default to the highest staking tier.
-     * @dev This is notably used to allow Lockdrop contracts to benefit from 0%
+     * @dev This is notably used to allow PreMining contracts to benefit from 0%
      * withdrawal fees in L-Tokens contracts, when accounts unlock their funds.
      */
     mapping(address => bool) public highTierAccounts;

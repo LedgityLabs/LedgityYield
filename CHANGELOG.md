@@ -1,521 +1,446 @@
 ## [1.214.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.213.0...v1.214.0) (2023-09-10)
 
-
 ### Features
 
-* update sitemaps ([9b8ea49](https://github.com/LedgityLabs/LedgityYield/commit/9b8ea4966e1a60e41d6efbb108fdebe478afe041))
-* upgrade dependencies ([32f3424](https://github.com/LedgityLabs/LedgityYield/commit/32f3424063564a10fd572a43df4b30e036b20dda))
+- update sitemaps ([9b8ea49](https://github.com/LedgityLabs/LedgityYield/commit/9b8ea4966e1a60e41d6efbb108fdebe478afe041))
+- upgrade dependencies ([32f3424](https://github.com/LedgityLabs/LedgityYield/commit/32f3424063564a10fd572a43df4b30e036b20dda))
 
 ## [1.213.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.212.0...v1.213.0) (2023-09-10)
 
-
 ### Features
 
-* remove mentions to Lockdrop, it has been merged in the coming marketing action ([bc29232](https://github.com/LedgityLabs/LedgityYield/commit/bc2923238a552bfe023ac0d0b62ae0400c578e77))
+- remove mentions to PreMining, it has been merged in the coming marketing action ([bc29232](https://github.com/LedgityLabs/LedgityYield/commit/bc2923238a552bfe023ac0d0b62ae0400c578e77))
 
 ## [1.212.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.211.0...v1.212.0) (2023-09-06)
 
-
 ### Features
 
-* improve appearance of beta tag ([81f0787](https://github.com/LedgityLabs/LedgityYield/commit/81f07873c3873d83bda1259325b39b6dc6d23ec0))
+- improve appearance of beta tag ([81f0787](https://github.com/LedgityLabs/LedgityYield/commit/81f07873c3873d83bda1259325b39b6dc6d23ec0))
 
 ## [1.211.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.210.0...v1.211.0) (2023-09-06)
 
-
 ### Features
 
-* add beta tag to invest page ([2c3161e](https://github.com/LedgityLabs/LedgityYield/commit/2c3161e07f980cc3add3379b35d21a6c2495318b))
+- add beta tag to invest page ([2c3161e](https://github.com/LedgityLabs/LedgityYield/commit/2c3161e07f980cc3add3379b35d21a6c2495318b))
 
 ## [1.210.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.209.0...v1.210.0) (2023-09-06)
 
-
 ### Features
 
-* add beta indicator to enter app buttons ([f126a41](https://github.com/LedgityLabs/LedgityYield/commit/f126a4146e8113f1633ec57f39ce3661671dc66a))
+- add beta indicator to enter app buttons ([f126a41](https://github.com/LedgityLabs/LedgityYield/commit/f126a4146e8113f1633ec57f39ce3661671dc66a))
 
 ## [1.209.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.208.0...v1.209.0) (2023-09-04)
 
-
 ### Features
 
-* improve responsivness of Invest app page ([b44dfe8](https://github.com/LedgityLabs/LedgityYield/commit/b44dfe847dd2537f4cd497e170b8d8de2c2664bc))
+- improve responsivness of Invest app page ([b44dfe8](https://github.com/LedgityLabs/LedgityYield/commit/b44dfe847dd2537f4cd497e170b8d8de2c2664bc))
 
 ## [1.208.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.4...v1.208.0) (2023-09-01)
 
-
 ### Features
 
-* responsive lockdrop page + colors harmonization + lighter home hero ([664971e](https://github.com/LedgityLabs/LedgityYield/commit/664971e4889013f78294e28f178b90e49776d65d))
+- responsive lockdrop page + colors harmonization + lighter home hero ([664971e](https://github.com/LedgityLabs/LedgityYield/commit/664971e4889013f78294e28f178b90e49776d65d))
 
 ## [1.207.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.3...v1.207.4) (2023-08-31)
 
-
 ### Fixes
 
-* use a react context to handle app tabs state. This fixes some weird tabs behaviors ([6cb8ace](https://github.com/LedgityLabs/LedgityYield/commit/6cb8ace6ca010ff2aebdc1897b21738727335aa0))
+- use a react context to handle app tabs state. This fixes some weird tabs behaviors ([6cb8ace](https://github.com/LedgityLabs/LedgityYield/commit/6cb8ace6ca010ff2aebdc1897b21738727335aa0))
 
 ## [1.207.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.2...v1.207.3) (2023-08-31)
 
-
 ### Fixes
 
-* tiny dashboard top card layout fix ([035a664](https://github.com/LedgityLabs/LedgityYield/commit/035a6644718855a94610d95ecc00d5db2f602b61))
+- tiny dashboard top card layout fix ([035a664](https://github.com/LedgityLabs/LedgityYield/commit/035a6644718855a94610d95ecc00d5db2f602b61))
 
 ## [1.207.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.1...v1.207.2) (2023-08-31)
 
-
 ### Fixes
 
-* deployment failure caused by Typescript error ([2a1b006](https://github.com/LedgityLabs/LedgityYield/commit/2a1b0068cd269b424f34a11c4c9e3c8faf7672e4))
+- deployment failure caused by Typescript error ([2a1b006](https://github.com/LedgityLabs/LedgityYield/commit/2a1b0068cd269b424f34a11c4c9e3c8faf7672e4))
 
 ## [1.207.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.207.0...v1.207.1) (2023-08-31)
 
-
 ### Fixes
 
-* typo in Lockdrop kick-off CTA ([93936a8](https://github.com/LedgityLabs/LedgityYield/commit/93936a8abc94ee7ecbf67a74a12ca20b6b758eff))
+- typo in PreMining kick-off CTA ([93936a8](https://github.com/LedgityLabs/LedgityYield/commit/93936a8abc94ee7ecbf67a74a12ca20b6b758eff))
 
 ## [1.207.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.206.0...v1.207.0) (2023-08-31)
 
-
 ### Features
 
-* upload and implement final LDY icon ([47b7deb](https://github.com/LedgityLabs/LedgityYield/commit/47b7deb835e47ae83e36130984a591e13a799313))
+- upload and implement final LDY icon ([47b7deb](https://github.com/LedgityLabs/LedgityYield/commit/47b7deb835e47ae83e36130984a591e13a799313))
 
 ## [1.206.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.205.0...v1.206.0) (2023-08-31)
 
-
 ### Features
 
-* new Arbitrum Lockdrop waiting page ([60027a0](https://github.com/LedgityLabs/LedgityYield/commit/60027a0d9b7a2cb7db2ab7586c4d7ede2e0a94cd))
+- new Arbitrum PreMining waiting page ([60027a0](https://github.com/LedgityLabs/LedgityYield/commit/60027a0d9b7a2cb7db2ab7586c4d7ede2e0a94cd))
 
 ## [1.205.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.204.0...v1.205.0) (2023-08-31)
 
-
 ### Features
 
-* re-enable Arbitrum lockdrop CTA ([518fb24](https://github.com/LedgityLabs/LedgityYield/commit/518fb2402ecb05ec157611aa61353736c392f022))
+- re-enable Arbitrum lockdrop CTA ([518fb24](https://github.com/LedgityLabs/LedgityYield/commit/518fb2402ecb05ec157611aa61353736c392f022))
 
 ## [1.204.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.203.0...v1.204.0) (2023-08-31)
 
-
 ### Features
 
-* add UI workflow to allow users to increase their Lock duration or amount ([3f6bd34](https://github.com/LedgityLabs/LedgityYield/commit/3f6bd349aa5392532162703b553496d41c54e66e))
+- add UI workflow to allow users to increase their Lock duration or amount ([3f6bd34](https://github.com/LedgityLabs/LedgityYield/commit/3f6bd349aa5392532162703b553496d41c54e66e))
 
 ## [1.203.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.202.0...v1.203.0) (2023-08-30)
 
-
 ### Features
 
-* add lock summary section to Lockdrop card ([97bdfcc](https://github.com/LedgityLabs/LedgityYield/commit/97bdfcce47ce735fb71af6db703f7ea7e67f730f))
+- add lock summary section to PreMining card ([97bdfcc](https://github.com/LedgityLabs/LedgityYield/commit/97bdfcce47ce735fb71af6db703f7ea7e67f730f))
 
 ## [1.202.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.201.0...v1.202.0) (2023-08-30)
 
-
 ### Features
 
-* few Lockdrop UI adjustments ([405bbe9](https://github.com/LedgityLabs/LedgityYield/commit/405bbe995704a042e416804d0d71ddd6e90bbf3b))
+- few PreMining UI adjustments ([405bbe9](https://github.com/LedgityLabs/LedgityYield/commit/405bbe995704a042e416804d0d71ddd6e90bbf3b))
 
 ## [1.201.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.200.0...v1.201.0) (2023-08-30)
 
-
 ### Features
 
-* add Lockdrop TXButton error when network is not Arbitrum ([cb8a710](https://github.com/LedgityLabs/LedgityYield/commit/cb8a710523d3cee0563c88fc18a62602c6a9eac0))
+- add PreMining TXButton error when network is not Arbitrum ([cb8a710](https://github.com/LedgityLabs/LedgityYield/commit/cb8a710523d3cee0563c88fc18a62602c6a9eac0))
 
 ## [1.200.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.199.0...v1.200.0) (2023-08-30)
 
-
 ### Features
 
-* connect Arbitrum Lockdrop progression bar to contract data ([722e3b3](https://github.com/LedgityLabs/LedgityYield/commit/722e3b3e56a694015c96449f53065feb842567dd))
+- connect Arbitrum PreMining progression bar to contract data ([722e3b3](https://github.com/LedgityLabs/LedgityYield/commit/722e3b3e56a694015c96449f53065feb842567dd))
 
 ## [1.199.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.198.0...v1.199.0) (2023-08-30)
 
-
 ### Features
 
-* **lockdrop:** add error message when trying to deposit more than hardcap and cap estimations ([d273b51](https://github.com/LedgityLabs/LedgityYield/commit/d273b51ffa5856b7e635c724f14218ee4b3f43c1))
+- **lockdrop:** add error message when trying to deposit more than hardcap and cap estimations ([d273b51](https://github.com/LedgityLabs/LedgityYield/commit/d273b51ffa5856b7e635c724f14218ee4b3f43c1))
 
 ## [1.198.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.197.1...v1.198.0) (2023-08-30)
 
-
 ### Features
 
-* make Lockdrop form functional + Disable allowance buttons when insufficient balance ([b26976a](https://github.com/LedgityLabs/LedgityYield/commit/b26976a21dd3e9bbff139462f527d1c713e82377))
+- make PreMining form functional + Disable allowance buttons when insufficient balance ([b26976a](https://github.com/LedgityLabs/LedgityYield/commit/b26976a21dd3e9bbff139462f527d1c713e82377))
 
 ## [1.197.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.197.0...v1.197.1) (2023-08-29)
 
-
 ### Fixes
 
-* fix big-requests allowance button in withdrawal requests admin ([d4b7954](https://github.com/LedgityLabs/LedgityYield/commit/d4b7954fe74b3c952ef4de4ea40eea2eaf4edb8f))
+- fix big-requests allowance button in withdrawal requests admin ([d4b7954](https://github.com/LedgityLabs/LedgityYield/commit/d4b7954fe74b3c952ef4de4ea40eea2eaf4edb8f))
 
 ## [1.197.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.196.1...v1.197.0) (2023-08-29)
 
-
 ### Features
 
-* improved Arbitrum Lockdrop UI ([954cd1f](https://github.com/LedgityLabs/LedgityYield/commit/954cd1f1dc6c99af07ed59341584e2839bf67dc5))
+- improved Arbitrum PreMining UI ([954cd1f](https://github.com/LedgityLabs/LedgityYield/commit/954cd1f1dc6c99af07ed59341584e2839bf67dc5))
 
 ## [1.196.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.196.0...v1.196.1) (2023-08-29)
 
-
 ### Fixes
 
-* tiny unit tests fixes + fix big requests count in withdrawal requests admin ([d200ece](https://github.com/LedgityLabs/LedgityYield/commit/d200eceb424de8ff9a73864f3224e08ba4470cfa))
+- tiny unit tests fixes + fix big requests count in withdrawal requests admin ([d200ece](https://github.com/LedgityLabs/LedgityYield/commit/d200eceb424de8ff9a73864f3224e08ba4470cfa))
 
 ## [1.196.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.195.0...v1.196.0) (2023-08-28)
 
-
 ### Features
 
-* v1 of Lockdrop UI, new email address and unit tests fixes ([3382cc7](https://github.com/LedgityLabs/LedgityYield/commit/3382cc793edfafa7d95dacb964cdcf55fb7f465e))
-
+- v1 of PreMining UI, new email address and unit tests fixes ([3382cc7](https://github.com/LedgityLabs/LedgityYield/commit/3382cc793edfafa7d95dacb964cdcf55fb7f465e))
 
 ### Others
 
-* **deps:** update dependency @types/node to v20.5.7 ([717951d](https://github.com/LedgityLabs/LedgityYield/commit/717951decaab4e443ea3ba25f0b18b4d5e918184))
-* **deps:** update dependency conventional-changelog-conventionalcommits to v7 ([b36e74d](https://github.com/LedgityLabs/LedgityYield/commit/b36e74da0ab79d0fc59c4b55e6da52c68e14b61e))
+- **deps:** update dependency @types/node to v20.5.7 ([717951d](https://github.com/LedgityLabs/LedgityYield/commit/717951decaab4e443ea3ba25f0b18b4d5e918184))
+- **deps:** update dependency conventional-changelog-conventionalcommits to v7 ([b36e74d](https://github.com/LedgityLabs/LedgityYield/commit/b36e74da0ab79d0fc59c4b55e6da52c68e14b61e))
 
 ## [1.195.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.194.1...v1.195.0) (2023-08-27)
 
-
 ### Features
 
-* lockdrop deployments scripts + few unit tests fixes ([d43f17e](https://github.com/LedgityLabs/LedgityYield/commit/d43f17e0c4c5287ccd9cf95e7320d49fefd4ce5e))
+- lockdrop deployments scripts + few unit tests fixes ([d43f17e](https://github.com/LedgityLabs/LedgityYield/commit/d43f17e0c4c5287ccd9cf95e7320d49fefd4ce5e))
 
 ## [1.194.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.194.0...v1.194.1) (2023-08-27)
 
-
 ### Fixes
 
-* few syntactic adjustments to Lockdrop contract + static analysis run ([0ee41a9](https://github.com/LedgityLabs/LedgityYield/commit/0ee41a91c0cd8ecaaebd5f2ac64613b1b933daf6))
-
+- few syntactic adjustments to PreMining contract + static analysis run ([0ee41a9](https://github.com/LedgityLabs/LedgityYield/commit/0ee41a91c0cd8ecaaebd5f2ac64613b1b933daf6))
 
 ### Tests
 
-* finzalize Lockdrop unit tests ([9c1a855](https://github.com/LedgityLabs/LedgityYield/commit/9c1a855d01273ffa905563f740474085a948addd))
-
+- finzalize PreMining unit tests ([9c1a855](https://github.com/LedgityLabs/LedgityYield/commit/9c1a855d01273ffa905563f740474085a948addd))
 
 ### Others
 
-* **deps:** update dependency @types/node to v20.5.6 ([ea11979](https://github.com/LedgityLabs/LedgityYield/commit/ea119792cef2f2fbaf0bbc86a76c8a34a83dea17))
-* **deps:** update dependency eslint to v8.48.0 ([abf25ee](https://github.com/LedgityLabs/LedgityYield/commit/abf25ee004db0294d5337e6513d2889749cf66e2))
-* **deps:** update dependency typescript to v5.2.2 ([db3f86d](https://github.com/LedgityLabs/LedgityYield/commit/db3f86d201596f36eb52b860dfcb8fab97dc9e7c))
+- **deps:** update dependency @types/node to v20.5.6 ([ea11979](https://github.com/LedgityLabs/LedgityYield/commit/ea119792cef2f2fbaf0bbc86a76c8a34a83dea17))
+- **deps:** update dependency eslint to v8.48.0 ([abf25ee](https://github.com/LedgityLabs/LedgityYield/commit/abf25ee004db0294d5337e6513d2889749cf66e2))
+- **deps:** update dependency typescript to v5.2.2 ([db3f86d](https://github.com/LedgityLabs/LedgityYield/commit/db3f86d201596f36eb52b860dfcb8fab97dc9e7c))
 
 ## [1.194.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.193.0...v1.194.0) (2023-08-27)
 
-
 ### Features
 
-* add some more meta keywords ([eb850c4](https://github.com/LedgityLabs/LedgityYield/commit/eb850c457efb89a01f1e2f5e466516ee81b651f1))
+- add some more meta keywords ([eb850c4](https://github.com/LedgityLabs/LedgityYield/commit/eb850c457efb89a01f1e2f5e466516ee81b651f1))
 
 ## [1.193.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.192.1...v1.193.0) (2023-08-27)
 
-
 ### Features
 
-* add auto-generated sitemaps ([025827a](https://github.com/LedgityLabs/LedgityYield/commit/025827a78062cfa2c611446e7ee130d33dda1317))
+- add auto-generated sitemaps ([025827a](https://github.com/LedgityLabs/LedgityYield/commit/025827a78062cfa2c611446e7ee130d33dda1317))
 
 ## [1.192.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.192.0...v1.192.1) (2023-08-27)
 
-
 ### Fixes
 
-* fix /app links to /app/invest to remove a redirection ([f8e3b7f](https://github.com/LedgityLabs/LedgityYield/commit/f8e3b7fbe46e64923250473c49dcb1aef8c0c9f9))
-
+- fix /app links to /app/invest to remove a redirection ([f8e3b7f](https://github.com/LedgityLabs/LedgityYield/commit/f8e3b7fbe46e64923250473c49dcb1aef8c0c9f9))
 
 ### Tests
 
-* continue Lockdrop unit tests ([5b1088c](https://github.com/LedgityLabs/LedgityYield/commit/5b1088cd175afe43c8ba8738840e9c5632e19f93))
+- continue PreMining unit tests ([5b1088c](https://github.com/LedgityLabs/LedgityYield/commit/5b1088cd175afe43c8ba8738840e9c5632e19f93))
 
 ## [1.192.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.3...v1.192.0) (2023-08-26)
 
-
 ### Features
 
-* update and enable all docs references ([c16d112](https://github.com/LedgityLabs/LedgityYield/commit/c16d112d5361ad8d3bf098a8555a3305643011ad))
-
+- update and enable all docs references ([c16d112](https://github.com/LedgityLabs/LedgityYield/commit/c16d112d5361ad8d3bf098a8555a3305643011ad))
 
 ### Tests
 
-* partially write unit tests for the Lockdrop contract ([9c577a8](https://github.com/LedgityLabs/LedgityYield/commit/9c577a8decb99fcc83e90695744576b8d754c784))
+- partially write unit tests for the PreMining contract ([9c577a8](https://github.com/LedgityLabs/LedgityYield/commit/9c577a8decb99fcc83e90695744576b8d754c784))
 
 ## [1.191.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.2...v1.191.3) (2023-08-25)
 
-
 ### Fixes
 
-* temporary patch to USD rate API error ([66b3ab1](https://github.com/LedgityLabs/LedgityYield/commit/66b3ab1351331190024651fd22a2dbd18ba2b87c))
+- temporary patch to USD rate API error ([66b3ab1](https://github.com/LedgityLabs/LedgityYield/commit/66b3ab1351331190024651fd22a2dbd18ba2b87c))
 
 ## [1.191.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.1...v1.191.2) (2023-08-24)
 
-
 ### Fixes
 
-* **deps:** update dependency cookies-next to v3 ([acaa63c](https://github.com/LedgityLabs/LedgityYield/commit/acaa63c4a9214618aeabb7e041dc987bef609a7c))
-
+- **deps:** update dependency cookies-next to v3 ([acaa63c](https://github.com/LedgityLabs/LedgityYield/commit/acaa63c4a9214618aeabb7e041dc987bef609a7c))
 
 ### Others
 
-* **deps:** update dependency @types/react to v18.2.21 ([e0a303b](https://github.com/LedgityLabs/LedgityYield/commit/e0a303bb28f611d4d75a3cd263eb0591d523183a))
-* perform first row of static analysis on Lockdrop contract ([d18efc6](https://github.com/LedgityLabs/LedgityYield/commit/d18efc634da05ee78893c3d18af2b6509e147e7b))
-* update Slither report ([53587c8](https://github.com/LedgityLabs/LedgityYield/commit/53587c86cfd3970ff069d971b53333bdf8af3a8c))
-* upgrade deps ([d7a8133](https://github.com/LedgityLabs/LedgityYield/commit/d7a81330e0b5255a6caeadc09a2da6556825f106))
+- **deps:** update dependency @types/react to v18.2.21 ([e0a303b](https://github.com/LedgityLabs/LedgityYield/commit/e0a303bb28f611d4d75a3cd263eb0591d523183a))
+- perform first row of static analysis on PreMining contract ([d18efc6](https://github.com/LedgityLabs/LedgityYield/commit/d18efc634da05ee78893c3d18af2b6509e147e7b))
+- update Slither report ([53587c8](https://github.com/LedgityLabs/LedgityYield/commit/53587c86cfd3970ff069d971b53333bdf8af3a8c))
+- upgrade deps ([d7a8133](https://github.com/LedgityLabs/LedgityYield/commit/d7a81330e0b5255a6caeadc09a2da6556825f106))
 
 ## [1.191.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.191.0...v1.191.1) (2023-08-24)
 
-
 ### Fixes
 
-* fix documentation link in Invest page ([b76742c](https://github.com/LedgityLabs/LedgityYield/commit/b76742c464186673846a24d72ceb98a3d16cdfee))
+- fix documentation link in Invest page ([b76742c](https://github.com/LedgityLabs/LedgityYield/commit/b76742c464186673846a24d72ceb98a3d16cdfee))
 
 ## [1.191.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.190.0...v1.191.0) (2023-08-24)
 
-
 ### Features
 
-* few adjustments to withdrawal requests admin display ([5bcec7e](https://github.com/LedgityLabs/LedgityYield/commit/5bcec7eda04b09a78188146113bd884938398743))
+- few adjustments to withdrawal requests admin display ([5bcec7e](https://github.com/LedgityLabs/LedgityYield/commit/5bcec7eda04b09a78188146113bd884938398743))
 
 ## [1.190.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.189.0...v1.190.0) (2023-08-24)
 
-
 ### Features
 
-* **admin:** new high-level interface for withdrawal processing ([4981aa5](https://github.com/LedgityLabs/LedgityYield/commit/4981aa52ff64ecf9d0b324965b9206bfe219f4fe))
+- **admin:** new high-level interface for withdrawal processing ([4981aa5](https://github.com/LedgityLabs/LedgityYield/commit/4981aa52ff64ecf9d0b324965b9206bfe219f4fe))
 
 ## [1.189.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.188.0...v1.189.0) (2023-08-24)
 
-
 ### Features
 
-* documented and improved Lockdrop contract ([aae9b87](https://github.com/LedgityLabs/LedgityYield/commit/aae9b87a4e0e8e3552fd9c19b5afb5a86aa42eb5))
+- documented and improved PreMining contract ([aae9b87](https://github.com/LedgityLabs/LedgityYield/commit/aae9b87a4e0e8e3552fd9c19b5afb5a86aa42eb5))
 
 ## [1.188.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.187.1...v1.188.0) (2023-08-23)
 
-
 ### Features
 
-* publish Lockdrop pool contract + subgraph bug fixes ([63a5272](https://github.com/LedgityLabs/LedgityYield/commit/63a52726d8ba9f4bdfb3ec7010893afbba8768ea))
+- publish PreMining pool contract + subgraph bug fixes ([63a5272](https://github.com/LedgityLabs/LedgityYield/commit/63a52726d8ba9f4bdfb3ec7010893afbba8768ea))
 
 ## [1.187.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.187.0...v1.187.1) (2023-08-22)
 
-
 ### Fixes
 
-* re-enable Safe BigNumber error patch$ ([a462f89](https://github.com/LedgityLabs/LedgityYield/commit/a462f8983a70c81d2338d23e73fac3d14880144e))
+- re-enable Safe BigNumber error patch$ ([a462f89](https://github.com/LedgityLabs/LedgityYield/commit/a462f8983a70c81d2338d23e73fac3d14880144e))
 
 ## [1.187.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.186.0...v1.187.0) (2023-08-22)
 
-
 ### Features
 
-* upgrade Linea LUSDC implementation ([5535342](https://github.com/LedgityLabs/LedgityYield/commit/55353421511ff73cb1a8f02d1914dac3be914557))
+- upgrade Linea LUSDC implementation ([5535342](https://github.com/LedgityLabs/LedgityYield/commit/55353421511ff73cb1a8f02d1914dac3be914557))
 
 ## [1.186.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.185.0...v1.186.0) (2023-08-22)
 
-
 ### Features
 
-* add new event to LToken contract + use it in subgraph mappings ([2a3bb98](https://github.com/LedgityLabs/LedgityYield/commit/2a3bb98f920cf5c659ced2ae94fe38faceac01ae))
-
+- add new event to LToken contract + use it in subgraph mappings ([2a3bb98](https://github.com/LedgityLabs/LedgityYield/commit/2a3bb98f920cf5c659ced2ae94fe38faceac01ae))
 
 ### Fixes
 
-* fix GH link, cancel request button was missing amount data + few adjustments ([e8f28cd](https://github.com/LedgityLabs/LedgityYield/commit/e8f28cddcaa8bc0b186a48ad9ccbe39ed0ab9c75))
+- fix GH link, cancel request button was missing amount data + few adjustments ([e8f28cd](https://github.com/LedgityLabs/LedgityYield/commit/e8f28cddcaa8bc0b186a48ad9ccbe39ed0ab9c75))
 
 ## [1.185.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.184.0...v1.185.0) (2023-08-22)
 
-
 ### Features
 
-* improve Activity table appearance + fix dashboard rendering + add pagination to activities ([d67d618](https://github.com/LedgityLabs/LedgityYield/commit/d67d618e67ac5dea24f4dcbd75ca4716b705adf8))
+- improve Activity table appearance + fix dashboard rendering + add pagination to activities ([d67d618](https://github.com/LedgityLabs/LedgityYield/commit/d67d618e67ac5dea24f4dcbd75ca4716b705adf8))
 
 ## [1.184.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.183.0...v1.184.0) (2023-08-22)
 
-
 ### Features
 
-* replace custom Linea chain by Wagmi native one (now it's implemented) ([b2d6886](https://github.com/LedgityLabs/LedgityYield/commit/b2d6886600ff4622893ad14e8def53a473219a02))
+- replace custom Linea chain by Wagmi native one (now it's implemented) ([b2d6886](https://github.com/LedgityLabs/LedgityYield/commit/b2d6886600ff4622893ad14e8def53a473219a02))
 
 ## [1.183.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.182.1...v1.183.0) (2023-08-22)
 
-
 ### Features
 
-* add CTAs hover effect + regenerate Wagmi hooks to fix build error ([24040d1](https://github.com/LedgityLabs/LedgityYield/commit/24040d1a0db577b05188444cf8b348b8eb1d7001))
+- add CTAs hover effect + regenerate Wagmi hooks to fix build error ([24040d1](https://github.com/LedgityLabs/LedgityYield/commit/24040d1a0db577b05188444cf8b348b8eb1d7001))
 
 ## [1.182.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.182.0...v1.182.1) (2023-08-21)
 
-
 ### Fixes
 
-* fix broken links of announcement bar ([fbf44d2](https://github.com/LedgityLabs/LedgityYield/commit/fbf44d2d41e30a4d2df5fb61bfa27feae0836805))
-
+- fix broken links of announcement bar ([fbf44d2](https://github.com/LedgityLabs/LedgityYield/commit/fbf44d2d41e30a4d2df5fb61bfa27feae0836805))
 
 ### Others
 
-* **deps:** update dependency @types/node to v20.5.1 ([41b968c](https://github.com/LedgityLabs/LedgityYield/commit/41b968cd249e06ae384a59d9ae1ddaf40abb3653))
-* **deps:** update nextjs monorepo to v13.4.19 ([b06af9d](https://github.com/LedgityLabs/LedgityYield/commit/b06af9dc4e7a81b407007408741b4ea2b37cd893))
-* upgrade deps ([2bfdce4](https://github.com/LedgityLabs/LedgityYield/commit/2bfdce4dc6069ad344a55cebc29586e671e4f575))
+- **deps:** update dependency @types/node to v20.5.1 ([41b968c](https://github.com/LedgityLabs/LedgityYield/commit/41b968cd249e06ae384a59d9ae1ddaf40abb3653))
+- **deps:** update nextjs monorepo to v13.4.19 ([b06af9d](https://github.com/LedgityLabs/LedgityYield/commit/b06af9dc4e7a81b407007408741b4ea2b37cd893))
+- upgrade deps ([2bfdce4](https://github.com/LedgityLabs/LedgityYield/commit/2bfdce4dc6069ad344a55cebc29586e671e4f575))
 
 ## [1.182.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.181.0...v1.182.0) (2023-08-21)
 
-
 ### Features
 
-* create new lockdrops tabs and make CTAs pointing to them ([80b543a](https://github.com/LedgityLabs/LedgityYield/commit/80b543a87bdb60f24bcee8eeb147f5dd5c4a8b02))
+- create new lockdrops tabs and make CTAs pointing to them ([80b543a](https://github.com/LedgityLabs/LedgityYield/commit/80b543a87bdb60f24bcee8eeb147f5dd5c4a8b02))
 
 ## [1.181.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.180.1...v1.181.0) (2023-08-21)
 
-
 ### Features
 
-* improve cards drop shadow + add some glows to app background ([6f9de54](https://github.com/LedgityLabs/LedgityYield/commit/6f9de541463dd80408db9f13c7eb95f7d2539cb4))
-* new version of Invest and Dashboard UIs ([6214e97](https://github.com/LedgityLabs/LedgityYield/commit/6214e97f94bf4731a1e42e10fdf6ba03cdf1c26d))
+- improve cards drop shadow + add some glows to app background ([6f9de54](https://github.com/LedgityLabs/LedgityYield/commit/6f9de541463dd80408db9f13c7eb95f7d2539cb4))
+- new version of Invest and Dashboard UIs ([6214e97](https://github.com/LedgityLabs/LedgityYield/commit/6214e97f94bf4731a1e42e10fdf6ba03cdf1c26d))
 
 ## [1.180.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.180.0...v1.180.1) (2023-08-21)
 
-
 ### Fixes
 
-* fix landing page footer's margin bottom + few adjustments ([48cdb50](https://github.com/LedgityLabs/LedgityYield/commit/48cdb506cb2a71786fbc205f6153b3719f287958))
+- fix landing page footer's margin bottom + few adjustments ([48cdb50](https://github.com/LedgityLabs/LedgityYield/commit/48cdb506cb2a71786fbc205f6153b3719f287958))
 
 ## [1.180.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.179.0...v1.180.0) (2023-08-21)
 
-
 ### Features
 
-* improve landing page display on short screens ([751c803](https://github.com/LedgityLabs/LedgityYield/commit/751c8039a0bb0a99300e9b2f137c89abd073f209))
+- improve landing page display on short screens ([751c803](https://github.com/LedgityLabs/LedgityYield/commit/751c8039a0bb0a99300e9b2f137c89abd073f209))
 
 ## [1.179.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.2...v1.179.0) (2023-08-20)
 
-
 ### Features
 
-* upload privacy policy PDF ([0ef0dff](https://github.com/LedgityLabs/LedgityYield/commit/0ef0dff97fdd0b457a6c580a2b9ffeed4ef0b54d))
+- upload privacy policy PDF ([0ef0dff](https://github.com/LedgityLabs/LedgityYield/commit/0ef0dff97fdd0b457a6c580a2b9ffeed4ef0b54d))
 
 ## [1.178.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.1...v1.178.2) (2023-08-20)
 
-
 ### Fixes
 
-* broken partners list responsivness ([d048a39](https://github.com/LedgityLabs/LedgityYield/commit/d048a3949c23643f30689feb8a3f6803eb6524da))
+- broken partners list responsivness ([d048a39](https://github.com/LedgityLabs/LedgityYield/commit/d048a3949c23643f30689feb8a3f6803eb6524da))
 
 ## [1.178.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.178.0...v1.178.1) (2023-08-20)
 
-
 ### Fixes
 
-* fix broken Support link ([767c374](https://github.com/LedgityLabs/LedgityYield/commit/767c374c8b6fac738f5550f519af493fd484ef1f))
+- fix broken Support link ([767c374](https://github.com/LedgityLabs/LedgityYield/commit/767c374c8b6fac738f5550f519af493fd484ef1f))
 
 ## [1.178.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.177.0...v1.178.0) (2023-08-20)
 
-
 ### Features
 
-* add opaque background to landing page's body to remove use of blur ([ccf4843](https://github.com/LedgityLabs/LedgityYield/commit/ccf4843ee97c7b8279f507e9c6c9a720e4fab919))
+- add opaque background to landing page's body to remove use of blur ([ccf4843](https://github.com/LedgityLabs/LedgityYield/commit/ccf4843ee97c7b8279f507e9c6c9a720e4fab919))
 
 ## [1.177.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.4...v1.177.0) (2023-08-20)
 
-
 ### Features
 
-* add opacity animation to home hero on scroll ([cf59d13](https://github.com/LedgityLabs/LedgityYield/commit/cf59d1331d9553c24393d6a2259c5f0808669181))
+- add opacity animation to home hero on scroll ([cf59d13](https://github.com/LedgityLabs/LedgityYield/commit/cf59d1331d9553c24393d6a2259c5f0808669181))
 
 ## [1.176.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.3...v1.176.4) (2023-08-20)
 
-
 ### Fixes
 
-* adjust tiny rates values display ([d17e123](https://github.com/LedgityLabs/LedgityYield/commit/d17e123c56e3281b6e5dfe6812cc43da28b2565a))
+- adjust tiny rates values display ([d17e123](https://github.com/LedgityLabs/LedgityYield/commit/d17e123c56e3281b6e5dfe6812cc43da28b2565a))
 
 ## [1.176.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.2...v1.176.3) (2023-08-20)
 
-
 ### Fixes
 
-* fix error.details undefined error ([8c5b387](https://github.com/LedgityLabs/LedgityYield/commit/8c5b38771e984f7a63c2d25523d6f5899a94ef1e))
+- fix error.details undefined error ([8c5b387](https://github.com/LedgityLabs/LedgityYield/commit/8c5b38771e984f7a63c2d25523d6f5899a94ef1e))
 
 ## [1.176.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.1...v1.176.2) (2023-08-20)
 
-
 ### Fixes
 
-* insufficient funds for gas error wasn't properly handled ([a98a57f](https://github.com/LedgityLabs/LedgityYield/commit/a98a57f021044d0944db9c52d0d28b8a0ddf9eb2))
+- insufficient funds for gas error wasn't properly handled ([a98a57f](https://github.com/LedgityLabs/LedgityYield/commit/a98a57f021044d0944db9c52d0d28b8a0ddf9eb2))
 
 ## [1.176.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.176.0...v1.176.1) (2023-08-19)
 
-
 ### Fixes
 
-* add console logs to debug grayed withdrawal button ([af9af00](https://github.com/LedgityLabs/LedgityYield/commit/af9af00ed691defe80438eef5f1670be096becd5))
+- add console logs to debug grayed withdrawal button ([af9af00](https://github.com/LedgityLabs/LedgityYield/commit/af9af00ed691defe80438eef5f1670be096becd5))
 
 ## [1.176.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.175.0...v1.176.0) (2023-08-19)
 
-
 ### Features
 
-* add spinner while 7d TVL growth is loading ([3efe2cc](https://github.com/LedgityLabs/LedgityYield/commit/3efe2cc4acfec886783af7ac80b62ce3181c1d85))
+- add spinner while 7d TVL growth is loading ([3efe2cc](https://github.com/LedgityLabs/LedgityYield/commit/3efe2cc4acfec886783af7ac80b62ce3181c1d85))
 
 ## [1.175.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.174.0...v1.175.0) (2023-08-19)
 
-
 ### Features
 
-* populate home page TVL growth stats with real data ([72f1d89](https://github.com/LedgityLabs/LedgityYield/commit/72f1d89399e417db54db545a47956195630ce93f))
+- populate home page TVL growth stats with real data ([72f1d89](https://github.com/LedgityLabs/LedgityYield/commit/72f1d89399e417db54db545a47956195630ce93f))
 
 ## [1.174.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.173.0...v1.174.0) (2023-08-19)
 
-
 ### Features
 
-* add "Terms & Conditions" and "Privacy Policy" pages ([acb88bc](https://github.com/LedgityLabs/LedgityYield/commit/acb88bce4e26c90bd3b992f5b13d6e802c97dbe1))
+- add "Terms & Conditions" and "Privacy Policy" pages ([acb88bc](https://github.com/LedgityLabs/LedgityYield/commit/acb88bce4e26c90bd3b992f5b13d6e802c97dbe1))
 
 ## [1.173.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.172.0...v1.173.0) (2023-08-18)
 
-
 ### Features
 
-* cross-chain unified L-Tokens pools' TVLs ([3d67434](https://github.com/LedgityLabs/LedgityYield/commit/3d674349d2730c006f7493fc2f3ee8c8c4920476))
+- cross-chain unified L-Tokens pools' TVLs ([3d67434](https://github.com/LedgityLabs/LedgityYield/commit/3d674349d2730c006f7493fc2f3ee8c8c4920476))
 
 ## [1.172.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.171.0...v1.172.0) (2023-08-18)
 
-
 ### Features
 
-* setup cross-chain distributed rewards ([a78972d](https://github.com/LedgityLabs/LedgityYield/commit/a78972d3dba36508f70b12bebe50a3aa35d70c18))
+- setup cross-chain distributed rewards ([a78972d](https://github.com/LedgityLabs/LedgityYield/commit/a78972d3dba36508f70b12bebe50a3aa35d70c18))
 
 ## [1.171.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.170.0...v1.171.0) (2023-08-18)
 
-
 ### Features
 
-* setup cross-chain TVL stats ([5f44209](https://github.com/LedgityLabs/LedgityYield/commit/5f442090557939718593b2870c5e6de4a26c3d7d))
+- setup cross-chain TVL stats ([5f44209](https://github.com/LedgityLabs/LedgityYield/commit/5f442090557939718593b2870c5e6de4a26c3d7d))
 
 ## [1.170.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.169.1...v1.170.0) (2023-08-18)
 
-
 ### Features
 
-* setup multi-subpgraph support ([e2b97d7](https://github.com/LedgityLabs/LedgityYield/commit/e2b97d78388a7355116dbf2c3cb00e4f2dc5c63a))
+- setup multi-subpgraph support ([e2b97d7](https://github.com/LedgityLabs/LedgityYield/commit/e2b97d78388a7355116dbf2c3cb00e4f2dc5c63a))
 
 ## [1.169.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.169.0...v1.169.1) (2023-08-17)
 
-
 ### Fixes
 
-* replace old Github URL ([568c51a](https://github.com/LedgityLabs/LedgityYield/commit/568c51acb3e743d9a1feb7b209325bf58998bb03))
+- replace old Github URL ([568c51a](https://github.com/LedgityLabs/LedgityYield/commit/568c51acb3e743d9a1feb7b209325bf58998bb03))
 
 ## [1.169.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.168.0...v1.169.0) (2023-08-17)
 
-
 ### Features
 
-* updated partners list ([9242dcd](https://github.com/LedgityLabs/LedgityYield/commit/9242dcd1caae20660df24aac180000d01e68e994))
+- updated partners list ([9242dcd](https://github.com/LedgityLabs/LedgityYield/commit/9242dcd1caae20660df24aac180000d01e68e994))
 
 ## [1.168.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.167.1...v1.168.0) (2023-08-17)
 

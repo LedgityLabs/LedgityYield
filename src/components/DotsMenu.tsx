@@ -51,7 +51,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent collisionPadding={20} sideOffset={10}>
-        <Card className="backdrop flex flex-col gap-14 p-10 pb-8 drop-shadow-lg">
+        <Card className="flex flex-col gap-14 sm:p-10 p-8 pb-8 drop-shadow-lg">
           <ul className="flex flex-col gap-3 text-lg font-semibold">
             <li className="sm:hidden">
               <Link href="/app/invest" className="font-bold text-primary hover:opacity-80">
@@ -112,7 +112,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
               </p>
             </div>
             <hr className="mb-5 mt-4 border-fg/20" />
-            <ul className="flex items-center justify-center gap-7">
+            <ul className="flex items-center justify-center flex-wrap gap-7">
               <li className="flex items-center justify-center">
                 <Link
                   aria-label="Twitter"

@@ -20,6 +20,7 @@ import { zeroAddress } from "viem";
 import { watchReadContracts } from "@wagmi/core";
 import { usePublicClient, useWalletClient } from "wagmi";
 import { JSONStringify } from "@/lib/jsonStringify";
+import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
 
 const availableChains = [42161, 59144];
 
@@ -44,6 +45,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
  *    with most up to date data.
  */
 export const AppInvestTokens: FC<Props> = ({ className }) => {
+  const { switchTab } = useSwitchAppTab();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -57,8 +59,6 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   let isActionsDialogOpen = useRef(false);
   let futureTableData = useRef<Pool[]>([]);
 
-  const isLinea = publicClient && [59144, 59140].includes(publicClient.chain.id);
-
   const columns = [
     columnHelper.accessor("tokenSymbol", {
       header: "Name",
@@ -66,8 +66,8 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         const tokenSymbol = info.getValue();
         return (
           <div className="inline-flex items-center gap-2.5">
-            <TokenLogo symbol={tokenSymbol} size={35} />
-            <p className="text-lg font-semibold text-fg/90 sm:inline hidden">{tokenSymbol}</p>
+            <TokenLogo symbol={tokenSymbol} size={35} className="border border-bg/80" />
+            <p className="text-xl font-bold text-fg/80 min-[480px]:inline hidden">{tokenSymbol}</p>
           </div>
         );
       },
@@ -118,7 +118,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       cell: ({ row }) => {
         const tokenSymbol = row.getValue("tokenSymbol") as string;
         return (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center sm:gap-4 gap-2">
             <DepositDialog
               underlyingSymbol={tokenSymbol}
               onOpenChange={(o) => {
@@ -131,7 +131,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             >
               <Button
                 size="small"
-                className="text-lg inline-flex gap-1 justify-center items-center"
+                className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
               >
                 <span className="rotate-90 text-bg/90">
                   <i className="ri-login-circle-line" />
@@ -152,7 +152,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               <Button
                 size="small"
                 variant="outline"
-                className="text-lg inline-flex gap-1 justify-center items-center"
+                className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
               >
                 <span className="rotate-[270deg] text-fg/70">
                   <i className="ri-logout-circle-r-line" />
@@ -316,7 +316,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             key={header.id}
             className={twMerge(
               "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
-              header.column.id === "tokenSymbol" && "justify-start pl-10",
+              header.column.id === "tokenSymbol" && "justify-start sm:pl-10 pl-5",
               header.column.id === "invested" && "md:inline-flex hidden",
             )}
           >
@@ -371,8 +371,8 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 key={cell.id}
                 className={twMerge(
                   "inline-flex items-center justify-center py-6 border-b border-b-fg/20",
-                  cellIndex === 0 && "justify-start pl-10",
-                  rowIndex == tableRows.length - 1 && "border-b-0",
+                  cellIndex === 0 && "justify-start sm:pl-10 pl-5",
+                  // rowIndex == tableRows.length - 1 && "border-b-0",
                   cell.column.id === "invested" && "md:inline-flex hidden",
                 )}
               >
@@ -381,6 +381,36 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             )),
           );
       })()}
+      <a
+        onClick={() => switchTab("pre-mining")}
+        className="cursor-pointer py-6 flex md:col-span-5 col-span-4 w-full items-center justify-between sm:px-10 px-5 bg-gradient-to-bl from-primary/40 to-bg  hover:opacity-80 transition-opacity"
+      >
+        <div className="inline-flex items-center gap-2.5 relative -left-[8.5px]">
+          <div className="relative w-[52px] h-[35px]">
+            <TokenLogo
+              symbol="USDC"
+              size={35}
+              className="border border-bg/80 rounded-full absolute"
+            />
+            <TokenLogo
+              symbol="LDY"
+              size={35}
+              className="absolute left-[17px] border border-bg/80 rounded-full"
+            />
+          </div>
+          <p className="text-xl font-bold text-fg/90 whitespace-nowrap">Pre-Mining</p>
+        </div>
+        <p className="font-semibold text-fg/90 text-lg sm:inline hidden">
+          Bootstrap initial liquidity{" "}
+          <span className="md:inline hidden">→ receive $LDY tokens</span>
+        </p>
+        <Button
+          size="small"
+          className="text-lg inline-flex gap-1 justify-center items-center text-bg/90"
+        >
+          See <i className="ri-arrow-right-line" />
+        </Button>
+      </a>
     </article>
   );
 };

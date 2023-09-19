@@ -31,7 +31,7 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
   return (
     <li className="flex w-full gap-4 items-center justify-between" {...props}>
       <div className="flex items-center gap-2 font-semibold text-fg/80">
-        <TokenLogo symbol={lTokenSymbol} wrapped={true} size={30} />
+        <TokenLogo symbol={lTokenSymbol} size={30} />
         {lTokenSymbol}
       </div>
       <div className="flex items-center gap-2">

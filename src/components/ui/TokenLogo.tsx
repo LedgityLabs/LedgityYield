@@ -1,5 +1,6 @@
 import { FC } from "react";
 import Image, { type StaticImageData } from "next/image";
+import ldyTokenLogo from "~/assets/tokens/ldy.svg";
 import usdcTokenLogo from "~/assets/tokens/usdc.png";
 import lusdcTokenLogo from "~/assets/tokens/lusdc.png";
 import eurocTokenLogo from "~/assets/tokens/euroc.png";
@@ -7,6 +8,7 @@ import leurocTokenLogo from "~/assets/tokens/leuroc.png";
 import unknownTokenLogo from "~/assets/tokens/unknown.svg";
 
 export const tokensLogos: Record<string, StaticImageData> = {
+  LDY: ldyTokenLogo,
   USDC: usdcTokenLogo,
   EUROC: eurocTokenLogo,
   LEUROC: leurocTokenLogo,
@@ -16,17 +18,32 @@ export const tokensLogos: Record<string, StaticImageData> = {
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   symbol: string;
   size: number;
-  wrapped?: boolean;
 }
 
-export const TokenLogo: FC<Props> = ({ symbol, size }) => {
+export const TokenLogo: FC<Props> = ({ symbol, size, className }) => {
   // If this is a known token
   if (tokensLogos[symbol]) {
-    return <Image src={tokensLogos[symbol]} alt={`${symbol} logo`} height={size} width={size} />;
+    return (
+      <Image
+        src={tokensLogos[symbol]}
+        alt={`${symbol} logo`}
+        height={size}
+        width={size}
+        className={className}
+      />
+    );
   }
 
   // Of it is an unknown token
   else {
-    return <Image src={unknownTokenLogo} alt="Unknown token logo" height={size} width={size} />;
+    return (
+      <Image
+        src={unknownTokenLogo}
+        alt="Unknown token logo"
+        height={size}
+        width={size}
+        className={className}
+      />
+    );
   }
 };

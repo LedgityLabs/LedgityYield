@@ -8,11 +8,11 @@ import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
 
 /**
- * @title Lockdrop
+ * @title PreMining
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
 
- * @notice Lockdrop pool contract, allowing accounts to lock underlying tokens in a 
+ * @notice PreMining pool contract, allowing accounts to lock underlying tokens in a 
  * pre-defined L-Token contract, over a given duration (in months), in exchange of 
  * vested LDY rewards.
  * 
@@ -25,7 +25,6 @@ import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
  * 
  * Transitioning between two phases is manually triggered by contract's owner.
  * To ensure fair usage of this power and prevent potential misuse:
- * - the Claim phase cannot start before Deposit phase has ended,
  * - the Recovery phase cannot start before 3 months after the end of rewards vesting,
  * - the Recovery phase cannot start before 3 months after the maximum lock end.
  * 
@@ -33,7 +32,7 @@ import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
  * - lock() --> deposit()
  * - instantUnlock() --> instantWithdrawal()
  * - requestUnlock() --> requestWithdrawal()
- * This design enables users to interact with the Lockdrop contract in a similar fashion
+ * This design enables users to interact with the PreMining contract in a similar fashion
  * to the L-Token contract.
  * 
  * @dev Definitions:
@@ -41,7 +40,7 @@ import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
  * 
  * @custom:security-contact security@ledgity.com
  */
-contract Lockdrop is Ownable2Step, Pausable {
+contract PreMining is Ownable2Step, Pausable {
     using SafeERC20 for IERC20;
 
     /**
@@ -60,20 +59,14 @@ contract Lockdrop is Ownable2Step, Pausable {
         uint40 lockEndTimestamp;
     }
 
-    /// @notice Holds the number of seconds in a month.
-    uint256 constant ONE_MONTH_IN_SECONDS = 60 * 60 * 24 * 30;
-
     /// @notice Holds the amount of LDY to be distributed to lockers.
     uint256 public immutable maxDistributedLDY;
 
-    /**
-     * @notice Holds the maximum total amount of L-Tokens that can be locked.
-     * @dev Can be set to -1 to disable hardcap.
-     */
-    int256 public immutable lockedHardCap;
+    /// @notice Holds the maximum total amount of L-Tokens that can be locked.
+    uint256 public immutable lockedHardCap;
 
     /// @notice Holds the minimum possible lock duration (in months).
-    uint8 public immutable minLockDuration; // LToken lusdcToken;
+    uint8 public immutable minLockDuration;
 
     /// @notice Holds the maximum possible lock duration (in months).
     uint8 public immutable maxLockDuration;
@@ -87,6 +80,9 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Holds a reference to the L-Token underlying stablecoin.
     IERC20 public immutable underlyingToken;
 
+    /// @notice Holds the max pool weight.
+    uint256 public immutable maxWeight;
+
     /// @notice Holds a reference to the LDY token contract.
     IERC20 public ldyToken;
 
@@ -95,9 +91,6 @@ contract Lockdrop is Ownable2Step, Pausable {
 
     /// @notice Holds the total amount of locked underlying tokens.
     uint256 public totalLocked;
-
-    /// @notice Holds the current total weight of the lockdrop pool.
-    uint256 public totalWeight;
 
     /// @notice Holds whether the Deposit phase has ended.
     bool public hasDepositPhaseEnded;
@@ -117,11 +110,11 @@ contract Lockdrop is Ownable2Step, Pausable {
     /// @notice Holds the index of the first request in the queue (a.k.a, next one to be processed).
     uint256 public unlockRequestsCursor;
 
+    /// @notice Emitted to inform about a new lock/deposit.
+    event Lock(address indexed account, uint256 amount, uint8 duration);
+
     /// @notice Top-level checks and code shared by both unlock functions.
     modifier safeUnlock() {
-        // Ensure that the Deposit phase has ended
-        require(hasDepositPhaseEnded, "L67");
-
         // Ensure that the account's lock has ended
         require(accountsLocks[msg.sender].lockEndTimestamp <= block.timestamp, "L68");
 
@@ -140,7 +133,7 @@ contract Lockdrop is Ownable2Step, Pausable {
      * @notice This constructor function etches the lockdrop terms in immutable states.
      * Ensuring that those terms cannot be modified after deployment.
      * @param lTokenAddress_ Address of the L-Token contract to use.
-     * @param distributedLDY_ Amount of LDY to be distributed to lockers.
+     * @param maxDistributedLDY_ Amount of LDY to be distributed to lockers.
      * @param lockedHardCap_ Maximum total amount of L-Tokens that can be locked.
      * @param minLockDuration_ Minimum possible lock duration (in months).
      * @param maxLockDuration_ Maximum possible lock duration (in months).
@@ -148,15 +141,12 @@ contract Lockdrop is Ownable2Step, Pausable {
      */
     constructor(
         address lTokenAddress_,
-        uint256 distributedLDY_,
-        int256 lockedHardCap_,
+        uint256 maxDistributedLDY_,
+        uint256 lockedHardCap_,
         uint8 minLockDuration_,
         uint8 maxLockDuration_,
         uint8 vestingDuration_
     ) {
-        // Ensure lockHardCap is in valid range [-1, +inf]
-        require(lockedHardCap_ >= -1, "L71");
-
         // Ensure minLockDuration is at least 1 month
         require(minLockDuration_ >= 1, "L72");
 
@@ -167,10 +157,11 @@ contract Lockdrop is Ownable2Step, Pausable {
         lToken = LToken(lTokenAddress_);
         underlyingToken = IERC20(address(lToken.underlying()));
         lockedHardCap = lockedHardCap_;
-        maxDistributedLDY = distributedLDY_;
+        maxDistributedLDY = maxDistributedLDY_;
         minLockDuration = minLockDuration_;
         maxLockDuration = maxLockDuration_;
         vestingDuration = vestingDuration_;
+        maxWeight = lockedHardCap * uint256(maxLockDuration);
     }
 
     /**
@@ -213,9 +204,6 @@ contract Lockdrop is Ownable2Step, Pausable {
      * to start claiming their LDY rewards.
      */
     function startClaimPhase() external onlyOwner {
-        // Ensure Deposit phase has ended
-        require(hasDepositPhaseEnded, "L75");
-
         // Ensure Claim phase has not already started
         require(!hasClaimPhaseStarted, "L76");
 
@@ -228,7 +216,7 @@ contract Lockdrop is Ownable2Step, Pausable {
     }
 
     /**
-     * @notice  Opens the Recovery phase. After calling this function, the contract owner
+     * @notice Opens the Recovery phase. After calling this function, the contract owner
      * will be able to recover remaining ERC20 tokens on the contract.
      * Note that this won't close the Claim phase and lockers will still be able to claim
      * their LDY rewards.
@@ -238,9 +226,9 @@ contract Lockdrop is Ownable2Step, Pausable {
         require(hasClaimPhaseStarted, "L79");
 
         // Compute some durations in seconds
-        uint256 threeMonthsInSecond = 3 * ONE_MONTH_IN_SECONDS;
-        uint256 vestingInSecond = vestingDuration * ONE_MONTH_IN_SECONDS;
-        uint256 maxLockInSecond = maxLockDuration * ONE_MONTH_IN_SECONDS;
+        uint256 threeMonthsInSecond = 3 * 30 days;
+        uint256 vestingInSecond = uint256(vestingDuration) * 30 days;
+        uint256 maxLockInSecond = uint256(maxLockDuration) * 30 days;
 
         // Compute timestamp of vesting end + 3 months
         uint256 afterVestingTimestamp = claimPhaseStartTimestamp +
@@ -287,23 +275,6 @@ contract Lockdrop is Ownable2Step, Pausable {
     }
 
     /**
-     * @notice Computes the reference weight of the lockdrop pool, which is compared to
-     * weight of a locker in eligibleRewardsOf() to dermine to determine the amount of
-     * LDY rewards that locker is eligible to.
-     * @dev For capped lockdrop pools, this function returns the maximum theoretical weight.
-     * This design allows for a  linear distribution of LDY rewards relative to the amount
-     * locked and average lock duration. It's also especially useful for displaying a
-     * predictable a non-volatile LDY allocation on the lockdrop UI.
-     * @return The total or max weight of the lockdrop pool.
-     */
-    function refWeight() public view returns (uint256) {
-        // If the lockdrop pool is not capped, return current total pool weight
-        if (lockedHardCap < 0) return totalWeight;
-        // Else, return maximum pool weight
-        else return uint256(lockedHardCap) * maxLockDuration;
-    }
-
-    /**
      * @notice Compute the total amount of LDY rewards that a given account is eligible to.
      * @dev Note: This function neither considers vesting nor already claimed rewards.
      * @param account The account to compute the eligible rewards of.
@@ -314,9 +285,8 @@ contract Lockdrop is Ownable2Step, Pausable {
         uint256 lockerWeight = accountsLocks[account].amount * accountsLocks[account].duration;
 
         // Compute amount of LDY that this locker is eligible to
-        uint256 _refWeight = refWeight();
-        if (_refWeight == 0) return 0;
-        else return (maxDistributedLDY * lockerWeight) / _refWeight;
+        if (maxWeight == 0) return 0;
+        else return (maxDistributedLDY * lockerWeight) / maxWeight;
     }
 
     /**
@@ -332,14 +302,14 @@ contract Lockdrop is Ownable2Step, Pausable {
         // Ensure Deposit phase has not ended yet
         require(!hasDepositPhaseEnded, "L84");
 
+        // Ensure account hasn't already unlocked a past lock
+        require(!accountsLocks[msg.sender].hasUnlocked, "L71");
+
         // Ensure lock duration is in valid range
         require(duration >= minLockDuration && duration <= maxLockDuration, "L85");
 
         // Ensure it won't exceed the hardcap
         require(lockedHardCap < 0 || totalLocked + amount <= uint256(lockedHardCap), "L86");
-
-        // Remove previous locker's weight from total weight
-        totalWeight -= accountsLocks[msg.sender].amount * accountsLocks[msg.sender].duration;
 
         // Increase account's locked amount
         accountsLocks[msg.sender].amount += uint240(amount);
@@ -356,11 +326,11 @@ contract Lockdrop is Ownable2Step, Pausable {
 
         // Update account's lock end timestamp
         accountsLocks[msg.sender].lockEndTimestamp = uint40(
-            block.timestamp + appliedDuration * ONE_MONTH_IN_SECONDS
+            block.timestamp + uint40(appliedDuration) * 30 days
         );
 
-        // Add new locker's weight to total weight
-        totalWeight += accountsLocks[msg.sender].amount * uint256(appliedDuration);
+        // Emit a Lock event
+        emit Lock(msg.sender, amount, appliedDuration);
 
         // If amount is 0, skip deposit
         if (amount == 0) return;
@@ -455,7 +425,7 @@ contract Lockdrop is Ownable2Step, Pausable {
         uint256 totalEligibleRewards = eligibleRewardsOf(account);
 
         // Compute vesting duration in seconds
-        uint256 vestingInSeconds = uint256(vestingDuration) * ONE_MONTH_IN_SECONDS;
+        uint256 vestingInSeconds = uint256(vestingDuration) * 30 days;
 
         // Compute elapsed months since claim phase started, and cap it to vesting duration
         uint256 elapsedTime = block.timestamp - claimPhaseStartTimestamp;
