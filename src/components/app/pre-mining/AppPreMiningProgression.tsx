@@ -10,6 +10,7 @@ export const AppPreMiningProgression: FC<Props> = ({ ...props }) => {
   // Compute total locked progression
   const lockdropAddress = useContractAddress("ArbitrumPreMining");
   const { data: totalLocked } = usePreMiningTotalLocked({
+    //@ts-ignore
     address: lockdropAddress!,
     watch: true,
   });
