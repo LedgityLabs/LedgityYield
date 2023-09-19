@@ -1,3 +1,10 @@
+## [1.215.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.2...v1.215.3) (2023-09-19)
+
+
+### Fixes
+
+* remove old QuestN endpoint ([10584fe](https://github.com/LedgityLabs/LedgityYield/commit/10584fe538223d9ae7497794004947b4554aa905))
+
 ## [1.215.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.1...v1.215.2) (2023-09-19)
 
 
