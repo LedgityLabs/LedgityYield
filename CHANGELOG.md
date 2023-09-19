@@ -1,3 +1,20 @@
+## [1.215.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.3...v1.215.4) (2023-09-19)
+
+
+### Fixes
+
+* **deps:** update dependency cookies-next to v4 ([932e450](https://github.com/LedgityLabs/LedgityYield/commit/932e45054ad7886c3a860237b40545e4f2cea2e0))
+* update pre-rendered tabs list ([64b4724](https://github.com/LedgityLabs/LedgityYield/commit/64b4724810e58b7eb6e3ceaff1fd05ff390c817e))
+
+
+### Others
+
+* **deps:** update actions/checkout action to v4 ([f5e54cf](https://github.com/LedgityLabs/LedgityYield/commit/f5e54cfe9a34ba37959cbfb364ddd5bf6a772965))
+* **deps:** update dependency @types/node to v20.6.2 ([90eb3d6](https://github.com/LedgityLabs/LedgityYield/commit/90eb3d663bafdd38637502b620f6b02ddb5313e7))
+* **deps:** update dependency @types/react to v18.2.22 ([f6f2eb9](https://github.com/LedgityLabs/LedgityYield/commit/f6f2eb948a9f36193d089053d210a171aca23829))
+* **deps:** update dependency eslint to v8.49.0 ([d9c133a](https://github.com/LedgityLabs/LedgityYield/commit/d9c133a089c6626610b4ae0a8945130eec9727ea))
+* **deps:** update dependency semantic-release to v22 ([2ec7376](https://github.com/LedgityLabs/LedgityYield/commit/2ec7376a906fab09c2359d0ff7e8606ece0f9bb4))
+
 ## [1.215.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.2...v1.215.3) (2023-09-19)
 
 
