@@ -1,3 +1,10 @@
+## [1.215.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.214.1...v1.215.0) (2023-09-19)
+
+
+### Features
+
+* multi-Airdrop + Pre-Mining campaigns release! ([729d3e9](https://github.com/LedgityLabs/LedgityYield/commit/729d3e9c6769d647080fc21cec14dd73944273de))
+
 ## [1.214.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.214.0...v1.214.1) (2023-09-10)
 
 
