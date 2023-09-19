@@ -13,7 +13,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     args: [
       lusdc.address,
       parseUnits((1_125_000).toString(), 18),
-      parseUnits((5_000_000).toString(), 6),
+      parseUnits((4_000_000).toString(), 6),
       3,
       12,
       6,

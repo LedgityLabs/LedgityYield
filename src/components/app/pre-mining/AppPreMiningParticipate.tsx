@@ -103,7 +103,7 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
   }
 
   return (
-    <div className={twMerge(" py-12  !pt-0 flex flex-col", className)} {...props}>
+    <div className={twMerge("py-12 !pt-0 flex flex-col", className)} {...props}>
       {hasLocked && (
         <div className="bg-indigo-950/10 p-2">
           <div className="flex justify-between items-center sm:gap-10 gap-6 sm:p-10 p-6 rounded-b-xl bg-accent md:flex-nowrap flex-wrap">
