@@ -1,3 +1,10 @@
+## [1.215.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.1...v1.215.2) (2023-09-19)
+
+
+### Fixes
+
+* typescript error ([aea5559](https://github.com/LedgityLabs/LedgityYield/commit/aea555955ca13946cb2b85f82f05239615943859))
+
 ## [1.215.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.0...v1.215.1) (2023-09-19)
 
 
