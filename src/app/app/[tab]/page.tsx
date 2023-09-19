@@ -22,8 +22,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     "pre-mining": "Pre-Mining",
   }[params.tab];
 
+  const description = {
+    airdrop:
+      "16% of 1-year $LDY supply and tokens from 5+ projects are airdropepd to our early community members. Complete tasks and check your eligibility.",
+    "pre-mining":
+      "Contribute in bootstraping initial protocol liquidity and receive very first $LDY tokens.",
+  }[params.tab];
+
+  const keywords = {
+    airdrop: [
+      "Airdrop",
+      "Ledgity Airdrop",
+      "Ledgity Multi-Airdrop",
+      "Ledgity Yield Airdrop",
+      "Ledgity Yield Multi-Airdrop",
+      "RWA",
+      "Stablecoins",
+      "Yield",
+      "Liquid staking",
+      "Real World Assets",
+    ],
+    "pre-mining": [
+      "Ledgity Yield Pre-Mining",
+      "Ledgity Pre-Mining",
+      "RWA",
+      "Stablecoins",
+      "Yield",
+      "Liquid staking",
+      "Real World Assets",
+    ],
+  }[params.tab];
+
   return {
     title: `Ledgity Yield • ${title}`,
+    description: description,
+    keywords: keywords,
   };
 }
 

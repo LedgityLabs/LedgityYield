@@ -90,8 +90,7 @@ const HomeHero: FC<Props> = ({ className }) => {
                 Multi-Airdrop
               </div>
               <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-[#20456c] md:px-3 md:py-1.5 ">
-                Deposit USDC and receive tokens <br className="md:hidden" />
-                from 10+ projects
+                Complete tasks and check your eligibility
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-[#20456c]" />
               </div>
             </div>

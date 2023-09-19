@@ -36,8 +36,6 @@ export const metadata = {
     "stable yield for stable coin",
     "ledgity",
     "ledgity.com",
-    "Ledgity Airdrop",
-    "Ledgity Multi-Airdrop",
   ],
   viewport: {
     width: "device-width",
