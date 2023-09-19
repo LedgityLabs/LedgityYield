@@ -4,7 +4,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: crytic/slither-action@v0.3.0
         with:
           slither-args: "--compile-force-framework hardhat"
