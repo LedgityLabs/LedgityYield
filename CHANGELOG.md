@@ -1,3 +1,10 @@
+## [1.215.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.215.0...v1.215.1) (2023-09-19)
+
+
+### Fixes
+
+* **deps:** upgrade dependencies ([1b90a2f](https://github.com/LedgityLabs/LedgityYield/commit/1b90a2f248d5e12597b8ffff3d534f697fd4c650))
+
 ## [1.215.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.214.1...v1.215.0) (2023-09-19)
 
 
