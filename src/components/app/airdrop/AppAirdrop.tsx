@@ -84,9 +84,9 @@ export const AppAirdrop: FC = () => {
         defaultGradient={false}
         circleIntensity={0}
         animated={false}
-        className="flex flex-col gap-10 w-full overflow-hidden bg-gradient-to-br from-[#28a0f0]/20 to-[#28a0f0]/60 sm:pb-10 pb-5"
+        className="flex flex-col gap-10 w-full overflow-hidden bg-gradient-to-b from-[#20456c]/20 to-[#20456c]/60 sm:pb-10 pb-5"
       >
-        <h2 className="relative text-bg font-bold font-heading text-4xl text-center before:absolute before:inset-0 md:leading-none leading-relaxed sm:p-10 p-5 before:bg-gradient-to-r before:from-[#20456c]/[90%] before:via-[#20456c] before:to-[#20456c]/[90%] bg-[url('/assets/textures/flying-tokens.png')] bg-contain rounded-3xl overflow-hidden">
+        <h2 className="relative text-bg font-bold font-heading text-4xl text-center before:absolute before:inset-0 md:leading-none leading-relaxed sm:p-10 p-5 before:bg-gradient-to-r before:from-[#20456c]/[90%] before:via-[#20456c] before:to-[#20456c]/[90%] bg-[url('/assets/textures/flying-tokens.png')] bg-contain rounded-t-3xl overflow-hidden">
           <span>
             Ledgity <span className="whitespace-nowrap">Multi-Airdrop</span>
           </span>

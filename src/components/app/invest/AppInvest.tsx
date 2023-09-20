@@ -16,7 +16,7 @@ export const AppInvest: FC = () => {
     <div className="lg:w-[980px] w-full flex flex-col gap-8 pb-8">
       <a
         onClick={() => switchTab("airdrop")}
-        className="cursor-pointer h-40 bg-[url('/assets/banners/multi-airdrop.jpg')] rounded-[1.8rem] bg-center bg-cover w-full opacity-95 border-[3px] border-fg/30 hover:opacity-100 hover:contrast-[105%] transition-[opacity,filter]"
+        className="cursor-pointer h-40 bg-[url('/assets/banners/multi-airdrop.png')] rounded-[1.8rem] bg-center bg-cover w-full opacity-95 border-[3px] border-fg/30 hover:opacity-100 hover:contrast-[105%] transition-[opacity,filter]"
       ></a>
       {/* <a onClick={() => switchTab("airdrop")} className="cursor-pointer">
         <Card
