@@ -309,7 +309,7 @@ contract PreMining is Ownable2Step, Pausable {
         require(duration >= minLockDuration && duration <= maxLockDuration, "L85");
 
         // Ensure it won't exceed the hardcap
-        require(lockedHardCap < 0 || totalLocked + amount <= uint256(lockedHardCap), "L86");
+        require(totalLocked + amount <= uint256(lockedHardCap), "L86");
 
         // Increase account's locked amount
         accountsLocks[msg.sender].amount += uint240(amount);
