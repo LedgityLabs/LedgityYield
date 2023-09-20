@@ -1,3 +1,10 @@
+## [1.221.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.221.0...v1.221.1) (2023-09-20)
+
+
+### Fixes
+
+* pre-Mining UI max weight was invalid ([ca7358d](https://github.com/LedgityLabs/LedgityYield/commit/ca7358d04d2ea31e048c4b13fbd1cf7efc7c3bb4))
+
 ## [1.221.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.220.0...v1.221.0) (2023-09-20)
 
 
