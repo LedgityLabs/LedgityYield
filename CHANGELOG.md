@@ -1,3 +1,15 @@
+## [1.218.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.217.0...v1.218.0) (2023-09-19)
+
+
+### Features
+
+* improve Airdrop and Pre-Mining pages metadata ([a071649](https://github.com/LedgityLabs/LedgityYield/commit/a071649697c99fea5ea8cac5cf9302b91e72261e))
+
+
+### Others
+
+* **deps:** update dependency postcss to v8.4.30 ([09532d8](https://github.com/LedgityLabs/LedgityYield/commit/09532d8540b5c5043a70a3edf55605acc96212cf))
+
 ## [1.217.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.216.0...v1.217.0) (2023-09-19)
 
 
