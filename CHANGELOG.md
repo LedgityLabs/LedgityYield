@@ -1,3 +1,10 @@
+## [1.220.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.219.0...v1.220.0) (2023-09-20)
+
+
+### Features
+
+* update holders count ([f90cd7d](https://github.com/LedgityLabs/LedgityYield/commit/f90cd7de32e41970cc4ce86bac2d4be144ff4340))
+
 ## [1.219.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.218.0...v1.219.0) (2023-09-20)
 
 
