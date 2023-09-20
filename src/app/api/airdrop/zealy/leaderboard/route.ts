@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { env } from "../../../../../../env.mjs";
 
-// Revalidate every 5 minutes
-export const revalidate = 60 * 5;
+// Revalidate every minute
+export const revalidate = 60 * 1;
 
 export async function GET() {
   const data: Record<string, number> = {};

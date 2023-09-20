@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-// Revalidate every 5 minutes
-export const revalidate = 60 * 5;
+// Revalidate every minute
+export const revalidate = 60 * 1;
 
 const query = `
     {
