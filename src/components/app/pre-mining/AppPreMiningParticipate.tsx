@@ -78,9 +78,9 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
   }, [depositedAmount, currentLockedAmount]);
 
   // Compute received LDY amount and % of allocation
-  const maxWeight = parseUnits((5_000_000 * 12).toString(), 6);
+  const maxWeight = parseUnits((4_000_000 * 12).toString(), 6);
   const weight = depositedAmount * BigInt(lockDuration);
-  const distributedLDY = parseUnits((1_500_000).toString(), 18);
+  const distributedLDY = parseUnits((1_125_000).toString(), 18);
   let receivedLDY = (distributedLDY * weight) / maxWeight;
   let receivedAllocation = (Number(receivedLDY) / Number(distributedLDY)) * 100;
 
@@ -93,9 +93,9 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
   let parentError = "";
 
   // - Display error if trying to lock more than hardcap
-  if (depositedAmount > parseUnits((5_000_000).toString(), 6)) {
+  if (depositedAmount > parseUnits((4_000_000).toString(), 6)) {
     isParentError = true;
-    parentError = "PreMining is capped to 5M USDC";
+    parentError = "PreMining is capped to 4M USDC";
   }
 
   return (
