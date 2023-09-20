@@ -1,3 +1,15 @@
+## [1.219.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.218.0...v1.219.0) (2023-09-20)
+
+
+### Features
+
+* pre-Mining is now available on both Arbitrum and Linea! ([d403d1c](https://github.com/LedgityLabs/LedgityYield/commit/d403d1c3d6484b26f1813894a2532d94e224abe7))
+
+
+### Tests
+
+* run Slither analysis on last version of the PreMining contract ([d1b36fe](https://github.com/LedgityLabs/LedgityYield/commit/d1b36fe20023da1f9d3d1cc58bdade8f9a15147c))
+
 ## [1.218.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.217.0...v1.218.0) (2023-09-19)
 
 
