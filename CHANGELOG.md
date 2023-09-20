@@ -1,3 +1,10 @@
+## [1.221.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.220.0...v1.221.0) (2023-09-20)
+
+
+### Features
+
+* decrease Galxe and Zealy entries revalidation time ([1850710](https://github.com/LedgityLabs/LedgityYield/commit/1850710ccc1853609fac6553a82dd0072b915f7d))
+
 ## [1.220.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.219.0...v1.220.0) (2023-09-20)
 
 
