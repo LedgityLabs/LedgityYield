@@ -91,13 +91,9 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
   // Figure parent error
   let isParentError = false;
   let parentError = "";
-  // - Display error if not connected to Arbitrum network
-  if (walletClient && ![42161, 31337].includes(walletClient.chain.id)) {
-    isParentError = true;
-    parentError = "Please switch to Arbitrum network";
-  }
+
   // - Display error if trying to lock more than hardcap
-  else if (depositedAmount > parseUnits((5_000_000).toString(), 6)) {
+  if (depositedAmount > parseUnits((5_000_000).toString(), 6)) {
     isParentError = true;
     parentError = "PreMining is capped to 5M USDC";
   }

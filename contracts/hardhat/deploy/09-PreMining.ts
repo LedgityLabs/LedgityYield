@@ -21,3 +21,5 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     waitConfirmations: chainId == "31337" ? 1 : 2,
   });
 }) as DeployFunction;
+
+module.exports.tags = ["PreMining"];

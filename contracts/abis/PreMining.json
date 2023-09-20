@@ -8,13 +8,13 @@
       },
       {
         "internalType": "uint256",
-        "name": "distributedLDY_",
+        "name": "maxDistributedLDY_",
         "type": "uint256"
       },
       {
-        "internalType": "int256",
+        "internalType": "uint256",
         "name": "lockedHardCap_",
-        "type": "int256"
+        "type": "uint256"
       },
       {
         "internalType": "uint8",
@@ -34,6 +34,31 @@
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "duration",
+        "type": "uint8"
+      }
+    ],
+    "name": "Lock",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -305,9 +330,9 @@
     "name": "lockedHardCap",
     "outputs": [
       {
-        "internalType": "int256",
+        "internalType": "uint256",
         "name": "",
-        "type": "int256"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -334,6 +359,19 @@
         "internalType": "uint8",
         "name": "",
         "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxWeight",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -425,19 +463,6 @@
   },
   {
     "inputs": [],
-    "name": "refWeight",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -480,19 +505,6 @@
   {
     "inputs": [],
     "name": "totalLocked",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalWeight",
     "outputs": [
       {
         "internalType": "uint256",

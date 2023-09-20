@@ -2411,7 +2411,9 @@ export const oldLToken1ABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export const preMiningABI = [
   {
@@ -2419,12 +2421,22 @@ export const preMiningABI = [
     type: 'constructor',
     inputs: [
       { name: 'lTokenAddress_', internalType: 'address', type: 'address' },
-      { name: 'distributedLDY_', internalType: 'uint256', type: 'uint256' },
-      { name: 'lockedHardCap_', internalType: 'int256', type: 'int256' },
+      { name: 'maxDistributedLDY_', internalType: 'uint256', type: 'uint256' },
+      { name: 'lockedHardCap_', internalType: 'uint256', type: 'uint256' },
       { name: 'minLockDuration_', internalType: 'uint8', type: 'uint8' },
       { name: 'maxLockDuration_', internalType: 'uint8', type: 'uint8' },
       { name: 'vestingDuration_', internalType: 'uint8', type: 'uint8' },
     ],
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'duration', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Lock',
   },
   {
     type: 'event',
@@ -2568,7 +2580,7 @@ export const preMiningABI = [
     type: 'function',
     inputs: [],
     name: 'lockedHardCap',
-    outputs: [{ name: '', internalType: 'int256', type: 'int256' }],
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
   },
   {
     stateMutability: 'view',
@@ -2583,6 +2595,13 @@ export const preMiningABI = [
     inputs: [],
     name: 'maxLockDuration',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'maxWeight',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
   },
   {
     stateMutability: 'view',
@@ -2631,13 +2650,6 @@ export const preMiningABI = [
     outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'refWeight',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
@@ -2671,13 +2683,6 @@ export const preMiningABI = [
     type: 'function',
     inputs: [],
     name: 'totalLocked',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalWeight',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
   },
   {
@@ -2719,14 +2724,20 @@ export const preMiningABI = [
 ] as const
 
 /**
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export const preMiningAddress = {
   31337: '0x9A676e781A523b5d0C0e43731313A708CB607508',
+  42161: '0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c',
+  59144: '0xd54d564606611A3502FE8909bBD3075dbeb77813',
 } as const
 
 /**
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export const preMiningConfig = { address: preMiningAddress, abi: preMiningABI } as const
 
@@ -10695,7 +10706,9 @@ export function usePrepareOldLToken1UpgradeToAndCall(
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningRead<
   TFunctionName extends string,
@@ -10706,9 +10719,12 @@ export function usePreMiningRead<
     'abi' | 'address'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
 }
@@ -10716,7 +10732,9 @@ export function usePreMiningRead<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"accountsLocks"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningAccountsLocks<
   TFunctionName extends 'accountsLocks',
@@ -10727,9 +10745,12 @@ export function usePreMiningAccountsLocks<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'accountsLocks',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10738,7 +10759,9 @@ export function usePreMiningAccountsLocks<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"availableToClaim"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningAvailableToClaim<
   TFunctionName extends 'availableToClaim',
@@ -10749,9 +10772,12 @@ export function usePreMiningAvailableToClaim<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'availableToClaim',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10760,7 +10786,9 @@ export function usePreMiningAvailableToClaim<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"claimPhaseStartTimestamp"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningClaimPhaseStartTimestamp<
   TFunctionName extends 'claimPhaseStartTimestamp',
@@ -10771,9 +10799,12 @@ export function usePreMiningClaimPhaseStartTimestamp<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'claimPhaseStartTimestamp',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10782,7 +10813,9 @@ export function usePreMiningClaimPhaseStartTimestamp<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"eligibleRewardsOf"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningEligibleRewardsOf<
   TFunctionName extends 'eligibleRewardsOf',
@@ -10793,9 +10826,12 @@ export function usePreMiningEligibleRewardsOf<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'eligibleRewardsOf',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10804,7 +10840,9 @@ export function usePreMiningEligibleRewardsOf<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"hasClaimPhaseStarted"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningHasClaimPhaseStarted<
   TFunctionName extends 'hasClaimPhaseStarted',
@@ -10815,9 +10853,12 @@ export function usePreMiningHasClaimPhaseStarted<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'hasClaimPhaseStarted',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10826,7 +10867,9 @@ export function usePreMiningHasClaimPhaseStarted<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"hasDepositPhaseEnded"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningHasDepositPhaseEnded<
   TFunctionName extends 'hasDepositPhaseEnded',
@@ -10837,9 +10880,12 @@ export function usePreMiningHasDepositPhaseEnded<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'hasDepositPhaseEnded',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10848,7 +10894,9 @@ export function usePreMiningHasDepositPhaseEnded<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"hasRecoveryPhaseStarted"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningHasRecoveryPhaseStarted<
   TFunctionName extends 'hasRecoveryPhaseStarted',
@@ -10859,9 +10907,12 @@ export function usePreMiningHasRecoveryPhaseStarted<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'hasRecoveryPhaseStarted',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10870,7 +10921,9 @@ export function usePreMiningHasRecoveryPhaseStarted<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lToken"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningLToken<
   TFunctionName extends 'lToken',
@@ -10881,9 +10934,12 @@ export function usePreMiningLToken<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'lToken',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10892,7 +10948,9 @@ export function usePreMiningLToken<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"ldyToken"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningLdyToken<
   TFunctionName extends 'ldyToken',
@@ -10903,9 +10961,12 @@ export function usePreMiningLdyToken<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'ldyToken',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10914,7 +10975,9 @@ export function usePreMiningLdyToken<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lockedHardCap"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningLockedHardCap<
   TFunctionName extends 'lockedHardCap',
@@ -10925,9 +10988,12 @@ export function usePreMiningLockedHardCap<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'lockedHardCap',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10936,7 +11002,9 @@ export function usePreMiningLockedHardCap<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"maxDistributedLDY"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningMaxDistributedLdy<
   TFunctionName extends 'maxDistributedLDY',
@@ -10947,9 +11015,12 @@ export function usePreMiningMaxDistributedLdy<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'maxDistributedLDY',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -10958,7 +11029,9 @@ export function usePreMiningMaxDistributedLdy<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"maxLockDuration"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningMaxLockDuration<
   TFunctionName extends 'maxLockDuration',
@@ -10969,10 +11042,40 @@ export function usePreMiningMaxLockDuration<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'maxLockDuration',
+    ...config,
+  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"maxWeight"`.
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export function usePreMiningMaxWeight<
+  TFunctionName extends 'maxWeight',
+  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractRead({
+    abi: preMiningABI,
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+    functionName: 'maxWeight',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
 }
@@ -10980,7 +11083,9 @@ export function usePreMiningMaxLockDuration<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"minLockDuration"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningMinLockDuration<
   TFunctionName extends 'minLockDuration',
@@ -10991,9 +11096,12 @@ export function usePreMiningMinLockDuration<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'minLockDuration',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11002,7 +11110,9 @@ export function usePreMiningMinLockDuration<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"owner"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningOwner<
   TFunctionName extends 'owner',
@@ -11013,9 +11123,12 @@ export function usePreMiningOwner<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'owner',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11024,7 +11137,9 @@ export function usePreMiningOwner<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"paused"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningPaused<
   TFunctionName extends 'paused',
@@ -11035,9 +11150,12 @@ export function usePreMiningPaused<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'paused',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11046,7 +11164,9 @@ export function usePreMiningPaused<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"pendingOwner"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningPendingOwner<
   TFunctionName extends 'pendingOwner',
@@ -11057,32 +11177,13 @@ export function usePreMiningPendingOwner<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'pendingOwner',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"refWeight"`.
- *
- *
- */
-export function usePreMiningRefWeight<
-  TFunctionName extends 'refWeight',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[31337],
-    functionName: 'refWeight',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
 }
@@ -11090,7 +11191,9 @@ export function usePreMiningRefWeight<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"totalLocked"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningTotalLocked<
   TFunctionName extends 'totalLocked',
@@ -11101,32 +11204,13 @@ export function usePreMiningTotalLocked<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'totalLocked',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"totalWeight"`.
- *
- *
- */
-export function usePreMiningTotalWeight<
-  TFunctionName extends 'totalWeight',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[31337],
-    functionName: 'totalWeight',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
 }
@@ -11134,7 +11218,9 @@ export function usePreMiningTotalWeight<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"underlyingToken"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningUnderlyingToken<
   TFunctionName extends 'underlyingToken',
@@ -11145,9 +11231,12 @@ export function usePreMiningUnderlyingToken<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'underlyingToken',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11156,7 +11245,9 @@ export function usePreMiningUnderlyingToken<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unlockRequests"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningUnlockRequests<
   TFunctionName extends 'unlockRequests',
@@ -11167,9 +11258,12 @@ export function usePreMiningUnlockRequests<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'unlockRequests',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11178,7 +11272,9 @@ export function usePreMiningUnlockRequests<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unlockRequestsCursor"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningUnlockRequestsCursor<
   TFunctionName extends 'unlockRequestsCursor',
@@ -11189,9 +11285,12 @@ export function usePreMiningUnlockRequestsCursor<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'unlockRequestsCursor',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11200,7 +11299,9 @@ export function usePreMiningUnlockRequestsCursor<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"vestingDuration"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningVestingDuration<
   TFunctionName extends 'vestingDuration',
@@ -11211,9 +11312,12 @@ export function usePreMiningVestingDuration<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'vestingDuration',
     ...config,
   } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
@@ -11222,7 +11326,9 @@ export function usePreMiningVestingDuration<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningWrite<
   TFunctionName extends string,
@@ -11241,9 +11347,12 @@ export function usePreMiningWrite<
         chainId?: TChainId
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, TFunctionName, TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     ...config,
   } as any)
 }
@@ -11251,7 +11360,9 @@ export function usePreMiningWrite<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"acceptOwnership"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningAcceptOwnership<
   TMode extends WriteContractMode = undefined,
@@ -11270,9 +11381,12 @@ export function usePreMiningAcceptOwnership<
         functionName?: 'acceptOwnership'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'acceptOwnership', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'acceptOwnership',
     ...config,
   } as any)
@@ -11281,7 +11395,9 @@ export function usePreMiningAcceptOwnership<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"claimRewards"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningClaimRewards<
   TMode extends WriteContractMode = undefined,
@@ -11300,9 +11416,12 @@ export function usePreMiningClaimRewards<
         functionName?: 'claimRewards'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'claimRewards', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'claimRewards',
     ...config,
   } as any)
@@ -11311,7 +11430,9 @@ export function usePreMiningClaimRewards<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"endDepositPhase"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningEndDepositPhase<
   TMode extends WriteContractMode = undefined,
@@ -11330,9 +11451,12 @@ export function usePreMiningEndDepositPhase<
         functionName?: 'endDepositPhase'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'endDepositPhase', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'endDepositPhase',
     ...config,
   } as any)
@@ -11341,7 +11465,9 @@ export function usePreMiningEndDepositPhase<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"instantUnlock"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningInstantUnlock<
   TMode extends WriteContractMode = undefined,
@@ -11360,9 +11486,12 @@ export function usePreMiningInstantUnlock<
         functionName?: 'instantUnlock'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'instantUnlock', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'instantUnlock',
     ...config,
   } as any)
@@ -11371,7 +11500,9 @@ export function usePreMiningInstantUnlock<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lock"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningLock<
   TMode extends WriteContractMode = undefined,
@@ -11390,9 +11521,12 @@ export function usePreMiningLock<
         functionName?: 'lock'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'lock', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'lock',
     ...config,
   } as any)
@@ -11401,7 +11535,9 @@ export function usePreMiningLock<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"pause"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningPause<
   TMode extends WriteContractMode = undefined,
@@ -11420,9 +11556,12 @@ export function usePreMiningPause<
         functionName?: 'pause'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'pause', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'pause',
     ...config,
   } as any)
@@ -11431,7 +11570,9 @@ export function usePreMiningPause<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"processUnlockRequests"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningProcessUnlockRequests<
   TMode extends WriteContractMode = undefined,
@@ -11450,9 +11591,12 @@ export function usePreMiningProcessUnlockRequests<
         functionName?: 'processUnlockRequests'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'processUnlockRequests', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'processUnlockRequests',
     ...config,
   } as any)
@@ -11461,7 +11605,9 @@ export function usePreMiningProcessUnlockRequests<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"recoverERC20"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningRecoverErc20<
   TMode extends WriteContractMode = undefined,
@@ -11480,9 +11626,12 @@ export function usePreMiningRecoverErc20<
         functionName?: 'recoverERC20'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'recoverERC20', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'recoverERC20',
     ...config,
   } as any)
@@ -11491,7 +11640,9 @@ export function usePreMiningRecoverErc20<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"renounceOwnership"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningRenounceOwnership<
   TMode extends WriteContractMode = undefined,
@@ -11510,9 +11661,12 @@ export function usePreMiningRenounceOwnership<
         functionName?: 'renounceOwnership'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'renounceOwnership', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'renounceOwnership',
     ...config,
   } as any)
@@ -11521,7 +11675,9 @@ export function usePreMiningRenounceOwnership<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"requestUnlock"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningRequestUnlock<
   TMode extends WriteContractMode = undefined,
@@ -11540,9 +11696,12 @@ export function usePreMiningRequestUnlock<
         functionName?: 'requestUnlock'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'requestUnlock', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'requestUnlock',
     ...config,
   } as any)
@@ -11551,7 +11710,9 @@ export function usePreMiningRequestUnlock<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"setLDYToken"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningSetLdyToken<
   TMode extends WriteContractMode = undefined,
@@ -11570,9 +11731,12 @@ export function usePreMiningSetLdyToken<
         functionName?: 'setLDYToken'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'setLDYToken', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'setLDYToken',
     ...config,
   } as any)
@@ -11581,7 +11745,9 @@ export function usePreMiningSetLdyToken<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startClaimPhase"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningStartClaimPhase<
   TMode extends WriteContractMode = undefined,
@@ -11600,9 +11766,12 @@ export function usePreMiningStartClaimPhase<
         functionName?: 'startClaimPhase'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'startClaimPhase', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'startClaimPhase',
     ...config,
   } as any)
@@ -11611,7 +11780,9 @@ export function usePreMiningStartClaimPhase<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startRecoveryPhase"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningStartRecoveryPhase<
   TMode extends WriteContractMode = undefined,
@@ -11630,9 +11801,12 @@ export function usePreMiningStartRecoveryPhase<
         functionName?: 'startRecoveryPhase'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'startRecoveryPhase', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'startRecoveryPhase',
     ...config,
   } as any)
@@ -11641,7 +11815,9 @@ export function usePreMiningStartRecoveryPhase<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"transferOwnership"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningTransferOwnership<
   TMode extends WriteContractMode = undefined,
@@ -11660,9 +11836,12 @@ export function usePreMiningTransferOwnership<
         functionName?: 'transferOwnership'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'transferOwnership', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'transferOwnership',
     ...config,
   } as any)
@@ -11671,7 +11850,9 @@ export function usePreMiningTransferOwnership<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unpause"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreMiningUnpause<
   TMode extends WriteContractMode = undefined,
@@ -11690,9 +11871,12 @@ export function usePreMiningUnpause<
         functionName?: 'unpause'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof preMiningABI, 'unpause', TMode>({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'unpause',
     ...config,
   } as any)
@@ -11701,7 +11885,9 @@ export function usePreMiningUnpause<
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningWrite<TFunctionName extends string>(
   config: Omit<
@@ -11709,9 +11895,12 @@ export function usePreparePreMiningWrite<TFunctionName extends string>(
     'abi' | 'address'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, TFunctionName>)
 }
@@ -11719,7 +11908,9 @@ export function usePreparePreMiningWrite<TFunctionName extends string>(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"acceptOwnership"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningAcceptOwnership(
   config: Omit<
@@ -11727,9 +11918,12 @@ export function usePreparePreMiningAcceptOwnership(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'acceptOwnership',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'acceptOwnership'>)
@@ -11738,7 +11932,9 @@ export function usePreparePreMiningAcceptOwnership(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"claimRewards"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningClaimRewards(
   config: Omit<
@@ -11746,9 +11942,12 @@ export function usePreparePreMiningClaimRewards(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'claimRewards',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'claimRewards'>)
@@ -11757,7 +11956,9 @@ export function usePreparePreMiningClaimRewards(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"endDepositPhase"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningEndDepositPhase(
   config: Omit<
@@ -11765,9 +11966,12 @@ export function usePreparePreMiningEndDepositPhase(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'endDepositPhase',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'endDepositPhase'>)
@@ -11776,7 +11980,9 @@ export function usePreparePreMiningEndDepositPhase(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"instantUnlock"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningInstantUnlock(
   config: Omit<
@@ -11784,9 +11990,12 @@ export function usePreparePreMiningInstantUnlock(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'instantUnlock',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'instantUnlock'>)
@@ -11795,7 +12004,9 @@ export function usePreparePreMiningInstantUnlock(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lock"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningLock(
   config: Omit<
@@ -11803,9 +12014,12 @@ export function usePreparePreMiningLock(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'lock',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'lock'>)
@@ -11814,7 +12028,9 @@ export function usePreparePreMiningLock(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"pause"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningPause(
   config: Omit<
@@ -11822,9 +12038,12 @@ export function usePreparePreMiningPause(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'pause',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'pause'>)
@@ -11833,7 +12052,9 @@ export function usePreparePreMiningPause(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"processUnlockRequests"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningProcessUnlockRequests(
   config: Omit<
@@ -11841,9 +12062,12 @@ export function usePreparePreMiningProcessUnlockRequests(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'processUnlockRequests',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'processUnlockRequests'>)
@@ -11852,7 +12076,9 @@ export function usePreparePreMiningProcessUnlockRequests(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"recoverERC20"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningRecoverErc20(
   config: Omit<
@@ -11860,9 +12086,12 @@ export function usePreparePreMiningRecoverErc20(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'recoverERC20',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'recoverERC20'>)
@@ -11871,7 +12100,9 @@ export function usePreparePreMiningRecoverErc20(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"renounceOwnership"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningRenounceOwnership(
   config: Omit<
@@ -11879,9 +12110,12 @@ export function usePreparePreMiningRenounceOwnership(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'renounceOwnership',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'renounceOwnership'>)
@@ -11890,7 +12124,9 @@ export function usePreparePreMiningRenounceOwnership(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"requestUnlock"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningRequestUnlock(
   config: Omit<
@@ -11898,9 +12134,12 @@ export function usePreparePreMiningRequestUnlock(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'requestUnlock',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'requestUnlock'>)
@@ -11909,7 +12148,9 @@ export function usePreparePreMiningRequestUnlock(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"setLDYToken"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningSetLdyToken(
   config: Omit<
@@ -11917,9 +12158,12 @@ export function usePreparePreMiningSetLdyToken(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'setLDYToken',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'setLDYToken'>)
@@ -11928,7 +12172,9 @@ export function usePreparePreMiningSetLdyToken(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startClaimPhase"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningStartClaimPhase(
   config: Omit<
@@ -11936,9 +12182,12 @@ export function usePreparePreMiningStartClaimPhase(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'startClaimPhase',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'startClaimPhase'>)
@@ -11947,7 +12196,9 @@ export function usePreparePreMiningStartClaimPhase(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startRecoveryPhase"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningStartRecoveryPhase(
   config: Omit<
@@ -11955,9 +12206,12 @@ export function usePreparePreMiningStartRecoveryPhase(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'startRecoveryPhase',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'startRecoveryPhase'>)
@@ -11966,7 +12220,9 @@ export function usePreparePreMiningStartRecoveryPhase(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"transferOwnership"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningTransferOwnership(
   config: Omit<
@@ -11974,9 +12230,12 @@ export function usePreparePreMiningTransferOwnership(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'transferOwnership',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'transferOwnership'>)
@@ -11985,7 +12244,9 @@ export function usePreparePreMiningTransferOwnership(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unpause"`.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function usePreparePreMiningUnpause(
   config: Omit<
@@ -11993,9 +12254,12 @@ export function usePreparePreMiningUnpause(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof preMiningAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
     functionName: 'unpause',
     ...config,
   } as UsePrepareContractWriteConfig<typeof preMiningABI, 'unpause'>)
@@ -13913,18 +14177,26 @@ export function prepareWriteOldLToken1<
 /**
  * Wraps __{@link getContract}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function getPreMining(
   config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof preMiningAddress },
 ) {
-  return getContract({ abi: preMiningABI, address: preMiningAddress[31337], ...config })
+  return getContract({
+    abi: preMiningABI,
+    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
+    ...config,
+  })
 }
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function readPreMining<
   TAbi extends readonly unknown[] = typeof preMiningABI,
@@ -13936,7 +14208,7 @@ export function readPreMining<
 ) {
   return readContract({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
     ...config,
   } as unknown as ReadContractConfig<TAbi, TFunctionName>)
 }
@@ -13944,7 +14216,9 @@ export function readPreMining<
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function writePreMining<
   TFunctionName extends string,
@@ -13963,7 +14237,7 @@ export function writePreMining<
 ) {
   return writeContract({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
     ...config,
   } as unknown as WriteContractArgs<typeof preMiningABI, TFunctionName>)
 }
@@ -13971,7 +14245,9 @@ export function writePreMining<
 /**
  * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link preMiningABI}__.
  *
- *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export function prepareWritePreMining<
   TAbi extends readonly unknown[] = typeof preMiningABI,
@@ -13983,7 +14259,7 @@ export function prepareWritePreMining<
 ) {
   return prepareWriteContract({
     abi: preMiningABI,
-    address: preMiningAddress[31337],
+    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
     ...config,
   } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
 }
