@@ -1,3 +1,10 @@
+## [1.222.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.221.1...v1.222.0) (2023-09-20)
+
+
+### Features
+
+* slightly improve Multi-Airdrop UI ([c5252bb](https://github.com/LedgityLabs/LedgityYield/commit/c5252bbe443df9a2b0ab86408d6749ce4a9bcaed))
+
 ## [1.221.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.221.0...v1.221.1) (2023-09-20)
 
 
