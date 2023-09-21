@@ -1,3 +1,10 @@
+## [1.222.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.222.0...v1.222.1) (2023-09-21)
+
+
+### Fixes
+
+* use highest XP accounts when Zealy user associated its address to many accounts ([939ea12](https://github.com/LedgityLabs/LedgityYield/commit/939ea12abd892ef41130d809a8cdc5abd0f76efb))
+
 ## [1.222.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.221.1...v1.222.0) (2023-09-20)
 
 
