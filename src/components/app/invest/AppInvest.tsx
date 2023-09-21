@@ -16,41 +16,8 @@ export const AppInvest: FC = () => {
     <div className="lg:w-[980px] w-full flex flex-col gap-8 pb-8">
       <a
         onClick={() => switchTab("airdrop")}
-        className="cursor-pointer h-40 bg-[url('/assets/banners/multi-airdrop.png')] rounded-[1.8rem] bg-center bg-cover w-full opacity-95 border-[3px] border-fg/30 hover:opacity-100 hover:contrast-[105%] transition-[opacity,filter]"
+        className="cursor-pointer h-40 bg-[url('/assets/banners/multi-airdrop-cta.png')] rounded-[1.8rem] bg-center bg-cover w-full opacity-95 border-[3px] border-fg/30 hover:opacity-100 hover:contrast-[105%] transition-[opacity,filter]"
       ></a>
-      {/* <a onClick={() => switchTab("airdrop")} className="cursor-pointer">
-        <Card
-          defaultGradient={false}
-          circleIntensity={0}
-          animated={false}
-          className="relative before:bg-gradient-to-tr before:from-[#20456c] before:via-[#20456c] before:to-[#20456c]/70 before:hover:opacity-95 before:transition-opacity w-full sm:p-10 p-7 flex justify-between items-center gap-5 bg-[#28a0f0]/20 bg-[url('/assets/textures/flying-tokens.png')] bg-contain before:inset-0"
-        >
-          <div className="flex gap-5">
-            <div className="flex flex-col justify-center items-start gap-4">
-              <div className="flex gap-3 items-center flex-wrap-reverse pr-10">
-                <h3 className="font-extrabold text-4xl text-bg font-heading whitespace-nowrap">
-                  Multi-Airdrop
-                </h3>
-                <p className="inline-flex gap-1.5 justify-center items-center bg-[#2676ca] px-2 pr-3 py-1 rounded-2xl text-sm text-bg font-semibold max-w-fit">
-                  <span className="rinline-block elative h-4 w-4 flex justify-center items-center ">
-                    <span className="inline-block absolute h-3 w-3 rounded-full animate-ping duration-[1500ms] bg-bg"></span>
-                    <span className="inline-block absolute h-3 w-3 rounded-full bg-bg"></span>
-                  </span>
-                  Ongoing
-                </p>
-              </div>
-
-              <div className="text-bg font-semibold">
-                Be early and receive $LDY tokens + tokens from Ledgity&apos;s partners.
-              </div>
-            </div>
-          </div>
-
-          <span className="sm:static absolute top-7 right-7">
-            <i className="ri-arrow-right-line text-4xl text-bg font-black " />
-          </span>
-        </Card>
-      </a> */}
       <Card
         defaultGradient={true}
         circleIntensity={0.07}

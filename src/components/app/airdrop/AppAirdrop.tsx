@@ -224,7 +224,7 @@ export const AppAirdrop: FC = () => {
             <a
               href="https://zealy.io/c/ledgityyield/questboard"
               target="_blank"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 border-l-[#d6409f] border-l-4 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
+              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
             >
               <div className="absolute top-0 left-0 bg-[#d6409f] rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
                 <Image
@@ -255,7 +255,7 @@ export const AppAirdrop: FC = () => {
             <a
               href="https://galxe.com/ledgityyield/campaign/GCGypUABrf"
               target="_blank"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 border-l-black border-l-4 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
+              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
             >
               <div className="absolute top-0 left-0 bg-black rounded-br-xl">
                 <Image
@@ -286,7 +286,7 @@ export const AppAirdrop: FC = () => {
 
             <a
               href="/app/pre-mining"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 border-l-indigo-700 border-l-4 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
+              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
             >
               <div className="absolute top-0 left-0 bg-indigo-700 rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
                 <i className="ri-hammer-fill text-bg " />
@@ -308,7 +308,7 @@ export const AppAirdrop: FC = () => {
                 </div>
               </div>
             </a>
-            <div className="relative sm:min-w-[350px] min-w-[3 border-l-[] border-l-415px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md justify-between grayscale opacity-70">
+            <div className="relative sm:min-w-[350px] min-w-[315px]  flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ justify-between grayscale opacity-70">
               <div className="absolute top-0 left-0 bg-[#1DA1F2] rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
                 <i className="ri-twitter-fill text-white text-xl" />
               </div>
