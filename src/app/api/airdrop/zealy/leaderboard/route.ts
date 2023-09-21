@@ -28,8 +28,19 @@ export async function GET() {
 
     // Format the data
     if (rawData.leaderboard) {
+      // Loop through the members
       for (const member of rawData.leaderboard) {
-        if (member.address.startsWith("0x")) data[member.address] = member.xp;
+        // If the address is a valid address, add it to the data
+        if (member.address.startsWith("0x")) {
+          // If the user already associated this address to another account
+          if (Object.keys(data).includes(member.address)) {
+            // Use the one with the most XP
+            if (data[member.address] < member.xp) data[member.address] += member.xp;
+          }
+
+          // Else, just add it
+          else data[member.address] = member.xp;
+        }
       }
     }
   }

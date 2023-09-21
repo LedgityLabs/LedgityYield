@@ -224,9 +224,9 @@ export const AppAirdrop: FC = () => {
             <a
               href="https://zealy.io/c/ledgityyield/questboard"
               target="_blank"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
+              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 border-l-[#d6409f] border-l-4 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
             >
-              <div className="absolute top-0 right-0 bg-[#d6409f] rounded-bl-xl w-[30px] h-[30px] inline-flex justify-center items-center">
+              <div className="absolute top-0 left-0 bg-[#d6409f] rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
                 <Image
                   src={zealyIcon}
                   width={20}
@@ -236,7 +236,9 @@ export const AppAirdrop: FC = () => {
                 />
               </div>
 
-              <h4 className="text-xl font-heading font-bold px-5">Complete tasks on Zealy</h4>
+              <h4 className="text-xl font-heading font-bold px-5 text-center">
+                Complete tasks on Zealy
+              </h4>
 
               <div className="px-8 text-[#20456c]/90 font-medium">
                 New tasks on Mondays & Thursdays
@@ -253,9 +255,9 @@ export const AppAirdrop: FC = () => {
             <a
               href="https://galxe.com/ledgityyield/campaign/GCGypUABrf"
               target="_blank"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
+              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 border-l-black border-l-4 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
             >
-              <div className="absolute top-0 right-0 bg-black rounded-bl-xl">
+              <div className="absolute top-0 left-0 bg-black rounded-br-xl">
                 <Image
                   src={galxeIcon}
                   width={30}
@@ -265,7 +267,9 @@ export const AppAirdrop: FC = () => {
                 />
               </div>
 
-              <h4 className="text-xl font-heading font-bold px-5">Complete tasks on Galxe</h4>
+              <h4 className="text-xl font-heading font-bold px-5 text-center">
+                Complete tasks on Galxe
+              </h4>
 
               <div className="px-8 text-[#20456c]/90 font-medium">
                 New tasks on Mondays & Thursdays
@@ -282,13 +286,15 @@ export const AppAirdrop: FC = () => {
 
             <a
               href="/app/pre-mining"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
+              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 border-l-indigo-700 border-l-4 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
             >
-              <div className="absolute top-0 right-0 bg-indigo-700 rounded-bl-xl w-[30px] h-[30px] inline-flex justify-center items-center">
+              <div className="absolute top-0 left-0 bg-indigo-700 rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
                 <i className="ri-hammer-fill text-bg " />
               </div>
 
-              <h4 className="text-xl font-heading font-bold px-5">Participate in Pre-Mining</h4>
+              <h4 className="text-xl font-heading font-bold px-5 text-center">
+                Participate in Pre-Mining
+              </h4>
 
               <div className="px-8 text-[#20456c]/90 font-medium">
                 1 USDC locked 3 months = 1 <i className="ri-coupon-2-fill" />
@@ -302,12 +308,14 @@ export const AppAirdrop: FC = () => {
                 </div>
               </div>
             </a>
-            <div className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md justify-between grayscale opacity-70">
-              <div className="absolute top-0 right-0 bg-[#1DA1F2] rounded-bl-xl w-[30px] h-[30px] inline-flex justify-center items-center">
+            <div className="relative sm:min-w-[350px] min-w-[3 border-l-[] border-l-415px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md justify-between grayscale opacity-70">
+              <div className="absolute top-0 left-0 bg-[#1DA1F2] rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
                 <i className="ri-twitter-fill text-white text-xl" />
               </div>
 
-              <h4 className="text-xl font-heading font-bold px-5">Spread the word on Twitter</h4>
+              <h4 className="text-xl font-heading font-bold px-5 text-center">
+                Spread the word on Twitter
+              </h4>
 
               <div className="px-8 text-[#20456c]/90 font-medium">
                 Tweet with{" "}
