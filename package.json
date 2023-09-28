@@ -3,7 +3,7 @@
   "version": "1.223.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "cc:test": "forge test -vvv --use 0.8.18",
