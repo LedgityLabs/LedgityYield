@@ -158,13 +158,13 @@ export const AppAirdrop: FC = () => {
                 </TooltipContent>
               </Tooltip>
 
-              {/* <Tooltip>
+              <Tooltip>
                 <TooltipTrigger asChild={true}>
                   <li
                     className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
                     style={{
-                      boxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.15)",
-                      WebkitBoxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.15)",
+                      boxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.13)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.13)",
                     }}
                   >
                     <div className="inline-flex items-center gap-1.5">
@@ -179,15 +179,15 @@ export const AppAirdrop: FC = () => {
                   </li>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
-                  3,000,000 $LDY
+                  100,000 $LYNX
                   <br />
                   -
                   <br />
-                  16% of 1yr supply
+                  0.1% of total supply
                 </TooltipContent>
-              </Tooltip> */}
+              </Tooltip>
 
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+              {/* <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
                 <p className="text-center text-[0.93rem] font-semibold text-slate-500">
                   Revealed in
                   <br />{" "}
@@ -195,7 +195,7 @@ export const AppAirdrop: FC = () => {
                     <DaysUntil date="2023-09-28" /> days
                   </span>
                 </p>
-              </li>
+              </li> */}
               <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
                 <p className="text-center text-[0.93rem] font-semibold text-slate-500">
                   Revealed in
