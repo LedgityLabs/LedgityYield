@@ -1,3 +1,10 @@
+## [1.224.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.224.1...v1.224.2) (2023-09-28)
+
+
+### Fixes
+
+* zealy entries count displayed before login ([791b8e4](https://github.com/LedgityLabs/LedgityYield/commit/791b8e4abd127b0af15e11316e5b2002f28f85ed))
+
 ## [1.224.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.224.0...v1.224.1) (2023-09-28)
 
 
