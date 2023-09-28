@@ -1,3 +1,10 @@
+## [1.225.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.224.2...v1.225.0) (2023-09-28)
+
+
+### Features
+
+* align abar appearence with the new UI ([02847aa](https://github.com/LedgityLabs/LedgityYield/commit/02847aae4bd39a06e1acf555ffb024200e060239))
+
 ## [1.224.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.224.1...v1.224.2) (2023-09-28)
 
 
