@@ -1,3 +1,11 @@
+## [1.226.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.225.0...v1.226.0) (2023-09-28)
+
+
+### Features
+
+* reveal Lynex on Airdrop page ([e78d782](https://github.com/LedgityLabs/LedgityYield/commit/e78d782d242f227a530db38f00087ccfa982f9f8))
+* update Galxe batch link ([cd58e54](https://github.com/LedgityLabs/LedgityYield/commit/cd58e54c85dc6e913bf1396e7ca59c392df0b9ca))
+
 ## [1.225.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.224.2...v1.225.0) (2023-09-28)
 
 
