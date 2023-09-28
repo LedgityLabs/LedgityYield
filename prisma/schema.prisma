@@ -1,0 +1,89 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+// Required by Auth.js
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+// Required by Auth.js
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  expires      DateTime
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+
+// Required by Auth.js
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  // Required by Auth.js
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  // Custom
+  // twitterFollowers Int?
+  twitterId String?       @unique
+  twitterUsername String?
+  walletAddress String?
+  generatedMessage String?
+
+  tweets Tweet[]
+}
+
+model Tweet {
+  id String @id @default(cuid())
+  tweetId String @unique
+  createdAt DateTime @default(now())
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content String @default("")
+  likes Int @default(0)
+  retweets Int @default(0)
+  replies Int @default(0)
+  quotes Int @default(0)
+  views Int @default(0)
+
+  ingested Boolean @default(false)
+  @@index([authorId])
+}
+

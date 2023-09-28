@@ -44,7 +44,6 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   lTokenSymbol,
   requestId,
 }) => {
-  const { data: walletClient } = useWalletClient();
   const ltokenAddress = useContractAddress(lTokenSymbol);
   const { data: decimals } = useLTokenDecimals({
     address: ltokenAddress,
@@ -63,8 +62,6 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
     preparation.refetch();
   }, [requestData]);
 
-  console.log("REQUEST DATA");
-  console.log(requestData);
   return (
     <AlertDialog>
       <Tooltip>

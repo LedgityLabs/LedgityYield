@@ -10,6 +10,7 @@ import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { AppAirdrop } from "@/components/app/airdrop/AppAirdrop";
+import { SessionProvider } from "next-auth/react";
 
 interface Props {
   defaultTab: string;
@@ -62,21 +63,23 @@ const _AppTabs: FC = () => {
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
-        <TabsContent value="invest">
-          <AppInvest />
-        </TabsContent>
-        <TabsContent value="pre-mining">
-          <AppPreMining />
-        </TabsContent>
-        <TabsContent value="airdrop">
-          <AppAirdrop />
-        </TabsContent>
-        <TabsContent value="get-usdc">
-          <AppGetUSDC />
-        </TabsContent>
-        <TabsContent value="dashboard">
-          <AppDashboard />
-        </TabsContent>
+        <SessionProvider>
+          <TabsContent value="invest">
+            <AppInvest />
+          </TabsContent>
+          <TabsContent value="pre-mining">
+            <AppPreMining />
+          </TabsContent>
+          <TabsContent value="airdrop">
+            <AppAirdrop />
+          </TabsContent>
+          <TabsContent value="get-usdc">
+            <AppGetUSDC />
+          </TabsContent>
+          <TabsContent value="dashboard">
+            <AppDashboard />
+          </TabsContent>
+        </SessionProvider>
       </div>
     </Tabs>
   );

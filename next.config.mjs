@@ -26,6 +26,11 @@ const nextConfig = withBundleAnalyzer({
         hostname: "euc.li",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+        port: "",
+      },
     ],
   },
   async redirects() {

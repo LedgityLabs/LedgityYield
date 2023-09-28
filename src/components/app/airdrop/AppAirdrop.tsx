@@ -1,6 +1,8 @@
 import {
-  Card,
+  Button,
   DaysUntil,
+  Dialog,
+  DialogTrigger,
   TokenLogo,
   Tooltip,
   TooltipContent,
@@ -14,406 +16,587 @@ import galxeIcon from "~/assets/partners/galxe-icon.png";
 import zealyIcon from "~/assets/partners/zealy-icon.svg";
 import { usePreMiningAccountsLocks } from "@/generated";
 import { formatUnits, zeroAddress } from "viem";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { twMerge } from "tailwind-merge";
+import { AppAirdropTwitter } from "./AppAirdropTwitter";
+import { LikeIcon, QuoteIcon, ReplyIcon, RetweetIcon } from "@/lib/icons";
+import { createPortal } from "react-dom";
+import clsx from "clsx";
 
 export const AppAirdrop: FC = () => {
   const { data: walletClient } = useWalletClient();
-  const [leaderboards, setLeaderboards] = useState<any>();
-
-  // Will store the total number of entries for the wallet
-  let walletTotalEntries = 0;
+  const { data: userSession, status: userStatus, update: updateSession } = useSession();
+  const [walletZealyEntries, setWalletZealyEntries] = useState<number>(0);
+  const [walletGalxeEntries, setWalletGalxeEntries] = useState<number>(0);
 
   // Compute wallet's pre-mining entries
   let walletPreMiningEntries = 0;
   const { data: walletLockInfos } = usePreMiningAccountsLocks({
-    args: [walletClient?.account.address ? walletClient.account.address : zeroAddress],
+    args: [
+      userSession && userSession.user.walletAddress
+        ? (userSession.user.walletAddress as `0x${string}`)
+        : zeroAddress,
+    ],
     watch: true,
   });
   if (walletLockInfos) {
     const amount = Number(formatUnits(walletLockInfos[0], 6));
     const duration = walletLockInfos[1];
     if (duration <= 3) walletPreMiningEntries = amount;
-    else if (duration <= 6) walletPreMiningEntries = amount * 2;
-    else if (duration <= 12) walletPreMiningEntries = amount * 5;
-    walletTotalEntries += walletPreMiningEntries;
+    else if (duration <= 6) walletPreMiningEntries = amount * 4;
+    else if (duration <= 12) walletPreMiningEntries = amount * 16;
   }
 
   // Retrieves quests leaderboards data
-  const computeLeaderboards = async () => {
+  const retrieveGalxeZealyEntries = async () => {
     const responses = await Promise.all([
-      fetch("/api/airdrop/galxe/leaderboard"),
-      fetch("/api/airdrop/zealy/leaderboard"),
+      fetch("/api/airdrop/entries/user/galxe"),
+      fetch("/api/airdrop/entries/user/zealy"),
     ]);
 
     if (!responses.every((res) => res.ok)) {
-      console.log(responses);
+      setWalletGalxeEntries(0);
+      setWalletZealyEntries(0);
       throw new Error("Failed to fetch data");
     }
 
     const data = await Promise.all(responses.map((res) => res.json()));
 
-    setLeaderboards({
-      galxe: data[0].data,
-      zealy: data[1].data,
-    });
+    setWalletGalxeEntries(data[0].entries);
+    setWalletZealyEntries(data[1].entries);
   };
 
   useEffect(() => {
-    if (walletClient) computeLeaderboards();
-  }, [walletClient]);
+    if (userSession) retrieveGalxeZealyEntries();
+  }, [userSession]);
 
-  // Compute wallet entries amounts
-  let walletGalxeEntries = 0;
-  let walletZealyEntries = 0;
-  if (walletClient && leaderboards) {
-    if (leaderboards.galxe[walletClient.account.address.toLowerCase()]) {
-      walletGalxeEntries = leaderboards.galxe[walletClient.account.address.toLowerCase()];
-      walletTotalEntries += walletGalxeEntries;
-    }
-    if (leaderboards.zealy[walletClient.account.address]) {
-      walletZealyEntries = leaderboards.zealy[walletClient.account.address];
-      walletTotalEntries += walletZealyEntries;
-    }
-  }
+  // Compute wallet total entries
+  let walletTotalEntries = walletGalxeEntries + walletZealyEntries + walletPreMiningEntries;
 
   // Compute wallet missing entries
   const walletMissingEntries = 20000 - walletTotalEntries;
 
+  // Handles wallet linking to Twitter account
+  const handleSignature = async () => {
+    // Generate message
+    const req = await fetch("/api/airdrop/wallet/generate-message");
+    const { message } = await req.json();
+
+    // Request wallet signature
+    const signature = await walletClient?.signMessage({
+      message,
+    });
+
+    // Send signature to server
+    const req2 = await fetch("/api/airdrop/wallet/verify-signature", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        walletAddress: walletClient?.account.address,
+        signature,
+      }),
+    });
+
+    // If request is successful, update session
+    const data = await req2.json();
+    if (data.success === true) {
+      await updateSession({
+        walletAddress: walletClient?.account.address,
+      });
+    }
+  };
+
+  // Determine whether the user is authenticated
+  const isAuthenticated = Boolean(
+    userStatus === "authenticated" && userSession?.user.walletAddress,
+  );
+
   return (
-    <div className="lg:w-[830px] w-full flex flex-col gap-8 pb-8">
-      <Card
-        defaultGradient={false}
-        circleIntensity={0}
-        animated={false}
-        className="flex flex-col gap-10 w-full overflow-hidden bg-gradient-to-b from-[#20456c]/20 to-[#20456c]/60 sm:pb-10 pb-5"
-      >
-        <h2 className="relative text-bg font-bold font-heading text-4xl text-center before:absolute before:inset-0 md:leading-none leading-relaxed sm:p-10 p-5 before:bg-gradient-to-r before:from-[#20456c]/[90%] before:via-[#20456c] before:to-[#20456c]/[90%] bg-[url('/assets/textures/flying-tokens.png')] bg-contain rounded-t-3xl overflow-hidden">
-          <span>
-            Ledgity <span className="whitespace-nowrap">Multi-Airdrop</span>
-          </span>
-        </h2>
-        <div className="flex gap-10  sm:px-10 px-5 flex-wrap">
-          <div className="md:w-[calc((100%-2.5rem)/2)] flex flex-col gap-2.5 min-w-[300px]">
-            <h3 className="font-bold text-2xl text-[#20456c] font-heading">What?</h3>
-            <div className="text-[#20456c]/80 font-medium text-lg">
-              To reward its earliest community members,{" "}
-              <span className="font-bold text-[#20456c]">Ledgity Yield will airdrop</span>:
-              <ul className="list-disc pl-5">
-                <li>16% of its 1-year supply</li>
-                <li>tokens from its partners</li>
-              </ul>
+    <>
+      <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-32 xl:scale-105 xl:mt-5">
+        <div className="relative flex flex-col gap-16 w-full overflow-hidden bg-slate-800 pt-[8.5rem] rounded-[1.8rem] border-2 border-slate-500 shadow-lg">
+          <div className="absolute -top-3 right-0 left-0 bg-[url('/assets/banners/multi-airdrop-square.png')] bg-cover bg-top opacity-95 w-full h-[830px] rounded-t-[1.7rem] overflow-hidden aspect-square"></div>
+          <div>
+            <div className="py-3 sm:px-10 px-5 flex items-center gap-3 flex-wrap">
+              <h3 className="font-bold text-[1.4rem] text-slate-100 font-heading text-start whitespace-nowrap">
+                Airdropped tokens
+              </h3>
+              <p className="text-slate-100/60 text-sm font-medium italic">
+                Hover a token to get infos
+              </p>
             </div>
-          </div>
-          <div className="md:w-[calc((100%-2.5rem)/2)] w-full flex flex-col gap-2.5 min-w-[300px]">
-            <h3 className="font-bold text-2xl text-[#20456c] font-heading">Calculation</h3>
-            <ul className="list-disc pl-5 text-[#20456c]/80 font-medium text-lg">
-              <li>
-                Received airdrop size is{" "}
-                <span className="font-bold text-[#20456c]">proportional</span> to your{" "}
-                <span className="font-bold text-[#20456c]">
-                  number of &ldquo;entries <i className="ri-coupon-2-fill" />
-                </span>
-                &rdquo;
+
+            <ul className="flex gap-5 flex-nowrap p-5 bg-fg/70 overflow-x-scroll scrollbar-thumb-slate-600 scrollbar-track-slate-950/70 scrollbar-thin scrollbar-corner-rose-500 scrollbar-thumb-rounded">
+              <Tooltip>
+                <TooltipTrigger asChild={true}>
+                  <li
+                    className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
+                    style={{
+                      boxShadow: "3px 10px 20px 0px rgba(129,140,248,0.18)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(129,140,248,0.18)",
+                    }}
+                  >
+                    <div className="inline-flex items-center gap-1.5">
+                      <TokenLogo symbol="LDY" size={38} className="" />
+                      <p className="text-[1.7rem] font-bold text-slate-300  font-heading leading-none">
+                        LDY
+                      </p>
+                    </div>
+                    <h4 className="text-indigo-300/60 font-heading text-[1.62rem] font-bold leading-none">
+                      Ledgity
+                    </h4>
+                  </li>
+                </TooltipTrigger>
+                <TooltipContent className="font-semibold">
+                  3,000,000 $LDY
+                  <br />
+                  -
+                  <br />
+                  16% of 1yr supply
+                </TooltipContent>
+              </Tooltip>
+
+              {/* <Tooltip>
+                <TooltipTrigger asChild={true}>
+                  <li
+                    className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
+                    style={{
+                      boxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.15)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.15)",
+                    }}
+                  >
+                    <div className="inline-flex items-center gap-1.5">
+                      <TokenLogo symbol="LYNX" size={35} className="" />
+                      <p className="text-[1.45rem] font-bold text-slate-300  font-heading leading-none">
+                        LYNX
+                      </p>
+                    </div>
+                    <h4 className="text-[#df9959]/70 font-heading text-[1.62rem] font-bold leading-none">
+                      Lynex
+                    </h4>
+                  </li>
+                </TooltipTrigger>
+                <TooltipContent className="font-semibold">
+                  3,000,000 $LDY
+                  <br />
+                  -
+                  <br />
+                  16% of 1yr supply
+                </TooltipContent>
+              </Tooltip> */}
+
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Revealed in
+                  <br />{" "}
+                  <span className="font-bold text-slate-400/80">
+                    <DaysUntil date="2023-09-28" /> days
+                  </span>
+                </p>
               </li>
-              <li>
-                At least{" "}
-                <span className="font-bold text-[#20456c]">
-                  20,000 <i className="ri-coupon-2-fill" />
-                </span>{" "}
-                are required
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Revealed in
+                  <br />{" "}
+                  <span className="font-bold text-slate-400/80">
+                    <DaysUntil date="2023-10-05" /> days
+                  </span>
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Revealed in
+                  <br />{" "}
+                  <span className="font-bold text-slate-400/80">
+                    <DaysUntil date="2023-10-12" /> days
+                  </span>
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Revealed in
+                  <br />{" "}
+                  <span className="font-bold text-slate-400/80">
+                    <DaysUntil date="2023-10-19" /> days
+                  </span>
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
+              </li>
+              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
+                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
+                  Not yet planned
+                </p>
               </li>
             </ul>
-            <Link
-              href="https://docs.ledgity.finance/opportunities/airdrop"
-              target="_blank"
-              className="text-lg font-semibold text-[#20456c]/90 underline decoration-[#20456c]/20 underline-offset-2 transition-colors hover:text-[#20456c] "
-            >
-              Learn more <i className="ri-arrow-right-line" />
-            </Link>
-          </div>
-        </div>
-        <div>
-          <div className="py-3 sm:px-10 px-5 flex items-center gap-3 flex-wrap">
-            <h3 className="font-bold text-2xl text-[#20456c] font-heading text-start whitespace-nowrap">
-              Airdropped tokens
-            </h3>
-            <p className="text-[#20456c]/70">Hover a token to get infos</p>
           </div>
 
-          <ul className="flex gap-5 flex-nowrap overflow-x-scroll bg-[#20456c]/5 p-5">
-            <Tooltip>
-              <TooltipTrigger
-                asChild={true}
-                className="h-32 min-w-[140px] inline-flex flex-col items-center justify-center bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl p-3 gap-3 shadow-lg border-2 border-[#20456c]/50 hover:shadow-2xl transition-shadow"
-              >
-                <li>
-                  <div className="inline-flex items-center gap-2">
-                    <TokenLogo symbol="LDY" size={45} className="" />
-                    <p className="text-3xl font-bold text-fg/80  font-heading">LDY</p>
-                  </div>
-                  <h4 className="text-[#20456c]/30 font-heading text-3xl font-bold">Ledgity</h4>
+          {!isAuthenticated && (
+            <div id="login">
+              <div className="py-3 sm:px-10 px-5 flex items-center gap-3 flex-wrap ">
+                <h3 className="font-bold text-[1.4rem] text-slate-100 font-heading text-start whitespace-nowrap">
+                  Login
+                </h3>
+                <p className="text-slate-100/60 text-sm font-medium italic">
+                  Required to participate in airdrop
+                </p>
+              </div>
+
+              <ul className="flex gap-x-20 gap-y-10 justify-center flex-wrap py-10 pb-11 sm:px-10 px-5 bg-gradient-to-t from-[#293649] to-fg/70">
+                <li
+                  className={twMerge(
+                    "flex flex-col gap-4 items-center",
+                    userStatus === "authenticated" && "grayscale opacity-50 cursor-not-allowed",
+                  )}
+                >
+                  <p className="text-slate-300 font-semibold text-[0.92rem] text-center">
+                    1. Connect your Twitter account
+                  </p>
+                  {(userStatus === "authenticated" && (
+                    <div className="flex gap-3 items-center">
+                      <Image
+                        src={userSession.user!.image!}
+                        alt=""
+                        width={40}
+                        height={40}
+                        className="rounded-full aspect-square"
+                      />
+                      <p className="text-[#20456c]/80 text-lg font-semibold text-slate-100">
+                        {userSession.user!.name}
+                      </p>
+                    </div>
+                  )) || (
+                    <Button
+                      size="small"
+                      onClick={() => signIn("twitter", { callbackUrl: "/app/airdrop" })}
+                      className="bg-[#1DA1F2]/90 hover:opacity-80 transition-opacity w-min gap-1.5 items-center border-slate-300/70 text-[0.92rem] px-2.5 py-0.5 border-2 h-10"
+                    >
+                      <i className="ri-twitter-fill text-[1.17rem] " /> Login with Twitter
+                    </Button>
+                  )}
                 </li>
-              </TooltipTrigger>
-              <TooltipContent className="font-semibold">3,000,000 $LDY</TooltipContent>
-            </Tooltip>
-
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">
-                Revealed in
-                <br />{" "}
-                <span className="font-bold">
-                  <DaysUntil date="2023-09-27" /> days
-                </span>
-              </p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">
-                Revealed in
-                <br />{" "}
-                <span className="font-bold">
-                  <DaysUntil date="2023-10-04" /> days
-                </span>
-              </p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">
-                Revealed in
-                <br />{" "}
-                <span className="font-bold">
-                  <DaysUntil date="2023-10-11" /> days
-                </span>
-              </p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">
-                Revealed in
-                <br />{" "}
-                <span className="font-bold">
-                  <DaysUntil date="2023-10-18" /> days
-                </span>
-              </p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-            <li className="h-32 min-w-[138px] inline-flex bg-gradient-to-tr from-[#20456c]/[2%] to-[#20456c]/[15%] drop-shadow-sm rounded-3xl justify-center items-center p-3 border-2 border-dashed border-[#20456c]/50">
-              <p className="text-center font-semibold text-[#20456c]/50">Not yet planned</p>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="font-bold text-2xl text-[#20456c] font-heading text-start py-3 pb-5 sm:px-10 px-5">
-            Get entries <i className="ri-coupon-2-fill" />
-          </h3>
-          <div className="sm:px-10 px-5 flex gap-10 flex-wrap justify-center">
-            <a
-              href="https://zealy.io/c/ledgityyield/questboard"
-              target="_blank"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
-            >
-              <div className="absolute top-0 left-0 bg-[#d6409f] rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
-                <Image
-                  src={zealyIcon}
-                  width={20}
-                  height={20}
-                  alt="Zealy logo"
-                  className="aspect-square"
-                />
-              </div>
-
-              <h4 className="text-xl font-heading font-bold px-5 text-center">
-                Complete tasks on Zealy
-              </h4>
-
-              <div className="px-8 text-[#20456c]/90 font-medium">
-                New tasks on Mondays & Thursdays
-                <br />
-                1 Zealy XP = 1 <i className="ri-coupon-2-fill" />
-              </div>
-              <div className="flex p-3 justify-between items-center w-full bg-[#20456c]/10">
-                <h5 className="font-semibold text-lg text-[#20456c]/50">Your entries</h5>
-                <div className="text-2xl font-bold font-heading text-[#20456c]/80">
-                  {walletZealyEntries} <i className="ri-coupon-2-fill" />
+                <li
+                  className={twMerge(
+                    "flex flex-col gap-4 items-center",
+                    userStatus !== "authenticated" && "grayscale opacity-50 cursor-not-allowed",
+                  )}
+                >
+                  <p className="text-slate-300 font-semibold text-[0.92rem] text-center">
+                    2. Authentify your wallet
+                  </p>
+                  <Button
+                    size="small"
+                    onClick={() => handleSignature()}
+                    className={twMerge(
+                      "w-min gap-1.5 items-center border-slate-300/70 text-[0.92rem] px-2.5 py-0.5 border-2 h-10",
+                      userStatus !== "authenticated" && "pointer-events-none",
+                    )}
+                  >
+                    <i className="ri-wallet-3-fill text-[1.17rem]" />
+                    Sign with Wallet
+                  </Button>
+                </li>
+              </ul>
+            </div>
+          )}
+          <div>
+            <h3 className="font-bold text-[1.4rem] text-slate-100 font-heading text-start whitespace-nowrap sm:px-10 px-5 pb-5">
+              Get entries <i className="ri-coupon-2-fill text-slate-300 pl-1" />
+            </h3>
+            <div className="sm:px-8 px-5 flex gap-8 flex-wrap justify-center pb-8">
+              <a
+                href="https://zealy.io/c/ledgityyield/questboard"
+                target="_blank"
+                className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#6b5770] bg-gradient-to-br from-[#4b3a4b]/80 to-[#d6409f]/40 backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 overflow-hidden hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between"
+                style={{
+                  boxShadow: "3px 5px 10px 0px rgba(214, 64, 159,0.2)",
+                  WebkitBoxShadow: "3px 5px 10px 0px rgba(214, 64, 159,0.2)",
+                }}
+              >
+                <div className="inline-flex items-center justify-center gap-2.5">
+                  <div className="aspect-square rounded-lg bg-[#d6409f] w-[27px] h-[27px] inline-flex justify-center items-center">
+                    <Image
+                      src={zealyIcon}
+                      width={19}
+                      height={19}
+                      alt="Zealy logo"
+                      className="aspect-square rounded-full"
+                    />
+                  </div>
+                  <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+                    Complete tasks on Zealy
+                  </h4>
                 </div>
-              </div>
-            </a>
-            <a
-              href="https://galxe.com/ledgityyield/campaign/GCGypUABrf"
-              target="_blank"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
-            >
-              <div className="absolute top-0 left-0 bg-black rounded-br-xl">
-                <Image
-                  src={galxeIcon}
-                  width={30}
-                  height={30}
-                  alt="Galxe logo"
-                  className="aspect-square"
-                />
-              </div>
 
-              <h4 className="text-xl font-heading font-bold px-5 text-center">
-                Complete tasks on Galxe
-              </h4>
-
-              <div className="px-8 text-[#20456c]/90 font-medium">
-                New tasks on Mondays & Thursdays
-                <br />
-                1 Galxe point = 1 <i className="ri-coupon-2-fill" />
-              </div>
-              <div className="flex p-3 justify-between items-center w-full bg-[#20456c]/10">
-                <h5 className="font-semibold text-lg text-[#20456c]/50">Your entries</h5>
-                <div className="text-2xl font-bold font-heading text-[#20456c]/80">
-                  {walletGalxeEntries} <i className="ri-coupon-2-fill" />
-                </div>
-              </div>
-            </a>
-
-            <a
-              href="/app/pre-mining"
-              className="relative sm:min-w-[350px] min-w-[315px] flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ hover:shadow-lg hover:scale-[102%] transition-all h-[200px] justify-between"
-            >
-              <div className="absolute top-0 left-0 bg-indigo-700 rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
-                <i className="ri-hammer-fill text-bg " />
-              </div>
-
-              <h4 className="text-xl font-heading font-bold px-5 text-center">
-                Participate in Pre-Mining
-              </h4>
-
-              <div className="px-8 text-[#20456c]/90 font-medium">
-                1 USDC locked 3 months = 1 <i className="ri-coupon-2-fill" />
-                <br />1 USDC locked 6 months = 2 <i className="ri-coupon-2-fill" />
-                <br />1 USDC locked 12 months = 5 <i className="ri-coupon-2-fill" />
-              </div>
-              <div className="flex p-3 justify-between items-center w-full bg-[#20456c]/10">
-                <h5 className="font-semibold text-lg text-[#20456c]/50">Your entries</h5>
-                <div className="text-2xl font-bold font-heading text-[#20456c]/80">
-                  {walletPreMiningEntries} <i className="ri-coupon-2-fill" />
-                </div>
-              </div>
-            </a>
-            <div className="relative sm:min-w-[350px] min-w-[315px]  flex-grow min-h-40 border-2 border-[#20456c]/20 rounded-2xl pt-5 flex flex-col gap-2 overflow-hidden shadow-md_ justify-between grayscale opacity-70">
-              <div className="absolute top-0 left-0 bg-[#1DA1F2] rounded-br-xl w-[30px] h-[30px] inline-flex justify-center items-center">
-                <i className="ri-twitter-fill text-white text-xl" />
-              </div>
-
-              <h4 className="text-xl font-heading font-bold px-5 text-center">
-                Spread the word on Twitter
-              </h4>
-
-              <div className="px-8 text-[#20456c]/90 font-medium">
-                Tweet with{" "}
-                <span className="font-bold">
-                  {" "}
-                  #LedgityAirdrop #RWA
+                <div className="px-4 text-slate-200/50 font-medium text-[0.92rem] leading-[1.85] text-center">
+                  1 Zealy XP = 1 <i className="ri-coupon-2-fill" />
                   <br />
-                  #LDY @LedgityYield
-                </span>{" "}
-                = 50 <i className="ri-coupon-2-fill" />
-                <div className="flex flex-wrap justify-between max-w-[250px]">
-                  <span className="w-1/2">
-                    +1 <i className="ri-coupon-2-fill" /> per like
-                  </span>
-                  <span className="w-1/2">
-                    +3 <i className="ri-coupon-2-fill" /> per reply
-                  </span>
-                  <span className="w-1/2">
-                    +5 <i className="ri-coupon-2-fill" /> per RT
-                  </span>
-                  <span className="w-1/2">
-                    +10 <i className="ri-coupon-2-fill" /> per QRT
-                  </span>
+                  New tasks added regularly
                 </div>
-              </div>
-              <div className="flex p-3 justify-between items-center w-full bg-[#20456c]/10">
-                <h5 className="font-semibold text-lg text-[#20456c]/50">Your entries</h5>
-                <div className="text-2xl font-bold font-heading text-[#20456c]/80">Coming Soon</div>
-              </div>
+                <div className="flex px-4 py-2 justify-between items-center w-full bg-[#1a071b] rounded-b-[1.7rem]">
+                  <h5 className="font-semibold text-[#866d8d]">Your entries</h5>
+                  <div className="text-xl font-bold font-heading text-slate-200/80">
+                    <i className="ri-coupon-2-fill" /> {walletZealyEntries.toLocaleString()}
+                  </div>
+                </div>
+              </a>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div
+                    className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#436874] bg-gradient-to-br from-[#264456]/80 to-[#1DA1F2]/40 backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 overflow-hidden hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between cursor-pointer"
+                    style={{
+                      boxShadow: "3px 5px 10px 0px rgba(29, 161, 242,0.2)",
+                      WebkitBoxShadow: "3px 5px 10px 0px rgba(29, 161, 242,0.2)",
+                    }}
+                  >
+                    <div className="inline-flex items-center justify-center gap-2.5">
+                      <div className="aspect-square rounded-lg bg-[#1DA1F2]/90 w-[27px] h-[27px] inline-flex justify-center items-center">
+                        <i className="ri-twitter-fill text-white text-xl" />
+                      </div>
+                      <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+                        Post about Multi-Airdrop
+                      </h4>
+                    </div>
+
+                    <div className="px-4 text-slate-200/50 font-medium">
+                      <div className="flex flex-wrap justify-between max-w-[250px] text-[0.92rem] text-center leading-[1.85]">
+                        <span className="w-1/2 inline-flex gap-2 items-center justify-center text-center">
+                          <span>
+                            +1 <i className="ri-coupon-2-fill" />
+                          </span>{" "}
+                          per <LikeIcon className="w-4 h-4 fill-[#1DA1F2]/80" />
+                        </span>
+                        <span className="w-1/2 inline-flex gap-2 items-center justify-center text-center">
+                          <span>
+                            +3 <i className="ri-coupon-2-fill" />
+                          </span>{" "}
+                          per <RetweetIcon className="w-4 h-4 fill-[#1DA1F2]/80" />
+                        </span>
+                        <span className="w-1/2 inline-flex gap-2 items-center justify-center text-center">
+                          <span>
+                            +5 <i className="ri-coupon-2-fill" />
+                          </span>{" "}
+                          per <ReplyIcon className="w-4 h-4 fill-[#1DA1F2]/80" />
+                        </span>
+                        <span className="w-1/2 inline-flex gap-2 items-center justify-center text-center">
+                          <span>
+                            +10 <i className="ri-coupon-2-fill" />
+                          </span>{" "}
+                          per <QuoteIcon className="w-4 h-4 fill-[#1DA1F2]/80" />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex px-4 py-2 justify-between items-center w-full bg-[#000f17] rounded-b-[1.7rem]">
+                      <h5 className="font-semibold text-[#527682]">Your entries</h5>
+                      <div className="text-xl font-bold font-heading text-slate-200/40">
+                        Coming soon
+                      </div>
+                    </div>
+                  </div>
+                </DialogTrigger>
+                {/* <AppAirdropTwitter /> */}
+              </Dialog>
+
+              <a
+                href="/app/pre-mining"
+                className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#7a5147] bg-gradient-to-br from-[#443b38]/80 to-[#f44c22]/40 backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 overflow-hidden hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between"
+                style={{
+                  boxShadow: "3px 5px 10px 0px rgba(244, 76, 34,0.2)",
+                  WebkitBoxShadow: "3px 5px 10px 0px rgba(244, 76, 34,0.2)",
+                }}
+              >
+                <div className="inline-flex items-center justify-center gap-2.5">
+                  <div className="aspect-square rounded-lg bg-[#f44c22]  w-[27px] h-[27px] inline-flex justify-center items-center">
+                    <i className="ri-hammer-fill text-bg " />
+                  </div>
+                  <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+                    Participate in Pre-Mining
+                  </h4>
+                </div>
+
+                <div className="px-6 text-slate-200/50 font-medium text-[0.92rem]  leading-[1.85] text-center">
+                  Deposit 1 USDC for:
+                  <br />
+                  <ul className="flex justify-between">
+                    <li>
+                      3mo<span className="inline-block w-0.5"></span>=
+                      <span className="inline-block w-0.5"></span>1
+                      <span className="inline-block w-0.5"></span>
+                      <i className="ri-coupon-2-fill" />
+                    </li>
+                    <li>
+                      6mo<span className="inline-block w-0.5"></span>=
+                      <span className="inline-block w-0.5"></span>4
+                      <span className="inline-block w-0.5"></span>
+                      <i className="ri-coupon-2-fill" />
+                    </li>
+                    <li>
+                      12mo<span className="inline-block w-0.5"></span>=
+                      <span className="inline-block w-0.5"></span>16
+                      <span className="inline-block w-0.5"></span>
+                      <i className="ri-coupon-2-fill" />
+                    </li>
+                  </ul>
+                </div>
+                <div className="flex px-4 py-2 justify-between items-center w-full bg-[#0c0605] rounded-b-[1.7rem]">
+                  <h5 className="font-semibold text-[#8a6258]">Your entries</h5>
+                  <div className="text-xl font-bold font-heading text-slate-200/80">
+                    <i className="ri-coupon-2-fill" /> {walletPreMiningEntries.toLocaleString()}
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href="https://galxe.com/ledgityyield/campaign/GCGypUABrf"
+                target="_blank"
+                className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#5b5b5b] bg-gradient-to-br from-[#222222]/60 to-[#555555]/90  backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between"
+                style={{
+                  boxShadow: "3px 5px 10px 0px rgba(255,255,255,0.1)",
+                  WebkitBoxShadow: "3px 5px 10px 0px rgba(255,255,255,0.1)",
+                }}
+              >
+                <div className="inline-flex items-center justify-center gap-2.5">
+                  <Image
+                    src={galxeIcon}
+                    width={25}
+                    height={25}
+                    alt="Galxe logo"
+                    className="aspect-square rounded-lg w-[27px] h-[27px] bg-black"
+                    style={{
+                      boxShadow: "0px 0px 10px 0px rgba(255,255,255,0.1)",
+                      WebkitBoxShadow: "0px 0px 10px 0px rgba(255,255,255,0.1)",
+                    }}
+                  />
+                  <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+                    Complete tasks on Galxe
+                  </h4>
+                </div>
+
+                <div className="px-4 text-slate-200/50 font-medium text-[0.92rem] leading-[1.85] text-center">
+                  1 Galxe point = 1 <i className="ri-coupon-2-fill" />
+                  <br />
+                  New tasks added regularly
+                </div>
+                <div className="flex px-4 py-2 justify-between items-center w-full bg-gray-950 rounded-b-[1.7rem]">
+                  <h5 className="font-semibold text-slate-200/50 inline-flex items-center">
+                    Your entries
+                  </h5>
+                  <div className="text-xl font-bold font-heading text-slate-200/80">
+                    <i className="ri-coupon-2-fill" /> {walletGalxeEntries.toLocaleString()}
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-3">
-          <div className="bg-[#20456c]/10 rounded-2xl flex justify-around flex-wrap gap-10 sm:mx-10 sm:p-10 p-5">
-            <div className="flex flex-col gap-3">
-              <h4 className="font-bold text-xl text-[#20456c]/50">Your total entries</h4>
-              <span className="text-3xl font-bold text-[#20456c]/90">
-                {walletTotalEntries} <i className="ri-coupon-2-fill" />
-              </span>
-            </div>
-            <div className="flex flex-col gap-3">
-              <h4 className="font-bold text-xl text-[#20456c]/50 text-end w-full inline-block">
-                Eligible to airdrop
-              </h4>
-              {walletMissingEntries <= 0 ? (
-                <span className="flex gap-2 items-center">
-                  <span className="w-8 h-8 bg-emerald-500 rounded-full text-bg inline-flex justify-center items-center font-bold text-xl">
-                    <i className="ri-check-line font-black" />
-                  </span>
-                  <span className="text-lg font-semibold text-[#20456c]/90">
-                    Wallet is eligible
-                  </span>
-                </span>
-              ) : (
-                <span className="flex gap-2 items-center">
-                  <span className="w-8 h-8 bg-red-500 rounded-full text-bg inline-flex justify-center items-center font-bold text-xl">
-                    <i className="ri-close-fill font-black" />
-                  </span>
-                  <span className="text-lg font-semibold text-[#20456c]/90">
-                    <span className="font-bold">
-                      {walletMissingEntries} <i className="ri-coupon-2-fill" />
-                    </span>{" "}
-                    missing
-                  </span>
-                </span>
+        <p className="text-sm text-[#20456c]/70 pl-1 font-medium mx-5 -mt-3">
+          Data may take up to <span className="font-bold">24h</span> to be reflected here.
+        </p>
+      </div>
+      {createPortal(
+        <div className="fixed bottom-5 left-0 right-0 inline-flex justify-center items-center z-10">
+          <Link href="#login" className={clsx(isAuthenticated && "cursor-text")}>
+            <div
+              className={twMerge(
+                "border-2 backdrop-blur-md rounded-3xl inline-flex items-center",
+                isAuthenticated && walletMissingEntries > 0 && "bg-[#340606]/60 border-red-400/70",
+                isAuthenticated &&
+                  walletMissingEntries <= 0 &&
+                  "bg-[#06340d]/60 border-emerald-400/70",
+                !isAuthenticated && "bg-slate-900/60 border-slate-500/70",
               )}
-            </div>
-          </div>
-          <p className="text-sm text-[#20456c]/70 pl-1 font-medium sm:mx-10 mx-5">
-            Entries counts may take up to 1h to be reflected here.
-          </p>
-        </div>
-      </Card>
-      {/* <Card
-        defaultGradient={false}
-        circleIntensity={0}
-        animated={false}
-        className="before:bg-gradient-to-tl before:from-[#20456c]/70 before:to-[#20456c] before:hover:opacity-95 before:transition-opacity w-full p-10 flex flex-col gap-6 bg-[#28a0f0]/20"
-      >
-        <h3 className="font-extrabold text-2xl text-center text-bg font-heading w-">
-          Don&apos;t miss the kick-off! 🏁
-        </h3>
-        <div className="flex gap-6 items-center justify-center flex-wrap">
-          <Link href="https://discord.gg/ledgityyield" target="_blank">
-            <Button size="small" className="bg-[#7289da] text-white">
-              <i className="ri-discord-fill mr-1.5 text-[1.36rem]"></i>Join our Discord
-            </Button>
-          </Link>
-          <Link href="https://twitter.com/LedgityYield" target="_blank">
-            <Button
-              size="small"
-              className="border-2 border-bg/30 bg-[#0f1419] text-bg transition-opacity hover:opacity-60"
+              style={{
+                boxShadow: "0px 0px 10px 5px rgba(255,255,255,0.2)",
+                WebkitBoxShadow: "0px 0px 10px 5px rgba(255,255,255,0.2)",
+              }}
             >
-              <i className="ri-twitter-x-line mr-1.5 text-[1.29rem]"></i>Follow us on X (Twitter)
-            </Button>
+              <div className="px-4 py-2 text-2xl font-bold font-heading text-white text-center inline-flex justify-center items-center">
+                {(() => {
+                  if (!isAuthenticated) return <i className="ri-lock-fill text-xl" />;
+                  else
+                    return (
+                      <p>
+                        {walletTotalEntries.toLocaleString()} <i className="ri-coupon-2-fill" />
+                      </p>
+                    );
+                })()}
+              </div>
+              <div
+                className={twMerge(
+                  "px-4 py-1  text-white rounded-r-[1.35rem] inline-flex flex-col gap-0 items-center justify-center border-l-2",
+                  isAuthenticated && walletMissingEntries > 0 && "border-red-400/70 bg-red-500/70",
+                  isAuthenticated &&
+                    walletMissingEntries <= 0 &&
+                    "border-emerald-400/70 bg-emerald-700/70",
+                  !isAuthenticated && "bg-slate-700/70 border-slate-500/70",
+                )}
+              >
+                {(() => {
+                  if (isAuthenticated && walletMissingEntries > 0)
+                    return (
+                      <>
+                        <p className="text-center font-bold text-white/80">Not eligible</p>
+                        <p className="text-center text-sm">
+                          {walletMissingEntries.toLocaleString()} <i className="ri-coupon-2-fill" />{" "}
+                          missing
+                        </p>
+                      </>
+                    );
+                  else if (isAuthenticated && walletMissingEntries <= 0)
+                    return (
+                      <>
+                        <p className="text-center font-bold text-white/80">Eligible</p>
+                        <p className="text-center text-sm">League: Bronze</p>
+                      </>
+                    );
+                  else if (!isAuthenticated)
+                    return (
+                      <>
+                        <p className="text-center font-bold text-white/80 text-[0.91rem]">
+                          Login to check your
+                          <br />
+                          airdrop eligibility
+                        </p>
+                      </>
+                    );
+                })()}
+              </div>
+            </div>
           </Link>
-        </div>
-      </Card> */}
-    </div>
+        </div>,
+        document.body,
+      )}
+    </>
   );
 };

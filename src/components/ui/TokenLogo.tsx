@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Image, { type StaticImageData } from "next/image";
 import ldyTokenLogo from "~/assets/tokens/ldy.svg";
+import lynxTokenLogo from "~/assets/tokens/lynx.svg";
 import usdcTokenLogo from "~/assets/tokens/usdc.png";
 import lusdcTokenLogo from "~/assets/tokens/lusdc.png";
 import eurocTokenLogo from "~/assets/tokens/euroc.png";
@@ -13,6 +14,7 @@ export const tokensLogos: Record<string, StaticImageData> = {
   EUROC: eurocTokenLogo,
   LEUROC: leurocTokenLogo,
   LUSDC: lusdcTokenLogo,
+  LYNX: lynxTokenLogo,
 };
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {

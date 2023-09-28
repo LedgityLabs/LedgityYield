@@ -39,13 +39,11 @@ export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimi
       className="fixed inset-0 z-[10000] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
     >
       <Card
-        className={twMerge(
-          "grid w-[calc(100%-2rem)] max-w-lg  gap-6 p-8 pointer-events-auto",
-          className,
-        )}
+        className={twMerge("grid max-w-lg max-h-screen gap-6 p-8 pointer-events-auto", className)}
       >
-        {children}
-        <DialogPrimitive.Close className="absolute -right-2 -top-2">
+        <DialogPrimitive.Close
+          className={twMerge("absolute z-10 -right-2 -top-2", "max-sm:right-0 max-sm:top-0")}
+        >
           <Card
             radius="full"
             defaultGradient={true}
@@ -55,6 +53,9 @@ export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimi
             <span className="sr-only">Close</span>
           </Card>
         </DialogPrimitive.Close>
+        <div className="overflow-y-scroll overflow-x-hidden max-h-[calc(100vh-2rem)]">
+          {children}
+        </div>
       </Card>
     </DialogPrimitive.Content>
   </DialogPortal>

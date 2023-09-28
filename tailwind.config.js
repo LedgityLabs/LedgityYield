@@ -121,4 +121,7 @@ export const theme = {
     },
   },
 };
-export const plugins = [plugin(({ addBase }) => addBase(vars))];
+export const plugins = [
+  plugin(({ addBase }) => addBase(vars)),
+  require("tailwind-scrollbar")({ nocompatible: true }),
+];
