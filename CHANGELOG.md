@@ -1,3 +1,10 @@
+## [1.226.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.226.0...v1.226.1) (2023-09-28)
+
+
+### Fixes
+
+* lynex token name ([5645995](https://github.com/LedgityLabs/LedgityYield/commit/56459953711931d5c6a189ff43e54656c0e1690c))
+
 ## [1.226.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.225.0...v1.226.0) (2023-09-28)
 
 
