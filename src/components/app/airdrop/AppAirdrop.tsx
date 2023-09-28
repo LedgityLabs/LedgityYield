@@ -67,7 +67,7 @@ export const AppAirdrop: FC = () => {
   };
 
   useEffect(() => {
-    if (userSession) retrieveGalxeZealyEntries();
+    if (userSession && userSession.user.walletAddress) retrieveGalxeZealyEntries();
   }, [userSession]);
 
   // Compute wallet total entries
