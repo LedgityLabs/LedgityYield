@@ -84,13 +84,13 @@ const HomeHero: FC<Props> = ({ className }) => {
               query: { ref: "abar" },
             }}
           >
-            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-white bg-blue-50 opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
-              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-[#20456c]/50 to-[#20456c] px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
+            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-white bg-slate-600 text-white opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-slate-700 to-slate-900 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
                 <i className="ri-fire-fill animate-pulse text-xl" />
                 Multi-Airdrop
               </div>
-              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-[#20456c] md:px-3 md:py-1.5 ">
-                Complete tasks and check your eligibility
+              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-white md:px-3 md:py-1.5 ">
+                Complete tasks and get tokens from 5+ projects
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-[#20456c]" />
               </div>
             </div>
