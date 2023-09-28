@@ -1,3 +1,10 @@
+## [1.224.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.224.0...v1.224.1) (2023-09-28)
+
+
+### Fixes
+
+* prisma generation error on Vercel ([88be100](https://github.com/LedgityLabs/LedgityYield/commit/88be1001065fd78e645a81d52f9216946ef3475c))
+
 ## [1.224.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.223.0...v1.224.0) (2023-09-28)
 
 
