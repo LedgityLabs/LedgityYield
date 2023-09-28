@@ -1,3 +1,10 @@
+## [1.224.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.223.0...v1.224.0) (2023-09-28)
+
+
+### Features
+
+* new airdrop UI + sign-in with Twitter workflow + tweet to earn ([843362b](https://github.com/LedgityLabs/LedgityYield/commit/843362b88cbc930f6c066aa8c8f57180d30a1045))
+
 ## [1.223.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.222.1...v1.223.0) (2023-09-21)
 
 
