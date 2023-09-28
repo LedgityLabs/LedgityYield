@@ -169,8 +169,8 @@ export const AppAirdrop: FC = () => {
                   >
                     <div className="inline-flex items-center gap-1.5">
                       <TokenLogo symbol="LYNX" size={35} className="" />
-                      <p className="text-[1.45rem] font-bold text-slate-300  font-heading leading-none">
-                        LYNX
+                      <p className="text-[1rem] font-bold text-slate-300  font-heading leading-none">
+                        veLYNX
                       </p>
                     </div>
                     <h4 className="text-[#df9959]/70 font-heading text-[1.62rem] font-bold leading-none">
