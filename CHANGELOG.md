@@ -1,3 +1,10 @@
+## [1.223.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.222.1...v1.223.0) (2023-09-21)
+
+
+### Features
+
+* upload lightweight og images + new airdrop header banner ([cd3b2de](https://github.com/LedgityLabs/LedgityYield/commit/cd3b2deb2fad8a08520bb15ab657bf1baf63bb1d))
+
 ## [1.222.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.222.0...v1.222.1) (2023-09-21)
 
 
