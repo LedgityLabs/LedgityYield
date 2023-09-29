@@ -108,28 +108,28 @@ export const AppAirdropTwitter: FC = () => {
     }),
     columnHelper.accessor("likes", {
       // @ts-ignore
-      header: <LikeIcon className="w-5 h-5 fill-slate-500" />,
+      header: <LikeIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
         return <p className="text-fg/80">{info.getValue()}</p>;
       },
     }),
     columnHelper.accessor("retweets", {
       // @ts-ignore
-      header: <RetweetIcon className="w-5 h-5 fill-slate-500" />,
+      header: <RetweetIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
         return <p className="text-fg/80">{info.getValue()}</p>;
       },
     }),
     columnHelper.accessor("replies", {
       // @ts-ignore
-      header: <ReplyIcon className="w-5 h-5 fill-slate-500" />,
+      header: <ReplyIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
         return <p className="text-fg/80">{info.getValue()}</p>;
       },
     }),
     columnHelper.accessor("quotes", {
       // @ts-ignore
-      header: <QuoteIcon className="w-5 h-5 fill-slate-500" />,
+      header: <QuoteIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
         return <p className="text-fg/80">{info.getValue()}</p>;
       },
@@ -206,65 +206,71 @@ export const AppAirdropTwitter: FC = () => {
     }
   };
   return (
-    <DialogContent className="p-0 sm:pt-10 pt-5 max-w-[700px] bg-gradient-to-br from-slate-700 to-slate-800 before:hidden border-2 border-slate-500">
-      <div className="flex flex-col gap-5 sm:px-10 px-5">
-        <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
-          1. Tweet about Multi-Airdrop
-        </h4>
+    <DialogContent className="p-0 sm:pt-10 pt-5 max-w-[700px] border-2 border-[#436874] bg-gradient-to-br from-[#264456]/80 to-[#1DA1F2]/40 backdrop-blur-md before:hidden gap-10">
+      <div className="flex flex-col sm:gap-10 gap-5 sm:px-10 px-5">
         <div className="flex flex-col gap-3">
-          <p className="font-medium text-slate-300 pl-4">To be valid your tweet must:</p>
-          <ul className="list-disc pl-9 flex flex-col gap-3 font-medium text-slate-300">
-            <li>
-              Include{" "}
-              <span className="bg-primary/80 font-semibold rounded-xl p-1 px-2 mx-0.5">
-                #LedgityAirdrop
-              </span>{" "}
-              <span className="bg-primary/80 font-semibold rounded-xl p-1 px-2 mx-0.5">#RWA</span>{" "}
-              <span className="bg-primary/80 font-semibold rounded-xl p-1 px-2 mx-0.5">
-                #Airdrop
-              </span>{" "}
-              <span className="bg-primary/80 font-semibold rounded-xl p-1 px-2 mx-0.5">#LDY</span>
-            </li>
-            <li>
-              Mention <span className="bg-orange-700/80 rounded-xl p-1 px-2">@LedgityYield</span>
-            </li>
-          </ul>
+          <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+            1. Tweet about Multi-Airdrop
+          </h4>
+          <div className="flex flex-col gap-3">
+            <p className="font-medium text-slate-300 pl-4">To be valid your tweet must:</p>
+            <ul className="list-disc pl-9 flex flex-col gap-3 font-medium text-slate-300">
+              <li>
+                Include{" "}
+                <span className="bg-[#1DA1F2]/70 drop-shadow-md text-white font-semibold rounded-xl p-1 px-2 mx-0.5">
+                  #LedgityAirdrop
+                </span>{" "}
+                <span className="bg-[#1DA1F2]/70 drop-shadow-md text-white font-semibold rounded-xl p-1 px-2 mx-0.5">
+                  #RWA
+                </span>{" "}
+                <span className="bg-[#1DA1F2]/70 drop-shadow-md text-white font-semibold rounded-xl p-1 px-2 mx-0.5">
+                  #Airdrop
+                </span>{" "}
+                <span className="bg-[#1DA1F2]/70 drop-shadow-md text-white font-semibold rounded-xl p-1 px-2 mx-0.5">
+                  #LDY
+                </span>
+              </li>
+              <li>
+                Mention{" "}
+                <span className="bg-indigo-500/80 rounded-xl p-1 px-2 font-semibold drop-shadow-md text-white">
+                  @LedgityYield
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
-
-        <Button
-          size="small"
-          className="bg-[#1DA1F2]/90 hover:opacity-80 transition-opacity w-min gap-1.5 items-center border-slate-300/70 text-[0.92rem] px-2.5 py-0.5 border-2 h-10 self-center"
-        >
-          <i className="ri-twitter-fill text-[1.17rem] " /> Tweet now{" "}
-          <i className="ri-arrow-right-line" />
-        </Button>
-        <br />
-        <br />
-        <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
-          2. Submit tweets to earn <i className="ri-coupon-2-fill" />
-        </h4>
-        <p className="leading-loose font-medium text-slate-300 pl-4">
-          To be accepted your tweet must:
-          <ol className="list-decimal pl-9">
-            <li>
-              have <span className="font-semibold">at least 500 views</span>
-            </li>
-            <li>
-              have <span className="font-semibold">at least 10 interactions</span>
-            </li>
-          </ol>
-        </p>
-        <div className="flex gap-3 items-center">
-          <Input
-            type="url"
-            placeholder="E.g., https://twitter.com/LilaRest/status/..."
-            onChange={(event) => setTweetURL(event.target.value)}
-          />
-          <Button onClick={() => handleNewTweet()}>Submit</Button>
+        <div className="flex flex-col gap-3">
+          <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+            2. Submit tweets to earn <i className="ri-coupon-2-fill" />
+          </h4>
+          <p className="leading-loose font-medium text-slate-300 pl-4">
+            To be accepted your tweet must:
+            <ol className="list-decimal pl-9">
+              <li>
+                have <span className="font-semibold">at least 500 views</span>
+              </li>
+              <li>
+                have <span className="font-semibold">at least 10 interactions</span>
+              </li>
+            </ol>
+          </p>
+          <div className="flex gap-3 items-center px-4">
+            <Input
+              type="url"
+              placeholder="E.g., https://twitter.com/LilaRest/status/..."
+              onChange={(event) => setTweetURL(event.target.value)}
+            />
+            <Button
+              onClick={() => handleNewTweet()}
+              className="bg-[#1DA1F2]/70 hover:bg-[#1DA1F2]/50 border-slate-300/70"
+            >
+              Submit
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div className="w-full flex-col">
+      <div className="w-full flex-col sm:mt-10 mt-5">
         <div className="grid w-full grid-cols-[repeat(7,minmax(0,200px))]">
           {headerGroup.headers.map((header, index) => {
             const content = flexRender(header.column.columnDef.header, header.getContext());
@@ -274,7 +280,7 @@ export const AppAirdropTwitter: FC = () => {
                 style={{
                   gridColumnStart: index + 1,
                 }}
-                className="inline-flex items-center justify-center py-3 bg-fg border-y border-y-slate-600 font-semibold text-slate-500"
+                className="inline-flex items-center justify-center py-3 bg-[#000f17] border-y border-y-[#527682]/80 font-semibold text-[#527682]"
               >
                 {(sortableColumns.includes(header.column.id) && (
                   <button
@@ -307,13 +313,13 @@ export const AppAirdropTwitter: FC = () => {
 
             if (isLoading)
               return (
-                <div className="py-5 flex col-span-7 w-full items-center justify-center border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]">
+                <div className="py-5 flex col-span-7 w-full items-center justify-center border-b border-b-slate-500 font-medium text-slate-300 text-[0.9rem]">
                   <Spinner />
                 </div>
               );
             else if (tableRows.length === 0)
               return (
-                <p className="py-5 col-span-7 w-full block text-center text-lg font-semibold text-fg/60 border-b border-b-fg/20 text-[0.9rem]">
+                <p className="py-5 col-span-7 w-full block text-center text-lg font-semibold text-slate-300 border-b border-b-slate-500 text-[0.9rem]">
                   No tweets yet.
                 </p>
               );
@@ -321,7 +327,7 @@ export const AppAirdropTwitter: FC = () => {
               return tableRows.map((row, rowIndex) => {
                 if (!row.original.ingested)
                   return (
-                    <div className="py-5 flex col-span-7 w-full items-center justify-center border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]">
+                    <div className="py-5 flex col-span-7 w-full items-center justify-center border-b border-b-slate-500 font-medium text-fg/90 text-[0.9rem]">
                       <p>
                         <i className="ri-hourglass-2-fill" /> Tweet being ingested, can take up to
                         24h.{" "}
@@ -336,7 +342,7 @@ export const AppAirdropTwitter: FC = () => {
                   );
                 else if (row.original.rejected)
                   return (
-                    <div className="py-5 flex col-span-7 w-full items-center justify-center border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]">
+                    <div className="py-5 flex col-span-7 w-full items-center justify-center border-b border-b-slate-500 font-medium text-fg/90 text-[0.9rem]">
                       <i className="ri-close-circle-line" /> Rejected. Reason: Tweet doesn&apos;t
                       belong to you.
                     </div>
@@ -349,7 +355,7 @@ export const AppAirdropTwitter: FC = () => {
                         gridColumnStart: cellIndex + 1,
                       }}
                       className={clsx(
-                        "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
+                        "inline-flex items-center justify-center py-3 border-b border-b-slate-500 font-medium text-fg/90 text-[0.9rem]",
                       )}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

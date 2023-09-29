@@ -125,7 +125,7 @@ export const TxButton: FC<Props> = ({
             )}
           </Tooltip>
           {/* Transaction dialog */}
-          <DialogContent className="px-0">
+          <DialogContent className="!px-0 !sm:px-0">
             <DialogHeader>
               <DialogTitle>Ongoing transaction</DialogTitle>
               <DialogDescription className="flex flex-col items-center justify-center gap-3">

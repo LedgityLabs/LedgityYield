@@ -39,7 +39,10 @@ export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimi
       className="fixed inset-0 z-[10000] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
     >
       <Card
-        className={twMerge("grid max-w-lg max-h-screen gap-6 p-8 pointer-events-auto", className)}
+        className={twMerge(
+          "grid max-w-lg max-h-screen gap-6 sm:p-8 p-4 pointer-events-auto",
+          className,
+        )}
       >
         <DialogPrimitive.Close
           className={twMerge("absolute z-10 -right-2 -top-2", "max-sm:right-0 max-sm:top-0")}

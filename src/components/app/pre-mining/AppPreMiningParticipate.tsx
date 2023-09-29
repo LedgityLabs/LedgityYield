@@ -22,6 +22,7 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { formatUnits, parseUnits, zeroAddress } from "viem";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -57,29 +58,12 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
   const preparation = usePreparePreMiningLock({
     //@ts-ignore
     address: preminingAddress!,
-    args: [depositedAmount - currentLockedAmount, lockDuration],
+    args: [depositedAmount, lockDuration],
   });
-
-  // Default locked amount and duration to current ones when available
-  useEffect(() => {
-    if (hasLocked) {
-      setDepositedAmount(currentLockedAmount);
-      setLockDuration(currentLockDuration);
-    }
-  }, [lockData]);
-
-  // Ensure deposited amount is always at least equal to currently deposited amount
-  const timeout = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    if (timeout.current) clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => {
-      if (depositedAmount < currentLockedAmount) setDepositedAmount(currentLockedAmount);
-    }, 700);
-  }, [depositedAmount, currentLockedAmount]);
 
   // Compute received LDY amount and % of allocation
   const maxWeight = parseUnits((4_000_000 * 12).toString(), 6);
-  const weight = depositedAmount * BigInt(lockDuration);
+  const weight = (currentLockedAmount + depositedAmount) * BigInt(lockDuration);
   const distributedLDY = parseUnits((1_125_000).toString(), 18);
   let receivedLDY = (distributedLDY * weight) / maxWeight;
   let receivedAllocation = (Number(receivedLDY) / Number(distributedLDY)) * 100;
@@ -98,6 +82,9 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
     parentError = "PreMining is capped to 4M USDC";
   }
 
+  const airdropEntries =
+    Number(formatUnits(currentLockedAmount + depositedAmount, 6)) *
+    ({ 3: 1, 6: 4, 12: 16 }[lockDuration] || 0);
   return (
     <div className={twMerge("py-12 !pt-0 flex flex-col", className)} {...props}>
       {hasLocked && (
@@ -217,18 +204,28 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                 if (hasUserInteracted === false) setHasUserInteracted(true);
                 if (e.target.value === "") setHasUserInteracted(false);
               }}
-              className="sm:w-64 w-48"
-            />
+              className={twMerge("sm:w-64 w-48  relative", hasLocked && "pl-20")}
+            >
+              {hasLocked && (
+                <span className="absolute top-0 bottom-0 left-0 bg-primary/10 text-lg text-indigo-950/60 border-2 border-border font-heading font-bold whitespace-nowrap w-[4.2rem] rounded-l-xl inline-flex items-center justify-center !leading-none gap-2 cursor-not-allowed">
+                  <Amount
+                    value={currentLockedAmount}
+                    decimals={6}
+                    suffix="USDC"
+                    displaySymbol={false}
+                  />
+                  <span className="absolute text-black/70 -right-[9px] text-2xl">+</span>
+                </span>
+              )}
+            </AmountInput>
             <AllowanceTxButton
               size="medium"
               // @ts-ignore
               preparation={preparation}
               token={underlyingAddress!}
               spender={preminingAddress!}
-              amount={depositedAmount - currentLockedAmount}
-              disabled={
-                depositedAmount - currentLockedAmount <= 0n && lockDuration === currentLockDuration
-              }
+              amount={depositedAmount}
+              disabled={depositedAmount <= 0n && lockDuration === currentLockDuration}
               hasUserInteracted={hasUserInteracted}
               parentIsError={isParentError}
               parentError={parentError}
@@ -238,7 +235,7 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                 <span>
                   {hasLocked ? "Update lock to" : "Lock"}{" "}
                   <Amount
-                    value={depositedAmount}
+                    value={depositedAmount + currentLockedAmount}
                     decimals={6}
                     suffix="USDC"
                     displaySymbol={true}
@@ -263,8 +260,8 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
             </AllowanceTxButton>
           </div>
         </div>
-        <div className=" flex flex-col items-center justify-center gap-5 rounded-3xl border-2 border-indigo-950/10 bg-primary/10 p-5 w-64">
-          <div>
+        <div className=" flex flex-col items-center justify-center rounded-3xl border-2 border-indigo-950/10 bg-primary/10 w-64">
+          <div className="flex-grow inline-flex justify-center items-center flex-col">
             <p className="text-center font-medium text-indigo-950/40">You&apos;ll receive</p>
             <Amount
               value={receivedLDY}
@@ -273,13 +270,15 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
               className="text-center text-4xl font-bold text-primary font-heading"
             />
           </div>
-          <hr className="w-24 border-2 border-indigo-950/5" />
-          <div>
-            <p className="text-center text-2xl font-bold text-primary/60 font-heading">
-              <Rate value={receivedAllocation} isUD7x3={false} highPrecision={true} />
-            </p>
-            <p className="text-center font-medium text-indigo-950/40">Of total allocation</p>
-          </div>
+          <Link
+            href="/app/airdrop"
+            className="bg-gradient-to-br from-slate-950 to-slate-600 flex w-full flex-col items-center justify-center gap-1 text-slate-200 p-3 rounded-b-[1.35rem] border-t-2 border-slate-500"
+          >
+            <span className="text-sm text-slate-400 font-medium">Airdrop entries</span>
+            <span className="font-bold text-xl">
+              +{airdropEntries.toLocaleString()} <i className="ri-coupon-2-fill" />
+            </span>
+          </Link>
         </div>
       </div>
     </div>

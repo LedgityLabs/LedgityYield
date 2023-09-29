@@ -16,7 +16,15 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Input> {
 
 export const AmountInput = forwardRef<HTMLInputElement, Props>(
   (
-    { maxName = "Balance", maxValue = 0n, decimals = 0, symbol, maxToBottom = false, ...props },
+    {
+      children,
+      maxName = "Balance",
+      maxValue = 0n,
+      decimals = 0,
+      symbol,
+      maxToBottom = false,
+      ...props
+    },
     ref,
   ) => {
     const inputEl = useRef<HTMLInputElement>(null);
@@ -66,6 +74,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
               <span className="inline align-text-top text-xs leading-[0.85rem]">max</span>
             </span>
           </Button>
+          {children}
         </div>
       </div>
     );

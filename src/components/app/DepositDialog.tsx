@@ -75,7 +75,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <div className="flex gap-4 flex-nowrap items-end justify-center mt-6">
+          <div className="flex gap-4 flex-nowrap items-end justify-center mt-6 mb-3 mr-3 ml-3">
             <AmountInput
               ref={inputEl}
               maxValue={underlyingBalance}

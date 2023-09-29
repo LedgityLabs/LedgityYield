@@ -84,7 +84,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <div className="mt-6 flex flex-nowrap items-end justify-center gap-4">
+          <div className="mt-6 flex flex-nowrap items-end justify-center gap-4 mb-3 mr-3 ml-3">
             <AmountInput
               ref={inputEl}
               maxValue={balance}

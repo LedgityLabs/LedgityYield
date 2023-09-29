@@ -76,7 +76,7 @@ export const AppPreMining: FC = () => {
               className="self-start opacity-80 transition-opacity hover:opacity-100"
             />
             <div className="flex flex-col gap-1 pb-12">
-              <ol className="list-decimal sm:pl-10 pl-6 font-medium text-indigo-950/70">
+              <ol className="list-decimal sm:pl-10 pl-6 font-medium text-indigo-950/70 max-w-[470px]">
                 <li className="py-1">
                   You get <span className="font-bold text-indigo-950/80">USDC 100% back</span> after
                   the lock period.
@@ -90,8 +90,8 @@ export const AppPreMining: FC = () => {
                   This pool distributes{" "}
                   <span className="font-bold text-indigo-950/80">
                     ~12% of the 1-year LDY supply
-                  </span>
-                  .
+                  </span>{" "}
+                  with 6mo vesting after TGE.
                 </li>
               </ol>
 

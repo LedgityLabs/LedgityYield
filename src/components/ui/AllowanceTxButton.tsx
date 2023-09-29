@@ -107,7 +107,7 @@ export const AllowanceTxButton: FC<Props> = ({
               decimals={decimals}
               suffix={symbol}
               displaySymbol={true}
-              className="text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
+              className="text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4 whitespace-nowrap"
             />
           </span>
         }
