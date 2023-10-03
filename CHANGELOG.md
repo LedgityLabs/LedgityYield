@@ -1,3 +1,10 @@
+## [1.229.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.228.0...v1.229.0) (2023-10-03)
+
+
+### Features
+
+* update Galxe batch link ([406c934](https://github.com/LedgityLabs/LedgityYield/commit/406c9348569b49a1bd6b4ece7ce650c798222964))
+
 ## [1.228.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.227.0...v1.228.0) (2023-10-03)
 
 
