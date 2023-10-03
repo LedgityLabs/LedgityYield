@@ -1,3 +1,10 @@
+## [1.230.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.229.0...v1.230.0) (2023-10-03)
+
+
+### Features
+
+* disociate Zealy and Galxe data fetching so one still work if the other breaks ([c7ac4ad](https://github.com/LedgityLabs/LedgityYield/commit/c7ac4ad220bf20b2f25308799531b547e628de0b))
+
 ## [1.229.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.228.0...v1.229.0) (2023-10-03)
 
 
