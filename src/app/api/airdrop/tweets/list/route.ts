@@ -20,15 +20,17 @@ export async function GET(request: Request) {
       authorId: session.user.id,
     },
     select: {
-      tweetId: true,
-      createdAt: true,
+      id: true,
+      url: true,
+      date: true,
       content: true,
       likes: true,
       retweets: true,
       quotes: true,
       replies: true,
-      views: true,
       ingested: true,
+      rejected: true,
+      rejectionReason: true,
     },
   });
 

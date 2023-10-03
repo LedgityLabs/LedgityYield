@@ -61,29 +61,47 @@ model User {
   sessions      Session[]
 
   // Custom
-  // twitterFollowers Int?
-  twitterId String?       @unique
-  twitterUsername String?
   walletAddress String?
   generatedMessage String?
 
+  twitterId String?       @unique
+  twitterUsername String?
+  twitterFollowers Int @default(0)
+  twitterBlueVerified Boolean?
+  totalTweetsViews Int @default(0)
+  totalTweetsLikes Int @default(0)
+  totalTweetsRetweets Int @default(0)
+  totalTweetsReplies Int @default(0)
+  totalTweetsQuotes Int @default(0)
+  totalTweetsBookmarks Int @default(0)
+  totalTweetsEntries Int @default(0)
   tweets Tweet[]
+
+  ingested Boolean @default(false)
 }
 
 model Tweet {
-  id String @id @default(cuid())
-  tweetId String @unique
-  createdAt DateTime @default(now())
+  id String @id @unique
   authorId String
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  content String @default("")
+  url String @unique
+  date DateTime?
+  content String? @db.Text
+  views Int @default(0)
   likes Int @default(0)
   retweets Int @default(0)
   replies Int @default(0)
   quotes Int @default(0)
-  views Int @default(0)
+  bookmarks Int @default(0)
+  lang String @default("en")
 
   ingested Boolean @default(false)
+  nextIngestionDate DateTime? @default(now())
+
+  rejected Boolean @default(false)
+  rejectionDate DateTime?
+  rejectionReason String?
+  
   @@index([authorId])
 }
 

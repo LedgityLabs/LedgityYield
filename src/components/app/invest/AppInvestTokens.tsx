@@ -350,6 +350,36 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
           </div>
         );
       })}
+      <a
+        onClick={() => switchTab("pre-mining")}
+        className="cursor-pointer py-6 flex md:col-span-5 col-span-4 w-full items-center justify-between sm:px-10 px-5 bg-gradient-to-bl from-primary/40 to-bg  hover:opacity-80 transition-opacity border-b border-b-fg/10"
+      >
+        <div className="inline-flex items-center gap-2.5 relative -left-[8.5px]">
+          <div className="relative w-[52px] h-[35px]">
+            <TokenLogo
+              symbol="USDC"
+              size={35}
+              className="border border-bg/80 rounded-full absolute"
+            />
+            <TokenLogo
+              symbol="LDY"
+              size={35}
+              className="absolute left-[17px] border border-bg/80 rounded-full"
+            />
+          </div>
+          <p className="text-xl font-bold text-fg/90 whitespace-nowrap">Pre-Mining</p>
+        </div>
+        <p className="font-semibold text-fg/90 text-lg sm:inline hidden">
+          Bootstrap initial liquidity{" "}
+          <span className="md:inline hidden">→ receive $LDY tokens</span>
+        </p>
+        <Button
+          size="small"
+          className="text-lg inline-flex gap-1 justify-center items-center text-bg/90"
+        >
+          See <i className="ri-arrow-right-line" />
+        </Button>
+      </a>
       {(() => {
         const tableRows = table.getRowModel().rows;
         if (isLoading)
@@ -381,36 +411,6 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             )),
           );
       })()}
-      <a
-        onClick={() => switchTab("pre-mining")}
-        className="cursor-pointer py-6 flex md:col-span-5 col-span-4 w-full items-center justify-between sm:px-10 px-5 bg-gradient-to-bl from-primary/40 to-bg  hover:opacity-80 transition-opacity"
-      >
-        <div className="inline-flex items-center gap-2.5 relative -left-[8.5px]">
-          <div className="relative w-[52px] h-[35px]">
-            <TokenLogo
-              symbol="USDC"
-              size={35}
-              className="border border-bg/80 rounded-full absolute"
-            />
-            <TokenLogo
-              symbol="LDY"
-              size={35}
-              className="absolute left-[17px] border border-bg/80 rounded-full"
-            />
-          </div>
-          <p className="text-xl font-bold text-fg/90 whitespace-nowrap">Pre-Mining</p>
-        </div>
-        <p className="font-semibold text-fg/90 text-lg sm:inline hidden">
-          Bootstrap initial liquidity{" "}
-          <span className="md:inline hidden">→ receive $LDY tokens</span>
-        </p>
-        <Button
-          size="small"
-          className="text-lg inline-flex gap-1 justify-center items-center text-bg/90"
-        >
-          See <i className="ri-arrow-right-line" />
-        </Button>
-      </a>
     </article>
   );
 };

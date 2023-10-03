@@ -261,7 +261,7 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
           </div>
         </div>
         <div className=" flex flex-col items-center justify-center rounded-3xl border-2 border-indigo-950/10 bg-primary/10 w-64">
-          <div className="flex-grow inline-flex justify-center items-center flex-col">
+          <div className="flex-grow inline-flex justify-center items-center flex-col py-6">
             <p className="text-center font-medium text-indigo-950/40">You&apos;ll receive</p>
             <Amount
               value={receivedLDY}

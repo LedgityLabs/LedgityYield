@@ -5,7 +5,7 @@ import { FC, useEffect, useState } from "react";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { watchReadContracts } from "@wagmi/core";
 import { lTokenABI } from "@/generated";
-import { parseUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 
 const availableChains = [42161, 59144];
 
@@ -98,7 +98,8 @@ export const AppInvestTVL: FC<Props> = (props) => {
 
   return (
     <div {...props}>
-      {(isLoading && <Spinner />) || <Amount prefix="$" value={tvlUsd} decimals={6} />}
+      {/* {(isLoading && <Spinner />) || <Amount prefix="$" value={tvlUsd} decimals={6} />} */}
+      {(isLoading && <Spinner />) || "$" + Number(formatUnits(tvlUsd, 6)).toLocaleString()}
     </div>
   );
 };

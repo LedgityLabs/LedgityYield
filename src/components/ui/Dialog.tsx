@@ -56,7 +56,7 @@ export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimi
             <span className="sr-only">Close</span>
           </Card>
         </DialogPrimitive.Close>
-        <div className="overflow-y-scroll overflow-x-hidden max-h-[calc(100vh-2rem)]">
+        <div className=" max-h-[calc(100vh-2rem)] scrollbar-thumb-slate-600 max-w-[calc(100vw)]">
           {children}
         </div>
       </Card>

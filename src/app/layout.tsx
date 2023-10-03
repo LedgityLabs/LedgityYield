@@ -11,6 +11,7 @@ import Loader from "@/app/loading";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";
+import { Toaster } from "@/components/ui/Toaster";
 
 const name = "Ledgity Yield";
 const description =
@@ -86,7 +87,10 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           <DApp>
             <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
               <Header />
-              <main>{children}</main>
+              <main>
+                {children}
+                <Toaster />
+              </main>
             </div>
           </DApp>
         </TooltipProvider>

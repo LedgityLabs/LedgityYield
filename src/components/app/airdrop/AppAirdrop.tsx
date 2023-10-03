@@ -22,12 +22,14 @@ import { AppAirdropTwitter } from "./AppAirdropTwitter";
 import { LikeIcon, QuoteIcon, ReplyIcon, RetweetIcon } from "@/lib/icons";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
+import { useToast } from "@/hooks/useToast";
 
 export const AppAirdrop: FC = () => {
   const { data: walletClient } = useWalletClient();
   const { data: userSession, status: userStatus, update: updateSession } = useSession();
   const [walletZealyEntries, setWalletZealyEntries] = useState<number>(0);
   const [walletGalxeEntries, setWalletGalxeEntries] = useState<number>(0);
+  const { toast } = useToast();
 
   // Compute wallet's pre-mining entries
   let walletPreMiningEntries = 0;
@@ -128,7 +130,7 @@ export const AppAirdrop: FC = () => {
               </p>
             </div>
 
-            <ul className="flex gap-5 flex-nowrap p-5 bg-fg/70 overflow-x-scroll scrollbar-thumb-slate-600 scrollbar-track-slate-950/70 scrollbar-thin scrollbar-corner-rose-500 scrollbar-thumb-rounded">
+            <ul className="flex gap-5 flex-nowrap p-5 bg-fg/70 overflow-x-scroll scrollbar-thumb-slate-600 scrollbar-track-slate-950/70 scrollbar-thin  scrollbar-thumb-rounded">
               <Tooltip>
                 <TooltipTrigger asChild={true}>
                   <li
@@ -187,21 +189,12 @@ export const AppAirdrop: FC = () => {
                 </TooltipContent>
               </Tooltip>
 
-              {/* <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Revealed in
-                  <br />{" "}
-                  <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-09-28" /> days
-                  </span>
-                </p>
-              </li> */}
               <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
                 <p className="text-center text-[0.93rem] font-semibold text-slate-500">
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-05" /> days
+                    <DaysUntil date="2023-10-08" /> days
                   </span>
                 </p>
               </li>
@@ -210,7 +203,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-12" /> days
+                    <DaysUntil date="2023-10-18" /> days
                   </span>
                 </p>
               </li>
@@ -219,7 +212,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-19" /> days
+                    <DaysUntil date="2023-10-28" /> days
                   </span>
                 </p>
               </li>
@@ -363,7 +356,7 @@ export const AppAirdrop: FC = () => {
                   <br />
                   New tasks added regularly
                 </div>
-                <div className="flex px-4 py-2 justify-between items-center w-full bg-[#1a071b] rounded-b-[1.7rem]">
+                <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-[#1a071b] rounded-b-[1.7rem]">
                   <h5 className="font-semibold text-[#866d8d]">Your entries</h5>
                   <div className="text-xl font-bold font-heading text-slate-200/80">
                     <i className="ri-coupon-2-fill" /> {walletZealyEntries.toLocaleString()}
@@ -374,12 +367,21 @@ export const AppAirdrop: FC = () => {
               <Dialog>
                 <DialogTrigger asChild>
                   <div
-                    className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#436874] bg-gradient-to-br from-[#264456]/80 to-[#1DA1F2]/40 backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 overflow-hidden hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between cursor-pointer"
+                    className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#436874] bg-gradient-to-br from-[#264456]/80 to-[#1DA1F2]/40 backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between cursor-pointer"
                     style={{
                       boxShadow: "3px 5px 10px 0px rgba(29, 161, 242,0.2)",
                       WebkitBoxShadow: "3px 5px 10px 0px rgba(29, 161, 242,0.2)",
                     }}
                   >
+                    {/* <div
+                      className="bg-[#1DA1F2]/90 px-1.5 py-[0.1rem] rounded-xl absolute -top-3 -right-2 text-sm text-white font-semibold rounded-bl-sm"
+                      style={{
+                        boxShadow: "0px 0px 10px 0px rgba(255,255,255,0.1)",
+                        WebkitBoxShadow: "0px 0px 10px 0px rgba(255,255,255,0.1)",
+                      }}
+                    >
+                      New
+                    </div> */}
                     <div className="inline-flex items-center justify-center gap-2.5">
                       <div className="aspect-square rounded-lg bg-[#1DA1F2]/90 w-[27px] h-[27px] inline-flex justify-center items-center">
                         <i className="ri-twitter-fill text-white text-xl" />
@@ -417,10 +419,10 @@ export const AppAirdrop: FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="flex px-4 py-2 justify-between items-center w-full bg-[#000f17] rounded-b-[1.7rem]">
+                    <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-[#000f17] rounded-b-[1.7rem]">
                       <h5 className="font-semibold text-[#527682]">Your entries</h5>
-                      <div className="text-xl font-bold font-heading text-slate-200/40">
-                        Coming soon
+                      <div className="text-xl font-bold font-heading text-slate-200/80">
+                        <i className="ri-coupon-2-fill" /> {(0).toLocaleString()}
                       </div>
                     </div>
                   </div>
@@ -469,7 +471,7 @@ export const AppAirdrop: FC = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="flex px-4 py-2 justify-between items-center w-full bg-[#0c0605] rounded-b-[1.7rem]">
+                <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-[#0c0605] rounded-b-[1.7rem]">
                   <h5 className="font-semibold text-[#8a6258]">Your entries</h5>
                   <div className="text-xl font-bold font-heading text-slate-200/80">
                     <i className="ri-coupon-2-fill" /> {walletPreMiningEntries.toLocaleString()}
@@ -508,7 +510,7 @@ export const AppAirdrop: FC = () => {
                   <br />
                   New tasks added regularly
                 </div>
-                <div className="flex px-4 py-2 justify-between items-center w-full bg-gray-950 rounded-b-[1.7rem]">
+                <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-gray-950 rounded-b-[1.7rem]">
                   <h5 className="font-semibold text-slate-200/50 inline-flex items-center">
                     Your entries
                   </h5>
