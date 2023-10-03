@@ -480,7 +480,7 @@ export const AppAirdrop: FC = () => {
               </a>
 
               <a
-                href="https://galxe.com/ledgityyield/campaign/GCiJ3UCgi9"
+                href="https://galxe.com/ledgityyield/campaign/GCi9RU3En8"
                 target="_blank"
                 className="relative min-w-[310px] w-[310px] min-h-40 border-2 border-[#5b5b5b] bg-gradient-to-br from-[#222222]/60 to-[#555555]/90  backdrop-blur-md rounded-[1.7rem] pt-5 flex flex-col gap-2 hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between"
                 style={{
