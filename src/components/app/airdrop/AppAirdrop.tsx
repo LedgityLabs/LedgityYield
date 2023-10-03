@@ -50,26 +50,37 @@ export const AppAirdrop: FC = () => {
   }
 
   // Retrieves quests leaderboards data
-  const retrieveGalxeZealyEntries = async () => {
-    const responses = await Promise.all([
-      fetch("/api/airdrop/entries/user/galxe"),
-      fetch("/api/airdrop/entries/user/zealy"),
-    ]);
+  const retrieveZealyEntries = async () => {
+    const res = await fetch("/api/airdrop/entries/user/zealy");
 
-    if (!responses.every((res) => res.ok)) {
-      setWalletGalxeEntries(0);
+    if (!res.ok) {
       setWalletZealyEntries(0);
-      throw new Error("Failed to fetch data");
+      throw new Error("Failed to fetch Zealy entries.");
     }
 
-    const data = await Promise.all(responses.map((res) => res.json()));
+    const data = await res.json();
 
-    setWalletGalxeEntries(data[0].entries);
-    setWalletZealyEntries(data[1].entries);
+    setWalletZealyEntries(data.entries);
+  };
+
+  const retrieveGalxeEntries = async () => {
+    const res = await fetch("/api/airdrop/entries/user/galxe");
+
+    if (!res.ok) {
+      setWalletGalxeEntries(0);
+      throw new Error("Failed to fetch Galxe entries.");
+    }
+
+    const data = await res.json();
+
+    setWalletGalxeEntries(data.entries);
   };
 
   useEffect(() => {
-    if (userSession && userSession.user.walletAddress) retrieveGalxeZealyEntries();
+    if (userSession && userSession.user.walletAddress) {
+      retrieveZealyEntries();
+      retrieveGalxeEntries();
+    }
   }, [userSession]);
 
   // Compute wallet total entries
