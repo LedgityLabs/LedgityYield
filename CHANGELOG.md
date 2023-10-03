@@ -1,3 +1,10 @@
+## [1.228.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.227.0...v1.228.0) (2023-10-03)
+
+
+### Features
+
+* improved Tweet & Earn UI, updated DB schema, otherUI improvements ([9f9b253](https://github.com/LedgityLabs/LedgityYield/commit/9f9b2530e2d0ca6e691bfa62a25560684dafb647))
+
 ## [1.227.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.226.1...v1.227.0) (2023-09-29)
 
 
