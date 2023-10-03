@@ -1,3 +1,10 @@
+## [1.227.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.226.1...v1.227.0) (2023-09-29)
+
+
+### Features
+
+* improve Pre-Mining UX + continue working on Tweet & Earn ([d6c1e9d](https://github.com/LedgityLabs/LedgityYield/commit/d6c1e9de98ae2426a657f2c831a7ca4e102a4f1b))
+
 ## [1.226.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.226.0...v1.226.1) (2023-09-28)
 
 
