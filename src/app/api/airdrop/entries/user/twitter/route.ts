@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 import { fetchGalxeLeaderboard } from "../../leaderboards/general/fetchGalxeLeaderboard";
+import { prisma } from "@/lib/db";
 
 // Revalidate every minute
 export const revalidate = 60;
@@ -23,16 +24,20 @@ export async function GET() {
     return NextResponse.json({ success: false, entries: 0, error: "No wallet linked" });
   }
 
-  // Retrieve Galxe leaderboard
-  const galxeLeaderboard = await fetchGalxeLeaderboard();
-
-  // Try finding the user in the leaderboard
-  const user = galxeLeaderboard.data[session.user.walletAddress];
+  // Retrieve user data
+  const userData = await prisma.user.findFirst({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      totalTweetsEntries: true,
+    },
+  });
 
   // Return the user entries count
   return NextResponse.json({
     success: true,
-    entries: user ? user.points : 0,
+    entries: userData ? userData.totalTweetsEntries : 0,
     lastUpdated: Date.now(),
   });
 }

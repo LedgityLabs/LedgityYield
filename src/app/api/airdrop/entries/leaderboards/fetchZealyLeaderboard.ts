@@ -1,13 +1,7 @@
-import { env } from "../../../../../../../env.mjs";
+import { env } from "../../../../../../env.mjs";
 
 export async function fetchZealyLeaderboard() {
-  const data: Record<
-    string,
-    {
-      xp: number;
-      avatar: string;
-    }
-  > = {};
+  const data: Record<string, number> = {};
 
   let allPagesFetched = false;
   let currentPage = 0;
@@ -36,10 +30,7 @@ export async function fetchZealyLeaderboard() {
       for (const member of rawData.leaderboard) {
         // If the user has a connected twitter account
         if (member.twitterId) {
-          data[member.twitterId] = {
-            xp: member.xp,
-            avatar: member.avatar,
-          };
+          data[member.twitterId] = member.xp;
         }
       }
     }

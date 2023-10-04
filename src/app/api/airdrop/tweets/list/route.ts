@@ -28,6 +28,7 @@ export async function GET(request: Request) {
       retweets: true,
       quotes: true,
       replies: true,
+      entries: true,
       ingested: true,
       rejected: true,
       rejectionReason: true,

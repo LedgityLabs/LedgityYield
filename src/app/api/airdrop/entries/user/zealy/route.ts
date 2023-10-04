@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
-import { fetchZealyLeaderboard } from "../../leaderboards/zealy/fetchZealyLeaderboard";
+import { fetchZealyLeaderboard } from "../../leaderboards/fetchZealyLeaderboard";
 
 // Revalidate every minute
 export const revalidate = 60;

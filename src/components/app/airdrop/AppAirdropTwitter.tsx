@@ -1,5 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Amount,
   DateTime,
   DialogContent,
   DialogHeader,
@@ -25,12 +35,11 @@ import clsx from "clsx";
 import { LikeIcon, QuoteIcon, ReachIcon, ReplyIcon, RetweetIcon } from "@/lib/icons";
 import Link from "next/link";
 import { useToast } from "@/hooks/useToast";
-import { Toaster } from "@/components/ui/Toaster";
 
 interface Tweet {
   id: string;
   url: string;
-  date: string;
+  date: number;
   content: string;
   likes: number;
   retweets: number;
@@ -64,12 +73,6 @@ export const AppAirdropTwitter: FC = () => {
       const data = await req.json();
       const tweets = data.data as Tweet[];
 
-      // Populate entries count
-      for (const tweet of tweets) {
-        tweet.entries =
-          tweet.likes * 1 + tweet.retweets * 3 + tweet.replies * 5 + tweet.quotes * 10;
-      }
-
       // Set tweets
       setTweetsData(tweets);
       setIsLoading(false);
@@ -90,9 +93,9 @@ export const AppAirdropTwitter: FC = () => {
       cell: (info) => {
         return (
           <DateTime
-            timestamp={Number.parseInt(info.getValue())}
+            timestamp={info.getValue()}
             output="date"
-            className="cursor-help text-slate-300"
+            className="cursor-help text-slate-400"
           />
         );
       },
@@ -103,9 +106,11 @@ export const AppAirdropTwitter: FC = () => {
         return (
           <Tooltip>
             <TooltipTrigger>
-              <p className="text-fg/80 text-ellipsis">{info.getValue()}</p>
+              <p className="text-slate-300 text-ellipsis truncate max-h-[50px] max-w-[140px] cursor-help">
+                {info.getValue()}
+              </p>
             </TooltipTrigger>
-            <TooltipContent>{info.getValue()}</TooltipContent>
+            <TooltipContent className="max-w-screen w-[300px]">{info.getValue()}</TooltipContent>
           </Tooltip>
         );
       },
@@ -114,28 +119,28 @@ export const AppAirdropTwitter: FC = () => {
       // @ts-ignore
       header: <LikeIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
-        return <p className="text-fg/80">{info.getValue()}</p>;
+        return <Amount value={info.getValue()} decimals={0} className="text-slate-300" />;
       },
     }),
     columnHelper.accessor("retweets", {
       // @ts-ignore
       header: <RetweetIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
-        return <p className="text-fg/80">{info.getValue()}</p>;
+        return <Amount value={info.getValue()} decimals={0} className="text-slate-300" />;
       },
     }),
     columnHelper.accessor("replies", {
       // @ts-ignore
       header: <ReplyIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
-        return <p className="text-fg/80">{info.getValue()}</p>;
+        return <Amount value={info.getValue()} decimals={0} className="text-slate-300" />;
       },
     }),
     columnHelper.accessor("quotes", {
       // @ts-ignore
       header: <QuoteIcon className="w-5 h-5 fill-[#527682]" />,
       cell: (info) => {
-        return <p className="text-fg/80">{info.getValue()}</p>;
+        return <Amount value={info.getValue()} decimals={0} className="text-slate-300" />;
       },
     }),
 
@@ -143,7 +148,7 @@ export const AppAirdropTwitter: FC = () => {
       // @ts-ignore
       header: <i className="ri-coupon-2-fill text-lg" />,
       cell: (info) => {
-        return <p className="text-fg/80">{info.getValue()}</p>;
+        return <p className="text-slate-300 font-bold">{info.getValue().toLocaleString()}</p>;
       },
     }),
   ];
@@ -188,7 +193,7 @@ export const AppAirdropTwitter: FC = () => {
       newTweetsData.push({
         id: res.data.id,
         url: res.data.url,
-        date: "0",
+        date: 0,
         likes: 0,
         retweets: 0,
         quotes: 0,
@@ -210,7 +215,7 @@ export const AppAirdropTwitter: FC = () => {
     }
   };
   return (
-    <DialogContent className="p-0 sm:p-0 sm:pt-10 pt-5 max-w-[700px] border-2 border-[#436874] bg-gradient-to-b from-[#264456]/70 to-[#264456]/90 backdrop-blur-xl before:hidden gap-10 ">
+    <DialogContent className="p-0 sm:p-0 pt-12 sm:pt-12 max-w-[700px] border-2 border-[#436874] bg-gradient-to-b from-[#264456]/70 to-[#264456]/90 backdrop-blur-xl before:hidden gap-16 ">
       <div className="overflow-y-scroll scrollbar-thumb-slate-600 scrollbar-track-slate-950/70 scrollbar-thin scrollbar-thumb-rounded max-h-full">
         <div className="flex flex-col sm:gap-12 gap-10 sm:px-10 px-5 ">
           <div className="flex flex-col gap-4">
@@ -268,12 +273,39 @@ export const AppAirdropTwitter: FC = () => {
                 value={tweetURL}
                 onChange={(event) => setTweetURL(event.target.value)}
               />
-              <Button
-                onClick={() => handleNewTweet()}
-                className="bg-[#1DA1F2]/70 hover:bg-[#1DA1F2]/50 border-slate-300/70"
-              >
-                Submit
-              </Button>
+
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button
+                    className="bg-[#1DA1F2]/70 hover:bg-[#1DA1F2]/50 border-slate-300/70"
+                    disabled={tweetURL === ""}
+                  >
+                    Submit
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are requirements met?</AlertDialogTitle>
+                    <AlertDialogDescription className="font-medium text-lg">
+                      If you have &lt;1000 followers and/or your tweet has &lt;500
+                      <ReachIcon className="fill-fg w-5 h-5 mb-1 inline-block" /> it will be{" "}
+                      <span className="font-bold">rejected</span>.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogAction customButton={true}>
+                      <Button
+                        onClick={() => handleNewTweet()}
+                        size="small"
+                        className="bg-[#1DA1F2]/90 hover:bg-[#1DA1F2]/70 border-slate-300/70"
+                      >
+                        Submit this tweet
+                      </Button>
+                    </AlertDialogAction>
+                    <AlertDialogCancel />
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
             <div className="flex gap-2 items-center px-4 pl-8">
               <div className="bg-white rounded-full inline-flex justify-center items-center aspect-square">
@@ -287,7 +319,7 @@ export const AppAirdropTwitter: FC = () => {
                     &gt;500 <ReachIcon className="fill-white w-5 h-5 mb-1 inline-block" />
                   </span>
                 </span>{" "}
-                or it will be <span className="font-semibold">rejected</span>.
+                and your account <span className="font-semibold">&gt;1000 followers</span>.
               </p>
             </div>
           </div>
@@ -327,7 +359,7 @@ export const AppAirdropTwitter: FC = () => {
 
         <div className="w-full max-w-full overflow-x-scroll sm:mt-10 mt-5 scrollbar-thumb-slate-600 scrollbar-track-slate-950/70 scrollbar-thin scrollbar-thumb-rounded">
           <div className="w-full flex-col min-w-[690px]">
-            <div className="grid w-full grid-cols-[repeat(7,minmax(0,200px))]">
+            <div className="grid w-full grid-cols-[110px,150px,80px,80px,80px,80px,110px]">
               {headerGroup.headers.map((header, index) => {
                 const content = flexRender(header.column.columnDef.header, header.getContext());
                 return (
@@ -402,7 +434,7 @@ export const AppAirdropTwitter: FC = () => {
                           <Link href={row.original.url} className="underline" target="_blank">
                             This tweet
                           </Link>
-                          &nbsp;has been rejected: {row.original.rejectionReason}
+                          &nbsp;has been rejected &gt; {row.original.rejectionReason}
                         </div>
                       );
                     else

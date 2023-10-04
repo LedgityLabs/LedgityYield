@@ -1,4 +1,4 @@
-import { env } from "../../../../../../../env.mjs";
+import { env } from "../../../../../../env.mjs";
 
 const buildQuery = (nextCursor: string) => {
   const after = nextCursor !== "" ? `after: "${nextCursor}"` : "";
@@ -29,15 +29,7 @@ const buildQuery = (nextCursor: string) => {
 };
 
 export async function fetchGalxeLeaderboard() {
-  const data: Record<
-    string,
-    {
-      points: number;
-      avatar: string;
-    }
-  > = {};
-
-  let count = 0;
+  const data: Record<string, number> = {};
 
   let nextCursor = "";
   let hasNextPage = true;
@@ -62,12 +54,9 @@ export async function fetchGalxeLeaderboard() {
 
     // Format members in expected format
     for (const member of rawData.data.space.loyaltyPointsRanks.list) {
-      data[member.address.address.toLowerCase()] = {
-        points: member.points,
-        avatar: member.address.avatar,
-      };
+      data[member.address.address.toLowerCase()] = member.points;
     }
   }
 
-  return { count, lastUpdated: Date.now(), data };
+  return { lastUpdated: Date.now(), data };
 }

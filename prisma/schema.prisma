@@ -61,7 +61,7 @@ model User {
   sessions      Session[]
 
   // Custom
-  walletAddress String?
+  walletAddress String?   @unique
   generatedMessage String?
 
   twitterId String?       @unique
@@ -93,7 +93,8 @@ model Tweet {
   replies Int @default(0)
   quotes Int @default(0)
   bookmarks Int @default(0)
-  lang String @default("en")
+  entries Int @default(0)
+  lang String?
 
   ingested Boolean @default(false)
   nextIngestionDate DateTime? @default(now())
@@ -104,4 +105,3 @@ model Tweet {
   
   @@index([authorId])
 }
-

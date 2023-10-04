@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchZealyLeaderboard } from "./fetchZealyLeaderboard";
+import { fetchZealyLeaderboard } from "../fetchZealyLeaderboard";
 
 export const revalidate = 60;
 

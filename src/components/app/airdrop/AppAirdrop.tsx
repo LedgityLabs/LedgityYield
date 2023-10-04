@@ -29,7 +29,7 @@ export const AppAirdrop: FC = () => {
   const { data: userSession, status: userStatus, update: updateSession } = useSession();
   const [walletZealyEntries, setWalletZealyEntries] = useState<number>(0);
   const [walletGalxeEntries, setWalletGalxeEntries] = useState<number>(0);
-  const { toast } = useToast();
+  const [walletTwitterEntries, setWalletTwitterEntries] = useState<number>(0);
 
   // Compute wallet's pre-mining entries
   let walletPreMiningEntries = 0;
@@ -76,15 +76,30 @@ export const AppAirdrop: FC = () => {
     setWalletGalxeEntries(data.entries);
   };
 
+  const retrieveTwitterEntries = async () => {
+    const res = await fetch("/api/airdrop/entries/user/twitter");
+
+    if (!res.ok) {
+      setWalletTwitterEntries(0);
+      throw new Error("Failed to fetch Twitter entries.");
+    }
+
+    const data = await res.json();
+
+    setWalletTwitterEntries(data.entries);
+  };
+
   useEffect(() => {
     if (userSession && userSession.user.walletAddress) {
       retrieveZealyEntries();
       retrieveGalxeEntries();
+      retrieveTwitterEntries();
     }
   }, [userSession]);
 
   // Compute wallet total entries
-  let walletTotalEntries = walletGalxeEntries + walletZealyEntries + walletPreMiningEntries;
+  let walletTotalEntries =
+    walletGalxeEntries + walletZealyEntries + walletPreMiningEntries + walletTwitterEntries;
 
   // Compute wallet missing entries
   const walletMissingEntries = 20000 - walletTotalEntries;
@@ -384,7 +399,7 @@ export const AppAirdrop: FC = () => {
                       WebkitBoxShadow: "3px 5px 10px 0px rgba(29, 161, 242,0.2)",
                     }}
                   >
-                    {/* <div
+                    <div
                       className="bg-[#1DA1F2]/90 px-1.5 py-[0.1rem] rounded-xl absolute -top-3 -right-2 text-sm text-white font-semibold rounded-bl-sm"
                       style={{
                         boxShadow: "0px 0px 10px 0px rgba(255,255,255,0.1)",
@@ -392,7 +407,7 @@ export const AppAirdrop: FC = () => {
                       }}
                     >
                       New
-                    </div> */}
+                    </div>
                     <div className="inline-flex items-center justify-center gap-2.5">
                       <div className="aspect-square rounded-lg bg-[#1DA1F2]/90 w-[27px] h-[27px] inline-flex justify-center items-center">
                         <i className="ri-twitter-fill text-white text-xl" />
@@ -433,12 +448,12 @@ export const AppAirdrop: FC = () => {
                     <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-[#000f17] rounded-b-[1.7rem]">
                       <h5 className="font-semibold text-[#527682]">Your entries</h5>
                       <div className="text-xl font-bold font-heading text-slate-200/80">
-                        <i className="ri-coupon-2-fill" /> {(0).toLocaleString()}
+                        <i className="ri-coupon-2-fill" /> {walletTwitterEntries.toLocaleString()}
                       </div>
                     </div>
                   </div>
                 </DialogTrigger>
-                {/* <AppAirdropTwitter /> */}
+                <AppAirdropTwitter />
               </Dialog>
 
               <a
