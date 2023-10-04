@@ -1,3 +1,10 @@
+## [1.231.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.230.0...v1.231.0) (2023-10-04)
+
+
+### Features
+
+* release Tweet & Earn ([a82ed6c](https://github.com/LedgityLabs/LedgityYield/commit/a82ed6c2570ed5c78b3129ef43fee2823a17f4ee))
+
 ## [1.230.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.229.0...v1.230.0) (2023-10-03)
 
 
