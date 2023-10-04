@@ -1,3 +1,10 @@
+## [1.231.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.231.0...v1.231.1) (2023-10-04)
+
+
+### Fixes
+
+* fix broken fetchLeaderboard functions imports ([d6328fa](https://github.com/LedgityLabs/LedgityYield/commit/d6328faa008204391e1069091dd74a52ee93e43e))
+
 ## [1.231.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.230.0...v1.231.0) (2023-10-04)
 
 
