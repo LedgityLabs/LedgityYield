@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
-import { fetchGalxeLeaderboard } from "../../leaderboards/general/fetchGalxeLeaderboard";
 import { prisma } from "@/lib/db";
 
 // Revalidate every minute

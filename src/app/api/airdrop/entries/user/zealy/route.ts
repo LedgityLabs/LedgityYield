@@ -21,13 +21,13 @@ export async function GET() {
   // Retrieve Zealy leaderboard
   const zealyLeaderboard = await fetchZealyLeaderboard();
 
-  // Try finding the user in the leaderboard
-  const user = zealyLeaderboard.data[session.user.twitterId];
+  // Retrieve user Zealy XP in the leaderboard
+  const zealyXP = zealyLeaderboard.data[session.user.twitterId];
 
   // Return the user entries count
   return NextResponse.json({
     success: true,
-    entries: user ? user.xp : 0,
+    entries: zealyXP ? zealyXP : 0,
     lastUpdated: Date.now(),
   });
 }

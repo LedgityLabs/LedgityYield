@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
-import { fetchGalxeLeaderboard } from "../../leaderboards/general/fetchGalxeLeaderboard";
+import { fetchGalxeLeaderboard } from "../../leaderboards/fetchGalxeLeaderboard";
 
 // Revalidate every minute
 export const revalidate = 60;
@@ -26,13 +26,13 @@ export async function GET() {
   // Retrieve Galxe leaderboard
   const galxeLeaderboard = await fetchGalxeLeaderboard();
 
-  // Try finding the user in the leaderboard
-  const user = galxeLeaderboard.data[session.user.walletAddress];
+  // Retrieve user's Galxe loyalty points in the leaderboard
+  const galxeLoyaltyPoints = galxeLeaderboard.data[session.user.walletAddress];
 
   // Return the user entries count
   return NextResponse.json({
     success: true,
-    entries: user ? user.points : 0,
+    entries: galxeLoyaltyPoints ? galxeLoyaltyPoints : 0,
     lastUpdated: Date.now(),
   });
 }
