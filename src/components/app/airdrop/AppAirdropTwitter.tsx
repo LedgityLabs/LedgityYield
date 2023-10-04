@@ -417,7 +417,7 @@ export const AppAirdropTwitter: FC = () => {
                       return (
                         <div className="py-5 px-5 flex col-span-7 w-full items-center justify-start text-start border-b border-b-slate-500 font-medium text-slate-300 text-[0.9rem]">
                           <p>
-                            <i className="ri-hourglass-2-fill" />{" "}
+                            <i className="ri-hourglass-2-fill text-lg text-orange-500" />{" "}
                             <Link href={row.original.url} className="underline" target="_blank">
                               This tweet
                             </Link>{" "}
@@ -429,7 +429,7 @@ export const AppAirdropTwitter: FC = () => {
                     else if (row.original.rejected)
                       return (
                         <div className="py-5 px-5 flex col-span-7 w-full items-center justify-start text-start border-b border-b-slate-500 font-medium text-slate-300 text-[0.9rem]">
-                          <i className="ri-close-circle-line" />
+                          <i className="ri-close-circle-line text-lg text-red-500" />
                           &nbsp;
                           <Link href={row.original.url} className="underline" target="_blank">
                             This tweet
