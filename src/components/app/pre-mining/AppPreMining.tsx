@@ -8,7 +8,7 @@ import tokenTop from "~/assets/tokens/3d-ldy-top.png";
 import Link from "next/link";
 
 import { AppPreMiningParticipate } from "./AppPreMiningParticipate";
-import { AppPreMiningProgression } from "./AppPreMiningProgression";
+// import { AppPreMiningProgression } from "./AppPreMiningProgression";
 
 export const AppPreMining: FC = () => {
   return (

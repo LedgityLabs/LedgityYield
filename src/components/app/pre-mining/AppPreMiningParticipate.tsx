@@ -82,9 +82,12 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
     parentError = "PreMining is capped to 4M USDC";
   }
 
-  const airdropEntries =
-    Number(formatUnits(currentLockedAmount + depositedAmount, 6)) *
-    ({ 3: 1, 6: 4, 12: 16 }[lockDuration] || 0);
+  let airdropEntries =
+    receivedAllocation === 100
+      ? 4_000_000
+      : Number(formatUnits(currentLockedAmount + depositedAmount, 6));
+  airdropEntries *= { 3: 1, 6: 4, 12: 16 }[lockDuration] || 0;
+
   return (
     <div className={twMerge("py-12 !pt-0 flex flex-col", className)} {...props}>
       {hasLocked && (
