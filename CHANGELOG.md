@@ -1,3 +1,10 @@
+## [1.232.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.231.1...v1.232.0) (2023-10-04)
+
+
+### Features
+
+* add colors to rejected and pending tweets icons ([5543cec](https://github.com/LedgityLabs/LedgityYield/commit/5543cecc3e74660b07aaafee4b4c3110fee84663))
+
 ## [1.231.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.231.0...v1.231.1) (2023-10-04)
 
 
