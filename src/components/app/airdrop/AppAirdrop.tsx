@@ -232,7 +232,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-08" /> days
+                    <DaysUntil date="2023-10-16" /> days
                   </span>
                 </p>
               </li>
@@ -241,7 +241,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-18" /> days
+                    <DaysUntil date="2023-10-30" /> days
                   </span>
                 </p>
               </li>
@@ -250,7 +250,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-28" /> days
+                    <DaysUntil date="2023-11-15" /> days
                   </span>
                 </p>
               </li>
