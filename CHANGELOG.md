@@ -1,3 +1,10 @@
+## [1.233.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.232.1...v1.233.0) (2023-10-13)
+
+
+### Features
+
+* new leagues and leaderboards 🎉 ([8dbcb87](https://github.com/LedgityLabs/LedgityYield/commit/8dbcb874a272004d38c93fb2927b48145f4bfb7f))
+
 ## [1.232.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.232.0...v1.232.1) (2023-10-05)
 
 
