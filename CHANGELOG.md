@@ -1,3 +1,10 @@
+## [1.233.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.1...v1.233.2) (2023-10-13)
+
+
+### Fixes
+
+* adjust token reveal dates ([a9293ef](https://github.com/LedgityLabs/LedgityYield/commit/a9293efe6f5663d546670bc73897a787c0c8133c))
+
 ## [1.233.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.0...v1.233.1) (2023-10-13)
 
 
