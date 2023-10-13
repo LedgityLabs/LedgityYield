@@ -6,7 +6,6 @@ export const env = createEnv({
     SCORECHAIN_API_URL: z.string().url(),
     SCORECHAIN_API_KEY: z.string(),
     ZEALY_API_KEY: z.string(),
-    GALXE_AUTHORIZATION_TOKEN: z.string(),
     TWITTER_CLIENT_ID: z.string(),
     TWITTER_CLIENT_SECRET: z.string(),
     REDIS_HOST: z.string(),
