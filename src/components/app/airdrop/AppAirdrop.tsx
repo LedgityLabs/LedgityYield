@@ -864,7 +864,7 @@ export const AppAirdrop: FC = () => {
             {pointsData && shownLeague == pointsData.league && (
               <>
                 <p className="sm:text-xl text-lg font-heading py-2 leading-none inline-flex items-center pl-4 rounded-l-xl bg-indigo-600 text-slate-300 sticky bottom-0">
-                  654.
+                  {pointsData.rank}.
                 </p>
                 <Link
                   href={`https://twitter.com/${pointsData.twitterUsername}`}
