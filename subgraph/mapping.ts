@@ -5,6 +5,7 @@ import {
   ActivityEvent,
   MintedRewardsEvent,
 } from "./generated/templates/LToken/LToken";
+import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
   LToken as LTokenSchema,
@@ -12,10 +13,10 @@ import {
   Activity,
   APRChange,
   RewardsMint,
+  PreMiningLock,
 } from "./generated/schema";
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
-import { log } from "@graphprotocol/graph-ts";
 import { store } from "@graphprotocol/graph-ts";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
@@ -212,4 +213,22 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
     rewardsMint.save();
     ltoken.save();
   }
+}
+
+export function handlePreMiningLock(event: Lock): void {
+  // Try retrrieving existing lock data
+  let lockData = PreMiningLock.load(event.params.account.toHexString());
+  if (lockData === null) {
+    // Create new lock data and set initial amount if not existing
+    lockData = new PreMiningLock(event.params.account.toHexString());
+    lockData.amount = event.params.amount.toBigDecimal();
+  }
+  // Else, increment amount
+  else lockData.amount = lockData.amount.plus(event.params.amount.toBigDecimal());
+
+  // Apply duration changes
+  lockData.duration = event.params.duration;
+
+  // Save the lock data
+  lockData.save();
 }

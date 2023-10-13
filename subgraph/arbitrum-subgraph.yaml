@@ -26,7 +26,26 @@ dataSources:
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
-
+  - kind: ethereum/contract
+    name: PreMining
+    network: arbitrum-one
+    source:
+      address: "0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c"
+      abi: PreMining
+      startBlock: 132839783
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - PreMining
+      abis:
+        - name: PreMining
+          file: ../contracts/abis/PreMining.json
+      eventHandlers:
+        - event: Lock(indexed address,uint256,uint8)
+          handler: handlePreMiningLock
 templates:
   - kind: ethereum/contract
     name: LToken

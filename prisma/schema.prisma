@@ -95,6 +95,7 @@ model Tweet {
   bookmarks Int @default(0)
   entries Int @default(0)
   lang String?
+  sybilFlag Boolean @default(false)
 
   ingested Boolean @default(false)
   nextIngestionDate DateTime? @default(now())

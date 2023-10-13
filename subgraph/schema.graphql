@@ -56,3 +56,9 @@ type RewardsMint @entity(immutable: true) {
   revenue: BigDecimal!
   growth: BigDecimal!
 }
+
+type PreMiningLock @entity {
+  id: ID! # Account address
+  amount: BigDecimal!
+  duration: Int!
+}

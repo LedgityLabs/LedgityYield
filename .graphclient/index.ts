@@ -17,8 +17,8 @@ import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext
 import { MeshStore, FsStoreStorageAdapter } from '@graphql-mesh/store';
 import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
-import type { ArbitrumTypes } from './sources/arbitrum/types';
 import type { LineaTypes } from './sources/linea/types';
+import type { ArbitrumTypes } from './sources/arbitrum/types';
 import * as importedModule$0 from "./sources/linea/introspectionSchema";
 import * as importedModule$1 from "./sources/arbitrum/introspectionSchema";
 export type Maybe<T> = T | null;

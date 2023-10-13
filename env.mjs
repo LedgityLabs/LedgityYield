@@ -9,6 +9,9 @@ export const env = createEnv({
     GALXE_AUTHORIZATION_TOKEN: z.string(),
     TWITTER_CLIENT_ID: z.string(),
     TWITTER_CLIENT_SECRET: z.string(),
+    REDIS_HOST: z.string(),
+    REDIS_USERNAME: z.string(),
+    REDIS_PASSWORD: z.string(),
   },
   client: {
     NEXT_PUBLIC_THEGRAPH_API_KEY: z.string().min(1),
