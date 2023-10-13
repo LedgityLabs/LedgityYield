@@ -1,3 +1,10 @@
+## [1.233.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.0...v1.233.1) (2023-10-13)
+
+
+### Fixes
+
+* fix user rank in leaderboard ([5ca7636](https://github.com/LedgityLabs/LedgityYield/commit/5ca7636a3701c4b0ce839e32d2abe9a350407295))
+
 ## [1.233.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.232.1...v1.233.0) (2023-10-13)
 
 
