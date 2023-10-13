@@ -1,3 +1,10 @@
+## [1.232.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.232.0...v1.232.1) (2023-10-05)
+
+
+### Fixes
+
+* **pre-mining:** limit amount of earn supply to max allocation ([53bf473](https://github.com/LedgityLabs/LedgityYield/commit/53bf4731d656c599741ba7c497b0c1a025c859b1))
+
 ## [1.232.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.231.1...v1.232.0) (2023-10-04)
 
 
