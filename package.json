@@ -1,6 +1,6 @@
 {
   "name": "ledgity-yield",
-  "version": "1.234.1",
+  "version": "1.234.2",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
