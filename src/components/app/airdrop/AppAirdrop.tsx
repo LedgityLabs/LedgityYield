@@ -154,7 +154,7 @@ export const AppAirdrop: FC = () => {
   }
   return (
     <>
-      <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-32 xl:scale-105 xl:mt-5">
+      <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-44 xl:scale-105 xl:mt-5">
         <div className="relative text-center flex flex-col gap-16 w-full overflow-hidden bg-slate-800 pt-[8.5rem] rounded-[1.8rem] border-2 border-slate-500 shadow-lg">
           <div className="absolute -top-3 right-0 left-0 bg-[url('/assets/banners/multi-airdrop-square.png')] bg-cover bg-top opacity-95 w-full h-[830px] rounded-t-[1.7rem] overflow-hidden aspect-square"></div>
           <div>
@@ -851,7 +851,7 @@ export const AppAirdrop: FC = () => {
                     </Link>
                     <p
                       className={twMerge(
-                        "py-2 pr-4 inline-flex items-center justify-end sm:text-base text-sm font-medium my-0.5 rounded-r-xl bg-slate-950/70",
+                        "py-2 pr-4 inline-flex items-center justify-end sm:text-base text-sm font-medium my-0.5 rounded-r-xl bg-slate-950/70 font-heading",
                         index % 2 === 0 && "bg-slate-900/70",
                       )}
                     >
@@ -881,7 +881,7 @@ export const AppAirdrop: FC = () => {
                     @{pointsData.twitterUsername}
                   </p>
                 </Link>
-                <p className="py-2 pr-4 inline-flex items-center justify-end sm:text-base text-sm font-bold rounded-r-xl bg-indigo-600 text-slate-300 sticky bottom-0">
+                <p className="py-2 pr-4 inline-flex items-center justify-end sm:text-base text-sm font-bold rounded-r-xl bg-indigo-600 text-slate-300 sticky bottom-0 font-heading">
                   {pointsData.totalPoints.toLocaleString()}
                 </p>
               </>
@@ -891,7 +891,18 @@ export const AppAirdrop: FC = () => {
         <p className="text-sm text-[#20456c]/70 pl-1 font-medium mx-5 -mt-3">
           Data are refreshed every <span className="font-bold">5 minutes</span>.
         </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+          <h3 className="font-heading font-bold text-xl text-slate-700 text-center px-3">
+            Any question about the airdrop?
+          </h3>
+          <Link href="https://docs.ledgity.finance/opportunities/multi-airdrop">
+            <Button size="small" className="gap-2">
+              <i className="ri-book-2-fill" /> Read the documenation
+            </Button>
+          </Link>
+        </div>
       </div>
+
       {createPortal(
         <div className="fixed bottom-5 left-0 right-0 inline-flex justify-center items-center z-10 sm:scale-100 scale-95">
           <Link href="#login" className={clsx(isAuthenticated && "cursor-text")}>
