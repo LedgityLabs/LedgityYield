@@ -153,6 +153,7 @@ export const AppAirdrop: FC = () => {
     else progressBarWidth = 100;
   }
 
+  console.log(leagueData);
   return (
     <>
       <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-32 xl:scale-105 xl:mt-5">
@@ -810,13 +811,13 @@ export const AppAirdrop: FC = () => {
             {(() => {
               if (leagueDataIsLoading)
                 return (
-                  <p className="col-span-3 text-center font-medium my-3 inline-flex justify-center items-center leading-none">
-                    <Spinner className="text-slate-300 leading-none aspect-square" />
+                  <p className="col-span-3 text-center font-medium my-4 inline-block">
+                    <Spinner className="text-slate-300" />
                   </p>
                 );
-              else if (!leagueData || !leagueData.data)
+              else if (!leagueData || !leagueData.data || !leagueData.data.length)
                 return (
-                  <p className="col-span-3 text-slate-300 text-center font-medium py-3">
+                  <p className="col-span-3 text-slate-300 text-center font-medium my-4">
                     No one here yet.
                   </p>
                 );

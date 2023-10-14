@@ -18,14 +18,15 @@ const nextConfig = withBundleAnalyzer({
     config.resolve.fallback = { fs: false, net: false, tls: false };
     return config;
   },
-  // Required to load ENS avatars
   images: {
     remotePatterns: [
+      // Required to load ENS avatars
       {
         protocol: "https",
         hostname: "euc.li",
         port: "",
       },
+      // Required to load Twitter profile pics
       {
         protocol: "https",
         hostname: "pbs.twimg.com",
