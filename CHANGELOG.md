@@ -1,3 +1,10 @@
+## [1.234.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.234.0...v1.234.1) (2023-10-14)
+
+
+### Fixes
+
+* fix LYNX for veLYNX in tooltip ([38ce5e3](https://github.com/LedgityLabs/LedgityYield/commit/38ce5e3186ec546f94ea5be3d8e74152404106e6))
+
 ## [1.234.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.4...v1.234.0) (2023-10-14)
 
 
