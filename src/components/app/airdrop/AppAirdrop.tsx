@@ -218,7 +218,7 @@ export const AppAirdrop: FC = () => {
                   </li>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
-                  100,000 $LYNX
+                  100,000 $veLYNX
                   <br />
                   -
                   <br />
