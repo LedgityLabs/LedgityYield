@@ -895,7 +895,7 @@ export const AppAirdrop: FC = () => {
           <h3 className="font-heading font-bold text-xl text-slate-700 text-center px-3">
             Any question about the airdrop?
           </h3>
-          <Link href="https://docs.ledgity.finance/opportunities/multi-airdrop">
+          <Link href="https://docs.ledgity.finance/opportunities/multi-airdrop" target="_blank">
             <Button size="small" className="gap-2">
               <i className="ri-book-2-fill" /> Read the documenation
             </Button>
