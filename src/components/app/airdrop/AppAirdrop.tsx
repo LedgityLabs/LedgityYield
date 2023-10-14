@@ -152,8 +152,6 @@ export const AppAirdrop: FC = () => {
       progressBarWidth = 87.5 + 12.5 * ((pointsData.totalPoints - 5_000_000) / 95_000_000);
     else progressBarWidth = 100;
   }
-
-  console.log(leagueData);
   return (
     <>
       <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-32 xl:scale-105 xl:mt-5">
