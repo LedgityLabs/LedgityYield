@@ -1,3 +1,11 @@
+## [1.233.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.3...v1.233.4) (2023-10-14)
+
+
+### Fixes
+
+* fix leaderboard empty state not well triggered ([09194de](https://github.com/LedgityLabs/LedgityYield/commit/09194dea893f7bb5928e296a1763f4a346b96079))
+* remove console log ([46de176](https://github.com/LedgityLabs/LedgityYield/commit/46de17651c90bbd52b517d0b5e7af723a3467d6f))
+
 ## [1.233.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.2...v1.233.3) (2023-10-13)
 
 
