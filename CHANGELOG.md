@@ -1,3 +1,10 @@
+## [1.234.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.4...v1.234.0) (2023-10-14)
+
+
+### Features
+
+* add "Any question" section to the Multi-Airdrop page ([f35146b](https://github.com/LedgityLabs/LedgityYield/commit/f35146beb9718002d6eaa205782015099ceae87c))
+
 ## [1.233.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.233.3...v1.233.4) (2023-10-14)
 
 
