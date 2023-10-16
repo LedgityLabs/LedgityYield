@@ -137,8 +137,8 @@ devDependencies:
     specifier: ^1.1.1
     version: 1.1.1(hardhat@2.17.4)
   '@openzeppelin/contracts':
-    specifier: ^4.9.3
-    version: 4.9.3
+    specifier: ^5.0.0
+    version: 5.0.0
   '@openzeppelin/contracts-upgradeable':
     specifier: ^4.9.3
     version: 4.9.3
@@ -4389,8 +4389,8 @@ packages:
     resolution: {integrity: sha512-jjaHAVRMrE4UuZNfDwjlLGDxTHWIOwTJS2ldnc278a0gevfXfPr8hxKEVBGFBE96kl2G3VHDZhUimw/+G3TG2A==}
     dev: true
 
-  /@openzeppelin/contracts@4.9.3:
-    resolution: {integrity: sha512-He3LieZ1pP2TNt5JbkPA4PNT9WC3gOTOlDcFGJW4Le4QKqwmiNJCRt44APfxMxvq7OugU/cqYuPcSBzOw38DAg==}
+  /@openzeppelin/contracts@5.0.0:
+    resolution: {integrity: sha512-bv2sdS6LKqVVMLI5+zqnNrNU/CA+6z6CmwFXm/MzmOPBRSO5reEJN7z0Gbzvs0/bv/MZZXNklubpwy3v2+azsw==}
     dev: true
 
   /@panva/hkdf@1.1.1:
