@@ -1,3 +1,10 @@
+## [1.234.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.234.1...v1.234.2) (2023-10-14)
+
+
+### Fixes
+
+* multi-airdrop documentation link wasn't target _blank ([74f0901](https://github.com/LedgityLabs/LedgityYield/commit/74f09010d05345ef51a876b1abc0d0b60c17aa6f))
+
 ## [1.234.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.234.0...v1.234.1) (2023-10-14)
 
 
