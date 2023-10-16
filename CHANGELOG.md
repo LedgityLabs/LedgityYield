@@ -1,3 +1,19 @@
+## [1.235.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.235.1...v1.235.2) (2023-10-16)
+
+
+### Fixes
+
+* **deps:** update dependency @t3-oss/env-nextjs to ^0.7.0 ([a9827cb](https://github.com/LedgityLabs/LedgityYield/commit/a9827cb6917f85ef6f55fd50997f90f1183d97d8))
+
+
+### Others
+
+* **deps:** update dependency @openzeppelin/contracts to v5 ([50717a6](https://github.com/LedgityLabs/LedgityYield/commit/50717a699cb1c9304a2fb28014d478f6b33a5fe1))
+* **deps:** update dependency @types/node to v20.8.6 ([9ddcbec](https://github.com/LedgityLabs/LedgityYield/commit/9ddcbec14095774e000784d8ed781c2809066d12))
+* **deps:** update dependency autoprefixer to v10.4.16 ([b6aaaf8](https://github.com/LedgityLabs/LedgityYield/commit/b6aaaf849b44f48598dd3f465d74b92e62823bc2))
+* **deps:** update ipfs/go-ipfs docker tag to v0.23.0 ([6afa98f](https://github.com/LedgityLabs/LedgityYield/commit/6afa98f406297988ad23fcaa2b5c60d5100a5df6))
+* **deps:** update nextjs monorepo to v13.5.4 ([cf39559](https://github.com/LedgityLabs/LedgityYield/commit/cf395590e327fcbc91e11e80ad4c16a460e89438))
+
 ## [1.235.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.235.0...v1.235.1) (2023-10-16)
 
 
