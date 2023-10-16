@@ -260,15 +260,6 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-16" /> days
-                  </span>
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Revealed in
-                  <br />{" "}
-                  <span className="font-bold text-slate-400/80">
                     <DaysUntil date="2023-10-30" /> days
                   </span>
                 </p>
