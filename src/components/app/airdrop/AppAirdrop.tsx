@@ -226,6 +226,35 @@ export const AppAirdrop: FC = () => {
                 </TooltipContent>
               </Tooltip>
 
+              <Tooltip>
+                <TooltipTrigger asChild={true}>
+                  <li
+                    className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
+                    style={{
+                      boxShadow: "3px 10px 20px 0px rgba(97, 223, 255, 0.13)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(97, 223, 255, 0.13)",
+                    }}
+                  >
+                    <div className="inline-flex items-center gap-1.5">
+                      <TokenLogo symbol="LVC" size={34} className="" />
+                      <p className="text-[1.7rem] font-bold text-slate-300  font-heading leading-none">
+                        LVC
+                      </p>
+                    </div>
+                    <h4 className="text-[#61dfff]/60 font-heading text-[1.32rem] font-bold leading-none">
+                      Velocore
+                    </h4>
+                  </li>
+                </TooltipTrigger>
+                <TooltipContent className="font-semibold">
+                  -- $LVC
+                  <br />
+                  -
+                  <br />
+                  0.1% of total supply
+                </TooltipContent>
+              </Tooltip>
+
               <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
                 <p className="text-center text-[0.93rem] font-semibold text-slate-500">
                   Revealed in
