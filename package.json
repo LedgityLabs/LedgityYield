@@ -83,7 +83,7 @@
     "@types/react": "18.2.22",
     "@types/react-dom": "^18.2.8",
     "@wagmi/cli": "^1.5.2",
-    "autoprefixer": "10.4.15",
+    "autoprefixer": "10.4.16",
     "conventional-changelog-conventionalcommits": "^7.0.2",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
