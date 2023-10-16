@@ -1,3 +1,10 @@
+## [1.235.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.234.2...v1.235.0) (2023-10-16)
+
+
+### Features
+
+* reveal Velcore token ([001e1a3](https://github.com/LedgityLabs/LedgityYield/commit/001e1a36f63eadd6910f1c24a9a6f5ca27da5439))
+
 ## [1.234.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.234.1...v1.234.2) (2023-10-14)
 
 
