@@ -1,3 +1,10 @@
+## [1.235.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.235.0...v1.235.1) (2023-10-16)
+
+
+### Fixes
+
+* remove 1 day revealed token ([7433ac6](https://github.com/LedgityLabs/LedgityYield/commit/7433ac6c944e615ec2ee41d1c65c36bb01ec55d5))
+
 ## [1.235.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.234.2...v1.235.0) (2023-10-16)
 
 
