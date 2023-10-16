@@ -51,8 +51,8 @@ dependencies:
     specifier: ^1.0.11
     version: 1.0.11(@types/react@18.2.22)(react-dom@18.2.0)(react@18.2.0)(viem@1.15.1)(wagmi@1.4.3)
   '@t3-oss/env-nextjs':
-    specifier: ^0.6.1
-    version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
+    specifier: ^0.7.0
+    version: 0.7.1(typescript@5.2.2)(zod@3.22.3)
   '@tanstack/react-table':
     specifier: ^8.10.3
     version: 8.10.3(react-dom@18.2.0)(react@18.2.0)
@@ -6012,23 +6012,29 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@t3-oss/env-core@0.6.1(typescript@5.2.2)(zod@3.22.3):
-    resolution: {integrity: sha512-KQD7qEDJtkWIWWmTVjNvk0wnHpkvAQ6CRbUxbWMFNG/fiosBQDQvtRpBNu6USxBscJCoC4z6y7P9MN52/mLOzw==}
+  /@t3-oss/env-core@0.7.1(typescript@5.2.2)(zod@3.22.3):
+    resolution: {integrity: sha512-3+SQt39OlmSaRLqYVFv8uRm1BpFepM5TIiMytRqO9cjH+wB77o6BIJdeyM5h5U4qLBMEzOJWCY4MBaU/rLwbYw==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       typescript: 5.2.2
       zod: 3.22.3
     dev: false
 
-  /@t3-oss/env-nextjs@0.6.1(typescript@5.2.2)(zod@3.22.3):
-    resolution: {integrity: sha512-z1dIC++Vxj9kmzX5nSPfcrCSkszy3dTEPC4Ssx7Ap5AqR3c2Qa7S0xf8axn6coy7D/vCXDAAnHYnCMDhtcY3SQ==}
+  /@t3-oss/env-nextjs@0.7.1(typescript@5.2.2)(zod@3.22.3):
+    resolution: {integrity: sha512-tQDbNLGCOvKGi+JoGuJ/CJInJI7/kLWJqtgGppAKS7ZFLdVOqZYR/uRjxlXOWPnxmUKF8VswOAsq7fXUpNZDhA==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
-      '@t3-oss/env-core': 0.6.1(typescript@5.2.2)(zod@3.22.3)
+      '@t3-oss/env-core': 0.7.1(typescript@5.2.2)(zod@3.22.3)
       typescript: 5.2.2
       zod: 3.22.3
     dev: false

@@ -42,7 +42,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@rainbow-me/rainbowkit": "^1.0.11",
-    "@t3-oss/env-nextjs": "^0.6.1",
+    "@t3-oss/env-nextjs": "^0.7.0",
     "@tanstack/react-table": "^8.10.3",
     "@wagmi/core": "^1.4.3",
     "animejs": "^3.2.1",
