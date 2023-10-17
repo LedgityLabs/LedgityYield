@@ -140,8 +140,8 @@ devDependencies:
     specifier: ^5.0.0
     version: 5.0.0
   '@openzeppelin/contracts-upgradeable':
-    specifier: ^4.9.3
-    version: 4.9.3
+    specifier: ^5.0.0
+    version: 5.0.0(@openzeppelin/contracts@5.0.0)
   '@semantic-release/changelog':
     specifier: ^6.0.3
     version: 6.0.3(semantic-release@22.0.5)
@@ -4385,8 +4385,12 @@ packages:
       '@octokit/openapi-types': 19.0.0
     dev: true
 
-  /@openzeppelin/contracts-upgradeable@4.9.3:
-    resolution: {integrity: sha512-jjaHAVRMrE4UuZNfDwjlLGDxTHWIOwTJS2ldnc278a0gevfXfPr8hxKEVBGFBE96kl2G3VHDZhUimw/+G3TG2A==}
+  /@openzeppelin/contracts-upgradeable@5.0.0(@openzeppelin/contracts@5.0.0):
+    resolution: {integrity: sha512-D54RHzkOKHQ8xUssPgQe2d/U92mwaiBDY7qCCVGq6VqwQjsT3KekEQ3bonev+BLP30oZ0R1U6YC8/oLpizgC5Q==}
+    peerDependencies:
+      '@openzeppelin/contracts': 5.0.0
+    dependencies:
+      '@openzeppelin/contracts': 5.0.0
     dev: true
 
   /@openzeppelin/contracts@5.0.0:
