@@ -1,3 +1,25 @@
+## [1.236.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.235.2...v1.236.0) (2023-10-19)
+
+
+### Features
+
+* add Twitter login indicator to airdrop page + lazy loaded images ([6c7531a](https://github.com/LedgityLabs/LedgityYield/commit/6c7531a1f568cac3c1d4571acecfb2b0346719ae))
+
+
+### Fixes
+
+* **deps:** update dependency @radix-ui/react-select to v2 ([68e234f](https://github.com/LedgityLabs/LedgityYield/commit/68e234fb2867ddd2d7f9385fdcb565fb3e75908b))
+
+
+### Others
+
+* **deps:** update dependency @openzeppelin/contracts-upgradeable to v5 ([e58282a](https://github.com/LedgityLabs/LedgityYield/commit/e58282a22f8d8cc6add3defd361839e59a275552))
+* **deps:** update dependency @types/node to v20.8.7 ([38cdc93](https://github.com/LedgityLabs/LedgityYield/commit/38cdc938222a1509957e027ba016b0a2deb93fb6))
+* **deps:** update dependency eslint to v8.51.0 ([4d742b1](https://github.com/LedgityLabs/LedgityYield/commit/4d742b11536127f914c22c94cfddc04261b38c24))
+* **deps:** update dependency postcss to v8.4.31 ([4fa2679](https://github.com/LedgityLabs/LedgityYield/commit/4fa267911fbe31ee0e7586ee70638e648ecf1dad))
+* **deps:** update nextjs monorepo to v13.5.5 ([4076eed](https://github.com/LedgityLabs/LedgityYield/commit/4076eed56b051c49c101e0067c419a3ae1b87fb1))
+* **deps:** update react monorepo ([bfb2fb5](https://github.com/LedgityLabs/LedgityYield/commit/bfb2fb516b8b109667936ff4d5cdf618927a8d9a))
+
 ## [1.235.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.235.1...v1.235.2) (2023-10-16)
 
 
