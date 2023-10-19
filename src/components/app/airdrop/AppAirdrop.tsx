@@ -154,7 +154,38 @@ export const AppAirdrop: FC = () => {
   }
   return (
     <>
-      <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-44 xl:scale-105 xl:mt-5">
+      <div
+        className={twMerge(
+          "min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-44 xl:scale-105 xl:mt-5",
+          isAuthenticated && "pt-[4rem]",
+        )}
+      >
+        {isAuthenticated && (
+          <div className="absolute top-0 right-5 inline-flex flex-col items-center justify-center w-fit bg-slate-800 rounded-t-3xl p-3 pt-1">
+            <p className="text-slate-400 text-sm font-heading text-center">Connected as</p>
+            <div className="flex gap-3 justify-center items-center">
+              <Image
+                src={`/api/airdrop/twitterImage?url=${userSession!.user!.image!}`}
+                alt=""
+                width={28}
+                height={28}
+                unoptimized={true}
+                loading="lazy"
+                className="rounded-lg aspect-square"
+              />
+              <p className="text-[#20456c]/80 text-lg font-semibold text-slate-100 max-w-[120px] truncate text-ellipsis inline-block">
+                {userSession!.user!.name}
+              </p>
+              <Button
+                variant="destructive"
+                onClick={() => signOut()}
+                className="bg-transparent border-none hover:bg-red-500 h-auto p-1 text-slate-300"
+              >
+                <i className="ri-logout-circle-r-line text-lg" />
+              </Button>
+            </div>
+          </div>
+        )}
         <div className="relative text-center flex flex-col gap-16 w-full overflow-hidden bg-slate-800 pt-[8.5rem] rounded-[1.8rem] border-2 border-slate-500 shadow-lg">
           <div className="absolute -top-3 right-0 left-0 bg-[url('/assets/banners/multi-airdrop-square.png')] bg-cover bg-top opacity-95 w-full h-[830px] rounded-t-[1.7rem] overflow-hidden aspect-square"></div>
           <div>
@@ -334,11 +365,13 @@ export const AppAirdrop: FC = () => {
                   </p>
                   {(userStatus === "authenticated" && (
                     <div className="flex gap-3 items-center">
-                      <img
-                        src={userSession.user!.image!}
+                      <Image
+                        src={`/api/airdrop/twitterImage?url=${userSession.user!.image!}`}
                         alt=""
                         width={40}
                         height={40}
+                        unoptimized={true}
+                        loading="lazy"
                         className="rounded-full aspect-square"
                       />
                       <p className="text-[#20456c]/80 text-lg font-semibold text-slate-100">
@@ -858,11 +891,13 @@ export const AppAirdrop: FC = () => {
                         index % 2 === 0 && "bg-slate-900/70",
                       )}
                     >
-                      <img
+                      <Image
                         src={`/api/airdrop/twitterImage?url=${user.image}`}
                         width={35}
                         height={35}
                         alt=""
+                        unoptimized={true}
+                        loading="lazy"
                         className="rounded-xl bg-gradient-to-br from-indigo-700 to-indigo-500 overflow-hidden sm:min-w-[35px] sm:max-w-sm:[35px] sm:min-h-[35px] sm:max-h-[35px] min-w-[30px] max-w-[30px] min-h-[30px] max-h-[30px] aspect-square"
                       />
                       <p className="font-medium sm:text-base text-sm leading-none text-ellipsis max-w-full inline-block truncate">
@@ -890,11 +925,13 @@ export const AppAirdrop: FC = () => {
                   target="_blank"
                   className="flex sm:gap-3 gap-2 py-2 items-center bg-indigo-600 text-slate-300 sticky bottom-0"
                 >
-                  <img
+                  <Image
                     src={`/api/airdrop/twitterImage?url=${pointsData.image}`}
                     width={35}
                     height={35}
                     alt=""
+                    unoptimized={true}
+                    loading="lazy"
                     className="rounded-xl bg-gradient-to-br from-indigo-700 to-indigo-500 overflow-hidden sm:min-w-[35px] sm:max-w-sm:[35px] sm:min-h-[35px] sm:max-h-[35px] min-w-[30px] max-w-[30px] min-h-[30px] max-h-[30px] aspect-square "
                   />
                   <p className="font-medium sm:text-base text-sm leading-none text-ellipsis max-w-full inline-block truncate">
