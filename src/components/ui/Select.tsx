@@ -24,11 +24,11 @@ export const SelectContent: FC<React.ComponentPropsWithoutRef<typeof SelectPrimi
   children,
   ...props
 }) => (
-  <SelectPrimitive.Portal className="z-50">
+  <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       position="popper"
       align="center"
-      className={twMerge("mt-1 rounded-3xl", className)}
+      className={twMerge("mt-1 rounded-3xl z-50", className)}
       {...props}
     >
       <SelectPrimitive.Viewport style={{ overflow: "visible" }}>
@@ -55,7 +55,7 @@ export const SelectItem: FC<React.ComponentPropsWithoutRef<typeof SelectPrimitiv
   <SelectPrimitive.Item
     className={twMerge(
       "w-full flex justify-between items-center gap-8 px-3 h-[2.9rem] hover:bg-bg transition-colors rounded-xl cursor-pointer first-of-type:rounded-t-[1.25rem] last-of-type:rounded-b-[1.25rem]",
-      className
+      className,
     )}
     {...props}
   >
@@ -68,9 +68,11 @@ export const SelectItem: FC<React.ComponentPropsWithoutRef<typeof SelectPrimitiv
   </SelectPrimitive.Item>
 );
 
-export const SelectSeparator: FC<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>> = ({
-  className,
-  ...props
-}) => (
-  <SelectPrimitive.Separator className={twMerge("-mx-1 my-1 h-px bg-muted", className)} {...props} />
+export const SelectSeparator: FC<
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+> = ({ className, ...props }) => (
+  <SelectPrimitive.Separator
+    className={twMerge("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
 );
