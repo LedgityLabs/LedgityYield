@@ -1,3 +1,10 @@
+## [1.238.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.238.0...v1.238.1) (2023-10-23)
+
+
+### Fixes
+
+* fix className on non-supporting component ([0c0d102](https://github.com/LedgityLabs/LedgityYield/commit/0c0d1024ba7c7b2c42b1352f588f6e7b327d4dbd))
+
 ## [1.238.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.237.0...v1.238.0) (2023-10-23)
 
 
