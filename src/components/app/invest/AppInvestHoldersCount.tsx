@@ -74,7 +74,7 @@ export const AppInvestHoldersCount: FC<Props> = (props) => {
         ) : (
           "N/A"
         ))} */}
-      202
+      314
     </div>
   );
 };
