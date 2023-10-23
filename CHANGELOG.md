@@ -1,3 +1,15 @@
+## [1.237.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.236.0...v1.237.0) (2023-10-19)
+
+
+### Features
+
+* upgrade deps ([28f16a8](https://github.com/LedgityLabs/LedgityYield/commit/28f16a8173852bdbe21c98244913c111530abf55))
+
+
+### Fixes
+
+* resolve merge conflict ([305050d](https://github.com/LedgityLabs/LedgityYield/commit/305050d881754b97066eb9f31f8d014f755e371f))
+
 ## [1.236.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.235.2...v1.236.0) (2023-10-19)
 
 
