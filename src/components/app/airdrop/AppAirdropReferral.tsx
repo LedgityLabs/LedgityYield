@@ -42,11 +42,17 @@ export const AppAirdropReferral: FC = () => {
   };
 
   const copyLink = () => {
-    toast({
-      title: "Link copied",
-      description: "Your referral link has been copied to your clipboard.",
-      variant: "default",
-    });
+    if (session) {
+      navigator.clipboard.writeText(
+        `https://ledgity.finance/app/pre-mining?rId=${session.user.id}`,
+      );
+
+      toast({
+        title: "Link copied",
+        description: "Your referral link has been copied to your clipboard.",
+        variant: "default",
+      });
+    }
   };
 
   useEffect(() => {
