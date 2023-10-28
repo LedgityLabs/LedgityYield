@@ -78,6 +78,11 @@ model User {
   tweets Tweet[]
 
   ingested Boolean @default(false)
+
+  referrerId String?
+  referrer User? @relation("UserToReferrer", fields: [referrerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  referred User[] @relation("UserToReferrer")
+  @@index([referrerId])
 }
 
 model Tweet {

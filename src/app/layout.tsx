@@ -16,6 +16,15 @@ import { Toaster } from "@/components/ui/Toaster";
 const name = "Ledgity Yield";
 const description =
   "Ledgity Yield provides stablecoins holders with a real, stable and high-efficiency yield backed by Real World Assets (RWA) 💫";
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  colorScheme: "light",
+  themeColor: "rgb(var(--bg))",
+};
+
 export const metadata = {
   metadataBase: new URL("https://ledgity.finance"),
   applicationName: name,
@@ -23,8 +32,6 @@ export const metadata = {
     template: `${name} • %s`,
     default: "Untitled Page",
   },
-  colorScheme: "light",
-  themeColor: "rgb(var(--bg))",
   description: description,
   keywords: [
     "stablecoins",
@@ -38,11 +45,7 @@ export const metadata = {
     "ledgity",
     "ledgity.com",
   ],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+
   openGraph: {
     title: `${name} | Stable Yield For Stablecoins`,
     description: description,

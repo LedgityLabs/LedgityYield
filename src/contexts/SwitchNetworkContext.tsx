@@ -55,6 +55,7 @@ export const SwitchNetworkProvider: FC<Props> = ({ children }) => {
   };
 
   const handleDefault = () => {
+    // If the user comes from a prefered chain, set it as the default chain
     const chain = searchParams.get("c");
     let hasBeenSet = false;
     if (chain) {
@@ -71,6 +72,23 @@ export const SwitchNetworkProvider: FC<Props> = ({ children }) => {
     if (!hasBeenSet && getCookie("preferedChain")) {
       // Change the network to the prefered one (if the wallet is not connected)
       if (!switchWalletNetwork) switchNetwork(getCookie("preferedChain")!.toString());
+    }
+
+    // If the user comes from a referrer, set its id as the referrer
+    const referrer = searchParams.get("rId");
+    if (referrer) setCookie("referrerId", referrer);
+
+    // Ensure the user referrer is set in the DB if a referrer is given
+    if (getCookie("referrerId")) {
+      fetch("/api/airdrop/referral/set", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          referrerId: getCookie("referrerId"),
+        }),
+      }).then((res) => console.log(res));
     }
   };
 

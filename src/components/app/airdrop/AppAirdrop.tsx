@@ -28,6 +28,7 @@ import rubyBadge from "~/assets/airdrop/ranks/ruby.png";
 import titanBadge from "~/assets/airdrop/ranks/titan.png";
 import legendBadge from "~/assets/airdrop/ranks/legend.png";
 import secretBadge from "~/assets/airdrop/ranks/secret.png";
+import { AppAirdropReferral } from "./AppAirdropReferral";
 
 interface PointsData {
   success: boolean;
@@ -571,35 +572,37 @@ export const AppAirdrop: FC = () => {
                   </div>
                 </div>
               </a>
-              <a
-                href="#"
-                className="relative text-center min-w-[310px] w-[310px] min-h-40 border-2 border-[#f44c22]/60 bg-gradient-to-br from-[#391c14]/50 to-[#f44c22]/70 rounded-[1.7rem] pt-5 flex flex-col gap-2 overflow-hidden hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between cursor-not-allowed"
-                style={{
-                  boxShadow: "3px 5px 10px 0px rgba(244, 76, 34,0.2)",
-                  WebkitBoxShadow: "3px 5px 10px 0px rgba(244, 76, 34,0.2)",
-                }}
-                aria-disabled="true"
-              >
-                <div className="inline-flex items-center justify-center gap-2.5">
-                  <div className="aspect-square rounded-lg bg-[#f44c22]  w-[27px] h-[27px] inline-flex justify-center items-center">
-                    <i className="ri-links-fill font-black text-white " />
-                  </div>
-                  <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
-                    Referral program
-                  </h4>
-                </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div
+                    className="relative text-center min-w-[310px] w-[310px] min-h-40 border-2 border-[#f44c22]/60 bg-gradient-to-br from-[#391c14]/50 to-[#f44c22]/70 rounded-[1.7rem] pt-5 flex flex-col gap-2 overflow-hidden hover:shadow-lg hover:scale-[102%] transition-all h-[180px] justify-between cursor-pointer"
+                    style={{
+                      boxShadow: "3px 5px 10px 0px rgba(244, 76, 34,0.2)",
+                      WebkitBoxShadow: "3px 5px 10px 0px rgba(244, 76, 34,0.2)",
+                    }}
+                    aria-disabled="true"
+                  >
+                    <div className="inline-flex items-center justify-center gap-2.5">
+                      <div className="aspect-square rounded-lg bg-[#f44c22]  w-[27px] h-[27px] inline-flex justify-center items-center">
+                        <i className="ri-links-fill font-black text-white " />
+                      </div>
+                      <h4 className="text-[1.15rem] font-heading font-bold text-slate-100">
+                        Referral program
+                      </h4>
+                    </div>
 
-                <div className="px-6 text-slate-200/50 font-medium text-[0.92rem]  leading-[1.85] text-center">
-                  10 <i className="ri-coupon-2-fill" /> per USDC in Pre-Mining
-                  <br />+ juicy bonuses in USDC
-                </div>
-                <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-[#0c0605] rounded-b-[1.6rem]">
-                  <h5 className="font-semibold text-[#8a6258]">Your points</h5>
-                  <div className="text-xl font-bold font-heading text-slate-200/50">
-                    Coming soon
+                    <div className="px-6 text-slate-200/50 font-medium text-[0.92rem]  leading-[1.85] text-center">
+                      10 <i className="ri-coupon-2-fill" /> per USDC in Pre-Mining
+                      <br />+ juicy bonuses in USDC
+                    </div>
+                    <div className="flex px-4 py-2 justify-between items-center w-full min-w-full bg-[#0c0605] rounded-b-[1.6rem]">
+                      <h5 className="font-semibold text-[#8a6258]">Your points</h5>
+                      <div className="text-xl font-bold font-heading text-slate-200/50">-</div>
+                    </div>
                   </div>
-                </div>
-              </a>
+                </DialogTrigger>
+                <AppAirdropReferral />
+              </Dialog>
             </div>
           </div>
         </div>

@@ -322,6 +322,46 @@ export type OrderDirection =
   | 'asc'
   | 'desc';
 
+export type PreMiningLock = {
+  id: Scalars['ID'];
+  amount: Scalars['BigDecimal'];
+  duration: Scalars['Int'];
+};
+
+export type PreMiningLock_filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  amount?: InputMaybe<Scalars['BigDecimal']>;
+  amount_not?: InputMaybe<Scalars['BigDecimal']>;
+  amount_gt?: InputMaybe<Scalars['BigDecimal']>;
+  amount_lt?: InputMaybe<Scalars['BigDecimal']>;
+  amount_gte?: InputMaybe<Scalars['BigDecimal']>;
+  amount_lte?: InputMaybe<Scalars['BigDecimal']>;
+  amount_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  duration?: InputMaybe<Scalars['Int']>;
+  duration_not?: InputMaybe<Scalars['Int']>;
+  duration_gt?: InputMaybe<Scalars['Int']>;
+  duration_lt?: InputMaybe<Scalars['Int']>;
+  duration_gte?: InputMaybe<Scalars['Int']>;
+  duration_lte?: InputMaybe<Scalars['Int']>;
+  duration_in?: InputMaybe<Array<Scalars['Int']>>;
+  duration_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+};
+
+export type PreMiningLock_orderBy =
+  | 'id'
+  | 'amount'
+  | 'duration';
+
 export type Query = {
   c59144_ltoken?: Maybe<LToken>;
   c59144_ltokens: Array<LToken>;
@@ -333,6 +373,8 @@ export type Query = {
   c59144_activities: Array<Activity>;
   c59144_rewardsMint?: Maybe<RewardsMint>;
   c59144_rewardsMints: Array<RewardsMint>;
+  c59144_preMiningLock?: Maybe<PreMiningLock>;
+  c59144_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
   c59144__meta?: Maybe<_Meta_>;
 };
@@ -423,6 +465,24 @@ export type Queryc59144_rewardsMintsArgs = {
   orderBy?: InputMaybe<RewardsMint_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<RewardsMint_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_preMiningLockArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc59144_preMiningLocksArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PreMiningLock_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<PreMiningLock_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -534,6 +594,8 @@ export type Subscription = {
   c59144_activities: Array<Activity>;
   c59144_rewardsMint?: Maybe<RewardsMint>;
   c59144_rewardsMints: Array<RewardsMint>;
+  c59144_preMiningLock?: Maybe<PreMiningLock>;
+  c59144_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
   c59144__meta?: Maybe<_Meta_>;
 };
@@ -624,6 +686,24 @@ export type Subscriptionc59144_rewardsMintsArgs = {
   orderBy?: InputMaybe<RewardsMint_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<RewardsMint_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_preMiningLockArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc59144_preMiningLocksArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PreMiningLock_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<PreMiningLock_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -748,6 +828,10 @@ export type _SubgraphErrorPolicy_ =
   c59144_rewardsMint: InContextSdkMethod<Query['c59144_rewardsMint'], Queryc59144_rewardsMintArgs, MeshContext>,
   /** null **/
   c59144_rewardsMints: InContextSdkMethod<Query['c59144_rewardsMints'], Queryc59144_rewardsMintsArgs, MeshContext>,
+  /** null **/
+  c59144_preMiningLock: InContextSdkMethod<Query['c59144_preMiningLock'], Queryc59144_preMiningLockArgs, MeshContext>,
+  /** null **/
+  c59144_preMiningLocks: InContextSdkMethod<Query['c59144_preMiningLocks'], Queryc59144_preMiningLocksArgs, MeshContext>,
   /** Access to subgraph metadata **/
   c59144__meta: InContextSdkMethod<Query['c59144__meta'], Queryc59144__metaArgs, MeshContext>
   };
@@ -777,6 +861,10 @@ export type _SubgraphErrorPolicy_ =
   c59144_rewardsMint: InContextSdkMethod<Subscription['c59144_rewardsMint'], Subscriptionc59144_rewardsMintArgs, MeshContext>,
   /** null **/
   c59144_rewardsMints: InContextSdkMethod<Subscription['c59144_rewardsMints'], Subscriptionc59144_rewardsMintsArgs, MeshContext>,
+  /** null **/
+  c59144_preMiningLock: InContextSdkMethod<Subscription['c59144_preMiningLock'], Subscriptionc59144_preMiningLockArgs, MeshContext>,
+  /** null **/
+  c59144_preMiningLocks: InContextSdkMethod<Subscription['c59144_preMiningLocks'], Subscriptionc59144_preMiningLocksArgs, MeshContext>,
   /** Access to subgraph metadata **/
   c59144__meta: InContextSdkMethod<Subscription['c59144__meta'], Subscriptionc59144__metaArgs, MeshContext>
   };
