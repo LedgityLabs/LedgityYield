@@ -1,3 +1,10 @@
+## [1.239.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.238.1...v1.239.0) (2023-10-28)
+
+
+### Features
+
+* new Pre-Mining Referral program ([ccca283](https://github.com/LedgityLabs/LedgityYield/commit/ccca2837e1fd11f649ab09f30eee96f25da04a56))
+
 ## [1.238.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.238.0...v1.238.1) (2023-10-23)
 
 
