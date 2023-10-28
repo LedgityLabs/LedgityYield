@@ -1,3 +1,10 @@
+## [1.239.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.239.0...v1.239.1) (2023-10-28)
+
+
+### Fixes
+
+* fix copy referral link button ([abb8542](https://github.com/LedgityLabs/LedgityYield/commit/abb8542c42bdc1b08adc01a4f1c81727a3b24a54))
+
 ## [1.239.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.238.1...v1.239.0) (2023-10-28)
 
 
