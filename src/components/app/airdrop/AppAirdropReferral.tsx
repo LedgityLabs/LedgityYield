@@ -133,7 +133,7 @@ export const AppAirdropReferral: FC = () => {
                   </li>
                   <li className="flex flex-col items-center justify-center gap-2 text-slate-100">
                     <p className="text-3xl font-bold font-heading text-center">
-                      {referrerData.averageLockDuration.toFixed(0)}mo
+                      {(referrerData.averageLockDuration || 0).toFixed(0)}mo
                     </p>
                     <p className="text-sm font-medium text-slate-400 text-center">
                       Referees avg. lock
