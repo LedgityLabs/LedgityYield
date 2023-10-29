@@ -1,3 +1,10 @@
+## [1.239.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.239.1...v1.239.2) (2023-10-29)
+
+
+### Fixes
+
+* try to fix render error ([7d20137](https://github.com/LedgityLabs/LedgityYield/commit/7d2013740cfce3d6ae28b79035aa14c3a8b0f94c))
+
 ## [1.239.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.239.0...v1.239.1) (2023-10-28)
 
 
