@@ -1,3 +1,10 @@
+## [1.240.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.239.2...v1.240.0) (2023-10-30)
+
+
+### Features
+
+* increase Pre-Mining airdrop points + new limited-time Pre-mining bonus ([da43489](https://github.com/LedgityLabs/LedgityYield/commit/da43489dd50f5de39d0efb9aa11a4b07ef61704b))
+
 ## [1.239.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.239.1...v1.239.2) (2023-10-29)
 
 
