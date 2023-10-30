@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui";
+import { Card, TokenLogo } from "@/components/ui";
 import Image from "next/image";
 import { FC } from "react";
 import usdcIcon from "~/assets/tokens/usdc.png";
@@ -12,7 +12,7 @@ import { AppPreMiningParticipate } from "./AppPreMiningParticipate";
 
 export const AppPreMining: FC = () => {
   return (
-    <div className="flex max-w-full flex-col gap-8 pb-8 lg:w-[830px]">
+    <div className="flex max-w-full flex-col pb-8 lg:w-[830px] gap-0 items-center">
       <Card
         defaultGradient={true}
         circleIntensity={0.07}
@@ -108,6 +108,15 @@ export const AppPreMining: FC = () => {
 
         <AppPreMiningParticipate />
       </Card>
+
+      <div className="bg-gradient-to-tr from-primary/10 to-primary/50 py-8 sm:px-8 px-5 rounded-b-3xl font-heading font-bold  flex flex-col gap-5 items-center justify-center border-2 border-primary/30 w-[90%] relative -top-2 -z-10">
+        <p className="text-base text-center inline-block rounded-2xl  px-2.5 py-1.5 bg-indigo-950/70 text-white/80 leading-none">
+          Limited-time bonus 🎉
+        </p>
+        <p className="text-2xl text-center text-indigo-950/75">
+          Invest &ge;1000 <TokenLogo symbol="USDC" size={25} className="inline" /> to get extra $LDY
+        </p>
+      </div>
     </div>
   );
 };

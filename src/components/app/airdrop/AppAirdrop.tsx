@@ -292,7 +292,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-10-30" /> days
+                    <DaysUntil date="2023-11-08" /> days
                   </span>
                 </p>
               </li>
@@ -301,7 +301,7 @@ export const AppAirdrop: FC = () => {
                   Revealed in
                   <br />{" "}
                   <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-11-15" /> days
+                    <DaysUntil date="2023-11-30" /> days
                   </span>
                 </p>
               </li>
@@ -552,13 +552,13 @@ export const AppAirdrop: FC = () => {
                     </li>
                     <li>
                       6mo<span className="inline-block w-0.5"></span>=
-                      <span className="inline-block w-0.5"></span>4
+                      <span className="inline-block w-0.5"></span>5
                       <span className="inline-block w-0.5"></span>
                       <i className="ri-coupon-2-fill" />
                     </li>
                     <li>
                       12mo<span className="inline-block w-0.5"></span>=
-                      <span className="inline-block w-0.5"></span>16
+                      <span className="inline-block w-0.5"></span>25
                       <span className="inline-block w-0.5"></span>
                       <i className="ri-coupon-2-fill" />
                     </li>
