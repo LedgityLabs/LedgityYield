@@ -234,6 +234,35 @@ export const AppAirdrop: FC = () => {
                   <li
                     className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
                     style={{
+                      boxShadow: "3px 10px 20px 0px rgba(97, 223, 255, 0.13)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(97, 223, 255, 0.13)",
+                    }}
+                  >
+                    <div className="inline-flex items-center gap-1.5">
+                      <TokenLogo symbol="LVC" size={34} className="" />
+                      <p className="text-[1.7rem] font-bold text-slate-300  font-heading leading-none">
+                        LVC
+                      </p>
+                    </div>
+                    <h4 className="text-[#61dfff]/60 font-heading text-[1.32rem] font-bold leading-none">
+                      Velocore
+                    </h4>
+                  </li>
+                </TooltipTrigger>
+                <TooltipContent className="font-semibold">
+                  -- $LVC
+                  <br />
+                  -
+                  <br />
+                  0.1% of total supply
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild={true}>
+                  <li
+                    className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
+                    style={{
                       boxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.13)",
                       WebkitBoxShadow: "3px 10px 20px 0px rgba(223, 153, 89, 0.13)",
                     }}
@@ -268,34 +297,26 @@ export const AppAirdrop: FC = () => {
                     }}
                   >
                     <div className="inline-flex items-center gap-1.5">
-                      <TokenLogo symbol="LVC" size={34} className="" />
+                      <div className="w-[34px] h-[34px] inline-flex items-center justify-center rounded-full bg-black">
+                        <TokenLogo symbol="HZN" size={22} className="" />
+                      </div>
                       <p className="text-[1.7rem] font-bold text-slate-300  font-heading leading-none">
-                        LVC
+                        HZN
                       </p>
                     </div>
-                    <h4 className="text-[#61dfff]/60 font-heading text-[1.32rem] font-bold leading-none">
-                      Velocore
+                    <h4 className="text-[#61dfff]/60 font-heading text-[1.1rem] font-bold leading-none">
+                      HorizonDEX
                     </h4>
                   </li>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
-                  -- $LVC
+                  -- $HZN
                   <br />
                   -
                   <br />
                   0.1% of total supply
                 </TooltipContent>
               </Tooltip>
-
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Revealed in
-                  <br />{" "}
-                  <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-11-08" /> days
-                  </span>
-                </p>
-              </li>
               <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
                 <p className="text-center text-[0.93rem] font-semibold text-slate-500">
                   Revealed in
