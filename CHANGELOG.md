@@ -1,3 +1,10 @@
+## [1.241.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.240.0...v1.241.0) (2023-11-08)
+
+
+### Features
+
+* reveal HorizonDEX airdropped token ([93c9a8f](https://github.com/LedgityLabs/LedgityYield/commit/93c9a8ffabf9a820c61741688a1fc1140bc6be6e))
+
 ## [1.240.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.239.2...v1.240.0) (2023-10-30)
 
 
