@@ -317,15 +317,32 @@ export const AppAirdrop: FC = () => {
                   0.1% of total supply
                 </TooltipContent>
               </Tooltip>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Revealed in
-                  <br />{" "}
-                  <span className="font-bold text-slate-400/80">
-                    <DaysUntil date="2023-11-30" /> days
-                  </span>
-                </p>
-              </li>
+              <Tooltip>
+                <TooltipTrigger asChild={true}>
+                  <li
+                    className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
+                    style={{
+                      boxShadow: "3px 10px 20px 0px rgba(206, 85, 85, 0.13)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(206, 85, 85, 0.13)",
+                    }}
+                  >
+                    <div className="inline-flex items-center gap-1.5">
+                      <TokenLogo symbol="AA" size={37} className="" />
+
+                      <p className="text-[1.7rem] font-bold text-slate-300  font-heading leading-none">
+                        AA
+                      </p>
+                    </div>
+                    <h4 className="text-[rgb(206,85,85)] font-heading text-[1.62rem] font-bold leading-none">
+                      Arthera
+                    </h4>
+                  </li>
+                </TooltipTrigger>
+                <TooltipContent className="font-semibold">
+                  -- $AA
+                  <br />
+                </TooltipContent>
+              </Tooltip>
               <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
                 <p className="text-center text-[0.93rem] font-semibold text-slate-500">
                   Not yet planned

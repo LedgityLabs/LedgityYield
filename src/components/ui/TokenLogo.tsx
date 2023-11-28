@@ -8,6 +8,7 @@ import eurocTokenLogo from "~/assets/tokens/euroc.png";
 import leurocTokenLogo from "~/assets/tokens/leuroc.png";
 import lvcTokenLogo from "~/assets/tokens/lvc.png";
 import hznTokenLogo from "~/assets/tokens/hzn.png";
+import aaTokenLogo from "~/assets/tokens/aa.svg";
 import unknownTokenLogo from "~/assets/tokens/unknown.svg";
 
 export const tokensLogos: Record<string, StaticImageData> = {
@@ -19,6 +20,7 @@ export const tokensLogos: Record<string, StaticImageData> = {
   LYNX: lynxTokenLogo,
   LVC: lvcTokenLogo,
   HZN: hznTokenLogo,
+  AA: aaTokenLogo,
 };
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
