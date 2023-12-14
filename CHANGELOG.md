@@ -1,3 +1,10 @@
+## [1.242.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.0...v1.242.1) (2023-12-14)
+
+
+### Fixes
+
+* upgrade deps (especially Wagmi to fix Ledger security vulnerability) ([6d4ee3c](https://github.com/LedgityLabs/LedgityYield/commit/6d4ee3c26c2ec2eff53172ea1e20302f5beac6cb))
+
 ## [1.242.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.241.0...v1.242.0) (2023-11-28)
 
 
