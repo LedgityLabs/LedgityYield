@@ -322,8 +322,8 @@ export const AppAirdrop: FC = () => {
                   <li
                     className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
                     style={{
-                      boxShadow: "3px 10px 20px 0px rgba(206, 85, 85, 0.13)",
-                      WebkitBoxShadow: "3px 10px 20px 0px rgba(206, 85, 85, 0.13)",
+                      boxShadow: "3px 10px 20px 0px rgba(206, 85, 85, 0.25)",
+                      WebkitBoxShadow: "3px 10px 20px 0px rgba(206, 85, 85, 0.25)",
                     }}
                   >
                     <div className="inline-flex items-center gap-1.5">
