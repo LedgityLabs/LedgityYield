@@ -1,3 +1,10 @@
+## [1.242.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.241.0...v1.242.0) (2023-11-28)
+
+
+### Features
+
+* reveal Arthera on the airdrop page ([02350ae](https://github.com/LedgityLabs/LedgityYield/commit/02350ae3d3d42e50eca4b05e6def1ba949a67509))
+
 ## [1.241.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.240.0...v1.241.0) (2023-11-08)
 
 
