@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
+import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/options";
 import { redis } from "@/lib/db";
 
 // Revalidate every minute
