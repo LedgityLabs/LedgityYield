@@ -1,3 +1,10 @@
+## [1.242.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.3...v1.242.4) (2023-12-28)
+
+
+### Fixes
+
+* fix Next Auth Prisma error ([bf9d989](https://github.com/LedgityLabs/LedgityYield/commit/bf9d989d32842885c7e7824917cef30820de947a))
+
 ## [1.242.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.2...v1.242.3) (2023-12-28)
 
 
