@@ -83,12 +83,12 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: queueCursor } = useLTokenWithdrawalQueueCursor({
     address: lTokenAddress,
-    watch: true,
+    // watch: true,
     // cacheTime: 60_000,
   });
   const { data: expectedRetained } = useLTokenGetExpectedRetained({
     address: lTokenAddress,
-    watch: true,
+    // watch: true,
     // cacheTime: 60_000,
   });
   const { data: usableUnderlyings } = useLTokenUsableUnderlyings({
