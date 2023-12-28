@@ -20,10 +20,10 @@ export const AdminLToken: FC<Props> = ({ lTokenSymbol }) => {
       <AdminLTokenWithdrawalRequests lTokenSymbol={lTokenSymbol} />
       <AdminLTokenAddresses lTokenSymbol={lTokenSymbol} />
       <AdminLTokenAPR lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenRepatriate lTokenSymbol={lTokenSymbol} />
       <AdminLTokenRetentionRate lTokenSymbol={lTokenSymbol} />
       <AdminLTokenClaimFees lTokenSymbol={lTokenSymbol} />
       <AdminLTokenSignal lTokenSymbol={lTokenSymbol} />
-      <AdminLTokenRepatriate lTokenSymbol={lTokenSymbol} />
     </AdminMasonry>
   );
 };

@@ -101,7 +101,7 @@ export const AllowanceTxButton: FC<Props> = ({
         parentError={parentIsError ? parentError : errorMessage}
         transactionSummary={
           <span>
-            Allow Ledgity Yield to spend{" "}
+            Allow Ledgity Yield to use{" "}
             <Amount
               value={amount}
               decimals={decimals}
