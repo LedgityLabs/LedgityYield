@@ -1,3 +1,10 @@
+## [1.242.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.1...v1.242.2) (2023-12-18)
+
+
+### Fixes
+
+* fix 0 repatriated amount in admin ([19ad68b](https://github.com/LedgityLabs/LedgityYield/commit/19ad68b478880b2757be6dcef191a66baf2500df))
+
 ## [1.242.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.0...v1.242.1) (2023-12-14)
 
 
