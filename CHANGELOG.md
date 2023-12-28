@@ -1,3 +1,10 @@
+## [1.243.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.243.0...v1.243.1) (2023-12-28)
+
+
+### Fixes
+
+* fix repatriate section and improve approval wording ([d2e0623](https://github.com/LedgityLabs/LedgityYield/commit/d2e0623b4165db245a5e7feb45e2c90709871e15))
+
 ## [1.243.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.4...v1.243.0) (2023-12-28)
 
 
