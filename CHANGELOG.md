@@ -1,3 +1,10 @@
+## [1.243.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.4...v1.243.0) (2023-12-28)
+
+
+### Features
+
+* re-enable repatriate box in L-Tokens admin ([861e561](https://github.com/LedgityLabs/LedgityYield/commit/861e561747a16a23c203d8dd84f2ef3633bec4c7))
+
 ## [1.242.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.3...v1.242.4) (2023-12-28)
 
 
