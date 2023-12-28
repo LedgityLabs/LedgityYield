@@ -226,7 +226,6 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   // Get only header group
   const headerGroup = table.getHeaderGroups()[0];
 
-  console.log("BEFORE DEBUG REPATRIATION AMOUNT");
   useEffect(() => {
     // Retrieve data about non-big requests
     const nonBigData = requestsData.reduce(
@@ -244,21 +243,15 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
     setNonBigRequestsCount(nonBigData.count);
 
     // Retrieve whether repatriation is needed, and if so, how much
-    console.log("DEBUG REPATRIATION AMOUNT");
-    console.log("nonBigData.totalAmount", nonBigData.totalAmount);
-    console.log("usableUnderlyings", usableUnderlyings);
     const _repatriationNeeded = nonBigData.totalAmount > usableUnderlyings!;
-    console.log("_repatriationNeeded", _repatriationNeeded);
     const _repatriationAmount = _repatriationNeeded
       ? nonBigData.totalAmount - usableUnderlyings!
       : 0n;
-    console.log("_repatriationAmount", _repatriationAmount);
 
     // Set repatriation states
     setRepatriationNeeded(_repatriationNeeded);
     setRepatriationAmount(_repatriationAmount);
   }, [requestsData]);
-  console.log("AFTER DEBUG REPATRIATION AMOUNT");
 
   return (
     <AdminBrick
