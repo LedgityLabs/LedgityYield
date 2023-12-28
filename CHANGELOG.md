@@ -1,3 +1,11 @@
+## [1.242.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.2...v1.242.3) (2023-12-28)
+
+
+### Fixes
+
+* fix infinite reload on withrawal requests component ([506f406](https://github.com/LedgityLabs/LedgityYield/commit/506f4063a8b14b083f17e051aa61586657405505))
+* upgrade deps and remove some console logs ([34c23ab](https://github.com/LedgityLabs/LedgityYield/commit/34c23abdd734dd6756e7f29f9317c1660ab706fa))
+
 ## [1.242.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.242.1...v1.242.2) (2023-12-18)
 
 
