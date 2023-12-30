@@ -9,6 +9,7 @@ import { AdminLTokenAddresses } from "./AdminLTokenAddresses";
 import { AdminLTokenSignal } from "./AdminLTokenSignal";
 import { AdminLTokenProcessRequests } from "./AdminLTokenProcessRequests";
 import { AdminLTokenWithdrawalRequests } from "./AdminLTokenWithdrawalRequests";
+import { AdminLTokenFeesRate } from "./AdminLTokenFeesRate";
 
 interface Props {
   lTokenSymbol: string;
@@ -22,6 +23,7 @@ export const AdminLToken: FC<Props> = ({ lTokenSymbol }) => {
       <AdminLTokenAPR lTokenSymbol={lTokenSymbol} />
       <AdminLTokenRepatriate lTokenSymbol={lTokenSymbol} />
       <AdminLTokenRetentionRate lTokenSymbol={lTokenSymbol} />
+      <AdminLTokenFeesRate lTokenSymbol={lTokenSymbol} />
       <AdminLTokenClaimFees lTokenSymbol={lTokenSymbol} />
       <AdminLTokenSignal lTokenSymbol={lTokenSymbol} />
     </AdminMasonry>
