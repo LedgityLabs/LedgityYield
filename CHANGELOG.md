@@ -1,3 +1,10 @@
+## [1.244.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.243.1...v1.244.0) (2023-12-30)
+
+
+### Features
+
+* add fees rate updater in L-Tokens admin ([04a37f7](https://github.com/LedgityLabs/LedgityYield/commit/04a37f7839fa3ae5dd800cdd68c6cd22ab225d5f))
+
 ## [1.243.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.243.0...v1.243.1) (2023-12-28)
 
 
