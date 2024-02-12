@@ -72,7 +72,7 @@
     "@graphprotocol/client-cli": "^3.0.0",
     "@graphprotocol/graph-ts": "0.32.0",
     "@next/bundle-analyzer": "^14.0.0",
-    "@nomicfoundation/hardhat-verify": "^1.1.1",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
     "@openzeppelin/contracts": "^4.9.0",
     "@openzeppelin/contracts-upgradeable": "^4.9.0",
     "@semantic-release/changelog": "^6.0.3",
