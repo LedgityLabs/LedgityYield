@@ -88,7 +88,7 @@
     "conventional-changelog-conventionalcommits": "^7.0.2",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "8.51.0",
+    "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "hardhat": "^2.19.4",
     "hardhat-contract-sizer": "^2.10.0",
