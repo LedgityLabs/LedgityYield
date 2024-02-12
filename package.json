@@ -71,7 +71,7 @@
   "devDependencies": {
     "@graphprotocol/client-cli": "^3.0.0",
     "@graphprotocol/graph-ts": "0.32.0",
-    "@next/bundle-analyzer": "^13.5.6",
+    "@next/bundle-analyzer": "^14.0.0",
     "@nomicfoundation/hardhat-verify": "^1.1.1",
     "@openzeppelin/contracts": "^4.9.0",
     "@openzeppelin/contracts-upgradeable": "^4.9.0",
@@ -89,7 +89,7 @@
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.51.0",
-    "eslint-config-next": "13.5.5",
+    "eslint-config-next": "14.1.0",
     "hardhat": "^2.19.4",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-deploy": "^0.11.45",
