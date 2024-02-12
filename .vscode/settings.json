@@ -4,7 +4,6 @@
     "renovate.json": false,
     "tsconfig.json": false,
     "vercel.json": false,
-    "pnpm-lock.yaml": false,
     "postcss.config.js": false,
     "next-env.d.ts": false,
     "CHANGELOG.md": false,
@@ -39,7 +38,10 @@
     "contracts/foundry/cache": false,
     "contracts/foundry/out": false,
     "contracts/hardhat/artifacts": false,
-    "contracts/hardhat/cache": false
+    "contracts/hardhat/cache": false,
+    "secrets.json": false,
+    ".env": false,
+    "report.md": false
   },
   // Required because of a bug with pnpm and prettier plugins.
   // See: https://github.com/prettier-solidity/prettier-plugin-solidity#pnpm

@@ -28,7 +28,7 @@ contract LDYStaking is Ownable2Step {
      * @notice Update high tier status of a given account.
      * @param account The account to update the high tier status of.
      */
-    function setHighTierAccount(address account, bool status) external onlyOwner {
+    function setHighTierAccount(address account, bool status) public onlyOwner {
         highTierAccounts[account] = status;
     }
 

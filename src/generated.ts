@@ -196,7 +196,7 @@ export const genericErc20ABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export const globalBlacklistABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -317,7 +317,7 @@ export const globalBlacklistABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export const globalBlacklistAddress = {
   31337: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
@@ -332,7 +332,7 @@ export const globalBlacklistAddress = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export const globalBlacklistConfig = {
   address: globalBlacklistAddress,
@@ -348,7 +348,7 @@ export const globalBlacklistConfig = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export const globalOwnerABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -464,7 +464,7 @@ export const globalOwnerABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export const globalOwnerAddress = {
   31337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
@@ -479,7 +479,7 @@ export const globalOwnerAddress = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwnerABI } as const
 
@@ -492,7 +492,7 @@ export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwner
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export const globalPauseABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -613,7 +613,7 @@ export const globalPauseABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export const globalPauseAddress = {
   31337: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
@@ -628,7 +628,7 @@ export const globalPauseAddress = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export const globalPauseConfig = { address: globalPauseAddress, abi: globalPauseABI } as const
 
@@ -656,10 +656,10 @@ export const iTransfersListenerABI = [
 
 /**
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export const ldyStakingABI = [
   {
@@ -743,25 +743,25 @@ export const ldyStakingABI = [
 
 /**
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export const ldyStakingAddress = {
   31337: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
-  42161: '0x06f54B7f27eEC56616b951598BaA3B84D7660AB4',
+  42161: '0x4e80beDBD58b084a8946b7BA6814c28906Be2d02',
   59140: '0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6',
-  59144: '0x06f54B7f27eEC56616b951598BaA3B84D7660AB4',
+  59144: '0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1',
   421613: '0x5BFFC5303719f0dC6050a2D8042936714109985f',
 } as const
 
 /**
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export const ldyStakingConfig = { address: ldyStakingAddress, abi: ldyStakingABI } as const
 
@@ -1393,7 +1393,7 @@ export const lTokenABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export const lTokenSignalerABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -1506,7 +1506,7 @@ export const lTokenSignalerABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export const lTokenSignalerAddress = {
   31337: '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0',
@@ -1521,7 +1521,7 @@ export const lTokenSignalerAddress = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export const lTokenSignalerConfig = {
   address: lTokenSignalerAddress,
@@ -1534,7 +1534,7 @@ export const lTokenSignalerConfig = {
 
 /**
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export const multicall3ABI = [
   {
@@ -1775,7 +1775,7 @@ export const multicall3ABI = [
 
 /**
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export const multicall3Address = {
   31337: '0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82',
@@ -1784,7 +1784,7 @@ export const multicall3Address = {
 
 /**
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export const multicall3Config = { address: multicall3Address, abi: multicall3ABI } as const
 
@@ -3601,7 +3601,7 @@ export function usePrepareGenericErc20TransferFrom(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistRead<
   TFunctionName extends string,
@@ -3629,7 +3629,7 @@ export function useGlobalBlacklistRead<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistGlobalOwner<
   TFunctionName extends 'globalOwner',
@@ -3658,7 +3658,7 @@ export function useGlobalBlacklistGlobalOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistIsBlacklisted<
   TFunctionName extends 'isBlacklisted',
@@ -3687,7 +3687,7 @@ export function useGlobalBlacklistIsBlacklisted<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistOwner<
   TFunctionName extends 'owner',
@@ -3716,7 +3716,7 @@ export function useGlobalBlacklistOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistProxiableUuid<
   TFunctionName extends 'proxiableUUID',
@@ -3745,7 +3745,7 @@ export function useGlobalBlacklistProxiableUuid<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistRenounceOwnership<
   TFunctionName extends 'renounceOwnership',
@@ -3774,7 +3774,7 @@ export function useGlobalBlacklistRenounceOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistTransferOwnership<
   TFunctionName extends 'transferOwnership',
@@ -3803,7 +3803,7 @@ export function useGlobalBlacklistTransferOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistWrite<
   TFunctionName extends string,
@@ -3839,7 +3839,7 @@ export function useGlobalBlacklistWrite<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistBlacklist<
   TMode extends WriteContractMode = undefined,
@@ -3876,7 +3876,7 @@ export function useGlobalBlacklistBlacklist<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistInitialize<
   TMode extends WriteContractMode = undefined,
@@ -3913,7 +3913,7 @@ export function useGlobalBlacklistInitialize<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistUnBlacklist<
   TMode extends WriteContractMode = undefined,
@@ -3950,7 +3950,7 @@ export function useGlobalBlacklistUnBlacklist<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistUpgradeTo<
   TMode extends WriteContractMode = undefined,
@@ -3987,7 +3987,7 @@ export function useGlobalBlacklistUpgradeTo<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function useGlobalBlacklistUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
@@ -4024,7 +4024,7 @@ export function useGlobalBlacklistUpgradeToAndCall<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function usePrepareGlobalBlacklistWrite<TFunctionName extends string>(
   config: Omit<
@@ -4049,7 +4049,7 @@ export function usePrepareGlobalBlacklistWrite<TFunctionName extends string>(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function usePrepareGlobalBlacklistBlacklist(
   config: Omit<
@@ -4075,7 +4075,7 @@ export function usePrepareGlobalBlacklistBlacklist(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function usePrepareGlobalBlacklistInitialize(
   config: Omit<
@@ -4101,7 +4101,7 @@ export function usePrepareGlobalBlacklistInitialize(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function usePrepareGlobalBlacklistUnBlacklist(
   config: Omit<
@@ -4127,7 +4127,7 @@ export function usePrepareGlobalBlacklistUnBlacklist(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function usePrepareGlobalBlacklistUpgradeTo(
   config: Omit<
@@ -4153,7 +4153,7 @@ export function usePrepareGlobalBlacklistUpgradeTo(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function usePrepareGlobalBlacklistUpgradeToAndCall(
   config: Omit<
@@ -4179,7 +4179,7 @@ export function usePrepareGlobalBlacklistUpgradeToAndCall(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerRead<
   TFunctionName extends string,
@@ -4207,7 +4207,7 @@ export function useGlobalOwnerRead<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerOwner<
   TFunctionName extends 'owner',
@@ -4236,7 +4236,7 @@ export function useGlobalOwnerOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerPendingOwner<
   TFunctionName extends 'pendingOwner',
@@ -4265,7 +4265,7 @@ export function useGlobalOwnerPendingOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerProxiableUuid<
   TFunctionName extends 'proxiableUUID',
@@ -4294,7 +4294,7 @@ export function useGlobalOwnerProxiableUuid<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerWrite<
   TFunctionName extends string,
@@ -4330,7 +4330,7 @@ export function useGlobalOwnerWrite<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerAcceptOwnership<
   TMode extends WriteContractMode = undefined,
@@ -4367,7 +4367,7 @@ export function useGlobalOwnerAcceptOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerInitialize<
   TMode extends WriteContractMode = undefined,
@@ -4404,7 +4404,7 @@ export function useGlobalOwnerInitialize<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerRenounceOwnership<
   TMode extends WriteContractMode = undefined,
@@ -4441,7 +4441,7 @@ export function useGlobalOwnerRenounceOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerTransferOwnership<
   TMode extends WriteContractMode = undefined,
@@ -4478,7 +4478,7 @@ export function useGlobalOwnerTransferOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerUpgradeTo<
   TMode extends WriteContractMode = undefined,
@@ -4515,7 +4515,7 @@ export function useGlobalOwnerUpgradeTo<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function useGlobalOwnerUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
@@ -4552,7 +4552,7 @@ export function useGlobalOwnerUpgradeToAndCall<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerWrite<TFunctionName extends string>(
   config: Omit<
@@ -4577,7 +4577,7 @@ export function usePrepareGlobalOwnerWrite<TFunctionName extends string>(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerAcceptOwnership(
   config: Omit<
@@ -4603,7 +4603,7 @@ export function usePrepareGlobalOwnerAcceptOwnership(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerInitialize(
   config: Omit<
@@ -4629,7 +4629,7 @@ export function usePrepareGlobalOwnerInitialize(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerRenounceOwnership(
   config: Omit<
@@ -4655,7 +4655,7 @@ export function usePrepareGlobalOwnerRenounceOwnership(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerTransferOwnership(
   config: Omit<
@@ -4681,7 +4681,7 @@ export function usePrepareGlobalOwnerTransferOwnership(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerUpgradeTo(
   config: Omit<
@@ -4707,7 +4707,7 @@ export function usePrepareGlobalOwnerUpgradeTo(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function usePrepareGlobalOwnerUpgradeToAndCall(
   config: Omit<
@@ -4733,7 +4733,7 @@ export function usePrepareGlobalOwnerUpgradeToAndCall(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseRead<
   TFunctionName extends string,
@@ -4761,7 +4761,7 @@ export function useGlobalPauseRead<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseGlobalOwner<
   TFunctionName extends 'globalOwner',
@@ -4790,7 +4790,7 @@ export function useGlobalPauseGlobalOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseOwner<
   TFunctionName extends 'owner',
@@ -4819,7 +4819,7 @@ export function useGlobalPauseOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPausePaused<
   TFunctionName extends 'paused',
@@ -4848,7 +4848,7 @@ export function useGlobalPausePaused<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseProxiableUuid<
   TFunctionName extends 'proxiableUUID',
@@ -4877,7 +4877,7 @@ export function useGlobalPauseProxiableUuid<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseRenounceOwnership<
   TFunctionName extends 'renounceOwnership',
@@ -4906,7 +4906,7 @@ export function useGlobalPauseRenounceOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseTransferOwnership<
   TFunctionName extends 'transferOwnership',
@@ -4935,7 +4935,7 @@ export function useGlobalPauseTransferOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseWrite<
   TFunctionName extends string,
@@ -4971,7 +4971,7 @@ export function useGlobalPauseWrite<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseInitialize<
   TMode extends WriteContractMode = undefined,
@@ -5008,7 +5008,7 @@ export function useGlobalPauseInitialize<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPausePause<
   TMode extends WriteContractMode = undefined,
@@ -5045,7 +5045,7 @@ export function useGlobalPausePause<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseUnpause<
   TMode extends WriteContractMode = undefined,
@@ -5082,7 +5082,7 @@ export function useGlobalPauseUnpause<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseUpgradeTo<
   TMode extends WriteContractMode = undefined,
@@ -5119,7 +5119,7 @@ export function useGlobalPauseUpgradeTo<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function useGlobalPauseUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
@@ -5156,7 +5156,7 @@ export function useGlobalPauseUpgradeToAndCall<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function usePrepareGlobalPauseWrite<TFunctionName extends string>(
   config: Omit<
@@ -5181,7 +5181,7 @@ export function usePrepareGlobalPauseWrite<TFunctionName extends string>(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function usePrepareGlobalPauseInitialize(
   config: Omit<
@@ -5207,7 +5207,7 @@ export function usePrepareGlobalPauseInitialize(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function usePrepareGlobalPausePause(
   config: Omit<
@@ -5233,7 +5233,7 @@ export function usePrepareGlobalPausePause(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function usePrepareGlobalPauseUnpause(
   config: Omit<
@@ -5259,7 +5259,7 @@ export function usePrepareGlobalPauseUnpause(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function usePrepareGlobalPauseUpgradeTo(
   config: Omit<
@@ -5285,7 +5285,7 @@ export function usePrepareGlobalPauseUpgradeTo(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function usePrepareGlobalPauseUpgradeToAndCall(
   config: Omit<
@@ -5387,10 +5387,10 @@ export function usePrepareITransfersListenerOnLTokenTransfer(
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingRead<
   TFunctionName extends string,
@@ -5415,10 +5415,10 @@ export function useLdyStakingRead<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"highTierAccounts"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingHighTierAccounts<
   TFunctionName extends 'highTierAccounts',
@@ -5444,10 +5444,10 @@ export function useLdyStakingHighTierAccounts<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"owner"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingOwner<
   TFunctionName extends 'owner',
@@ -5473,10 +5473,10 @@ export function useLdyStakingOwner<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"pendingOwner"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingPendingOwner<
   TFunctionName extends 'pendingOwner',
@@ -5502,10 +5502,10 @@ export function useLdyStakingPendingOwner<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"tierOf"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingTierOf<
   TFunctionName extends 'tierOf',
@@ -5531,10 +5531,10 @@ export function useLdyStakingTierOf<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingWrite<
   TFunctionName extends string,
@@ -5567,10 +5567,10 @@ export function useLdyStakingWrite<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"acceptOwnership"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingAcceptOwnership<
   TMode extends WriteContractMode = undefined,
@@ -5604,10 +5604,10 @@ export function useLdyStakingAcceptOwnership<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"renounceOwnership"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingRenounceOwnership<
   TMode extends WriteContractMode = undefined,
@@ -5641,10 +5641,10 @@ export function useLdyStakingRenounceOwnership<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"setHighTierAccount"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingSetHighTierAccount<
   TMode extends WriteContractMode = undefined,
@@ -5678,10 +5678,10 @@ export function useLdyStakingSetHighTierAccount<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"transferOwnership"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function useLdyStakingTransferOwnership<
   TMode extends WriteContractMode = undefined,
@@ -5715,10 +5715,10 @@ export function useLdyStakingTransferOwnership<
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function usePrepareLdyStakingWrite<TFunctionName extends string>(
   config: Omit<
@@ -5740,10 +5740,10 @@ export function usePrepareLdyStakingWrite<TFunctionName extends string>(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"acceptOwnership"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function usePrepareLdyStakingAcceptOwnership(
   config: Omit<
@@ -5766,10 +5766,10 @@ export function usePrepareLdyStakingAcceptOwnership(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"renounceOwnership"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function usePrepareLdyStakingRenounceOwnership(
   config: Omit<
@@ -5792,10 +5792,10 @@ export function usePrepareLdyStakingRenounceOwnership(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"setHighTierAccount"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function usePrepareLdyStakingSetHighTierAccount(
   config: Omit<
@@ -5818,10 +5818,10 @@ export function usePrepareLdyStakingSetHighTierAccount(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"transferOwnership"`.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function usePrepareLdyStakingTransferOwnership(
   config: Omit<
@@ -7687,7 +7687,7 @@ export function usePrepareLTokenUpgradeToAndCall(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerRead<
   TFunctionName extends string,
@@ -7715,7 +7715,7 @@ export function useLTokenSignalerRead<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerGlobalOwner<
   TFunctionName extends 'globalOwner',
@@ -7744,7 +7744,7 @@ export function useLTokenSignalerGlobalOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerOwner<
   TFunctionName extends 'owner',
@@ -7773,7 +7773,7 @@ export function useLTokenSignalerOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerProxiableUuid<
   TFunctionName extends 'proxiableUUID',
@@ -7802,7 +7802,7 @@ export function useLTokenSignalerProxiableUuid<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerRenounceOwnership<
   TFunctionName extends 'renounceOwnership',
@@ -7831,7 +7831,7 @@ export function useLTokenSignalerRenounceOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerTransferOwnership<
   TFunctionName extends 'transferOwnership',
@@ -7860,7 +7860,7 @@ export function useLTokenSignalerTransferOwnership<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerWrite<
   TFunctionName extends string,
@@ -7896,7 +7896,7 @@ export function useLTokenSignalerWrite<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerInitialize<
   TMode extends WriteContractMode = undefined,
@@ -7933,7 +7933,7 @@ export function useLTokenSignalerInitialize<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerSignalLToken<
   TMode extends WriteContractMode = undefined,
@@ -7970,7 +7970,7 @@ export function useLTokenSignalerSignalLToken<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerUpgradeTo<
   TMode extends WriteContractMode = undefined,
@@ -8007,7 +8007,7 @@ export function useLTokenSignalerUpgradeTo<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function useLTokenSignalerUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
@@ -8044,7 +8044,7 @@ export function useLTokenSignalerUpgradeToAndCall<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function usePrepareLTokenSignalerWrite<TFunctionName extends string>(
   config: Omit<
@@ -8069,7 +8069,7 @@ export function usePrepareLTokenSignalerWrite<TFunctionName extends string>(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function usePrepareLTokenSignalerInitialize(
   config: Omit<
@@ -8095,7 +8095,7 @@ export function usePrepareLTokenSignalerInitialize(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function usePrepareLTokenSignalerSignalLToken(
   config: Omit<
@@ -8121,7 +8121,7 @@ export function usePrepareLTokenSignalerSignalLToken(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function usePrepareLTokenSignalerUpgradeTo(
   config: Omit<
@@ -8147,7 +8147,7 @@ export function usePrepareLTokenSignalerUpgradeTo(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function usePrepareLTokenSignalerUpgradeToAndCall(
   config: Omit<
@@ -8170,7 +8170,7 @@ export function usePrepareLTokenSignalerUpgradeToAndCall(
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3Read<
   TFunctionName extends string,
@@ -8195,7 +8195,7 @@ export function useMulticall3Read<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getBasefee"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetBasefee<
   TFunctionName extends 'getBasefee',
@@ -8221,7 +8221,7 @@ export function useMulticall3GetBasefee<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getBlockHash"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetBlockHash<
   TFunctionName extends 'getBlockHash',
@@ -8247,7 +8247,7 @@ export function useMulticall3GetBlockHash<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getBlockNumber"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetBlockNumber<
   TFunctionName extends 'getBlockNumber',
@@ -8273,7 +8273,7 @@ export function useMulticall3GetBlockNumber<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getChainId"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetChainId<
   TFunctionName extends 'getChainId',
@@ -8299,7 +8299,7 @@ export function useMulticall3GetChainId<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockCoinbase"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetCurrentBlockCoinbase<
   TFunctionName extends 'getCurrentBlockCoinbase',
@@ -8325,7 +8325,7 @@ export function useMulticall3GetCurrentBlockCoinbase<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockDifficulty"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetCurrentBlockDifficulty<
   TFunctionName extends 'getCurrentBlockDifficulty',
@@ -8351,7 +8351,7 @@ export function useMulticall3GetCurrentBlockDifficulty<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockGasLimit"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetCurrentBlockGasLimit<
   TFunctionName extends 'getCurrentBlockGasLimit',
@@ -8377,7 +8377,7 @@ export function useMulticall3GetCurrentBlockGasLimit<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockTimestamp"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetCurrentBlockTimestamp<
   TFunctionName extends 'getCurrentBlockTimestamp',
@@ -8403,7 +8403,7 @@ export function useMulticall3GetCurrentBlockTimestamp<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getEthBalance"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetEthBalance<
   TFunctionName extends 'getEthBalance',
@@ -8429,7 +8429,7 @@ export function useMulticall3GetEthBalance<
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getLastBlockHash"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3GetLastBlockHash<
   TFunctionName extends 'getLastBlockHash',
@@ -8455,7 +8455,7 @@ export function useMulticall3GetLastBlockHash<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3Write<
   TFunctionName extends string,
@@ -8488,7 +8488,7 @@ export function useMulticall3Write<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3Aggregate<
   TMode extends WriteContractMode = undefined,
@@ -8522,7 +8522,7 @@ export function useMulticall3Aggregate<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3Aggregate3<
   TMode extends WriteContractMode = undefined,
@@ -8556,7 +8556,7 @@ export function useMulticall3Aggregate3<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3Value"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3Aggregate3Value<
   TMode extends WriteContractMode = undefined,
@@ -8590,7 +8590,7 @@ export function useMulticall3Aggregate3Value<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"blockAndAggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3BlockAndAggregate<
   TMode extends WriteContractMode = undefined,
@@ -8624,7 +8624,7 @@ export function useMulticall3BlockAndAggregate<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryAggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3TryAggregate<
   TMode extends WriteContractMode = undefined,
@@ -8658,7 +8658,7 @@ export function useMulticall3TryAggregate<
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryBlockAndAggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function useMulticall3TryBlockAndAggregate<
   TMode extends WriteContractMode = undefined,
@@ -8692,7 +8692,7 @@ export function useMulticall3TryBlockAndAggregate<
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3Write<TFunctionName extends string>(
   config: Omit<
@@ -8714,7 +8714,7 @@ export function usePrepareMulticall3Write<TFunctionName extends string>(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3Aggregate(
   config: Omit<
@@ -8737,7 +8737,7 @@ export function usePrepareMulticall3Aggregate(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3Aggregate3(
   config: Omit<
@@ -8760,7 +8760,7 @@ export function usePrepareMulticall3Aggregate3(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3Value"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3Aggregate3Value(
   config: Omit<
@@ -8783,7 +8783,7 @@ export function usePrepareMulticall3Aggregate3Value(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"blockAndAggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3BlockAndAggregate(
   config: Omit<
@@ -8806,7 +8806,7 @@ export function usePrepareMulticall3BlockAndAggregate(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryAggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3TryAggregate(
   config: Omit<
@@ -8829,7 +8829,7 @@ export function usePrepareMulticall3TryAggregate(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryBlockAndAggregate"`.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function usePrepareMulticall3TryBlockAndAggregate(
   config: Omit<
@@ -13455,7 +13455,7 @@ export function prepareWriteGenericErc20<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function getGlobalBlacklist(
   config: Omit<GetContractArgs, 'abi' | 'address'> & {
@@ -13476,7 +13476,7 @@ export function getGlobalBlacklist(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function readGlobalBlacklist<
   TAbi extends readonly unknown[] = typeof globalBlacklistABI,
@@ -13500,7 +13500,7 @@ export function readGlobalBlacklist<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function writeGlobalBlacklist<
   TFunctionName extends string,
@@ -13537,7 +13537,7 @@ export function writeGlobalBlacklist<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export function prepareWriteGlobalBlacklist<
   TAbi extends readonly unknown[] = typeof globalBlacklistABI,
@@ -13561,7 +13561,7 @@ export function prepareWriteGlobalBlacklist<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function getGlobalOwner(
   config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalOwnerAddress },
@@ -13580,7 +13580,7 @@ export function getGlobalOwner(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function readGlobalOwner<
   TAbi extends readonly unknown[] = typeof globalOwnerABI,
@@ -13604,7 +13604,7 @@ export function readGlobalOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function writeGlobalOwner<
   TFunctionName extends string,
@@ -13638,7 +13638,7 @@ export function writeGlobalOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export function prepareWriteGlobalOwner<
   TAbi extends readonly unknown[] = typeof globalOwnerABI,
@@ -13662,7 +13662,7 @@ export function prepareWriteGlobalOwner<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function getGlobalPause(
   config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalPauseAddress },
@@ -13681,7 +13681,7 @@ export function getGlobalPause(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function readGlobalPause<
   TAbi extends readonly unknown[] = typeof globalPauseABI,
@@ -13705,7 +13705,7 @@ export function readGlobalPause<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function writeGlobalPause<
   TFunctionName extends string,
@@ -13739,7 +13739,7 @@ export function writeGlobalPause<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export function prepareWriteGlobalPause<
   TAbi extends readonly unknown[] = typeof globalPauseABI,
@@ -13794,10 +13794,10 @@ export function prepareWriteITransfersListener<
  * Wraps __{@link getContract}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function getLdyStaking(
   config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof ldyStakingAddress },
@@ -13813,10 +13813,10 @@ export function getLdyStaking(
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function readLdyStaking<
   TAbi extends readonly unknown[] = typeof ldyStakingABI,
@@ -13837,10 +13837,10 @@ export function readLdyStaking<
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function writeLdyStaking<
   TFunctionName extends string,
@@ -13868,10 +13868,10 @@ export function writeLdyStaking<
  * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link ldyStakingABI}__.
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export function prepareWriteLdyStaking<
   TAbi extends readonly unknown[] = typeof ldyStakingABI,
@@ -13942,7 +13942,7 @@ export function prepareWriteLToken<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function getLTokenSignaler(
   config: Omit<GetContractArgs, 'abi' | 'address'> & {
@@ -13963,7 +13963,7 @@ export function getLTokenSignaler(
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function readLTokenSignaler<
   TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
@@ -13987,7 +13987,7 @@ export function readLTokenSignaler<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function writeLTokenSignaler<
   TFunctionName extends string,
@@ -14024,7 +14024,7 @@ export function writeLTokenSignaler<
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export function prepareWriteLTokenSignaler<
   TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
@@ -14045,7 +14045,7 @@ export function prepareWriteLTokenSignaler<
  * Wraps __{@link getContract}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function getMulticall3(
   config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof multicall3Address },
@@ -14061,7 +14061,7 @@ export function getMulticall3(
  * Wraps __{@link readContract}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function readMulticall3<
   TAbi extends readonly unknown[] = typeof multicall3ABI,
@@ -14082,7 +14082,7 @@ export function readMulticall3<
  * Wraps __{@link writeContract}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function writeMulticall3<
   TFunctionName extends string,
@@ -14110,7 +14110,7 @@ export function writeMulticall3<
  * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link multicall3ABI}__.
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io//address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
  */
 export function prepareWriteMulticall3<
   TAbi extends readonly unknown[] = typeof multicall3ABI,

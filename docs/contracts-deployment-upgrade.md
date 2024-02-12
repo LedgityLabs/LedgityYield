@@ -2,7 +2,7 @@
 
 ## Initial deployment
 
-Run `pnpm hardhat deploy --network <network>` to deploy the whole contract base on a given network
+Run `pnpm hardhat deploy --network <network>` to deploy all protocol's contracts on a given network
 
 ## Additional deployment
 

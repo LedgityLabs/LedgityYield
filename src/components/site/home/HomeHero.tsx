@@ -5,13 +5,13 @@ import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import anime from "animejs";
 import { animateScroll } from "@/lib/animateScroll";
-import { useTVLGrowth7d } from "../../../hooks/use7DTVLGrowth";
+// import { useTVLGrowth7d } from "../../../hooks/use7DTVLGrowth";
 import * as d3 from "d3-format";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const HomeHero: FC<Props> = ({ className }) => {
-  const { tvlGrowth7d, isLoading: tvlGrowth7dIsLoading } = useTVLGrowth7d();
+  // const { tvlGrowth7d, isLoading: tvlGrowth7dIsLoading } = useTVLGrowth7d();
   const heroSection = useRef<HTMLDivElement>(null);
 
   // useLayoutEffect(() => {
