@@ -5,12 +5,12 @@ import { readLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { useEffect, useState } from "react";
-import {
-  Activity,
-  LToken,
-  RewardsMint,
-  execute,
-} from "graphclient";
+// import {
+//   Activity,
+//   LToken,
+//   RewardsMint,
+//   execute,
+// } from "graphclient";
 
 type Data = Record<
   string,
@@ -84,137 +84,139 @@ export const useGrowthRevenueData = () => {
     // Initialize empty data keys arrays
     lTokens.forEach((lToken) => (newData[lToken] = []));
 
-    // Retrieve investments start timestamps for each L-Token
-    const investmentStartRequest: {
-      data: {
-        [key: string]: LToken[] & {
-          activities: Activity[];
-        };
-      };
-    } = await execute(
-      `
-      {
-        c${walletClient!.chain.id}_ltokens {
-          symbol
-          activities(where: {account: "${
-            walletClient!.account.address
-          }" }, orderBy: timestamp, orderDirection: asc, first: 1) {
-            timestamp
-          }
-        }
-      }
-      `,
-      {},
-    );
+    // TODO: REPLACE GRAPHCLIENT
+    return null;
+    // // Retrieve investments start timestamps for each L-Token
+    // const investmentStartRequest: {
+    //   data: {
+    //     [key: string]: LToken[] & {
+    //       activities: Activity[];
+    //     };
+    //   };
+    // } = await execute(
+    //   `
+    //   {
+    //     c${walletClient!.chain.id}_ltokens {
+    //       symbol
+    //       activities(where: {account: "${
+    //         walletClient!.account.address
+    //       }" }, orderBy: timestamp, orderDirection: asc, first: 1) {
+    //         timestamp
+    //       }
+    //     }
+    //   }
+    //   `,
+    //   {},
+    // );
 
-    // Return empty data if there is no investment start
-    if (!investmentStartRequest.data) return null;
-    const investmentStartData = investmentStartRequest.data[`c${walletClient!.chain.id}_ltokens`];
-    if (!investmentStartData) return null;
+    // // Return empty data if there is no investment start
+    // if (!investmentStartRequest.data) return null;
+    // const investmentStartData = investmentStartRequest.data[`c${walletClient!.chain.id}_ltokens`];
+    // if (!investmentStartData) return null;
 
-    // Push investment start as first data point
-    for (const lToken of investmentStartData) {
-      if (lToken.activities && lToken.activities.length > 0) {
-        newData[lToken.symbol].push({
-          timestamp: Number(lToken.activities[0].timestamp),
-          revenue: 0,
-          balanceBefore: 0,
-          growth: 0,
-        });
-      }
-    }
+    // // Push investment start as first data point
+    // for (const lToken of investmentStartData) {
+    //   if (lToken.activities && lToken.activities.length > 0) {
+    //     newData[lToken.symbol].push({
+    //       timestamp: Number(lToken.activities[0].timestamp),
+    //       revenue: 0,
+    //       balanceBefore: 0,
+    //       growth: 0,
+    //     });
+    //   }
+    // }
 
-    // Retrieve all rewards mints events data
-    const mintsEventsRequest: {
-      data: {
-        [key: string]: [
-          RewardsMint & {
-            ltoken: LToken;
-          },
-        ];
-      };
-    } = await execute(
-      `
-      {
-        c${walletClient!.chain.id}_rewardsMints(where: { account: "${
-          walletClient!.account.address
-        }" }, orderBy: timestamp, orderDirection: asc) {
-          timestamp
-          revenue
-          growth
-          balanceBefore
-          ltoken {
-            id
-            symbol
-            decimals
-          }
-        }
-      }
-      `,
-      {},
-    );
+    // // Retrieve all rewards mints events data
+    // const mintsEventsRequest: {
+    //   data: {
+    //     [key: string]: [
+    //       RewardsMint & {
+    //         ltoken: LToken;
+    //       },
+    //     ];
+    //   };
+    // } = await execute(
+    //   `
+    //   {
+    //     c${walletClient!.chain.id}_rewardsMints(where: { account: "${
+    //       walletClient!.account.address
+    //     }" }, orderBy: timestamp, orderDirection: asc) {
+    //       timestamp
+    //       revenue
+    //       growth
+    //       balanceBefore
+    //       ltoken {
+    //         id
+    //         symbol
+    //         decimals
+    //       }
+    //     }
+    //   }
+    //   `,
+    //   {},
+    // );
 
-    // Push each reward mint as data point
-    const mintsEventsData = mintsEventsRequest.data[`c${walletClient!.chain.id}_rewardsMints`];
-    for (const rewardsMint of mintsEventsData) {
-      const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1));
+    // // Push each reward mint as data point
+    // const mintsEventsData = mintsEventsRequest.data[`c${walletClient!.chain.id}_rewardsMints`];
+    // for (const rewardsMint of mintsEventsData) {
+    //   const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1));
 
-      // Convert revenue to decimals and then to USD
-      let revenue = Number(formatUnits(BigInt(rewardsMint.revenue), rewardsMint.ltoken.decimals));
-      revenue = revenue * usdRate;
+    //   // Convert revenue to decimals and then to USD
+    //   let revenue = Number(formatUnits(BigInt(rewardsMint.revenue), rewardsMint.ltoken.decimals));
+    //   revenue = revenue * usdRate;
 
-      // Convert balance before to decimals and then to USD
-      let balanceBefore = Number(
-        formatUnits(BigInt(rewardsMint.balanceBefore), rewardsMint.ltoken.decimals),
-      );
-      balanceBefore = balanceBefore * usdRate;
+    //   // Convert balance before to decimals and then to USD
+    //   let balanceBefore = Number(
+    //     formatUnits(BigInt(rewardsMint.balanceBefore), rewardsMint.ltoken.decimals),
+    //   );
+    //   balanceBefore = balanceBefore * usdRate;
 
-      newData[rewardsMint.ltoken.symbol].push({
-        timestamp: Number(rewardsMint.timestamp),
-        revenue: revenue,
-        balanceBefore: balanceBefore,
-        growth: Number(rewardsMint.growth),
-      });
-    }
+    //   newData[rewardsMint.ltoken.symbol].push({
+    //     timestamp: Number(rewardsMint.timestamp),
+    //     revenue: revenue,
+    //     balanceBefore: balanceBefore,
+    //     growth: Number(rewardsMint.growth),
+    //   });
+    // }
 
-    // Push not yet minted rewards as data point
-    for (const lToken of lTokens) {
-      const lTokenAddress = getContractAddress(lToken, publicClient.chain.id)!;
-      const decimals = await readLToken({
-        address: lTokenAddress,
-        functionName: "decimals",
-      });
-      const _balanceBefore = await readLToken({
-        address: lTokenAddress,
-        functionName: "realBalanceOf",
-        args: [walletClient!.account.address],
-      });
-      const unclaimedRewards = await readLToken({
-        address: lTokenAddress,
-        functionName: "unmintedRewardsOf",
-        args: [walletClient!.account.address],
-      });
-      const usdRate = await getTokenUSDRate(lToken.slice(1));
+    // // Push not yet minted rewards as data point
+    // for (const lToken of lTokens) {
+    //   const lTokenAddress = getContractAddress(lToken, publicClient.chain.id)!;
+    //   const decimals = await readLToken({
+    //     address: lTokenAddress,
+    //     functionName: "decimals",
+    //   });
+    //   const _balanceBefore = await readLToken({
+    //     address: lTokenAddress,
+    //     functionName: "realBalanceOf",
+    //     args: [walletClient!.account.address],
+    //   });
+    //   const unclaimedRewards = await readLToken({
+    //     address: lTokenAddress,
+    //     functionName: "unmintedRewardsOf",
+    //     args: [walletClient!.account.address],
+    //   });
+    //   const usdRate = await getTokenUSDRate(lToken.slice(1));
 
-      // Convert revenue to decimals and then to USD
-      let revenue = Number(formatUnits(unclaimedRewards, decimals));
-      revenue = revenue * usdRate;
+    //   // Convert revenue to decimals and then to USD
+    //   let revenue = Number(formatUnits(unclaimedRewards, decimals));
+    //   revenue = revenue * usdRate;
 
-      // Convert balance before to decimals and then to USD
-      let balanceBefore = Number(formatUnits(_balanceBefore, decimals));
-      balanceBefore = balanceBefore * usdRate;
+    //   // Convert balance before to decimals and then to USD
+    //   let balanceBefore = Number(formatUnits(_balanceBefore, decimals));
+    //   balanceBefore = balanceBefore * usdRate;
 
-      newData[lToken].push({
-        timestamp: Math.floor(Date.now() / 1000),
-        revenue: revenue,
-        balanceBefore: balanceBefore,
-        growth: balanceBefore ? revenue / balanceBefore : 0,
-      });
-    }
+    //   newData[lToken].push({
+    //     timestamp: Math.floor(Date.now() / 1000),
+    //     revenue: revenue,
+    //     balanceBefore: balanceBefore,
+    //     growth: balanceBefore ? revenue / balanceBefore : 0,
+    //   });
+    // }
 
-    setDataErrorMessage(undefined);
-    setIsError(false);
-    return newData;
+    // setDataErrorMessage(undefined);
+    // setIsError(false);
+    // return newData;
   };
 
   useEffect(() => {

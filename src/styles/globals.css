@@ -29,7 +29,7 @@
   margin-bottom: -400px;
   pointer-events: none;
   user-select: none;
-  mask-image: radial-gradient(100% 50%, black, transparent);
+  mask-image: radial-gradient(100% 50% at center, black, transparent);
   background-image: conic-gradient(
       from 90deg at 70% 60%,
       rgb(var(--bg)),

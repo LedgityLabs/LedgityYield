@@ -31,7 +31,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import { Activity, LToken, execute } from "../../../../.graphclient";
+// import { Activity, LToken, execute } from "../../../../.graphclient";
 import { useWalletClient } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
@@ -125,40 +125,40 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     if (!isLoading) {
       setIsLoading(true);
       if (walletClient) {
-        await execute(
-          `
-          {
-            c${walletClient.chain.id}_activities(where: { account: "${walletClient.account.address}" }) {
-              id
-              requestId
-              ltoken {
-                symbol
-                decimals
-              }
-              timestamp
-              action
-              amount
-              amountAfterFees
-              status
-            }
-          }
-          `,
-          {},
-        )
-          .then(
-            (result: {
-              data: {
-                [key: string]: Activity[];
-              };
-            }) => {
-              setActivityData(result.data[`c${walletClient.chain.id}_activities`]);
-              setIsLoading(false);
-            },
-          )
-          .catch((e: Error) => {
-            setActivityData([]);
-            setIsLoading(false);
-          });
+      //   await execute(
+      //     `
+      //     {
+      //       c${walletClient.chain.id}_activities(where: { account: "${walletClient.account.address}" }) {
+      //         id
+      //         requestId
+      //         ltoken {
+      //           symbol
+      //           decimals
+      //         }
+      //         timestamp
+      //         action
+      //         amount
+      //         amountAfterFees
+      //         status
+      //       }
+      //     }
+      //     `,
+      //     {},
+      //   )
+      //     .then(
+      //       (result: {
+      //         data: {
+      //           [key: string]: Activity[];
+      //         };
+      //       }) => {
+      //         setActivityData(result.data[`c${walletClient.chain.id}_activities`]);
+      //         setIsLoading(false);
+      //       },
+      //     )
+      //     .catch((e: Error) => {
+      //       setActivityData([]);
+      //       setIsLoading(false);
+      //     });
       }
       setIsLoading(false);
     }
