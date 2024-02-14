@@ -3,13 +3,10 @@ import React, { FC, useLayoutEffect, useRef } from "react";
 import { Cube, Amount, Rate, Spinner } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-// import { useTVLGrowth7d } from "../../../hooks/use7DTVLGrowth";
-import * as d3 from "d3-format";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const HomeHero: FC<Props> = ({ className }) => {
-  // const { tvlGrowth7d, isLoading: tvlGrowth7dIsLoading } = useTVLGrowth7d();
   const heroSection = useRef<HTMLDivElement>(null);
   return (
     <section
@@ -70,19 +67,6 @@ const HomeHero: FC<Props> = ({ className }) => {
         <div className="mt-14 flex w-screen flex-col items-center justify-center xl:mt-20">
           <div className="dark-neon min-w-[700px] sm:min-w-[1300px] md:min-w-[1300px] lg:min-w-[1800px]" />
           <ul className="flex items-center justify-center gap-24 px-14 lg:mt-2 lg:gap-32">
-            {/* <li className="text-center sm:text-left">
-              <span className="font-heading text-6xl font-bold text-slate-50/[65%] lg:text-7xl inline-flex items-center">
-                {tvlGrowth7dIsLoading ? (
-                  <Spinner className="text-3xl mr-3" />
-                ) : (
-                  d3.format(".2s")(tvlGrowth7d * 100)
-                )}
-                %
-              </span>
-              <h3 className="font-heading text-xl font-bold text-primary opacity-70">
-                TVL growth <span className="opacity-70">(7d)</span>
-              </h3>
-            </li> */}
             <li className="hidden_  sm:text-left text-center md:block_">
               <span
                 prefix="±"

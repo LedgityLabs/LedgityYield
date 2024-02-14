@@ -16,7 +16,8 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"],
-      "~/*": ["./public/*"]
+      "~/*": ["./public/*"],
+      "graphclient": ["./.graphclient/"]
     },
     "plugins": [
       {
@@ -25,7 +26,9 @@
     ]
   },
   "ts-node": {
+    "esm": true,
     "experimentalResolver": true,
+    "experimentalSpecifierResolution": "node",
     "files": true
   },
   "include": [
@@ -37,7 +40,8 @@
     "hardhat.config.cjs",
     "contracts/**/*.ts",
     "scripts/**/*.ts",
-    "scripts/extract-abis.cts"
+    "scripts/extract-abis.cts",
+    ".graphclient/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

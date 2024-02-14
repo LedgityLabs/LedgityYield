@@ -31,7 +31,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-// import { Activity, LToken, execute } from "../../../../.graphclient";
+import { Activity, LToken, execute } from "../../../../.graphclient";
 
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
@@ -139,40 +139,41 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     if (!isLoading) {
       setIsLoading(true);
       if (account && account.address) {
-        //   await execute(
-        //     `
-        //     {
-        //       c${account.chainId}_activities(where: { account: "${account.address}" }) {
-        //         id
-        //         requestId
-        //         ltoken {
-        //           symbol
-        //           decimals
-        //         }
-        //         timestamp
-        //         action
-        //         amount
-        //         amountAfterFees
-        //         status
-        //       }
-        //     }
-        //     `,
-        //     {},
-        //   )
-        //     .then(
-        //       (result: {
-        //         data: {
-        //           [key: string]: Activity[];
-        //         };
-        //       }) => {
-        //         setActivityData(result.data[`c${account.chainId}_activities`]);
-        //         setIsLoading(false);
-        //       },
-        //     )
-        //     .catch((e: Error) => {
-        //       setActivityData([]);
-        //       setIsLoading(false);
-        //     });
+          await execute(
+            `
+            {
+              c${account.chainId}_activities(where: { account: "${account.address}" }) {
+                id
+                requestId
+                ltoken {
+                  symbol
+                  decimals
+                }
+                timestamp
+                action
+                amount
+                amountAfterFees
+                status
+              }
+            }
+            `,
+            {},
+          )
+            .then(
+              // @ts-ignore
+              (result: {
+                data: {
+                  [key: string]: Activity[];
+                };
+              }) => {
+                setActivityData(result.data[`c${account.chainId}_activities`]);
+                setIsLoading(false);
+              },
+            )
+            .catch((e: Error) => {
+              setActivityData([]);
+              setIsLoading(false);
+            });
       }
       setIsLoading(false);
     }

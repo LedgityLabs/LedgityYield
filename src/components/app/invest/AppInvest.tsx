@@ -1,7 +1,6 @@
 "use client";
 import React, { FC } from "react";
 import { AppInvestTVL } from "./AppInvestTVL";
-import { AppInvestDistributedRewards } from "./AppInvestDistributedRewards";
 import { AppInvestVariation } from "./AppInvestVariation";
 import { AppInvestTokens } from "./AppInvestTokens";
 import { Card } from "@/components/ui";
