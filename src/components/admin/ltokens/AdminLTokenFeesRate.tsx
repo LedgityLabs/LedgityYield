@@ -6,7 +6,7 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
 import { useQueryClient } from "@tanstack/react-query";
-import { useBlockNumber } from "wagmi";
+import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
@@ -51,7 +51,8 @@ export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
             if (e.target.value === "") setHasUserInteracted(false);
           }}
         />
-        <TxButton preparation={preparation} hasUserInteracted={hasUserInteracted} size="medium">
+        
+        <TxButton preparation={preparation as UseSimulateContractReturnType} hasUserInteracted={hasUserInteracted} size="medium">
           Set
         </TxButton>
       </div>
