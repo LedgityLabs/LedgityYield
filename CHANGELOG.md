@@ -1,3 +1,10 @@
+## [1.245.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.0...v1.245.1) (2024-02-14)
+
+
+### Fixes
+
+* fix build type error ([4a50b93](https://github.com/LedgityLabs/LedgityYield/commit/4a50b9366201cca46e1108dbbfa12f00c9005d19))
+
 ## [1.245.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.244.0...v1.245.0) (2024-02-14)
 
 
