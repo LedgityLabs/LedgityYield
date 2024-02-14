@@ -1,3 +1,31 @@
+## [1.245.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.244.0...v1.245.0) (2024-02-14)
+
+
+### Features
+
+* re-enable fixed graphclient, plus remove additional stale code ([c2c25ab](https://github.com/LedgityLabs/LedgityYield/commit/c2c25ab25a20700d35008dba592d7514e2bf9a2b))
+* upgrade codebase to Viem, Wagmi and RainbowKit v2 + clean stale works like animations + ([e50aa21](https://github.com/LedgityLabs/LedgityYield/commit/e50aa21d7da8b5d0a0f44cd3da7c5bfbf45da27f))
+
+
+### Fixes
+
+* declutter dev server by disabling usages of graphclient and fixing auto-prefix warning ([a49840b](https://github.com/LedgityLabs/LedgityYield/commit/a49840b3aa3c594d0cf6649b57fe4319be11e9fb))
+
+
+### Docs
+
+* add a quick docs to run Slither tests ([7e87a72](https://github.com/LedgityLabs/LedgityYield/commit/7e87a723785a24f7c952d988c033d455df9b1121))
+
+
+### Others
+
+* **deps:** update dependency tailwind-merge to v2 ([71cbe71](https://github.com/LedgityLabs/LedgityYield/commit/71cbe71f2e5fa837d0bbd2b73b49cf514d8ddaa8))
+* **deps:** update nextjs monorepo to v14 ([9ff85d5](https://github.com/LedgityLabs/LedgityYield/commit/9ff85d5fa948f025db9ed8e2904b5cbf9e5875c6))
+* major upgrade many deps ([82f67a9](https://github.com/LedgityLabs/LedgityYield/commit/82f67a9c1e9f21936d68f5114d6d207be8a7659f))
+* remove package-lock.json file ([1872151](https://github.com/LedgityLabs/LedgityYield/commit/18721510f716d13e3c14143bb38844c26c60d2df))
+* update Slither action's version ([4341a65](https://github.com/LedgityLabs/LedgityYield/commit/4341a65ccddaafbc0495b752dafa12162cfaf6f6))
+* use Bun as package manager + document running the frontend locally ([a1773d9](https://github.com/LedgityLabs/LedgityYield/commit/a1773d9ea9e50c26469bbde9dca746f1cc1fe429))
+
 ## [1.244.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.243.1...v1.244.0) (2023-12-30)
 
 
