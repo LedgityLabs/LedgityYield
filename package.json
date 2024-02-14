@@ -33,7 +33,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^1.0.11",
     "@graphprotocol/client-add-source-name": "2.0.0",
-    "@graphql-mesh/transform-prefix": "0.95.9",
+    "@graphql-mesh/transform-prefix": "0.96.5",
     "@graphql-tools/utils": "9.2.1",
     "@prisma/client": "^5.7.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
