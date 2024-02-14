@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FC, useRef, useState, memo } from "react";
+import { ChangeEvent, FC, useRef, useState, memo, useEffect } from "react";
 import {
   AmountInput,
   Dialog,
@@ -13,14 +13,14 @@ import {
   Amount,
 } from "@/components/ui";
 import {
-  useGenericErc20BalanceOf,
-  useLTokenDecimals,
-  useLTokenUnderlying,
-  usePrepareLTokenDeposit,
-} from "../../generated";
+  useReadLTokenDecimals,
+  useReadLTokenUnderlying,
+  useSimulateLTokenDeposit,
+} from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { formatUnits, parseUnits, zeroAddress } from "viem";
-import { useWalletClient } from "wagmi";
+import { erc20Abi, formatUnits, parseUnits, zeroAddress } from "viem";
+import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
   underlyingSymbol: string;
@@ -28,23 +28,33 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
 }
 
 export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
-  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress! });
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
-  const { data: underlyingBalance } = useGenericErc20BalanceOf({
+  const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
+  const { data: underlyingBalance, queryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "balanceOf",
     address: underlyingAddress,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
-  const preparation = usePrepareLTokenDeposit({
+  const preparation = useSimulateLTokenDeposit({
     address: lTokenAddress!,
     args: [depositedAmount],
   });
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   if (!lTokenAddress) return null;
   return (
@@ -89,7 +99,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
             />
             <AllowanceTxButton
               size="medium"
-              preparation={preparation}
+              preparation={preparation as UseSimulateContractReturnType}
               token={underlyingAddress!}
               spender={lTokenAddress}
               amount={depositedAmount}

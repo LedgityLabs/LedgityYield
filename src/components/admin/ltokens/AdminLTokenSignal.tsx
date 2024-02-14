@@ -1,8 +1,9 @@
 import { Card, TxButton } from "@/components/ui";
-import { usePrepareLTokenSignalerSignalLToken } from "@/generated";
+import { useSimulateLTokenSignalerSignalLToken } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC } from "react";
 import { AdminBrick } from "../AdminBrick";
+import { UseSimulateContractReturnType } from "wagmi";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
@@ -10,12 +11,12 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 
 export const AdminLTokenSignal: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const preparation = usePrepareLTokenSignalerSignalLToken({ args: [lTokenAddress!] });
+  const preparation = useSimulateLTokenSignalerSignalLToken({ args: [lTokenAddress!] });
 
   return (
     <AdminBrick title="Data indexing">
       <div className="flex justify-center items-center">
-        <TxButton preparation={preparation} size="medium">
+        <TxButton preparation={preparation as UseSimulateContractReturnType} size="medium">
           Signal
         </TxButton>
       </div>

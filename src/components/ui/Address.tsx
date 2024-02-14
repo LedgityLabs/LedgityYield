@@ -1,10 +1,19 @@
 import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
-import { useGenericErc20Decimals, useGenericErc20Symbol } from "@/generated";
+import { useReadContract } from "wagmi";
+import { erc20Abi } from "viem";
 
 const AddToWallet = ({ address }: { address: `0x${string}` }) => {
-  const { data: tokenSymbol } = useGenericErc20Symbol({ address: address });
-  const { data: tokenDecimals } = useGenericErc20Decimals({ address: address });
+  const { data: tokenSymbol } = useReadContract({
+    abi: erc20Abi,
+    functionName: "symbol",
+    address: address,
+  });
+  const { data: tokenDecimals } = useReadContract({
+    abi: erc20Abi,
+
+    address: address,
+  });
 
   return (
     <button

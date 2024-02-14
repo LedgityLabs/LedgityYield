@@ -3,21 +3,24 @@ import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { FC, useEffect, useState } from "react";
 import { getContractAddress } from "@/lib/getContractAddress";
-import { watchReadContracts } from "@wagmi/core";
-import { lTokenABI } from "@/generated";
+import { lTokenAbi } from "@/generated";
 import { formatUnits, parseUnits } from "viem";
+import { watchBlockNumber, readContracts } from "@wagmi/core";
+import { config } from "@/lib/dapp/config";
+import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 const availableChains = [42161, 59144];
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppInvestTVL: FC<Props> = (props) => {
-  const [readsConfig, setReadsConfig] = useState<
-    Parameters<typeof watchReadContracts>[0]["contracts"]
-  >([]);
+  const [readsConfig, setReadsConfig] = useState<Parameters<typeof readContracts>[1]["contracts"]>(
+    [],
+  );
   const [tvlUsd, setTvlUsd] = useState(0n);
   const lTokens = useAvailableLTokens();
   const [isLoading, setIsLoading] = useState(false);
+  const currentChain = useCurrentChain();
 
   // This function retrieve symbol, total supply and decimals of each lToken
   const populateReadsConfig = () => {
@@ -42,7 +45,7 @@ export const AppInvestTVL: FC<Props> = (props) => {
         ["symbol", "totalSupply", "decimals"].forEach((functionName) => {
           newReadsConfig.push({
             address: lTokenAddress,
-            abi: lTokenABI,
+            abi: lTokenAbi,
             functionName: functionName,
             chainId: chainId,
           });
@@ -60,12 +63,14 @@ export const AppInvestTVL: FC<Props> = (props) => {
 
   useEffect(
     () =>
-      watchReadContracts(
-        {
-          contracts: readsConfig,
-          listenToBlock: true,
-        },
-        async (data) => {
+      watchBlockNumber(config, {
+        async onBlockNumber() {
+          if (!currentChain) return;
+
+          const data = await readContracts(config, {
+            contracts: readsConfig,
+          });
+
           if (data.length > 0) {
             let newTvlUsd = 0n;
             while (data.length !== 0) {
@@ -92,8 +97,8 @@ export const AppInvestTVL: FC<Props> = (props) => {
           }
           setIsLoading(false);
         },
-      ),
-    [readsConfig, tvlUsd],
+      }),
+    [readsConfig],
   );
 
   return (

@@ -1,50 +1,53 @@
 import {
-  useContractRead,
-  UseContractReadConfig,
-  useContractWrite,
-  UseContractWriteConfig,
-  usePrepareContractWrite,
-  UsePrepareContractWriteConfig,
-  useNetwork,
-  useChainId,
-  Address,
-} from 'wagmi'
-import { ReadContractResult, WriteContractMode, PrepareWriteContractResult } from 'wagmi/actions'
+  createUseReadContract,
+  createUseWriteContract,
+  createUseSimulateContract,
+  createUseWatchContractEvent,
+} from 'wagmi/codegen'
 
 import {
-  getContract,
-  GetContractArgs,
-  readContract,
-  ReadContractConfig,
-  writeContract,
-  WriteContractArgs,
-  WriteContractPreparedArgs,
-  WriteContractUnpreparedArgs,
-  prepareWriteContract,
-  PrepareWriteContractConfig,
-} from 'wagmi/actions'
+  createReadContract,
+  createWriteContract,
+  createSimulateContract,
+  createWatchContractEvent,
+} from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GenericERC20
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const genericErc20ABI = [
+export const genericErc20Abi = [
   {
-    stateMutability: 'nonpayable',
     type: 'constructor',
     inputs: [
       { name: 'name', internalType: 'string', type: 'string' },
       { name: 'symbol', internalType: 'string', type: 'string' },
       { name: 'decimals_', internalType: 'uint8', type: 'uint8' },
     ],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Approval',
   },
@@ -54,12 +57,16 @@ export const genericErc20ABI = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address', indexed: true },
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Transfer',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
@@ -67,9 +74,9 @@ export const genericErc20ABI = [
     ],
     name: 'allowance',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -77,23 +84,23 @@ export const genericErc20ABI = [
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -101,16 +108,16 @@ export const genericErc20ABI = [
     ],
     name: 'burnFrom',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -118,9 +125,9 @@ export const genericErc20ABI = [
     ],
     name: 'decreaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -128,44 +135,44 @@ export const genericErc20ABI = [
     ],
     name: 'increaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'mint',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'name',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'decimals_', internalType: 'uint8', type: 'uint8' }],
     name: 'setDecimals',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'symbol',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'totalSupply',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
@@ -173,9 +180,9 @@ export const genericErc20ABI = [
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
@@ -184,6 +191,7 @@ export const genericErc20ABI = [
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
 ] as const
 
@@ -198,110 +206,155 @@ export const genericErc20ABI = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export const globalBlacklistABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+export const globalBlacklistAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'AdminChanged',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'BeaconUpgraded',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
     name: 'Initialized',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'blacklist',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'globalOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'globalOwner_', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+    ],
     name: 'initialize',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'isBlacklisted',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  { stateMutability: 'view', type: 'function', inputs: [], name: 'renounceOwnership', outputs: [] },
-  {
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'unBlacklist',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
     name: 'upgradeTo',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: 'newImplementation', internalType: 'address', type: 'address' },
@@ -309,6 +362,7 @@ export const globalBlacklistABI = [
     ],
     name: 'upgradeToAndCall',
     outputs: [],
+    stateMutability: 'payable',
   },
 ] as const
 
@@ -336,7 +390,7 @@ export const globalBlacklistAddress = {
  */
 export const globalBlacklistConfig = {
   address: globalBlacklistAddress,
-  abi: globalBlacklistABI,
+  abi: globalBlacklistAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -350,35 +404,64 @@ export const globalBlacklistConfig = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export const globalOwnerABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+export const globalOwnerAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'AdminChanged',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'BeaconUpgraded',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
     name: 'Initialized',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferStarted',
   },
@@ -386,69 +469,93 @@ export const globalOwnerABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'acceptOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initialize', outputs: [] },
   {
-    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'pendingOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
     name: 'upgradeTo',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: 'newImplementation', internalType: 'address', type: 'address' },
@@ -456,6 +563,7 @@ export const globalOwnerABI = [
     ],
     name: 'upgradeToAndCall',
     outputs: [],
+    stateMutability: 'payable',
   },
 ] as const
 
@@ -481,7 +589,10 @@ export const globalOwnerAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwnerABI } as const
+export const globalOwnerConfig = {
+  address: globalOwnerAddress,
+  abi: globalOwnerAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GlobalPause
@@ -494,110 +605,181 @@ export const globalOwnerConfig = { address: globalOwnerAddress, abi: globalOwner
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export const globalPauseABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+export const globalPauseAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'AdminChanged',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'BeaconUpgraded',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
     name: 'Initialized',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
     name: 'Paused',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
     name: 'Unpaused',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'globalOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'globalOwner_', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+    ],
     name: 'initialize',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
-  {
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'pause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [],
     name: 'paused',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  { stateMutability: 'view', type: 'function', inputs: [], name: 'renounceOwnership', outputs: [] },
-  {
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'view',
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
+    inputs: [],
+    name: 'unpause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
     name: 'upgradeTo',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: 'newImplementation', internalType: 'address', type: 'address' },
@@ -605,6 +787,7 @@ export const globalPauseABI = [
     ],
     name: 'upgradeToAndCall',
     outputs: [],
+    stateMutability: 'payable',
   },
 ] as const
 
@@ -630,15 +813,17 @@ export const globalPauseAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export const globalPauseConfig = { address: globalPauseAddress, abi: globalPauseABI } as const
+export const globalPauseConfig = {
+  address: globalPauseAddress,
+  abi: globalPauseAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ITransfersListener
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const iTransfersListenerABI = [
+export const iTransfersListenerAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
@@ -647,6 +832,7 @@ export const iTransfersListenerABI = [
     ],
     name: 'onLTokenTransfer',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const
 
@@ -661,13 +847,23 @@ export const iTransfersListenerABI = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export const ldyStakingABI = [
+export const ldyStakingAbi = [
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferStarted',
   },
@@ -675,48 +871,57 @@ export const ldyStakingABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'acceptOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'highTierAccounts',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'pendingOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -724,20 +929,21 @@ export const ldyStakingABI = [
     ],
     name: 'setHighTierAccount',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'tierOf',
     outputs: [{ name: 'tier', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const
 
@@ -763,17 +969,27 @@ export const ldyStakingAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export const ldyStakingConfig = { address: ldyStakingAddress, abi: ldyStakingABI } as const
+export const ldyStakingConfig = {
+  address: ldyStakingAddress,
+  abi: ldyStakingAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // LToken
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const lTokenABI = [
+export const lTokenAbi = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'newAPRUD7x3', internalType: 'uint16', type: 'uint16', indexed: false }],
+    inputs: [
+      {
+        name: 'newAPRUD7x3',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: false,
+      },
+    ],
     name: 'APRChangeEvent',
   },
   {
@@ -781,11 +997,36 @@ export const lTokenABI = [
     anonymous: false,
     inputs: [
       { name: 'id', internalType: 'int256', type: 'int256', indexed: true },
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'action', internalType: 'enum LToken.Action', type: 'uint8', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'amountAfterFees', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'newStatus', internalType: 'enum LToken.Status', type: 'uint8', indexed: false },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'action',
+        internalType: 'enum LToken.Action',
+        type: 'uint8',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountAfterFees',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newStatus',
+        internalType: 'enum LToken.Status',
+        type: 'uint8',
+        indexed: false,
+      },
       { name: 'newId', internalType: 'int256', type: 'int256', indexed: false },
     ],
     name: 'ActivityEvent',
@@ -794,8 +1035,18 @@ export const lTokenABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'AdminChanged',
   },
@@ -803,31 +1054,70 @@ export const lTokenABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Approval',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'BeaconUpgraded',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
     name: 'Initialized',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'balanceBefore', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'rewards', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'balanceBefore',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'rewards',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'MintedRewardsEvent',
   },
@@ -835,21 +1125,45 @@ export const lTokenABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
     name: 'Paused',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'newTVL', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      {
+        name: 'newTVL',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
     name: 'TVLChangeEvent',
   },
   {
@@ -858,24 +1172,42 @@ export const lTokenABI = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address', indexed: true },
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
     ],
     name: 'Transfer',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
     name: 'Unpaused',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
@@ -883,9 +1215,9 @@ export const lTokenABI = [
     ],
     name: 'allowance',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -893,31 +1225,37 @@ export const lTokenABI = [
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
     name: 'cancelWithdrawalRequest',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'claimFees', outputs: [] },
   {
-    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'claimFees',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -925,16 +1263,16 @@ export const lTokenABI = [
     ],
     name: 'decreaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'deposit',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'pure',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -942,16 +1280,16 @@ export const lTokenABI = [
     ],
     name: 'depositFor',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'pure',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'feesRateUD7x3',
     outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'frozenRequests',
@@ -959,30 +1297,30 @@ export const lTokenABI = [
       { name: 'account', internalType: 'address', type: 'address' },
       { name: 'amount', internalType: 'uint96', type: 'uint96' },
     ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'fund',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'getAPR',
     outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'getExpectedRetained',
     outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -993,30 +1331,30 @@ export const lTokenABI = [
       { name: 'withdrawnAmount', internalType: 'uint256', type: 'uint256' },
       { name: 'fees', internalType: 'uint256', type: 'uint256' },
     ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'globalBlacklist',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'globalOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'globalPause',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
@@ -1024,9 +1362,9 @@ export const lTokenABI = [
     ],
     name: 'increaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'globalOwner_', internalType: 'address', type: 'address' },
@@ -1037,93 +1375,99 @@ export const lTokenABI = [
     ],
     name: 'initialize',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'instantWithdrawal',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'invested',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
+    outputs: [
+      { name: '', internalType: 'contract IERC20Upgradeable', type: 'address' },
+    ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'ldyStaking',
-    outputs: [{ name: '', internalType: 'contract LDYStaking', type: 'address' }],
+    outputs: [
+      { name: '', internalType: 'contract LDYStaking', type: 'address' },
+    ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'listenerContract', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'listenerContract', internalType: 'address', type: 'address' },
+    ],
     name: 'listenToTransfers',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'name',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'paused',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
     name: 'processBigQueuedRequest',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'processQueuedRequests',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'realBalanceOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'realTotalSupply',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'tokenAddress', internalType: 'address', type: 'address' },
@@ -1131,45 +1475,51 @@ export const lTokenABI = [
     ],
     name: 'recoverERC20',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'recoverUnderlying',
     outputs: [],
-  },
-  { stateMutability: 'view', type: 'function', inputs: [], name: 'renounceOwnership', outputs: [] },
-  {
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
     type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'repatriate',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'payable',
     type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'requestWithdrawal',
     outputs: [],
+    stateMutability: 'payable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'retentionRateUD7x3',
     outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'rewardsRedirectsFromTo',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: '', internalType: 'address', type: 'address' },
@@ -1177,51 +1527,61 @@ export const lTokenABI = [
     ],
     name: 'rewardsRedirectsToFrom',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'aprUD7x3', internalType: 'uint16', type: 'uint16' }],
     name: 'setAPR',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'feesRateUD7x3_', internalType: 'uint32', type: 'uint32' }],
+    inputs: [
+      { name: 'feesRateUD7x3_', internalType: 'uint32', type: 'uint32' },
+    ],
     name: 'setFeesRate',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'fund_', internalType: 'address payable', type: 'address' }],
+    inputs: [
+      { name: 'fund_', internalType: 'address payable', type: 'address' },
+    ],
     name: 'setFund',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'ldyStakingAddress', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'ldyStakingAddress', internalType: 'address', type: 'address' },
+    ],
     name: 'setLDYStaking',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'retentionRateUD7x3_', internalType: 'uint32', type: 'uint32' }],
+    inputs: [
+      { name: 'retentionRateUD7x3_', internalType: 'uint32', type: 'uint32' },
+    ],
     name: 'setRetentionRate',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'withdrawer_', internalType: 'address payable', type: 'address' }],
+    inputs: [
+      { name: 'withdrawer_', internalType: 'address payable', type: 'address' },
+    ],
     name: 'setWithdrawer',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
@@ -1229,9 +1589,9 @@ export const lTokenABI = [
     ],
     name: 'startRewardsRedirection',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
@@ -1239,30 +1599,30 @@ export const lTokenABI = [
     ],
     name: 'stopRewardsRedirection',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'symbol',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'totalQueued',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'totalSupply',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
@@ -1270,9 +1630,9 @@ export const lTokenABI = [
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
@@ -1281,58 +1641,70 @@ export const lTokenABI = [
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'transfersListeners',
-    outputs: [{ name: '', internalType: 'contract ITransfersListener', type: 'address' }],
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract ITransfersListener',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'unclaimedFees',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'underlying',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
+    outputs: [
+      { name: '', internalType: 'contract IERC20Upgradeable', type: 'address' },
+    ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'listenerContract', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'listenerContract', internalType: 'address', type: 'address' },
+    ],
     name: 'unlistenToTransfers',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'unmintedRewardsOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
     name: 'upgradeTo',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: 'newImplementation', internalType: 'address', type: 'address' },
@@ -1340,16 +1712,16 @@ export const lTokenABI = [
     ],
     name: 'upgradeToAndCall',
     outputs: [],
+    stateMutability: 'payable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'usableUnderlyings',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'pure',
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
@@ -1357,9 +1729,9 @@ export const lTokenABI = [
     ],
     name: 'withdrawTo',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'pure',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'withdrawalQueue',
@@ -1367,20 +1739,21 @@ export const lTokenABI = [
       { name: 'account', internalType: 'address', type: 'address' },
       { name: 'amount', internalType: 'uint96', type: 'uint96' },
     ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'withdrawalQueueCursor',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'withdrawer',
     outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+    stateMutability: 'view',
   },
 ] as const
 
@@ -1395,102 +1768,156 @@ export const lTokenABI = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export const lTokenSignalerABI = [
-  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+export const lTokenSignalerAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
     ],
     name: 'AdminChanged',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'BeaconUpgraded',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
     name: 'Initialized',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'lTokenAddress', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'lTokenAddress',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'LTokenSignalEvent',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
     name: 'Upgraded',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'globalOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'globalOwner_', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+    ],
     name: 'initialize',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
   },
-  { stateMutability: 'view', type: 'function', inputs: [], name: 'renounceOwnership', outputs: [] },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'lTokenAddress', internalType: 'address', type: 'address' }],
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAddress', internalType: 'address', type: 'address' },
+    ],
     name: 'signalLToken',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
     name: 'upgradeTo',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: 'newImplementation', internalType: 'address', type: 'address' },
@@ -1498,6 +1925,7 @@ export const lTokenSignalerABI = [
     ],
     name: 'upgradeToAndCall',
     outputs: [],
+    stateMutability: 'payable',
   },
 ] as const
 
@@ -1525,886 +1953,8 @@ export const lTokenSignalerAddress = {
  */
 export const lTokenSignalerConfig = {
   address: lTokenSignalerAddress,
-  abi: lTokenSignalerABI,
+  abi: lTokenSignalerAbi,
 } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Multicall3
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export const multicall3ABI = [
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      {
-        name: 'calls',
-        internalType: 'struct Multicall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'aggregate',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
-      { name: 'returnData', internalType: 'bytes[]', type: 'bytes[]' },
-    ],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      {
-        name: 'calls',
-        internalType: 'struct Multicall3.Call3[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'allowFailure', internalType: 'bool', type: 'bool' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'aggregate3',
-    outputs: [
-      {
-        name: 'returnData',
-        internalType: 'struct Multicall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      {
-        name: 'calls',
-        internalType: 'struct Multicall3.Call3Value[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'allowFailure', internalType: 'bool', type: 'bool' },
-          { name: 'value', internalType: 'uint256', type: 'uint256' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'aggregate3Value',
-    outputs: [
-      {
-        name: 'returnData',
-        internalType: 'struct Multicall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      {
-        name: 'calls',
-        internalType: 'struct Multicall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'blockAndAggregate',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
-      { name: 'blockHash', internalType: 'bytes32', type: 'bytes32' },
-      {
-        name: 'returnData',
-        internalType: 'struct Multicall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getBasefee',
-    outputs: [{ name: 'basefee', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'blockNumber', internalType: 'uint256', type: 'uint256' }],
-    name: 'getBlockHash',
-    outputs: [{ name: 'blockHash', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getBlockNumber',
-    outputs: [{ name: 'blockNumber', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getChainId',
-    outputs: [{ name: 'chainid', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getCurrentBlockCoinbase',
-    outputs: [{ name: 'coinbase', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getCurrentBlockDifficulty',
-    outputs: [{ name: 'difficulty', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getCurrentBlockGasLimit',
-    outputs: [{ name: 'gaslimit', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getCurrentBlockTimestamp',
-    outputs: [{ name: 'timestamp', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'addr', internalType: 'address', type: 'address' }],
-    name: 'getEthBalance',
-    outputs: [{ name: 'balance', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getLastBlockHash',
-    outputs: [{ name: 'blockHash', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: 'requireSuccess', internalType: 'bool', type: 'bool' },
-      {
-        name: 'calls',
-        internalType: 'struct Multicall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'tryAggregate',
-    outputs: [
-      {
-        name: 'returnData',
-        internalType: 'struct Multicall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: 'requireSuccess', internalType: 'bool', type: 'bool' },
-      {
-        name: 'calls',
-        internalType: 'struct Multicall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'tryBlockAndAggregate',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
-      { name: 'blockHash', internalType: 'bytes32', type: 'bytes32' },
-      {
-        name: 'returnData',
-        internalType: 'struct Multicall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-  },
-] as const
-
-/**
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export const multicall3Address = {
-  31337: '0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82',
-  421613: '0x87afDfde08722AF04a2991D4B4D71e00307DFB3E',
-} as const
-
-/**
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export const multicall3Config = { address: multicall3Address, abi: multicall3ABI } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// OldLToken1
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const oldLToken1ABI = [
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newAPRUD7x3', internalType: 'uint16', type: 'uint16', indexed: false }],
-    name: 'APRChangeEvent',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'id', internalType: 'int256', type: 'int256', indexed: true },
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'action', internalType: 'enum OldLToken1.Action', type: 'uint8', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'amountAfterFees', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'newStatus', internalType: 'enum OldLToken1.Status', type: 'uint8', indexed: false },
-    ],
-    name: 'ActivityEvent',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
-    ],
-    name: 'AdminChanged',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
-    ],
-    name: 'Approval',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'balanceBefore', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'rewards', internalType: 'uint256', type: 'uint256', indexed: false },
-    ],
-    name: 'MintedRewardsEvent',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
-    ],
-    name: 'OwnershipTransferred',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Paused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newTVL', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'TVLChangeEvent',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false },
-    ],
-    name: 'Transfer',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Unpaused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
-    ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
-    name: 'cancelWithdrawalRequest',
-    outputs: [],
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'claimFees', outputs: [] },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'decimals',
-    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'deposit',
-    outputs: [],
-  },
-  {
-    stateMutability: 'pure',
-    type: 'function',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'depositFor',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'feesRateUD7x3',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'frozenRequests',
-    outputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint96', type: 'uint96' },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'fund',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getAPR',
-    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getExpectedRetained',
-    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'getWithdrawnAmountAndFees',
-    outputs: [
-      { name: 'withdrawnAmount', internalType: 'uint256', type: 'uint256' },
-      { name: 'fees', internalType: 'uint256', type: 'uint256' },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'globalBlacklist',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'globalPause',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'globalOwner_', internalType: 'address', type: 'address' },
-      { name: 'globalPause_', internalType: 'address', type: 'address' },
-      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
-      { name: 'ldyStaking_', internalType: 'address', type: 'address' },
-      { name: 'underlyingToken', internalType: 'address', type: 'address' },
-    ],
-    name: 'initialize',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'instantWithdrawal',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'invested',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'ldyStaking',
-    outputs: [{ name: '', internalType: 'contract LDYStaking', type: 'address' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'listenerContract', internalType: 'address', type: 'address' }],
-    name: 'listenToTransfers',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
-    name: 'processBigQueuedRequest',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [],
-    name: 'processQueuedRequests',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'realBalanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'realTotalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'tokenAddress', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'recoverERC20',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [],
-    name: 'recoverUnderlying',
-    outputs: [],
-  },
-  { stateMutability: 'view', type: 'function', inputs: [], name: 'renounceOwnership', outputs: [] },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'repatriate',
-    outputs: [],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'requestWithdrawal',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'retentionRateUD7x3',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'rewardsRedirectsFromTo',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '', internalType: 'address', type: 'address' },
-      { name: '', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'rewardsRedirectsToFrom',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'aprUD7x3', internalType: 'uint16', type: 'uint16' }],
-    name: 'setAPR',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'feesRateUD7x3_', internalType: 'uint32', type: 'uint32' }],
-    name: 'setFeesRate',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'fund_', internalType: 'address payable', type: 'address' }],
-    name: 'setFund',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'ldyStakingAddress', internalType: 'address', type: 'address' }],
-    name: 'setLDYStaking',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'retentionRateUD7x3_', internalType: 'uint32', type: 'uint32' }],
-    name: 'setRetentionRate',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'withdrawer_', internalType: 'address payable', type: 'address' }],
-    name: 'setWithdrawer',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-    ],
-    name: 'startRewardsRedirection',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-    ],
-    name: 'stopRewardsRedirection',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalQueued',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'transfersListeners',
-    outputs: [{ name: '', internalType: 'contract ITransfersListener', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'unclaimedFees',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'underlying',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'listenerContract', internalType: 'address', type: 'address' }],
-    name: 'unlistenToTransfers',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'unmintedRewardsOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: [],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'upgradeToAndCall',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'usableUnderlyings',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'pure',
-    type: 'function',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'withdrawTo',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'withdrawalQueue',
-    outputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint96', type: 'uint96' },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'withdrawalQueueCursor',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'withdrawer',
-    outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
-  },
-] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PreMining
@@ -2415,9 +1965,8 @@ export const oldLToken1ABI = [
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export const preMiningABI = [
+export const preMiningAbi = [
   {
-    stateMutability: 'nonpayable',
     type: 'constructor',
     inputs: [
       { name: 'lTokenAddress_', internalType: 'address', type: 'address' },
@@ -2427,14 +1976,30 @@ export const preMiningABI = [
       { name: 'maxLockDuration_', internalType: 'uint8', type: 'uint8' },
       { name: 'vestingDuration_', internalType: 'uint8', type: 'uint8' },
     ],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'account', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'duration', internalType: 'uint8', type: 'uint8', indexed: false },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'duration',
+        internalType: 'uint8',
+        type: 'uint8',
+        indexed: false,
+      },
     ],
     name: 'Lock',
   },
@@ -2442,8 +2007,18 @@ export const preMiningABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferStarted',
   },
@@ -2451,32 +2026,55 @@ export const preMiningABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
     name: 'OwnershipTransferred',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
     name: 'Paused',
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
     name: 'Unpaused',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'acceptOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'address', type: 'address' }],
     name: 'accountsLocks',
@@ -2487,86 +2085,86 @@ export const preMiningABI = [
       { name: 'claimedRewards', internalType: 'uint216', type: 'uint216' },
       { name: 'lockEndTimestamp', internalType: 'uint40', type: 'uint40' },
     ],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'availableToClaim',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'claimPhaseStartTimestamp',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'claimRewards',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'eligibleRewardsOf',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'endDepositPhase',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'hasClaimPhaseStarted',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'hasDepositPhaseEnded',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'hasRecoveryPhaseStarted',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'instantUnlock',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'lToken',
     outputs: [{ name: '', internalType: 'contract LToken', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'ldyToken',
     outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'amount', internalType: 'uint256', type: 'uint256' },
@@ -2574,73 +2172,79 @@ export const preMiningABI = [
     ],
     name: 'lock',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'lockedHardCap',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'maxDistributedLDY',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'maxLockDuration',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'maxWeight',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'minLockDuration',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
-  {
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'pause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [],
     name: 'paused',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'pendingOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'processUnlockRequests',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
       { name: 'tokenAddress', internalType: 'address', type: 'address' },
@@ -2648,78 +2252,93 @@ export const preMiningABI = [
     ],
     name: 'recoverERC20',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
-  },
-  { stateMutability: 'payable', type: 'function', inputs: [], name: 'requestUnlock', outputs: [] },
-  {
     stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
-    inputs: [{ name: 'ldyTokenAddress', internalType: 'address', type: 'address' }],
+    inputs: [],
+    name: 'requestUnlock',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'ldyTokenAddress', internalType: 'address', type: 'address' },
+    ],
     name: 'setLDYToken',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'startClaimPhase',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
     name: 'startRecoveryPhase',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'totalLocked',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'underlyingToken',
     outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'unlockRequests',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'unlockRequestsCursor',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
-  {
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unpause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [],
     name: 'vestingDuration',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
   },
 ] as const
 
@@ -2739,863 +2358,267 @@ export const preMiningAddress = {
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export const preMiningConfig = { address: preMiningAddress, abi: preMiningABI } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// WIP_LDYStaking
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const wipLdyStakingABI = [
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newAPRUD7x3', internalType: 'uint16', type: 'uint16', indexed: false }],
-    name: 'APRChangeEvent',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false },
-    ],
-    name: 'AdminChanged',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousOwner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'newOwner', internalType: 'address', type: 'address', indexed: true },
-    ],
-    name: 'OwnershipTransferred',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Paused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'newTotalStaked', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'TotalStakedUpdateEvent',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
-    name: 'Unpaused',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded',
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'claim', outputs: [] },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'compound', outputs: [] },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'fuel',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getAPR',
-    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'addedAmount', internalType: 'uint216', type: 'uint216' },
-    ],
-    name: 'getNewLockEndFor',
-    outputs: [{ name: '', internalType: 'uint40', type: 'uint40' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'tier', internalType: 'uint256', type: 'uint256' }],
-    name: 'getTier',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'globalBlacklist',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'globalOwner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'globalPause',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'globalOwner_', internalType: 'address', type: 'address' },
-      { name: 'globalPause_', internalType: 'address', type: 'address' },
-      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
-      { name: 'ldyTokenAddress', internalType: 'address', type: 'address' },
-    ],
-    name: 'initialize',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'invested',
-    outputs: [{ name: '', internalType: 'contract IERC20Upgradeable', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'lockEndOf',
-    outputs: [{ name: '', internalType: 'uint40', type: 'uint40' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'paused',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'tokenAddress', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'recoverERC20',
-    outputs: [],
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'recoverLDY', outputs: [] },
-  { stateMutability: 'view', type: 'function', inputs: [], name: 'renounceOwnership', outputs: [] },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'rewardsOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'address', type: 'address' }],
-    name: 'rewardsRedirectsFromTo',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '', internalType: 'address', type: 'address' },
-      { name: '', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'rewardsRedirectsToFrom',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'rewardsReserve',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'aprUD7x3', internalType: 'uint16', type: 'uint16' }],
-    name: 'setAPR',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'stakeLockDuration_', internalType: 'uint40', type: 'uint40' }],
-    name: 'setStakeLockDuration',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'tier', internalType: 'uint256', type: 'uint256' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'setTier',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'unlockFeesRateUD7x3_', internalType: 'uint32', type: 'uint32' }],
-    name: 'setUnlockFeesRate',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint216', type: 'uint216' }],
-    name: 'stake',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'stakeLockDuration',
-    outputs: [{ name: '', internalType: 'uint40', type: 'uint40' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'stakeOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-    ],
-    name: 'startRewardsRedirection',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-    ],
-    name: 'stopRewardsRedirection',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'tierOf',
-    outputs: [{ name: 'tier', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalStaked',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-  },
-  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unlock', outputs: [] },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'unlockFeesRateUD7x3',
-    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint216', type: 'uint216' }],
-    name: 'unstake',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: [],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: 'newImplementation', internalType: 'address', type: 'address' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'upgradeToAndCall',
-    outputs: [],
-  },
-] as const
+export const preMiningConfig = {
+  address: preMiningAddress,
+  abi: preMiningAbi,
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__
  */
-export function useGenericErc20Read<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any,
-) {
-  return useContractRead({ abi: genericErc20ABI, ...config } as UseContractReadConfig<
-    typeof genericErc20ABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadGenericErc20 = /*#__PURE__*/ createUseReadContract({
+  abi: genericErc20Abi,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"allowance"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"allowance"`
  */
-export function useGenericErc20Allowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: genericErc20ABI,
-    functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
-}
+export const useReadGenericErc20Allowance = /*#__PURE__*/ createUseReadContract(
+  { abi: genericErc20Abi, functionName: 'allowance' },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"balanceOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"balanceOf"`
  */
-export function useGenericErc20BalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: genericErc20ABI,
-    functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
-}
+export const useReadGenericErc20BalanceOf = /*#__PURE__*/ createUseReadContract(
+  { abi: genericErc20Abi, functionName: 'balanceOf' },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"decimals"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"decimals"`
  */
-export function useGenericErc20Decimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: genericErc20ABI,
-    functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
-}
+export const useReadGenericErc20Decimals = /*#__PURE__*/ createUseReadContract({
+  abi: genericErc20Abi,
+  functionName: 'decimals',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"name"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"name"`
  */
-export function useGenericErc20Name<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: genericErc20ABI,
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
-}
+export const useReadGenericErc20Name = /*#__PURE__*/ createUseReadContract({
+  abi: genericErc20Abi,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"symbol"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"symbol"`
  */
-export function useGenericErc20Symbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: genericErc20ABI,
-    functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
-}
+export const useReadGenericErc20Symbol = /*#__PURE__*/ createUseReadContract({
+  abi: genericErc20Abi,
+  functionName: 'symbol',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"totalSupply"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"totalSupply"`
  */
-export function useGenericErc20TotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof genericErc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: genericErc20ABI,
+export const useReadGenericErc20TotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: genericErc20Abi,
     functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof genericErc20ABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__
  */
-export function useGenericErc20Write<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof genericErc20ABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, TFunctionName, TMode>({
-    abi: genericErc20ABI,
-    ...config,
-  } as any)
-}
+export const useWriteGenericErc20 = /*#__PURE__*/ createUseWriteContract({
+  abi: genericErc20Abi,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"approve"`
  */
-export function useGenericErc20Approve<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'approve'>['request']['abi'],
-        'approve',
-        TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'approve', TMode>({
-    abi: genericErc20ABI,
-    functionName: 'approve',
-    ...config,
-  } as any)
-}
+export const useWriteGenericErc20Approve = /*#__PURE__*/ createUseWriteContract(
+  { abi: genericErc20Abi, functionName: 'approve' },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burn"`
  */
-export function useGenericErc20Burn<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'burn'>['request']['abi'],
-        'burn',
-        TMode
-      > & { functionName?: 'burn' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'burn', TMode> & {
-        abi?: never
-        functionName?: 'burn'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'burn', TMode>({
-    abi: genericErc20ABI,
-    functionName: 'burn',
-    ...config,
-  } as any)
-}
+export const useWriteGenericErc20Burn = /*#__PURE__*/ createUseWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'burn',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"burnFrom"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burnFrom"`
  */
-export function useGenericErc20BurnFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'burnFrom'>['request']['abi'],
-        'burnFrom',
-        TMode
-      > & { functionName?: 'burnFrom' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'burnFrom', TMode> & {
-        abi?: never
-        functionName?: 'burnFrom'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'burnFrom', TMode>({
-    abi: genericErc20ABI,
+export const useWriteGenericErc20BurnFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: genericErc20Abi,
     functionName: 'burnFrom',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
  */
-export function useGenericErc20DecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'decreaseAllowance', TMode>({
-    abi: genericErc20ABI,
+export const useWriteGenericErc20DecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: genericErc20Abi,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"increaseAllowance"`
  */
-export function useGenericErc20IncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'increaseAllowance', TMode>({
-    abi: genericErc20ABI,
+export const useWriteGenericErc20IncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: genericErc20Abi,
     functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"mint"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"mint"`
  */
-export function useGenericErc20Mint<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'mint'>['request']['abi'],
-        'mint',
-        TMode
-      > & { functionName?: 'mint' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'mint', TMode> & {
-        abi?: never
-        functionName?: 'mint'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'mint', TMode>({
-    abi: genericErc20ABI,
-    functionName: 'mint',
-    ...config,
-  } as any)
-}
+export const useWriteGenericErc20Mint = /*#__PURE__*/ createUseWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'mint',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"setDecimals"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"setDecimals"`
  */
-export function useGenericErc20SetDecimals<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'setDecimals'>['request']['abi'],
-        'setDecimals',
-        TMode
-      > & { functionName?: 'setDecimals' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'setDecimals', TMode> & {
-        abi?: never
-        functionName?: 'setDecimals'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'setDecimals', TMode>({
-    abi: genericErc20ABI,
+export const useWriteGenericErc20SetDecimals =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: genericErc20Abi,
     functionName: 'setDecimals',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transfer"`
  */
-export function useGenericErc20Transfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'transfer'>['request']['abi'],
-        'transfer',
-        TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'transfer', TMode>({
-    abi: genericErc20ABI,
+export const useWriteGenericErc20Transfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: genericErc20Abi,
     functionName: 'transfer',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transferFrom"`
  */
-export function useGenericErc20TransferFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof genericErc20ABI, 'transferFrom'>['request']['abi'],
-        'transferFrom',
-        TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof genericErc20ABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  return useContractWrite<typeof genericErc20ABI, 'transferFrom', TMode>({
-    abi: genericErc20ABI,
+export const useWriteGenericErc20TransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: genericErc20Abi,
     functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__
  */
-export function usePrepareGenericErc20Write<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, TFunctionName>,
-    'abi'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, TFunctionName>)
-}
+export const useSimulateGenericErc20 = /*#__PURE__*/ createUseSimulateContract({
+  abi: genericErc20Abi,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"approve"`
  */
-export function usePrepareGenericErc20Approve(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20Approve =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'approve'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burn"`
  */
-export function usePrepareGenericErc20Burn(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burn'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20Burn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'burn',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burn'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"burnFrom"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burnFrom"`
  */
-export function usePrepareGenericErc20BurnFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burnFrom'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20BurnFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'burnFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'burnFrom'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
  */
-export function usePrepareGenericErc20DecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20DecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'decreaseAllowance'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"increaseAllowance"`
  */
-export function usePrepareGenericErc20IncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20IncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'increaseAllowance'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"mint"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"mint"`
  */
-export function usePrepareGenericErc20Mint(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'mint'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20Mint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'mint',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'mint'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"setDecimals"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"setDecimals"`
  */
-export function usePrepareGenericErc20SetDecimals(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'setDecimals'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20SetDecimals =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'setDecimals',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'setDecimals'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transfer"`
  */
-export function usePrepareGenericErc20Transfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20Transfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link genericErc20ABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transferFrom"`
  */
-export function usePrepareGenericErc20TransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transferFrom'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: genericErc20ABI,
+export const useSimulateGenericErc20TransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: genericErc20Abi,
     functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof genericErc20ABI, 'transferFrom'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link genericErc20Abi}__
+ */
+export const useWatchGenericErc20Event =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: genericErc20Abi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link genericErc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchGenericErc20ApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: genericErc20Abi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link genericErc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchGenericErc20TransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: genericErc20Abi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3603,27 +2626,13 @@ export function usePrepareGenericErc20TransferFrom(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalBlacklist = /*#__PURE__*/ createUseReadContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"globalOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"globalOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3631,28 +2640,15 @@ export function useGlobalBlacklistRead<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistGlobalOwner<
-  TFunctionName extends 'globalOwner',
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useReadGlobalBlacklistGlobalOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'globalOwner',
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"isBlacklisted"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"isBlacklisted"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3660,28 +2656,15 @@ export function useGlobalBlacklistGlobalOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistIsBlacklisted<
-  TFunctionName extends 'isBlacklisted',
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useReadGlobalBlacklistIsBlacklisted =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'isBlacklisted',
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3689,28 +2672,14 @@ export function useGlobalBlacklistIsBlacklisted<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalBlacklistOwner = /*#__PURE__*/ createUseReadContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3718,28 +2687,15 @@ export function useGlobalBlacklistOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useReadGlobalBlacklistProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3747,28 +2703,15 @@ export function useGlobalBlacklistProxiableUuid<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistRenounceOwnership<
-  TFunctionName extends 'renounceOwnership',
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useReadGlobalBlacklistRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3776,28 +2719,15 @@ export function useGlobalBlacklistRenounceOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistTransferOwnership<
-  TFunctionName extends 'transferOwnership',
-  TSelectData = ReadContractResult<typeof globalBlacklistABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useReadGlobalBlacklistTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof globalBlacklistABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3805,35 +2735,13 @@ export function useGlobalBlacklistTransferOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof globalBlacklistABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalBlacklistABI, TFunctionName, TMode>({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  } as any)
-}
+export const useWriteGlobalBlacklist = /*#__PURE__*/ createUseWriteContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"blacklist"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3841,36 +2749,15 @@ export function useGlobalBlacklistWrite<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistBlacklist<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'blacklist'>['request']['abi'],
-        'blacklist',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'blacklist' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'blacklist', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'blacklist'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalBlacklistABI, 'blacklist', TMode>({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useWriteGlobalBlacklistBlacklist =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'blacklist',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3878,36 +2765,15 @@ export function useGlobalBlacklistBlacklist<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalBlacklistABI, 'initialize', TMode>({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useWriteGlobalBlacklistInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"unBlacklist"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3915,36 +2781,15 @@ export function useGlobalBlacklistInitialize<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistUnBlacklist<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'unBlacklist'>['request']['abi'],
-        'unBlacklist',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unBlacklist' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'unBlacklist', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unBlacklist'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalBlacklistABI, 'unBlacklist', TMode>({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useWriteGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'unBlacklist',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3952,36 +2797,15 @@ export function useGlobalBlacklistUnBlacklist<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistUpgradeTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalBlacklistABI, 'upgradeTo', TMode>({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useWriteGlobalBlacklistUpgradeTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -3989,36 +2813,15 @@ export function useGlobalBlacklistUpgradeTo<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useGlobalBlacklistUpgradeToAndCall<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalBlacklistABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof globalBlacklistABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalBlacklistABI, 'upgradeToAndCall', TMode>({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useWriteGlobalBlacklistUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -4026,24 +2829,14 @@ export function useGlobalBlacklistUpgradeToAndCall<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareGlobalBlacklistWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, TFunctionName>)
-}
+export const useSimulateGlobalBlacklist =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"blacklist"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -4051,25 +2844,15 @@ export function usePrepareGlobalBlacklistWrite<TFunctionName extends string>(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareGlobalBlacklistBlacklist(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'blacklist'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useSimulateGlobalBlacklistBlacklist =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'blacklist',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'blacklist'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -4077,25 +2860,15 @@ export function usePrepareGlobalBlacklistBlacklist(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareGlobalBlacklistInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useSimulateGlobalBlacklistInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"unBlacklist"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -4103,25 +2876,15 @@ export function usePrepareGlobalBlacklistInitialize(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareGlobalBlacklistUnBlacklist(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'unBlacklist'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useSimulateGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'unBlacklist',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'unBlacklist'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -4129,25 +2892,15 @@ export function usePrepareGlobalBlacklistUnBlacklist(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareGlobalBlacklistUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useSimulateGlobalBlacklistUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeTo'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalBlacklistABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -4155,25 +2908,110 @@ export function usePrepareGlobalBlacklistUpgradeTo(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareGlobalBlacklistUpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalBlacklistAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[chainId as keyof typeof globalBlacklistAddress],
+export const useSimulateGlobalBlacklistUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalBlacklistABI, 'upgradeToAndCall'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4181,27 +3019,13 @@ export function usePrepareGlobalBlacklistUpgradeToAndCall(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalOwner = /*#__PURE__*/ createUseReadContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4209,28 +3033,14 @@ export function useGlobalOwnerRead<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalOwnerOwner = /*#__PURE__*/ createUseReadContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"pendingOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4238,28 +3048,15 @@ export function useGlobalOwnerOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerPendingOwner<
-  TFunctionName extends 'pendingOwner',
-  TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useReadGlobalOwnerPendingOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'pendingOwner',
-    ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4267,28 +3064,15 @@ export function useGlobalOwnerPendingOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof globalOwnerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useReadGlobalOwnerProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof globalOwnerABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4296,35 +3080,13 @@ export function useGlobalOwnerProxiableUuid<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof globalOwnerABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, TFunctionName, TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  } as any)
-}
+export const useWriteGlobalOwner = /*#__PURE__*/ createUseWriteContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4332,36 +3094,15 @@ export function useGlobalOwnerWrite<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerAcceptOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'acceptOwnership'>['request']['abi'],
-        'acceptOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'acceptOwnership' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'acceptOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'acceptOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, 'acceptOwnership', TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useWriteGlobalOwnerAcceptOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4369,36 +3110,15 @@ export function useGlobalOwnerAcceptOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, 'initialize', TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useWriteGlobalOwnerInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4406,36 +3126,15 @@ export function useGlobalOwnerInitialize<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, 'renounceOwnership', TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useWriteGlobalOwnerRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4443,36 +3142,15 @@ export function useGlobalOwnerRenounceOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerTransferOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'transferOwnership'>['request']['abi'],
-        'transferOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'transferOwnership' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'transferOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, 'transferOwnership', TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useWriteGlobalOwnerTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4480,36 +3158,15 @@ export function useGlobalOwnerTransferOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerUpgradeTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, 'upgradeTo', TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useWriteGlobalOwnerUpgradeTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4517,36 +3174,15 @@ export function useGlobalOwnerUpgradeTo<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function useGlobalOwnerUpgradeToAndCall<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalOwnerABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof globalOwnerABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalOwnerABI, 'upgradeToAndCall', TMode>({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useWriteGlobalOwnerUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4554,24 +3190,13 @@ export function useGlobalOwnerUpgradeToAndCall<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, TFunctionName>)
-}
+export const useSimulateGlobalOwner = /*#__PURE__*/ createUseSimulateContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4579,25 +3204,15 @@ export function usePrepareGlobalOwnerWrite<TFunctionName extends string>(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerAcceptOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'acceptOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useSimulateGlobalOwnerAcceptOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'acceptOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4605,25 +3220,15 @@ export function usePrepareGlobalOwnerAcceptOwnership(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useSimulateGlobalOwnerInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4631,25 +3236,15 @@ export function usePrepareGlobalOwnerInitialize(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useSimulateGlobalOwnerRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'renounceOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4657,25 +3252,15 @@ export function usePrepareGlobalOwnerRenounceOwnership(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerTransferOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useSimulateGlobalOwnerTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'transferOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4683,25 +3268,15 @@ export function usePrepareGlobalOwnerTransferOwnership(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useSimulateGlobalOwnerUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeTo'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalOwnerABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -4709,25 +3284,126 @@ export function usePrepareGlobalOwnerUpgradeTo(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function usePrepareGlobalOwnerUpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalOwnerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[chainId as keyof typeof globalOwnerAddress],
+export const useSimulateGlobalOwnerUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalOwnerABI, 'upgradeToAndCall'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'OwnershipTransferStarted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const useWatchGlobalOwnerUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4735,27 +3411,13 @@ export function usePrepareGlobalOwnerUpgradeToAndCall(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalPause = /*#__PURE__*/ createUseReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"globalOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"globalOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4763,28 +3425,15 @@ export function useGlobalPauseRead<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseGlobalOwner<
-  TFunctionName extends 'globalOwner',
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useReadGlobalPauseGlobalOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'globalOwner',
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4792,28 +3441,14 @@ export function useGlobalPauseGlobalOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalPauseOwner = /*#__PURE__*/ createUseReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"paused"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"paused"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4821,28 +3456,14 @@ export function useGlobalPauseOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPausePaused<
-  TFunctionName extends 'paused',
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    functionName: 'paused',
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+export const useReadGlobalPausePaused = /*#__PURE__*/ createUseReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'paused',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4850,28 +3471,15 @@ export function useGlobalPausePaused<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useReadGlobalPauseProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4879,28 +3487,15 @@ export function useGlobalPauseProxiableUuid<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseRenounceOwnership<
-  TFunctionName extends 'renounceOwnership',
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useReadGlobalPauseRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4908,28 +3503,15 @@ export function useGlobalPauseRenounceOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseTransferOwnership<
-  TFunctionName extends 'transferOwnership',
-  TSelectData = ReadContractResult<typeof globalPauseABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useReadGlobalPauseTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof globalPauseABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4937,35 +3519,13 @@ export function useGlobalPauseTransferOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof globalPauseABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalPauseABI, TFunctionName, TMode>({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    ...config,
-  } as any)
-}
+export const useWriteGlobalPause = /*#__PURE__*/ createUseWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -4973,36 +3533,15 @@ export function useGlobalPauseWrite<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalPauseABI, 'initialize', TMode>({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useWriteGlobalPauseInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"pause"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5010,36 +3549,14 @@ export function useGlobalPauseInitialize<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPausePause<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'pause'>['request']['abi'],
-        'pause',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'pause' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'pause', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'pause'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalPauseABI, 'pause', TMode>({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    functionName: 'pause',
-    ...config,
-  } as any)
-}
+export const useWriteGlobalPausePause = /*#__PURE__*/ createUseWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'pause',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"unpause"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5047,36 +3564,14 @@ export function useGlobalPausePause<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseUnpause<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'unpause'>['request']['abi'],
-        'unpause',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unpause' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'unpause', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unpause'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalPauseABI, 'unpause', TMode>({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    functionName: 'unpause',
-    ...config,
-  } as any)
-}
+export const useWriteGlobalPauseUnpause = /*#__PURE__*/ createUseWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'unpause',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5084,36 +3579,15 @@ export function useGlobalPauseUnpause<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseUpgradeTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalPauseABI, 'upgradeTo', TMode>({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useWriteGlobalPauseUpgradeTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5121,36 +3595,15 @@ export function useGlobalPauseUpgradeTo<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useGlobalPauseUpgradeToAndCall<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof globalPauseABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof globalPauseABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof globalPauseABI, 'upgradeToAndCall', TMode>({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useWriteGlobalPauseUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5158,24 +3611,13 @@ export function useGlobalPauseUpgradeToAndCall<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function usePrepareGlobalPauseWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, TFunctionName>)
-}
+export const useSimulateGlobalPause = /*#__PURE__*/ createUseSimulateContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5183,25 +3625,15 @@ export function usePrepareGlobalPauseWrite<TFunctionName extends string>(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function usePrepareGlobalPauseInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useSimulateGlobalPauseInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"pause"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5209,25 +3641,15 @@ export function usePrepareGlobalPauseInitialize(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function usePrepareGlobalPausePause(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'pause'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useSimulateGlobalPausePause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'pause',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'pause'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"unpause"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5235,25 +3657,15 @@ export function usePrepareGlobalPausePause(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function usePrepareGlobalPauseUnpause(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'unpause'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useSimulateGlobalPauseUnpause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'unpause',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'unpause'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5261,25 +3673,15 @@ export function usePrepareGlobalPauseUnpause(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function usePrepareGlobalPauseUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useSimulateGlobalPauseUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeTo'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link globalPauseABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -5287,104 +3689,173 @@ export function usePrepareGlobalPauseUpgradeTo(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function usePrepareGlobalPauseUpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof globalPauseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: globalPauseABI,
-    address: globalPauseAddress[chainId as keyof typeof globalPauseAddress],
+export const useSimulateGlobalPauseUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof globalPauseABI, 'upgradeToAndCall'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iTransfersListenerABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useITransfersListenerWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iTransfersListenerABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof iTransfersListenerABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof iTransfersListenerABI, TFunctionName, TMode>({
-    abi: iTransfersListenerABI,
-    ...config,
-  } as any)
-}
+export const useWatchGlobalPauseEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iTransfersListenerABI}__ and `functionName` set to `"onLTokenTransfer"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function useITransfersListenerOnLTokenTransfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof iTransfersListenerABI,
-          'onLTokenTransfer'
-        >['request']['abi'],
-        'onLTokenTransfer',
-        TMode
-      > & { functionName?: 'onLTokenTransfer' }
-    : UseContractWriteConfig<typeof iTransfersListenerABI, 'onLTokenTransfer', TMode> & {
-        abi?: never
-        functionName?: 'onLTokenTransfer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof iTransfersListenerABI, 'onLTokenTransfer', TMode>({
-    abi: iTransfersListenerABI,
+export const useWatchGlobalPauseAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const useWatchGlobalPauseBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const useWatchGlobalPauseInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const useWatchGlobalPauseOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Paused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const useWatchGlobalPausePausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Unpaused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const useWatchGlobalPauseUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const useWatchGlobalPauseUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iTransfersListenerAbi}__
+ */
+export const useWriteITransfersListener = /*#__PURE__*/ createUseWriteContract({
+  abi: iTransfersListenerAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iTransfersListenerAbi}__ and `functionName` set to `"onLTokenTransfer"`
+ */
+export const useWriteITransfersListenerOnLTokenTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iTransfersListenerAbi,
     functionName: 'onLTokenTransfer',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iTransfersListenerABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iTransfersListenerAbi}__
  */
-export function usePrepareITransfersListenerWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iTransfersListenerABI, TFunctionName>,
-    'abi'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: iTransfersListenerABI,
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof iTransfersListenerABI, TFunctionName>)
-}
+export const useSimulateITransfersListener =
+  /*#__PURE__*/ createUseSimulateContract({ abi: iTransfersListenerAbi })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iTransfersListenerABI}__ and `functionName` set to `"onLTokenTransfer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iTransfersListenerAbi}__ and `functionName` set to `"onLTokenTransfer"`
  */
-export function usePrepareITransfersListenerOnLTokenTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iTransfersListenerABI, 'onLTokenTransfer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: iTransfersListenerABI,
+export const useSimulateITransfersListenerOnLTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iTransfersListenerAbi,
     functionName: 'onLTokenTransfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof iTransfersListenerABI, 'onLTokenTransfer'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5392,27 +3863,13 @@ export function usePrepareITransfersListenerOnLTokenTransfer(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ldyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  } as UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>)
-}
+export const useReadLdyStaking = /*#__PURE__*/ createUseReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"highTierAccounts"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"highTierAccounts"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5420,28 +3877,15 @@ export function useLdyStakingRead<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingHighTierAccounts<
-  TFunctionName extends 'highTierAccounts',
-  TSelectData = ReadContractResult<typeof ldyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useReadLdyStakingHighTierAccounts =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'highTierAccounts',
-    ...config,
-  } as UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5449,28 +3893,14 @@ export function useLdyStakingHighTierAccounts<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof ldyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>)
-}
+export const useReadLdyStakingOwner = /*#__PURE__*/ createUseReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"pendingOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5478,28 +3908,15 @@ export function useLdyStakingOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingPendingOwner<
-  TFunctionName extends 'pendingOwner',
-  TSelectData = ReadContractResult<typeof ldyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useReadLdyStakingPendingOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'pendingOwner',
-    ...config,
-  } as UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"tierOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"tierOf"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5507,28 +3924,14 @@ export function useLdyStakingPendingOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingTierOf<
-  TFunctionName extends 'tierOf',
-  TSelectData = ReadContractResult<typeof ldyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
-    functionName: 'tierOf',
-    ...config,
-  } as UseContractReadConfig<typeof ldyStakingABI, TFunctionName, TSelectData>)
-}
+export const useReadLdyStakingTierOf = /*#__PURE__*/ createUseReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+  functionName: 'tierOf',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5536,35 +3939,13 @@ export function useLdyStakingTierOf<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof ldyStakingAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ldyStakingABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof ldyStakingABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof ldyStakingABI, TFunctionName, TMode>({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  } as any)
-}
+export const useWriteLdyStaking = /*#__PURE__*/ createUseWriteContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5572,36 +3953,15 @@ export function useLdyStakingWrite<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingAcceptOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof ldyStakingAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ldyStakingABI, 'acceptOwnership'>['request']['abi'],
-        'acceptOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'acceptOwnership' }
-    : UseContractWriteConfig<typeof ldyStakingABI, 'acceptOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'acceptOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof ldyStakingABI, 'acceptOwnership', TMode>({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useWriteLdyStakingAcceptOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5609,36 +3969,15 @@ export function useLdyStakingAcceptOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof ldyStakingAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ldyStakingABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof ldyStakingABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof ldyStakingABI, 'renounceOwnership', TMode>({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useWriteLdyStakingRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"setHighTierAccount"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setHighTierAccount"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5646,36 +3985,15 @@ export function useLdyStakingRenounceOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingSetHighTierAccount<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof ldyStakingAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ldyStakingABI, 'setHighTierAccount'>['request']['abi'],
-        'setHighTierAccount',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setHighTierAccount' }
-    : UseContractWriteConfig<typeof ldyStakingABI, 'setHighTierAccount', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setHighTierAccount'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof ldyStakingABI, 'setHighTierAccount', TMode>({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useWriteLdyStakingSetHighTierAccount =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'setHighTierAccount',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5683,36 +4001,15 @@ export function useLdyStakingSetHighTierAccount<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLdyStakingTransferOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof ldyStakingAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ldyStakingABI, 'transferOwnership'>['request']['abi'],
-        'transferOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'transferOwnership' }
-    : UseContractWriteConfig<typeof ldyStakingABI, 'transferOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof ldyStakingABI, 'transferOwnership', TMode>({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useWriteLdyStakingTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5720,24 +4017,13 @@ export function useLdyStakingTransferOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function usePrepareLdyStakingWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ldyStakingABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof ldyStakingABI, TFunctionName>)
-}
+export const useSimulateLdyStaking = /*#__PURE__*/ createUseSimulateContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5745,25 +4031,15 @@ export function usePrepareLdyStakingWrite<TFunctionName extends string>(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function usePrepareLdyStakingAcceptOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ldyStakingABI, 'acceptOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useSimulateLdyStakingAcceptOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof ldyStakingABI, 'acceptOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5771,25 +4047,15 @@ export function usePrepareLdyStakingAcceptOwnership(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function usePrepareLdyStakingRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ldyStakingABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useSimulateLdyStakingRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof ldyStakingABI, 'renounceOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"setHighTierAccount"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setHighTierAccount"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5797,25 +4063,15 @@ export function usePrepareLdyStakingRenounceOwnership(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function usePrepareLdyStakingSetHighTierAccount(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ldyStakingABI, 'setHighTierAccount'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useSimulateLdyStakingSetHighTierAccount =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'setHighTierAccount',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof ldyStakingABI, 'setHighTierAccount'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ldyStakingABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -5823,1865 +4079,1000 @@ export function usePrepareLdyStakingSetHighTierAccount(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function usePrepareLdyStakingTransferOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ldyStakingABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof ldyStakingAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[chainId as keyof typeof ldyStakingAddress],
+export const useSimulateLdyStakingTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof ldyStakingABI, 'transferOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLTokenRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any,
-) {
-  return useContractRead({ abi: lTokenABI, ...config } as UseContractReadConfig<
-    typeof lTokenABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useWatchLdyStakingEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"allowance"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLTokenAllowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useWatchLdyStakingOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    eventName: 'OwnershipTransferStarted',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"balanceOf"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function useLTokenBalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useWatchLdyStakingOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    eventName: 'OwnershipTransferred',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"decimals"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__
  */
-export function useLTokenDecimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLToken = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"depositFor"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"allowance"`
  */
-export function useLTokenDepositFor<
-  TFunctionName extends 'depositFor',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'depositFor',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'allowance',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"feesRateUD7x3"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"balanceOf"`
  */
-export function useLTokenFeesRateUd7x3<
-  TFunctionName extends 'feesRateUD7x3',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'feesRateUD7x3',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'balanceOf',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"frozenRequests"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"decimals"`
  */
-export function useLTokenFrozenRequests<
-  TFunctionName extends 'frozenRequests',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'frozenRequests',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'decimals',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"fund"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"depositFor"`
  */
-export function useLTokenFund<
-  TFunctionName extends 'fund',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'fund',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenDepositFor = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'depositFor',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getAPR"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"feesRateUD7x3"`
  */
-export function useLTokenGetApr<
-  TFunctionName extends 'getAPR',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'getAPR',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenFeesRateUd7x3 = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'feesRateUD7x3',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getExpectedRetained"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"frozenRequests"`
  */
-export function useLTokenGetExpectedRetained<
-  TFunctionName extends 'getExpectedRetained',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenFrozenRequests = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'frozenRequests',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"fund"`
+ */
+export const useReadLTokenFund = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'fund',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"getAPR"`
+ */
+export const useReadLTokenGetApr = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'getAPR',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"getExpectedRetained"`
+ */
+export const useReadLTokenGetExpectedRetained =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'getExpectedRetained',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"getWithdrawnAmountAndFees"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"getWithdrawnAmountAndFees"`
  */
-export function useLTokenGetWithdrawnAmountAndFees<
-  TFunctionName extends 'getWithdrawnAmountAndFees',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenGetWithdrawnAmountAndFees =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'getWithdrawnAmountAndFees',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalBlacklist"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"globalBlacklist"`
  */
-export function useLTokenGlobalBlacklist<
-  TFunctionName extends 'globalBlacklist',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'globalBlacklist',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenGlobalBlacklist = /*#__PURE__*/ createUseReadContract(
+  { abi: lTokenAbi, functionName: 'globalBlacklist' },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"globalOwner"`
  */
-export function useLTokenGlobalOwner<
-  TFunctionName extends 'globalOwner',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'globalOwner',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenGlobalOwner = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'globalOwner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"globalPause"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"globalPause"`
  */
-export function useLTokenGlobalPause<
-  TFunctionName extends 'globalPause',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'globalPause',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenGlobalPause = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'globalPause',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"invested"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"invested"`
  */
-export function useLTokenInvested<
-  TFunctionName extends 'invested',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'invested',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenInvested = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'invested',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"ldyStaking"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"ldyStaking"`
  */
-export function useLTokenLdyStaking<
-  TFunctionName extends 'ldyStaking',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'ldyStaking',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenLdyStaking = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'ldyStaking',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"name"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"name"`
  */
-export function useLTokenName<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"owner"`
  */
-export function useLTokenOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenOwner = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"paused"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"paused"`
  */
-export function useLTokenPaused<
-  TFunctionName extends 'paused',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'paused',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenPaused = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'paused',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"proxiableUUID"`
  */
-export function useLTokenProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenProxiableUuid = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'proxiableUUID',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"realBalanceOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"realBalanceOf"`
  */
-export function useLTokenRealBalanceOf<
-  TFunctionName extends 'realBalanceOf',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'realBalanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenRealBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'realBalanceOf',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"realTotalSupply"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"realTotalSupply"`
  */
-export function useLTokenRealTotalSupply<
-  TFunctionName extends 'realTotalSupply',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'realTotalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenRealTotalSupply = /*#__PURE__*/ createUseReadContract(
+  { abi: lTokenAbi, functionName: 'realTotalSupply' },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"renounceOwnership"`
  */
-export function useLTokenRenounceOwnership<
-  TFunctionName extends 'renounceOwnership',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"retentionRateUD7x3"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"retentionRateUD7x3"`
  */
-export function useLTokenRetentionRateUd7x3<
-  TFunctionName extends 'retentionRateUD7x3',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenRetentionRateUd7x3 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'retentionRateUD7x3',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"rewardsRedirectsFromTo"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"rewardsRedirectsFromTo"`
  */
-export function useLTokenRewardsRedirectsFromTo<
-  TFunctionName extends 'rewardsRedirectsFromTo',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenRewardsRedirectsFromTo =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'rewardsRedirectsFromTo',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"rewardsRedirectsToFrom"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"rewardsRedirectsToFrom"`
  */
-export function useLTokenRewardsRedirectsToFrom<
-  TFunctionName extends 'rewardsRedirectsToFrom',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenRewardsRedirectsToFrom =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'rewardsRedirectsToFrom',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"symbol"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"symbol"`
  */
-export function useLTokenSymbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'symbol',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"totalQueued"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"totalQueued"`
  */
-export function useLTokenTotalQueued<
-  TFunctionName extends 'totalQueued',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'totalQueued',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenTotalQueued = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'totalQueued',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"totalSupply"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"totalSupply"`
  */
-export function useLTokenTotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'totalSupply',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transferOwnership"`
  */
-export function useLTokenTransferOwnership<
-  TFunctionName extends 'transferOwnership',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'transferOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transfersListeners"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transfersListeners"`
  */
-export function useLTokenTransfersListeners<
-  TFunctionName extends 'transfersListeners',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenTransfersListeners =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'transfersListeners',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"unclaimedFees"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unclaimedFees"`
  */
-export function useLTokenUnclaimedFees<
-  TFunctionName extends 'unclaimedFees',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'unclaimedFees',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenUnclaimedFees = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'unclaimedFees',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"underlying"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"underlying"`
  */
-export function useLTokenUnderlying<
-  TFunctionName extends 'underlying',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'underlying',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenUnderlying = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'underlying',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"unmintedRewardsOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unmintedRewardsOf"`
  */
-export function useLTokenUnmintedRewardsOf<
-  TFunctionName extends 'unmintedRewardsOf',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenUnmintedRewardsOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'unmintedRewardsOf',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"usableUnderlyings"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"usableUnderlyings"`
  */
-export function useLTokenUsableUnderlyings<
-  TFunctionName extends 'usableUnderlyings',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenUsableUnderlyings =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'usableUnderlyings',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"withdrawTo"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawTo"`
  */
-export function useLTokenWithdrawTo<
-  TFunctionName extends 'withdrawTo',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'withdrawTo',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenWithdrawTo = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'withdrawTo',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"withdrawalQueue"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawalQueue"`
  */
-export function useLTokenWithdrawalQueue<
-  TFunctionName extends 'withdrawalQueue',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'withdrawalQueue',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenWithdrawalQueue = /*#__PURE__*/ createUseReadContract(
+  { abi: lTokenAbi, functionName: 'withdrawalQueue' },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"withdrawalQueueCursor"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawalQueueCursor"`
  */
-export function useLTokenWithdrawalQueueCursor<
-  TFunctionName extends 'withdrawalQueueCursor',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
+export const useReadLTokenWithdrawalQueueCursor =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
     functionName: 'withdrawalQueueCursor',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"withdrawer"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawer"`
  */
-export function useLTokenWithdrawer<
-  TFunctionName extends 'withdrawer',
-  TSelectData = ReadContractResult<typeof lTokenABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: lTokenABI,
-    functionName: 'withdrawer',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenWithdrawer = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenAbi,
+  functionName: 'withdrawer',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__
  */
-export function useLTokenWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof lTokenABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, TFunctionName, TMode>({
-    abi: lTokenABI,
-    ...config,
-  } as any)
-}
+export const useWriteLToken = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"approve"`
  */
-export function useLTokenApprove<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'approve'>['request']['abi'],
-        'approve',
-        TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof lTokenABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'approve', TMode>({
-    abi: lTokenABI,
-    functionName: 'approve',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'approve',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"cancelWithdrawalRequest"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
  */
-export function useLTokenCancelWithdrawalRequest<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'cancelWithdrawalRequest'>['request']['abi'],
-        'cancelWithdrawalRequest',
-        TMode
-      > & { functionName?: 'cancelWithdrawalRequest' }
-    : UseContractWriteConfig<typeof lTokenABI, 'cancelWithdrawalRequest', TMode> & {
-        abi?: never
-        functionName?: 'cancelWithdrawalRequest'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'cancelWithdrawalRequest', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'cancelWithdrawalRequest',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"claimFees"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"claimFees"`
  */
-export function useLTokenClaimFees<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'claimFees'>['request']['abi'],
-        'claimFees',
-        TMode
-      > & { functionName?: 'claimFees' }
-    : UseContractWriteConfig<typeof lTokenABI, 'claimFees', TMode> & {
-        abi?: never
-        functionName?: 'claimFees'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'claimFees', TMode>({
-    abi: lTokenABI,
-    functionName: 'claimFees',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenClaimFees = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'claimFees',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
  */
-export function useLTokenDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof lTokenABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'decreaseAllowance', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"deposit"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"deposit"`
  */
-export function useLTokenDeposit<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'deposit'>['request']['abi'],
-        'deposit',
-        TMode
-      > & { functionName?: 'deposit' }
-    : UseContractWriteConfig<typeof lTokenABI, 'deposit', TMode> & {
-        abi?: never
-        functionName?: 'deposit'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'deposit', TMode>({
-    abi: lTokenABI,
-    functionName: 'deposit',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'deposit',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"increaseAllowance"`
  */
-export function useLTokenIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof lTokenABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'increaseAllowance', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"initialize"`
  */
-export function useLTokenInitialize<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof lTokenABI, 'initialize', TMode> & {
-        abi?: never
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'initialize', TMode>({
-    abi: lTokenABI,
-    functionName: 'initialize',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenInitialize = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'initialize',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdrawal"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
  */
-export function useLTokenInstantWithdrawal<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'instantWithdrawal'>['request']['abi'],
-        'instantWithdrawal',
-        TMode
-      > & { functionName?: 'instantWithdrawal' }
-    : UseContractWriteConfig<typeof lTokenABI, 'instantWithdrawal', TMode> & {
-        abi?: never
-        functionName?: 'instantWithdrawal'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'instantWithdrawal', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenInstantWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'instantWithdrawal',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"listenToTransfers"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"listenToTransfers"`
  */
-export function useLTokenListenToTransfers<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'listenToTransfers'>['request']['abi'],
-        'listenToTransfers',
-        TMode
-      > & { functionName?: 'listenToTransfers' }
-    : UseContractWriteConfig<typeof lTokenABI, 'listenToTransfers', TMode> & {
-        abi?: never
-        functionName?: 'listenToTransfers'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'listenToTransfers', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenListenToTransfers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'listenToTransfers',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"processBigQueuedRequest"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
  */
-export function useLTokenProcessBigQueuedRequest<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'processBigQueuedRequest'>['request']['abi'],
-        'processBigQueuedRequest',
-        TMode
-      > & { functionName?: 'processBigQueuedRequest' }
-    : UseContractWriteConfig<typeof lTokenABI, 'processBigQueuedRequest', TMode> & {
-        abi?: never
-        functionName?: 'processBigQueuedRequest'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'processBigQueuedRequest', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'processBigQueuedRequest',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"processQueuedRequests"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
  */
-export function useLTokenProcessQueuedRequests<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'processQueuedRequests'>['request']['abi'],
-        'processQueuedRequests',
-        TMode
-      > & { functionName?: 'processQueuedRequests' }
-    : UseContractWriteConfig<typeof lTokenABI, 'processQueuedRequests', TMode> & {
-        abi?: never
-        functionName?: 'processQueuedRequests'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'processQueuedRequests', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'processQueuedRequests',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"recoverERC20"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverERC20"`
  */
-export function useLTokenRecoverErc20<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'recoverERC20'>['request']['abi'],
-        'recoverERC20',
-        TMode
-      > & { functionName?: 'recoverERC20' }
-    : UseContractWriteConfig<typeof lTokenABI, 'recoverERC20', TMode> & {
-        abi?: never
-        functionName?: 'recoverERC20'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'recoverERC20', TMode>({
-    abi: lTokenABI,
-    functionName: 'recoverERC20',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenRecoverErc20 = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'recoverERC20',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"recoverUnderlying"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
  */
-export function useLTokenRecoverUnderlying<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'recoverUnderlying'>['request']['abi'],
-        'recoverUnderlying',
-        TMode
-      > & { functionName?: 'recoverUnderlying' }
-    : UseContractWriteConfig<typeof lTokenABI, 'recoverUnderlying', TMode> & {
-        abi?: never
-        functionName?: 'recoverUnderlying'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'recoverUnderlying', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenRecoverUnderlying =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'recoverUnderlying',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"repatriate"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"repatriate"`
  */
-export function useLTokenRepatriate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'repatriate'>['request']['abi'],
-        'repatriate',
-        TMode
-      > & { functionName?: 'repatriate' }
-    : UseContractWriteConfig<typeof lTokenABI, 'repatriate', TMode> & {
-        abi?: never
-        functionName?: 'repatriate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'repatriate', TMode>({
-    abi: lTokenABI,
-    functionName: 'repatriate',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenRepatriate = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'repatriate',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"requestWithdrawal"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
  */
-export function useLTokenRequestWithdrawal<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'requestWithdrawal'>['request']['abi'],
-        'requestWithdrawal',
-        TMode
-      > & { functionName?: 'requestWithdrawal' }
-    : UseContractWriteConfig<typeof lTokenABI, 'requestWithdrawal', TMode> & {
-        abi?: never
-        functionName?: 'requestWithdrawal'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'requestWithdrawal', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenRequestWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'requestWithdrawal',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setAPR"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setAPR"`
  */
-export function useLTokenSetApr<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setAPR'>['request']['abi'],
-        'setAPR',
-        TMode
-      > & { functionName?: 'setAPR' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setAPR', TMode> & {
-        abi?: never
-        functionName?: 'setAPR'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'setAPR', TMode>({
-    abi: lTokenABI,
-    functionName: 'setAPR',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenSetApr = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setAPR',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setFeesRate"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFeesRate"`
  */
-export function useLTokenSetFeesRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setFeesRate'>['request']['abi'],
-        'setFeesRate',
-        TMode
-      > & { functionName?: 'setFeesRate' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setFeesRate', TMode> & {
-        abi?: never
-        functionName?: 'setFeesRate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'setFeesRate', TMode>({
-    abi: lTokenABI,
-    functionName: 'setFeesRate',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenSetFeesRate = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setFeesRate',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setFund"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFund"`
  */
-export function useLTokenSetFund<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setFund'>['request']['abi'],
-        'setFund',
-        TMode
-      > & { functionName?: 'setFund' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setFund', TMode> & {
-        abi?: never
-        functionName?: 'setFund'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'setFund', TMode>({
-    abi: lTokenABI,
-    functionName: 'setFund',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenSetFund = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setFund',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setLDYStaking"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setLDYStaking"`
  */
-export function useLTokenSetLdyStaking<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setLDYStaking'>['request']['abi'],
-        'setLDYStaking',
-        TMode
-      > & { functionName?: 'setLDYStaking' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setLDYStaking', TMode> & {
-        abi?: never
-        functionName?: 'setLDYStaking'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'setLDYStaking', TMode>({
-    abi: lTokenABI,
-    functionName: 'setLDYStaking',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenSetLdyStaking = /*#__PURE__*/ createUseWriteContract(
+  { abi: lTokenAbi, functionName: 'setLDYStaking' },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setRetentionRate"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setRetentionRate"`
  */
-export function useLTokenSetRetentionRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setRetentionRate'>['request']['abi'],
-        'setRetentionRate',
-        TMode
-      > & { functionName?: 'setRetentionRate' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setRetentionRate', TMode> & {
-        abi?: never
-        functionName?: 'setRetentionRate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'setRetentionRate', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenSetRetentionRate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'setRetentionRate',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setWithdrawer"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrawer"`
  */
-export function useLTokenSetWithdrawer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'setWithdrawer'>['request']['abi'],
-        'setWithdrawer',
-        TMode
-      > & { functionName?: 'setWithdrawer' }
-    : UseContractWriteConfig<typeof lTokenABI, 'setWithdrawer', TMode> & {
-        abi?: never
-        functionName?: 'setWithdrawer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'setWithdrawer', TMode>({
-    abi: lTokenABI,
-    functionName: 'setWithdrawer',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenSetWithdrawer = /*#__PURE__*/ createUseWriteContract(
+  { abi: lTokenAbi, functionName: 'setWithdrawer' },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"startRewardsRedirection"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
  */
-export function useLTokenStartRewardsRedirection<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'startRewardsRedirection'>['request']['abi'],
-        'startRewardsRedirection',
-        TMode
-      > & { functionName?: 'startRewardsRedirection' }
-    : UseContractWriteConfig<typeof lTokenABI, 'startRewardsRedirection', TMode> & {
-        abi?: never
-        functionName?: 'startRewardsRedirection'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'startRewardsRedirection', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'startRewardsRedirection',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"stopRewardsRedirection"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
  */
-export function useLTokenStopRewardsRedirection<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'stopRewardsRedirection'>['request']['abi'],
-        'stopRewardsRedirection',
-        TMode
-      > & { functionName?: 'stopRewardsRedirection' }
-    : UseContractWriteConfig<typeof lTokenABI, 'stopRewardsRedirection', TMode> & {
-        abi?: never
-        functionName?: 'stopRewardsRedirection'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'stopRewardsRedirection', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'stopRewardsRedirection',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transfer"`
  */
-export function useLTokenTransfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'transfer'>['request']['abi'],
-        'transfer',
-        TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof lTokenABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'transfer', TMode>({
-    abi: lTokenABI,
-    functionName: 'transfer',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'transfer',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transferFrom"`
  */
-export function useLTokenTransferFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'transferFrom'>['request']['abi'],
-        'transferFrom',
-        TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof lTokenABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'transferFrom', TMode>({
-    abi: lTokenABI,
-    functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'transferFrom',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"unlistenToTransfers"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
  */
-export function useLTokenUnlistenToTransfers<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'unlistenToTransfers'>['request']['abi'],
-        'unlistenToTransfers',
-        TMode
-      > & { functionName?: 'unlistenToTransfers' }
-    : UseContractWriteConfig<typeof lTokenABI, 'unlistenToTransfers', TMode> & {
-        abi?: never
-        functionName?: 'unlistenToTransfers'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'unlistenToTransfers', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'unlistenToTransfers',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeTo"`
  */
-export function useLTokenUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof lTokenABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'upgradeTo', TMode>({
-    abi: lTokenABI,
-    functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
+export const useWriteLTokenUpgradeTo = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenAbi,
+  functionName: 'upgradeTo',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
  */
-export function useLTokenUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof lTokenABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  return useContractWrite<typeof lTokenABI, 'upgradeToAndCall', TMode>({
-    abi: lTokenABI,
+export const useWriteLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__
  */
-export function usePrepareLTokenWrite<TFunctionName extends string>(
-  config: Omit<UsePrepareContractWriteConfig<typeof lTokenABI, TFunctionName>, 'abi'> = {} as any,
-) {
-  return usePrepareContractWrite({ abi: lTokenABI, ...config } as UsePrepareContractWriteConfig<
-    typeof lTokenABI,
-    TFunctionName
-  >)
-}
+export const useSimulateLToken = /*#__PURE__*/ createUseSimulateContract({
+  abi: lTokenAbi,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"approve"`
  */
-export function usePrepareLTokenApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
-    functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'approve'>)
-}
+export const useSimulateLTokenApprove = /*#__PURE__*/ createUseSimulateContract(
+  { abi: lTokenAbi, functionName: 'approve' },
+)
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"cancelWithdrawalRequest"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
  */
-export function usePrepareLTokenCancelWithdrawalRequest(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'cancelWithdrawalRequest'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'cancelWithdrawalRequest',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'cancelWithdrawalRequest'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"claimFees"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"claimFees"`
  */
-export function usePrepareLTokenClaimFees(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'claimFees'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenClaimFees =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'claimFees',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'claimFees'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
  */
-export function usePrepareLTokenDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'decreaseAllowance'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"deposit"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"deposit"`
  */
-export function usePrepareLTokenDeposit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'deposit'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
-    functionName: 'deposit',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'deposit'>)
-}
+export const useSimulateLTokenDeposit = /*#__PURE__*/ createUseSimulateContract(
+  { abi: lTokenAbi, functionName: 'deposit' },
+)
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"increaseAllowance"`
  */
-export function usePrepareLTokenIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'increaseAllowance'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"initialize"`
  */
-export function usePrepareLTokenInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'initialize'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"instantWithdrawal"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
  */
-export function usePrepareLTokenInstantWithdrawal(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'instantWithdrawal'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenInstantWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'instantWithdrawal',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'instantWithdrawal'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"listenToTransfers"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"listenToTransfers"`
  */
-export function usePrepareLTokenListenToTransfers(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'listenToTransfers'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenListenToTransfers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'listenToTransfers',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'listenToTransfers'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"processBigQueuedRequest"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
  */
-export function usePrepareLTokenProcessBigQueuedRequest(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'processBigQueuedRequest'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'processBigQueuedRequest',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'processBigQueuedRequest'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"processQueuedRequests"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
  */
-export function usePrepareLTokenProcessQueuedRequests(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'processQueuedRequests'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'processQueuedRequests',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'processQueuedRequests'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"recoverERC20"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverERC20"`
  */
-export function usePrepareLTokenRecoverErc20(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverERC20'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenRecoverErc20 =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'recoverERC20',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverERC20'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"recoverUnderlying"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
  */
-export function usePrepareLTokenRecoverUnderlying(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverUnderlying'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenRecoverUnderlying =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'recoverUnderlying',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'recoverUnderlying'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"repatriate"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"repatriate"`
  */
-export function usePrepareLTokenRepatriate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'repatriate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenRepatriate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'repatriate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'repatriate'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"requestWithdrawal"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
  */
-export function usePrepareLTokenRequestWithdrawal(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'requestWithdrawal'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenRequestWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'requestWithdrawal',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'requestWithdrawal'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setAPR"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setAPR"`
  */
-export function usePrepareLTokenSetApr(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setAPR'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
-    functionName: 'setAPR',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setAPR'>)
-}
+export const useSimulateLTokenSetApr = /*#__PURE__*/ createUseSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'setAPR',
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setFeesRate"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFeesRate"`
  */
-export function usePrepareLTokenSetFeesRate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setFeesRate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenSetFeesRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'setFeesRate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setFeesRate'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setFund"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFund"`
  */
-export function usePrepareLTokenSetFund(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setFund'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
-    functionName: 'setFund',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setFund'>)
-}
+export const useSimulateLTokenSetFund = /*#__PURE__*/ createUseSimulateContract(
+  { abi: lTokenAbi, functionName: 'setFund' },
+)
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setLDYStaking"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setLDYStaking"`
  */
-export function usePrepareLTokenSetLdyStaking(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setLDYStaking'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenSetLdyStaking =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'setLDYStaking',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setLDYStaking'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setRetentionRate"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setRetentionRate"`
  */
-export function usePrepareLTokenSetRetentionRate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setRetentionRate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenSetRetentionRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'setRetentionRate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setRetentionRate'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"setWithdrawer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrawer"`
  */
-export function usePrepareLTokenSetWithdrawer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'setWithdrawer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenSetWithdrawer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'setWithdrawer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'setWithdrawer'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"startRewardsRedirection"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
  */
-export function usePrepareLTokenStartRewardsRedirection(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'startRewardsRedirection'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'startRewardsRedirection',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'startRewardsRedirection'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"stopRewardsRedirection"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
  */
-export function usePrepareLTokenStopRewardsRedirection(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'stopRewardsRedirection'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'stopRewardsRedirection',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'stopRewardsRedirection'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transfer"`
  */
-export function usePrepareLTokenTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transferFrom"`
  */
-export function usePrepareLTokenTransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'transferFrom'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'transferFrom'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"unlistenToTransfers"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
  */
-export function usePrepareLTokenUnlistenToTransfers(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'unlistenToTransfers'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'unlistenToTransfers',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'unlistenToTransfers'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeTo"`
  */
-export function usePrepareLTokenUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeTo'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
  */
-export function usePrepareLTokenUpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeToAndCall'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: lTokenABI,
+export const useSimulateLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenABI, 'upgradeToAndCall'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenSignalerABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__
+ */
+export const useWatchLTokenEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: lTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"APRChangeEvent"`
+ */
+export const useWatchLTokenAprChangeEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'APRChangeEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"ActivityEvent"`
+ */
+export const useWatchLTokenActivityEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'ActivityEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"AdminChanged"`
+ */
+export const useWatchLTokenAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchLTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ */
+export const useWatchLTokenBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchLTokenInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"MintedRewardsEvent"`
+ */
+export const useWatchLTokenMintedRewardsEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'MintedRewardsEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchLTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchLTokenPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"TVLChangeEvent"`
+ */
+export const useWatchLTokenTvlChangeEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'TVLChangeEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchLTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchLTokenUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const useWatchLTokenUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7689,27 +5080,13 @@ export function usePrepareLTokenUpgradeToAndCall(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenSignaler = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"globalOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"globalOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7717,28 +5094,15 @@ export function useLTokenSignalerRead<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerGlobalOwner<
-  TFunctionName extends 'globalOwner',
-  TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useReadLTokenSignalerGlobalOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'globalOwner',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7746,28 +5110,14 @@ export function useLTokenSignalerGlobalOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
-}
+export const useReadLTokenSignalerOwner = /*#__PURE__*/ createUseReadContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7775,28 +5125,15 @@ export function useLTokenSignalerOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useReadLTokenSignalerProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7804,28 +5141,15 @@ export function useLTokenSignalerProxiableUuid<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerRenounceOwnership<
-  TFunctionName extends 'renounceOwnership',
-  TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useReadLTokenSignalerRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7833,28 +5157,15 @@ export function useLTokenSignalerRenounceOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerTransferOwnership<
-  TFunctionName extends 'transferOwnership',
-  TSelectData = ReadContractResult<typeof lTokenSignalerABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useReadLTokenSignalerTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof lTokenSignalerABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7862,35 +5173,13 @@ export function useLTokenSignalerTransferOwnership<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof lTokenSignalerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof lTokenSignalerABI, TFunctionName, TMode>({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
-  } as any)
-}
+export const useWriteLTokenSignaler = /*#__PURE__*/ createUseWriteContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7898,36 +5187,15 @@ export function useLTokenSignalerWrite<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof lTokenSignalerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof lTokenSignalerABI, 'initialize', TMode>({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useWriteLTokenSignalerInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"signalLToken"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7935,36 +5203,15 @@ export function useLTokenSignalerInitialize<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerSignalLToken<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof lTokenSignalerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'signalLToken'>['request']['abi'],
-        'signalLToken',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'signalLToken' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'signalLToken', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'signalLToken'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof lTokenSignalerABI, 'signalLToken', TMode>({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useWriteLTokenSignalerSignalLToken =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'signalLToken',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -7972,36 +5219,15 @@ export function useLTokenSignalerSignalLToken<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerUpgradeTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof lTokenSignalerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'upgradeTo', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof lTokenSignalerABI, 'upgradeTo', TMode>({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useWriteLTokenSignalerUpgradeTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -8009,36 +5235,15 @@ export function useLTokenSignalerUpgradeTo<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useLTokenSignalerUpgradeToAndCall<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof lTokenSignalerAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof lTokenSignalerABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof lTokenSignalerABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof lTokenSignalerABI, 'upgradeToAndCall', TMode>({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useWriteLTokenSignalerUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -8046,24 +5251,14 @@ export function useLTokenSignalerUpgradeToAndCall<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function usePrepareLTokenSignalerWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, TFunctionName>)
-}
+export const useSimulateLTokenSignaler =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -8071,25 +5266,15 @@ export function usePrepareLTokenSignalerWrite<TFunctionName extends string>(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function usePrepareLTokenSignalerInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useSimulateLTokenSignalerInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"signalLToken"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -8097,25 +5282,15 @@ export function usePrepareLTokenSignalerInitialize(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function usePrepareLTokenSignalerSignalLToken(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'signalLToken'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useSimulateLTokenSignalerSignalLToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'signalLToken',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'signalLToken'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"upgradeTo"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -8123,25 +5298,15 @@ export function usePrepareLTokenSignalerSignalLToken(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function usePrepareLTokenSignalerUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeTo'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useSimulateLTokenSignalerUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeTo'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link lTokenSignalerABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
@@ -8149,5307 +5314,1504 @@ export function usePrepareLTokenSignalerUpgradeTo(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function usePrepareLTokenSignalerUpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeToAndCall'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof lTokenSignalerAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[chainId as keyof typeof lTokenSignalerAddress],
+export const useSimulateLTokenSignalerUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof lTokenSignalerABI, 'upgradeToAndCall'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useMulticall3Read<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
+export const useWatchLTokenSignalerEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getBasefee"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useMulticall3GetBasefee<
-  TFunctionName extends 'getBasefee',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getBasefee',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
+export const useWatchLTokenSignalerAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'AdminChanged',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getBlockHash"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useMulticall3GetBlockHash<
-  TFunctionName extends 'getBlockHash',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getBlockHash',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
+export const useWatchLTokenSignalerBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'BeaconUpgraded',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getBlockNumber"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Initialized"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useMulticall3GetBlockNumber<
-  TFunctionName extends 'getBlockNumber',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getBlockNumber',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
+export const useWatchLTokenSignalerInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'Initialized',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getChainId"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"LTokenSignalEvent"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useMulticall3GetChainId<
-  TFunctionName extends 'getChainId',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getChainId',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
+export const useWatchLTokenSignalerLTokenSignalEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'LTokenSignalEvent',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockCoinbase"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
-export function useMulticall3GetCurrentBlockCoinbase<
-  TFunctionName extends 'getCurrentBlockCoinbase',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getCurrentBlockCoinbase',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
+export const useWatchLTokenSignalerOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'OwnershipTransferred',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockDifficulty"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Upgraded"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3GetCurrentBlockDifficulty<
-  TFunctionName extends 'getCurrentBlockDifficulty',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getCurrentBlockDifficulty',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockGasLimit"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3GetCurrentBlockGasLimit<
-  TFunctionName extends 'getCurrentBlockGasLimit',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getCurrentBlockGasLimit',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getCurrentBlockTimestamp"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3GetCurrentBlockTimestamp<
-  TFunctionName extends 'getCurrentBlockTimestamp',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getCurrentBlockTimestamp',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getEthBalance"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3GetEthBalance<
-  TFunctionName extends 'getEthBalance',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getEthBalance',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"getLastBlockHash"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3GetLastBlockHash<
-  TFunctionName extends 'getLastBlockHash',
-  TSelectData = ReadContractResult<typeof multicall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'getLastBlockHash',
-    ...config,
-  } as UseContractReadConfig<typeof multicall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3Write<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof multicall3ABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, TFunctionName, TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3Aggregate<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, 'aggregate'>['request']['abi'],
-        'aggregate',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'aggregate' }
-    : UseContractWriteConfig<typeof multicall3ABI, 'aggregate', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'aggregate'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, 'aggregate', TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'aggregate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3Aggregate3<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, 'aggregate3'>['request']['abi'],
-        'aggregate3',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'aggregate3' }
-    : UseContractWriteConfig<typeof multicall3ABI, 'aggregate3', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'aggregate3'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, 'aggregate3', TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'aggregate3',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3Value"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3Aggregate3Value<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, 'aggregate3Value'>['request']['abi'],
-        'aggregate3Value',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'aggregate3Value' }
-    : UseContractWriteConfig<typeof multicall3ABI, 'aggregate3Value', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'aggregate3Value'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, 'aggregate3Value', TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'aggregate3Value',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"blockAndAggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3BlockAndAggregate<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, 'blockAndAggregate'>['request']['abi'],
-        'blockAndAggregate',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'blockAndAggregate' }
-    : UseContractWriteConfig<typeof multicall3ABI, 'blockAndAggregate', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'blockAndAggregate'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, 'blockAndAggregate', TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'blockAndAggregate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryAggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3TryAggregate<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, 'tryAggregate'>['request']['abi'],
-        'tryAggregate',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'tryAggregate' }
-    : UseContractWriteConfig<typeof multicall3ABI, 'tryAggregate', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'tryAggregate'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, 'tryAggregate', TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'tryAggregate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryBlockAndAggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function useMulticall3TryBlockAndAggregate<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof multicall3ABI, 'tryBlockAndAggregate'>['request']['abi'],
-        'tryBlockAndAggregate',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'tryBlockAndAggregate' }
-    : UseContractWriteConfig<typeof multicall3ABI, 'tryBlockAndAggregate', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'tryBlockAndAggregate'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof multicall3ABI, 'tryBlockAndAggregate', TMode>({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'tryBlockAndAggregate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3Write<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3Aggregate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, 'aggregate'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'aggregate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, 'aggregate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3Aggregate3(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, 'aggregate3'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'aggregate3',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, 'aggregate3'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"aggregate3Value"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3Aggregate3Value(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, 'aggregate3Value'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'aggregate3Value',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, 'aggregate3Value'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"blockAndAggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3BlockAndAggregate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, 'blockAndAggregate'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'blockAndAggregate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, 'blockAndAggregate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryAggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3TryAggregate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, 'tryAggregate'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'tryAggregate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, 'tryAggregate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link multicall3ABI}__ and `functionName` set to `"tryBlockAndAggregate"`.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function usePrepareMulticall3TryBlockAndAggregate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof multicall3ABI, 'tryBlockAndAggregate'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof multicall3Address } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: multicall3ABI,
-    address: multicall3Address[chainId as keyof typeof multicall3Address],
-    functionName: 'tryBlockAndAggregate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof multicall3ABI, 'tryBlockAndAggregate'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function useOldLToken1Read<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any,
-) {
-  return useContractRead({ abi: oldLToken1ABI, ...config } as UseContractReadConfig<
-    typeof oldLToken1ABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"allowance"`.
- */
-export function useOldLToken1Allowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"balanceOf"`.
- */
-export function useOldLToken1BalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"decimals"`.
- */
-export function useOldLToken1Decimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"depositFor"`.
- */
-export function useOldLToken1DepositFor<
-  TFunctionName extends 'depositFor',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'depositFor',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"feesRateUD7x3"`.
- */
-export function useOldLToken1FeesRateUd7x3<
-  TFunctionName extends 'feesRateUD7x3',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'feesRateUD7x3',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"frozenRequests"`.
- */
-export function useOldLToken1FrozenRequests<
-  TFunctionName extends 'frozenRequests',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'frozenRequests',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"fund"`.
- */
-export function useOldLToken1Fund<
-  TFunctionName extends 'fund',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'fund',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"getAPR"`.
- */
-export function useOldLToken1GetApr<
-  TFunctionName extends 'getAPR',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'getAPR',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"getExpectedRetained"`.
- */
-export function useOldLToken1GetExpectedRetained<
-  TFunctionName extends 'getExpectedRetained',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'getExpectedRetained',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"getWithdrawnAmountAndFees"`.
- */
-export function useOldLToken1GetWithdrawnAmountAndFees<
-  TFunctionName extends 'getWithdrawnAmountAndFees',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'getWithdrawnAmountAndFees',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"globalBlacklist"`.
- */
-export function useOldLToken1GlobalBlacklist<
-  TFunctionName extends 'globalBlacklist',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'globalBlacklist',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"globalOwner"`.
- */
-export function useOldLToken1GlobalOwner<
-  TFunctionName extends 'globalOwner',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'globalOwner',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"globalPause"`.
- */
-export function useOldLToken1GlobalPause<
-  TFunctionName extends 'globalPause',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'globalPause',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"invested"`.
- */
-export function useOldLToken1Invested<
-  TFunctionName extends 'invested',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'invested',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"ldyStaking"`.
- */
-export function useOldLToken1LdyStaking<
-  TFunctionName extends 'ldyStaking',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'ldyStaking',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"name"`.
- */
-export function useOldLToken1Name<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"owner"`.
- */
-export function useOldLToken1Owner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"paused"`.
- */
-export function useOldLToken1Paused<
-  TFunctionName extends 'paused',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'paused',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"proxiableUUID"`.
- */
-export function useOldLToken1ProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"realBalanceOf"`.
- */
-export function useOldLToken1RealBalanceOf<
-  TFunctionName extends 'realBalanceOf',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'realBalanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"realTotalSupply"`.
- */
-export function useOldLToken1RealTotalSupply<
-  TFunctionName extends 'realTotalSupply',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'realTotalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"renounceOwnership"`.
- */
-export function useOldLToken1RenounceOwnership<
-  TFunctionName extends 'renounceOwnership',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'renounceOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"retentionRateUD7x3"`.
- */
-export function useOldLToken1RetentionRateUd7x3<
-  TFunctionName extends 'retentionRateUD7x3',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'retentionRateUD7x3',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"rewardsRedirectsFromTo"`.
- */
-export function useOldLToken1RewardsRedirectsFromTo<
-  TFunctionName extends 'rewardsRedirectsFromTo',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'rewardsRedirectsFromTo',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"rewardsRedirectsToFrom"`.
- */
-export function useOldLToken1RewardsRedirectsToFrom<
-  TFunctionName extends 'rewardsRedirectsToFrom',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'rewardsRedirectsToFrom',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"symbol"`.
- */
-export function useOldLToken1Symbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"totalQueued"`.
- */
-export function useOldLToken1TotalQueued<
-  TFunctionName extends 'totalQueued',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'totalQueued',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"totalSupply"`.
- */
-export function useOldLToken1TotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"transferOwnership"`.
- */
-export function useOldLToken1TransferOwnership<
-  TFunctionName extends 'transferOwnership',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'transferOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"transfersListeners"`.
- */
-export function useOldLToken1TransfersListeners<
-  TFunctionName extends 'transfersListeners',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'transfersListeners',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"unclaimedFees"`.
- */
-export function useOldLToken1UnclaimedFees<
-  TFunctionName extends 'unclaimedFees',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'unclaimedFees',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"underlying"`.
- */
-export function useOldLToken1Underlying<
-  TFunctionName extends 'underlying',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'underlying',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"unmintedRewardsOf"`.
- */
-export function useOldLToken1UnmintedRewardsOf<
-  TFunctionName extends 'unmintedRewardsOf',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'unmintedRewardsOf',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"usableUnderlyings"`.
- */
-export function useOldLToken1UsableUnderlyings<
-  TFunctionName extends 'usableUnderlyings',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'usableUnderlyings',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"withdrawTo"`.
- */
-export function useOldLToken1WithdrawTo<
-  TFunctionName extends 'withdrawTo',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'withdrawTo',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"withdrawalQueue"`.
- */
-export function useOldLToken1WithdrawalQueue<
-  TFunctionName extends 'withdrawalQueue',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'withdrawalQueue',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"withdrawalQueueCursor"`.
- */
-export function useOldLToken1WithdrawalQueueCursor<
-  TFunctionName extends 'withdrawalQueueCursor',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'withdrawalQueueCursor',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"withdrawer"`.
- */
-export function useOldLToken1Withdrawer<
-  TFunctionName extends 'withdrawer',
-  TSelectData = ReadContractResult<typeof oldLToken1ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: oldLToken1ABI,
-    functionName: 'withdrawer',
-    ...config,
-  } as UseContractReadConfig<typeof oldLToken1ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function useOldLToken1Write<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof oldLToken1ABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, TFunctionName, TMode>({
-    abi: oldLToken1ABI,
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"approve"`.
- */
-export function useOldLToken1Approve<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'approve'>['request']['abi'],
-        'approve',
-        TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'approve', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'approve',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"cancelWithdrawalRequest"`.
- */
-export function useOldLToken1CancelWithdrawalRequest<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof oldLToken1ABI,
-          'cancelWithdrawalRequest'
-        >['request']['abi'],
-        'cancelWithdrawalRequest',
-        TMode
-      > & { functionName?: 'cancelWithdrawalRequest' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'cancelWithdrawalRequest', TMode> & {
-        abi?: never
-        functionName?: 'cancelWithdrawalRequest'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'cancelWithdrawalRequest', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'cancelWithdrawalRequest',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"claimFees"`.
- */
-export function useOldLToken1ClaimFees<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'claimFees'>['request']['abi'],
-        'claimFees',
-        TMode
-      > & { functionName?: 'claimFees' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'claimFees', TMode> & {
-        abi?: never
-        functionName?: 'claimFees'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'claimFees', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'claimFees',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useOldLToken1DecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'decreaseAllowance', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"deposit"`.
- */
-export function useOldLToken1Deposit<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'deposit'>['request']['abi'],
-        'deposit',
-        TMode
-      > & { functionName?: 'deposit' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'deposit', TMode> & {
-        abi?: never
-        functionName?: 'deposit'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'deposit', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'deposit',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useOldLToken1IncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'increaseAllowance', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"initialize"`.
- */
-export function useOldLToken1Initialize<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'initialize', TMode> & {
-        abi?: never
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'initialize', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'initialize',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"instantWithdrawal"`.
- */
-export function useOldLToken1InstantWithdrawal<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'instantWithdrawal'>['request']['abi'],
-        'instantWithdrawal',
-        TMode
-      > & { functionName?: 'instantWithdrawal' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'instantWithdrawal', TMode> & {
-        abi?: never
-        functionName?: 'instantWithdrawal'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'instantWithdrawal', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'instantWithdrawal',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"listenToTransfers"`.
- */
-export function useOldLToken1ListenToTransfers<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'listenToTransfers'>['request']['abi'],
-        'listenToTransfers',
-        TMode
-      > & { functionName?: 'listenToTransfers' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'listenToTransfers', TMode> & {
-        abi?: never
-        functionName?: 'listenToTransfers'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'listenToTransfers', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'listenToTransfers',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"processBigQueuedRequest"`.
- */
-export function useOldLToken1ProcessBigQueuedRequest<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof oldLToken1ABI,
-          'processBigQueuedRequest'
-        >['request']['abi'],
-        'processBigQueuedRequest',
-        TMode
-      > & { functionName?: 'processBigQueuedRequest' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'processBigQueuedRequest', TMode> & {
-        abi?: never
-        functionName?: 'processBigQueuedRequest'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'processBigQueuedRequest', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'processBigQueuedRequest',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"processQueuedRequests"`.
- */
-export function useOldLToken1ProcessQueuedRequests<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'processQueuedRequests'>['request']['abi'],
-        'processQueuedRequests',
-        TMode
-      > & { functionName?: 'processQueuedRequests' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'processQueuedRequests', TMode> & {
-        abi?: never
-        functionName?: 'processQueuedRequests'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'processQueuedRequests', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'processQueuedRequests',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"recoverERC20"`.
- */
-export function useOldLToken1RecoverErc20<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'recoverERC20'>['request']['abi'],
-        'recoverERC20',
-        TMode
-      > & { functionName?: 'recoverERC20' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'recoverERC20', TMode> & {
-        abi?: never
-        functionName?: 'recoverERC20'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'recoverERC20', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'recoverERC20',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"recoverUnderlying"`.
- */
-export function useOldLToken1RecoverUnderlying<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'recoverUnderlying'>['request']['abi'],
-        'recoverUnderlying',
-        TMode
-      > & { functionName?: 'recoverUnderlying' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'recoverUnderlying', TMode> & {
-        abi?: never
-        functionName?: 'recoverUnderlying'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'recoverUnderlying', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'recoverUnderlying',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"repatriate"`.
- */
-export function useOldLToken1Repatriate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'repatriate'>['request']['abi'],
-        'repatriate',
-        TMode
-      > & { functionName?: 'repatriate' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'repatriate', TMode> & {
-        abi?: never
-        functionName?: 'repatriate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'repatriate', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'repatriate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"requestWithdrawal"`.
- */
-export function useOldLToken1RequestWithdrawal<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'requestWithdrawal'>['request']['abi'],
-        'requestWithdrawal',
-        TMode
-      > & { functionName?: 'requestWithdrawal' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'requestWithdrawal', TMode> & {
-        abi?: never
-        functionName?: 'requestWithdrawal'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'requestWithdrawal', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'requestWithdrawal',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setAPR"`.
- */
-export function useOldLToken1SetApr<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'setAPR'>['request']['abi'],
-        'setAPR',
-        TMode
-      > & { functionName?: 'setAPR' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'setAPR', TMode> & {
-        abi?: never
-        functionName?: 'setAPR'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'setAPR', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'setAPR',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setFeesRate"`.
- */
-export function useOldLToken1SetFeesRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'setFeesRate'>['request']['abi'],
-        'setFeesRate',
-        TMode
-      > & { functionName?: 'setFeesRate' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'setFeesRate', TMode> & {
-        abi?: never
-        functionName?: 'setFeesRate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'setFeesRate', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'setFeesRate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setFund"`.
- */
-export function useOldLToken1SetFund<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'setFund'>['request']['abi'],
-        'setFund',
-        TMode
-      > & { functionName?: 'setFund' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'setFund', TMode> & {
-        abi?: never
-        functionName?: 'setFund'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'setFund', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'setFund',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setLDYStaking"`.
- */
-export function useOldLToken1SetLdyStaking<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'setLDYStaking'>['request']['abi'],
-        'setLDYStaking',
-        TMode
-      > & { functionName?: 'setLDYStaking' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'setLDYStaking', TMode> & {
-        abi?: never
-        functionName?: 'setLDYStaking'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'setLDYStaking', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'setLDYStaking',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setRetentionRate"`.
- */
-export function useOldLToken1SetRetentionRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'setRetentionRate'>['request']['abi'],
-        'setRetentionRate',
-        TMode
-      > & { functionName?: 'setRetentionRate' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'setRetentionRate', TMode> & {
-        abi?: never
-        functionName?: 'setRetentionRate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'setRetentionRate', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'setRetentionRate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setWithdrawer"`.
- */
-export function useOldLToken1SetWithdrawer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'setWithdrawer'>['request']['abi'],
-        'setWithdrawer',
-        TMode
-      > & { functionName?: 'setWithdrawer' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'setWithdrawer', TMode> & {
-        abi?: never
-        functionName?: 'setWithdrawer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'setWithdrawer', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'setWithdrawer',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"startRewardsRedirection"`.
- */
-export function useOldLToken1StartRewardsRedirection<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof oldLToken1ABI,
-          'startRewardsRedirection'
-        >['request']['abi'],
-        'startRewardsRedirection',
-        TMode
-      > & { functionName?: 'startRewardsRedirection' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'startRewardsRedirection', TMode> & {
-        abi?: never
-        functionName?: 'startRewardsRedirection'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'startRewardsRedirection', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'startRewardsRedirection',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"stopRewardsRedirection"`.
- */
-export function useOldLToken1StopRewardsRedirection<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof oldLToken1ABI,
-          'stopRewardsRedirection'
-        >['request']['abi'],
-        'stopRewardsRedirection',
-        TMode
-      > & { functionName?: 'stopRewardsRedirection' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'stopRewardsRedirection', TMode> & {
-        abi?: never
-        functionName?: 'stopRewardsRedirection'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'stopRewardsRedirection', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'stopRewardsRedirection',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"transfer"`.
- */
-export function useOldLToken1Transfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'transfer'>['request']['abi'],
-        'transfer',
-        TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'transfer', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'transfer',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"transferFrom"`.
- */
-export function useOldLToken1TransferFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'transferFrom'>['request']['abi'],
-        'transferFrom',
-        TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'transferFrom', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"unlistenToTransfers"`.
- */
-export function useOldLToken1UnlistenToTransfers<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'unlistenToTransfers'>['request']['abi'],
-        'unlistenToTransfers',
-        TMode
-      > & { functionName?: 'unlistenToTransfers' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'unlistenToTransfers', TMode> & {
-        abi?: never
-        functionName?: 'unlistenToTransfers'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'unlistenToTransfers', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'unlistenToTransfers',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useOldLToken1UpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'upgradeTo', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"upgradeToAndCall"`.
- */
-export function useOldLToken1UpgradeToAndCall<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof oldLToken1ABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof oldLToken1ABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  return useContractWrite<typeof oldLToken1ABI, 'upgradeToAndCall', TMode>({
-    abi: oldLToken1ABI,
-    functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function usePrepareOldLToken1Write<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, TFunctionName>,
-    'abi'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({ abi: oldLToken1ABI, ...config } as UsePrepareContractWriteConfig<
-    typeof oldLToken1ABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"approve"`.
- */
-export function usePrepareOldLToken1Approve(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'approve'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"cancelWithdrawalRequest"`.
- */
-export function usePrepareOldLToken1CancelWithdrawalRequest(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'cancelWithdrawalRequest'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'cancelWithdrawalRequest',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'cancelWithdrawalRequest'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"claimFees"`.
- */
-export function usePrepareOldLToken1ClaimFees(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'claimFees'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'claimFees',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'claimFees'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareOldLToken1DecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'decreaseAllowance'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"deposit"`.
- */
-export function usePrepareOldLToken1Deposit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'deposit'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'deposit',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'deposit'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareOldLToken1IncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'increaseAllowance'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"initialize"`.
- */
-export function usePrepareOldLToken1Initialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'initialize'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'initialize'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"instantWithdrawal"`.
- */
-export function usePrepareOldLToken1InstantWithdrawal(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'instantWithdrawal'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'instantWithdrawal',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'instantWithdrawal'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"listenToTransfers"`.
- */
-export function usePrepareOldLToken1ListenToTransfers(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'listenToTransfers'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'listenToTransfers',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'listenToTransfers'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"processBigQueuedRequest"`.
- */
-export function usePrepareOldLToken1ProcessBigQueuedRequest(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'processBigQueuedRequest'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'processBigQueuedRequest',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'processBigQueuedRequest'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"processQueuedRequests"`.
- */
-export function usePrepareOldLToken1ProcessQueuedRequests(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'processQueuedRequests'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'processQueuedRequests',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'processQueuedRequests'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"recoverERC20"`.
- */
-export function usePrepareOldLToken1RecoverErc20(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'recoverERC20'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'recoverERC20',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'recoverERC20'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"recoverUnderlying"`.
- */
-export function usePrepareOldLToken1RecoverUnderlying(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'recoverUnderlying'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'recoverUnderlying',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'recoverUnderlying'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"repatriate"`.
- */
-export function usePrepareOldLToken1Repatriate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'repatriate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'repatriate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'repatriate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"requestWithdrawal"`.
- */
-export function usePrepareOldLToken1RequestWithdrawal(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'requestWithdrawal'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'requestWithdrawal',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'requestWithdrawal'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setAPR"`.
- */
-export function usePrepareOldLToken1SetApr(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setAPR'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'setAPR',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setAPR'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setFeesRate"`.
- */
-export function usePrepareOldLToken1SetFeesRate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setFeesRate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'setFeesRate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setFeesRate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setFund"`.
- */
-export function usePrepareOldLToken1SetFund(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setFund'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'setFund',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setFund'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setLDYStaking"`.
- */
-export function usePrepareOldLToken1SetLdyStaking(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setLDYStaking'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'setLDYStaking',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setLDYStaking'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setRetentionRate"`.
- */
-export function usePrepareOldLToken1SetRetentionRate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setRetentionRate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'setRetentionRate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setRetentionRate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"setWithdrawer"`.
- */
-export function usePrepareOldLToken1SetWithdrawer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setWithdrawer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'setWithdrawer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'setWithdrawer'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"startRewardsRedirection"`.
- */
-export function usePrepareOldLToken1StartRewardsRedirection(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'startRewardsRedirection'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'startRewardsRedirection',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'startRewardsRedirection'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"stopRewardsRedirection"`.
- */
-export function usePrepareOldLToken1StopRewardsRedirection(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'stopRewardsRedirection'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'stopRewardsRedirection',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'stopRewardsRedirection'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"transfer"`.
- */
-export function usePrepareOldLToken1Transfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'transfer'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"transferFrom"`.
- */
-export function usePrepareOldLToken1TransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'transferFrom'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'transferFrom'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"unlistenToTransfers"`.
- */
-export function usePrepareOldLToken1UnlistenToTransfers(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'unlistenToTransfers'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'unlistenToTransfers',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'unlistenToTransfers'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareOldLToken1UpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'upgradeTo'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link oldLToken1ABI}__ and `functionName` set to `"upgradeToAndCall"`.
- */
-export function usePrepareOldLToken1UpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'upgradeToAndCall'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: oldLToken1ABI,
-    functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof oldLToken1ABI, 'upgradeToAndCall'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__.
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const useWatchLTokenSignalerUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMining = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"accountsLocks"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"accountsLocks"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningAccountsLocks<
-  TFunctionName extends 'accountsLocks',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningAccountsLocks =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'accountsLocks',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"availableToClaim"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"availableToClaim"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningAvailableToClaim<
-  TFunctionName extends 'availableToClaim',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningAvailableToClaim =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'availableToClaim',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"claimPhaseStartTimestamp"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"claimPhaseStartTimestamp"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningClaimPhaseStartTimestamp<
-  TFunctionName extends 'claimPhaseStartTimestamp',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningClaimPhaseStartTimestamp =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'claimPhaseStartTimestamp',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"eligibleRewardsOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"eligibleRewardsOf"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningEligibleRewardsOf<
-  TFunctionName extends 'eligibleRewardsOf',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningEligibleRewardsOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'eligibleRewardsOf',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"hasClaimPhaseStarted"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"hasClaimPhaseStarted"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningHasClaimPhaseStarted<
-  TFunctionName extends 'hasClaimPhaseStarted',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningHasClaimPhaseStarted =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'hasClaimPhaseStarted',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"hasDepositPhaseEnded"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"hasDepositPhaseEnded"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningHasDepositPhaseEnded<
-  TFunctionName extends 'hasDepositPhaseEnded',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningHasDepositPhaseEnded =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'hasDepositPhaseEnded',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"hasRecoveryPhaseStarted"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"hasRecoveryPhaseStarted"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningHasRecoveryPhaseStarted<
-  TFunctionName extends 'hasRecoveryPhaseStarted',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningHasRecoveryPhaseStarted =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'hasRecoveryPhaseStarted',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lToken"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningLToken<
-  TFunctionName extends 'lToken',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'lToken',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMiningLToken = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'lToken',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"ldyToken"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"ldyToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningLdyToken<
-  TFunctionName extends 'ldyToken',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'ldyToken',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMiningLdyToken = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'ldyToken',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lockedHardCap"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lockedHardCap"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningLockedHardCap<
-  TFunctionName extends 'lockedHardCap',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningLockedHardCap =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'lockedHardCap',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"maxDistributedLDY"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"maxDistributedLDY"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningMaxDistributedLdy<
-  TFunctionName extends 'maxDistributedLDY',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningMaxDistributedLdy =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'maxDistributedLDY',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"maxLockDuration"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"maxLockDuration"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningMaxLockDuration<
-  TFunctionName extends 'maxLockDuration',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningMaxLockDuration =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'maxLockDuration',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"maxWeight"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"maxWeight"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningMaxWeight<
-  TFunctionName extends 'maxWeight',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'maxWeight',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMiningMaxWeight = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'maxWeight',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"minLockDuration"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"minLockDuration"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningMinLockDuration<
-  TFunctionName extends 'minLockDuration',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningMinLockDuration =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'minLockDuration',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMiningOwner = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"paused"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"paused"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningPaused<
-  TFunctionName extends 'paused',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'paused',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMiningPaused = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'paused',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"pendingOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningPendingOwner<
-  TFunctionName extends 'pendingOwner',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningPendingOwner = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'pendingOwner',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"totalLocked"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"totalLocked"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningTotalLocked<
-  TFunctionName extends 'totalLocked',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'totalLocked',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+export const useReadPreMiningTotalLocked = /*#__PURE__*/ createUseReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'totalLocked',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"underlyingToken"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"underlyingToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningUnderlyingToken<
-  TFunctionName extends 'underlyingToken',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningUnderlyingToken =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'underlyingToken',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unlockRequests"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unlockRequests"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningUnlockRequests<
-  TFunctionName extends 'unlockRequests',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningUnlockRequests =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'unlockRequests',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unlockRequestsCursor"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unlockRequestsCursor"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningUnlockRequestsCursor<
-  TFunctionName extends 'unlockRequestsCursor',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningUnlockRequestsCursor =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'unlockRequestsCursor',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"vestingDuration"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"vestingDuration"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningVestingDuration<
-  TFunctionName extends 'vestingDuration',
-  TSelectData = ReadContractResult<typeof preMiningABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useReadPreMiningVestingDuration =
+  /*#__PURE__*/ createUseReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'vestingDuration',
-    ...config,
-  } as UseContractReadConfig<typeof preMiningABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof preMiningABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, TFunctionName, TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    ...config,
-  } as any)
-}
+export const useWritePreMining = /*#__PURE__*/ createUseWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningAcceptOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'acceptOwnership'>['request']['abi'],
-        'acceptOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'acceptOwnership' }
-    : UseContractWriteConfig<typeof preMiningABI, 'acceptOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'acceptOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'acceptOwnership', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningAcceptOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"claimRewards"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"claimRewards"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningClaimRewards<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'claimRewards'>['request']['abi'],
-        'claimRewards',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'claimRewards' }
-    : UseContractWriteConfig<typeof preMiningABI, 'claimRewards', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'claimRewards'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'claimRewards', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningClaimRewards =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'claimRewards',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"endDepositPhase"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"endDepositPhase"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningEndDepositPhase<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'endDepositPhase'>['request']['abi'],
-        'endDepositPhase',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'endDepositPhase' }
-    : UseContractWriteConfig<typeof preMiningABI, 'endDepositPhase', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'endDepositPhase'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'endDepositPhase', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningEndDepositPhase =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'endDepositPhase',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"instantUnlock"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"instantUnlock"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningInstantUnlock<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'instantUnlock'>['request']['abi'],
-        'instantUnlock',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'instantUnlock' }
-    : UseContractWriteConfig<typeof preMiningABI, 'instantUnlock', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'instantUnlock'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'instantUnlock', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningInstantUnlock =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'instantUnlock',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lock"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lock"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningLock<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'lock'>['request']['abi'],
-        'lock',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'lock' }
-    : UseContractWriteConfig<typeof preMiningABI, 'lock', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'lock'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'lock', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'lock',
-    ...config,
-  } as any)
-}
+export const useWritePreMiningLock = /*#__PURE__*/ createUseWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'lock',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"pause"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"pause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningPause<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'pause'>['request']['abi'],
-        'pause',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'pause' }
-    : UseContractWriteConfig<typeof preMiningABI, 'pause', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'pause'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'pause', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'pause',
-    ...config,
-  } as any)
-}
+export const useWritePreMiningPause = /*#__PURE__*/ createUseWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'pause',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"processUnlockRequests"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"processUnlockRequests"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningProcessUnlockRequests<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'processUnlockRequests'>['request']['abi'],
-        'processUnlockRequests',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'processUnlockRequests' }
-    : UseContractWriteConfig<typeof preMiningABI, 'processUnlockRequests', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'processUnlockRequests'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'processUnlockRequests', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningProcessUnlockRequests =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'processUnlockRequests',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"recoverERC20"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"recoverERC20"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningRecoverErc20<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'recoverERC20'>['request']['abi'],
-        'recoverERC20',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'recoverERC20' }
-    : UseContractWriteConfig<typeof preMiningABI, 'recoverERC20', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'recoverERC20'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'recoverERC20', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningRecoverErc20 =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'recoverERC20',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'renounceOwnership'>['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<typeof preMiningABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'renounceOwnership', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"requestUnlock"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"requestUnlock"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningRequestUnlock<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'requestUnlock'>['request']['abi'],
-        'requestUnlock',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'requestUnlock' }
-    : UseContractWriteConfig<typeof preMiningABI, 'requestUnlock', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'requestUnlock'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'requestUnlock', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningRequestUnlock =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'requestUnlock',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"setLDYToken"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"setLDYToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningSetLdyToken<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'setLDYToken'>['request']['abi'],
-        'setLDYToken',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setLDYToken' }
-    : UseContractWriteConfig<typeof preMiningABI, 'setLDYToken', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setLDYToken'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'setLDYToken', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningSetLdyToken =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'setLDYToken',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startClaimPhase"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startClaimPhase"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningStartClaimPhase<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'startClaimPhase'>['request']['abi'],
-        'startClaimPhase',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'startClaimPhase' }
-    : UseContractWriteConfig<typeof preMiningABI, 'startClaimPhase', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'startClaimPhase'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'startClaimPhase', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningStartClaimPhase =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'startClaimPhase',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startRecoveryPhase"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startRecoveryPhase"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningStartRecoveryPhase<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'startRecoveryPhase'>['request']['abi'],
-        'startRecoveryPhase',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'startRecoveryPhase' }
-    : UseContractWriteConfig<typeof preMiningABI, 'startRecoveryPhase', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'startRecoveryPhase'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'startRecoveryPhase', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningStartRecoveryPhase =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'startRecoveryPhase',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningTransferOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'transferOwnership'>['request']['abi'],
-        'transferOwnership',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'transferOwnership' }
-    : UseContractWriteConfig<typeof preMiningABI, 'transferOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'transferOwnership', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useWritePreMiningTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unpause"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unpause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreMiningUnpause<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof preMiningABI, 'unpause'>['request']['abi'],
-        'unpause',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'unpause' }
-    : UseContractWriteConfig<typeof preMiningABI, 'unpause', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'unpause'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof preMiningABI, 'unpause', TMode>({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'unpause',
-    ...config,
-  } as any)
-}
+export const useWritePreMiningUnpause = /*#__PURE__*/ createUseWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'unpause',
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, TFunctionName>)
-}
+export const useSimulatePreMining = /*#__PURE__*/ createUseSimulateContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningAcceptOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'acceptOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningAcceptOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'acceptOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"claimRewards"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"claimRewards"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningClaimRewards(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'claimRewards'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningClaimRewards =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'claimRewards',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'claimRewards'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"endDepositPhase"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"endDepositPhase"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningEndDepositPhase(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'endDepositPhase'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningEndDepositPhase =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'endDepositPhase',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'endDepositPhase'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"instantUnlock"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"instantUnlock"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningInstantUnlock(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'instantUnlock'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningInstantUnlock =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'instantUnlock',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'instantUnlock'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"lock"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lock"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningLock(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'lock'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
-    functionName: 'lock',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'lock'>)
-}
+export const useSimulatePreMiningLock = /*#__PURE__*/ createUseSimulateContract(
+  { abi: preMiningAbi, address: preMiningAddress, functionName: 'lock' },
+)
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"pause"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"pause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningPause(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'pause'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningPause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'pause',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'pause'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"processUnlockRequests"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"processUnlockRequests"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningProcessUnlockRequests(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'processUnlockRequests'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningProcessUnlockRequests =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'processUnlockRequests',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'processUnlockRequests'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"recoverERC20"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"recoverERC20"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningRecoverErc20(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'recoverERC20'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningRecoverErc20 =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'recoverERC20',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'recoverERC20'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'renounceOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"requestUnlock"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"requestUnlock"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningRequestUnlock(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'requestUnlock'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningRequestUnlock =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'requestUnlock',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'requestUnlock'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"setLDYToken"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"setLDYToken"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningSetLdyToken(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'setLDYToken'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningSetLdyToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'setLDYToken',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'setLDYToken'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startClaimPhase"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startClaimPhase"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningStartClaimPhase(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'startClaimPhase'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningStartClaimPhase =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'startClaimPhase',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'startClaimPhase'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"startRecoveryPhase"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startRecoveryPhase"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningStartRecoveryPhase(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'startRecoveryPhase'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningStartRecoveryPhase =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'startRecoveryPhase',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'startRecoveryPhase'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningTransferOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'transferOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link preMiningABI}__ and `functionName` set to `"unpause"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unpause"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function usePreparePreMiningUnpause(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof preMiningABI, 'unpause'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof preMiningAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: preMiningABI,
-    address: preMiningAddress[chainId as keyof typeof preMiningAddress],
+export const useSimulatePreMiningUnpause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
     functionName: 'unpause',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof preMiningABI, 'unpause'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link preMiningAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function useWipLdyStakingRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any,
-) {
-  return useContractRead({ abi: wipLdyStakingABI, ...config } as UseContractReadConfig<
-    typeof wipLdyStakingABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useWatchPreMiningEvent = /*#__PURE__*/ createUseWatchContractEvent(
+  { abi: preMiningAbi, address: preMiningAddress },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"getAPR"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"Lock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function useWipLdyStakingGetApr<
-  TFunctionName extends 'getAPR',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'getAPR',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const useWatchPreMiningLockEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'Lock',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"getNewLockEndFor"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function useWipLdyStakingGetNewLockEndFor<
-  TFunctionName extends 'getNewLockEndFor',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'getNewLockEndFor',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const useWatchPreMiningOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'OwnershipTransferStarted',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"getTier"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function useWipLdyStakingGetTier<
-  TFunctionName extends 'getTier',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'getTier',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const useWatchPreMiningOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'OwnershipTransferred',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"globalBlacklist"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"Paused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function useWipLdyStakingGlobalBlacklist<
-  TFunctionName extends 'globalBlacklist',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'globalBlacklist',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const useWatchPreMiningPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'Paused',
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"globalOwner"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"Unpaused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function useWipLdyStakingGlobalOwner<
-  TFunctionName extends 'globalOwner',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'globalOwner',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const useWatchPreMiningUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'Unpaused',
+  })
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Action
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"globalPause"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__
  */
-export function useWipLdyStakingGlobalPause<
-  TFunctionName extends 'globalPause',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'globalPause',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const readGenericErc20 = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"invested"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"allowance"`
  */
-export function useWipLdyStakingInvested<
-  TFunctionName extends 'invested',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'invested',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const readGenericErc20Allowance = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+  functionName: 'allowance',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"lockEndOf"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"balanceOf"`
  */
-export function useWipLdyStakingLockEndOf<
-  TFunctionName extends 'lockEndOf',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'lockEndOf',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const readGenericErc20BalanceOf = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+  functionName: 'balanceOf',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"decimals"`
  */
-export function useWipLdyStakingOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const readGenericErc20Decimals = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+  functionName: 'decimals',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"paused"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"name"`
  */
-export function useWipLdyStakingPaused<
-  TFunctionName extends 'paused',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'paused',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const readGenericErc20Name = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"symbol"`
  */
-export function useWipLdyStakingProxiableUuid<
-  TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
+export const readGenericErc20Symbol = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readGenericErc20TotalSupply = /*#__PURE__*/ createReadContract({
+  abi: genericErc20Abi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__
+ */
+export const writeGenericErc20 = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const writeGenericErc20Approve = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burn"`
+ */
+export const writeGenericErc20Burn = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burnFrom"`
+ */
+export const writeGenericErc20BurnFrom = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'burnFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeGenericErc20DecreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: genericErc20Abi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeGenericErc20IncreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: genericErc20Abi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"mint"`
+ */
+export const writeGenericErc20Mint = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"setDecimals"`
+ */
+export const writeGenericErc20SetDecimals = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'setDecimals',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const writeGenericErc20Transfer = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeGenericErc20TransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: genericErc20Abi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__
+ */
+export const simulateGenericErc20 = /*#__PURE__*/ createSimulateContract({
+  abi: genericErc20Abi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const simulateGenericErc20Approve = /*#__PURE__*/ createSimulateContract(
+  { abi: genericErc20Abi, functionName: 'approve' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burn"`
+ */
+export const simulateGenericErc20Burn = /*#__PURE__*/ createSimulateContract({
+  abi: genericErc20Abi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"burnFrom"`
+ */
+export const simulateGenericErc20BurnFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: genericErc20Abi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateGenericErc20DecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: genericErc20Abi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateGenericErc20IncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: genericErc20Abi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"mint"`
+ */
+export const simulateGenericErc20Mint = /*#__PURE__*/ createSimulateContract({
+  abi: genericErc20Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"setDecimals"`
+ */
+export const simulateGenericErc20SetDecimals =
+  /*#__PURE__*/ createSimulateContract({
+    abi: genericErc20Abi,
+    functionName: 'setDecimals',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateGenericErc20Transfer =
+  /*#__PURE__*/ createSimulateContract({
+    abi: genericErc20Abi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link genericErc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateGenericErc20TransferFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: genericErc20Abi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link genericErc20Abi}__
+ */
+export const watchGenericErc20Event = /*#__PURE__*/ createWatchContractEvent({
+  abi: genericErc20Abi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link genericErc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const watchGenericErc20ApprovalEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: genericErc20Abi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link genericErc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchGenericErc20TransferEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: genericErc20Abi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const readGlobalBlacklist = /*#__PURE__*/ createReadContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"globalOwner"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const readGlobalBlacklistGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+  functionName: 'globalOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"isBlacklisted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const readGlobalBlacklistIsBlacklisted =
+  /*#__PURE__*/ createReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    functionName: 'isBlacklisted',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"owner"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const readGlobalBlacklistOwner = /*#__PURE__*/ createReadContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"proxiableUUID"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const readGlobalBlacklistProxiableUuid =
+  /*#__PURE__*/ createReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'proxiableUUID',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingRenounceOwnership<
-  TFunctionName extends 'renounceOwnership',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
+export const readGlobalBlacklistRenounceOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"rewardsOf"`.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingRewardsOf<
-  TFunctionName extends 'rewardsOf',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'rewardsOf',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"rewardsRedirectsFromTo"`.
- */
-export function useWipLdyStakingRewardsRedirectsFromTo<
-  TFunctionName extends 'rewardsRedirectsFromTo',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'rewardsRedirectsFromTo',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"rewardsRedirectsToFrom"`.
- */
-export function useWipLdyStakingRewardsRedirectsToFrom<
-  TFunctionName extends 'rewardsRedirectsToFrom',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'rewardsRedirectsToFrom',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"rewardsReserve"`.
- */
-export function useWipLdyStakingRewardsReserve<
-  TFunctionName extends 'rewardsReserve',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'rewardsReserve',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"stakeLockDuration"`.
- */
-export function useWipLdyStakingStakeLockDuration<
-  TFunctionName extends 'stakeLockDuration',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'stakeLockDuration',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"stakeOf"`.
- */
-export function useWipLdyStakingStakeOf<
-  TFunctionName extends 'stakeOf',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'stakeOf',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"tierOf"`.
- */
-export function useWipLdyStakingTierOf<
-  TFunctionName extends 'tierOf',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'tierOf',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"totalStaked"`.
- */
-export function useWipLdyStakingTotalStaked<
-  TFunctionName extends 'totalStaked',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'totalStaked',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"transferOwnership"`.
- */
-export function useWipLdyStakingTransferOwnership<
-  TFunctionName extends 'transferOwnership',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
+export const readGlobalBlacklistTransferOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"unlockFeesRateUD7x3"`.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingUnlockFeesRateUd7x3<
-  TFunctionName extends 'unlockFeesRateUD7x3',
-  TSelectData = ReadContractResult<typeof wipLdyStakingABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: wipLdyStakingABI,
-    functionName: 'unlockFeesRateUD7x3',
-    ...config,
-  } as UseContractReadConfig<typeof wipLdyStakingABI, TFunctionName, TSelectData>)
-}
+export const writeGlobalBlacklist = /*#__PURE__*/ createWriteContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof wipLdyStakingABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, TFunctionName, TMode>({
-    abi: wipLdyStakingABI,
-    ...config,
-  } as any)
-}
+export const writeGlobalBlacklistBlacklist = /*#__PURE__*/ createWriteContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+  functionName: 'blacklist',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"claim"`.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingClaim<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'claim'>['request']['abi'],
-        'claim',
-        TMode
-      > & { functionName?: 'claim' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'claim', TMode> & {
-        abi?: never
-        functionName?: 'claim'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'claim', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'claim',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"compound"`.
- */
-export function useWipLdyStakingCompound<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'compound'>['request']['abi'],
-        'compound',
-        TMode
-      > & { functionName?: 'compound' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'compound', TMode> & {
-        abi?: never
-        functionName?: 'compound'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'compound', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'compound',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"fuel"`.
- */
-export function useWipLdyStakingFuel<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'fuel'>['request']['abi'],
-        'fuel',
-        TMode
-      > & { functionName?: 'fuel' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'fuel', TMode> & {
-        abi?: never
-        functionName?: 'fuel'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'fuel', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'fuel',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"initialize"`.
- */
-export function useWipLdyStakingInitialize<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'initialize'>['request']['abi'],
-        'initialize',
-        TMode
-      > & { functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'initialize', TMode> & {
-        abi?: never
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'initialize', TMode>({
-    abi: wipLdyStakingABI,
+export const writeGlobalBlacklistInitialize = /*#__PURE__*/ createWriteContract(
+  {
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"recoverERC20"`.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingRecoverErc20<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'recoverERC20'>['request']['abi'],
-        'recoverERC20',
-        TMode
-      > & { functionName?: 'recoverERC20' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'recoverERC20', TMode> & {
-        abi?: never
-        functionName?: 'recoverERC20'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'recoverERC20', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'recoverERC20',
-    ...config,
-  } as any)
-}
+export const writeGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    functionName: 'unBlacklist',
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"recoverLDY"`.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingRecoverLdy<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'recoverLDY'>['request']['abi'],
-        'recoverLDY',
-        TMode
-      > & { functionName?: 'recoverLDY' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'recoverLDY', TMode> & {
-        abi?: never
-        functionName?: 'recoverLDY'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'recoverLDY', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'recoverLDY',
-    ...config,
-  } as any)
-}
+export const writeGlobalBlacklistUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+  functionName: 'upgradeTo',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setAPR"`.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function useWipLdyStakingSetApr<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'setAPR'>['request']['abi'],
-        'setAPR',
-        TMode
-      > & { functionName?: 'setAPR' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'setAPR', TMode> & {
-        abi?: never
-        functionName?: 'setAPR'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'setAPR', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'setAPR',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setStakeLockDuration"`.
- */
-export function useWipLdyStakingSetStakeLockDuration<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof wipLdyStakingABI,
-          'setStakeLockDuration'
-        >['request']['abi'],
-        'setStakeLockDuration',
-        TMode
-      > & { functionName?: 'setStakeLockDuration' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'setStakeLockDuration', TMode> & {
-        abi?: never
-        functionName?: 'setStakeLockDuration'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'setStakeLockDuration', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'setStakeLockDuration',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setTier"`.
- */
-export function useWipLdyStakingSetTier<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'setTier'>['request']['abi'],
-        'setTier',
-        TMode
-      > & { functionName?: 'setTier' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'setTier', TMode> & {
-        abi?: never
-        functionName?: 'setTier'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'setTier', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'setTier',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setUnlockFeesRate"`.
- */
-export function useWipLdyStakingSetUnlockFeesRate<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'setUnlockFeesRate'>['request']['abi'],
-        'setUnlockFeesRate',
-        TMode
-      > & { functionName?: 'setUnlockFeesRate' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'setUnlockFeesRate', TMode> & {
-        abi?: never
-        functionName?: 'setUnlockFeesRate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'setUnlockFeesRate', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'setUnlockFeesRate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"stake"`.
- */
-export function useWipLdyStakingStake<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'stake'>['request']['abi'],
-        'stake',
-        TMode
-      > & { functionName?: 'stake' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'stake', TMode> & {
-        abi?: never
-        functionName?: 'stake'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'stake', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'stake',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"startRewardsRedirection"`.
- */
-export function useWipLdyStakingStartRewardsRedirection<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof wipLdyStakingABI,
-          'startRewardsRedirection'
-        >['request']['abi'],
-        'startRewardsRedirection',
-        TMode
-      > & { functionName?: 'startRewardsRedirection' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'startRewardsRedirection', TMode> & {
-        abi?: never
-        functionName?: 'startRewardsRedirection'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'startRewardsRedirection', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'startRewardsRedirection',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"stopRewardsRedirection"`.
- */
-export function useWipLdyStakingStopRewardsRedirection<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof wipLdyStakingABI,
-          'stopRewardsRedirection'
-        >['request']['abi'],
-        'stopRewardsRedirection',
-        TMode
-      > & { functionName?: 'stopRewardsRedirection' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'stopRewardsRedirection', TMode> & {
-        abi?: never
-        functionName?: 'stopRewardsRedirection'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'stopRewardsRedirection', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'stopRewardsRedirection',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"unlock"`.
- */
-export function useWipLdyStakingUnlock<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'unlock'>['request']['abi'],
-        'unlock',
-        TMode
-      > & { functionName?: 'unlock' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'unlock', TMode> & {
-        abi?: never
-        functionName?: 'unlock'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'unlock', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'unlock',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"unstake"`.
- */
-export function useWipLdyStakingUnstake<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'unstake'>['request']['abi'],
-        'unstake',
-        TMode
-      > & { functionName?: 'unstake' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'unstake', TMode> & {
-        abi?: never
-        functionName?: 'unstake'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'unstake', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'unstake',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useWipLdyStakingUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'upgradeTo', TMode>({
-    abi: wipLdyStakingABI,
-    functionName: 'upgradeTo',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"upgradeToAndCall"`.
- */
-export function useWipLdyStakingUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof wipLdyStakingABI, 'upgradeToAndCall'>['request']['abi'],
-        'upgradeToAndCall',
-        TMode
-      > & { functionName?: 'upgradeToAndCall' }
-    : UseContractWriteConfig<typeof wipLdyStakingABI, 'upgradeToAndCall', TMode> & {
-        abi?: never
-        functionName?: 'upgradeToAndCall'
-      } = {} as any,
-) {
-  return useContractWrite<typeof wipLdyStakingABI, 'upgradeToAndCall', TMode>({
-    abi: wipLdyStakingABI,
+export const writeGlobalBlacklistUpgradeToAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareWipLdyStakingWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, TFunctionName>,
-    'abi'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, TFunctionName>)
-}
+export const simulateGlobalBlacklist = /*#__PURE__*/ createSimulateContract({
+  abi: globalBlacklistAbi,
+  address: globalBlacklistAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"claim"`.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareWipLdyStakingClaim(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'claim'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'claim',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'claim'>)
-}
+export const simulateGlobalBlacklistBlacklist =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    functionName: 'blacklist',
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"compound"`.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareWipLdyStakingCompound(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'compound'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'compound',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'compound'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"fuel"`.
- */
-export function usePrepareWipLdyStakingFuel(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'fuel'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'fuel',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'fuel'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"initialize"`.
- */
-export function usePrepareWipLdyStakingInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'initialize'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
+export const simulateGlobalBlacklistInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"recoverERC20"`.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareWipLdyStakingRecoverErc20(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'recoverERC20'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'recoverERC20',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'recoverERC20'>)
-}
+export const simulateGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    functionName: 'unBlacklist',
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"recoverLDY"`.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareWipLdyStakingRecoverLdy(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'recoverLDY'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'recoverLDY',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'recoverLDY'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setAPR"`.
- */
-export function usePrepareWipLdyStakingSetApr(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setAPR'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'setAPR',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setAPR'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setStakeLockDuration"`.
- */
-export function usePrepareWipLdyStakingSetStakeLockDuration(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setStakeLockDuration'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'setStakeLockDuration',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setStakeLockDuration'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setTier"`.
- */
-export function usePrepareWipLdyStakingSetTier(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setTier'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'setTier',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setTier'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"setUnlockFeesRate"`.
- */
-export function usePrepareWipLdyStakingSetUnlockFeesRate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setUnlockFeesRate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'setUnlockFeesRate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'setUnlockFeesRate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"stake"`.
- */
-export function usePrepareWipLdyStakingStake(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'stake'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'stake',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'stake'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"startRewardsRedirection"`.
- */
-export function usePrepareWipLdyStakingStartRewardsRedirection(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'startRewardsRedirection'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'startRewardsRedirection',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'startRewardsRedirection'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"stopRewardsRedirection"`.
- */
-export function usePrepareWipLdyStakingStopRewardsRedirection(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'stopRewardsRedirection'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'stopRewardsRedirection',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'stopRewardsRedirection'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"unlock"`.
- */
-export function usePrepareWipLdyStakingUnlock(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'unlock'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'unlock',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'unlock'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"unstake"`.
- */
-export function usePrepareWipLdyStakingUnstake(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'unstake'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
-    functionName: 'unstake',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'unstake'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareWipLdyStakingUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
+export const simulateGlobalBlacklistUpgradeTo =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'upgradeTo'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link wipLdyStakingABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function usePrepareWipLdyStakingUpgradeToAndCall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'upgradeToAndCall'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: wipLdyStakingABI,
+export const simulateGlobalBlacklistUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
     functionName: 'upgradeToAndCall',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof wipLdyStakingABI, 'upgradeToAndCall'>)
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Core
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  })
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link genericErc20ABI}__.
- */
-export function getGenericErc20(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: genericErc20ABI, ...config })
-}
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link genericErc20ABI}__.
- */
-export function readGenericErc20<
-  TAbi extends readonly unknown[] = typeof genericErc20ABI,
-  TFunctionName extends string = string,
->(config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return readContract({ abi: genericErc20ABI, ...config } as unknown as ReadContractConfig<
-    TAbi,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link genericErc20ABI}__.
- */
-export function writeGenericErc20<TFunctionName extends string>(
-  config:
-    | Omit<WriteContractPreparedArgs<typeof genericErc20ABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof genericErc20ABI, TFunctionName>, 'abi'>,
-) {
-  return writeContract({ abi: genericErc20ABI, ...config } as unknown as WriteContractArgs<
-    typeof genericErc20ABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link genericErc20ABI}__.
- */
-export function prepareWriteGenericErc20<
-  TAbi extends readonly unknown[] = typeof genericErc20ABI,
-  TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return prepareWriteContract({
-    abi: genericErc20ABI,
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link getContract}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -13457,20 +6819,12 @@ export function prepareWriteGenericErc20<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function getGlobalBlacklist(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
-  },
-) {
-  return getContract({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[config.chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  })
-}
+export const watchGlobalBlacklistEvent = /*#__PURE__*/ createWatchContractEvent(
+  { abi: globalBlacklistAbi, address: globalBlacklistAddress },
+)
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -13478,23 +6832,15 @@ export function getGlobalBlacklist(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function readGlobalBlacklist<
-  TAbi extends readonly unknown[] = typeof globalBlacklistABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
-  },
-) {
-  return readContract({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[config.chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
+export const watchGlobalBlacklistAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'AdminChanged',
+  })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -13502,36 +6848,15 @@ export function readGlobalBlacklist<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function writeGlobalBlacklist<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof globalBlacklistAddress,
->(
-  config:
-    | (Omit<
-        WriteContractPreparedArgs<typeof globalBlacklistABI, TFunctionName>,
-        'abi' | 'address'
-      > & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalBlacklistAddress
-      })
-    | (Omit<
-        WriteContractUnpreparedArgs<typeof globalBlacklistABI, TFunctionName>,
-        'abi' | 'address'
-      > & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalBlacklistAddress
-      }),
-) {
-  return writeContract({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[config.chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  } as unknown as WriteContractArgs<typeof globalBlacklistABI, TFunctionName>)
-}
+export const watchGlobalBlacklistBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'BeaconUpgraded',
+  })
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link globalBlacklistABI}__.
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Initialized"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
@@ -13539,23 +6864,47 @@ export function writeGlobalBlacklist<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
-export function prepareWriteGlobalBlacklist<
-  TAbi extends readonly unknown[] = typeof globalBlacklistABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalBlacklistAddress
-  },
-) {
-  return prepareWriteContract({
-    abi: globalBlacklistABI,
-    address: globalBlacklistAddress[config.chainId as keyof typeof globalBlacklistAddress],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const watchGlobalBlacklistInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Initialized',
+  })
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const watchGlobalBlacklistOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const watchGlobalBlacklistUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -13563,18 +6912,13 @@ export function prepareWriteGlobalBlacklist<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function getGlobalOwner(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalOwnerAddress },
-) {
-  return getContract({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[config.chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  })
-}
+export const readGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -13582,23 +6926,14 @@ export function getGlobalOwner(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function readGlobalOwner<
-  TAbi extends readonly unknown[] = typeof globalOwnerABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalOwnerAddress
-  },
-) {
-  return readContract({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[config.chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
+export const readGlobalOwnerOwner = /*#__PURE__*/ createReadContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -13606,33 +6941,14 @@ export function readGlobalOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function writeGlobalOwner<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof globalOwnerAddress,
->(
-  config:
-    | (Omit<WriteContractPreparedArgs<typeof globalOwnerABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalOwnerAddress
-      })
-    | (Omit<
-        WriteContractUnpreparedArgs<typeof globalOwnerABI, TFunctionName>,
-        'abi' | 'address'
-      > & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalOwnerAddress
-      }),
-) {
-  return writeContract({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[config.chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  } as unknown as WriteContractArgs<typeof globalOwnerABI, TFunctionName>)
-}
+export const readGlobalOwnerPendingOwner = /*#__PURE__*/ createReadContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+  functionName: 'pendingOwner',
+})
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link globalOwnerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
@@ -13640,23 +6956,342 @@ export function writeGlobalOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
-export function prepareWriteGlobalOwner<
-  TAbi extends readonly unknown[] = typeof globalOwnerABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalOwnerAddress
-  },
-) {
-  return prepareWriteContract({
-    abi: globalOwnerABI,
-    address: globalOwnerAddress[config.chainId as keyof typeof globalOwnerAddress],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const readGlobalOwnerProxiableUuid = /*#__PURE__*/ createReadContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+  functionName: 'proxiableUUID',
+})
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwner = /*#__PURE__*/ createWriteContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwnerAcceptOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'acceptOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwnerInitialize = /*#__PURE__*/ createWriteContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwnerRenounceOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwnerTransferOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwnerUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const writeGlobalOwnerUpgradeToAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwner = /*#__PURE__*/ createSimulateContract({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwnerAcceptOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'acceptOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwnerInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwnerRenounceOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwnerTransferOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwnerUpgradeTo =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const simulateGlobalOwnerUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: globalOwnerAbi,
+  address: globalOwnerAddress,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'OwnershipTransferStarted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ */
+export const watchGlobalOwnerUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalOwnerAbi,
+    address: globalOwnerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -13664,18 +7299,13 @@ export function prepareWriteGlobalOwner<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function getGlobalPause(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof globalPauseAddress },
-) {
-  return getContract({
-    abi: globalPauseABI,
-    address: globalPauseAddress[config.chainId as keyof typeof globalPauseAddress],
-    ...config,
-  })
-}
+export const readGlobalPause = /*#__PURE__*/ createReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"globalOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -13683,23 +7313,14 @@ export function getGlobalPause(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function readGlobalPause<
-  TAbi extends readonly unknown[] = typeof globalPauseABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalPauseAddress
-  },
-) {
-  return readContract({
-    abi: globalPauseABI,
-    address: globalPauseAddress[config.chainId as keyof typeof globalPauseAddress],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
+export const readGlobalPauseGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'globalOwner',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -13707,33 +7328,14 @@ export function readGlobalPause<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function writeGlobalPause<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof globalPauseAddress,
->(
-  config:
-    | (Omit<WriteContractPreparedArgs<typeof globalPauseABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalPauseAddress
-      })
-    | (Omit<
-        WriteContractUnpreparedArgs<typeof globalPauseABI, TFunctionName>,
-        'abi' | 'address'
-      > & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof globalPauseAddress
-      }),
-) {
-  return writeContract({
-    abi: globalPauseABI,
-    address: globalPauseAddress[config.chainId as keyof typeof globalPauseAddress],
-    ...config,
-  } as unknown as WriteContractArgs<typeof globalPauseABI, TFunctionName>)
-}
+export const readGlobalPauseOwner = /*#__PURE__*/ createReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link globalPauseABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"paused"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
@@ -13741,57 +7343,401 @@ export function writeGlobalPause<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function prepareWriteGlobalPause<
-  TAbi extends readonly unknown[] = typeof globalPauseABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof globalPauseAddress
-  },
-) {
-  return prepareWriteContract({
-    abi: globalPauseABI,
-    address: globalPauseAddress[config.chainId as keyof typeof globalPauseAddress],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const readGlobalPausePaused = /*#__PURE__*/ createReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'paused',
+})
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link iTransfersListenerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"proxiableUUID"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function getITransfersListener(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: iTransfersListenerABI, ...config })
-}
+export const readGlobalPauseProxiableUuid = /*#__PURE__*/ createReadContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'proxiableUUID',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link iTransfersListenerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function writeITransfersListener<TFunctionName extends string>(
-  config:
-    | Omit<WriteContractPreparedArgs<typeof iTransfersListenerABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof iTransfersListenerABI, TFunctionName>, 'abi'>,
-) {
-  return writeContract({ abi: iTransfersListenerABI, ...config } as unknown as WriteContractArgs<
-    typeof iTransfersListenerABI,
-    TFunctionName
-  >)
-}
+export const readGlobalPauseRenounceOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    functionName: 'renounceOwnership',
+  })
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link iTransfersListenerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
-export function prepareWriteITransfersListener<
-  TAbi extends readonly unknown[] = typeof iTransfersListenerABI,
-  TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return prepareWriteContract({
-    abi: iTransfersListenerABI,
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const readGlobalPauseTransferOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    functionName: 'transferOwnership',
+  })
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const writeGlobalPause = /*#__PURE__*/ createWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const writeGlobalPauseInitialize = /*#__PURE__*/ createWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const writeGlobalPausePause = /*#__PURE__*/ createWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'pause',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const writeGlobalPauseUnpause = /*#__PURE__*/ createWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'unpause',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const writeGlobalPauseUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const writeGlobalPauseUpgradeToAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const simulateGlobalPause = /*#__PURE__*/ createSimulateContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const simulateGlobalPauseInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const simulateGlobalPausePause = /*#__PURE__*/ createSimulateContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'pause',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const simulateGlobalPauseUnpause = /*#__PURE__*/ createSimulateContract({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+  functionName: 'unpause',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const simulateGlobalPauseUpgradeTo =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const simulateGlobalPauseUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: globalPauseAbi,
+  address: globalPauseAddress,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Paused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPausePausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Unpaused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseUnpausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x4fB551213757619558A93a599a08524e9Dd59C67)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ */
+export const watchGlobalPauseUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalPauseAbi,
+    address: globalPauseAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iTransfersListenerAbi}__
+ */
+export const writeITransfersListener = /*#__PURE__*/ createWriteContract({
+  abi: iTransfersListenerAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iTransfersListenerAbi}__ and `functionName` set to `"onLTokenTransfer"`
+ */
+export const writeITransfersListenerOnLTokenTransfer =
+  /*#__PURE__*/ createWriteContract({
+    abi: iTransfersListenerAbi,
+    functionName: 'onLTokenTransfer',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iTransfersListenerAbi}__
+ */
+export const simulateITransfersListener = /*#__PURE__*/ createSimulateContract({
+  abi: iTransfersListenerAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iTransfersListenerAbi}__ and `functionName` set to `"onLTokenTransfer"`
+ */
+export const simulateITransfersListenerOnLTokenTransfer =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iTransfersListenerAbi,
+    functionName: 'onLTokenTransfer',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -13799,18 +7745,13 @@ export function prepareWriteITransfersListener<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function getLdyStaking(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof ldyStakingAddress },
-) {
-  return getContract({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[config.chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  })
-}
+export const readLdyStaking = /*#__PURE__*/ createReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"highTierAccounts"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -13818,23 +7759,14 @@ export function getLdyStaking(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function readLdyStaking<
-  TAbi extends readonly unknown[] = typeof ldyStakingABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ldyStakingAddress
-  },
-) {
-  return readContract({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[config.chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
+export const readLdyStakingHighTierAccounts = /*#__PURE__*/ createReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+  functionName: 'highTierAccounts',
+})
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"owner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -13842,30 +7774,14 @@ export function readLdyStaking<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function writeLdyStaking<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof ldyStakingAddress,
->(
-  config:
-    | (Omit<WriteContractPreparedArgs<typeof ldyStakingABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof ldyStakingAddress
-      })
-    | (Omit<WriteContractUnpreparedArgs<typeof ldyStakingABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof ldyStakingAddress
-      }),
-) {
-  return writeContract({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[config.chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  } as unknown as WriteContractArgs<typeof ldyStakingABI, TFunctionName>)
-}
+export const readLdyStakingOwner = /*#__PURE__*/ createReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link ldyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
@@ -13873,440 +7789,2300 @@ export function writeLdyStaking<
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function prepareWriteLdyStaking<
-  TAbi extends readonly unknown[] = typeof ldyStakingABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof ldyStakingAddress
-  },
-) {
-  return prepareWriteContract({
-    abi: ldyStakingABI,
-    address: ldyStakingAddress[config.chainId as keyof typeof ldyStakingAddress],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const readLdyStakingPendingOwner = /*#__PURE__*/ createReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+  functionName: 'pendingOwner',
+})
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link lTokenABI}__.
- */
-export function getLToken(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: lTokenABI, ...config })
-}
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenABI}__.
- */
-export function readLToken<
-  TAbi extends readonly unknown[] = typeof lTokenABI,
-  TFunctionName extends string = string,
->(config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return readContract({ abi: lTokenABI, ...config } as unknown as ReadContractConfig<
-    TAbi,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenABI}__.
- */
-export function writeLToken<TFunctionName extends string>(
-  config:
-    | Omit<WriteContractPreparedArgs<typeof lTokenABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof lTokenABI, TFunctionName>, 'abi'>,
-) {
-  return writeContract({ abi: lTokenABI, ...config } as unknown as WriteContractArgs<
-    typeof lTokenABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link lTokenABI}__.
- */
-export function prepareWriteLToken<
-  TAbi extends readonly unknown[] = typeof lTokenABI,
-  TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return prepareWriteContract({
-    abi: lTokenABI,
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link getContract}__ with `abi` set to __{@link lTokenSignalerABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"tierOf"`
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
- * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function getLTokenSignaler(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
+export const readLdyStakingTierOf = /*#__PURE__*/ createReadContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+  functionName: 'tierOf',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const writeLdyStaking = /*#__PURE__*/ createWriteContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const writeLdyStakingAcceptOwnership = /*#__PURE__*/ createWriteContract(
+  {
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'acceptOwnership',
   },
-) {
-  return getContract({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[config.chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const writeLdyStakingRenounceOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'renounceOwnership',
   })
-}
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerABI}__.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setHighTierAccount"`
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
- * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function readLTokenSignaler<
-  TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
-  },
-) {
-  return readContract({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[config.chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerABI}__.
- *
- * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
- * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
- */
-export function writeLTokenSignaler<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof lTokenSignalerAddress,
->(
-  config:
-    | (Omit<
-        WriteContractPreparedArgs<typeof lTokenSignalerABI, TFunctionName>,
-        'abi' | 'address'
-      > & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof lTokenSignalerAddress
-      })
-    | (Omit<
-        WriteContractUnpreparedArgs<typeof lTokenSignalerABI, TFunctionName>,
-        'abi' | 'address'
-      > & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof lTokenSignalerAddress
-      }),
-) {
-  return writeContract({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[config.chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
-  } as unknown as WriteContractArgs<typeof lTokenSignalerABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link lTokenSignalerABI}__.
- *
- * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
- * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
- */
-export function prepareWriteLTokenSignaler<
-  TAbi extends readonly unknown[] = typeof lTokenSignalerABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof lTokenSignalerAddress
-  },
-) {
-  return prepareWriteContract({
-    abi: lTokenSignalerABI,
-    address: lTokenSignalerAddress[config.chainId as keyof typeof lTokenSignalerAddress],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link getContract}__ with `abi` set to __{@link multicall3ABI}__.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function getMulticall3(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof multicall3Address },
-) {
-  return getContract({
-    abi: multicall3ABI,
-    address: multicall3Address[config.chainId as keyof typeof multicall3Address],
-    ...config,
+export const writeLdyStakingSetHighTierAccount =
+  /*#__PURE__*/ createWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'setHighTierAccount',
   })
-}
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link multicall3ABI}__.
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function readMulticall3<
-  TAbi extends readonly unknown[] = typeof multicall3ABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof multicall3Address
-  },
-) {
-  return readContract({
-    abi: multicall3ABI,
-    address: multicall3Address[config.chainId as keyof typeof multicall3Address],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link multicall3ABI}__.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function writeMulticall3<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof multicall3Address,
->(
-  config:
-    | (Omit<WriteContractPreparedArgs<typeof multicall3ABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof multicall3Address
-      })
-    | (Omit<WriteContractUnpreparedArgs<typeof multicall3ABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof multicall3Address
-      }),
-) {
-  return writeContract({
-    abi: multicall3ABI,
-    address: multicall3Address[config.chainId as keyof typeof multicall3Address],
-    ...config,
-  } as unknown as WriteContractArgs<typeof multicall3ABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link multicall3ABI}__.
- *
- * -
- * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x87afDfde08722AF04a2991D4B4D71e00307DFB3E)
- */
-export function prepareWriteMulticall3<
-  TAbi extends readonly unknown[] = typeof multicall3ABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof multicall3Address
-  },
-) {
-  return prepareWriteContract({
-    abi: multicall3ABI,
-    address: multicall3Address[config.chainId as keyof typeof multicall3Address],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link getContract}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function getOldLToken1(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: oldLToken1ABI, ...config })
-}
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function readOldLToken1<
-  TAbi extends readonly unknown[] = typeof oldLToken1ABI,
-  TFunctionName extends string = string,
->(config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return readContract({ abi: oldLToken1ABI, ...config } as unknown as ReadContractConfig<
-    TAbi,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function writeOldLToken1<TFunctionName extends string>(
-  config:
-    | Omit<WriteContractPreparedArgs<typeof oldLToken1ABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof oldLToken1ABI, TFunctionName>, 'abi'>,
-) {
-  return writeContract({ abi: oldLToken1ABI, ...config } as unknown as WriteContractArgs<
-    typeof oldLToken1ABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link oldLToken1ABI}__.
- */
-export function prepareWriteOldLToken1<
-  TAbi extends readonly unknown[] = typeof oldLToken1ABI,
-  TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return prepareWriteContract({
-    abi: oldLToken1ABI,
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
-
-/**
- * Wraps __{@link getContract}__ with `abi` set to __{@link preMiningABI}__.
- *
- * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
- */
-export function getPreMining(
-  config: Omit<GetContractArgs, 'abi' | 'address'> & { chainId?: keyof typeof preMiningAddress },
-) {
-  return getContract({
-    abi: preMiningABI,
-    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
-    ...config,
+export const writeLdyStakingTransferOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'transferOwnership',
   })
-}
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningABI}__.
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
- * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
-export function readPreMining<
-  TAbi extends readonly unknown[] = typeof preMiningABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof preMiningAddress
+export const simulateLdyStaking = /*#__PURE__*/ createSimulateContract({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const simulateLdyStakingAcceptOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'acceptOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const simulateLdyStakingRenounceOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setHighTierAccount"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const simulateLdyStakingSetHighTierAccount =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'setHighTierAccount',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const simulateLdyStakingTransferOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const watchLdyStakingEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ldyStakingAbi,
+  address: ldyStakingAddress,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const watchLdyStakingOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    eventName: 'OwnershipTransferStarted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ */
+export const watchLdyStakingOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ldyStakingAbi,
+    address: ldyStakingAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__
+ */
+export const readLToken = /*#__PURE__*/ createReadContract({ abi: lTokenAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readLTokenAllowance = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readLTokenBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readLTokenDecimals = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"depositFor"`
+ */
+export const readLTokenDepositFor = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'depositFor',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"feesRateUD7x3"`
+ */
+export const readLTokenFeesRateUd7x3 = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'feesRateUD7x3',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"frozenRequests"`
+ */
+export const readLTokenFrozenRequests = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'frozenRequests',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"fund"`
+ */
+export const readLTokenFund = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'fund',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"getAPR"`
+ */
+export const readLTokenGetApr = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'getAPR',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"getExpectedRetained"`
+ */
+export const readLTokenGetExpectedRetained = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'getExpectedRetained',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"getWithdrawnAmountAndFees"`
+ */
+export const readLTokenGetWithdrawnAmountAndFees =
+  /*#__PURE__*/ createReadContract({
+    abi: lTokenAbi,
+    functionName: 'getWithdrawnAmountAndFees',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const readLTokenGlobalBlacklist = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'globalBlacklist',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const readLTokenGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'globalOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const readLTokenGlobalPause = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'globalPause',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"invested"`
+ */
+export const readLTokenInvested = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'invested',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"ldyStaking"`
+ */
+export const readLTokenLdyStaking = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'ldyStaking',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const readLTokenName = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const readLTokenOwner = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const readLTokenPaused = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const readLTokenProxiableUuid = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'proxiableUUID',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"realBalanceOf"`
+ */
+export const readLTokenRealBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'realBalanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"realTotalSupply"`
+ */
+export const readLTokenRealTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'realTotalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const readLTokenRenounceOwnership = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'renounceOwnership',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"retentionRateUD7x3"`
+ */
+export const readLTokenRetentionRateUd7x3 = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'retentionRateUD7x3',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"rewardsRedirectsFromTo"`
+ */
+export const readLTokenRewardsRedirectsFromTo =
+  /*#__PURE__*/ createReadContract({
+    abi: lTokenAbi,
+    functionName: 'rewardsRedirectsFromTo',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"rewardsRedirectsToFrom"`
+ */
+export const readLTokenRewardsRedirectsToFrom =
+  /*#__PURE__*/ createReadContract({
+    abi: lTokenAbi,
+    functionName: 'rewardsRedirectsToFrom',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readLTokenSymbol = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"totalQueued"`
+ */
+export const readLTokenTotalQueued = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'totalQueued',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readLTokenTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const readLTokenTransferOwnership = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'transferOwnership',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transfersListeners"`
+ */
+export const readLTokenTransfersListeners = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'transfersListeners',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unclaimedFees"`
+ */
+export const readLTokenUnclaimedFees = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'unclaimedFees',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"underlying"`
+ */
+export const readLTokenUnderlying = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'underlying',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unmintedRewardsOf"`
+ */
+export const readLTokenUnmintedRewardsOf = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'unmintedRewardsOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"usableUnderlyings"`
+ */
+export const readLTokenUsableUnderlyings = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'usableUnderlyings',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawTo"`
+ */
+export const readLTokenWithdrawTo = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'withdrawTo',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawalQueue"`
+ */
+export const readLTokenWithdrawalQueue = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'withdrawalQueue',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawalQueueCursor"`
+ */
+export const readLTokenWithdrawalQueueCursor = /*#__PURE__*/ createReadContract(
+  { abi: lTokenAbi, functionName: 'withdrawalQueueCursor' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrawer"`
+ */
+export const readLTokenWithdrawer = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'withdrawer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__
+ */
+export const writeLToken = /*#__PURE__*/ createWriteContract({ abi: lTokenAbi })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeLTokenApprove = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const writeLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const writeLTokenClaimFees = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'claimFees',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeLTokenDecreaseAllowance = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'decreaseAllowance',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const writeLTokenDeposit = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeLTokenIncreaseAllowance = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'increaseAllowance',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const writeLTokenInitialize = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
+ */
+export const writeLTokenInstantWithdrawal = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'instantWithdrawal',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const writeLTokenListenToTransfers = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'listenToTransfers',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
+ */
+export const writeLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenAbi,
+    functionName: 'processBigQueuedRequest',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
+ */
+export const writeLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenAbi,
+    functionName: 'processQueuedRequests',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const writeLTokenRecoverErc20 = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'recoverERC20',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
+ */
+export const writeLTokenRecoverUnderlying = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'recoverUnderlying',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const writeLTokenRepatriate = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'repatriate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const writeLTokenRequestWithdrawal = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'requestWithdrawal',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setAPR"`
+ */
+export const writeLTokenSetApr = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setAPR',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const writeLTokenSetFeesRate = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setFeesRate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const writeLTokenSetFund = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setLDYStaking"`
+ */
+export const writeLTokenSetLdyStaking = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setLDYStaking',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setRetentionRate"`
+ */
+export const writeLTokenSetRetentionRate = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setRetentionRate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const writeLTokenSetWithdrawer = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'setWithdrawer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
+ */
+export const writeLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenAbi,
+    functionName: 'startRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
+ */
+export const writeLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenAbi,
+    functionName: 'stopRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeLTokenTransfer = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeLTokenTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const writeLTokenUnlistenToTransfers = /*#__PURE__*/ createWriteContract(
+  { abi: lTokenAbi, functionName: 'unlistenToTransfers' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const writeLTokenUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const writeLTokenUpgradeToAndCall = /*#__PURE__*/ createWriteContract({
+  abi: lTokenAbi,
+  functionName: 'upgradeToAndCall',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__
+ */
+export const simulateLToken = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateLTokenApprove = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const simulateLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const simulateLTokenClaimFees = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'claimFees',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateLTokenDecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const simulateLTokenDeposit = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateLTokenIncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const simulateLTokenInitialize = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
+ */
+export const simulateLTokenInstantWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'instantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const simulateLTokenListenToTransfers =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
+ */
+export const simulateLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'processBigQueuedRequest',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
+ */
+export const simulateLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'processQueuedRequests',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const simulateLTokenRecoverErc20 = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'recoverERC20',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
+ */
+export const simulateLTokenRecoverUnderlying =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'recoverUnderlying',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const simulateLTokenRepatriate = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'repatriate',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const simulateLTokenRequestWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setAPR"`
+ */
+export const simulateLTokenSetApr = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'setAPR',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const simulateLTokenSetFeesRate = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'setFeesRate',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const simulateLTokenSetFund = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setLDYStaking"`
+ */
+export const simulateLTokenSetLdyStaking = /*#__PURE__*/ createSimulateContract(
+  { abi: lTokenAbi, functionName: 'setLDYStaking' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setRetentionRate"`
+ */
+export const simulateLTokenSetRetentionRate =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'setRetentionRate',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const simulateLTokenSetWithdrawer = /*#__PURE__*/ createSimulateContract(
+  { abi: lTokenAbi, functionName: 'setWithdrawer' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
+ */
+export const simulateLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'startRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
+ */
+export const simulateLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'stopRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateLTokenTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateLTokenTransferFrom = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const simulateLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const simulateLTokenUpgradeTo = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenAbi,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const simulateLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__
+ */
+export const watchLTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"APRChangeEvent"`
+ */
+export const watchLTokenAprChangeEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'APRChangeEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"ActivityEvent"`
+ */
+export const watchLTokenActivityEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'ActivityEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"AdminChanged"`
+ */
+export const watchLTokenAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchLTokenApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenAbi,
+  eventName: 'Approval',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ */
+export const watchLTokenBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const watchLTokenInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"MintedRewardsEvent"`
+ */
+export const watchLTokenMintedRewardsEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'MintedRewardsEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const watchLTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const watchLTokenPausedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenAbi,
+  eventName: 'Paused',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"TVLChangeEvent"`
+ */
+export const watchLTokenTvlChangeEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenAbi,
+    eventName: 'TVLChangeEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchLTokenTransferEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenAbi,
+  eventName: 'Transfer',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const watchLTokenUnpausedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenAbi,
+  eventName: 'Unpaused',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const watchLTokenUpgradedEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenAbi,
+  eventName: 'Upgraded',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const readLTokenSignaler = /*#__PURE__*/ createReadContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"globalOwner"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const readLTokenSignalerGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+  functionName: 'globalOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"owner"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const readLTokenSignalerOwner = /*#__PURE__*/ createReadContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"proxiableUUID"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const readLTokenSignalerProxiableUuid = /*#__PURE__*/ createReadContract(
+  {
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'proxiableUUID',
   },
-) {
-  return readContract({
-    abi: preMiningABI,
-    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
-    ...config,
-  } as unknown as ReadContractConfig<TAbi, TFunctionName>)
-}
+)
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const readLTokenSignalerRenounceOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const readLTokenSignalerTransferOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const writeLTokenSignaler = /*#__PURE__*/ createWriteContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const writeLTokenSignalerInitialize = /*#__PURE__*/ createWriteContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const writeLTokenSignalerSignalLToken =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'signalLToken',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const writeLTokenSignalerUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const writeLTokenSignalerUpgradeToAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const simulateLTokenSignaler = /*#__PURE__*/ createSimulateContract({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const simulateLTokenSignalerInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const simulateLTokenSignalerSignalLToken =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'signalLToken',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const simulateLTokenSignalerUpgradeTo =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const simulateLTokenSignalerUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: lTokenSignalerAbi,
+  address: lTokenSignalerAddress,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"AdminChanged"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"LTokenSignalEvent"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerLTokenSignalEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'LTokenSignalEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Upgraded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x04a678103bE57c3d81100fe08e43C94e50adC37B)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ */
+export const watchLTokenSignalerUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: lTokenSignalerAbi,
+    address: lTokenSignalerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function writePreMining<
-  TFunctionName extends string,
-  TMode extends WriteContractMode,
-  TChainId extends number = keyof typeof preMiningAddress,
->(
-  config:
-    | (Omit<WriteContractPreparedArgs<typeof preMiningABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof preMiningAddress
-      })
-    | (Omit<WriteContractUnpreparedArgs<typeof preMiningABI, TFunctionName>, 'abi' | 'address'> & {
-        mode: TMode
-        chainId?: TMode extends 'prepared' ? TChainId : keyof typeof preMiningAddress
-      }),
-) {
-  return writeContract({
-    abi: preMiningABI,
-    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
-    ...config,
-  } as unknown as WriteContractArgs<typeof preMiningABI, TFunctionName>)
-}
+export const readPreMining = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link preMiningABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"accountsLocks"`
  *
  * -
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function prepareWritePreMining<
-  TAbi extends readonly unknown[] = typeof preMiningABI,
-  TFunctionName extends string = string,
->(
-  config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi' | 'address'> & {
-    chainId?: keyof typeof preMiningAddress
-  },
-) {
-  return prepareWriteContract({
-    abi: preMiningABI,
-    address: preMiningAddress[config.chainId as keyof typeof preMiningAddress],
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const readPreMiningAccountsLocks = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'accountsLocks',
+})
 
 /**
- * Wraps __{@link getContract}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"availableToClaim"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function getWipLdyStaking(config: Omit<GetContractArgs, 'abi'>) {
-  return getContract({ abi: wipLdyStakingABI, ...config })
-}
+export const readPreMiningAvailableToClaim = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'availableToClaim',
+})
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"claimPhaseStartTimestamp"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function readWipLdyStaking<
-  TAbi extends readonly unknown[] = typeof wipLdyStakingABI,
-  TFunctionName extends string = string,
->(config: Omit<ReadContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return readContract({ abi: wipLdyStakingABI, ...config } as unknown as ReadContractConfig<
-    TAbi,
-    TFunctionName
-  >)
-}
+export const readPreMiningClaimPhaseStartTimestamp =
+  /*#__PURE__*/ createReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'claimPhaseStartTimestamp',
+  })
 
 /**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"eligibleRewardsOf"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function writeWipLdyStaking<TFunctionName extends string>(
-  config:
-    | Omit<WriteContractPreparedArgs<typeof wipLdyStakingABI, TFunctionName>, 'abi'>
-    | Omit<WriteContractUnpreparedArgs<typeof wipLdyStakingABI, TFunctionName>, 'abi'>,
-) {
-  return writeContract({ abi: wipLdyStakingABI, ...config } as unknown as WriteContractArgs<
-    typeof wipLdyStakingABI,
-    TFunctionName
-  >)
-}
+export const readPreMiningEligibleRewardsOf = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'eligibleRewardsOf',
+})
 
 /**
- * Wraps __{@link prepareWriteContract}__ with `abi` set to __{@link wipLdyStakingABI}__.
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"hasClaimPhaseStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
-export function prepareWriteWipLdyStaking<
-  TAbi extends readonly unknown[] = typeof wipLdyStakingABI,
-  TFunctionName extends string = string,
->(config: Omit<PrepareWriteContractConfig<TAbi, TFunctionName>, 'abi'>) {
-  return prepareWriteContract({
-    abi: wipLdyStakingABI,
-    ...config,
-  } as unknown as PrepareWriteContractConfig<TAbi, TFunctionName>)
-}
+export const readPreMiningHasClaimPhaseStarted =
+  /*#__PURE__*/ createReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'hasClaimPhaseStarted',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"hasDepositPhaseEnded"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningHasDepositPhaseEnded =
+  /*#__PURE__*/ createReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'hasDepositPhaseEnded',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"hasRecoveryPhaseStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningHasRecoveryPhaseStarted =
+  /*#__PURE__*/ createReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'hasRecoveryPhaseStarted',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningLToken = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'lToken',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"ldyToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningLdyToken = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'ldyToken',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lockedHardCap"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningLockedHardCap = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'lockedHardCap',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"maxDistributedLDY"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningMaxDistributedLdy = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'maxDistributedLDY',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"maxLockDuration"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningMaxLockDuration = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'maxLockDuration',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"maxWeight"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningMaxWeight = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'maxWeight',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"minLockDuration"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningMinLockDuration = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'minLockDuration',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"owner"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningOwner = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"paused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningPaused = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"pendingOwner"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningPendingOwner = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'pendingOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"totalLocked"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningTotalLocked = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'totalLocked',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"underlyingToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningUnderlyingToken = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'underlyingToken',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unlockRequests"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningUnlockRequests = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'unlockRequests',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unlockRequestsCursor"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningUnlockRequestsCursor =
+  /*#__PURE__*/ createReadContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'unlockRequestsCursor',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"vestingDuration"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const readPreMiningVestingDuration = /*#__PURE__*/ createReadContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'vestingDuration',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMining = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningAcceptOwnership = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'acceptOwnership',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"claimRewards"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningClaimRewards = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'claimRewards',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"endDepositPhase"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningEndDepositPhase = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'endDepositPhase',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"instantUnlock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningInstantUnlock = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'instantUnlock',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningLock = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'lock',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"pause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningPause = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'pause',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"processUnlockRequests"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningProcessUnlockRequests =
+  /*#__PURE__*/ createWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'processUnlockRequests',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"recoverERC20"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningRecoverErc20 = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'recoverERC20',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningRenounceOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"requestUnlock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningRequestUnlock = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'requestUnlock',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"setLDYToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningSetLdyToken = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'setLDYToken',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startClaimPhase"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningStartClaimPhase = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'startClaimPhase',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startRecoveryPhase"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningStartRecoveryPhase =
+  /*#__PURE__*/ createWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'startRecoveryPhase',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningTransferOwnership =
+  /*#__PURE__*/ createWriteContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unpause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const writePreMiningUnpause = /*#__PURE__*/ createWriteContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'unpause',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMining = /*#__PURE__*/ createSimulateContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningAcceptOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'acceptOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"claimRewards"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningClaimRewards =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'claimRewards',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"endDepositPhase"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningEndDepositPhase =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'endDepositPhase',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"instantUnlock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningInstantUnlock =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'instantUnlock',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"lock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningLock = /*#__PURE__*/ createSimulateContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'lock',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"pause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningPause = /*#__PURE__*/ createSimulateContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'pause',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"processUnlockRequests"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningProcessUnlockRequests =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'processUnlockRequests',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"recoverERC20"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningRecoverErc20 =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"renounceOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningRenounceOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"requestUnlock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningRequestUnlock =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'requestUnlock',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"setLDYToken"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningSetLdyToken =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'setLDYToken',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startClaimPhase"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningStartClaimPhase =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'startClaimPhase',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"startRecoveryPhase"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningStartRecoveryPhase =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'startRecoveryPhase',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningTransferOwnership =
+  /*#__PURE__*/ createSimulateContract({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link preMiningAbi}__ and `functionName` set to `"unpause"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const simulatePreMiningUnpause = /*#__PURE__*/ createSimulateContract({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  functionName: 'unpause',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link preMiningAbi}__
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const watchPreMiningEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"Lock"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const watchPreMiningLockEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: preMiningAbi,
+  address: preMiningAddress,
+  eventName: 'Lock',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const watchPreMiningOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'OwnershipTransferStarted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const watchPreMiningOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"Paused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const watchPreMiningPausedEvent = /*#__PURE__*/ createWatchContractEvent(
+  { abi: preMiningAbi, address: preMiningAddress, eventName: 'Paused' },
+)
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link preMiningAbi}__ and `eventName` set to `"Unpaused"`
+ *
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
+ */
+export const watchPreMiningUnpausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: preMiningAbi,
+    address: preMiningAddress,
+    eventName: 'Unpaused',
+  })

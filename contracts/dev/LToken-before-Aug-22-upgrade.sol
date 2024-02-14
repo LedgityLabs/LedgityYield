@@ -3,18 +3,18 @@ pragma solidity ^0.8.18;
 
 // Contracts
 import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
-import "../abstracts/base/ERC20BaseUpgradeable.sol";
-import {InvestUpgradeable} from "../abstracts/InvestUpgradeable.sol";
-import {LDYStaking} from "../DummyLDYStaking.sol";
+import "../src/abstracts/base/ERC20BaseUpgradeable.sol";
+import {InvestUpgradeable} from "../src/abstracts/InvestUpgradeable.sol";
+import {LDYStaking} from "../src/DummyLDYStaking.sol";
 
 // Libraries
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import {SUD} from "../libs/SUD.sol";
+import {SUD} from "../src/libs/SUD.sol";
 
 // Interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import {ITransfersListener} from "../interfaces/ITransfersListener.sol";
+import {ITransfersListener} from "../src/interfaces/ITransfersListener.sol";
 
 /**
  * @title LToken

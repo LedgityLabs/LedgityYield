@@ -1,36 +1,54 @@
 import { AllowanceTxButton, Amount, AmountInput, Card, Input, TxButton } from "@/components/ui";
-import { useGenericErc20BalanceOf, useGenericErc20Symbol, useLTokenDecimals, useLTokenUnderlying, usePrepareLTokenRepatriate } from "@/generated";
-import { ChangeEvent, FC, useState } from "react";
+import {
+  useReadLTokenDecimals,
+  useReadLTokenUnderlying,
+  useSimulateLTokenRepatriate,
+} from "@/generated";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { parseUnits, zeroAddress } from "viem";
-import { useWalletClient } from "wagmi";
+import { erc20Abi, parseUnits, zeroAddress } from "viem";
+import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
 }
 
 export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: lTokenDecimals } = useLTokenDecimals({
+  const { data: lTokenDecimals } = useReadLTokenDecimals({
     address: lTokenAddress,
   });
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
-  const { data: underlyingBalance } = useGenericErc20BalanceOf({
+
+  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
+  const { data: underlyingBalance, queryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "balanceOf",
     address: underlyingAddress,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
-  const { data: underlyingSymbol } = useGenericErc20Symbol({
+  const { data: underlyingSymbol } = useReadContract({
+    abi: erc20Abi,
+    functionName: "symbol",
     address: underlyingAddress,
   });
   const [repatriatedAmount, setRepatriatedAmount] = useState(0n);
-  const preparation = usePrepareLTokenRepatriate({
+  const preparation = useSimulateLTokenRepatriate({
     address: lTokenAddress,
     args: [repatriatedAmount],
   });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <AdminBrick title="Repatriate funds">
@@ -50,27 +68,27 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
           }}
         />
         <AllowanceTxButton
-              size="medium"
-              preparation={preparation}
-              token={underlyingAddress!}
-              spender={lTokenAddress!}
-              amount={repatriatedAmount}
-              disabled={repatriatedAmount === 0n}
-              hasUserInteracted={hasUserInteracted}
-              transactionSummary={
-                <span>
-                  Repatriate{" "}
-                  <Amount
-                    value={repatriatedAmount}
-                    decimals={lTokenDecimals}
-                    suffix={underlyingSymbol}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
-                  />
-                </span>
-              }
-            >
-              Repatriate
+          size="medium"
+          preparation={preparation as UseSimulateContractReturnType}
+          token={underlyingAddress!}
+          spender={lTokenAddress!}
+          amount={repatriatedAmount}
+          disabled={repatriatedAmount === 0n}
+          hasUserInteracted={hasUserInteracted}
+          transactionSummary={
+            <span>
+              Repatriate{" "}
+              <Amount
+                value={repatriatedAmount}
+                decimals={lTokenDecimals}
+                suffix={underlyingSymbol}
+                displaySymbol={true}
+                className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+              />
+            </span>
+          }
+        >
+          Repatriate
         </AllowanceTxButton>
       </div>
     </AdminBrick>

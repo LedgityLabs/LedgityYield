@@ -3,8 +3,6 @@ import React, { FC, useLayoutEffect, useRef } from "react";
 import { Cube, Amount, Rate, Spinner } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-import anime from "animejs";
-import { animateScroll } from "@/lib/animateScroll";
 // import { useTVLGrowth7d } from "../../../hooks/use7DTVLGrowth";
 import * as d3 from "d3-format";
 
@@ -13,42 +11,6 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 const HomeHero: FC<Props> = ({ className }) => {
   // const { tvlGrowth7d, isLoading: tvlGrowth7dIsLoading } = useTVLGrowth7d();
   const heroSection = useRef<HTMLDivElement>(null);
-
-  // useLayoutEffect(() => {
-  //   const divAnimation = anime({
-  //     targets: heroSection.current!,
-  //     // scale: [1, 0.8],
-  //     // translateY: [0, 450],
-  //     easing: "easeInOutCubic",
-
-  //     // opacity: [1, 0],
-  //     duration: 2000,
-  //     autoplay: false,
-  //   });
-
-  //   return animateScroll(divAnimation, heroSection.current!, "top");
-  // }, []);
-
-  // const handleScroll = () => {
-  //   if (heroSection.current) {
-  //     const hiddenScrollPos = heroSection.current.offsetTop + heroSection.current.offsetHeight;
-  //     if (window.scrollY > hiddenScrollPos / 1) {
-  //       heroSection.current.style.opacity = "0";
-  //       heroSection.current.style.visibility = "hidden";
-  //     } else {
-  //       const opacity = (1 - window.scrollY / (hiddenScrollPos / 1)) * 100;
-  //       heroSection.current.style.visibility = "visible";
-  //       heroSection.current.style.opacity = opacity.toFixed(0) + "%";
-  //     }
-  //   }
-  // };
-
-  // useLayoutEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   handleScroll();
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
-
   return (
     <section
       ref={heroSection}

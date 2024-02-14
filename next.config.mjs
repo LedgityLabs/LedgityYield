@@ -1,11 +1,6 @@
 // This ensure env vars are validated at build-time
 // See: https://env.t3.gg/docs/nextjs
 import "./env.mjs";
-// import _withBundleAnalyzer from "@next/bundle-analyzer";
-
-// const withBundleAnalyzer = _withBundleAnalyzer({
-//   enabled: process.env.ANALYZE === "true",
-// });
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -16,6 +11,7 @@ const nextConfig = {
   // Require by Wagmi work in Next.js client components
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
+    // config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
   images: {

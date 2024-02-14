@@ -14,7 +14,7 @@ import {LDYStaking} from "../../src/DummyLDYStaking.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
-import {GenericERC20} from "../../src/dev/GenericERC20.sol";
+import {GenericERC20} from "../../src/GenericERC20.sol";
 
 import {SUD} from "../../src/libs/SUD.sol";
 import {APRHistory as APRH} from "../../src/libs/APRHistory.sol";

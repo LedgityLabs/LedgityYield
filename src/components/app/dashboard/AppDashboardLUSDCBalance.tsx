@@ -1,25 +1,35 @@
-import { FC } from "react";
-import { useWalletClient } from "wagmi";
+import { FC, useEffect } from "react";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { useLTokenBalanceOf } from "@/generated";
+import { useReadLTokenBalanceOf } from "@/generated";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { DepositDialog } from "../DepositDialog";
 import { Amount, Button, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import Image from "next/image";
 import lusdcIcon from "~/assets/tokens/lusdc.png";
+import { useAccount, useBlockNumber } from "wagmi";
+import { zeroAddress } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const address = useContractAddress("LUSDC");
-  const { data: balance } = useLTokenBalanceOf({
+  const { data: balance, queryKey } = useReadLTokenBalanceOf({
     address: address!,
-    args: [walletClient ? walletClient.account.address : "0x0"],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
   const decimals = 6;
   const underlyingSymbol = "USDC";
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <div className="flex items-center gap-5">

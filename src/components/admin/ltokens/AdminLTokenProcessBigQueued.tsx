@@ -1,12 +1,13 @@
 import { AllowanceTxButton, Card, Input, TxButton } from "@/components/ui";
 import {
-  useLTokenUnderlying,
-  useLTokenWithdrawalQueue,
-  usePrepareLTokenProcessBigQueuedRequest,
+  useReadLTokenUnderlying,
+  useReadLTokenWithdrawalQueue,
+  useSimulateLTokenProcessBigQueuedRequest,
 } from "@/generated";
 import { ChangeEvent, FC, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { useContractAddress } from "@/hooks/useContractAddress";
+import { UseSimulateContractReturnType } from "wagmi";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
@@ -14,13 +15,13 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 
 export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
   const [requestId, setRequestId] = useState(0n);
-  const preparation = usePrepareLTokenProcessBigQueuedRequest({
+  const preparation = useSimulateLTokenProcessBigQueuedRequest({
     address: lTokenAddress,
     args: [requestId],
   });
-  const { data: requestData } = useLTokenWithdrawalQueue({
+  const { data: requestData } = useReadLTokenWithdrawalQueue({
     address: lTokenAddress,
     args: [requestId],
   });
@@ -45,7 +46,7 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
           step={1}
         />
         <AllowanceTxButton
-          preparation={preparation}
+          preparation={preparation as UseSimulateContractReturnType}
           hasUserInteracted={hasUserInteracted}
           token={underlyingAddress!}
           spender={lTokenAddress!}

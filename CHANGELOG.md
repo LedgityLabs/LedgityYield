@@ -1924,7 +1924,7 @@
 
 ### Features
 
-- new useLToken() and useAvailableLTokens() hooks + start populating admin testing ([dd589f3](https://github.com/LedgityLabs/dapp/commit/dd589f35fad45c828772a060fd7327cd9e245547))
+- new useReadLToken() and useAvailableLTokens() hooks + start populating admin testing ([dd589f3](https://github.com/LedgityLabs/dapp/commit/dd589f35fad45c828772a060fd7327cd9e245547))
 
 ## [1.88.0](https://github.com/LedgityLabs/dapp/compare/v1.87.2...v1.88.0) (2023-06-26)
 

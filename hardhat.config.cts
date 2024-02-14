@@ -1,3 +1,8 @@
+// This file has a .cts extension, because Hardhat that's currently the only way to get
+// hardhat to support ESM in TypeScript projects.
+// See: https://hardhat.org/hardhat-runner/docs/advanced/using-esm
+// And: https://github.com/NomicFoundation/hardhat/issues/3385
+
 import { type HardhatUserConfig } from "hardhat/config";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";

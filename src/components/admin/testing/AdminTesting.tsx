@@ -1,40 +1,60 @@
 import { Address, Amount, AmountInput, Button, Card, Input } from "@/components/ui";
-import {
-  useGenericErc20Name,
-  useGenericErc20Decimals,
-  usePrepareGenericErc20Mint,
-  useGenericErc20BalanceOf,
-  useLTokenUnderlying,
-  useGenericErc20Symbol,
-} from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
-import { createTestClient, http, parseUnits } from "viem";
-import { useWalletClient } from "wagmi";
+import { createTestClient, erc20Abi, http, parseUnits, zeroAddress } from "viem";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+  useReadContract,
+  useSimulateContract,
+} from "wagmi";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 import { hardhat } from "wagmi/chains";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSimulateGenericErc20Mint } from "@/generated";
 
 const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const address = useContractAddress(contractName);
-  const { data: tokenSymbol } = useGenericErc20Symbol({ address: address });
-  const { data: tokenName } = useGenericErc20Name({ address: address });
-  const { data: tokenDecimals } = useGenericErc20Decimals({
+  const { data: tokenSymbol } = useReadContract({
+    abi: erc20Abi,
+    functionName: "symbol",
     address: address,
   });
-  const { data: tokenBalance } = useGenericErc20BalanceOf({
+  const { data: tokenName } = useReadContract({
+    abi: erc20Abi,
+    functionName: "name",
     address: address,
-    args: [walletClient ? walletClient.account.address : "0x0"],
-    watch: true,
+  });
+  const { data: tokenDecimals } = useReadContract({
+    abi: erc20Abi,
+    functionName: "decimals",
+    address: address,
+  });
+  const { data: tokenBalance, queryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    address: address,
+    args: [account.address || zeroAddress],
   });
   const [mintedAmount, setMintedAmount] = useState(0n);
-  const preparation = usePrepareGenericErc20Mint({
+  const preparation = useSimulateGenericErc20Mint({
     address: address,
     args: [mintedAmount],
   });
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <div {...props} className="mt-8">
@@ -73,7 +93,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
                 setMintedAmount(parseUnits(e.target.value, tokenDecimals!))
               }
             />
-            <TxButton size="medium" preparation={preparation}>
+            <TxButton size="medium" preparation={preparation as UseSimulateContractReturnType}>
               Mint
             </TxButton>
           </div>

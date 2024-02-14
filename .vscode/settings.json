@@ -45,5 +45,8 @@
   },
   // Required because of a bug with pnpm and prettier plugins.
   // See: https://github.com/prettier-solidity/prettier-plugin-solidity#pnpm
-  "prettier.documentSelectors": ["**/*.sol"]
+  "prettier.documentSelectors": ["**/*.sol"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true
 }

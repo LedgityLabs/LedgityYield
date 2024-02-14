@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   DaysUntil,
@@ -1001,89 +1002,90 @@ export const AppAirdrop: FC = () => {
         </div>
       </div>
 
-      {createPortal(
-        <div className="fixed bottom-5 left-0 right-0 inline-flex justify-center items-center z-10 sm:scale-100 scale-95">
-          <Link href="#login" className={clsx(isAuthenticated && "cursor-text")}>
-            <div
-              className={twMerge(
-                "border-2 backdrop-blur-md rounded-3xl inline-flex items-center",
-                isAuthenticated &&
-                  pointsData &&
-                  walletMissingPoints > 0 &&
-                  "bg-[#340606]/60 border-red-400/70",
-                isAuthenticated &&
-                  pointsData &&
-                  walletMissingPoints <= 0 &&
-                  "bg-[#06340d]/60 border-emerald-400/70",
-                (!isAuthenticated || !pointsData) && "bg-slate-900/60 border-slate-500/70",
-              )}
-              style={{
-                boxShadow: "0px 0px 10px 5px rgba(255,255,255,0.2)",
-                WebkitBoxShadow: "0px 0px 10px 5px rgba(255,255,255,0.2)",
-              }}
-            >
-              <div className="px-4 py-2 text-2xl font-bold font-heading text-white text-center inline-flex justify-center items-center">
-                {(() => {
-                  if (!isAuthenticated || !pointsData)
-                    return <i className="ri-lock-fill text-xl" />;
-                  else
-                    return (
-                      <p className="whitespace-nowrap">
-                        {pointsData ? pointsData.totalPoints.toLocaleString() : "-"}{" "}
-                        <i className="ri-coupon-2-fill" />
-                      </p>
-                    );
-                })()}
-              </div>
+      {typeof window !== "undefined" &&
+        createPortal(
+          <div className="fixed bottom-5 left-0 right-0 inline-flex justify-center items-center z-10 sm:scale-100 scale-95">
+            <Link href="#login" className={clsx(isAuthenticated && "cursor-text")}>
               <div
                 className={twMerge(
-                  "px-4 py-1  text-white rounded-r-[1.35rem] inline-flex flex-col gap-0 items-center justify-center border-l-2",
+                  "border-2 backdrop-blur-md rounded-3xl inline-flex items-center",
                   isAuthenticated &&
                     pointsData &&
                     walletMissingPoints > 0 &&
-                    "border-red-400/70 bg-red-700/70",
+                    "bg-[#340606]/60 border-red-400/70",
                   isAuthenticated &&
                     pointsData &&
                     walletMissingPoints <= 0 &&
-                    "border-emerald-400/70 bg-emerald-700/70",
-                  (!isAuthenticated || !pointsData) && "bg-slate-700/70 border-slate-500/70",
+                    "bg-[#06340d]/60 border-emerald-400/70",
+                  (!isAuthenticated || !pointsData) && "bg-slate-900/60 border-slate-500/70",
                 )}
+                style={{
+                  boxShadow: "0px 0px 10px 5px rgba(255,255,255,0.2)",
+                  WebkitBoxShadow: "0px 0px 10px 5px rgba(255,255,255,0.2)",
+                }}
               >
-                {(() => {
-                  if (isAuthenticated && pointsData && walletMissingPoints > 0)
-                    return (
-                      <>
-                        <p className="text-center font-bold text-white/80">Not eligible</p>
-                        <p className="text-center text-sm">
-                          {walletMissingPoints.toLocaleString()} <i className="ri-coupon-2-fill" />{" "}
-                          missing
+                <div className="px-4 py-2 text-2xl font-bold font-heading text-white text-center inline-flex justify-center items-center">
+                  {(() => {
+                    if (!isAuthenticated || !pointsData)
+                      return <i className="ri-lock-fill text-xl" />;
+                    else
+                      return (
+                        <p className="whitespace-nowrap">
+                          {pointsData ? pointsData.totalPoints.toLocaleString() : "-"}{" "}
+                          <i className="ri-coupon-2-fill" />
                         </p>
-                      </>
-                    );
-                  else if (isAuthenticated && pointsData && walletMissingPoints <= 0)
-                    return (
-                      <>
-                        <p className="text-center font-bold text-white/80">Eligible</p>
-                        <p className="text-center text-sm">League: {pointsData?.league}</p>
-                      </>
-                    );
-                  else if (!isAuthenticated || !pointsData)
-                    return (
-                      <>
-                        <p className="text-center font-bold text-white/80 text-[0.91rem]">
-                          Login to check your
-                          <br />
-                          airdrop eligibility
-                        </p>
-                      </>
-                    );
-                })()}
+                      );
+                  })()}
+                </div>
+                <div
+                  className={twMerge(
+                    "px-4 py-1  text-white rounded-r-[1.35rem] inline-flex flex-col gap-0 items-center justify-center border-l-2",
+                    isAuthenticated &&
+                      pointsData &&
+                      walletMissingPoints > 0 &&
+                      "border-red-400/70 bg-red-700/70",
+                    isAuthenticated &&
+                      pointsData &&
+                      walletMissingPoints <= 0 &&
+                      "border-emerald-400/70 bg-emerald-700/70",
+                    (!isAuthenticated || !pointsData) && "bg-slate-700/70 border-slate-500/70",
+                  )}
+                >
+                  {(() => {
+                    if (isAuthenticated && pointsData && walletMissingPoints > 0)
+                      return (
+                        <>
+                          <p className="text-center font-bold text-white/80">Not eligible</p>
+                          <p className="text-center text-sm">
+                            {walletMissingPoints.toLocaleString()}{" "}
+                            <i className="ri-coupon-2-fill" /> missing
+                          </p>
+                        </>
+                      );
+                    else if (isAuthenticated && pointsData && walletMissingPoints <= 0)
+                      return (
+                        <>
+                          <p className="text-center font-bold text-white/80">Eligible</p>
+                          <p className="text-center text-sm">League: {pointsData?.league}</p>
+                        </>
+                      );
+                    else if (!isAuthenticated || !pointsData)
+                      return (
+                        <>
+                          <p className="text-center font-bold text-white/80 text-[0.91rem]">
+                            Login to check your
+                            <br />
+                            airdrop eligibility
+                          </p>
+                        </>
+                      );
+                  })()}
+                </div>
               </div>
-            </div>
-          </Link>
-        </div>,
-        document.body,
-      )}
+            </Link>
+          </div>,
+          document.body,
+        )}
     </>
   );
 };

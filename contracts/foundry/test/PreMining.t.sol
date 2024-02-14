@@ -2,13 +2,13 @@
 pragma solidity ^0.8.18;
 
 import "../lib/forge-std/src/Test.sol";
-import {GenericERC20} from "../../src/dev/GenericERC20.sol";
+import {GenericERC20} from "../../src/GenericERC20.sol";
 import {PreMining} from "../../src/PreMining.sol";
 import {LToken} from "../../src/LToken.sol";
 import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
-import {GenericERC20} from "../../src/dev/GenericERC20.sol";
+import {GenericERC20} from "../../src/GenericERC20.sol";
 import {LDYStaking} from "../../src/DummyLDYStaking.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {ModifiersExpectations} from "./_helpers/ModifiersExpectations.sol";

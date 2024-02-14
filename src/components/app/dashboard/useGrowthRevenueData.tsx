@@ -1,4 +1,4 @@
-import { usePublicClient, useWalletClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { formatUnits } from "viem";
 import { readLToken } from "@/generated";
@@ -33,7 +33,7 @@ let dataCache: Record<number, CacheEntry> = {};
 export const useGrowthRevenueData = () => {
   const lTokens = useAvailableLTokens();
   const publicClient = usePublicClient();
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const [data, setData] = useState<Data>({});
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [isDataError, setIsError] = useState(false);
@@ -41,17 +41,15 @@ export const useGrowthRevenueData = () => {
 
   const computeData = async () => {
     // If no wallet connected
-    if (!walletClient) {
+    if (!account || !account.chainId) {
       setIsError(true);
       setDataErrorMessage("No wallet connected");
       return;
     }
 
     // If data cache doesn't exist or isn't valid anymore
-    const cacheEntry = dataCache[walletClient.chain.id];
-    if (!cacheEntry ||
-      Date.now() / 1000 - cacheEntry.timestamp > dataCacheDuration
-    ) {
+    const cacheEntry = dataCache[account.chainId];
+    if (!cacheEntry || Date.now() / 1000 - cacheEntry.timestamp > dataCacheDuration) {
       // Get new data
       const newData = await _computeData();
 
@@ -63,10 +61,10 @@ export const useGrowthRevenueData = () => {
       }
 
       // Refresh cached data
-      dataCache[walletClient.chain.id] = {
+      dataCache[account.chainId] = {
         data: newData,
         timestamp: Date.now() / 1000,
-      }
+      };
     }
 
     // Else remove errors
@@ -74,7 +72,7 @@ export const useGrowthRevenueData = () => {
     setDataErrorMessage(undefined);
 
     // Update data
-    setData(dataCache[walletClient.chain.id].data);
+    setData(dataCache[account.chainId].data);
   };
 
   const _computeData = async () => {
@@ -96,10 +94,10 @@ export const useGrowthRevenueData = () => {
     // } = await execute(
     //   `
     //   {
-    //     c${walletClient!.chain.id}_ltokens {
+    //     c${account.chainId}_ltokens {
     //       symbol
     //       activities(where: {account: "${
-    //         walletClient!.account.address
+    //         account.address
     //       }" }, orderBy: timestamp, orderDirection: asc, first: 1) {
     //         timestamp
     //       }
@@ -111,7 +109,7 @@ export const useGrowthRevenueData = () => {
 
     // // Return empty data if there is no investment start
     // if (!investmentStartRequest.data) return null;
-    // const investmentStartData = investmentStartRequest.data[`c${walletClient!.chain.id}_ltokens`];
+    // const investmentStartData = investmentStartRequest.data[`c${account.chainId}_ltokens`];
     // if (!investmentStartData) return null;
 
     // // Push investment start as first data point
@@ -138,8 +136,8 @@ export const useGrowthRevenueData = () => {
     // } = await execute(
     //   `
     //   {
-    //     c${walletClient!.chain.id}_rewardsMints(where: { account: "${
-    //       walletClient!.account.address
+    //     c${account.chainId}_rewardsMints(where: { account: "${
+    //       account.address
     //     }" }, orderBy: timestamp, orderDirection: asc) {
     //       timestamp
     //       revenue
@@ -157,7 +155,7 @@ export const useGrowthRevenueData = () => {
     // );
 
     // // Push each reward mint as data point
-    // const mintsEventsData = mintsEventsRequest.data[`c${walletClient!.chain.id}_rewardsMints`];
+    // const mintsEventsData = mintsEventsRequest.data[`c${account.chainId}_rewardsMints`];
     // for (const rewardsMint of mintsEventsData) {
     //   const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1));
 
@@ -189,12 +187,12 @@ export const useGrowthRevenueData = () => {
     //   const _balanceBefore = await readLToken({
     //     address: lTokenAddress,
     //     functionName: "realBalanceOf",
-    //     args: [walletClient!.account.address],
+    //     args: [account.address],
     //   });
     //   const unclaimedRewards = await readLToken({
     //     address: lTokenAddress,
     //     functionName: "unmintedRewardsOf",
-    //     args: [walletClient!.account.address],
+    //     args: [account.address],
     //   });
     //   const usdRate = await getTokenUSDRate(lToken.slice(1));
 
@@ -227,7 +225,7 @@ export const useGrowthRevenueData = () => {
   useEffect(() => {
     setIsDataLoading(true);
     computeData().then(() => setIsDataLoading(false));
-  }, [walletClient, publicClient]);
+  }, [account.address, publicClient]);
 
   return { data, isDataLoading, isDataError, dataErrorMessage };
 };

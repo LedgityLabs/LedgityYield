@@ -12,50 +12,59 @@ import {
   TooltipTrigger,
 } from "@/components/ui";
 import {
-  useGenericErc20BalanceOf,
-  useLTokenUnderlying,
-  usePreMiningAccountsLocks,
-  usePreparePreMiningLock,
+  useReadLTokenUnderlying,
+  useReadPreMiningAccountsLocks,
+  useSimulatePreMiningLock,
 } from "@/generated";
-import { useWalletClient } from "wagmi";
+import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { formatUnits, parseUnits, zeroAddress } from "viem";
+import { erc20Abi, formatUnits, parseUnits, zeroAddress } from "viem";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
 
   // Retrieve addresses and balances
   const lTokenAddress = useContractAddress("LUSDC");
   const preminingAddress = useContractAddress("PreMining");
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress! });
-  const { data: underlyingBalance } = useGenericErc20BalanceOf({
+  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
+  const { data: underlyingBalance, queryKey: balanceQueryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "balanceOf",
     address: underlyingAddress,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
 
   // Retrieve lock data
-  const { data: lockData } = usePreMiningAccountsLocks({
+  const { data: lockData, queryKey: lockQueryKey } = useReadPreMiningAccountsLocks({
     //@ts-ignore
     address: preminingAddress!,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
   const hasLocked = lockData && lockData[0] !== 0n;
   const currentLockedAmount = hasLocked ? lockData[0] : 0n;
   const currentLockDuration = hasLocked ? lockData[1] : 0;
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [balanceQueryKey, lockQueryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   // Retrieve input data and prepare transaction
   const inputEl = useRef<HTMLInputElement>(null);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [depositedAmount, setDepositedAmount] = useState(parseUnits("100", 6));
   const [lockDuration, setLockDuration] = useState(12);
-  const preparation = usePreparePreMiningLock({
+  const preparation = useSimulatePreMiningLock({
     //@ts-ignore
     address: preminingAddress!,
     args: [depositedAmount, lockDuration],
@@ -223,8 +232,7 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
             </AmountInput>
             <AllowanceTxButton
               size="medium"
-              // @ts-ignore
-              preparation={preparation}
+              preparation={preparation as UseSimulateContractReturnType}
               token={underlyingAddress!}
               spender={preminingAddress!}
               amount={depositedAmount}

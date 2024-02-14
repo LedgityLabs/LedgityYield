@@ -1,10 +1,12 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useLTokenFeesRateUd7x3, usePrepareLTokenSetFeesRate } from "@/generated";
+import { useReadLTokenFeesRateUd7x3, useSimulateLTokenSetFeesRate } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
+import { useQueryClient } from "@tanstack/react-query";
+import { useBlockNumber } from "wagmi";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
@@ -13,16 +15,24 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
   const underlyingTokenName = lTokenSymbol.slice(1);
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: feesRate } = useLTokenFeesRateUd7x3({
+  const { data: feesRate, queryKey } = useReadLTokenFeesRateUd7x3({
     address: lTokenAddress,
-    watch: true,
   });
   const [newFeesRate, setNewFeesRate] = useState(0);
-  const preparation = usePrepareLTokenSetFeesRate({
+  const preparation = useSimulateLTokenSetFeesRate({
     address: lTokenAddress,
     args: [newFeesRate],
   });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <AdminBrick title="Fees rate">

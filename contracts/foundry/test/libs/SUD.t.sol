@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "../../lib/forge-std/src/Test.sol";
 import {SUD} from "../../../src/libs/SUD.sol";
-import {GenericERC20} from "../../../src/dev/GenericERC20.sol";
+import {GenericERC20} from "../../../src/GenericERC20.sol";
 
 contract Tests is Test {
     // =============================

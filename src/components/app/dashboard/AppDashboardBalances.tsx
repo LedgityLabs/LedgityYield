@@ -8,25 +8,39 @@ import {
   TokenLogo,
   Button,
 } from "@/components/ui";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { useLTokenBalanceOf, useLTokenDecimals, useLTokenUnderlying } from "@/generated";
-import { useWalletClient } from "wagmi";
+import {
+  useReadLTokenBalanceOf,
+  useReadLTokenDecimals,
+  useReadLTokenUnderlying,
+} from "@/generated";
+import { useAccount, useBlockNumber } from "wagmi";
+import { zeroAddress } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const address = useContractAddress(lTokenSymbol);
-  const { data: balance } = useLTokenBalanceOf({
+  const { data: balance, queryKey } = useReadLTokenBalanceOf({
     address: address!,
-    args: [walletClient ? walletClient.account.address : "0x0"],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
-  const { data: decimals } = useLTokenDecimals({ address: address! });
+  const { data: decimals } = useReadLTokenDecimals({ address: address! });
   const underlyingSymbol = lTokenSymbol.slice(1);
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <li className="flex w-full gap-4 items-center justify-between" {...props}>

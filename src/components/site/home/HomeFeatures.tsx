@@ -1,6 +1,6 @@
 "use client";
 import { FC, useLayoutEffect, useRef } from "react";
-import { Button, Card, Cube, FadeIn } from "@/components/ui";
+import { Button, Card, Cube } from "@/components/ui";
 import Link from "next/link";
 
 const HomeFeatures: FC = () => {

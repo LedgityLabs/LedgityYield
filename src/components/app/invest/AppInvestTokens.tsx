@@ -12,15 +12,17 @@ import { twMerge } from "tailwind-merge";
 import { TokenLogo } from "../../ui/TokenLogo";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
-import { lTokenABI, genericErc20ABI } from "@/generated";
+import { lTokenAbi } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
 import { zeroAddress } from "viem";
-import { watchReadContracts } from "@wagmi/core";
-import { usePublicClient, useWalletClient } from "wagmi";
+import { watchBlockNumber, readContracts } from "@wagmi/core";
+import { config } from "@/lib/dapp/config";
+import { useAccount } from "wagmi";
 import { JSONStringify } from "@/lib/jsonStringify";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
+import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 const availableChains = [42161, 59144];
 
@@ -46,16 +48,16 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
  */
 export const AppInvestTokens: FC<Props> = ({ className }) => {
   const { switchTab } = useSwitchAppTab();
-  const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
+  const account = useAccount();
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
   const lTokens = useAvailableLTokens();
-  const [readsConfig, setReadsConfig] = useState<
-    Parameters<typeof watchReadContracts>[0]["contracts"]
-  >([]);
+  const [readsConfig, setReadsConfig] = useState<Parameters<typeof readContracts>[1]["contracts"]>(
+    [],
+  );
   const [tableData, setTableData] = useState<Pool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const currentChain = useCurrentChain();
   let isActionsDialogOpen = useRef(false);
   let futureTableData = useRef<Pool[]>([]);
 
@@ -183,6 +185,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   const headerGroup = table.getHeaderGroups()[0];
 
   function populateReadsConfig() {
+    // This array will host the reads requests configs built below
     const newReadsConfig = [] as {
       address: `0x${string}`;
       abi: any;
@@ -191,10 +194,12 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       chainId?: number;
     }[];
 
+    if (!currentChain) return;
+
     // Push read calls for total supply and decimals of each lToken
     for (const lTokenSymbol of lTokens) {
       // Retrieve L-Token address on current chain
-      const lTokenAddress = getContractAddress(lTokenSymbol, publicClient.chain.id);
+      const lTokenAddress = getContractAddress(lTokenSymbol, currentChain.id);
 
       // If L-Token is not available on the current chain, skip
       if (!lTokenAddress) continue;
@@ -203,21 +208,21 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       ["symbol", "decimals", "totalSupply", "getAPR"].forEach((functionName) => {
         newReadsConfig.push({
           address: lTokenAddress,
-          abi: lTokenABI,
+          abi: lTokenAbi,
           functionName: functionName,
         });
       });
       newReadsConfig.push({
         address: lTokenAddress,
-        abi: lTokenABI,
+        abi: lTokenAbi,
         functionName: "balanceOf",
-        args: [walletClient ? walletClient.account.address : zeroAddress],
+        args: [account.address || zeroAddress],
       });
 
       // Also read TVL from each chain the L-Token is available on
       for (const chainId of availableChains) {
         // Skip if current chain
-        if (chainId === publicClient.chain.id) continue;
+        if (chainId === currentChain.id) continue;
 
         // Retrieve L-Token address on other chain
         const chainLTokenAddress = getContractAddress(lTokenSymbol, chainId);
@@ -227,7 +232,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
 
         newReadsConfig.push({
           address: chainLTokenAddress,
-          abi: lTokenABI,
+          abi: lTokenAbi,
           functionName: "totalSupply",
           chainId: chainId,
         });
@@ -240,16 +245,18 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
     }
   }
 
-  useEffect(populateReadsConfig, [publicClient.chain.id, walletClient, readsConfig]);
+  useEffect(populateReadsConfig, [account.address, currentChain]);
 
   useEffect(
     () =>
-      watchReadContracts(
-        {
-          contracts: readsConfig,
-          listenToBlock: true,
-        },
-        (data) => {
+      watchBlockNumber(config, {
+        async onBlockNumber() {
+          if (!currentChain) return;
+
+          const data = await readContracts(config, {
+            contracts: readsConfig,
+          });
+
           if (data.length > 0) {
             const _tableData: Pool[] = [];
 
@@ -264,7 +271,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               // Accumulate other chain TVLs too
               for (const chainId of availableChains) {
                 // Skip if current chain
-                if (chainId === publicClient.chain.id) continue;
+                if (chainId === currentChain.id) continue;
 
                 // Retrieve L-Token address on other chain
                 const chainLTokenAddress = getContractAddress(lTokenSymbol, chainId);
@@ -280,6 +287,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
               }
 
               // Build underlying symbol
+              if (!lTokenSymbol) console.log(data);
               const underlyingSymbol = lTokenSymbol.slice(1);
 
               // Push data to table data
@@ -299,8 +307,8 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
           }
           setIsLoading(false);
         },
-      ),
-    [readsConfig, tableData, walletClient],
+      }),
+    [readsConfig],
   );
 
   return (

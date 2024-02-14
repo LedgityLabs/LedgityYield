@@ -32,28 +32,29 @@ import {
 } from "@tanstack/react-table";
 import clsx from "clsx";
 // import { Activity, LToken, execute } from "../../../../.graphclient";
-import { useWalletClient } from "wagmi";
+
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
-  useLTokenDecimals,
-  useLTokenWithdrawalQueue,
-  usePrepareLTokenCancelWithdrawalRequest,
+  useReadLTokenDecimals,
+  useReadLTokenWithdrawalQueue,
+  useSimulateLTokenCancelWithdrawalRequest,
 } from "@/generated";
+import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint }> = ({
   lTokenSymbol,
   requestId,
 }) => {
   const ltokenAddress = useContractAddress(lTokenSymbol);
-  const { data: decimals } = useLTokenDecimals({
+  const { data: decimals } = useReadLTokenDecimals({
     address: ltokenAddress,
   });
-  const { data: requestData } = useLTokenWithdrawalQueue({
+  const { data: requestData, queryKey } = useReadLTokenWithdrawalQueue({
     address: ltokenAddress,
     args: [requestId],
-    watch: true,
   });
-  const preparation = usePrepareLTokenCancelWithdrawalRequest({
+  const preparation = useSimulateLTokenCancelWithdrawalRequest({
     address: ltokenAddress,
     args: [requestId],
   });
@@ -61,6 +62,15 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   useEffect(() => {
     preparation.refetch();
   }, [requestData]);
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <AlertDialog>
@@ -98,7 +108,11 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction customButton={true}>
-            <TxButton variant="destructive" size="small" preparation={preparation}>
+            <TxButton
+              variant="destructive"
+              size="small"
+              preparation={preparation as UseSimulateContractReturnType}
+            >
               Cancel this request
             </TxButton>
           </AlertDialogAction>
@@ -110,7 +124,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
 };
 
 export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ className }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const [sorting, setSorting] = useState<SortingState>([
     {
       id: "timestamp",
@@ -124,41 +138,41 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   const computeActivityData = async () => {
     if (!isLoading) {
       setIsLoading(true);
-      if (walletClient) {
-      //   await execute(
-      //     `
-      //     {
-      //       c${walletClient.chain.id}_activities(where: { account: "${walletClient.account.address}" }) {
-      //         id
-      //         requestId
-      //         ltoken {
-      //           symbol
-      //           decimals
-      //         }
-      //         timestamp
-      //         action
-      //         amount
-      //         amountAfterFees
-      //         status
-      //       }
-      //     }
-      //     `,
-      //     {},
-      //   )
-      //     .then(
-      //       (result: {
-      //         data: {
-      //           [key: string]: Activity[];
-      //         };
-      //       }) => {
-      //         setActivityData(result.data[`c${walletClient.chain.id}_activities`]);
-      //         setIsLoading(false);
-      //       },
-      //     )
-      //     .catch((e: Error) => {
-      //       setActivityData([]);
-      //       setIsLoading(false);
-      //     });
+      if (account && account.address) {
+        //   await execute(
+        //     `
+        //     {
+        //       c${account.chainId}_activities(where: { account: "${account.address}" }) {
+        //         id
+        //         requestId
+        //         ltoken {
+        //           symbol
+        //           decimals
+        //         }
+        //         timestamp
+        //         action
+        //         amount
+        //         amountAfterFees
+        //         status
+        //       }
+        //     }
+        //     `,
+        //     {},
+        //   )
+        //     .then(
+        //       (result: {
+        //         data: {
+        //           [key: string]: Activity[];
+        //         };
+        //       }) => {
+        //         setActivityData(result.data[`c${account.chainId}_activities`]);
+        //         setIsLoading(false);
+        //       },
+        //     )
+        //     .catch((e: Error) => {
+        //       setActivityData([]);
+        //       setIsLoading(false);
+        //     });
       }
       setIsLoading(false);
     }
@@ -166,7 +180,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
 
   useEffect(() => {
     computeActivityData();
-  }, [walletClient]);
+  }, [account.address]);
 
   const activityColumns = [
     columnHelper.accessor("timestamp", {

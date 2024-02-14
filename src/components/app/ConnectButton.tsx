@@ -11,30 +11,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui";
-import { chains, chainsIcons } from "@/lib/chains";
+import { chains, chainsIcons } from "@/lib/dapp/chains";
 import clsx from "clsx";
-import { useSwitchNetwork } from "@/hooks/useSwitchNetwork";
-import React, { useEffect } from "react";
-import { useNetwork, usePublicClient, useWalletClient } from "wagmi";
+import React from "react";
+import { useAccount, useSwitchChain } from "wagmi";
+import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 // Used as select value when no network or a wrong one is selected
 const placeholder = <p>Select a network...</p>;
 
 export const ConnectButton = () => {
-  const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
-  const { chain: walletChain } = useNetwork();
-  const { switchNetwork, isSwitching } = useSwitchNetwork();
+  const account = useAccount();
+  const { switchChain, isPending } = useSwitchChain();
   const { openAccountModal } = useAccountModal();
   const { openConnectModal } = useConnectModal();
-  const chain = walletChain || publicClient.chain;
-  //@ts-ignore
-  const wrongNetwork = !chain.id || chain.unsupported! ? true : false;
+  const chain = useCurrentChain();
+
+  const wrongNetwork = !chain || !chain.id ? true : false;
 
   return (
     <div className="flex sm:gap-6 gap-3 justify-center items-center">
-      <Select onValueChange={switchNetwork} value={chain?.id.toString()}>
-        <SelectTrigger isLoading={isSwitching}>
+      <Select
+        onValueChange={(value) => switchChain({ chainId: Number(value) })}
+        value={chain?.id.toString()}
+      >
+        <SelectTrigger isLoading={isPending}>
           {wrongNetwork ? placeholder : <SelectValue placeholder={placeholder} />}
         </SelectTrigger>
         <SelectContent>
@@ -54,9 +55,9 @@ export const ConnectButton = () => {
           ))}
         </SelectContent>
       </Select>
-      {(walletClient && walletClient.account && (
+      {(account && account.address && (
         <Button
-          disabled={wrongNetwork || isSwitching}
+          disabled={wrongNetwork || isPending}
           onClick={openAccountModal}
           size="medium"
           variant={wrongNetwork ? "destructive" : "primary"}
@@ -68,10 +69,10 @@ export const ConnectButton = () => {
           {(!wrongNetwork && (
             <>
               <p className="min-[420px]:inline-block hidden">
-                <WalletName address={walletClient.account.address as `0x${string}`} />
+                <WalletName address={account.address as `0x${string}`} />
               </p>
               <WalletAvatar
-                address={walletClient.account.address as `0x${string}`}
+                address={account.address as `0x${string}`}
                 size={80}
                 className="rounded-r-[0.6rem] rounded-l-sm h-[calc(100%-10px)] min-[420px]:inline-block hidden"
               />
@@ -82,7 +83,7 @@ export const ConnectButton = () => {
           )) || <p>Wrong network</p>}
         </Button>
       )) || (
-        <Button disabled={wrongNetwork || isSwitching} size="large" onClick={openConnectModal}>
+        <Button disabled={wrongNetwork || isPending} size="large" onClick={openConnectModal}>
           Connect Wallet
         </Button>
       )}

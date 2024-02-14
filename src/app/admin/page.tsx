@@ -6,14 +6,14 @@ import { AdminRecover } from "@/components/admin/recover/AdminRecover";
 import { AdminTesting } from "@/components/admin/testing/AdminTesting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { type NextPage } from "next";
-import { usePublicClient } from "wagmi";
 import { AdminOwnership } from "@/components/admin/ownership/AdminOwnership";
 import { AdminPause } from "@/components/admin/pause/AdminPause";
+import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 const Page: NextPage = () => {
-  const publicClient = usePublicClient();
-  if (!publicClient.chain) return null;
-  const isLocalnet = publicClient.chain.id === 31337;
+  const currentChain = useCurrentChain();
+  if (!currentChain) return null;
+  const isLocalnet = currentChain.id === 31337;
   return (
     <>
       <h2 className="text-center font-heading text-4xl font-bold text-fg/90">Admin</h2>

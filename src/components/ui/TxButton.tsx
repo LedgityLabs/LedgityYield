@@ -5,13 +5,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Spinner } from "./Spinner";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
 import {
-  useContractWrite,
-  usePrepareContractWrite,
+  useWriteContract,
   usePublicClient,
-  useWaitForTransaction,
-  useWalletClient,
+  useWaitForTransactionReceipt,
+  useSwitchChain,
+  UseSimulateContractReturnType,
+  useAccount,
 } from "wagmi";
-import { useSwitchNetwork } from "@/hooks";
 import { prettyErrorMessage } from "@/lib/prettyErrorMessage";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { BaseError } from "viem";
@@ -20,7 +20,7 @@ import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
-  preparation: ReturnType<typeof usePrepareContractWrite>;
+  preparation: UseSimulateContractReturnType;
   transactionSummary?: string | ReactNode;
   // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
@@ -43,36 +43,35 @@ export const TxButton: FC<Props> = ({
   parentError = undefined,
   ...props
 }) => {
-  const { isSwitching } = useSwitchNetwork();
-  const { data: walletClient } = useWalletClient();
+  const { isPending } = useSwitchChain();
+  const account = useAccount();
   const publicClient = usePublicClient();
 
-  // @ts-ignore
-  if (preparation.config.request && !preparation.config.request.value) {
-    // @ts-ignore
-    preparation.config.request.value = 0n;
-  }
+  // Fix Safe math issue when no value is provided
+  // if (preparation.data && preparation.data.request && !preparation.data.request.value) {
+  //   preparation.data.request.value = 0n;
+  // }
 
   const {
     data: writeData,
-    write,
-    isLoading: txIsLoading,
+    writeContract,
+    isPending: txIsLoading,
     isError: txIsError,
     isSuccess: txIsSuccess,
-  } = useContractWrite(preparation.config);
+  } = useWriteContract();
 
   const {
     isLoading: waitIsLoading,
     isError: waitIsError,
     isSuccess: waitIsSuccess,
-  } = useWaitForTransaction({
-    hash: writeData?.hash,
+  } = useWaitForTransactionReceipt({
+    hash: writeData,
   });
 
   // Refetch preparation on wallet or network change
   useEffect(() => {
-    if (walletClient) preparation.refetch();
-  }, [walletClient, publicClient]);
+    if (account.address) preparation.refetch();
+  }, [account.address, publicClient]);
 
   const isLoading = preparation.isFetching || preparation.isLoading || txIsLoading;
 
@@ -81,9 +80,9 @@ export const TxButton: FC<Props> = ({
   let tooltipIsError = false;
   if (isLoading) {
     tooltipMessage = "Loading...";
-  } else if (isSwitching) {
+  } else if (isPending) {
     tooltipMessage = "Switching network...";
-  } else if (!walletClient) {
+  } else if (!account.address) {
     tooltipIsError = true;
     tooltipMessage = "No wallet connected";
   } else if (parentIsError && parentError) {
@@ -100,16 +99,16 @@ export const TxButton: FC<Props> = ({
         <Dialog>
           <Tooltip
             open={
-              hasUserInteracted && tooltipIsError && !isLoading && !isSwitching ? true : undefined
+              hasUserInteracted && tooltipIsError && !isLoading && !isPending ? true : undefined
             }
           >
             <TooltipTrigger>
               <DialogTrigger asChild>
                 <Button
                   {...props}
-                  disabled={disabled || tooltipIsError || !write || isSwitching}
+                  disabled={disabled || tooltipIsError || !writeContract || isPending}
                   isLoading={isLoading}
-                  onClick={() => write!()}
+                  onClick={() => writeContract(preparation.data?.request!)}
                 />
               </DialogTrigger>
             </TooltipTrigger>

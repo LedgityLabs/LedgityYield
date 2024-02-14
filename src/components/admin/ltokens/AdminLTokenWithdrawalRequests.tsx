@@ -13,17 +13,20 @@ import {
 } from "@tanstack/react-table";
 import {
   readLToken,
-  useLTokenDecimals,
-  useLTokenGetExpectedRetained,
-  useLTokenUnderlying,
-  useLTokenUsableUnderlyings,
-  useLTokenWithdrawalQueue,
-  useLTokenWithdrawalQueueCursor,
-  usePrepareLTokenProcessBigQueuedRequest,
-  usePrepareLTokenProcessQueuedRequests,
-  usePrepareLTokenRepatriate,
+  useReadLTokenDecimals,
+  useReadLTokenGetExpectedRetained,
+  useReadLTokenUnderlying,
+  useReadLTokenUsableUnderlyings,
+  useReadLTokenWithdrawalQueue,
+  useReadLTokenWithdrawalQueueCursor,
+  useSimulateLTokenProcessBigQueuedRequest,
+  useSimulateLTokenProcessQueuedRequests,
+  useSimulateLTokenRepatriate,
 } from "@/generated";
 import clsx from "clsx";
+import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
+import { config } from "@/lib/dapp/config";
 
 interface ProcessBigRequestButtonProps {
   lTokenAddress: `0x${string}`;
@@ -34,12 +37,12 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
   lTokenAddress,
   requestId,
 }) => {
-  const preparation = usePrepareLTokenProcessBigQueuedRequest({
+  const preparation = useSimulateLTokenProcessBigQueuedRequest({
     address: lTokenAddress,
     args: [requestId],
   });
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress });
-  const { data: requestData } = useLTokenWithdrawalQueue({
+  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
+  const { data: requestData } = useReadLTokenWithdrawalQueue({
     address: lTokenAddress,
     args: [requestId],
   });
@@ -50,7 +53,7 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
       spender={lTokenAddress!}
       amount={requestData ? requestData[1] : 0n}
       size="tiny"
-      preparation={preparation}
+      preparation={preparation as UseSimulateContractReturnType}
       transactionSummary={`Process big request with ID = ${Number(requestId)}`}
     >
       Process
@@ -71,7 +74,7 @@ interface WithdrawalRequest {
 
 export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
+  const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress });
   const [sorting, setSorting] = useState<SortingState>([
     {
       id: "id",
@@ -81,31 +84,38 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   const columnHelper = createColumnHelper<WithdrawalRequest>();
   const [requestsData, setRequestsData] = useState<WithdrawalRequest[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { data: queueCursor } = useLTokenWithdrawalQueueCursor({
+  const { data: queueCursor, queryKey: queueCursorQueryKey } = useReadLTokenWithdrawalQueueCursor({
     address: lTokenAddress,
-    // watch: true,
-    // cacheTime: 60_000,
   });
-  const { data: expectedRetained } = useLTokenGetExpectedRetained({
-    address: lTokenAddress,
-    // watch: true,
-    // cacheTime: 60_000,
-  });
-  const { data: usableUnderlyings } = useLTokenUsableUnderlyings({
+  const { data: expectedRetained, queryKey: expectedRetainedQueryKey } =
+    useReadLTokenGetExpectedRetained({
+      address: lTokenAddress,
+    });
+  const { data: usableUnderlyings } = useReadLTokenUsableUnderlyings({
     address: lTokenAddress,
   });
   const [nonBigRequestsCount, setNonBigRequestsCount] = useState(0);
   const [repatriationNeeded, setRepatriationNeeded] = useState(false);
   const [repatriationAmount, setRepatriationAmount] = useState(0n);
-  const processNonBigPreparation = usePrepareLTokenProcessQueuedRequests({
+  const processNonBigPreparation = useSimulateLTokenProcessQueuedRequests({
     address: lTokenAddress,
   });
-  const repatriationPreparation = usePrepareLTokenRepatriate({
+  const repatriationPreparation = useSimulateLTokenRepatriate({
     address: lTokenAddress,
     args: [repatriationAmount],
   });
-  const { data: underlyingAddress } = useLTokenUnderlying({ address: lTokenAddress });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
 
+  // Refresh some data every 5 blocks
+  const queryKeys = [queueCursorQueryKey, expectedRetainedQueryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
+
+  //
   const computeRequestsData = async () => {
     setIsLoading(true);
 
@@ -122,7 +132,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
         // Retrieve batch of 50 queued requests data
         for (let i = readQueueCursor; i < readQueueCursor + 50n; i++) {
           proms.push(
-            readLToken({
+            readLToken(config, {
               address: lTokenAddress!,
               functionName: "withdrawalQueue",
               args: [i],
@@ -276,7 +286,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                     </p>
                     <TxButton
                       size="tiny"
-                      preparation={processNonBigPreparation}
+                      preparation={processNonBigPreparation as UseSimulateContractReturnType}
                       transactionSummary="Process as much as possible non-big requests"
                     >
                       Process
@@ -305,7 +315,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                       amount={repatriationAmount}
                       token={underlyingAddress!}
                       spender={lTokenAddress!}
-                      preparation={repatriationPreparation}
+                      preparation={repatriationPreparation as UseSimulateContractReturnType}
                       transactionSummary={
                         <>
                           Repatriate{" "}

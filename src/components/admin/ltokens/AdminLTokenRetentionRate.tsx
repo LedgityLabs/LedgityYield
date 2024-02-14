@@ -1,10 +1,12 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useLTokenRetentionRateUd7x3, usePrepareLTokenSetRetentionRate } from "@/generated";
+import { useReadLTokenRetentionRateUd7x3, useSimulateLTokenSetRetentionRate } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
+import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
@@ -13,16 +15,24 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol }) => {
   const underlyingTokenName = lTokenSymbol.slice(1);
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: retentionRate } = useLTokenRetentionRateUd7x3({
+  const { data: retentionRate, queryKey } = useReadLTokenRetentionRateUd7x3({
     address: lTokenAddress,
-    watch: true,
   });
   const [newRetentionRate, setNewRetentionRate] = useState(0);
-  const preparation = usePrepareLTokenSetRetentionRate({
+  const preparation = useSimulateLTokenSetRetentionRate({
     address: lTokenAddress,
     args: [newRetentionRate],
   });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <AdminBrick title="Retention rate">
@@ -41,7 +51,11 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
             if (e.target.value === "") setHasUserInteracted(false);
           }}
         />
-        <TxButton preparation={preparation} hasUserInteracted={hasUserInteracted} size="medium">
+        <TxButton
+          preparation={preparation as UseSimulateContractReturnType}
+          hasUserInteracted={hasUserInteracted}
+          size="medium"
+        >
           Set
         </TxButton>
       </div>

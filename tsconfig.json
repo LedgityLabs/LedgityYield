@@ -1,29 +1,32 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node", // Use Node.js's module resolution algorithm
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables ESM-style imports
+    "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+    "lib": ["dom.iterable", "ESNext", "DOM"], // Specify a list of library files to be included in the compilation
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./public/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["./public/*"],
-      "graphclient": ["./.graphclient/"]
-    }
+    ]
+  },
+  "ts-node": {
+    "experimentalResolver": true,
+    "files": true
   },
   "include": [
     "next-env.d.ts",
@@ -31,9 +34,10 @@
     "src/**/*.tsx",
     ".next/types/**/*.ts",
     "~/src/env.mjs",
-    "./hardhat.config.ts",
+    "hardhat.config.cjs",
     "contracts/**/*.ts",
-    "scripts/**/*.ts"
+    "scripts/**/*.ts",
+    "scripts/extract-abis.cts"
   ],
   "exclude": ["node_modules"]
 }

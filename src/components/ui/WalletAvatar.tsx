@@ -16,7 +16,10 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export const WalletAvatar: FC<Props> = ({ className, address, size, ...props }) => {
   const { data: ensName } = useEnsName({ address: address, chainId: 1 });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName, chainId: 1 });
+  const { data: ensAvatar } = useEnsAvatar({
+    name: ensName as string | undefined,
+    chainId: 1,
+  });
   return (
     <div className={twMerge("overflow-hidden w-full h-full", className)} {...props}>
       {ensAvatar ? (

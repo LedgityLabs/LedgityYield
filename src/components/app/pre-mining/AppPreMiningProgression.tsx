@@ -1,18 +1,19 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Amount } from "@/components/ui";
-import { usePreMiningTotalLocked } from "@/generated";
+import { useReadPreMiningTotalLocked } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { parseUnits } from "viem";
+import { useBlockNumber } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppPreMiningProgression: FC<Props> = ({ ...props }) => {
   // Compute total locked progression
   const lockdropAddress = useContractAddress("ArbitrumPreMining");
-  const { data: totalLocked } = usePreMiningTotalLocked({
+  const { data: totalLocked, queryKey } = useReadPreMiningTotalLocked({
     //@ts-ignore
     address: lockdropAddress!,
-    watch: true,
   });
   let progression = 0;
   if (totalLocked)
@@ -26,6 +27,15 @@ export const AppPreMiningProgression: FC<Props> = ({ ...props }) => {
   // if (remainingDays < 0) remainingDays = 0;
   const endDate: Date | null = null;
   const remainingDays = 0;
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <div className="relative -mt-3 flex flex-col sm:w-80 w-[80%] items-end gap-1" {...props}>

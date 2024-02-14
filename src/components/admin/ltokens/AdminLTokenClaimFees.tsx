@@ -1,8 +1,14 @@
 import { Amount, Card, TxButton } from "@/components/ui";
-import { useLTokenDecimals, useLTokenUnclaimedFees, usePrepareLTokenClaimFees } from "@/generated";
+import {
+  useReadLTokenDecimals,
+  useReadLTokenUnclaimedFees,
+  useSimulateLTokenClaimFees,
+} from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { AdminBrick } from "../AdminBrick";
+import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
@@ -10,12 +16,20 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 
 export const AdminLTokenClaimFees: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: unclaimedFees } = useLTokenUnclaimedFees({
+  const { data: unclaimedFees, queryKey } = useReadLTokenUnclaimedFees({
     address: lTokenAddress,
-    watch: true,
   });
-  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress });
-  const preparation = usePrepareLTokenClaimFees({ address: lTokenAddress });
+  const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress });
+  const preparation = useSimulateLTokenClaimFees({ address: lTokenAddress });
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   return (
     <AdminBrick title="Unclaimed fees">
@@ -29,7 +43,11 @@ export const AdminLTokenClaimFees: FC<Props> = ({ lTokenSymbol }) => {
         />
       </p>
       <div className="flex justify-center items-end gap-3">
-        <TxButton preparation={preparation} size="medium" disabled={unclaimedFees === 0n}>
+        <TxButton
+          preparation={preparation as UseSimulateContractReturnType}
+          size="medium"
+          disabled={unclaimedFees === 0n}
+        >
           Claim
         </TxButton>
       </div>

@@ -2,7 +2,6 @@ export * from "./Button";
 export * from "./Card";
 export * from "./CardsHelper";
 export * from "./Cube";
-export * from "./FadeIn";
 export * from "./Select";
 export * from "./Tabs";
 export * from "./Table";

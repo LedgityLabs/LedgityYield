@@ -5,7 +5,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 /**
- * @notice Used for testing purposes only.
+ * @notice Used for testing purposes only, and used to generate ABIs for Wagmi contracts calls.
  * It represents:
  * - a FIAT-based stablecoin when used to test the LToken contract,
  * - the $LDY token when used to test the LDYStaking contract.

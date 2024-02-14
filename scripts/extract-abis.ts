@@ -5,6 +5,12 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// For cross-platform compatibility
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const sourceDirectory = path.join(__dirname, "../contracts/hardhat/artifacts/contracts/src");
 const destinationDirectory = path.join(__dirname, "../contracts/abis");
@@ -14,7 +20,7 @@ if (!fs.existsSync(destinationDirectory)) {
   fs.mkdirSync(destinationDirectory, { recursive: true });
 }
 
-const extractABIsFromDirectory = (directory: string) => {
+const extractABIsFromDirectory = async (directory: string) => {
   const files = fs.readdirSync(directory);
 
   for (const file of files) {
@@ -24,13 +30,12 @@ const extractABIsFromDirectory = (directory: string) => {
     if (stat.isDirectory()) {
       extractABIsFromDirectory(filePath);
     } else if (filePath.endsWith(".json") && !filePath.endsWith(".dbg.json")) {
-      const contractData = require(filePath);
+      const contractData = await import(filePath, { assert: { type: "json" } });
       const contractName = path.basename(filePath, ".json");
-
-      if (contractData.abi && contractData.abi.length > 0) {
+      if (contractData.default.abi && contractData.default.abi.length > 0) {
         fs.writeFileSync(
           path.join(destinationDirectory, `${contractName}.json`),
-          JSON.stringify(contractData.abi, null, 2),
+          JSON.stringify(contractData.default.abi, null, 2),
         );
       } else {
         console.log(`No ABI found for ${contractName}`);
@@ -39,5 +44,5 @@ const extractABIsFromDirectory = (directory: string) => {
   }
 };
 
-extractABIsFromDirectory(sourceDirectory);
+await extractABIsFromDirectory(sourceDirectory);
 console.log("ABIs extracted successfully!");

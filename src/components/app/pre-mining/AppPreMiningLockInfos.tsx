@@ -1,30 +1,38 @@
 import { Amount, Card } from "@/components/ui";
-import { usePreMiningAccountsLocks, usePreMiningEligibleRewardsOf } from "@/generated";
+import { useReadPreMiningAccountsLocks, useReadPreMiningEligibleRewardsOf } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { FC } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { FC, useEffect } from "react";
 import { zeroAddress } from "viem";
-import { useWalletClient } from "wagmi";
+import { useAccount, useBlockNumber } from "wagmi";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppPreMiningLockInfos: FC<Props> = ({ ...props }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
 
   const lockdropAddress = useContractAddress("ArbitrumPreMining");
-  const { data: lockData } = usePreMiningAccountsLocks({
+  const { data: lockData, queryKey: lockQueryKey } = useReadPreMiningAccountsLocks({
     // @ts-ignore
     address: lockdropAddress!,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
-  const { data: eligibleRewards } = usePreMiningEligibleRewardsOf({
+  const { data: eligibleRewards, queryKey: rewardsQueryKey } = useReadPreMiningEligibleRewardsOf({
     // @ts-ignore
     address: lockdropAddress!,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
 
-  if (!walletClient || !lockData) return null;
+  // Refresh some data every 5 blocks
+  const queryKeys = [lockQueryKey, rewardsQueryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
+
+  if (!account.address || !lockData) return null;
 
   return (
     <Card

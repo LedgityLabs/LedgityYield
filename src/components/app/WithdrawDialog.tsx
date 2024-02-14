@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useRef, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import {
   Amount,
   AmountInput,
@@ -11,15 +11,17 @@ import {
   DialogTrigger,
 } from "@/components/ui";
 import {
-  useLTokenBalanceOf,
-  useLTokenDecimals,
-  usePrepareLTokenInstantWithdrawal,
-  usePrepareLTokenRequestWithdrawal,
+  useReadLTokenBalanceOf,
+  useReadLTokenDecimals,
+  useSimulateLTokenInstantWithdrawal,
+  useSimulateLTokenRequestWithdrawal,
 } from "@/generated";
 import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { TxButton } from "../ui/TxButton";
-import { useWalletClient } from "wagmi";
+import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
+import { SimulateContractReturnType } from "@wagmi/core";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   underlyingSymbol: string;
@@ -27,27 +29,35 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
 }
 
 export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
-  const { data: walletClient } = useWalletClient();
+  const account = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
-  const { data: decimals } = useLTokenDecimals({ address: lTokenAddress! });
-  const { data: balance } = useLTokenBalanceOf({
+  const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
+  const { data: balance, queryKey } = useReadLTokenBalanceOf({
     address: lTokenAddress!,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
+    args: [account.address || zeroAddress],
   });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const instantWithdrawalalPreparation = usePrepareLTokenInstantWithdrawal({
+  const instantWithdrawalPreparation = useSimulateLTokenInstantWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
   });
-  const requestWithdrawalPreparation = usePrepareLTokenRequestWithdrawal({
+  const requestWithdrawalPreparation = useSimulateLTokenRequestWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
     value: parseEther("0.003"),
   });
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [queryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   if (!lTokenAddress) return null;
   return (
@@ -70,7 +80,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
               Note that you won&apos;t receive yield anymore.
             </div>
             {/* If instant withdrawal is not posssible actually, display info message */}
-            {instantWithdrawalalPreparation.isError && (
+            {instantWithdrawalPreparation.isError && (
               <div className="flex items-stretch justify-stretch gap-2 rounded-2xl bg-fg/[7%] p-4 text-fg/80">
                 <div className="flex items-center justify-center border-r border-r-fg/20 pr-4">
                   <i className="ri-information-line text-2xl" />
@@ -98,10 +108,10 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
               }}
             />
             {/* If instant withdrawal is possible actually */}
-            {(!instantWithdrawalalPreparation.isError && (
+            {(!instantWithdrawalPreparation.isError && (
               <TxButton
                 size="medium"
-                preparation={instantWithdrawalalPreparation}
+                preparation={instantWithdrawalPreparation as UseSimulateContractReturnType}
                 className="relative -top-[1.5px]"
                 disabled={withdrawnAmount === 0n}
                 hasUserInteracted={hasUserInteracted}
@@ -131,8 +141,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             )) || (
               <TxButton
                 size="medium"
-                // @ts-ignore
-                preparation={requestWithdrawalPreparation}
+                preparation={requestWithdrawalPreparation as UseSimulateContractReturnType}
                 className="relative -top-[1.5px]"
                 disabled={withdrawnAmount === 0n}
                 hasUserInteracted={hasUserInteracted}

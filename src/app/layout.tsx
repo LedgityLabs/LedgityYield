@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/Toaster";
+// import DApp from "@/components/DApp";
 
 const name = "Ledgity Yield";
 const description =

@@ -20,29 +20,10 @@ export default defineConfig({
     hardhat({
       project: "./contracts/hardhat/",
       deployments: hhPluginDeployments,
-      include: ["contracts/src/**"],
-      exclude: [
-        "contracts/src/abstracts/**",
-        "contracts/src/libs/**",
-        "contracts/src/Multicall3.sol/**",
-      ],
+      include: ["contracts/src/**", "contracts/dev/**"],
+      exclude: ["contracts/src/abstracts/**", "contracts/src/libs/**"],
     }),
-    react({
-      useContractRead: true,
-      useContractFunctionRead: true,
-      useContractWrite: true,
-      usePrepareContractWrite: true,
-      useContractFunctionWrite: true,
-      usePrepareContractFunctionWrite: true,
-      useContractEvent: false,
-      useContractItemEvent: false,
-    }),
-    actions({
-      getContract: true,
-      readContract: true,
-      watchContractEvent: false,
-      writeContract: true,
-      prepareWriteContract: true,
-    }),
+    react(),
+    actions(),
   ],
 });

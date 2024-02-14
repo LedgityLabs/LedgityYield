@@ -1,23 +1,23 @@
 "use client";
 import { type FC, useEffect, type ReactNode } from "react";
-import { usePrepareContractWrite, useWalletClient } from "wagmi";
 import {
-  useGenericErc20Allowance,
-  useGenericErc20BalanceOf,
-  useGenericErc20Decimals,
-  useGenericErc20Symbol,
-  usePrepareGenericErc20Approve,
-} from "@/generated";
-import { zeroAddress } from "viem";
+  useSimulateContract,
+  useReadContract,
+  useAccount,
+  useBlockNumber,
+  UseSimulateContractReturnType,
+} from "wagmi";
+import { erc20Abi, zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
 import { Amount } from "./Amount";
 import { twMerge } from "tailwind-merge";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   token: `0x${string}`;
   spender: `0x${string}`;
   amount?: bigint;
-  preparation: ReturnType<typeof usePrepareContractWrite>;
+  preparation: UseSimulateContractReturnType;
   transactionSummary?: string | ReactNode;
   // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
@@ -47,26 +47,47 @@ export const AllowanceTxButton: FC<Props> = ({
   className,
   ...props
 }) => {
-  const { data: walletClient } = useWalletClient();
-  const { data: symbol } = useGenericErc20Symbol({ address: token });
-  const { data: decimals } = useGenericErc20Decimals({ address: token });
-  const { data: allowance } = useGenericErc20Allowance({
+  const account = useAccount();
+  const { data: symbol } = useReadContract({
+    abi: erc20Abi,
+    functionName: "symbol",
     address: token,
-    args: [walletClient?.account.address || zeroAddress, spender],
-    watch: true,
   });
-  const { data: balance } = useGenericErc20BalanceOf({
+  const { data: decimals } = useReadContract({
+    abi: erc20Abi,
+    functionName: "decimals",
     address: token,
-    args: [walletClient?.account.address || zeroAddress],
-    watch: true,
   });
-  const allowancePreparation = usePrepareGenericErc20Approve({
+  const { data: allowance, queryKey: allowanceQueryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "allowance",
+    address: token,
+    args: [account.address || zeroAddress, spender],
+  });
+  const { data: balance, queryKey: balanceQueryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    address: token,
+    args: [account.address || zeroAddress],
+  });
+  const allowancePreparation = useSimulateContract({
+    abi: erc20Abi,
+    functionName: "approve",
     address: token,
     args: [spender, amount],
   });
   useEffect(() => {
     preparation.refetch();
   }, [allowance]);
+
+  // Refresh some data every 5 blocks
+  const queryKeys = [allowanceQueryKey, balanceQueryKey];
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (blockNumber && blockNumber % 5n === 0n)
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [blockNumber, ...queryKeys]);
 
   const hasEnoughAllowance = Boolean(allowance !== undefined && allowance >= amount);
 
@@ -94,7 +115,7 @@ export const AllowanceTxButton: FC<Props> = ({
       <TxButton
         className={twMerge(hasEnoughAllowance && "pointer-events-none hidden", className)}
         hideTooltips={hasEnoughAllowance}
-        preparation={allowancePreparation}
+        preparation={allowancePreparation as UseSimulateContractReturnType}
         disabled={(amount === 0n && !allowZeroAmount) || disabled}
         hasUserInteracted={hasUserInteracted}
         parentIsError={parentIsError || isError}
