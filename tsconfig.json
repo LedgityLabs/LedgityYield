@@ -38,8 +38,7 @@
     ".next/types/**/*.ts",
     "~/src/env.mjs",
     "hardhat.config.cjs",
-    // "contracts/**/*.ts",
-    "scripts/**/*.ts",
+    "scripts/**/*.mts",
     ".graphclient/**/*.ts"
   ],
   "exclude": ["node_modules"]
