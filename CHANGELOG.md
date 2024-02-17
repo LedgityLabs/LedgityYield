@@ -1,3 +1,19 @@
+## [1.245.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.2...v1.245.3) (2024-02-17)
+
+
+### Fixes
+
+* broken tsconfig file ([0981196](https://github.com/LedgityLabs/LedgityYield/commit/0981196e78d4fc276ad65ac0e29b6e1c9ca37d4b))
+* remove CGPT comments and move OKX Testnet to prod chains ([3bfca72](https://github.com/LedgityLabs/LedgityYield/commit/3bfca72f47f2ce83ea1d3971b944764a7339670b))
+* remove pnpm lock file, and upgrade to Bun on in releaserc ([7e01b3c](https://github.com/LedgityLabs/LedgityYield/commit/7e01b3cdae3271a2090d8904b5042520a21a5e45))
+* typeErrors in AppInvestTokens.tsx ([a7a2b49](https://github.com/LedgityLabs/LedgityYield/commit/a7a2b4966da4dc2286dec9139be671341eefe69a))
+* typo in workflow files ([c32c96e](https://github.com/LedgityLabs/LedgityYield/commit/c32c96e54f054858b17ef18314e7b3141a2dd3f3))
+
+
+### Others
+
+* upgrade to Bun in workflow files also ([e04faeb](https://github.com/LedgityLabs/LedgityYield/commit/e04faeb4541304651bede2d86f0d58e8174090c1))
+
 ## [1.245.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.1...v1.245.2) (2024-02-16)
 
 
