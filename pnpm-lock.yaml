@@ -140,8 +140,8 @@ devDependencies:
     specifier: ^2
     version: 2.0.4(hardhat@2.20.1)
   '@openzeppelin/contracts':
-    specifier: 4.9.0
-    version: 4.9.0
+    specifier: 5.0.1
+    version: 5.0.1
   '@openzeppelin/contracts-upgradeable':
     specifier: 4.9.0
     version: 4.9.0
@@ -188,7 +188,7 @@ devDependencies:
     specifier: ^14.1.0
     version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
   hardhat:
-    specifier: ^2.19.4
+    specifier: ^2.20.1
     version: 2.20.1(ts-node@10.9.2)(typescript@5.3.3)
   hardhat-contract-sizer:
     specifier: ^2.10.0
@@ -4967,8 +4967,8 @@ packages:
     resolution: {integrity: sha512-+6i2j6vr2fdudTqkBvG+UOosankukxYzg3WN1nqU7ijjQ5A4osWaD3ip6CEz6YvDoSdZgcFVZoiGr7zRlUUoZw==}
     dev: true
 
-  /@openzeppelin/contracts@4.9.0:
-    resolution: {integrity: sha512-DUP74AFGKlic2sQb/CmgrN2aUPMFGxRrmCTUxLHsiU2RzwWqVuMPZBxiAyvlff6Pea77uylAX6B5x9W6evEbhA==}
+  /@openzeppelin/contracts@5.0.1:
+    resolution: {integrity: sha512-yQJaT5HDp9hYOOp4jTYxMsR02gdFZFXhewX5HW9Jo4fsqSVqqyIO/xTHdWDaKX5a3pv1txmf076Lziz+sO7L1w==}
     dev: true
 
   /@panva/hkdf@1.1.1:
@@ -16175,7 +16175,7 @@ packages:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
     hasBin: true
     dependencies:
-      glob: 7.2.0
+      glob: 7.2.3
     dev: true
 
   /rimraf@3.0.2:
