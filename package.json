@@ -78,7 +78,7 @@
     "@next/bundle-analyzer": "^14.0.0",
     "@nomicfoundation/hardhat-verify": "^2",
     "@openzeppelin/contracts": "4.9.0",
-    "@openzeppelin/contracts-upgradeable": "4.9.0",
+    "@openzeppelin/contracts-upgradeable": "5.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/d3-format": "^3.0.4",

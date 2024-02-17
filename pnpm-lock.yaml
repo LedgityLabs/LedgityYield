@@ -143,8 +143,8 @@ devDependencies:
     specifier: 4.9.0
     version: 4.9.0
   '@openzeppelin/contracts-upgradeable':
-    specifier: 4.9.0
-    version: 4.9.0
+    specifier: 5.0.1
+    version: 5.0.1(@openzeppelin/contracts@4.9.0)
   '@semantic-release/changelog':
     specifier: ^6.0.3
     version: 6.0.3(semantic-release@23.0.2)
@@ -188,7 +188,7 @@ devDependencies:
     specifier: ^14.1.0
     version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
   hardhat:
-    specifier: ^2.19.4
+    specifier: ^2.20.1
     version: 2.20.1(ts-node@10.9.2)(typescript@5.3.3)
   hardhat-contract-sizer:
     specifier: ^2.10.0
@@ -4963,8 +4963,12 @@ packages:
       '@octokit/openapi-types': 19.1.0
     dev: true
 
-  /@openzeppelin/contracts-upgradeable@4.9.0:
-    resolution: {integrity: sha512-+6i2j6vr2fdudTqkBvG+UOosankukxYzg3WN1nqU7ijjQ5A4osWaD3ip6CEz6YvDoSdZgcFVZoiGr7zRlUUoZw==}
+  /@openzeppelin/contracts-upgradeable@5.0.1(@openzeppelin/contracts@4.9.0):
+    resolution: {integrity: sha512-MvaLoPnVcoZr/qqZP+4cl9piuR4gg0iIGgxVSZ/AL1iId3M6IdEHzz9Naw5Lirl4KKBI6ciTVnX07yL4dOMIJg==}
+    peerDependencies:
+      '@openzeppelin/contracts': 5.0.1
+    dependencies:
+      '@openzeppelin/contracts': 4.9.0
     dev: true
 
   /@openzeppelin/contracts@4.9.0:
@@ -16175,7 +16179,7 @@ packages:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
     hasBin: true
     dependencies:
-      glob: 7.2.0
+      glob: 7.2.3
     dev: true
 
   /rimraf@3.0.2:
