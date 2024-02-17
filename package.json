@@ -74,7 +74,7 @@
   },
   "devDependencies": {
     "@graphprotocol/client-cli": "3.0.0",
-    "@graphprotocol/graph-ts": "0.31.0",
+    "@graphprotocol/graph-ts": "0.33.0",
     "@next/bundle-analyzer": "^14.0.0",
     "@nomicfoundation/hardhat-verify": "^2",
     "@openzeppelin/contracts": "4.9.0",
