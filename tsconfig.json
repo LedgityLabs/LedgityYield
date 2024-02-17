@@ -37,9 +37,15 @@
     "src/**/*.tsx",
     ".next/types/**/*.ts",
     "~/src/env.mjs",
+<<<<<<< HEAD
+    "hardhat.config.cts",
+    // "contracts/**/*.ts",
+    "scripts/**/*.ts",
+=======
     "hardhat.config.cjs",
     "scripts/**/*.mts",
+>>>>>>> f51f407194ff8c0ef3956e51b3a755b66cf3a593
     ".graphclient/**/*.ts"
-  ],
+, "scripts/extract-abis.ts"  ],
   "exclude": ["node_modules"]
 }

@@ -88,6 +88,12 @@ const config: HardhatUserConfig = {
         },
       },
     },
+    OKTC: {
+      chainId: 65,
+      url: "https://exchaintestrpc.okex.org",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+    },
     arbitrumGoerli: {
       chainId: 421613,
       url: "https://arbitrum-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
