@@ -1,3 +1,17 @@
+## [1.245.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.1...v1.245.2) (2024-02-16)
+
+
+### Fixes
+
+* upgrade @graphql-mesh/transform-prefix to v0.96.5 ([070265f](https://github.com/LedgityLabs/LedgityYield/commit/070265f8f2bde02f15ff384aa018aa4aa98c4fa2))
+
+
+### Others
+
+* **deps:** update actions/setup-node action to v4 ([d77dea0](https://github.com/LedgityLabs/LedgityYield/commit/d77dea07a8de7ac3c712a46ed1af6ee01571ce4f))
+* fix extra-abi script, not a module ([6c7c1f6](https://github.com/LedgityLabs/LedgityYield/commit/6c7c1f6041b4852a9d3c420bf661e3102ef08ab1))
+* remove pnpm lock file ([4d0fe4a](https://github.com/LedgityLabs/LedgityYield/commit/4d0fe4af8c8623b24761e9ec770d2b42730b12bf))
+
 ## [1.245.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.0...v1.245.1) (2024-02-14)
 
 
