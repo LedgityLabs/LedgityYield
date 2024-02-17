@@ -2,8 +2,6 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    //"module": "CommonJS",
-
     "moduleResolution": "node", // Use Node.js's module resolution algorithm
     "strict": true, // Enable all strict type-checking options
     "esModuleInterop": true, // Enables ESM-style imports

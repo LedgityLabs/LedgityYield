@@ -16,7 +16,7 @@
     "cc:slither:triage": "slither . --compile-force-framework hardhat --triage-mode",
     "cc:slither:pausable": "slither . --compile-force-framework hardhat --print not-pausable",
     "cc:node": "hardhat node --hostname 0.0.0.0",
-    "cc:compile": "hardhat compile && hardhat export --export-all contracts/deployments.json && ts-node --esm scripts/extract-abis.ts && wagmi generate",
+    "cc:compile": "hardhat compile && hardhat export --export-all contracts/deployments.json && ts-node --esm scripts/extract-abis.mts && wagmi generate",
     "graph:client": "graphclient build",
     "graph:node": "cd subgraph/local-node && docker-compose up",
     "graph:local-gen": "cd subgraph && graph codegen ./localhost-subgraph.yaml && graph build ./localhost-subgraph.yaml ",
