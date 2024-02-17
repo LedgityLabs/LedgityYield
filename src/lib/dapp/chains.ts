@@ -1,4 +1,4 @@
-import { hardhat, arbitrum, arbitrumGoerli, lineaTestnet, linea, Chain } from "@wagmi/core/chains";
+import { hardhat, arbitrum, arbitrumGoerli, lineaTestnet, linea, Chain   } from "@wagmi/core/chains";
 
 // Build chain icons map
 export const chainsIcons = {
@@ -7,8 +7,28 @@ export const chainsIcons = {
   42161: "/assets/chains/arbitrum.svg",
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
+  65 : "/assets/chains/okxlogo.png",
 } as { [key: number]: string };
 
+const okcTestnet: Chain = {
+  id: 65, // Replace with the actual chainId for OKC testnet
+  name: 'OKC Testnet',
+  network: 'okc-testnet',
+  nativeCurrency: {
+    name: 'Testnet OKT',
+    symbol: 'OKT', // Typically the symbol of the native currency
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://exchaintestrpc.okex.org']
+    } // Replace with the actual RPC URL for OKC testnet
+  },
+  blockExplorers: {
+    default: { name: 'OKLink', url: 'https://www.oklink.com/okc-test' }, // Optional, replace with actual if available
+  },
+  testnet: true,
+};
 // Figure whether we're in dev or prod environment
 let chainsEnv: "prod" | "dev" = "prod";
 if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
@@ -21,5 +41,6 @@ const devChains: readonly [Chain, ...Chain[]] = [
   hardhat,
   arbitrumGoerli,
   lineaTestnet,
+  okcTestnet
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;

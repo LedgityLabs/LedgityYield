@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    //"module": "CommonJS",
+
     "moduleResolution": "node", // Use Node.js's module resolution algorithm
     "strict": true, // Enable all strict type-checking options
     "esModuleInterop": true, // Enables ESM-style imports
@@ -37,10 +39,10 @@
     "src/**/*.tsx",
     ".next/types/**/*.ts",
     "~/src/env.mjs",
-    "hardhat.config.cjs",
+    "hardhat.config.cts",
     // "contracts/**/*.ts",
     "scripts/**/*.ts",
     ".graphclient/**/*.ts"
-  ],
+, "scripts/extract-abis.ts"  ],
   "exclude": ["node_modules"]
 }

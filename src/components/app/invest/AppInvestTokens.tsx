@@ -288,8 +288,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
 
               // Build underlying symbol
               if (!lTokenSymbol) console.log(data);
+             
+           
               const underlyingSymbol = lTokenSymbol.slice(1);
-
+              console.log(underlyingSymbol);
               // Push data to table data
               _tableData.push({
                 tokenSymbol: underlyingSymbol,

@@ -374,6 +374,7 @@ export const globalBlacklistAbi = [
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
  */
 export const globalBlacklistAddress = {
+  65: '0x8a0D0714c45B9ba78AEad7601390748F6f8f5452',
   31337: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
   42161: '0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350',
   59140: '0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf',
@@ -575,6 +576,7 @@ export const globalOwnerAbi = [
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  */
 export const globalOwnerAddress = {
+  65: '0x2646E026CCF356850eC54E9a522B30b3db679D71',
   31337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
   42161: '0xe4Af4573bFc5F04D8b84c61744de8A94059f2462',
   59140: '0xDbac01A784fB7E5F1Ae9c8d61f776A2d9d59faB6',
@@ -799,6 +801,7 @@ export const globalPauseAbi = [
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
  */
 export const globalPauseAddress = {
+  65: '0x74774f077c9f60c0cb7e68534C4749f94ef06a3c',
   31337: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
   42161: '0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB',
   59140: '0x4fB551213757619558A93a599a08524e9Dd59C67',
@@ -955,6 +958,7 @@ export const ldyStakingAbi = [
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
  */
 export const ldyStakingAddress = {
+  65: '0xdc2051273BdEb81739E3dfa67B7df7D7A8e98901',
   31337: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
   42161: '0x4e80beDBD58b084a8946b7BA6814c28906Be2d02',
   59140: '0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6',
@@ -1937,6 +1941,7 @@ export const lTokenSignalerAbi = [
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
  */
 export const lTokenSignalerAddress = {
+  65: '0x257E5913605a21561e552171AED2D8C3fa7335aB',
   31337: '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0',
   42161: '0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1',
   59140: '0x04a678103bE57c3d81100fe08e43C94e50adC37B',
@@ -2348,6 +2353,7 @@ export const preMiningAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd54d564606611A3502FE8909bBD3075dbeb77813)
  */
 export const preMiningAddress = {
+  65: '0xbB7acA39EDFCdeBcecb738b77251C17e78318AbE',
   31337: '0x9A676e781A523b5d0C0e43731313A708CB607508',
   42161: '0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c',
   59144: '0xd54d564606611A3502FE8909bBD3075dbeb77813',
