@@ -1,3 +1,11 @@
+## [1.245.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.3...v1.245.4) (2024-02-17)
+
+
+### Fixes
+
+* fix merge conflict ([70fa5b5](https://github.com/LedgityLabs/LedgityYield/commit/70fa5b5ddd01b07b3e34554e822e013bd855a13b))
+* update deps ([1a36aaf](https://github.com/LedgityLabs/LedgityYield/commit/1a36aaf6ee31f3a0e26007a85fc0d917e1b46254))
+
 ## [1.245.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.2...v1.245.3) (2024-02-17)
 
 
