@@ -5,7 +5,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { fileURLToPath ,pathToFileURL} from 'url';
+import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 // For cross-platform compatibility
@@ -30,12 +30,8 @@ const extractABIsFromDirectory = async (directory: string) => {
     if (stat.isDirectory()) {
       extractABIsFromDirectory(filePath);
     } else if (filePath.endsWith(".json") && !filePath.endsWith(".dbg.json")) {
-     const fileURL = pathToFileURL(filePath);
-
-      // Dynamic import using the URL format
-    const contractData = await import(fileURL.href, { assert: { type: 'json' } });
+      const contractData = await import(filePath, { assert: { type: "json" } });
       const contractName = path.basename(filePath, ".json");
-
       if (contractData.default.abi && contractData.default.abi.length > 0) {
         fs.writeFileSync(
           path.join(destinationDirectory, `${contractName}.json`),
