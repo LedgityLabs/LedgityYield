@@ -47,8 +47,4 @@ const extractABIsFromDirectory = async (directory: string) => {
 await extractABIsFromDirectory(sourceDirectory);
 console.log("ABIs extracted successfully!");
 
-/** TheGraph YAML file requires ABI to be available as top level files (not nested in
- * deployments.json), this script extracts ABIs from hardhat artifacts folder into
- * individual files under contracts/abis/ folder.
- */
 
