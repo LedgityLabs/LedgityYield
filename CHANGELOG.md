@@ -1,3 +1,10 @@
+## [1.245.5](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.4...v1.245.5) (2024-02-18)
+
+
+### Fixes
+
+* remove unused component + fix missing excluded files in .vscode/settings.json ([a102b77](https://github.com/LedgityLabs/LedgityYield/commit/a102b778e29c6dff3802da944afb00b859315d39))
+
 ## [1.245.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.3...v1.245.4) (2024-02-17)
 
 
