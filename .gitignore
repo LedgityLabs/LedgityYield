@@ -63,3 +63,5 @@ contracts/foundry/out/
 
 
 secrets.json
+
+yarn.lock
