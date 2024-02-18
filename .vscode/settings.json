@@ -41,7 +41,14 @@
     "contracts/hardhat/cache": false,
     "secrets.json": false,
     ".env": false,
-    "report.md": false
+    "report.md": false,
+    "postcss.config.cjs": false,
+    "hardhat.config.cts": false,
+    "bun.lockb": false,
+    ".prettierrc.cjs": false,
+    "env.mjs": false,
+    "docs/": false,
+    "scripts/": false
   },
   // Required because of a bug with pnpm and prettier plugins.
   // See: https://github.com/prettier-solidity/prettier-plugin-solidity#pnpm
