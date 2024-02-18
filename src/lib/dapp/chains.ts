@@ -7,25 +7,25 @@ export const chainsIcons = {
   42161: "/assets/chains/arbitrum.svg",
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
-  65 : "/assets/chains/okxlogo.png",
+  195 : "/assets/chains/okxlogo.png",
 } as { [key: number]: string };
 
 const okcTestnet: Chain = {
-  id: 65, // Replace with the actual chainId for OKC testnet
-  name: 'OKC Testnet',
-  network: 'okc-testnet',
+  id: 195, // Replace with the actual chainId for OKC testnet
+  name: 'OKC X1 Testnet',
+  network: 'okc-X1-testnet',
   nativeCurrency: {
-    name: 'Testnet OKT',
-    symbol: 'OKT', // Typically the symbol of the native currency
+    name: 'Testnet OKB',
+    symbol: 'OKB', // Typically the symbol of the native currency
     decimals: 18,
   },
   rpcUrls: {
     default: {
-      http: ['https://exchaintestrpc.okex.org']
+      http: ['https://testrpc.x1.tech']
     } // Replace with the actual RPC URL for OKC testnet
   },
   blockExplorers: {
-    default: { name: 'OKLink', url: 'https://www.oklink.com/okc-test' }, // Optional, replace with actual if available
+    default: { name: 'OKLink', url: 'https://www.oklink.com/x1-test' }, // Optional, replace with actual if available
   },
   testnet: true,
 };

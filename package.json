@@ -69,7 +69,7 @@
     "remixicon": "^4",
     "sharp": "^0",
     "viem": "^2",
-    "wagmi": "^2",
+    "wagmi": "^2.5.7",
     "zod": "^3.22.4"
   },
   "devDependencies": {
