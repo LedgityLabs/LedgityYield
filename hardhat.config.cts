@@ -88,9 +88,9 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    OKTC: {
-      chainId: 65,
-      url: "https://exchaintestrpc.okex.org",
+    OKX_X1_testnet: {
+      chainId: 195,
+      url: "https://testrpc.x1.tech",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
     },

@@ -7,28 +7,29 @@ export const chainsIcons = {
   42161: "/assets/chains/arbitrum.svg",
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
-  65: "/assets/chains/okxlogo.png",
+  195: "/assets/chains/okxlogo.png",
 } as { [key: number]: string };
 
+
 const okcTestnet: Chain = {
-  id: 65,
-  name: "OKC Testnet",
+  id: 195,
+  name: 'OKC X1 Testnet',
   nativeCurrency: {
-    name: "Testnet OKT",
-    symbol: "OKT",
+    name: 'Testnet OKB',
+    symbol: 'OKB', 
     decimals: 18,
   },
   rpcUrls: {
     default: {
-      http: ["https://exchaintestrpc.okex.org"],
-    },
+      http: ['https://testrpc.x1.tech']
+    } 
   },
   blockExplorers: {
-    default: { name: "OKLink", url: "https://www.oklink.com/okc-test" },
+    default: { name: 'OKLink', url: 'https://www.oklink.com/x1-test' }, 
   },
   testnet: true,
 };
-// Figure whether we're in dev or prod environment
+/// Figure whether we're in dev or prod environment
 let chainsEnv: "prod" | "dev" = "prod";
 if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
