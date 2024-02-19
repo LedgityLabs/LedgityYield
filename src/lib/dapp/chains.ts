@@ -10,6 +10,7 @@ export const chainsIcons = {
   195: "/assets/chains/okxlogo.png",
 } as { [key: number]: string };
 
+
 const okcTestnet: Chain = {
   id: 195,
   name: 'OKC X1 Testnet',
