@@ -88,7 +88,7 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    OKXX1: {
+    OKX_X1_testnet: {
       chainId: 195,
       url: "https://testrpc.x1.tech",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],

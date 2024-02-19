@@ -1,11 +1,11 @@
 {
   "195": [
     {
-      "name": "OKXT1",
+      "name": "OKX_X1_testnet",
       "chainId": "195",
       "contracts": {
         "APRHistory": {
-          "address": "0x0A3137297E86d26A0E923119C9B79597327a8e22",
+          "address": "0x633Fff91613e32a91bDBd0Ef30067aA3B86CBcd7",
           "abi": [
             {
               "inputs": [
@@ -101,7 +101,7 @@
           ]
         },
         "GlobalBlacklist": {
-          "address": "0x569fb5ef029602f3609ec9F05836fA2d2c5128F0",
+          "address": "0xc44395eC149C6743A268A901a38e5b02dc87D10C",
           "abi": [
             {
               "anonymous": false,
@@ -355,7 +355,7 @@
           ]
         },
         "GlobalBlacklist_Implementation": {
-          "address": "0x54AB0A4ec181412E5f143D52a0B0d42c996437dc",
+          "address": "0xfD2a2358d1AceFABA5581771F50312244910f3bd",
           "abi": [
             {
               "inputs": [],
@@ -590,7 +590,7 @@
           ]
         },
         "GlobalBlacklist_Proxy": {
-          "address": "0x569fb5ef029602f3609ec9F05836fA2d2c5128F0",
+          "address": "0xc44395eC149C6743A268A901a38e5b02dc87D10C",
           "abi": [
             {
               "inputs": [
@@ -664,7 +664,7 @@
           ]
         },
         "GlobalOwner": {
-          "address": "0x53b44208Fb9D593a4423A5aB22CDc1b170Ed9Dce",
+          "address": "0x2547A36186eCC16C25649B9234D4937216e45978",
           "abi": [
             {
               "anonymous": false,
@@ -893,7 +893,7 @@
           ]
         },
         "GlobalOwner_Implementation": {
-          "address": "0x1387c81A72ae985b6aE7c62d71646A52F2cCD9b6",
+          "address": "0x1cfEFbaA55Ad0F9078159cc0F8e6e118D4bc9B97",
           "abi": [
             {
               "inputs": [],
@@ -1103,7 +1103,7 @@
           ]
         },
         "GlobalOwner_Proxy": {
-          "address": "0x53b44208Fb9D593a4423A5aB22CDc1b170Ed9Dce",
+          "address": "0x2547A36186eCC16C25649B9234D4937216e45978",
           "abi": [
             {
               "inputs": [
@@ -1177,7 +1177,7 @@
           ]
         },
         "GlobalPause": {
-          "address": "0xa3a9670AD6dCC513fd1afA07A46Cca017Cf0C353",
+          "address": "0x696C4B4f35Ee60e110cDaE5b3eBd78a5597f6Ac6",
           "abi": [
             {
               "anonymous": false,
@@ -1439,7 +1439,7 @@
           ]
         },
         "GlobalPause_Implementation": {
-          "address": "0x8Dc842F2BDD6c59404ff80Bce2551Cd6203f7a11",
+          "address": "0x38A43930fe7258C161806e2064d2eF7562C562b8",
           "abi": [
             {
               "inputs": [],
@@ -1682,7 +1682,7 @@
           ]
         },
         "GlobalPause_Proxy": {
-          "address": "0xa3a9670AD6dCC513fd1afA07A46Cca017Cf0C353",
+          "address": "0x696C4B4f35Ee60e110cDaE5b3eBd78a5597f6Ac6",
           "abi": [
             {
               "inputs": [
@@ -1756,7 +1756,7 @@
           ]
         },
         "LDYStaking": {
-          "address": "0xAaaE9dC6b935745C83025d6dC199aAAcA7819959",
+          "address": "0x045f9E9d2225319dF5E0909007FE7979E2674a32",
           "abi": [
             {
               "anonymous": false,
@@ -1908,7 +1908,7 @@
           ]
         },
         "LTokenSignaler": {
-          "address": "0x25A53e152C902EF74F74953ea1dcB3f497027a3B",
+          "address": "0x6A88b87aA4865e8d67D7CD32178bA03F885a088a",
           "abi": [
             {
               "anonymous": false,
@@ -2143,7 +2143,7 @@
           ]
         },
         "LTokenSignaler_Implementation": {
-          "address": "0xBECd1646F812a8a6DaC8dE0ae3CBdb74aF638cEE",
+          "address": "0xECBAb0dEaf59Bd9e2725678df0b3cbC82bc8d364",
           "abi": [
             {
               "inputs": [],
@@ -2359,7 +2359,7 @@
           ]
         },
         "LTokenSignaler_Proxy": {
-          "address": "0x25A53e152C902EF74F74953ea1dcB3f497027a3B",
+          "address": "0x6A88b87aA4865e8d67D7CD32178bA03F885a088a",
           "abi": [
             {
               "inputs": [
@@ -2433,7 +2433,7 @@
           ]
         },
         "LUSDC": {
-          "address": "0x6Ac6cdEb4E5E8a8CA35448f39cA94105c8Bb1E30",
+          "address": "0x1e1B0bB6C182eFD7d64cdAbbF3A3E315dE26E259",
           "abi": [
             {
               "anonymous": false,
@@ -3761,7 +3761,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0x4Ff2c93F69217df94194A360BeFe05566aF5806a",
+          "address": "0x9466891d9E77eAD21D8445350c51ecD35fd170bF",
           "abi": [
             {
               "anonymous": false,
@@ -5065,7 +5065,7 @@
           ]
         },
         "LUSDC_Proxy": {
-          "address": "0x6Ac6cdEb4E5E8a8CA35448f39cA94105c8Bb1E30",
+          "address": "0x1e1B0bB6C182eFD7d64cdAbbF3A3E315dE26E259",
           "abi": [
             {
               "inputs": [
@@ -5139,7 +5139,7 @@
           ]
         },
         "PreMining": {
-          "address": "0x94699c1b5dD210e4881b975b8Dc0AEac9136A704",
+          "address": "0x2Bb79F621518BbA45dA5Ec57BC885C4686A60De9",
           "abi": [
             {
               "inputs": [
