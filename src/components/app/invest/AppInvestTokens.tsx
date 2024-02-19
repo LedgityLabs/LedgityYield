@@ -261,12 +261,26 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             const _tableData: Pool[] = [];
 
             while (data.length !== 0) {
+              let lTokenSymbol: string;
+              let decimals: number;
+              let tvl: bigint;
+              let apr: number;
+              let investedAmount: bigint;
+
               // Retrieve L-Token current chain data
-              const lTokenSymbol = data.shift()!.result! as string;
-              const decimals = data.shift()!.result! as number;
-              let tvl = data.shift()!.result! as bigint;
-              const apr = data.shift()!.result! as number;
-              const investedAmount = data.shift()!.result! as bigint;
+              try {
+                lTokenSymbol = data.shift()!.result! as string;
+                decimals = data.shift()!.result! as number;
+                tvl = data.shift()!.result! as bigint;
+                apr = data.shift()!.result! as number;
+                investedAmount = data.shift()!.result! as bigint;
+              } catch (e) {
+                if (e instanceof TypeError) continue;
+                else throw e;
+              }
+
+              // Continue if L-Token is not available on current chain
+              if (!lTokenSymbol) continue;
 
               // Accumulate other chain TVLs too
               for (const chainId of availableChains) {
@@ -288,8 +302,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
 
               // Build underlying symbol
               if (!lTokenSymbol) console.log(data);
-             
-           
+
               const underlyingSymbol = lTokenSymbol.slice(1);
               // Push data to table data
               _tableData.push({

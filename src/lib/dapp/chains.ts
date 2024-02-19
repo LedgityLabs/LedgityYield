@@ -14,7 +14,6 @@ export const chainsIcons = {
 const okcTestnet: Chain = {
   id: 195,
   name: 'OKC X1 Testnet',
-  network: 'okc-X1-testnet',
   nativeCurrency: {
     name: 'Testnet OKB',
     symbol: 'OKB', 
