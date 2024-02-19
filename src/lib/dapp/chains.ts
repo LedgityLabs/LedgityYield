@@ -29,7 +29,7 @@ const okcTestnet: Chain = {
   },
   testnet: true,
 };
-// Figure whether we're in dev or prod environment
+/// Figure whether we're in dev or prod environment
 let chainsEnv: "prod" | "dev" = "prod";
 if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
