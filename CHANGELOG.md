@@ -1,3 +1,10 @@
+## [1.245.6](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.5...v1.245.6) (2024-02-19)
+
+
+### Fixes
+
+* trigger release ([8d8aef2](https://github.com/LedgityLabs/LedgityYield/commit/8d8aef2062a2a1b251e33524c5159b4667b4e7b2))
+
 ## [1.245.5](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.4...v1.245.5) (2024-02-18)
 
 
