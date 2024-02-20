@@ -1,6 +1,6 @@
 import { hardhat, arbitrum, arbitrumGoerli, lineaTestnet, linea, Chain } from "@wagmi/core/chains";
 
-//Build chain icons map
+// Build chain icons map
 export const chainsIcons = {
   31337: "/assets/chains/hardhat.svg",
   421613: "/assets/chains/arbitrum-goerli.png",
