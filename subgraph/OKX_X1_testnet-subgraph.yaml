@@ -1,0 +1,57 @@
+specVersion: 0.0.6
+description: A subgraph of Ledgity Yield data
+repository: https://github.com/LedgityLabs/LedgityYield
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: LTokenSignaler
+    network: xgon
+    source:
+      address: "0x6A88b87aA4865e8d67D7CD32178bA03F885a088a"
+      abi: LTokenSignaler
+      startBlock: 10172276
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LToken
+      abis:
+        - name: LTokenSignaler
+          file: ../contracts/abis/LTokenSignaler.json
+        - name: LToken
+          file: ../contracts/abis/LToken.json
+      eventHandlers:
+        - event: LTokenSignalEvent(indexed address)
+          handler: handleSignaledLToken
+templates:
+  - kind: ethereum/contract
+    name: LToken
+    network: xgon
+    source:
+      abi: LToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LToken
+        - TVLChange
+        - APRChange
+        - Activity
+        - RewardsMint
+      abis:
+        - name: LToken
+          file: ../contracts/abis/LToken.json
+      eventHandlers:
+        - event: TVLChangeEvent(uint256)
+          handler: handleTVLChangeEvent
+        - event: APRChangeEvent(uint16)
+          handler: handleAPRChangeEvent
+        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint256,uint8,int256)
+          handler: handleActivityEvent
+        - event: MintedRewardsEvent(indexed address,uint256,uint256)
+          handler: handleMintedRewardsEvent
