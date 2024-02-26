@@ -5,6 +5,8 @@ import "../../lib/forge-std/src/Test.sol";
 import {SUD} from "../../../src/libs/SUD.sol";
 import {GenericERC20} from "../../../src/GenericERC20.sol";
 
+import {ModifiersExpectations} from "../_helpers/ModifiersExpectations.sol";
+
 contract Tests is Test {
     // =============================
     // === decimalsOf() function ===
@@ -82,9 +84,7 @@ contract Tests is Test {
     // ===========================
     // === toAmount() function ===
     function testFuzz_toAmount_1(uint8 decimals, uint256 nSUD) public {
-        console.log(
-            "Should return convert an UD71x6 to amount if decimals <3 (non-underflow cases)"
-        );
+        console.log("Should convert an UD71x6 to amount if decimals <3 (non-underflow cases)");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
@@ -201,7 +201,7 @@ contract Tests is Test {
     // =========================
     // === toRate() function ===
     function testFuzz_toRate_1(uint8 decimals, uint256 nSUD) public {
-        console.log("Should return convert an UD71x6 to rate if decimals <3 (non-underflow cases)");
+        console.log("Should convert an UD71x6 to rate if decimals <3 (non-underflow cases)");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));
@@ -311,14 +311,13 @@ contract Tests is Test {
         // Assert that it reverts
         vm.expectRevert(stdError.arithmeticError);
         SUD.fromInt(n, decimals);
+        SUD.toInt(n, decimals);
     }
 
     // =========================
     // === toInt() function ===
     function testFuzz_toInt_1(uint8 decimals, uint256 n) public {
-        console.log(
-            "Should return convert an UD71x6 to integer if decimals <3 (non-underflow cases)"
-        );
+        console.log("Should convert an UD71x6 to integer if decimals <3 (non-underflow cases)");
 
         // Bound decimals to [0, 2]
         decimals = uint8(bound(decimals, 0, 2));

@@ -10,9 +10,8 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Maintains a global mapping of blacklisted accounts on-chain. All contracts
- * within the Ledgity Yield codebase reference this mapping to prevent access by
- * blacklisted accounts.
+ * @notice Holds a global mapping of blacklisted accounts shared by all contracts of the
+ * Ledgity Yield codebase.
  *
  * @dev Specifically, some contracts within the codebase inherit from the
  * GlobalRestrictableUpgradeable abstract contract. This provides them with modifiers

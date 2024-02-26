@@ -67,7 +67,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.owner(), address(1234));
     }
 
-    // ============================
+    // ==========================
     // === onlyOwner modifier ===
     function test_onlyOwner_1() public {
         console.log("Should allow calls from owner");

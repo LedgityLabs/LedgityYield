@@ -117,6 +117,17 @@ contract TestedContract is LToken {
     function public_withdrawalQueueCursor() public view returns (uint256) {
         return withdrawalQueueCursor;
     }
+
+    function public_frozenRequestsLength() public view returns (uint256) {
+        return frozenRequests.length;
+    }
+}
+
+// Contract used to simulate a failing ETH transfer
+contract FailingReceiver {
+    fallback() external payable {
+        revert("Failing intentionally");
+    }
 }
 
 contract Tests is Test, ModifiersExpectations {
@@ -262,6 +273,17 @@ contract Tests is Test, ModifiersExpectations {
     function test_initialize_7() public {
         console.log("Should initialize retention rate to 10%");
         assertEq(tested.retentionRateUD7x3(), 10_000);
+    }
+
+    // =========================
+    // === paused() function ===
+    function test_paused_1() public {
+        console.log("Should return state of the global pause contract");
+        assertEq(tested.paused(), false);
+        globalPause.pause();
+        assertEq(tested.paused(), true);
+        globalPause.unpause();
+        assertEq(tested.paused(), false);
     }
 
     // ===============================
@@ -575,8 +597,28 @@ contract Tests is Test, ModifiersExpectations {
 
     // ================================
     // === realBalanceOf() function ===
-    // No tests needed as it simply proxies super.balanceOf()
-    // Low priority TODO: Add mirror tests for future safety
+    function testFuzz_realBalance_1(uint16 aprUD7x3, address account, uint256 amount) public {
+        console.log("Should mirror changes in super.balanceOf");
+
+        // Set a first random APR
+        tested.setAPR(aprUD7x3);
+
+        // Assert that accounts are different, aren't zero address nor the contract address
+        vm.assume(account != address(0));
+        vm.assume(account != address(tested));
+
+        // Cap amount to [2, 100T]
+        amount = bound(amount, 2, 100_000_000_000_000 * 10 ** underlyingToken.decimals());
+
+        // Give some L-Tokens to account1
+        deal(address(underlyingToken), account, amount, true);
+        vm.startPrank(account);
+        underlyingToken.approve(address(tested), amount);
+        tested.deposit(amount);
+        vm.stopPrank();
+
+        assertEq(tested.realBalanceOf(account), amount);
+    }
 
     // ============================
     // === balanceOf() function ===
@@ -2334,7 +2376,7 @@ contract Tests is Test, ModifiersExpectations {
         accountBase = uint160(bound(accountBase, 1, type(uint160).max - numberOfRequests));
 
         // Get the interval of blacklisted requests
-        uint256 blacklistInterval = bound(randomBlacklistSeed, 1, 5);
+        uint256 blacklistInterval = bound(randomBlacklistSeed, 1, numberOfRequests);
 
         // Create random number of requests, and blacklist some of them
         uint256[50] memory blacklistedRequestsIds;
@@ -2396,6 +2438,10 @@ contract Tests is Test, ModifiersExpectations {
             assertEq(underlyingToken.balanceOf(account), 0);
         }
 
+        // Assert that blacklisted addresses' requests are well in the frozen requests
+        assertGt(tested.public_frozenRequestsLength(), 0);
+        assertEq(blacklistedRequestsIdsLength, tested.public_frozenRequestsLength());
+
         // Assert that the cumulated frozen amount remains queued
         assertEq(tested.totalQueued(), blacklistedRequestsIdsLength * requestAmount);
     }
@@ -2403,12 +2449,98 @@ contract Tests is Test, ModifiersExpectations {
     function testFuzz_processQueuedRequests_6(
         uint8 decimals,
         uint16 aprUD7x3,
+        uint256 totalDeposited
+    ) public {
+        console.log("Should silently a big request at the end of the queue");
+
+        // Set random underlying token decimals in [0, 18]
+        decimals = uint8(bound(decimals, 0, 18));
+        underlyingToken.setDecimals(decimals);
+
+        // Set first random APR
+        tested.setAPR(aprUD7x3);
+
+        // Set retention rate to 10%
+        tested.tool_setRetentionRate(uint32(10 * 10 ** 3));
+
+        // Set no fees
+        tested.setFeesRate(0);
+
+        // Cap totalDeposited to uint96.max which is the maximum amount of underlying tokens that can be requested at once
+        // totalDeposited = bound(totalDeposited, 1, type(uint96).max - 30);
+        totalDeposited = 1_000 * 10 ** decimals;
+
+        // Split total deposited in 90%, 8% and 2%, 8% will be used to create a big request, and 2% to create a small requests
+        uint256 baseTVLAmount = (totalDeposited * 90) / 100;
+        uint256 bigRequestAmount = (totalDeposited * 9) / 100;
+        uint256 smallRequestAmount = (totalDeposited * 1) / 100;
+
+        // Create three depositors for each amount
+        address baseTVLDepositor = address(1234);
+        address bigRequestDepositor = address(4321);
+        address smallRequestDepositor = address(1342);
+
+        // Deposit base TVL amount
+        deal(address(underlyingToken), baseTVLDepositor, baseTVLAmount, true);
+        vm.startPrank(baseTVLDepositor);
+        underlyingToken.approve(address(tested), baseTVLAmount);
+        tested.deposit(baseTVLAmount);
+        vm.stopPrank();
+
+        // Deposit big request amount
+        deal(address(underlyingToken), bigRequestDepositor, bigRequestAmount, true);
+        vm.startPrank(bigRequestDepositor);
+        underlyingToken.approve(address(tested), bigRequestAmount);
+        tested.deposit(bigRequestAmount);
+        vm.stopPrank();
+
+        // Deposit small request amount
+        deal(address(underlyingToken), smallRequestDepositor, smallRequestAmount, true);
+        vm.startPrank(smallRequestDepositor);
+        underlyingToken.approve(address(tested), smallRequestAmount);
+        tested.deposit(smallRequestAmount);
+        vm.stopPrank();
+
+        // Assert L-Token supply is equal to total deposited amount
+        assertEq(tested.totalSupply(), totalDeposited);
+
+        uint256 processingFees = 0.003 ether;
+        // Request withdrawal of small amount
+        deal(smallRequestDepositor, processingFees);
+        vm.prank(smallRequestDepositor);
+        tested.requestWithdrawal{value: processingFees}(smallRequestAmount);
+
+        // Request withdrawal of big amount
+        deal(bigRequestDepositor, processingFees);
+        vm.prank(bigRequestDepositor);
+        tested.requestWithdrawal{value: processingFees}(bigRequestAmount);
+
+        // Store queue and cursor length for later comparison
+        uint256 oldQueueLength = tested.public_withdrawalQueueLength();
+
+        // Assert that queue length is equal to 2
+        assertEq(tested.public_withdrawalQueueLength(), 2);
+
+        // Proceed to batch queued withdraw
+        vm.prank(withdrawerWallet);
+        tested.processQueuedRequests();
+
+        // Assert that queue length have increase by 1, meaning that the big request has been deplaced at the end of the queue
+        assertEq(tested.public_withdrawalQueueLength(), oldQueueLength + 1);
+
+        // Assert that the cursor is equal to length meaning that the non-big requests has been processed
+        assertEq(tested.withdrawalQueueCursor(), oldQueueLength);
+    }
+
+    function testFuzz_processQueuedRequests_7(
+        uint8 decimals,
+        uint16 aprUD7x3,
         uint8 numberOfRequests,
         uint256 requestAmount,
         uint160 accountBase
     ) public {
         console.log(
-            "Should don't change any state if doesn't hold enough fund to cover first next request"
+            "Shouldn't change any state if doesn't hold enough fund to cover first next request"
         );
 
         // Set random underlying token decimals in [0, 18]
@@ -2473,7 +2605,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), oldTotalQueued);
     }
 
-    function testFuzz_processQueuedRequests_7(
+    function testFuzz_processQueuedRequests_8(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2551,7 +2683,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), expectedStillQueued);
     }
 
-    function testFuzz_processQueuedRequests_8(
+    function testFuzz_processQueuedRequests_9(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2643,7 +2775,7 @@ contract Tests is Test, ModifiersExpectations {
         }
     }
 
-    function testFuzz_processQueuedRequests_9(
+    function testFuzz_processQueuedRequests_10(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2723,7 +2855,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.withdrawalQueueCursor(), oldQueueLength);
     }
 
-    function testFuzz_processQueuedRequests_10(
+    function testFuzz_processQueuedRequests_11(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2809,7 +2941,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.unclaimedFees(), expectedUnclaimedFees);
     }
 
-    function testFuzz_processQueuedRequests_11(
+    function testFuzz_processQueuedRequests_12(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2895,7 +3027,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.usableUnderlyings(), oldUsableUnderlyings - expectedDecrease);
     }
 
-    function testFuzz_processQueuedRequests_12(
+    function testFuzz_processQueuedRequests_13(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -2975,7 +3107,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), oldTotalQueued - expectedDecrease);
     }
 
-    function testFuzz_processQueuedRequests_13(
+    function testFuzz_processQueuedRequests_14(
         uint8 decimals,
         uint16 aprUD7x3,
         uint8 numberOfRequests,
@@ -3044,7 +3176,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.withdrawalQueueCursor(), tested.public_withdrawalQueueLength());
     }
 
-    function test_processQueuedRequests_14() public {
+    function test_processQueuedRequests_15() public {
         console.log("Should never revert from out of gas and properly end instead");
 
         // Set decimals to 18
@@ -3120,6 +3252,62 @@ contract Tests is Test, ModifiersExpectations {
         uint16 feesRateUD7x3,
         uint256 amount
     ) public {
+        console.log("Should revert if request already processed or cancelled (inactive)");
+
+        // Set random underlying token decimals in [0, 18]
+        decimals = uint8(bound(decimals, 0, 18));
+        underlyingToken.setDecimals(decimals);
+
+        // Ensure account are neither the zero address nor the L-Token contract
+        vm.assume(account != address(0));
+        vm.assume(account != address(tested));
+
+        // Set first random APR
+        tested.setAPR(aprUD7x3);
+
+        // Cap retention rate to 100%
+        retentionRateUD7x3 = uint32(bound(retentionRateUD7x3, 0, 100 * 10 ** 3));
+
+        // Set random retention rate
+        tested.tool_setRetentionRate(retentionRateUD7x3);
+
+        // Set random fees rate
+        tested.setFeesRate(feesRateUD7x3);
+
+        // Prevent amount from overflowing max withdrawal request amount
+        amount = bound(amount, 1, type(uint96).max);
+
+        // Deposit random amount
+        deal(address(underlyingToken), account, amount, true);
+        vm.startPrank(account);
+        underlyingToken.approve(address(tested), amount);
+        tested.deposit(amount);
+        vm.stopPrank();
+
+        // Request withdrawal for the big amount
+        uint256 processingFees = 0.003 ether;
+        deal(account, processingFees);
+        vm.prank(account);
+        tested.requestWithdrawal{value: processingFees}(amount);
+
+        // Cancel request
+        vm.prank(account);
+        tested.cancelWithdrawalRequest(0);
+
+        // Expect error when trying to process the inactive queued withdrawal
+        vm.expectRevert(bytes("L66"));
+        vm.prank(address(fundWallet));
+        tested.processBigQueuedRequest(0);
+    }
+
+    function testFuzz_processBigQueuedRequest_4(
+        uint8 decimals,
+        address account,
+        uint16 aprUD7x3,
+        uint32 retentionRateUD7x3,
+        uint16 feesRateUD7x3,
+        uint256 amount
+    ) public {
         console.log("Should revert if request emitter has been blacklisted since emission");
 
         // Set random underlying token decimals in [0, 18]
@@ -3167,7 +3355,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.processBigQueuedRequest(0);
     }
 
-    function testFuzz_processBigQueuedRequest_4(
+    function testFuzz_processBigQueuedRequest_5(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3223,7 +3411,7 @@ contract Tests is Test, ModifiersExpectations {
         tested.processBigQueuedRequest(0);
     }
 
-    function testFuzz_processBigQueuedRequest_5(
+    function testFuzz_processBigQueuedRequest_6(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3295,7 +3483,7 @@ contract Tests is Test, ModifiersExpectations {
         vm.stopPrank();
     }
 
-    function testFuzz_processBigQueuedRequest_6(
+    function testFuzz_processBigQueuedRequest_7(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3369,7 +3557,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(underlyingToken.balanceOf(account), oldAccountBalance + withdrawnAmount);
     }
 
-    function testFuzz_processBigQueuedRequest_7(
+    function testFuzz_processBigQueuedRequest_8(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3440,7 +3628,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(underlyingToken.balanceOf(account), amount);
     }
 
-    function testFuzz_processBigQueuedRequest_8(
+    function testFuzz_processBigQueuedRequest_9(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3497,7 +3685,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.unclaimedFees(), expectedFees);
     }
 
-    function testFuzz_processBigQueuedRequest_9(
+    function testFuzz_processBigQueuedRequest_10(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3556,7 +3744,7 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.totalQueued(), oldTotalQueued - amount);
     }
 
-    function testFuzz_processBigQueuedRequest_10(
+    function testFuzz_processBigQueuedRequest_11(
         uint8 decimals,
         address account,
         uint16 aprUD7x3,
@@ -3966,16 +4154,6 @@ contract Tests is Test, ModifiersExpectations {
         tested.requestWithdrawal{value: processingFees}(requestedAmount1);
         vm.stopPrank();
 
-        // // Ensure account 2 is elligible to staking tier 2
-        // uint256 tier2Amount = 10;
-        // deal(address(ldyToken), account2, tier2Amount, true);
-        // ldyStaking.setTier(2, tier2Amount);
-        // vm.startPrank(account2);
-        // ldyToken.approve(address(ldyStaking), tier2Amount);
-        // ldyStaking.stake(uint216(tier2Amount));
-        // vm.stopPrank();
-        // assertEq(ldyStaking.tierOf(account2), 2);
-
         // Add address to dummy LDYStaking high tier addresses
         ldyStaking.setHighTierAccount(account2, true);
 
@@ -4124,6 +4302,91 @@ contract Tests is Test, ModifiersExpectations {
 
         // Assert that totalQueued has increased by the requested amount
         assertEq(tested.totalQueued(), requestedAmount);
+    }
+
+    function testFuzz_requestWithdrawal_12(
+        uint8 decimals,
+        address account,
+        uint16 aprUD7x3,
+        uint256 requestedAmount
+    ) public {
+        console.log("Should properly transfer processing fees to Withdrawer");
+        // Set random underlying token decimals in [0, 18]
+        decimals = uint8(bound(decimals, 0, 18));
+        underlyingToken.setDecimals(decimals);
+
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+        vm.assume(account != address(tested));
+
+        // Set first random APR
+        tested.setAPR(aprUD7x3);
+
+        // Cap requested amount to max withdrawal request amount
+        requestedAmount = bound(requestedAmount, 1, type(uint96).max);
+
+        // Deposit requested amount
+        deal(address(underlyingToken), account, requestedAmount, true);
+        vm.startPrank(account);
+        underlyingToken.approve(address(tested), requestedAmount);
+        tested.deposit(requestedAmount);
+        vm.stopPrank();
+
+        // Mint processing fees to account
+        uint256 processingFees = 0.003 ether;
+        deal(account, processingFees);
+
+        // Assert that Withdrawer Ether balance is 0
+        assertEq(withdrawerWallet.balance, 0);
+
+        // Request withdrawal
+        vm.prank(account);
+        tested.requestWithdrawal{value: processingFees}(requestedAmount);
+
+        // Assert that Withdrawer Ether balance is now 0.003ETH
+        assertEq(withdrawerWallet.balance, processingFees);
+    }
+
+    function testFuzz_requestWithdrawal_13(
+        uint8 decimals,
+        address account,
+        uint16 aprUD7x3,
+        uint256 requestedAmount
+    ) public {
+        console.log("Should properly revert if transfer processing fees to Withdrawer fails");
+        // Set random underlying token decimals in [0, 18]
+        decimals = uint8(bound(decimals, 0, 18));
+        underlyingToken.setDecimals(decimals);
+
+        // Ensure account is not the zero address
+        vm.assume(account != address(0));
+        vm.assume(account != address(tested));
+
+        // Set first random APR
+        tested.setAPR(aprUD7x3);
+
+        // Cap requested amount to max withdrawal request amount
+        requestedAmount = bound(requestedAmount, 1, type(uint96).max);
+
+        // Deposit requested amount
+        deal(address(underlyingToken), account, requestedAmount, true);
+        vm.startPrank(account);
+        underlyingToken.approve(address(tested), requestedAmount);
+        tested.deposit(requestedAmount);
+        vm.stopPrank();
+
+        // Mint processing fees to account
+        uint256 processingFees = 0.003 ether;
+        deal(account, processingFees);
+
+        // Set withdrawer to a contract that reverts on receive
+        FailingReceiver failingWithdrawer = new FailingReceiver();
+        tested.setWithdrawer(payable(address(failingWithdrawer)));
+
+        // Request withdrawal
+        vm.expectRevert(bytes("L56"));
+        vm.prank(account);
+        tested.requestWithdrawal{value: processingFees}(requestedAmount);
     }
 
     // ====================================

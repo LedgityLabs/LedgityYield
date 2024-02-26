@@ -10,12 +10,13 @@ import {GlobalPause} from "../GlobalPause.sol";
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Derived contracts will inherit pause state from the specified GlobalPause
+ * @notice Derived contracts will inherit a pause state from the specified GlobalPause
  * contract (see GlobalPause.sol). This design facilitates centralized management of
  * pause state for all the Ledgity Yield contracts.
  *
- * @dev Note: The _globalPause state must be set at initialization-time and for evident
- * security reasons cannot be changed afterwards.
+ * @dev Security measure
+ * The _globalPause state must be set at initialization time and, for evident security
+ * reasons, cannot be changed afterward.
  *
  * @dev For further details, see "GlobalPausableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com

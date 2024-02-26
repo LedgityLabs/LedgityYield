@@ -14,8 +14,9 @@ import {GlobalOwner} from "../GlobalOwner.sol";
  * contract (see GlobalOwner.sol). This design facilitates centralized management
  * of ownership for all the Ledgity Yield contracts.
  *
- * @dev Note: The _globalOwner state must be set at initialization-time and for evident
- * security reasons cannot be changed afterwards.
+ * @dev Security measure:
+ * The _globalOwner state must be set at initialization time and, for evident security
+ * reasons, cannot be changed afterward.
  *
  * @dev For further details, see "GlobalOwnableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com

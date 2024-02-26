@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "cc:test": "forge test -vvv --use 0.8.18",
-    "cc:coverage": "forge coverage",
+    "cc:coverage": "bash scripts/coverage.sh",
     "cc:size": "hardhat size-contracts",
     "cc:slither:report": "slither . --compile-force-framework hardhat --checklist > report.md ",
     "cc:slither:triage": "slither . --compile-force-framework hardhat --triage-mode",

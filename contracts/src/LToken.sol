@@ -21,7 +21,7 @@ import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Main contract of the Ledgity Yield protocol. It powers every L-Token (i.e,
+ * @notice Main contract of the Ledgity Yield protocol. It powers every L-Token (i.e.,
  * investment pools backed by RWA). An L-Token is an ERC20 wrapper around a stablecoin.
  * As soon as a wallet holds some L-Tokens, it starts receiving rewards in
  * the form of additional L-Tokens, which are auto-compounded over time.
@@ -30,14 +30,14 @@ import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
  * - Deposit: Swap of underlying tokens for L-Tokens (1:1 ratio).
  * - Withdrawal: Swap of L-Tokens for underlying tokens (1:1 ratio, minus applicable fees).
  *   - Instant: Processed immediately.
- *   - Requested: Queued for later processing.
- *   - Big Requested: A requested withdrawal exceeding half of the retention rate.
- * - (Withdrawal) queue: An list of all requested withdrawals sorted by priority.
+ *   - Request: Queued for later processing.
+ *   - Big Request: A requested withdrawal exceeding half of the retention rate.
+ * - (Withdrawal) queue: A list of all requested withdrawals sorted by priority.
  * - Request ID: The index of a withdrawal request in the queue array.
- * - Retention rate: Maximum fraction of underlying tokens TVL that the contract can retain.
+ * - Retention rate: Maximum fraction of underlying tokens TVL the contract can retain.
  * - Fees Rate: Percentage of fees applied to successful withdrawals.
  * - Usable underlyings: Amount of underlying tokens that have been deposited through
- *                       expected ways and are so considered as safe to use by the contract.
+ *                       expected ways and are so considered safe to use by the contract.
  * - Transfers listeners: External contracts listening on L-Tokens transfers.
  * - Fund wallet: Wallet managed by the Ledgity's financial team.
  * - Withdrawer wallet: Managed by an off-chain server to automate withdrawal request
@@ -45,9 +45,10 @@ import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
  *
  * Note that words between parenthesis are sometimes omitted for brevity.
  *
- * @dev Security: This contract can safely receive funds immediately after initialization.
- * (i.e., there is no way for funds to be sent to non-owned addresses). It is however
- * recommended to replace ASAP owner and fund wallets by multi-sig wallets.
+ * @dev Deployment notice:
+ * This contract can safely receive funds immediately after initialization. (i.e., there
+ * is no way for funds to be sent to non-owned addresses). It is, however, recommended to
+ * replace ASAP owner and fund wallets with multi-sig wallets.
  *
  * @dev For further details, see "LToken" section of whitepaper.
  * @custom:oz-upgrades-unsafe-allow external-library-linking

@@ -23,6 +23,10 @@ contract TestedContract is BaseUpgradeable {
     function public_authorizeUpgrade(address newImplementation) public {
         _authorizeUpgrade(newImplementation);
     }
+
+    function public___Base_init_unchained() public {
+        __Base_init_unchained();
+    }
 }
 
 contract Tests is Test, ModifiersExpectations {
@@ -91,5 +95,13 @@ contract Tests is Test, ModifiersExpectations {
         vm.prank(address(1234));
         expectRevertOnlyOwner();
         tested.public_authorizeUpgrade(address(0));
+    }
+
+    // ========================================
+    // === __Base_init_unchained() function ===
+    function test___Base_init_unchained_1() public {
+        console.log("Should revert if called by after initialization");
+        vm.expectRevert(bytes("Initializable: contract is not initializing"));
+        tested.public___Base_init_unchained();
     }
 }

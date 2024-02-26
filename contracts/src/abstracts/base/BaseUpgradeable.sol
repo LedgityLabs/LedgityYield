@@ -13,8 +13,8 @@ import {RecoverableUpgradeable} from "../RecoverableUpgradeable.sol";
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice This abstract contract acts as a base for numerous contracts contract in this
- * codebase, minimizing code repetition and enhancing readability and maintainability.
+ * @notice This abstract contract acts as a base for numerous contracts in this codebase,
+ * minimizing code repetition and enhancing readability and maintainability.
  *
  * @dev For further details, see "Base" section of whitepaper.
  * @custom:security-contact security@ledgity.com

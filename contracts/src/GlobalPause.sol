@@ -11,7 +11,7 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Maintains a global pause state shared by all contracts of the Ledgity Yield
+ * @notice Holds a global pause state shared by all contracts of the Ledgity Yield
  * codebase.
  *
  * @dev Specifically, some contracts within the codebase inherit from the

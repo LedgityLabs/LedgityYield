@@ -93,7 +93,7 @@ contract TestedContract is InvestUpgradeable {
     }
 
     function public_distributeRewards(address account, uint256 amount) public returns (bool) {
-        return _distributeRewards(account, amount);
+        return InvestUpgradeable._distributeRewards(account, amount);
     }
 
     function public_calculatePeriodRewards(

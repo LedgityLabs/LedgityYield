@@ -6,17 +6,18 @@ pragma solidity ^0.8.18;
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice This library offers utilities to efficiently maintain on chain, the history of
- * an APR (Annual Percentage Rate). Each entry in this history is called a "checkpoint".
+ * @notice This library offers utilities to efficiently maintain the history of an
+ * on-chain APR (Annual Percentage Rate) state. Each entry in this history is called
+ * a "checkpoint".
  *
  * @dev Intuition:
- * Each checkpoint in an APR history consists in two data:
+ * Each checkpoint in an APR history consists of two data:
  * - the creation timestamp
  * - the APR at that time
  *
- * Given that reads and writes to storage slots are among the most costly operations in
- * Solidity, this library provides a way to store those data on chain in a way that
- * minimizes the number of used storage slots.
+ * Given that reading and writing to storage slots are among the most costly operations
+ * in Solidity, this library provides a way to store those data in a way that minimizes
+ * the number of used storage slots.
  *
  * Instead of storing each checkpoint in a separate storage slot, this library
  * facilitates the packing of up to 4 checkpoints in a single storage slot.
@@ -28,8 +29,9 @@ pragma solidity ^0.8.18;
  * - Reference: A storage pointer to a checkpoint in the APR history
  * - CheckpointData: An in-memory representation of a checkpoint data
  *
- * @dev Limitation: This library can accommodate APRs only up to 65.536%. This is however
- * sufficient for APR in LToken contract, which is expected to remain below 10%.
+ * @dev Value limitation:
+ * This library can accommodate APRs only up to 65.536%. This is however sufficient for
+ * APR in LToken contract, which is expected to remain below 10%.
  *
  * @dev For further details, see "APRHistory" section of whitepaper.
  * @custom:security-contact security@ledgity.com
