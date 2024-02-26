@@ -33,4 +33,4 @@ jobs:
           version: nightly
 
       - name: Run tests
-        run: pnpm cc:test
+        run: bun cc:test
