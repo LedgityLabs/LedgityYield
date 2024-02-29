@@ -44,9 +44,9 @@ contracts/hardhat/cache
 contracts/hardhat/artifacts
 
 # TheGraph
-subgraph/build
-subgraph/generated
-subgraph/local-node/data
+#subgraph/build
+#subgraph/generated
+#subgraph/local-node/data
 
 # Foundry (TOCONTINUE)
 # Compiler files
