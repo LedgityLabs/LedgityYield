@@ -9,7 +9,7 @@ import { watchBlockNumber, readContracts } from "@wagmi/core";
 import { config } from "@/lib/dapp/config";
 import { useCurrentChain } from "@/hooks/useCurrentChain";
 
-const availableChains = [42161, 59144];
+const availableChains = [42161, 59144,195];
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
