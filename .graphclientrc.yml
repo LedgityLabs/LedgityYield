@@ -22,6 +22,17 @@ sources:
           includeRootOperations: true
           includeTypes: false
 
+  - name: OKX_X1_Testnet
+    handler:
+      graphql:
+        endpoint: https://www.okx.com/api/v1/x1-testnet/index/subgraphs/name/LedgityLabs/LedgityYield
+    transforms:
+      - prefix:
+          mode: wrap
+          value: "x59144_"
+          includeRootOperations: true
+          includeTypes: false
+
   # - name: localhost
   #   handler:
   #     graphql:
