@@ -363,31 +363,31 @@ export type PreMiningLock_orderBy =
   | 'duration';
 
 export type Query = {
-  x59144_ltoken?: Maybe<LToken>;
-  x59144_ltokens: Array<LToken>;
-  x59144_tvlchange?: Maybe<TVLChange>;
-  x59144_tvlchanges: Array<TVLChange>;
-  x59144_aprchange?: Maybe<APRChange>;
-  x59144_aprchanges: Array<APRChange>;
-  x59144_activity?: Maybe<Activity>;
-  x59144_activities: Array<Activity>;
-  x59144_rewardsMint?: Maybe<RewardsMint>;
-  x59144_rewardsMints: Array<RewardsMint>;
-  x59144_preMiningLock?: Maybe<PreMiningLock>;
-  x59144_preMiningLocks: Array<PreMiningLock>;
+  c195_ltoken?: Maybe<LToken>;
+  c195_ltokens: Array<LToken>;
+  c195_tvlchange?: Maybe<TVLChange>;
+  c195_tvlchanges: Array<TVLChange>;
+  c195_aprchange?: Maybe<APRChange>;
+  c195_aprchanges: Array<APRChange>;
+  c195_activity?: Maybe<Activity>;
+  c195_activities: Array<Activity>;
+  c195_rewardsMint?: Maybe<RewardsMint>;
+  c195_rewardsMints: Array<RewardsMint>;
+  c195_preMiningLock?: Maybe<PreMiningLock>;
+  c195_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
-  x59144__meta?: Maybe<_Meta_>;
+  c195__meta?: Maybe<_Meta_>;
 };
 
 
-export type Queryx59144_ltokenArgs = {
+export type Queryc195_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryx59144_ltokensArgs = {
+export type Queryc195_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -398,14 +398,14 @@ export type Queryx59144_ltokensArgs = {
 };
 
 
-export type Queryx59144_tvlchangeArgs = {
+export type Queryc195_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryx59144_tvlchangesArgs = {
+export type Queryc195_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -416,14 +416,14 @@ export type Queryx59144_tvlchangesArgs = {
 };
 
 
-export type Queryx59144_aprchangeArgs = {
+export type Queryc195_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryx59144_aprchangesArgs = {
+export type Queryc195_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -434,14 +434,14 @@ export type Queryx59144_aprchangesArgs = {
 };
 
 
-export type Queryx59144_activityArgs = {
+export type Queryc195_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryx59144_activitiesArgs = {
+export type Queryc195_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -452,14 +452,14 @@ export type Queryx59144_activitiesArgs = {
 };
 
 
-export type Queryx59144_rewardsMintArgs = {
+export type Queryc195_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryx59144_rewardsMintsArgs = {
+export type Queryc195_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -470,14 +470,14 @@ export type Queryx59144_rewardsMintsArgs = {
 };
 
 
-export type Queryx59144_preMiningLockArgs = {
+export type Queryc195_preMiningLockArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryx59144_preMiningLocksArgs = {
+export type Queryc195_preMiningLocksArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<PreMiningLock_orderBy>;
@@ -488,7 +488,7 @@ export type Queryx59144_preMiningLocksArgs = {
 };
 
 
-export type Queryx59144__metaArgs = {
+export type Queryc195__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -584,31 +584,31 @@ export type RewardsMint_orderBy =
   | 'growth';
 
 export type Subscription = {
-  x59144_ltoken?: Maybe<LToken>;
-  x59144_ltokens: Array<LToken>;
-  x59144_tvlchange?: Maybe<TVLChange>;
-  x59144_tvlchanges: Array<TVLChange>;
-  x59144_aprchange?: Maybe<APRChange>;
-  x59144_aprchanges: Array<APRChange>;
-  x59144_activity?: Maybe<Activity>;
-  x59144_activities: Array<Activity>;
-  x59144_rewardsMint?: Maybe<RewardsMint>;
-  x59144_rewardsMints: Array<RewardsMint>;
-  x59144_preMiningLock?: Maybe<PreMiningLock>;
-  x59144_preMiningLocks: Array<PreMiningLock>;
+  c195_ltoken?: Maybe<LToken>;
+  c195_ltokens: Array<LToken>;
+  c195_tvlchange?: Maybe<TVLChange>;
+  c195_tvlchanges: Array<TVLChange>;
+  c195_aprchange?: Maybe<APRChange>;
+  c195_aprchanges: Array<APRChange>;
+  c195_activity?: Maybe<Activity>;
+  c195_activities: Array<Activity>;
+  c195_rewardsMint?: Maybe<RewardsMint>;
+  c195_rewardsMints: Array<RewardsMint>;
+  c195_preMiningLock?: Maybe<PreMiningLock>;
+  c195_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
-  x59144__meta?: Maybe<_Meta_>;
+  c195__meta?: Maybe<_Meta_>;
 };
 
 
-export type Subscriptionx59144_ltokenArgs = {
+export type Subscriptionc195_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionx59144_ltokensArgs = {
+export type Subscriptionc195_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -619,14 +619,14 @@ export type Subscriptionx59144_ltokensArgs = {
 };
 
 
-export type Subscriptionx59144_tvlchangeArgs = {
+export type Subscriptionc195_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionx59144_tvlchangesArgs = {
+export type Subscriptionc195_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -637,14 +637,14 @@ export type Subscriptionx59144_tvlchangesArgs = {
 };
 
 
-export type Subscriptionx59144_aprchangeArgs = {
+export type Subscriptionc195_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionx59144_aprchangesArgs = {
+export type Subscriptionc195_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -655,14 +655,14 @@ export type Subscriptionx59144_aprchangesArgs = {
 };
 
 
-export type Subscriptionx59144_activityArgs = {
+export type Subscriptionc195_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionx59144_activitiesArgs = {
+export type Subscriptionc195_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -673,14 +673,14 @@ export type Subscriptionx59144_activitiesArgs = {
 };
 
 
-export type Subscriptionx59144_rewardsMintArgs = {
+export type Subscriptionc195_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionx59144_rewardsMintsArgs = {
+export type Subscriptionc195_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -691,14 +691,14 @@ export type Subscriptionx59144_rewardsMintsArgs = {
 };
 
 
-export type Subscriptionx59144_preMiningLockArgs = {
+export type Subscriptionc195_preMiningLockArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionx59144_preMiningLocksArgs = {
+export type Subscriptionc195_preMiningLocksArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<PreMiningLock_orderBy>;
@@ -709,7 +709,7 @@ export type Subscriptionx59144_preMiningLocksArgs = {
 };
 
 
-export type Subscriptionx59144__metaArgs = {
+export type Subscriptionc195__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -809,31 +809,31 @@ export type _SubgraphErrorPolicy_ =
 
   export type QuerySdk = {
       /** null **/
-  x59144_ltoken: InContextSdkMethod<Query['x59144_ltoken'], Queryx59144_ltokenArgs, MeshContext>,
+  c195_ltoken: InContextSdkMethod<Query['c195_ltoken'], Queryc195_ltokenArgs, MeshContext>,
   /** null **/
-  x59144_ltokens: InContextSdkMethod<Query['x59144_ltokens'], Queryx59144_ltokensArgs, MeshContext>,
+  c195_ltokens: InContextSdkMethod<Query['c195_ltokens'], Queryc195_ltokensArgs, MeshContext>,
   /** null **/
-  x59144_tvlchange: InContextSdkMethod<Query['x59144_tvlchange'], Queryx59144_tvlchangeArgs, MeshContext>,
+  c195_tvlchange: InContextSdkMethod<Query['c195_tvlchange'], Queryc195_tvlchangeArgs, MeshContext>,
   /** null **/
-  x59144_tvlchanges: InContextSdkMethod<Query['x59144_tvlchanges'], Queryx59144_tvlchangesArgs, MeshContext>,
+  c195_tvlchanges: InContextSdkMethod<Query['c195_tvlchanges'], Queryc195_tvlchangesArgs, MeshContext>,
   /** null **/
-  x59144_aprchange: InContextSdkMethod<Query['x59144_aprchange'], Queryx59144_aprchangeArgs, MeshContext>,
+  c195_aprchange: InContextSdkMethod<Query['c195_aprchange'], Queryc195_aprchangeArgs, MeshContext>,
   /** null **/
-  x59144_aprchanges: InContextSdkMethod<Query['x59144_aprchanges'], Queryx59144_aprchangesArgs, MeshContext>,
+  c195_aprchanges: InContextSdkMethod<Query['c195_aprchanges'], Queryc195_aprchangesArgs, MeshContext>,
   /** null **/
-  x59144_activity: InContextSdkMethod<Query['x59144_activity'], Queryx59144_activityArgs, MeshContext>,
+  c195_activity: InContextSdkMethod<Query['c195_activity'], Queryc195_activityArgs, MeshContext>,
   /** null **/
-  x59144_activities: InContextSdkMethod<Query['x59144_activities'], Queryx59144_activitiesArgs, MeshContext>,
+  c195_activities: InContextSdkMethod<Query['c195_activities'], Queryc195_activitiesArgs, MeshContext>,
   /** null **/
-  x59144_rewardsMint: InContextSdkMethod<Query['x59144_rewardsMint'], Queryx59144_rewardsMintArgs, MeshContext>,
+  c195_rewardsMint: InContextSdkMethod<Query['c195_rewardsMint'], Queryc195_rewardsMintArgs, MeshContext>,
   /** null **/
-  x59144_rewardsMints: InContextSdkMethod<Query['x59144_rewardsMints'], Queryx59144_rewardsMintsArgs, MeshContext>,
+  c195_rewardsMints: InContextSdkMethod<Query['c195_rewardsMints'], Queryc195_rewardsMintsArgs, MeshContext>,
   /** null **/
-  x59144_preMiningLock: InContextSdkMethod<Query['x59144_preMiningLock'], Queryx59144_preMiningLockArgs, MeshContext>,
+  c195_preMiningLock: InContextSdkMethod<Query['c195_preMiningLock'], Queryc195_preMiningLockArgs, MeshContext>,
   /** null **/
-  x59144_preMiningLocks: InContextSdkMethod<Query['x59144_preMiningLocks'], Queryx59144_preMiningLocksArgs, MeshContext>,
+  c195_preMiningLocks: InContextSdkMethod<Query['c195_preMiningLocks'], Queryc195_preMiningLocksArgs, MeshContext>,
   /** Access to subgraph metadata **/
-  x59144__meta: InContextSdkMethod<Query['x59144__meta'], Queryx59144__metaArgs, MeshContext>
+  c195__meta: InContextSdkMethod<Query['c195__meta'], Queryc195__metaArgs, MeshContext>
   };
 
   export type MutationSdk = {
@@ -842,31 +842,31 @@ export type _SubgraphErrorPolicy_ =
 
   export type SubscriptionSdk = {
       /** null **/
-  x59144_ltoken: InContextSdkMethod<Subscription['x59144_ltoken'], Subscriptionx59144_ltokenArgs, MeshContext>,
+  c195_ltoken: InContextSdkMethod<Subscription['c195_ltoken'], Subscriptionc195_ltokenArgs, MeshContext>,
   /** null **/
-  x59144_ltokens: InContextSdkMethod<Subscription['x59144_ltokens'], Subscriptionx59144_ltokensArgs, MeshContext>,
+  c195_ltokens: InContextSdkMethod<Subscription['c195_ltokens'], Subscriptionc195_ltokensArgs, MeshContext>,
   /** null **/
-  x59144_tvlchange: InContextSdkMethod<Subscription['x59144_tvlchange'], Subscriptionx59144_tvlchangeArgs, MeshContext>,
+  c195_tvlchange: InContextSdkMethod<Subscription['c195_tvlchange'], Subscriptionc195_tvlchangeArgs, MeshContext>,
   /** null **/
-  x59144_tvlchanges: InContextSdkMethod<Subscription['x59144_tvlchanges'], Subscriptionx59144_tvlchangesArgs, MeshContext>,
+  c195_tvlchanges: InContextSdkMethod<Subscription['c195_tvlchanges'], Subscriptionc195_tvlchangesArgs, MeshContext>,
   /** null **/
-  x59144_aprchange: InContextSdkMethod<Subscription['x59144_aprchange'], Subscriptionx59144_aprchangeArgs, MeshContext>,
+  c195_aprchange: InContextSdkMethod<Subscription['c195_aprchange'], Subscriptionc195_aprchangeArgs, MeshContext>,
   /** null **/
-  x59144_aprchanges: InContextSdkMethod<Subscription['x59144_aprchanges'], Subscriptionx59144_aprchangesArgs, MeshContext>,
+  c195_aprchanges: InContextSdkMethod<Subscription['c195_aprchanges'], Subscriptionc195_aprchangesArgs, MeshContext>,
   /** null **/
-  x59144_activity: InContextSdkMethod<Subscription['x59144_activity'], Subscriptionx59144_activityArgs, MeshContext>,
+  c195_activity: InContextSdkMethod<Subscription['c195_activity'], Subscriptionc195_activityArgs, MeshContext>,
   /** null **/
-  x59144_activities: InContextSdkMethod<Subscription['x59144_activities'], Subscriptionx59144_activitiesArgs, MeshContext>,
+  c195_activities: InContextSdkMethod<Subscription['c195_activities'], Subscriptionc195_activitiesArgs, MeshContext>,
   /** null **/
-  x59144_rewardsMint: InContextSdkMethod<Subscription['x59144_rewardsMint'], Subscriptionx59144_rewardsMintArgs, MeshContext>,
+  c195_rewardsMint: InContextSdkMethod<Subscription['c195_rewardsMint'], Subscriptionc195_rewardsMintArgs, MeshContext>,
   /** null **/
-  x59144_rewardsMints: InContextSdkMethod<Subscription['x59144_rewardsMints'], Subscriptionx59144_rewardsMintsArgs, MeshContext>,
+  c195_rewardsMints: InContextSdkMethod<Subscription['c195_rewardsMints'], Subscriptionc195_rewardsMintsArgs, MeshContext>,
   /** null **/
-  x59144_preMiningLock: InContextSdkMethod<Subscription['x59144_preMiningLock'], Subscriptionx59144_preMiningLockArgs, MeshContext>,
+  c195_preMiningLock: InContextSdkMethod<Subscription['c195_preMiningLock'], Subscriptionc195_preMiningLockArgs, MeshContext>,
   /** null **/
-  x59144_preMiningLocks: InContextSdkMethod<Subscription['x59144_preMiningLocks'], Subscriptionx59144_preMiningLocksArgs, MeshContext>,
+  c195_preMiningLocks: InContextSdkMethod<Subscription['c195_preMiningLocks'], Subscriptionc195_preMiningLocksArgs, MeshContext>,
   /** Access to subgraph metadata **/
-  x59144__meta: InContextSdkMethod<Subscription['x59144__meta'], Subscriptionx59144__metaArgs, MeshContext>
+  c195__meta: InContextSdkMethod<Subscription['c195__meta'], Subscriptionc195__metaArgs, MeshContext>
   };
 
   export type Context = {
