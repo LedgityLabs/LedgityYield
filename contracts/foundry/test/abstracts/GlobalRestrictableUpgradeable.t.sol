@@ -86,7 +86,10 @@ contract Tests is Test, ModifiersExpectations {
     // === isBlacklisted() function ===
     function test_isBlacklisted_1() public {
         console.log("Should mirror globalBlacklist.isBlacklisted()");
-        assertEq(tested.public_isBlacklisted(address(1)), globalBlacklist.isBlacklisted(address(1)));
+        assertEq(
+            tested.public_isBlacklisted(address(1)),
+            globalBlacklist.isBlacklisted(address(1))
+        );
 
         // Blacklist address(1) to ensure that tested.isBlacklisted() indeed mirrors globalBlacklist.isBlacklisted()
         assertEq(tested.public_isBlacklisted(address(1)), false);

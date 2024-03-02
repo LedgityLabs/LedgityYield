@@ -12,7 +12,7 @@ import {GlobalPausableUpgradeable} from "../GlobalPausableUpgradeable.sol";
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice This abstract contracts is an extension of BaseUpgradeable intended to be used
+ * @notice This abstract contract is an extension of BaseUpgradeable intended to be used
  * as a base for ERC20 tokens contracts.
  *
  * @dev For further details, see "ERC20BaseUpgradeable" section of whitepaper.

@@ -1,6 +1,6 @@
 {
   "name": "ledgity-yield",
-  "version": "1.245.5",
+  "version": "1.245.6",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -10,11 +10,11 @@
     "start": "next start",
     "lint": "next lint",
     "cc:test": "forge test -vvv --use 0.8.18",
-    "cc:coverage": "forge coverage",
+    "cc:coverage": "bash scripts/coverage.sh",
     "cc:size": "hardhat size-contracts",
-    "cc:slither:report": "slither . --compile-force-framework hardhat --checklist > report.md ",
-    "cc:slither:triage": "slither . --compile-force-framework hardhat --triage-mode",
-    "cc:slither:pausable": "slither . --compile-force-framework hardhat --print not-pausable",
+    "cc:slither:report": "slither . --compile-force-framework hardhat --hardhat-artifacts-directory ./contracts/hardhat/artifacts/ --checklist > report.md ",
+    "cc:slither:triage": "slither . --compile-force-framework hardhat --hardhat-artifacts-directory ./contracts/hardhat/artifacts/ --triage-mode",
+    "cc:slither:pausable": "slither . --compile-force-framework hardhat --hardhat-artifacts-directory ./contracts/hardhat/artifacts/ --print not-pausable",
     "cc:node": "hardhat node --hostname 0.0.0.0",
     "cc:compile": "hardhat compile && hardhat export --export-all contracts/deployments.json && ts-node --esm scripts/extract-abis.mts && wagmi generate",
     "graph:client": "graphclient build",
@@ -35,7 +35,6 @@
     "@auth/prisma-adapter": "^1.0.11",
     "@graphprotocol/client-add-source-name": "2.0.0",
     "@graphprotocol/graph-cli": "^0.68.0",
-    "@graphql-mesh/transform-prefix": "0.96.5",
     "@graphql-tools/utils": "9.2.1",
     "@prisma/client": "^5.7.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",

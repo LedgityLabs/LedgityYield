@@ -88,15 +88,15 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    OKX_X1_testnet: {
-      chainId: 195,
-      url: "https://testrpc.x1.tech",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-    },
     arbitrumGoerli: {
       chainId: 421613,
       url: "https://arbitrum-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+    },
+    OKX_X1_testnet: {
+      chainId: 195,
+      url: "https://testrpc.x1.tech",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
     },

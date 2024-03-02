@@ -7,6 +7,8 @@ import {APRHistory as APRH} from "../../../src/libs/APRHistory.sol";
 contract Tests is Test {
     APRH.Pack[] packs;
 
+    function setUp() public {}
+
     /**
      * @dev This function populate given number of packs with dummy data to the
      * array of packs. Note that dummy data are unique per pack and so can

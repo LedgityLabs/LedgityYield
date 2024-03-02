@@ -16,12 +16,13 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Derived contracts are provided with helpers functions that allow recovering
+ * @notice Derived contracts are provided with helper functions allowing the recovery of
  * assets accidentally sent to them.
  *
- * @dev Note: This abstract contract currently supports only ERC20 tokens. Derived
- * contracts currently do not implement necessary functions to receive Ether or
- * ERC721/ERC1155 tokens.
+ * @dev Where are utilities Ether, ERC721, etc.?
+ * This abstract contract currently supports only ERC20 tokens. Derived contracts
+ * in this codebase currently do not implement the necessary functions to receive Ether
+ * or ERC721/ERC1155 tokens, so no recovery functions are provided for these assets.
  *
  * @dev For further details, see "RecoverableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com

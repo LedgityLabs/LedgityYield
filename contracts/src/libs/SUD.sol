@@ -13,8 +13,8 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * facilitates conversions between various number formats and the SUD format.
  *
  * @dev Intuition:
- * This codebase employs UD (unsigned decimal fixed-point numbers) format to represent
- * both percentage rates and tokens amounts.
+ * This codebase employs the UD (unsigned decimal fixed-point numbers) format to
+ * represent both percentage rates and tokens amounts.
  *
  * Rates are expressed in UD7x3 format, whereas the format for tokens amounts depends on
  * the decimals() value of the involved tokens.
@@ -26,10 +26,10 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  *      down values by a few decimals before and after performing calculations.
  *   3) Given that rates use the UD7x3 format, if we decided to scale them to and from
  *      the number of decimals of the involved token, 1 to 3 of the rates' decimals would
- *      be shrinked in case token's decimals number is in [0, 2].
+ *      be shrunk in case token's decimals number is in [0, 2].
  *
  * To address these challenges, this library provides the SUD format, which acts as a
- * consistent and scaled intermediate format to perform calculations on.
+ * consistent and scaled intermediate format to perform calculations.
  *
  * SUD is an acronym for either "Scaled UD" or "Safe UD".
  *
@@ -37,16 +37,16 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * - Integer: A number without fractional part, e.g., block.timestamp
  * - UD: A decimal unsigned fixed-point number. The "UD" notation is inspired from
  *       libraries like [prb-math](https://github.com/PaulRBerg/prb-math/)
- * - Amount: An UD with an unknown (at writing time) repartition of digits between
- *           integral and fractional parts. Represents a token amount.
- * - Rate: An UD with 7 integral digits and 3 fractional ones (a.k.a UD7x3).
- *         Represents a percentage rate.
- * - SUD: An UD with 3 more decimals than the involved rate or amount with the highest
- *        decimals number. As rates are represented by UD7x3, a SUD number has at least 6
- *        decimals (3+3) and so ranges from UD71x6 to UD0x77 formats.
- *        Used as an intermediate format to perform calculations.
+ * - Amount: A token amount. A UD with an unknown repartition of digits between integral
+ *           and fractional parts (as token amounts have variable decimal numbers)
+ * - Rate: A percentage rate. An UD with 7 integral digits and 3 fractional ones (= UD7x3)
+ * - SUD: An intermediate format to perform calculations involving Rates and Amounts. A UD
+ *        with 3 more decimals than the involved UD with the highest decimals number. As
+ *        rates are represented by UD7x3, a SUD number has at least 6 decimals (3+3) and
+ *        so ranges from UD71x6 to UD0x77 formats.
  *
- * @dev This library provides utilities to perform the following conversions:
+ * @dev A conversion library:
+ * This library provides utilities to perform the following conversions:
  * - Amount       <--> SUD
  * - Rate (UD7x3) <--> SUD
  * - Integer      <--> SUD
@@ -54,20 +54,21 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * @dev Why scaling by 3 decimals?
  * - It provides an adequate degree of precision for this codebase,
  * - It enables the conversion of a UD7x3 rate to SUD format by merely scaling it up by
- *   the involved token's decimal number.
+ *   the involved token's decimal number, so is gas efficient.
  *
- * @dev Optimization note: The functions of this library are not set to external because
- * incorporating them directly into contracts is more gas-efficient. Given their minimal
- * size and frequent usage in the InvestUpgradeable, LDYStaking, and LToken contracts,
- * any bytecode savings from making them external are negated by the additional bytecode
- * required for external calls to this library.
- * The can be observed by comparing the output of `pnpm cc:size` when those functions's
- * visibility is set to external or internal.
+ * @dev Why internal functions?
+ * The functions of this library are not set to external because incorporating them
+ * directly into contracts is more gas-efficient. Given their minimal size and frequent
+ * usage in the InvestUpgradeable, LDYStaking, and LToken contracts, any bytecode savings
+ * from making them external are negated by the additional bytecode required for external
+ * calls to this library. This can be observed by comparing the output of `bun cc:size`
+ * when those functions's visibility is set to external or internal.
  *
- * @dev Precision note: While this library mitigates precision loss during calculations
- * on UD numbers, it's important to note that tokens with lower decimal counts and supply
- * inherently suffer more from precision loss. Conversely, tokens with higher decimal
- * counts and supply will experience less precision loss.
+ * @dev Precision warning:
+ * While this library mitigates precision loss during calculations on UD numbers, it's
+ * important to note that tokens with lower decimal counts and supply inherently suffer
+ * more from precision loss. Conversely, tokens with higher decimal counts and supply
+ * will experience less precision loss.
  *
  * @dev For further details, see "SUD" section of whitepaper.
  * @custom:security-contact security@ledgity.com

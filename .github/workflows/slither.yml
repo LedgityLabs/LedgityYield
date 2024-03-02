@@ -7,4 +7,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: crytic/slither-action@v0.3.1
         with:
-          slither-args: "--compile-force-framework hardhat"
+          slither-args: "--compile-force-framework hardhat --hardhat-artifacts-directory ./contracts/hardhat/artifacts/"

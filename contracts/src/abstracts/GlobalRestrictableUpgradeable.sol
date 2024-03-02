@@ -9,12 +9,13 @@ import {GlobalBlacklist} from "../GlobalBlacklist.sol";
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Derived contracts will inherit blacklist state from the specified
+ * @notice Derived contracts will inherit a blacklist state from the specified
  * GlobalBlacklist contract (see GlobalBlacklist.sol). This design facilitates
  * centralized management of a blacklist for all the Ledgity Yield contracts.
  *
- * @dev Note: The _globalBlacklist state must be set at initialization-time and for
- * evident security reasons cannot be changed afterwards.
+ * @dev Security measure:
+ * The _globalBlacklist state must be set at initialization time and, for evident
+ * security reasons, cannot be changed afterward.
  *
  * @dev For further details, see "GlobalRestrictableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com

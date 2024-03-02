@@ -15,4 +15,8 @@ contract ModifiersExpectations is Test {
     function expectRevertRestricted() public {
         vm.expectRevert(bytes("L9"));
     }
+
+    // Trick to exclude this contract from coverage report
+    // See: https://github.com/foundry-rs/foundry/issues/2988#issuecomment-1437784542
+    function test() public {}
 }

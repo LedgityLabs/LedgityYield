@@ -11,7 +11,7 @@ import {GlobalOwnableUpgradeable} from "./abstracts/GlobalOwnableUpgradeable.sol
  * @custom:security-contact security@ledgity.com
  *
  * @notice Used to inform subgraph from the existence of a new L-Token contract. Once
- * signaled, a L-Token it will start being indexed.
+ * signaled, a L-Token will start being indexed.
  *
  * @dev Signal are ignored by the subgraph if the L-Token is already known by it.
  *

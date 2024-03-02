@@ -28,6 +28,10 @@ contract TestedContract is ERC20BaseUpgradeable {
     function public_beforeTokenTransfer(address from, address to, uint256 amount) public {
         _beforeTokenTransfer(from, to, amount);
     }
+
+    function public___ERC20Base_init_unchained() public {
+        __ERC20Base_init_unchained();
+    }
 }
 
 contract Tests is Test, ModifiersExpectations {
@@ -101,6 +105,17 @@ contract Tests is Test, ModifiersExpectations {
         assertEq(tested.name(), nameAtInitTime);
     }
 
+    // =========================
+    // === paused() function ===
+    function test_paused_1() public {
+        console.log("Should return state of the global pause contract");
+        assertEq(tested.paused(), false);
+        globalPause.pause();
+        assertEq(tested.paused(), true);
+        globalPause.unpause();
+        assertEq(tested.paused(), false);
+    }
+
     // ==============================
     // === _beforeTokenTransfer() ===
     function testFuzz_beforeTokenTransfer_1(address from, address to, uint256 amount) public {
@@ -138,5 +153,13 @@ contract Tests is Test, ModifiersExpectations {
     function testfuzz_beforeTokenTransfer_3(address from, address to, uint256 amount) public {
         console.log("Shouldn't revert else");
         tested.public_beforeTokenTransfer(from, to, amount);
+    }
+
+    // ============================================
+    // === __ERC20Base_init_unchained() function ===
+    function test___ERC20Base_init_unchained_1() public {
+        console.log("Should revert if called by after initialization");
+        vm.expectRevert(bytes("Initializable: contract is not initializing"));
+        tested.public___ERC20Base_init_unchained();
     }
 }

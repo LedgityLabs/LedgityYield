@@ -8,8 +8,8 @@ import {Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Replacement to the LDYStaking contract until the $LDY token is available and
- * the real LDYStaking can be deployed.
+ * @notice This contract acts as a placeholder for the real LDYStaking contract until
+ * this one is deployed.
  *
  * @dev This contract only implements tierOf() function from LDYStaking as it's the only
  * one the LToken contract relies on.
@@ -34,8 +34,8 @@ contract LDYStaking is Ownable2Step {
 
     /**
      * @dev Dummy tierOf() function that always return that the given account is not
-     * ellgible to any LDY staking tier, except if the account is in the
-     * defaultToHighestTier mapping.
+     * elligible to any LDY staking tier, except if the account is in the
+     * highTierAccounts mapping.
      * @param account The account to check the tier of.
      */
     function tierOf(address account) public view returns (uint256 tier) {

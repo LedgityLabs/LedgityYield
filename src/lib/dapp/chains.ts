@@ -10,22 +10,21 @@ export const chainsIcons = {
   195: "/assets/chains/okxlogo.png",
 } as { [key: number]: string };
 
-
 const okcTestnet: Chain = {
   id: 195,
-  name: 'OKC X1 Testnet',
+  name: "OKC X1 Testnet",
   nativeCurrency: {
-    name: 'Testnet OKB',
-    symbol: 'OKB', 
+    name: "Testnet OKB",
+    symbol: "OKB",
     decimals: 18,
   },
   rpcUrls: {
     default: {
-      http: ['https://testrpc.x1.tech']
-    } 
+      http: ["https://testrpc.x1.tech"],
+    },
   },
   blockExplorers: {
-    default: { name: 'OKLink', url: 'https://www.oklink.com/x1-test' }, 
+    default: { name: "OKLink", url: "https://www.oklink.com/x1-test" },
   },
   testnet: true,
 };

@@ -34,8 +34,7 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  *
  * @dev Definitions:
  * - Investment: The act of depositing or investing tokens into the contract.
- * - Investment period: Time between the start of an investment or the last rewards
- *                      distribution for an account to the present.
+ * - Investment period: Time between the last invested amount change and the present.
  * - Virtual balance: Temporary storage for account rewards, used when those can't be
  *                    distributed between investment periods.
  * - Rewards redirection: Mechanism allowing an account to redirect its rewards to another.
@@ -43,7 +42,7 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * @dev Derived contract must:
  *  - Set invested token during initialization
  *  - Implement _investmentOf() function
- *  - Implement _distributeRewards() function (optional)
+ *  - (optionally) Implement _distributeRewards() function
  *
  * @dev For further details, see "InvestmentUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
@@ -324,7 +323,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
         APRH.Reference memory latestRef = _aprHistory.getLatestReference();
 
         // 1) Fill rewards with virtual balance (rewards not claimed/distributed yet)
-        // See "InvestUpgradeable > Rewards calculation > 1)" section of the whitepaper
+        // See "InvestUpgradeable > Yield calculation > 1)" section of the whitepaper
         rewards = details.virtualBalance;
 
         // If start checkpoint is not the latest one
@@ -334,7 +333,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             APRH.CheckpointData memory nextCheckpoint = _aprHistory.getDataFromReference(nextRef);
 
             // 2) Calculate rewards from investment period start to next checkpoint
-            // See "InvestUpgradeable > Rewards calculation > 2)" section of the whitepaper
+            // See "InvestUpgradeable > Yield calculation > 2)" section of the whitepaper
             rewards += _calculatePeriodRewards(
                 details.period.timestamp,
                 nextCheckpoint.timestamp,
@@ -343,7 +342,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             );
 
             // 3) Calculate rewards for each crossed pair of checkpoints
-            // See "InvestUpgradeable > Rewards calculation > 3)" section of the whitepaper
+            // See "InvestUpgradeable > Yield calculation > 3)" section of the whitepaper
             while (true) {
                 // Set next checkpoint as the current one
                 currRef = nextRef;
@@ -366,7 +365,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             }
 
             // 4) Calculate rewards from the latest checkpoint to now
-            // See "InvestUpgradeable > Rewards calculation > 4)" section of the whitepaper
+            // See "InvestUpgradeable > Yield calculation > 4)" section of the whitepaper
             rewards += _calculatePeriodRewards(
                 currCheckpoint.timestamp,
                 uint40(block.timestamp),
@@ -375,7 +374,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
             );
         } else {
             // 2.bis) Calculate rewards from investment period start to now
-            // See "InvestUpgradeable > Rewards calculation > 2.bis)" section of the whitepaper
+            // See "InvestUpgradeable > Yield calculation > 2.bis)" section of the whitepaper
             rewards += _calculatePeriodRewards(
                 details.period.timestamp,
                 uint40(block.timestamp),

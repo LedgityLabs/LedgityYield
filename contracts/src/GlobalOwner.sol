@@ -10,7 +10,7 @@ import {Ownable2StepUpgradeable} from "@openzeppelin/contracts-upgradeable/acces
  * @author Lila Rest (https://lila.rest)
  * @custom:security-contact security@ledgity.com
  *
- * @notice Maintains the address of a global owner account shared by all contracts of the
+ * @notice Holds the address of a global owner account shared by all contracts of the
  * Ledgity Yield's codebase.
  *
  * @dev Specifically, some contracts within the codebase inherit from the

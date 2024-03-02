@@ -43,6 +43,8 @@ typechain-types
 contracts/hardhat/cache
 contracts/hardhat/artifacts
 
+lcov.info
+
 # TheGraph
 subgraph/build
 subgraph/generated
