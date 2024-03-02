@@ -24,7 +24,7 @@ import { JSONStringify } from "@/lib/jsonStringify";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
 import { useCurrentChain } from "@/hooks/useCurrentChain";
 
-const availableChains = [42161, 59144,195];
+const availableChains = [42161, 59144, 195];
 
 interface Pool {
   tokenSymbol: string;

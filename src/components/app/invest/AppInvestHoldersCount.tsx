@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { getTokenUSDRate } from "@/lib/getTokenUSDRate";
 import { parseUnits } from "viem";
 
-const availableChains = ["42161", "59144","195"];
+const availableChains = ["42161", "59144", "195"];
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -74,7 +74,7 @@ export const AppInvestHoldersCount: FC<Props> = (props) => {
         ) : (
           "N/A"
         ))} */}
-        653
+      653
     </div>
   );
 };

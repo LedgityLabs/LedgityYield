@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 // import { PreMiningLock, execute } from "../../../../../../.graphclient";
 import { formatUnits, parseUnits } from "viem";
 
-const availableChains = [42161, 59144 ,195];
+const availableChains = [42161, 59144, 195];
 
 export async function GET() {
   const session = await getServerSession(nextAuthOptions);
