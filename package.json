@@ -28,7 +28,8 @@
     "graph:linea-deploy": "graph deploy --node https://graph-deploy.linea.build/ --ipfs https://graph-ipfs.linea.build LedgityLabs/LedgityYield ./subgraph/linea-subgraph.yaml",
     "graph:linea-remove": "graph remove --node https://graph-deploy.linea.build/ LedgityLabs/LedgityYield",
     "graph:arbitrum-gen": "cd subgraph && graph codegen ./arbitrum-subgraph.yaml && graph build ./arbitrum-subgraph.yaml",
-    "graph:arbitrum-deploy": "graph deploy --studio ledgity-yield-arbitrum ./subgraph/arbitrum-subgraph.yaml"
+    "graph:arbitrum-deploy": "graph deploy --studio ledgity-yield-arbitrum ./subgraph/arbitrum-subgraph.yaml",
+    "graph:OKX_X1_Testnet-remove": "graph remove --node https://www.okx.com/api/v1/x1-testnet/index/subgraphs/name/LedgityLabs/LedgityYield/"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.0.11",

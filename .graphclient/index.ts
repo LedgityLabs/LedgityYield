@@ -17,10 +17,12 @@ import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext
 import { MeshStore, FsStoreStorageAdapter } from '@graphql-mesh/store';
 import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
-import type { ArbitrumTypes } from './sources/arbitrum/types';
 import type { LineaTypes } from './sources/linea/types';
-import * as importedModule$0 from "./sources/arbitrum/introspectionSchema";
+import type { ArbitrumTypes } from './sources/arbitrum/types';
+import type { OkxX1TestnetTypes } from './sources/OKX_X1_Testnet/types';
+import * as importedModule$0 from "./sources/OKX_X1_Testnet/introspectionSchema";
 import * as importedModule$1 from "./sources/linea/introspectionSchema";
+import * as importedModule$2 from "./sources/arbitrum/introspectionSchema";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -44,20 +46,20 @@ export type Scalars = {
 };
 
 export type Query = {
-  c42161_ltoken?: Maybe<LToken>;
-  c42161_ltokens: Array<LToken>;
-  c42161_tvlchange?: Maybe<TVLChange>;
-  c42161_tvlchanges: Array<TVLChange>;
-  c42161_aprchange?: Maybe<APRChange>;
-  c42161_aprchanges: Array<APRChange>;
-  c42161_activity?: Maybe<Activity>;
-  c42161_activities: Array<Activity>;
-  c42161_rewardsMint?: Maybe<RewardsMint>;
-  c42161_rewardsMints: Array<RewardsMint>;
-  c42161_preMiningLock?: Maybe<PreMiningLock>;
-  c42161_preMiningLocks: Array<PreMiningLock>;
+  c195_ltoken?: Maybe<LToken>;
+  c195_ltokens: Array<LToken>;
+  c195_tvlchange?: Maybe<TVLChange>;
+  c195_tvlchanges: Array<TVLChange>;
+  c195_aprchange?: Maybe<APRChange>;
+  c195_aprchanges: Array<APRChange>;
+  c195_activity?: Maybe<Activity>;
+  c195_activities: Array<Activity>;
+  c195_rewardsMint?: Maybe<RewardsMint>;
+  c195_rewardsMints: Array<RewardsMint>;
+  c195_preMiningLock?: Maybe<PreMiningLock>;
+  c195_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
-  c42161__meta?: Maybe<_Meta_>;
+  c195__meta?: Maybe<_Meta_>;
   c59144_ltoken?: Maybe<LToken>;
   c59144_ltokens: Array<LToken>;
   c59144_tvlchange?: Maybe<TVLChange>;
@@ -72,17 +74,31 @@ export type Query = {
   c59144_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
   c59144__meta?: Maybe<_Meta_>;
+  c42161_ltoken?: Maybe<LToken>;
+  c42161_ltokens: Array<LToken>;
+  c42161_tvlchange?: Maybe<TVLChange>;
+  c42161_tvlchanges: Array<TVLChange>;
+  c42161_aprchange?: Maybe<APRChange>;
+  c42161_aprchanges: Array<APRChange>;
+  c42161_activity?: Maybe<Activity>;
+  c42161_activities: Array<Activity>;
+  c42161_rewardsMint?: Maybe<RewardsMint>;
+  c42161_rewardsMints: Array<RewardsMint>;
+  c42161_preMiningLock?: Maybe<PreMiningLock>;
+  c42161_preMiningLocks: Array<PreMiningLock>;
+  /** Access to subgraph metadata */
+  c42161__meta?: Maybe<_Meta_>;
 };
 
 
-export type Queryc42161_ltokenArgs = {
+export type Queryc195_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryc42161_ltokensArgs = {
+export type Queryc195_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -93,14 +109,14 @@ export type Queryc42161_ltokensArgs = {
 };
 
 
-export type Queryc42161_tvlchangeArgs = {
+export type Queryc195_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryc42161_tvlchangesArgs = {
+export type Queryc195_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -111,14 +127,14 @@ export type Queryc42161_tvlchangesArgs = {
 };
 
 
-export type Queryc42161_aprchangeArgs = {
+export type Queryc195_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryc42161_aprchangesArgs = {
+export type Queryc195_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -129,14 +145,14 @@ export type Queryc42161_aprchangesArgs = {
 };
 
 
-export type Queryc42161_activityArgs = {
+export type Queryc195_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryc42161_activitiesArgs = {
+export type Queryc195_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -147,14 +163,14 @@ export type Queryc42161_activitiesArgs = {
 };
 
 
-export type Queryc42161_rewardsMintArgs = {
+export type Queryc195_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryc42161_rewardsMintsArgs = {
+export type Queryc195_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -165,14 +181,14 @@ export type Queryc42161_rewardsMintsArgs = {
 };
 
 
-export type Queryc42161_preMiningLockArgs = {
+export type Queryc195_preMiningLockArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Queryc42161_preMiningLocksArgs = {
+export type Queryc195_preMiningLocksArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<PreMiningLock_orderBy>;
@@ -183,7 +199,7 @@ export type Queryc42161_preMiningLocksArgs = {
 };
 
 
-export type Queryc42161__metaArgs = {
+export type Queryc195__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -300,21 +316,134 @@ export type Queryc59144__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
+
+export type Queryc42161_ltokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_ltokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<LToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<LToken_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_tvlchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_tvlchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TVLChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_aprchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_aprchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<APRChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_activityArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_activitiesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Activity_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Activity_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_rewardsMintArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_rewardsMintsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<RewardsMint_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<RewardsMint_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_preMiningLockArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161_preMiningLocksArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PreMiningLock_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<PreMiningLock_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Queryc42161__metaArgs = {
+  block?: InputMaybe<Block_height>;
+};
+
 export type Subscription = {
-  c42161_ltoken?: Maybe<LToken>;
-  c42161_ltokens: Array<LToken>;
-  c42161_tvlchange?: Maybe<TVLChange>;
-  c42161_tvlchanges: Array<TVLChange>;
-  c42161_aprchange?: Maybe<APRChange>;
-  c42161_aprchanges: Array<APRChange>;
-  c42161_activity?: Maybe<Activity>;
-  c42161_activities: Array<Activity>;
-  c42161_rewardsMint?: Maybe<RewardsMint>;
-  c42161_rewardsMints: Array<RewardsMint>;
-  c42161_preMiningLock?: Maybe<PreMiningLock>;
-  c42161_preMiningLocks: Array<PreMiningLock>;
+  c195_ltoken?: Maybe<LToken>;
+  c195_ltokens: Array<LToken>;
+  c195_tvlchange?: Maybe<TVLChange>;
+  c195_tvlchanges: Array<TVLChange>;
+  c195_aprchange?: Maybe<APRChange>;
+  c195_aprchanges: Array<APRChange>;
+  c195_activity?: Maybe<Activity>;
+  c195_activities: Array<Activity>;
+  c195_rewardsMint?: Maybe<RewardsMint>;
+  c195_rewardsMints: Array<RewardsMint>;
+  c195_preMiningLock?: Maybe<PreMiningLock>;
+  c195_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
-  c42161__meta?: Maybe<_Meta_>;
+  c195__meta?: Maybe<_Meta_>;
   c59144_ltoken?: Maybe<LToken>;
   c59144_ltokens: Array<LToken>;
   c59144_tvlchange?: Maybe<TVLChange>;
@@ -329,17 +458,31 @@ export type Subscription = {
   c59144_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
   c59144__meta?: Maybe<_Meta_>;
+  c42161_ltoken?: Maybe<LToken>;
+  c42161_ltokens: Array<LToken>;
+  c42161_tvlchange?: Maybe<TVLChange>;
+  c42161_tvlchanges: Array<TVLChange>;
+  c42161_aprchange?: Maybe<APRChange>;
+  c42161_aprchanges: Array<APRChange>;
+  c42161_activity?: Maybe<Activity>;
+  c42161_activities: Array<Activity>;
+  c42161_rewardsMint?: Maybe<RewardsMint>;
+  c42161_rewardsMints: Array<RewardsMint>;
+  c42161_preMiningLock?: Maybe<PreMiningLock>;
+  c42161_preMiningLocks: Array<PreMiningLock>;
+  /** Access to subgraph metadata */
+  c42161__meta?: Maybe<_Meta_>;
 };
 
 
-export type Subscriptionc42161_ltokenArgs = {
+export type Subscriptionc195_ltokenArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionc42161_ltokensArgs = {
+export type Subscriptionc195_ltokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LToken_orderBy>;
@@ -350,14 +493,14 @@ export type Subscriptionc42161_ltokensArgs = {
 };
 
 
-export type Subscriptionc42161_tvlchangeArgs = {
+export type Subscriptionc195_tvlchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionc42161_tvlchangesArgs = {
+export type Subscriptionc195_tvlchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TVLChange_orderBy>;
@@ -368,14 +511,14 @@ export type Subscriptionc42161_tvlchangesArgs = {
 };
 
 
-export type Subscriptionc42161_aprchangeArgs = {
+export type Subscriptionc195_aprchangeArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionc42161_aprchangesArgs = {
+export type Subscriptionc195_aprchangesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<APRChange_orderBy>;
@@ -386,14 +529,14 @@ export type Subscriptionc42161_aprchangesArgs = {
 };
 
 
-export type Subscriptionc42161_activityArgs = {
+export type Subscriptionc195_activityArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionc42161_activitiesArgs = {
+export type Subscriptionc195_activitiesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Activity_orderBy>;
@@ -404,14 +547,14 @@ export type Subscriptionc42161_activitiesArgs = {
 };
 
 
-export type Subscriptionc42161_rewardsMintArgs = {
+export type Subscriptionc195_rewardsMintArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionc42161_rewardsMintsArgs = {
+export type Subscriptionc195_rewardsMintsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<RewardsMint_orderBy>;
@@ -422,14 +565,14 @@ export type Subscriptionc42161_rewardsMintsArgs = {
 };
 
 
-export type Subscriptionc42161_preMiningLockArgs = {
+export type Subscriptionc195_preMiningLockArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type Subscriptionc42161_preMiningLocksArgs = {
+export type Subscriptionc195_preMiningLocksArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<PreMiningLock_orderBy>;
@@ -440,7 +583,7 @@ export type Subscriptionc42161_preMiningLocksArgs = {
 };
 
 
-export type Subscriptionc42161__metaArgs = {
+export type Subscriptionc195__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
@@ -557,6 +700,119 @@ export type Subscriptionc59144__metaArgs = {
   block?: InputMaybe<Block_height>;
 };
 
+
+export type Subscriptionc42161_ltokenArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_ltokensArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<LToken_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<LToken_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_tvlchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_tvlchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<TVLChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TVLChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_aprchangeArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_aprchangesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<APRChange_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<APRChange_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_activityArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_activitiesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Activity_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Activity_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_rewardsMintArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_rewardsMintsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<RewardsMint_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<RewardsMint_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_preMiningLockArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161_preMiningLocksArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PreMiningLock_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<PreMiningLock_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscriptionc42161__metaArgs = {
+  block?: InputMaybe<Block_height>;
+};
+
 export type APRChange = {
   id: Scalars['ID'];
   ltoken: LToken;
@@ -619,12 +875,12 @@ export type APRChange_filter = {
 export type APRChange_orderBy =
   | 'id'
   | 'ltoken'
+  | 'timestamp'
+  | 'apr'
   | 'ltoken__id'
   | 'ltoken__symbol'
   | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards'
-  | 'timestamp'
-  | 'apr';
+  | 'ltoken__totalMintedRewards';
 
 export type Activity = {
   id: Scalars['ID'];
@@ -696,10 +952,6 @@ export type Activity_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   account?: InputMaybe<Scalars['Bytes']>;
   account_not?: InputMaybe<Scalars['Bytes']>;
-  account_gt?: InputMaybe<Scalars['Bytes']>;
-  account_lt?: InputMaybe<Scalars['Bytes']>;
-  account_gte?: InputMaybe<Scalars['Bytes']>;
-  account_lte?: InputMaybe<Scalars['Bytes']>;
   account_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_contains?: InputMaybe<Scalars['Bytes']>;
@@ -730,6 +982,10 @@ export type Activity_filter = {
   status_not_in?: InputMaybe<Array<ActivityStatus>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  account_gt?: InputMaybe<Scalars['Bytes']>;
+  account_lt?: InputMaybe<Scalars['Bytes']>;
+  account_gte?: InputMaybe<Scalars['Bytes']>;
+  account_lte?: InputMaybe<Scalars['Bytes']>;
   and?: InputMaybe<Array<InputMaybe<Activity_filter>>>;
   or?: InputMaybe<Array<InputMaybe<Activity_filter>>>;
 };
@@ -738,16 +994,16 @@ export type Activity_orderBy =
   | 'id'
   | 'requestId'
   | 'ltoken'
-  | 'ltoken__id'
-  | 'ltoken__symbol'
-  | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'account'
   | 'action'
   | 'amount'
   | 'amountAfterFees'
-  | 'status';
+  | 'status'
+  | 'ltoken__id'
+  | 'ltoken__symbol'
+  | 'ltoken__decimals'
+  | 'ltoken__totalMintedRewards';
 
 export type BlockChangedFilter = {
   number_gte: Scalars['Int'];
@@ -968,10 +1224,6 @@ export type RewardsMint_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   account?: InputMaybe<Scalars['Bytes']>;
   account_not?: InputMaybe<Scalars['Bytes']>;
-  account_gt?: InputMaybe<Scalars['Bytes']>;
-  account_lt?: InputMaybe<Scalars['Bytes']>;
-  account_gte?: InputMaybe<Scalars['Bytes']>;
-  account_lte?: InputMaybe<Scalars['Bytes']>;
   account_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   account_contains?: InputMaybe<Scalars['Bytes']>;
@@ -1002,6 +1254,10 @@ export type RewardsMint_filter = {
   growth_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  account_gt?: InputMaybe<Scalars['Bytes']>;
+  account_lt?: InputMaybe<Scalars['Bytes']>;
+  account_gte?: InputMaybe<Scalars['Bytes']>;
+  account_lte?: InputMaybe<Scalars['Bytes']>;
   and?: InputMaybe<Array<InputMaybe<RewardsMint_filter>>>;
   or?: InputMaybe<Array<InputMaybe<RewardsMint_filter>>>;
 };
@@ -1009,15 +1265,15 @@ export type RewardsMint_filter = {
 export type RewardsMint_orderBy =
   | 'id'
   | 'ltoken'
-  | 'ltoken__id'
-  | 'ltoken__symbol'
-  | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards'
   | 'timestamp'
   | 'account'
   | 'balanceBefore'
   | 'revenue'
-  | 'growth';
+  | 'growth'
+  | 'ltoken__id'
+  | 'ltoken__symbol'
+  | 'ltoken__decimals'
+  | 'ltoken__totalMintedRewards';
 
 export type TVLChange = {
   id: Scalars['ID'];
@@ -1081,12 +1337,12 @@ export type TVLChange_filter = {
 export type TVLChange_orderBy =
   | 'id'
   | 'ltoken'
+  | 'timestamp'
+  | 'amount'
   | 'ltoken__id'
   | 'ltoken__symbol'
   | 'ltoken__decimals'
-  | 'ltoken__totalMintedRewards'
-  | 'timestamp'
-  | 'amount';
+  | 'ltoken__totalMintedRewards';
 
 export type _Block_ = {
   /** The hash of the block */
@@ -1224,7 +1480,6 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  Int8: ResolverTypeWrapper<Scalars['Int8']>;
   LToken: ResolverTypeWrapper<LToken>;
   LToken_filter: LToken_filter;
   LToken_orderBy: LToken_orderBy;
@@ -1242,6 +1497,7 @@ export type ResolversTypes = ResolversObject<{
   _Block_: ResolverTypeWrapper<_Block_>;
   _Meta_: ResolverTypeWrapper<_Meta_>;
   _SubgraphErrorPolicy_: _SubgraphErrorPolicy_;
+  Int8: ResolverTypeWrapper<Scalars['Int8']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -1261,7 +1517,6 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float'];
   ID: Scalars['ID'];
   Int: Scalars['Int'];
-  Int8: Scalars['Int8'];
   LToken: LToken;
   LToken_filter: LToken_filter;
   PreMiningLock: PreMiningLock;
@@ -1273,6 +1528,7 @@ export type ResolversParentTypes = ResolversObject<{
   TVLChange_filter: TVLChange_filter;
   _Block_: _Block_;
   _Meta_: _Meta_;
+  Int8: Scalars['Int8'];
 }>;
 
 export type entityDirectiveArgs = { };
@@ -1292,19 +1548,19 @@ export type derivedFromDirectiveArgs = {
 export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type QueryResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  c42161_ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc42161_ltokenArgs, 'id' | 'subgraphError'>>;
-  c42161_ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc42161_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc42161_tvlchangeArgs, 'id' | 'subgraphError'>>;
-  c42161_tvlchanges?: Resolver<Array<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc42161_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_aprchange?: Resolver<Maybe<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc42161_aprchangeArgs, 'id' | 'subgraphError'>>;
-  c42161_aprchanges?: Resolver<Array<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc42161_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc42161_activityArgs, 'id' | 'subgraphError'>>;
-  c42161_activities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc42161_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_rewardsMint?: Resolver<Maybe<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc42161_rewardsMintArgs, 'id' | 'subgraphError'>>;
-  c42161_rewardsMints?: Resolver<Array<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc42161_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_preMiningLock?: Resolver<Maybe<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc42161_preMiningLockArgs, 'id' | 'subgraphError'>>;
-  c42161_preMiningLocks?: Resolver<Array<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc42161_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161__meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Queryc42161__metaArgs>>;
+  c195_ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc195_ltokenArgs, 'id' | 'subgraphError'>>;
+  c195_ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc195_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc195_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c195_tvlchanges?: Resolver<Array<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc195_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_aprchange?: Resolver<Maybe<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc195_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c195_aprchanges?: Resolver<Array<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc195_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc195_activityArgs, 'id' | 'subgraphError'>>;
+  c195_activities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc195_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_rewardsMint?: Resolver<Maybe<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc195_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c195_rewardsMints?: Resolver<Array<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc195_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_preMiningLock?: Resolver<Maybe<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc195_preMiningLockArgs, 'id' | 'subgraphError'>>;
+  c195_preMiningLocks?: Resolver<Array<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc195_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195__meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Queryc195__metaArgs>>;
   c59144_ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc59144_ltokenArgs, 'id' | 'subgraphError'>>;
   c59144_ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc59144_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
   c59144_tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc59144_tvlchangeArgs, 'id' | 'subgraphError'>>;
@@ -1318,22 +1574,35 @@ export type QueryResolvers<ContextType = MeshContext, ParentType extends Resolve
   c59144_preMiningLock?: Resolver<Maybe<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc59144_preMiningLockArgs, 'id' | 'subgraphError'>>;
   c59144_preMiningLocks?: Resolver<Array<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc59144_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
   c59144__meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Queryc59144__metaArgs>>;
+  c42161_ltoken?: Resolver<Maybe<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc42161_ltokenArgs, 'id' | 'subgraphError'>>;
+  c42161_ltokens?: Resolver<Array<ResolversTypes['LToken']>, ParentType, ContextType, RequireFields<Queryc42161_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_tvlchange?: Resolver<Maybe<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc42161_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_tvlchanges?: Resolver<Array<ResolversTypes['TVLChange']>, ParentType, ContextType, RequireFields<Queryc42161_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_aprchange?: Resolver<Maybe<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc42161_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_aprchanges?: Resolver<Array<ResolversTypes['APRChange']>, ParentType, ContextType, RequireFields<Queryc42161_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_activity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc42161_activityArgs, 'id' | 'subgraphError'>>;
+  c42161_activities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<Queryc42161_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_rewardsMint?: Resolver<Maybe<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc42161_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c42161_rewardsMints?: Resolver<Array<ResolversTypes['RewardsMint']>, ParentType, ContextType, RequireFields<Queryc42161_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_preMiningLock?: Resolver<Maybe<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc42161_preMiningLockArgs, 'id' | 'subgraphError'>>;
+  c42161_preMiningLocks?: Resolver<Array<ResolversTypes['PreMiningLock']>, ParentType, ContextType, RequireFields<Queryc42161_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161__meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Queryc42161__metaArgs>>;
 }>;
 
 export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
-  c42161_ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "c42161_ltoken", ParentType, ContextType, RequireFields<Subscriptionc42161_ltokenArgs, 'id' | 'subgraphError'>>;
-  c42161_ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "c42161_ltokens", ParentType, ContextType, RequireFields<Subscriptionc42161_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "c42161_tvlchange", ParentType, ContextType, RequireFields<Subscriptionc42161_tvlchangeArgs, 'id' | 'subgraphError'>>;
-  c42161_tvlchanges?: SubscriptionResolver<Array<ResolversTypes['TVLChange']>, "c42161_tvlchanges", ParentType, ContextType, RequireFields<Subscriptionc42161_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_aprchange?: SubscriptionResolver<Maybe<ResolversTypes['APRChange']>, "c42161_aprchange", ParentType, ContextType, RequireFields<Subscriptionc42161_aprchangeArgs, 'id' | 'subgraphError'>>;
-  c42161_aprchanges?: SubscriptionResolver<Array<ResolversTypes['APRChange']>, "c42161_aprchanges", ParentType, ContextType, RequireFields<Subscriptionc42161_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_activity?: SubscriptionResolver<Maybe<ResolversTypes['Activity']>, "c42161_activity", ParentType, ContextType, RequireFields<Subscriptionc42161_activityArgs, 'id' | 'subgraphError'>>;
-  c42161_activities?: SubscriptionResolver<Array<ResolversTypes['Activity']>, "c42161_activities", ParentType, ContextType, RequireFields<Subscriptionc42161_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_rewardsMint?: SubscriptionResolver<Maybe<ResolversTypes['RewardsMint']>, "c42161_rewardsMint", ParentType, ContextType, RequireFields<Subscriptionc42161_rewardsMintArgs, 'id' | 'subgraphError'>>;
-  c42161_rewardsMints?: SubscriptionResolver<Array<ResolversTypes['RewardsMint']>, "c42161_rewardsMints", ParentType, ContextType, RequireFields<Subscriptionc42161_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161_preMiningLock?: SubscriptionResolver<Maybe<ResolversTypes['PreMiningLock']>, "c42161_preMiningLock", ParentType, ContextType, RequireFields<Subscriptionc42161_preMiningLockArgs, 'id' | 'subgraphError'>>;
-  c42161_preMiningLocks?: SubscriptionResolver<Array<ResolversTypes['PreMiningLock']>, "c42161_preMiningLocks", ParentType, ContextType, RequireFields<Subscriptionc42161_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
-  c42161__meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "c42161__meta", ParentType, ContextType, Partial<Subscriptionc42161__metaArgs>>;
+  c195_ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "c195_ltoken", ParentType, ContextType, RequireFields<Subscriptionc195_ltokenArgs, 'id' | 'subgraphError'>>;
+  c195_ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "c195_ltokens", ParentType, ContextType, RequireFields<Subscriptionc195_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "c195_tvlchange", ParentType, ContextType, RequireFields<Subscriptionc195_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c195_tvlchanges?: SubscriptionResolver<Array<ResolversTypes['TVLChange']>, "c195_tvlchanges", ParentType, ContextType, RequireFields<Subscriptionc195_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_aprchange?: SubscriptionResolver<Maybe<ResolversTypes['APRChange']>, "c195_aprchange", ParentType, ContextType, RequireFields<Subscriptionc195_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c195_aprchanges?: SubscriptionResolver<Array<ResolversTypes['APRChange']>, "c195_aprchanges", ParentType, ContextType, RequireFields<Subscriptionc195_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_activity?: SubscriptionResolver<Maybe<ResolversTypes['Activity']>, "c195_activity", ParentType, ContextType, RequireFields<Subscriptionc195_activityArgs, 'id' | 'subgraphError'>>;
+  c195_activities?: SubscriptionResolver<Array<ResolversTypes['Activity']>, "c195_activities", ParentType, ContextType, RequireFields<Subscriptionc195_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_rewardsMint?: SubscriptionResolver<Maybe<ResolversTypes['RewardsMint']>, "c195_rewardsMint", ParentType, ContextType, RequireFields<Subscriptionc195_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c195_rewardsMints?: SubscriptionResolver<Array<ResolversTypes['RewardsMint']>, "c195_rewardsMints", ParentType, ContextType, RequireFields<Subscriptionc195_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195_preMiningLock?: SubscriptionResolver<Maybe<ResolversTypes['PreMiningLock']>, "c195_preMiningLock", ParentType, ContextType, RequireFields<Subscriptionc195_preMiningLockArgs, 'id' | 'subgraphError'>>;
+  c195_preMiningLocks?: SubscriptionResolver<Array<ResolversTypes['PreMiningLock']>, "c195_preMiningLocks", ParentType, ContextType, RequireFields<Subscriptionc195_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c195__meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "c195__meta", ParentType, ContextType, Partial<Subscriptionc195__metaArgs>>;
   c59144_ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "c59144_ltoken", ParentType, ContextType, RequireFields<Subscriptionc59144_ltokenArgs, 'id' | 'subgraphError'>>;
   c59144_ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "c59144_ltokens", ParentType, ContextType, RequireFields<Subscriptionc59144_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
   c59144_tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "c59144_tvlchange", ParentType, ContextType, RequireFields<Subscriptionc59144_tvlchangeArgs, 'id' | 'subgraphError'>>;
@@ -1347,6 +1616,19 @@ export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends 
   c59144_preMiningLock?: SubscriptionResolver<Maybe<ResolversTypes['PreMiningLock']>, "c59144_preMiningLock", ParentType, ContextType, RequireFields<Subscriptionc59144_preMiningLockArgs, 'id' | 'subgraphError'>>;
   c59144_preMiningLocks?: SubscriptionResolver<Array<ResolversTypes['PreMiningLock']>, "c59144_preMiningLocks", ParentType, ContextType, RequireFields<Subscriptionc59144_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
   c59144__meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "c59144__meta", ParentType, ContextType, Partial<Subscriptionc59144__metaArgs>>;
+  c42161_ltoken?: SubscriptionResolver<Maybe<ResolversTypes['LToken']>, "c42161_ltoken", ParentType, ContextType, RequireFields<Subscriptionc42161_ltokenArgs, 'id' | 'subgraphError'>>;
+  c42161_ltokens?: SubscriptionResolver<Array<ResolversTypes['LToken']>, "c42161_ltokens", ParentType, ContextType, RequireFields<Subscriptionc42161_ltokensArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_tvlchange?: SubscriptionResolver<Maybe<ResolversTypes['TVLChange']>, "c42161_tvlchange", ParentType, ContextType, RequireFields<Subscriptionc42161_tvlchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_tvlchanges?: SubscriptionResolver<Array<ResolversTypes['TVLChange']>, "c42161_tvlchanges", ParentType, ContextType, RequireFields<Subscriptionc42161_tvlchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_aprchange?: SubscriptionResolver<Maybe<ResolversTypes['APRChange']>, "c42161_aprchange", ParentType, ContextType, RequireFields<Subscriptionc42161_aprchangeArgs, 'id' | 'subgraphError'>>;
+  c42161_aprchanges?: SubscriptionResolver<Array<ResolversTypes['APRChange']>, "c42161_aprchanges", ParentType, ContextType, RequireFields<Subscriptionc42161_aprchangesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_activity?: SubscriptionResolver<Maybe<ResolversTypes['Activity']>, "c42161_activity", ParentType, ContextType, RequireFields<Subscriptionc42161_activityArgs, 'id' | 'subgraphError'>>;
+  c42161_activities?: SubscriptionResolver<Array<ResolversTypes['Activity']>, "c42161_activities", ParentType, ContextType, RequireFields<Subscriptionc42161_activitiesArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_rewardsMint?: SubscriptionResolver<Maybe<ResolversTypes['RewardsMint']>, "c42161_rewardsMint", ParentType, ContextType, RequireFields<Subscriptionc42161_rewardsMintArgs, 'id' | 'subgraphError'>>;
+  c42161_rewardsMints?: SubscriptionResolver<Array<ResolversTypes['RewardsMint']>, "c42161_rewardsMints", ParentType, ContextType, RequireFields<Subscriptionc42161_rewardsMintsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161_preMiningLock?: SubscriptionResolver<Maybe<ResolversTypes['PreMiningLock']>, "c42161_preMiningLock", ParentType, ContextType, RequireFields<Subscriptionc42161_preMiningLockArgs, 'id' | 'subgraphError'>>;
+  c42161_preMiningLocks?: SubscriptionResolver<Array<ResolversTypes['PreMiningLock']>, "c42161_preMiningLocks", ParentType, ContextType, RequireFields<Subscriptionc42161_preMiningLocksArgs, 'skip' | 'first' | 'subgraphError'>>;
+  c42161__meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "c42161__meta", ParentType, ContextType, Partial<Subscriptionc42161__metaArgs>>;
 }>;
 
 export type APRChangeResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['APRChange'] = ResolversParentTypes['APRChange']> = ResolversObject<{
@@ -1380,10 +1662,6 @@ export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 
 export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
   name: 'Bytes';
-}
-
-export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
-  name: 'Int8';
 }
 
 export type LTokenResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['LToken'] = ResolversParentTypes['LToken']> = ResolversObject<{
@@ -1438,6 +1716,10 @@ export type _Meta_Resolvers<ContextType = MeshContext, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
+  name: 'Int8';
+}
+
 export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
@@ -1446,13 +1728,13 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   BigDecimal?: GraphQLScalarType;
   BigInt?: GraphQLScalarType;
   Bytes?: GraphQLScalarType;
-  Int8?: GraphQLScalarType;
   LToken?: LTokenResolvers<ContextType>;
   PreMiningLock?: PreMiningLockResolvers<ContextType>;
   RewardsMint?: RewardsMintResolvers<ContextType>;
   TVLChange?: TVLChangeResolvers<ContextType>;
   _Block_?: _Block_Resolvers<ContextType>;
   _Meta_?: _Meta_Resolvers<ContextType>;
+  Int8?: GraphQLScalarType;
 }>;
 
 export type DirectiveResolvers<ContextType = MeshContext> = ResolversObject<{
@@ -1461,7 +1743,7 @@ export type DirectiveResolvers<ContextType = MeshContext> = ResolversObject<{
   derivedFrom?: derivedFromDirectiveResolver<any, any, ContextType>;
 }>;
 
-export type MeshContext = ArbitrumTypes.Context & LineaTypes.Context & BaseMeshContext;
+export type MeshContext = OkxX1TestnetTypes.Context & LineaTypes.Context & ArbitrumTypes.Context & BaseMeshContext;
 
 
 import { fileURLToPath } from '@graphql-mesh/utils';
@@ -1470,11 +1752,14 @@ const baseDir = pathModule.join(pathModule.dirname(fileURLToPath(import.meta.url
 const importFn: ImportFn = <T>(moduleId: string) => {
   const relativeModuleId = (pathModule.isAbsolute(moduleId) ? pathModule.relative(baseDir, moduleId) : moduleId).split('\\').join('/').replace(baseDir + '/', '');
   switch(relativeModuleId) {
-    case ".graphclient/sources/arbitrum/introspectionSchema":
+    case ".graphclient/sources/OKX_X1_Testnet/introspectionSchema":
       return Promise.resolve(importedModule$0) as T;
     
     case ".graphclient/sources/linea/introspectionSchema":
       return Promise.resolve(importedModule$1) as T;
+    
+    case ".graphclient/sources/arbitrum/introspectionSchema":
+      return Promise.resolve(importedModule$2) as T;
     
     default:
       return Promise.reject(new Error(`Cannot find module '${relativeModuleId}'.`));
@@ -1508,6 +1793,7 @@ const transforms: MeshTransform[] = [];
 const additionalEnvelopPlugins: MeshPlugin<any>[] = [];
 const arbitrumTransforms = [];
 const lineaTransforms = [];
+const okxX1TestnetTransforms = [];
 const additionalTypeDefs = [] as any[];
 const arbitrumHandler = new GraphqlHandler({
               name: "arbitrum",
@@ -1529,6 +1815,16 @@ const lineaHandler = new GraphqlHandler({
               logger: logger.child("linea"),
               importFn,
             });
+const okxX1TestnetHandler = new GraphqlHandler({
+              name: "OKX_X1_Testnet",
+              config: {"endpoint":"https://www.okx.com/api/v1/x1-testnet/index/subgraphs/name/LedgityLabs/LedgityYield"},
+              baseDir,
+              cache,
+              pubsub,
+              store: sourcesStore.child("OKX_X1_Testnet"),
+              logger: logger.child("OKX_X1_Testnet"),
+              importFn,
+            });
 arbitrumTransforms[0] = new PrefixTransform({
                   apiName: "arbitrum",
                   config: {"mode":"wrap","value":"c42161_","includeRootOperations":true,"includeTypes":false},
@@ -1547,6 +1843,15 @@ lineaTransforms[0] = new PrefixTransform({
                   importFn,
                   logger,
                 });
+okxX1TestnetTransforms[0] = new PrefixTransform({
+                  apiName: "OKX_X1_Testnet",
+                  config: {"mode":"wrap","value":"c195_","includeRootOperations":true,"includeTypes":false},
+                  baseDir,
+                  cache,
+                  pubsub,
+                  importFn,
+                  logger,
+                });
 sources[0] = {
           name: 'arbitrum',
           handler: arbitrumHandler,
@@ -1556,6 +1861,11 @@ sources[1] = {
           name: 'linea',
           handler: lineaHandler,
           transforms: lineaTransforms
+        }
+sources[2] = {
+          name: 'OKX_X1_Testnet',
+          handler: okxX1TestnetHandler,
+          transforms: okxX1TestnetTransforms
         }
 const additionalResolvers = [] as any[]
 const merger = new(StitchingMerger as any)({
