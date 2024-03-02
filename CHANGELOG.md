@@ -1,3 +1,29 @@
+## [1.246.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.6...v1.246.0) (2024-03-02)
+
+
+### Features
+
+* trigger release of OKX x1 subgraph implementation ([cb41e6f](https://github.com/LedgityLabs/LedgityYield/commit/cb41e6f8ecb74e2626b4260ce173cee0504d5969))
+
+
+### Docs
+
+* sUD.sol docs improvements ([3be14b8](https://github.com/LedgityLabs/LedgityYield/commit/3be14b826f7425c926b0f63fb1d2c53c9e0fb248))
+
+
+### Tests
+
+* add few missing unit tests, plus a ton of docs improvements ([199fccd](https://github.com/LedgityLabs/LedgityYield/commit/199fccd4f8826f602fda4ac4e94bafe703d4457d))
+
+
+### Others
+
+* fix Slither CI ([7be62a5](https://github.com/LedgityLabs/LedgityYield/commit/7be62a5577a2719659ca5a0f17e25d722c07663b))
+* fix unit tests CI ([202a16d](https://github.com/LedgityLabs/LedgityYield/commit/202a16d53d9f799e5b03742db445322ac361b7b6))
+* give missing Hardhat artifacts folder's path to Slither ([74ba73f](https://github.com/LedgityLabs/LedgityYield/commit/74ba73f9a81012e4a6040810b8f5413f7e2591e1))
+* remove Foundry nightly version from workflow file ([63e74d9](https://github.com/LedgityLabs/LedgityYield/commit/63e74d9103176a88449a4bd8fae30df551ac85c0))
+* revert comment trick ([6dfe410](https://github.com/LedgityLabs/LedgityYield/commit/6dfe4106a9729f1f1ad0f97d13e93de8bb0e2036))
+
 ## [1.245.6](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.5...v1.245.6) (2024-02-19)
 
 
