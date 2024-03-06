@@ -21,6 +21,7 @@ import {
 } from "@tanstack/react-table";
 import {
   readLToken,
+  useReadGenericErc20Allowance,
   useReadLTokenDecimals,
   useReadLTokenGetExpectedRetained,
   useReadLTokenUnderlying,
@@ -35,7 +36,7 @@ import {
   writeLTokenProcessBigQueuedRequest,
 } from "@/generated";
 import clsx from "clsx";
-import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
+import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { config } from "@/lib/dapp/config";
 
@@ -53,20 +54,23 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
   //   address: lTokenAddress,
   //   args: [requestId],
   // });
-
-  // const { writeContract } = useWriteLTokenProcessBigQueuedRequest({
-  //   mutation: {},
-  // });
+  const account = useAccount();
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
   const { data: requestData } = useReadLTokenWithdrawalQueue({
     address: lTokenAddress,
     args: [requestId],
+  });
+  const { data: allowance } = useReadGenericErc20Allowance({
+    address: underlyingAddress!,
+    args: [account.address!, lTokenAddress],
   });
 
   return (
     <div className="flex gap-3 justify-center items-center">
       <Button
         size="tiny"
+        isLoading={allowance === undefined}
+        disabled={allowance === undefined || allowance >= (requestData ? requestData[1] : 0n)}
         onClick={() => {
           writeGenericErc20Approve(config, {
             address: underlyingAddress!,
@@ -78,6 +82,8 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
       </Button>
       <Button
         size="tiny"
+        isLoading={allowance === undefined}
+        disabled={allowance === undefined || allowance < (requestData ? requestData[1] : 0n)}
         onClick={() => {
           writeLTokenProcessBigQueuedRequest(config, {
             address: lTokenAddress,
