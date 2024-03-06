@@ -1,4 +1,12 @@
-import { Address, AllowanceTxButton, Amount, Card, Spinner, TxButton } from "@/components/ui";
+import {
+  Address,
+  AllowanceTxButton,
+  Amount,
+  Button,
+  Card,
+  Spinner,
+  TxButton,
+} from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { FC, useEffect, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
@@ -22,6 +30,9 @@ import {
   useSimulateLTokenProcessBigQueuedRequest,
   useSimulateLTokenProcessQueuedRequests,
   useSimulateLTokenRepatriate,
+  useWriteLTokenProcessBigQueuedRequest,
+  writeGenericErc20Approve,
+  writeLTokenProcessBigQueuedRequest,
 } from "@/generated";
 import clsx from "clsx";
 import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
@@ -37,10 +48,15 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
   lTokenAddress,
   requestId,
 }) => {
-  const preparation = useSimulateLTokenProcessBigQueuedRequest({
-    address: lTokenAddress,
-    args: [requestId],
-  });
+  console.log("rendered");
+  // const preparation = useSimulateLTokenProcessBigQueuedRequest({
+  //   address: lTokenAddress,
+  //   args: [requestId],
+  // });
+
+  // const { writeContract } = useWriteLTokenProcessBigQueuedRequest({
+  //   mutation: {},
+  // });
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
   const { data: requestData } = useReadLTokenWithdrawalQueue({
     address: lTokenAddress,
@@ -48,16 +64,40 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
   });
 
   return (
-    <AllowanceTxButton
-      token={underlyingAddress!}
-      spender={lTokenAddress!}
-      amount={requestData ? requestData[1] : 0n}
-      size="tiny"
-      preparation={preparation as UseSimulateContractReturnType}
-      transactionSummary={`Process big request with ID = ${Number(requestId)}`}
-    >
-      Process
-    </AllowanceTxButton>
+    <div className="flex gap-3 justify-center items-center">
+      <Button
+        size="tiny"
+        onClick={() => {
+          writeGenericErc20Approve(config, {
+            address: underlyingAddress!,
+            args: [lTokenAddress, requestData ? requestData[1] : 0n],
+          });
+        }}
+      >
+        1. Allow
+      </Button>
+      <Button
+        size="tiny"
+        onClick={() => {
+          writeLTokenProcessBigQueuedRequest(config, {
+            address: lTokenAddress,
+            args: [requestId],
+          });
+        }}
+      >
+        2. Process
+      </Button>
+    </div>
+    // <AllowanceTxButton
+    //   token={underlyingAddress!}
+    //   spender={lTokenAddress!}
+    //   amount={requestData ? requestData[1] : 0n}
+    //   size="tiny"
+    //   preparation={preparation as UseSimulateContractReturnType}
+    //   transactionSummary={`Process big request with ID = ${Number(requestId)}`}
+    // >
+    //   Process
+    // </AllowanceTxButton>
   );
 };
 
@@ -84,13 +124,12 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   const columnHelper = createColumnHelper<WithdrawalRequest>();
   const [requestsData, setRequestsData] = useState<WithdrawalRequest[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { data: queueCursor, queryKey: queueCursorQueryKey } = useReadLTokenWithdrawalQueueCursor({
+  const { data: queueCursor } = useReadLTokenWithdrawalQueueCursor({
     address: lTokenAddress,
   });
-  const { data: expectedRetained, queryKey: expectedRetainedQueryKey } =
-    useReadLTokenGetExpectedRetained({
-      address: lTokenAddress,
-    });
+  const { data: expectedRetained } = useReadLTokenGetExpectedRetained({
+    address: lTokenAddress,
+  });
   const { data: usableUnderlyings } = useReadLTokenUsableUnderlyings({
     address: lTokenAddress,
   });
@@ -106,29 +145,16 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   });
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queueCursorQueryKey, expectedRetainedQueryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
-
-  //
   const computeRequestsData = async () => {
-    setIsLoading(true);
-
+    // setIsLoading(true);
     // If queue cursor is available
     if (typeof queueCursor === "bigint") {
       let endOfQueueEncountered = false;
       const newRequestsData: WithdrawalRequest[] = [];
       let readQueueCursor = queueCursor;
-
       // Until we reach the end of the queue
       while (!endOfQueueEncountered) {
         const proms: Promise<readonly [`0x${string}`, bigint]>[] = [];
-
         // Retrieve batch of 50 queued requests data
         for (let i = readQueueCursor; i < readQueueCursor + 50n; i++) {
           proms.push(
@@ -139,20 +165,17 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
             }),
           );
         }
-
         // Wait for all data requests to settle
-        const requestsData = await Promise.allSettled(proms);
-
+        const _requestsData = await Promise.allSettled(proms);
         // Add requests data to the new data array
         for (let i = readQueueCursor; i < readQueueCursor + 50n; i++) {
-          const requestData = requestsData[Number(i - readQueueCursor)];
-          if (requestData.status === "fulfilled") {
-            const [account, amount] = requestData.value;
-
+          const _requestData = _requestsData[Number(i - readQueueCursor)];
+          if (_requestData.status === "fulfilled") {
+            const [account, amount] = _requestData.value;
             // Skip already processed requests
             if (Number(account) == 0) continue;
-
             // Else, add request data to the new data array
+            console.log(typeof expectedRetained);
             newRequestsData.push({
               id: i,
               account: account,
@@ -160,22 +183,18 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
               isBig: amount > expectedRetained! / 2n,
             });
           }
-
           // If an error occurred, we reached the end of the queue
           else {
             endOfQueueEncountered = true;
           }
         }
-
         // Increment queue cursor for next batch
         readQueueCursor += 50n;
       }
-
       // Set new data
       setRequestsData(newRequestsData);
     }
-
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   useEffect(() => {

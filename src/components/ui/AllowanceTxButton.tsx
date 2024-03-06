@@ -81,13 +81,13 @@ export const AllowanceTxButton: FC<Props> = ({
   }, [allowance]);
 
   // Refresh some data every 5 blocks
-  const queryKeys = [allowanceQueryKey, balanceQueryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  // const queryKeys = [allowanceQueryKey, balanceQueryKey];
+  // const { data: blockNumber } = useBlockNumber({ watch: true });
+  // const queryClient = useQueryClient();
+  // useEffect(() => {
+  //   if (blockNumber && blockNumber % 5n === 0n)
+  //     queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  // }, [blockNumber, ...queryKeys]);
 
   const hasEnoughAllowance = Boolean(allowance !== undefined && allowance >= amount);
 
