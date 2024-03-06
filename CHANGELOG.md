@@ -1,3 +1,10 @@
+## [1.247.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.246.1...v1.247.0) (2024-03-06)
+
+
+### Features
+
+* improve UX of new big withdrawal requests processing buttons ([cb9a2de](https://github.com/LedgityLabs/LedgityYield/commit/cb9a2decbcf140f848c741046a57827ad4af9f23))
+
 ## [1.246.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.246.0...v1.246.1) (2024-03-06)
 
 
