@@ -1,3 +1,10 @@
+## [1.246.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.246.0...v1.246.1) (2024-03-06)
+
+
+### Fixes
+
+* hot patch of withdrawal requests admin ([ff3a51b](https://github.com/LedgityLabs/LedgityYield/commit/ff3a51b4952270f0e77d45732db1e79f6bead941))
+
 ## [1.246.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.245.6...v1.246.0) (2024-03-02)
 
 
