@@ -226,7 +226,7 @@ export const AppAirdrop: FC = () => {
                   <br />
                   -
                   <br />
-                  1% of total supply
+                  1.33% of total supply
                 </TooltipContent>
               </Tooltip>
 
