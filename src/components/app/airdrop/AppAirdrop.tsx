@@ -222,11 +222,11 @@ export const AppAirdrop: FC = () => {
                   </li>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
-                  3,000,000 $LDY
+                  1,000,000 $LDY
                   <br />
                   -
                   <br />
-                  16% of 1yr supply
+                  1% of total supply
                 </TooltipContent>
               </Tooltip>
 
@@ -288,7 +288,7 @@ export const AppAirdrop: FC = () => {
                 </TooltipContent>
               </Tooltip>
 
-              <Tooltip>
+              {/* <Tooltip>
                 <TooltipTrigger asChild={true}>
                   <li
                     className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
@@ -317,7 +317,8 @@ export const AppAirdrop: FC = () => {
                   <br />
                   0.1% of total supply
                 </TooltipContent>
-              </Tooltip>
+              </Tooltip> */}
+
               <Tooltip>
                 <TooltipTrigger asChild={true}>
                   <li
@@ -344,41 +345,6 @@ export const AppAirdrop: FC = () => {
                   <br />
                 </TooltipContent>
               </Tooltip>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
-              <li className="h-28 min-w-[125px] inline-flex bg-gradient-to-tl from-slate-900 to-slate-800 rounded-3xl justify-center items-center p-3 border-2 border-dashed border-slate-600">
-                <p className="text-center text-[0.93rem] font-semibold text-slate-500">
-                  Not yet planned
-                </p>
-              </li>
             </ul>
           </div>
 
