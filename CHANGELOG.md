@@ -1,3 +1,11 @@
+## [1.247.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.0...v1.247.1) (2024-03-07)
+
+
+### Fixes
+
+* supply % typo ([3507936](https://github.com/LedgityLabs/LedgityYield/commit/35079368f29cf47c539b5aab1cb7597c5313b6c9))
+* update airdrop infos ([e16a404](https://github.com/LedgityLabs/LedgityYield/commit/e16a40423fc4727596abb15ef67de7dd13ad41a5))
+
 ## [1.247.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.246.1...v1.247.0) (2024-03-06)
 
 
