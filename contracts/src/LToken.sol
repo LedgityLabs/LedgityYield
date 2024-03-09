@@ -85,6 +85,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /// @notice Upper limit of retention rate.
     uint32 private constant MAX_RETENTION_RATE_UD7x3 = 10 * 10 ** 3; // 10%
 
+    /// @notice Upper limit of fees rate.
+    uint32 private constant MAX_FEES_RATE_UD7x3 = 20 * 10 ** 3; // 20%
+
     /// @notice Used in activity events to represent the absence of request ID.
     int256 private constant NO_ID = -1;
 
@@ -267,6 +270,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param feesRateUD7x3_ The new withdrawal fee rate in UD7x3 format.
      */
     function setFeesRate(uint32 feesRateUD7x3_) public onlyOwner {
+        require(feesRateUD7x3_ <= MAX_FEES_RATE_UD7x3, "L88");
         feesRateUD7x3 = feesRateUD7x3_;
     }
 

@@ -24,7 +24,6 @@ export const displayedErrors: { [key: string]: string } = {
   L11: "Not enough tokens to recover",
 
   // InvestUpgradeable.sol
-  L62: "A redirection is already active",
   L12: "From cannot be zero address",
   L13: "To cannot be zero address",
   L14: "Cannot be the same address",
@@ -33,6 +32,7 @@ export const displayedErrors: { [key: string]: string } = {
   L17: "To cannot be zero address",
   L18: "Forbidden",
   L19: "Not redirected",
+  L62: "A redirection is already active",
 
   // GlobalBlacklist.sol
   L20: "Cannot blacklist zero address",
@@ -61,8 +61,6 @@ export const displayedErrors: { [key: string]: string } = {
   L39: "Restricted to withdrawer",
   L40: "Restricted to fund",
   L41: "Retention rate must be <= 10%",
-  L63: "Cannot be zero address",
-  L64: "Cannot be zero address",
   L42: "Listener contract not found",
   L43: "Use recoverUnderlying() instead",
   L44: "Nothing to recover",
@@ -71,7 +69,6 @@ export const displayedErrors: { [key: string]: string } = {
   L47: "Insufficient balance",
   L48: "Insufficient balance",
   L49: "Please queue your request",
-  L66: "Request cancelled or already processed",
   L50: "Forbidden",
   L51: "Not a big request",
   L52: "Insufficient funds",
@@ -84,6 +81,10 @@ export const displayedErrors: { [key: string]: string } = {
   L59: "Retention rate exceeded",
   L60: "Nothing to claim yet",
   L61: "Insufficient funds",
+  L63: "Cannot be zero address",
+  L64: "Cannot be zero address",
+  L66: "Request cancelled or already processed",
+  L88: "Fees rate must be <= 20%",
 
   // PreMining.sol
   // L67: "Deposit phase not ended yet",
