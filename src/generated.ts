@@ -245,6 +245,19 @@ export const globalBlacklistAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Blacklisted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
       { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
     ],
     name: 'Initialized',
@@ -267,6 +280,19 @@ export const globalBlacklistAbi = [
       },
     ],
     name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unblacklisted',
   },
   {
     type: 'event',
@@ -3009,6 +3035,23 @@ export const useWatchGlobalBlacklistBeaconUpgradedEvent =
   })
 
 /**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Blacklisted"`
+ *
+ * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xc44395eC149C6743A268A901a38e5b02dc87D10C)
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistBlacklistedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Blacklisted',
+  })
+
+/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xc44395eC149C6743A268A901a38e5b02dc87D10C)
@@ -3040,6 +3083,23 @@ export const useWatchGlobalBlacklistOwnershipTransferredEvent =
     abi: globalBlacklistAbi,
     address: globalBlacklistAddress,
     eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Unblacklisted"`
+ *
+ * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xc44395eC149C6743A268A901a38e5b02dc87D10C)
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const useWatchGlobalBlacklistUnblacklistedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Unblacklisted',
   })
 
 /**
@@ -7081,6 +7141,23 @@ export const watchGlobalBlacklistBeaconUpgradedEvent =
   })
 
 /**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Blacklisted"`
+ *
+ * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xc44395eC149C6743A268A901a38e5b02dc87D10C)
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const watchGlobalBlacklistBlacklistedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Blacklisted',
+  })
+
+/**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xc44395eC149C6743A268A901a38e5b02dc87D10C)
@@ -7112,6 +7189,23 @@ export const watchGlobalBlacklistOwnershipTransferredEvent =
     abi: globalBlacklistAbi,
     address: globalBlacklistAddress,
     eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Unblacklisted"`
+ *
+ * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xc44395eC149C6743A268A901a38e5b02dc87D10C)
+ * -
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7fbE57dD4Ba76CACBFfBA821EE0B7faa240a11bf)
+ * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ */
+export const watchGlobalBlacklistUnblacklistedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: globalBlacklistAbi,
+    address: globalBlacklistAddress,
+    eventName: 'Unblacklisted',
   })
 
 /**

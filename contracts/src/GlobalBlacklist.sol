@@ -28,6 +28,12 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
      */
     mapping(address => bool) private _list;
 
+    /// @dev Emitted when `account` is blacklisted.
+    event Blacklisted(address account);
+
+    /// @dev Emitted when `account` is unblacklisted.
+    event Unblacklisted(address account);
+
     /**
      * @notice Prevents implementation contract from being initialized as recommended by
      * OpenZeppelin.
@@ -63,6 +69,7 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
     function blacklist(address account) external onlyOwner {
         require(account != address(0), "L20");
         _list[account] = true;
+        emit Blacklisted(account);
     }
 
     /**
@@ -71,6 +78,7 @@ contract GlobalBlacklist is Initializable, UUPSUpgradeable, GlobalOwnableUpgrade
      */
     function unBlacklist(address account) external onlyOwner {
         _list[account] = false;
+        emit Unblacklisted(account);
     }
 
     /**
