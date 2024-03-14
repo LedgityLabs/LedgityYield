@@ -1,3 +1,10 @@
+## [1.247.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.2...v1.247.3) (2024-03-14)
+
+
+### Fixes
+
+* remove OKX X1 from mainnet value computations ([e5ce5bf](https://github.com/LedgityLabs/LedgityYield/commit/e5ce5bf7fed95ac56ed048c11f77e8805a5f1239))
+
 ## [1.247.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.1...v1.247.2) (2024-03-09)
 
 
