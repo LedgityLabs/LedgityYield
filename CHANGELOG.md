@@ -1,3 +1,12 @@
+## [1.247.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.1...v1.247.2) (2024-03-09)
+
+
+### Fixes
+
+* resolve audit info F-2024-1182 ([26f2c61](https://github.com/LedgityLabs/LedgityYield/commit/26f2c612ef819941524756e8ca69c3aabb996320))
+* resolve audit info f-2024-1190 ([6fd9d21](https://github.com/LedgityLabs/LedgityYield/commit/6fd9d2123da96147f4919264b4b917e55385b839))
+* resolve audit low F-2024-1188 ([3505bdb](https://github.com/LedgityLabs/LedgityYield/commit/3505bdb2095d0816fb398b24d03c42a7f3ec6442))
+
 ## [1.247.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.0...v1.247.1) (2024-03-07)
 
 
