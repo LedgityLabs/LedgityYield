@@ -1,3 +1,10 @@
+## [1.248.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.3...v1.248.0) (2024-03-21)
+
+
+### Features
+
+* add dynamic holders count ([f0bce07](https://github.com/LedgityLabs/LedgityYield/commit/f0bce07cf79ab031f933233994c4624d43c555f0))
+
 ## [1.247.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.2...v1.247.3) (2024-03-14)
 
 
