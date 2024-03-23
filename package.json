@@ -98,7 +98,7 @@
     "hardhat": "^2.20.1",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-deploy": "^0.11.45",
-    "pino-pretty": "^10.3.1",
+    "pino-pretty": "^11.0.0",
     "postcss": "^8.4.35",
     "prettier": "^3.1.1",
     "prettier-plugin-jsdoc": "^1",
