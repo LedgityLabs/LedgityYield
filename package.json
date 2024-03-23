@@ -79,7 +79,7 @@
     "@graphprotocol/graph-ts": "0.31.0",
     "@next/bundle-analyzer": "^14.0.0",
     "@nomicfoundation/hardhat-verify": "^2",
-    "@openzeppelin/contracts": "4.9.0",
+    "@openzeppelin/contracts": "4.9.6",
     "@openzeppelin/contracts-upgradeable": "4.9.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
