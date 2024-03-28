@@ -1,3 +1,10 @@
+## [1.248.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.0...v1.248.1) (2024-03-23)
+
+
+### Fixes
+
+* temporarily remove pre-mining to prevent confusing with Intract campaign ([97f5338](https://github.com/LedgityLabs/LedgityYield/commit/97f53382ca322033d460f10e8a08d6163c1e94df))
+
 ## [1.248.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.247.3...v1.248.0) (2024-03-21)
 
 
