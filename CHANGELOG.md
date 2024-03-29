@@ -1,3 +1,10 @@
+## [1.248.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.1...v1.248.2) (2024-03-28)
+
+
+### Fixes
+
+* **contracts:** deployment scripts syntax error ([e0027b2](https://github.com/LedgityLabs/LedgityYield/commit/e0027b297166e415b19087c70571b8d335633f75))
+
 ## [1.248.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.0...v1.248.1) (2024-03-23)
 
 
