@@ -1,3 +1,10 @@
+## [1.248.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.2...v1.248.3) (2024-03-29)
+
+
+### Fixes
+
+* remove unused env variables, and mark as optional the airdrop ones ([2c35d78](https://github.com/LedgityLabs/LedgityYield/commit/2c35d78a4618d720cc361b42edc0cc05f5a8a173))
+
 ## [1.248.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.1...v1.248.2) (2024-03-28)
 
 
