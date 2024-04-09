@@ -8,26 +8,21 @@ import tokenTop from "~/assets/tokens/3d-ldy-top.png";
 import Link from "next/link";
 
 import { AppPreMiningParticipate } from "./AppPreMiningParticipate";
-// import { AppPreMiningProgression } from "./AppPreMiningProgression";
 
 export const AppPreMining: FC = () => {
   return (
-    <div className="flex max-w-full flex-col pb-8 lg:w-[830px] gap-0 items-center">
+    <div className="relative flex max-w-full flex-col pb-8 lg:w-[830px] gap-0 items-center">
+      <div className="flex items-center justify-center gap-2 px-4 py-1.5 bg-slate-700 text-slate-50 rounded-full absolute z-[50] -top-4 border-slate-200 border font-semibold drop-shadow-lg">
+        <i className="ri-calendar-close-fill" />
+        This event has ended
+      </div>
       <Card
         defaultGradient={true}
         circleIntensity={0.07}
         animated={false}
         className="flex max-w-full flex-col gap-x-10 overflow-hidden"
       >
-        {/* <div className="flex items-center md:justify-between justify-center sm:p-11 sm:pt-12 sm:pb-1 p-10 pb-5 flex-wrap gap-x-20 gap-y-10 mb-10">
-          <div className="flex items-center justify-center gap-4 opacity-80">
-            <Image src={arbitrumLogo} alt="Arbitrum" height={50} width={50} />
-            <h2 className="font-heading text-4xl font-bold text-[#20456c]">Pre-Mining</h2>
-          </div>
-          <AppPreMiningProgression />
-        </div> */}
-
-        <div className="flex flex-col gap-12 border-b border-b-indigo-950/5 bg-gradient-to-tr from-bg to-primary/40 px-8 rounded-tr-[1.75rem]">
+        <div className="flex flex-col gap-12 border-b border-b-indigo-950/5 bg-gradient-to-tr from-bg to-primary/40 px-8 rounded-tr-[1.75rem] opacity-80 brightness-75 blur-[1px]">
           <div className="flex flex-wrap-reverse justify-around gap-x-10">
             <p className="sm:pt-12 pt-10 font-heading min-[350px]:text-4xl text-3xl leading-10">
               <span className="sm:text-center text-left font-bold text-indigo-950/75">
@@ -44,9 +39,6 @@ export const AppPreMining: FC = () => {
                 </span>{" "}
                 <br />
                 Receive{" "}
-                <span className="underline decoration-indigo-700/20 decoration-4 underline-offset-2 whitespace-nowrap">
-                  very first
-                </span>{" "}
                 <span className="px-1.5 whitespace-nowrap">
                   <Image
                     src={ldyIcon}
@@ -90,8 +82,7 @@ export const AppPreMining: FC = () => {
                   This pool distributes{" "}
                   <span className="font-bold text-indigo-950/80">
                     ~12% of the 1-year LDY supply
-                  </span>{" "}
-                  with 6mo vesting after TGE.
+                  </span>
                 </li>
               </ol>
 
@@ -108,15 +99,6 @@ export const AppPreMining: FC = () => {
 
         <AppPreMiningParticipate />
       </Card>
-
-      <div className="bg-gradient-to-tr from-primary/10 to-primary/50 py-8 sm:px-8 px-5 rounded-b-3xl font-heading font-bold  flex flex-col gap-5 items-center justify-center border-2 border-primary/30 w-[90%] relative -top-2 -z-10">
-        <p className="text-base text-center inline-block rounded-2xl  px-2.5 py-1.5 bg-indigo-950/70 text-white/80 leading-none">
-          Limited-time bonus 🎉
-        </p>
-        <p className="text-2xl text-center text-indigo-950/75">
-          Invest &ge;1000 <TokenLogo symbol="USDC" size={25} className="inline" /> to get extra $LDY
-        </p>
-      </div>
     </div>
   );
 };

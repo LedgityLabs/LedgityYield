@@ -53,12 +53,12 @@ const _AppTabs: FC = () => {
             <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
           </div>
         </TabsTrigger>
-        {/* <TabsTrigger
+        <TabsTrigger
           value="pre-mining"
           className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0"
         >
           Pre-Mining
-        </TabsTrigger> */}
+        </TabsTrigger>
         {/* <TabsTrigger value="get-usdc">Get USDC</TabsTrigger> */}
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
