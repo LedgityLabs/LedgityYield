@@ -1,3 +1,10 @@
+## [1.250.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.249.0...v1.250.0) (2024-04-09)
+
+
+### Features
+
+* add extra layers of AML protection ([0cce492](https://github.com/LedgityLabs/LedgityYield/commit/0cce4926a25e62c64c890d739537a63085ecbed6))
+
 ## [1.249.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.3...v1.249.0) (2024-04-09)
 
 
