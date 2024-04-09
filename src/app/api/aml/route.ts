@@ -12,7 +12,6 @@ function sendSlackAlert(message: string) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text: `[FRONTEND] ${message}` }),
-    // next: { revalidate: 3600 * 24 * 7 },
   });
 }
 
@@ -22,7 +21,9 @@ export const GET = async (request: NextRequest) => {
   const ip = (request.headers.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
   // Check whether the IP location is restricted
-  const ipInfoReq = await fetch(`https://ipinfo.io/${ip}/country?token=${env.IPINFO_TOKEN}`);
+  const ipInfoReq = await fetch(`https://ipinfo.io/${ip}/country?token=${env.IPINFO_TOKEN}`, {
+    next: { revalidate: 3600 * 24 * 7 },
+  });
 
   // If the IP location check fails
   if (!ipInfoReq.ok && ip !== "::1") {
@@ -34,9 +35,8 @@ export const GET = async (request: NextRequest) => {
 
   // Else, ensure the IP location is not in restricted countries
   else {
-    const ipInfo = await ipInfoReq.json();
-    if (restrictedCountriesCodes.includes(ipInfo.country))
-      return NextResponse.json({ restricted: true });
+    const country = await ipInfoReq.text();
+    if (restrictedCountriesCodes.includes(country)) return NextResponse.json({ restricted: true });
   }
 
   // Check whether the wallet address is restricted
