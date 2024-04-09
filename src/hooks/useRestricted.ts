@@ -8,8 +8,9 @@ const useRestricted = () => {
 
   const updateRestrictionStatus = async () => {
     setIsLoading(true);
-    const response = await fetch(`/api/aml?address=${account.address}`, {
-      next: { revalidate: 3600 * 24 * 7 },
+    const addressParam = account.address ? `?address=${account.address}` : "";
+    const response = await fetch(`/api/aml${addressParam}`, {
+      //   next: { revalidate: 3600 * 24 * 7 },
     });
     if (!response.ok) console.error(`Error while fetching AML endpoint (${response.statusText})`);
     else {
@@ -20,12 +21,8 @@ const useRestricted = () => {
   };
 
   useEffect(() => {
-    if (account.address) updateRestrictionStatus();
+    updateRestrictionStatus();
   }, []);
-
-  //   useEffect(() => {
-  //     if (account.address) updateRestrictionStatus();
-  //   }, [account.address]);
 
   return { isRestricted, isLoading };
 };

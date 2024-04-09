@@ -4,14 +4,15 @@ import { isAddress } from "viem";
 
 const restrictedCountriesCodes = ["US", "IR", "KP", "SY", "CU", "SD", "SO", "YE", "IQ", "LY", "VE"];
 
-export const revalidate = 3600 * 24 * 7; // 1 week
+// export const revalidate = 3600 * 24 * 7; // 1 week
+export const revalidate = 0;
 
 function sendSlackAlert(message: string) {
   return fetch(env.AML_ALERT_WEBHOOK, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text: `[FRONTEND] ${message}` }),
-    next: { revalidate: 3600 * 24 * 7 },
+    // next: { revalidate: 3600 * 24 * 7 },
   });
 }
 
@@ -54,7 +55,7 @@ export const GET = async (request: NextRequest) => {
         blockchain: "Ethereum",
         coin: "ALL",
       }),
-      next: { revalidate: 3600 * 24 * 7 },
+      // next: { revalidate: 3600 * 24 * 7 },
     });
     const scoreChainRes = await scoreChainReq.json();
 
