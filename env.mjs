@@ -8,6 +8,9 @@ export const env = createEnv({
     REDIS_HOST: z.string().optional(),
     REDIS_USERNAME: z.string().optional(),
     REDIS_PASSWORD: z.string().optional(),
+    IPINFO_TOKEN: z.string(),
+    SCORECHAIN_API_KEY: z.string(),
+    AML_ALERT_WEBHOOK: z.string().url(),
   },
   client: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),
