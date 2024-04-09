@@ -35,7 +35,7 @@ export const GET = async (request: NextRequest) => {
 
   // Else, ensure the IP location is not in restricted countries
   else {
-    const country = await ipInfoReq.text();
+    const country = (await ipInfoReq.text()).replace("\n", "");
     if (restrictedCountriesCodes.includes(country)) return NextResponse.json({ restricted: true });
   }
 
