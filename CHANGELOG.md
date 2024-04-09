@@ -1,3 +1,10 @@
+## [1.249.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.3...v1.249.0) (2024-04-09)
+
+
+### Features
+
+* update Pre-Mining page to reflect end of the event and enable to unlock deposited USDC ([adeb0df](https://github.com/LedgityLabs/LedgityYield/commit/adeb0dffdb3bfd46c1e846673ec7525d95976730))
+
 ## [1.248.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.248.2...v1.248.3) (2024-03-29)
 
 
