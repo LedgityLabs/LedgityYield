@@ -1,3 +1,10 @@
+## [1.250.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.0...v1.250.1) (2024-04-09)
+
+
+### Fixes
+
+* enable useRestricted() hook to work when no wallet is connected ([d2f59e6](https://github.com/LedgityLabs/LedgityYield/commit/d2f59e6cd4bddb46c072d5cf0fc6211ecad79bff))
+
 ## [1.250.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.249.0...v1.250.0) (2024-04-09)
 
 
