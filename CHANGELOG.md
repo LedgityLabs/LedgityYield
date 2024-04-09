@@ -1,3 +1,10 @@
+## [1.250.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.2...v1.250.3) (2024-04-09)
+
+
+### Fixes
+
+* line break in IPINFO response was causing false positives ([70ce96c](https://github.com/LedgityLabs/LedgityYield/commit/70ce96c6344949c05483eccb7dd593f48d67a81c))
+
 ## [1.250.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.1...v1.250.2) (2024-04-09)
 
 
