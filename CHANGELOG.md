@@ -1,3 +1,10 @@
+## [1.250.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.1...v1.250.2) (2024-04-09)
+
+
+### Fixes
+
+* iPINFO response parsing + cache the response ([675a59c](https://github.com/LedgityLabs/LedgityYield/commit/675a59c71f8e21609dd5da359379f01ac3b3e92f))
+
 ## [1.250.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.0...v1.250.1) (2024-04-09)
 
 
