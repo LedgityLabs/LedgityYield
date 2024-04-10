@@ -1,3 +1,11 @@
+## [1.252.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.251.0...v1.252.0) (2024-04-10)
+
+
+### Features
+
+* implement ChainAnalysis OFAC sanctions screener ([81645b0](https://github.com/LedgityLabs/LedgityYield/commit/81645b05d2af7fb4818db842813727c2b2a817fc))
+* optimize AML endpoint caching ([785f2c9](https://github.com/LedgityLabs/LedgityYield/commit/785f2c9be34adb440394a1f0b54639672c604812))
+
 ## [1.251.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.4...v1.251.0) (2024-04-10)
 
 
