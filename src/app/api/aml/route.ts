@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import { env } from "../../../../env.mjs";
-import { isAddress } from "viem";
+import { createPublicClient, http, isAddress } from "viem";
+import chainalysisScreenerAbi from "./chainalysisScreenerAbi.json";
+import { mainnet } from "viem/chains";
 
 const restrictedCountriesCodes = ["US", "IR", "KP", "SY", "CU", "SD", "SO", "YE", "IQ", "LY", "VE"];
 
@@ -26,7 +28,6 @@ export const GET = async (request: NextRequest) => {
 
   // If the IP location check fails
   if (!ipInfoReq.ok && ip !== "::1") {
-    // Alert team on Slack and allow the request
     await sendSlackAlert(
       `Error while fetching IPINFO.io for IP ${ip} (message: "${ipInfoReq.statusText}")`,
     );
@@ -38,8 +39,9 @@ export const GET = async (request: NextRequest) => {
     if (restrictedCountriesCodes.includes(country)) return NextResponse.json({ restricted: true });
   }
 
-  // Check whether the wallet address is restricted
+  // If a valid address is provided
   if (address && isAddress(address)) {
+    // Retrieve wallet's ScoreChain analysis
     const scoreChainReq = await fetch("https://api.scorechain.com/v1/scoringAnalysis", {
       method: "POST",
       headers: {
@@ -58,17 +60,30 @@ export const GET = async (request: NextRequest) => {
     });
     const scoreChainRes = await scoreChainReq.json();
 
-    // If the wallet address check fails
-    if (!scoreChainReq.ok) {
-      if (![422, 404].includes(scoreChainReq.status))
-        // Alert team on Slack and allow the request
-        await sendSlackAlert(
-          `Error while requesting ScoreChain analysis for wallet ${address} (message: "${scoreChainRes.message}")`,
-        );
+    // If the wallet address check fails, and the error is not a 404 or 422
+    if (!scoreChainReq.ok && ![422, 404].includes(scoreChainReq.status)) {
+      await sendSlackAlert(
+        `Error while requesting ScoreChain analysis for wallet ${address} (message: "${scoreChainRes.message}")`,
+      );
     }
 
     // Else, ensure the wallet address is not restricted
     else if (scoreChainRes["lowestScore"] < 30) return NextResponse.json({ restricted: true });
+
+    // Then, check whether the wallet is the subject of OFAC sanctions
+    const client = createPublicClient({
+      chain: mainnet,
+      transport: http(),
+    });
+    const isSanctioned = await client.readContract({
+      address: "0x40C57923924B5c5c5455c48D93317139ADDaC8fb",
+      abi: chainalysisScreenerAbi,
+      functionName: "isSanctioned",
+      args: [address],
+    });
+
+    // If the wallet is sanctioned
+    if (isSanctioned) return NextResponse.json({ restricted: true });
   }
 
   // If the IP and wallet address are not restricted
