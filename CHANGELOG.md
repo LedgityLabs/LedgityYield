@@ -1,3 +1,10 @@
+## [1.251.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.4...v1.251.0) (2024-04-10)
+
+
+### Features
+
+* exclude ScoreChain 404 and 422 errors from alert ([22fa2f7](https://github.com/LedgityLabs/LedgityYield/commit/22fa2f79bb41c4b1322c98f728a803f698c03008))
+
 ## [1.250.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.3...v1.250.4) (2024-04-09)
 
 
