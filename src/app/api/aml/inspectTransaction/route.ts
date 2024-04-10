@@ -17,7 +17,7 @@ export const POST = async (request: NextRequest) => {
   // Iterate over the logs to find the "Transfer" events
   const logs = parseEventLogs({
     abi: lTokenAbi,
-    logs: body.logs,
+    logs: body.transaction.logs,
   });
   for (const log of logs) {
     if (log.eventName === "Transfer") {
