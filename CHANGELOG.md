@@ -1,3 +1,10 @@
+## [1.250.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.3...v1.250.4) (2024-04-09)
+
+
+### Fixes
+
+* re-enable ScoreChain request's cache ([c16c389](https://github.com/LedgityLabs/LedgityYield/commit/c16c389686182c2c88d4550e0b464e47afb70039))
+
 ## [1.250.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.250.2...v1.250.3) (2024-04-09)
 
 
