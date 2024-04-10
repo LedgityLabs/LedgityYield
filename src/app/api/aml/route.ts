@@ -82,6 +82,8 @@ export const GET = async (request: NextRequest) => {
       args: [address],
     });
 
+    console.log(isSanctioned);
+
     // If the wallet is sanctioned
     if (isSanctioned) return NextResponse.json({ restricted: true });
   }

@@ -53,13 +53,13 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
   });
 
   // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  // const queryKeys = [queryKey];
+  // const { data: blockNumber } = useBlockNumber({ watch: true });
+  // const queryClient = useQueryClient();
+  // useEffect(() => {
+  //   if (blockNumber && blockNumber % 5n === 0n)
+  //     queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  // }, [blockNumber, ...queryKeys]);
 
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();

@@ -10,7 +10,8 @@ const useRestricted = () => {
     setIsLoading(true);
     const addressParam = account.address ? `?address=${account.address}` : "";
     const response = await fetch(`/api/aml${addressParam}`, {
-      //   next: { revalidate: 3600 * 24 * 7 },
+      cache: "force-cache",
+      next: { revalidate: 60 },
     });
     if (!response.ok) console.error(`Error while fetching AML endpoint (${response.statusText})`);
     else {
