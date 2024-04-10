@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { isAccountHighRisk, isAccountSanctioned } from "../common";
+import { AlertContext, isAccountHighRisk, isAccountSanctioned } from "../common";
 import { parseEventLogs } from "viem";
 import { lTokenAbi } from "@/generated";
 
@@ -24,14 +24,19 @@ export const POST = async (request: NextRequest) => {
       // Isolate the "from" and "to" addresses
       const from = log.args.from;
       const to = log.args.to;
+      const alertContext: AlertContext = {
+        chainId: body.transaction.network_id,
+        txHash: body.transaction.hash,
+        blockNumber: body.transaction.block_number,
+      };
 
       // Check whether the wallets are OFAC sanctioned and/or high-risk
       // Ignore LUSDC contracts
       for (const account of [from, to]) {
         if (!lusdcAddresses.includes(account)) {
           if (
-            (await isAccountSanctioned(account, true)) ||
-            (await isAccountHighRisk(account, true))
+            (await isAccountSanctioned(account, true, alertContext)) ||
+            (await isAccountHighRisk(account, true, alertContext))
           )
             return NextResponse.json({ restricted: true });
         }

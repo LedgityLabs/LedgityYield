@@ -4,6 +4,19 @@ import { arbitrum } from "viem/chains";
 import chainalysisScreenerAbi from "./chainalysisScreenerAbi.json";
 
 const restrictedCountriesCodes = ["US", "IR", "KP", "SY", "CU", "SD", "SO", "YE", "IQ", "LY", "VE"];
+const chainName: Record<string, string> = {
+  "42161": "Arbitrum",
+  "59144": "Linea",
+};
+const chainExplorer: Record<string, string> = {
+  "42161": "https://arbiscan.io/tx/",
+  "59144": "https://lineascan.build/tx/",
+};
+export interface AlertContext {
+  chainId: string;
+  txHash: string;
+  blockNumber: string;
+}
 
 export async function sendSlackAlert(context: string, message: string) {
   return await fetch(env.AML_ALERT_WEBHOOK, {
@@ -22,7 +35,7 @@ export async function isIPRestricted(ip: string) {
   // Properly exit if the IP location request fails and that's not a local IP
   if (!ipInfoReq.ok && ip !== "::1") {
     await sendSlackAlert(
-      "IP Info Error",
+      "⚠️ IP Info Error ⚠️",
       `Error while fetching IPINFO.io for IP ${ip} (message: "${ipInfoReq.statusText}")`,
     );
     return false;
@@ -35,7 +48,11 @@ export async function isIPRestricted(ip: string) {
   }
 }
 
-export async function isAccountSanctioned(address: string, alert: boolean = false) {
+export async function isAccountSanctioned(
+  address: string,
+  alert: boolean = false,
+  alertContext?: AlertContext,
+) {
   const client = createPublicClient({
     chain: arbitrum,
     transport: http(),
@@ -50,14 +67,18 @@ export async function isAccountSanctioned(address: string, alert: boolean = fals
 
   if (isSanctioned && alert)
     await sendSlackAlert(
-      "Sanctioned Wallet Alert",
-      `The following account ("${address}") interacted with an LUSDC contract and is sanctioned by the OFAC. Consider freezing its address.`,
+      "🔴 Sanctioned Wallet Alert 🔴",
+      `The following account ("${address}") interacted with the LUSDC on ${chainName[alertContext!.chainId]} and is sanctioned by the OFAC. Consider freezing its address. Block: ${alertContext!.blockNumber} Transaction: ${chainExplorer[alertContext!.chainId]}${alertContext!.txHash}`,
     );
 
   return isSanctioned;
 }
 
-export async function isAccountHighRisk(address: string, alert: boolean = false) {
+export async function isAccountHighRisk(
+  address: string,
+  alert: boolean = false,
+  alertContext?: AlertContext,
+) {
   // Retrieve wallet's ScoreChain analysis
   const scoreChainReq = await fetch("https://api.scorechain.com/v1/scoringAnalysis", {
     method: "POST",
@@ -78,19 +99,18 @@ export async function isAccountHighRisk(address: string, alert: boolean = false)
   const scoreChainRes = await scoreChainReq.json();
 
   // If the wallet address check fails, and the error is not a 404 or 422
-  if (!scoreChainReq.ok && ![422, 404].includes(scoreChainReq.status)) {
+  if (!scoreChainReq.ok && ![422, 404].includes(scoreChainReq.status))
     await sendSlackAlert(
-      "ScoreChain Error",
+      "⚠️ ScoreChain Error ⚠️",
       `Error while requesting ScoreChain analysis for wallet ${address} (message: "${scoreChainRes.message}")`,
     );
-  }
 
   const isHighRisk = scoreChainRes["lowestScore"] < 30;
 
   if (isHighRisk && alert)
     await sendSlackAlert(
-      "High-Risk Wallet Alert",
-      `The following account ("${address}") interacted with an LUSDC contract and is ranked "high-risk" by ScoreChain. Consider freezing its address.`,
+      "🔴 High-Risk Wallet Alert 🔴",
+      `The following account ("${address}") interacted with the LUSDC on ${chainName[alertContext!.chainId]} and is ranked "high-risk" by ScoreChain. Consider freezing its address. Block: ${alertContext!.blockNumber} Transaction: ${chainExplorer[alertContext!.chainId]}${alertContext!.txHash}`,
     );
 
   return isHighRisk;
