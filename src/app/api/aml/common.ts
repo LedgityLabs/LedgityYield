@@ -51,7 +51,7 @@ export async function isAccountSanctioned(address: string, alert: boolean = fals
   if (isSanctioned && alert)
     await sendSlackAlert(
       "Sanctioned Wallet Alert",
-      `The following account ("${address}") interacted with an LUSDC contract and is sanctioned by the OFAC. Consider freezing this account.`,
+      `The following account ("${address}") interacted with an LUSDC contract and is sanctioned by the OFAC. Consider freezing its address.`,
     );
 
   return isSanctioned;
@@ -90,7 +90,7 @@ export async function isAccountHighRisk(address: string, alert: boolean = false)
   if (isHighRisk && alert)
     await sendSlackAlert(
       "High-Risk Wallet Alert",
-      `The following account ("${address}") interacted with an LUSDC contract and is scored "high-risk" by ScoreChain. Consider freezing this account.`,
+      `The following account ("${address}") interacted with an LUSDC contract and is ranked "high-risk" by ScoreChain. Consider freezing its address.`,
     );
 
   return isHighRisk;
