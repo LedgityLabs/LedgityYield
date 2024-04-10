@@ -1,3 +1,10 @@
+## [1.253.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.1...v1.253.2) (2024-04-10)
+
+
+### Fixes
+
+* wrong logs key access in inspect transaction ([44ddd3a](https://github.com/LedgityLabs/LedgityYield/commit/44ddd3af108d4474c84e78be57c1f706ae31887c))
+
 ## [1.253.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.0...v1.253.1) (2024-04-10)
 
 
