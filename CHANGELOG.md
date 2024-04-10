@@ -1,3 +1,10 @@
+## [1.253.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.0...v1.253.1) (2024-04-10)
+
+
+### Fixes
+
+* properly parse logs of Tenderly webhook's payload ([28295ac](https://github.com/LedgityLabs/LedgityYield/commit/28295ace42cde782e6b94e5480877af59954c606))
+
 ## [1.253.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.252.0...v1.253.0) (2024-04-10)
 
 
