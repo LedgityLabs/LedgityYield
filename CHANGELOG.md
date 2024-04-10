@@ -1,3 +1,10 @@
+## [1.253.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.3...v1.253.4) (2024-04-10)
+
+
+### Fixes
+
+* improve alerts' contextual informations ([feca925](https://github.com/LedgityLabs/LedgityYield/commit/feca9257fd7ca560248e28e03d278d808222e117))
+
 ## [1.253.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.2...v1.253.3) (2024-04-10)
 
 
