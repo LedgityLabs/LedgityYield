@@ -1,5 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { isAccountHighRisk, isAccountSanctioned } from "../common";
+import { parseEventLogs } from "viem";
+import { lTokenAbi } from "@/generated";
 
 export const revalidate = 0;
 
@@ -11,16 +13,32 @@ const lusdcAddresses = [
 export const POST = async (request: NextRequest) => {
   // Retrieve Tenderly webhook data
   const body = await request.json();
-  const [from, to, value] = body.logs;
 
-  for (const account of [from, to]) {
-    // If the address is not an LUSDC contract
-    if (!lusdcAddresses.includes(account)) {
-      // Check whether the wallet is OFAC sanctioned and/or high-risk
-      if ((await isAccountSanctioned(account, true)) || (await isAccountHighRisk(account, true)))
-        return NextResponse.json({ restricted: true });
+  // Iterate over the logs to find the "Transfer" events
+  const logs = parseEventLogs({
+    abi: lTokenAbi,
+    logs: body.logs,
+  });
+  for (const log of logs) {
+    if (log.eventName === "Transfer") {
+      // Isolate the "from" and "to" addresses
+      const from = log.args.from;
+      const to = log.args.to;
+
+      // Check whether the wallets are OFAC sanctioned and/or high-risk
+      // Ignore LUSDC contracts
+      for (const account of [from, to]) {
+        if (!lusdcAddresses.includes(account)) {
+          if (
+            (await isAccountSanctioned(account, true)) ||
+            (await isAccountHighRisk(account, true))
+          )
+            return NextResponse.json({ restricted: true });
+        }
+      }
     }
   }
+
   // If the IP and wallet address are not restricted
   return NextResponse.json({ restricted: false });
 };
