@@ -1,3 +1,10 @@
+## [1.253.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.252.0...v1.253.0) (2024-04-10)
+
+
+### Features
+
+* refactor AML endpoints and expose a transaction analysis webhook ([f428395](https://github.com/LedgityLabs/LedgityYield/commit/f42839529db9ab28a412610bdcc41338325b478f))
+
 ## [1.252.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.251.0...v1.252.0) (2024-04-10)
 
 
