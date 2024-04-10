@@ -9,7 +9,7 @@ const useRestricted = () => {
   const updateRestrictionStatus = async () => {
     setIsLoading(true);
     const addressParam = account.address ? `?address=${account.address}` : "";
-    const response = await fetch(`/api/aml${addressParam}`, {
+    const response = await fetch(`/api/aml/inspectAccount${addressParam}`, {
       cache: "force-cache",
       next: { revalidate: 60 },
     });
