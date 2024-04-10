@@ -60,10 +60,11 @@ export const GET = async (request: NextRequest) => {
 
     // If the wallet address check fails
     if (!scoreChainReq.ok) {
-      // Alert team on Slack and allow the request
-      await sendSlackAlert(
-        `Error while requesting ScoreChain analysis for wallet ${address} (message: "${scoreChainRes.message}")`,
-      );
+      if (![422, 404].includes(scoreChainReq.status))
+        // Alert team on Slack and allow the request
+        await sendSlackAlert(
+          `Error while requesting ScoreChain analysis for wallet ${address} (message: "${scoreChainRes.message}")`,
+        );
     }
 
     // Else, ensure the wallet address is not restricted
