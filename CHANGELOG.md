@@ -1,3 +1,10 @@
+## [1.253.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.2...v1.253.3) (2024-04-10)
+
+
+### Fixes
+
+* improve activity monitoring alert messages ([b914b48](https://github.com/LedgityLabs/LedgityYield/commit/b914b4840be122a74a4446aa9fb53fbd655cb406))
+
 ## [1.253.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.1...v1.253.2) (2024-04-10)
 
 
