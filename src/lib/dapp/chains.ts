@@ -1,4 +1,12 @@
-import { hardhat, arbitrum, arbitrumGoerli, lineaTestnet, linea, Chain } from "@wagmi/core/chains";
+import {
+  hardhat,
+  arbitrum,
+  arbitrumGoerli,
+  lineaTestnet,
+  linea,
+  Chain,
+  base,
+} from "@wagmi/core/chains";
 
 // Build chain icons map
 export const chainsIcons = {
@@ -8,6 +16,7 @@ export const chainsIcons = {
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
   195: "/assets/chains/okxlogo.png",
+  8453: "/assets/chains/base.png",
 } as { [key: number]: string };
 
 const okcTestnet: Chain = {
@@ -34,7 +43,7 @@ if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, okcTestnet];
+const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, base, okcTestnet];
 const devChains: readonly [Chain, ...Chain[]] = [
   ...prodChains,
   hardhat,

@@ -5,7 +5,7 @@ pragma solidity 0.8.18;
 import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import "./abstracts/base/ERC20BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
-import {LDYStaking} from "./DummyLDYStaking.sol";
+import {LDYStaking} from "./LDYStaking.sol";
 
 // Libraries
 import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";

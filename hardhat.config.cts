@@ -29,6 +29,27 @@ try {
   arbiscanApiKey = secrets.ARBISCAN_API_KEY;
 } catch (e) {}
 
+// Retrive Sepolia API key from secrets.json (if available)
+let sepoliaApiKey: string | undefined;
+try {
+  const secrets = require("./secrets.json");
+  sepoliaApiKey = secrets.ETHERSCAN_API_KEY;
+} catch (e) {}
+
+// Retrive BaseScan API key from secrets.json (if available)
+let basescanApiKey: string | undefined;
+try {
+  const secrets = require("./secrets.json");
+  basescanApiKey = secrets.BASESCAN_API_KEY;
+} catch (e) {}
+
+// Retrive BaseScan API key from secrets.json (if available)
+let okxscanApiKey: string | undefined;
+try {
+  const secrets = require("./secrets.json");
+  okxscanApiKey = secrets.OKXSCAN_API_KEY;
+} catch (e) {}
+
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.18",
@@ -70,6 +91,18 @@ const config: HardhatUserConfig = {
         },
       },
     },
+    sepolia: {
+      chainId: 11155111,
+      url: "https://eth-sepolia.g.alchemy.com/v2/-papiHFcZc0tr4XSPsnwE0bhdTKLetjg",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: sepoliaApiKey,
+          apiUrl: "https://api-sepolia.etherscan.io",
+        },
+      },
+    },
     lineaGoerli: {
       chainId: 59140,
       url: "https://linea-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
@@ -94,17 +127,64 @@ const config: HardhatUserConfig = {
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
     },
-    OKX_X1_testnet: {
-      chainId: 195,
-      url: "https://testrpc.x1.tech",
+    OKX_X1_mainnet: {
+      chainId: 196,
+      url: "https://rpc.xlayer.tech",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: okxscanApiKey,
+          apiUrl: "https://www.oklink.com/api/explorer/v1/contract/verify/async/xlayer",
+        },
+      },
+    },
+    OKX_X1_testnet: {
+      chainId: 195,
+      url: "https://testrpc.xlayer.tech",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: okxscanApiKey,
+          apiUrl: "https://www.oklink.com/api/explorer/v1/contract/verify/async/xlayer_test",
+        },
+      },
+    },
+    base: {
+      chainId: 8453,
+      url: "https://base-mainnet.g.alchemy.com/v2/XH9V8IOVLgFCIP-EAflB27MR0Bc5oVoO",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: basescanApiKey,
+          apiUrl: "https://api.basescan.org",
+        },
+      },
+    },
+    baseSepolia: {
+      chainId: 84532,
+      url: "https://base-sepolia.g.alchemy.com/v2/spQc9SK_L-lIL2tJpYXuhLk2YJNwbuEr",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: basescanApiKey,
+          apiUrl: "https://api-sepolia.basescan.org",
+        },
+      },
     },
   },
   etherscan: {
     apiKey: {
       linea: lineascanApiKey!,
       arbitrumOne: arbiscanApiKey!,
+      sepolia: sepoliaApiKey!,
+      base: basescanApiKey!,
+      baseSepolia: basescanApiKey!,
+      OKX_X1_mainnet: okxscanApiKey!,
+      OKX_X1_testnet: okxscanApiKey!,
     },
     customChains: [
       {
@@ -113,6 +193,38 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api.lineascan.build/api",
           browserURL: "https://lineascan.build",
+        },
+      },
+      {
+        network: "base",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org",
+        },
+      },
+      {
+        network: "baseSepolia",
+        chainId: 84532,
+        urls: {
+          apiURL: "https://api-sepolia.basescan.org/api",
+          browserURL: "https://sepolia.basescan.org",
+        },
+      },
+      {
+        network: "OKX_X1_mainnet",
+        chainId: 196,
+        urls: {
+          apiURL: "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/xlayer",
+          browserURL: "https://www.oklink.com/xlayer",
+        },
+      },
+      {
+        network: "OKX_X1_testnet",
+        chainId: 195,
+        urls: {
+          apiURL: "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/xlayer_test",
+          browserURL: "https://www.oklink.com/xlayer-test",
         },
       },
     ],
