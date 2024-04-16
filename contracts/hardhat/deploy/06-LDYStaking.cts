@@ -5,6 +5,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
+  const ldyToken = await deployments.get("LDY");
   // Retrieve lusdc contract
   const ONE_MONTH = 31 * 24 * 60 * 60;
   const StakingDurations = [
@@ -20,7 +21,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   await deployments.deploy("LDYStaking", {
     from: deployer,
     log: true,
-    args: [StakingDurations, StakeDurationForPerks, StakeAmountForPerks],
+    args: [ldyToken.address, StakingDurations, StakeDurationForPerks, StakeAmountForPerks],
     waitConfirmations: chainId == "31337" ? 1 : 2,
   });
 }) as DeployFunction;

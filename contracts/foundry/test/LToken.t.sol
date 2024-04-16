@@ -185,12 +185,12 @@ contract Tests is Test, ModifiersExpectations {
         ];
         // Deploy LDYStaking
         ldyStaking = new LDYStaking(
+            address(ldyToken),
             stakingDurations,
             12 * oneMonth,
             1000 * 1e18
         );
-        ldyStaking.setStakeRewardToken(address(ldyToken));
-        
+
         // Deploy GenericERC20 (the underlying token)
         underlyingToken = new GenericERC20("Dummy USD", "DUSD", 18);
         vm.label(address(underlyingToken), "Underlying Token");

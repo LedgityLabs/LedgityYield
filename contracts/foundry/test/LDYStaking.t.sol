@@ -24,10 +24,14 @@ contract LDYStakingTest is Test, ModifiersExpectations {
             36 * oneMonth
         ];
         // Deploy LDYStaking
-        ldyStaking = new LDYStaking(stakingDurations, 12 * oneMonth, 1000 * 1e18);
+        ldyStaking = new LDYStaking(
+            address(ldyToken),
+            stakingDurations,
+            12 * oneMonth,
+            1000 * 1e18
+        );
 
         // Set initial rewards amount and duration
-        ldyStaking.setStakeRewardToken(address(ldyToken));
         uint256 rewardsDuration = 12 * oneMonth;
         ldyStaking.setRewardsDuration(rewardsDuration);
 

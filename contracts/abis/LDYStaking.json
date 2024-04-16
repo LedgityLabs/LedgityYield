@@ -3,7 +3,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_stakeAndRewardToken",
+        "name": "_stakeRewardToken",
         "type": "address"
       },
       {

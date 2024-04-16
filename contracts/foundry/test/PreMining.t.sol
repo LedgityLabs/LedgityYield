@@ -84,8 +84,12 @@ contract Tests is Test, ModifiersExpectations {
             36 * oneMonth
         ];
         // Deploy LDYStaking
-        ldyStaking = new LDYStaking(stakingDurations, 12 * oneMonth, 1000 * 1e18);
-        ldyStaking.setStakeRewardToken(address(ldyToken));
+        ldyStaking = new LDYStaking(
+            address(ldyToken),
+            stakingDurations,
+            12 * oneMonth,
+            1000 * 1e18
+        );
 
         // Deploy the L-Token contract
         TestedLToken impl5 = new TestedLToken();

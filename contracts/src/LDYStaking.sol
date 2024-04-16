@@ -28,7 +28,7 @@ contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
         uint256 rewards; // Rewards to be claimed
     }
 
-    IERC20 public Token;
+    IERC20 public immutable Token;
 
     uint256 public immutable StakeDurationForPerks;
     uint256 public immutable StakeAmountForPerks;
@@ -65,10 +65,12 @@ contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
     mapping(address => bool) public highTierAccounts;
 
     constructor(
+        address _stakeRewardToken,
         uint256[] memory _stakeDurations,
         uint256 _stakeDurationForPerks,
         uint256 _stakeAmountForPerks
     ) {
+        Token = IERC20(_stakeRewardToken);
         StakeDurations = _stakeDurations;
         StakeDurationForPerks = _stakeDurationForPerks;
         StakeAmountForPerks = _stakeAmountForPerks;
@@ -165,10 +167,6 @@ contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
         require(userStakingInfo[msg.sender].length >= _stakeNumber + 1, "invalid stakeNumber");
         _updateReward(msg.sender, _stakeNumber);
         _claimReward(msg.sender, _stakeNumber);
-    }
-
-    function setStakeRewardToken(address _stakeAndRewardToken) external onlyOwner {
-        Token = IERC20(_stakeAndRewardToken);
     }
 
     function setRewardsDuration(uint256 _duration) external onlyOwner {
