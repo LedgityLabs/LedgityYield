@@ -1,61 +1,100 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-import "@openzeppelin/contracts/access/Ownable2Step.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+// Contracts
+import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import {BaseUpgradeable} from "./abstracts/base/BaseUpgradeable.sol";
+
+// Libraries
+import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+
+// Interfaces
+import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 /**
  * @title LDYStaking
  * @custom:security-contact security@ledgity.com
- *
  *
  * @dev This contract implements tierOf() function from LDYStaking as it's the only
  * one the LToken contract relies on.
  *
  * @custom:security-contact security@ledgity.com
  */
-contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
-    using SafeERC20 for IERC20;
+contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
+    using SafeERC20Upgradeable for IERC20Upgradeable;
 
+    /**
+     * @notice Represents a user staking info in array.
+     * @param stakedAmount Amount of the stake.
+     * @param unStakeAt Unstake at.
+     * @param duration Staking period in seconds.
+     * @param rewardPerTokenPaid Reward per token paid.
+     * @param rewards Rewards to be claimed.
+     */
     struct StakingInfo {
-        uint256 stakedAmount; // Amount of the stake
-        uint256 unStakeAt; // Unstake at
-        uint256 duration; // Staking period in seconds
-        uint256 rewardPerTokenPaid; // Reward per token paid
-        uint256 rewards; // Rewards to be claimed
+        uint256 stakedAmount;
+        uint256 unStakeAt;
+        uint256 duration;
+        uint256 rewardPerTokenPaid;
+        uint256 rewards;
     }
 
-    IERC20 public immutable Token;
+    /// @notice Stake and Reward token.
+    IERC20Upgradeable public stakeRewardToken;
 
-    uint256 public immutable StakeDurationForPerks;
-    uint256 public immutable StakeAmountForPerks;
+    /// @notice Minimal stake duration for perks.
+    uint256 public stakeDurationForPerks;
 
-    // Stake durations
-    uint256[] public StakeDurations;
+    /// @notice Minimal stake amount for perks.
+    uint256 public stakeAmountForPerks;
 
-    // Duration of the rewards (in seconds)
+    /// @notice Stake durations.
+    uint256[] public stakeDurations;
+
+    /// @notice Duration of the rewards (in seconds).
     uint256 public rewardsDuration;
-    // Timestamp of when the rewards finish
+
+    /// @notice Timestamp of when the rewards finish.
     uint256 public finishAt;
-    // Timestamp of the reward updated
+
+    /// @notice Timestamp of the reward updated.
     uint256 public lastUpdateTime;
-    // Reward per second(total rewards / duration)
+
+    /// @notice Reward per second(total rewards / duration).
     uint256 public rewardRatePerSec;
-    // Sum of (reward rate * dt * 1e18 / total supply)
+
+    /// @notice Reward per token stored, sum of (reward rate * dt * 1e18 / total supply).
     uint256 public rewardPerTokenStored;
 
-    // Total staked amounts
+    /// @notice Total staked amounts.
     uint256 public totalStaked;
 
-    // User address => array of the staking info
+    /// @notice User stakingInfo map, user address => array of the staking info
     mapping(address => StakingInfo[]) public userStakingInfo;
 
-    event Staked(address indexed user, uint256 stakeNumber, uint256 amount);
-    event Unstaked(address indexed user, uint256 stakeNumber, uint256 amount);
-    event RewardPaid(address indexed user, uint256 stakeNumber, uint256 reward);
+    /**
+     * @notice Emitted when users stake token
+     * @param user User address
+     * @param stakeIndex Latest index of user staking pool
+     * @param amount Staked amount
+     */
+    event Staked(address indexed user, uint256 stakeIndex, uint256 amount);
+
+    /**
+     * @notice Emitted when users unstake token
+     * @param user User address
+     * @param stakeIndex User staking pool index
+     * @param amount Staked amount
+     */
+    event Unstaked(address indexed user, uint256 stakeIndex, uint256 amount);
+
+    /**
+     * @notice Emitted when users claim rewards
+     * @param user User address
+     * @param stakeIndex User staking pool index
+     * @param reward Reward token amount
+     */
+    event RewardPaid(address indexed user, uint256 stakeIndex, uint256 reward);
 
     /**
      * @notice Holds a mapping of addresses that default to the highest staking tier.
@@ -64,22 +103,201 @@ contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
      */
     mapping(address => bool) public highTierAccounts;
 
-    constructor(
-        address _stakeRewardToken,
-        uint256[] memory _stakeDurations,
-        uint256 _stakeDurationForPerks,
-        uint256 _stakeAmountForPerks
-    ) {
-        Token = IERC20(_stakeRewardToken);
-        StakeDurations = _stakeDurations;
-        StakeDurationForPerks = _stakeDurationForPerks;
-        StakeAmountForPerks = _stakeAmountForPerks;
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
     }
 
+    /**
+     * @notice Initializes the contract and sets the initial state variables. This is called by the proxy and should only be called once.
+     * @dev This function is intended for setting initial values for the contract's state variables.
+     * @param globalOwner_ The address of the GlobalOwner contract.
+     * @param globalPause_ The address of the GlobalPause contract.
+     * @param globalBlacklist_ The address of the GlobalBlacklist contract.
+     * @param stakeRewardToken_ The address of stake and reward token(LDY token).
+     * @param stakeDurations_ Available Staking Durations.
+     * @param stakeDurationForPerks_ Minimal staking duration for perks.
+     * @param stakeAmountForPerks_ Minimal staking amount for perks.
+     */
+    function initialize(
+        address globalOwner_,
+        address globalPause_,
+        address globalBlacklist_,
+        address stakeRewardToken_,
+        uint256[] memory stakeDurations_,
+        uint256 stakeDurationForPerks_,
+        uint256 stakeAmountForPerks_
+    ) public initializer {
+        __Base_init(globalOwner_, globalPause_, globalBlacklist_);
+        stakeRewardToken = IERC20Upgradeable(stakeRewardToken_);
+        stakeDurations = stakeDurations_;
+        stakeDurationForPerks = stakeDurationForPerks_;
+        stakeAmountForPerks = stakeAmountForPerks_;
+    }
+
+    // --------------------
+    //  MUTATIVE FUNCTIONS
+    // --------------------
+
+    /**
+     * @notice Staked tokens cannot be withdrawn during the stakeDuration period and are eligible to claim rewards.
+     * @dev Emits a `Staked` event upon successful staking.
+     * @param amount The amount of tokens to stake.
+     * @param stakeDurationIndex The Index of stakeDurations array.
+     */
+    function stake(
+        uint256 amount,
+        uint8 stakeDurationIndex
+    ) external nonReentrant whenNotPaused notBlacklisted(_msgSender()) {
+        require(amount > 0, "amount = 0");
+        require(stakeDurationIndex <= stakeDurations.length - 1, "invalid staking period");
+
+        _updateReward(address(0), 0);
+        uint256 stakeDuration = stakeDurations[stakeDurationIndex];
+        StakingInfo memory stakingInfo = StakingInfo({
+            stakedAmount: amount,
+            unStakeAt: block.timestamp + stakeDuration,
+            duration: stakeDuration,
+            rewardPerTokenPaid: rewardPerTokenStored,
+            rewards: 0
+        });
+
+        // check whether account is eligible for benefit from the protocol
+        if (stakeDuration >= stakeDurationForPerks && amount >= stakeAmountForPerks) {
+            highTierAccounts[_msgSender()] = true;
+        }
+
+        userStakingInfo[_msgSender()].push(stakingInfo);
+
+        uint256 stakeIndex = userStakingInfo[_msgSender()].length - 1;
+        totalStaked += amount;
+
+        stakeRewardToken.safeTransferFrom(_msgSender(), address(this), amount);
+
+        emit Staked(_msgSender(), stakeIndex, amount);
+    }
+
+    /**
+     * @notice Withdraw staked tokens after stakeDuration has passed.
+     * @dev Emits a `Unstaked` event upon successful withdrawal.
+     * On full withdrawal, userStakingInfo removes stake pool for stakeIndex.
+     * @param amount The amount of tokens to withdraw.
+     * @param stakeIndex The index of user staking pool
+     */
+    function unstake(
+        uint256 amount,
+        uint256 stakeIndex
+    ) external nonReentrant notBlacklisted(_msgSender()) {
+        require(amount > 0, "amount = 0");
+        require(userStakingInfo[_msgSender()].length >= stakeIndex + 1, "invalid stakeIndex");
+        require(
+            block.timestamp >= userStakingInfo[_msgSender()][stakeIndex].unStakeAt,
+            "not allowed unstaking in the staking period"
+        );
+        require(
+            amount <= userStakingInfo[_msgSender()][stakeIndex].stakedAmount,
+            "insufficient amount"
+        );
+
+        _updateReward(_msgSender(), stakeIndex);
+        totalStaked -= amount;
+        userStakingInfo[_msgSender()][stakeIndex].stakedAmount -= amount;
+
+        // check whether account is eligible for benefit from the protocol
+        if (
+            userStakingInfo[_msgSender()][stakeIndex].duration >= stakeDurationForPerks &&
+            userStakingInfo[_msgSender()][stakeIndex].stakedAmount < stakeAmountForPerks
+        ) {
+            highTierAccounts[_msgSender()] = false;
+        }
+
+        // remove staking info from array on full withdrawal
+        if (userStakingInfo[_msgSender()][stakeIndex].stakedAmount == 0) {
+            _claimReward(_msgSender(), stakeIndex);
+
+            userStakingInfo[_msgSender()][stakeIndex] = userStakingInfo[_msgSender()][
+                userStakingInfo[_msgSender()].length - 1
+            ];
+            userStakingInfo[_msgSender()].pop();
+        }
+        stakeRewardToken.safeTransfer(_msgSender(), amount);
+
+        emit Unstaked(_msgSender(), stakeIndex, amount);
+    }
+
+    /**
+     * @notice Claim pending rewards.
+     * @dev Emits a `RewardPaid` event upon successful reward claim.
+     * @param stakeIndex The index of user staking pool.
+     */
+    function getReward(uint256 stakeIndex) external nonReentrant notBlacklisted(_msgSender()) {
+        require(userStakingInfo[_msgSender()].length >= stakeIndex + 1, "invalid stakeIndex");
+        _updateReward(_msgSender(), stakeIndex);
+        _claimReward(_msgSender(), stakeIndex);
+    }
+
+    // --------------------
+    // ADMIN CONFIGURATION
+    // --------------------
+
+    /**
+     * @notice Update Rewards Duration.
+     * @dev Only callable by owner, and setting available only after rewards period.
+     * @param duration The nmew rewards duration in seconds.
+     */
+    function setRewardsDuration(uint256 duration) external onlyOwner {
+        require(finishAt < block.timestamp, "reward duration is not finished");
+        rewardsDuration = duration;
+    }
+
+    /**
+     * @notice Notify the contract about the amount of rewards to be distributed and update reward parameters.
+     * @dev Only callable by owner.
+     * @param amount The amount of reward to be distributed.
+     */
+    function notifyRewardAmount(uint256 amount) external onlyOwner {
+        require(rewardsDuration > 0, "rewards duration is not set");
+        require(amount > 0, "amount = 0");
+
+        _updateReward(address(0), 0);
+
+        if (block.timestamp >= finishAt) {
+            rewardRatePerSec = amount / rewardsDuration;
+        } else {
+            uint256 remainingRewards = (finishAt - block.timestamp) * rewardRatePerSec;
+            rewardRatePerSec = (amount + remainingRewards) / rewardsDuration;
+        }
+
+        require(rewardRatePerSec > 0, "reward rate = 0");
+        require(
+            rewardRatePerSec <=
+                (stakeRewardToken.balanceOf(address(this)) + amount - totalStaked) /
+                    rewardsDuration,
+            "reward amount > balance"
+        );
+
+        finishAt = block.timestamp + rewardsDuration;
+        lastUpdateTime = block.timestamp;
+
+        stakeRewardToken.safeTransferFrom(_msgSender(), address(this), amount);
+    }
+
+    // --------------------
+    //    VIEW FUNCTIONS
+    // --------------------
+
+    /**
+     * @notice Get the last time when rewards were applicable for the specified reward token.
+     * @return Timestamp of the most recent rewards calculation.
+     */
     function lastTimeRewardApplicable() public view returns (uint256) {
         return _min(finishAt, block.timestamp);
     }
 
+    /**
+     * @notice Calculate the reward per token for a given reward token.
+     * @return Current reward per token.
+     */
     function rewardPerToken() public view returns (uint256) {
         if (totalStaked == 0) {
             return rewardPerTokenStored;
@@ -91,112 +309,17 @@ contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
             totalStaked;
     }
 
-    function stake(uint256 _amount, uint8 _stakePeriodIndex) external nonReentrant whenNotPaused {
-        require(_amount > 0, "amount = 0");
-        require(_stakePeriodIndex <= StakeDurations.length - 1, "invalid staking period");
-
-        _updateReward(address(0), 0);
-        uint256 stakeDuration = StakeDurations[_stakePeriodIndex];
-        StakingInfo memory stakingInfo = StakingInfo({
-            stakedAmount: _amount,
-            unStakeAt: block.timestamp + stakeDuration,
-            duration: stakeDuration,
-            rewardPerTokenPaid: rewardPerTokenStored,
-            rewards: 0
-        });
-
-        // check whether account is eligible for benefit from the protocol
-        if (stakeDuration >= StakeDurationForPerks && _amount >= StakeAmountForPerks) {
-            highTierAccounts[msg.sender] = true;
-        }
-
-        userStakingInfo[msg.sender].push(stakingInfo);
-
-        uint256 stakeNumber = userStakingInfo[msg.sender].length - 1;
-        totalStaked += _amount;
-
-        Token.safeTransferFrom(msg.sender, address(this), _amount);
-        emit Staked(msg.sender, stakeNumber, _amount);
-    }
-
-    function unstake(uint256 _amount, uint256 _stakeNumber) external nonReentrant {
-        require(_amount > 0, "amount = 0");
-        require(userStakingInfo[msg.sender].length >= _stakeNumber + 1, "invalid stakeNumber");
-        require(
-            block.timestamp >= userStakingInfo[msg.sender][_stakeNumber].unStakeAt,
-            "not allowed unstaking in the staking period"
-        );
-        require(
-            _amount <= userStakingInfo[msg.sender][_stakeNumber].stakedAmount,
-            "insufficient amount"
-        );
-
-        _updateReward(msg.sender, _stakeNumber);
-        totalStaked -= _amount;
-        userStakingInfo[msg.sender][_stakeNumber].stakedAmount -= _amount;
-
-        // check whether account is eligible for benefit from the protocol
-        if (
-            userStakingInfo[msg.sender][_stakeNumber].duration >= StakeDurationForPerks &&
-            userStakingInfo[msg.sender][_stakeNumber].stakedAmount < StakeAmountForPerks
-        ) {
-            highTierAccounts[msg.sender] = false;
-        }
-
-        // remove staking info from array
-        if (userStakingInfo[msg.sender][_stakeNumber].stakedAmount == 0) {
-            _claimReward(msg.sender, _stakeNumber);
-
-            userStakingInfo[msg.sender][_stakeNumber] = userStakingInfo[msg.sender][
-                userStakingInfo[msg.sender].length - 1
-            ];
-            userStakingInfo[msg.sender].pop();
-        }
-        Token.safeTransfer(msg.sender, _amount);
-        emit Unstaked(msg.sender, _stakeNumber, _amount);
-    }
-
-    function earned(address _account, uint256 _stakeNumber) public view returns (uint256) {
-        StakingInfo memory userInfo = userStakingInfo[_account][_stakeNumber];
+    /**
+     * @notice Calculate the total earned rewards for a user.
+     * @param account Address of the user.
+     * @param stakeIndex User's locked token balance.
+     * @return Total earned rewards for the user.
+     */
+    function earned(address account, uint256 stakeIndex) public view returns (uint256) {
+        StakingInfo memory userInfo = userStakingInfo[account][stakeIndex];
         uint256 rewardsSinceLastUpdate = ((userInfo.stakedAmount *
             (rewardPerToken() - userInfo.rewardPerTokenPaid)) / 1e18);
         return rewardsSinceLastUpdate + userInfo.rewards;
-    }
-
-    function getReward(uint256 _stakeNumber) external nonReentrant {
-        require(userStakingInfo[msg.sender].length >= _stakeNumber + 1, "invalid stakeNumber");
-        _updateReward(msg.sender, _stakeNumber);
-        _claimReward(msg.sender, _stakeNumber);
-    }
-
-    function setRewardsDuration(uint256 _duration) external onlyOwner {
-        require(finishAt < block.timestamp, "reward duration is not finished");
-        rewardsDuration = _duration;
-    }
-
-    function notifyRewardAmount(uint256 _amount) external onlyOwner {
-        require(rewardsDuration > 0, "rewards duration is not set");
-        require(_amount > 0, "amount = 0");
-
-        _updateReward(address(0), 0);
-
-        Token.safeTransferFrom(msg.sender, address(this), _amount);
-
-        if (block.timestamp >= finishAt) {
-            rewardRatePerSec = _amount / rewardsDuration;
-        } else {
-            uint256 remainingRewards = (finishAt - block.timestamp) * rewardRatePerSec;
-            rewardRatePerSec = (_amount + remainingRewards) / rewardsDuration;
-        }
-
-        require(rewardRatePerSec > 0, "reward rate = 0");
-        require(
-            rewardRatePerSec * rewardsDuration <= (Token.balanceOf(address(this)) - totalStaked),
-            "reward amount > balance"
-        );
-
-        finishAt = block.timestamp + rewardsDuration;
-        lastUpdateTime = block.timestamp;
     }
 
     /**
@@ -210,39 +333,51 @@ contract LDYStaking is Ownable2Step, ReentrancyGuard, Pausable {
         return 0;
     }
 
-    function getUserStakes(address _user) external view returns (StakingInfo[] memory) {
-        return userStakingInfo[_user];
+    /**
+     * @notice Get User Stake Data.
+     * @param account The address of user.
+     * @return StakingInfo array.
+     */
+    function getUserStakes(address account) external view returns (StakingInfo[] memory) {
+        return userStakingInfo[account];
     }
 
-    function _claimReward(address _user, uint256 _stakeNumber) private {
-        uint256 reward = userStakingInfo[_user][_stakeNumber].rewards;
+    /**
+     * @notice Send rewards to user.
+     * @dev This is private function, called by getReward function.
+     * @param account The address of user.
+     * @param stakeIndex The index of user staking pool.
+     */
+    function _claimReward(address account, uint256 stakeIndex) private {
+        uint256 reward = userStakingInfo[account][stakeIndex].rewards;
 
         if (reward > 0) {
-            userStakingInfo[_user][_stakeNumber].rewards = 0;
-            Token.safeTransfer(_user, reward);
-            emit RewardPaid(_user, _stakeNumber, reward);
+            userStakingInfo[account][stakeIndex].rewards = 0;
+            stakeRewardToken.safeTransfer(account, reward);
+            emit RewardPaid(account, stakeIndex, reward);
         }
     }
 
-    function _updateReward(address _account, uint256 _stakeNumber) private {
+    /**
+     * @notice Calculate and update user rewards per stakeIndex.
+     * @dev this is private function, called by stake, unstake, getRewards, and notifyRewardAmount functions.
+     * @param account The address of user.
+     * @param stakeIndex The index of user staking pool.
+     */
+    function _updateReward(address account, uint256 stakeIndex) private {
         rewardPerTokenStored = rewardPerToken();
         lastUpdateTime = lastTimeRewardApplicable();
 
-        if (_account != address(0)) {
-            userStakingInfo[_account][_stakeNumber].rewards = earned(_account, _stakeNumber);
-            userStakingInfo[_account][_stakeNumber].rewardPerTokenPaid = rewardPerTokenStored;
+        if (account != address(0)) {
+            userStakingInfo[account][stakeIndex].rewards = earned(account, stakeIndex);
+            userStakingInfo[account][stakeIndex].rewardPerTokenPaid = rewardPerTokenStored;
         }
     }
 
+    /**
+     * @notice Take minimum value between x and y.
+     */
     function _min(uint256 x, uint256 y) private pure returns (uint256) {
         return x <= y ? x : y;
-    }
-
-    function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
     }
 }

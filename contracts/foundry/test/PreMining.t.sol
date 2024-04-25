@@ -84,7 +84,13 @@ contract Tests is Test, ModifiersExpectations {
             36 * oneMonth
         ];
         // Deploy LDYStaking
-        ldyStaking = new LDYStaking(
+        LDYStaking impl4 = new LDYStaking();
+        ERC1967Proxy proxy4 = new ERC1967Proxy(address(impl4), "");
+        ldyStaking = LDYStaking(address(proxy4));
+        ldyStaking.initialize(
+            address(globalOwner),
+            address(globalPause),
+            address(globalBlacklist),
             address(ldyToken),
             stakingDurations,
             12 * oneMonth,

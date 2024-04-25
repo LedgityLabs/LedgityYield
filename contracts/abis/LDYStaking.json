@@ -1,27 +1,6 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_stakeRewardToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_stakeDurations",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_stakeDurationForPerks",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_stakeAmountForPerks",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -29,19 +8,45 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "previousAdmin",
         "type": "address"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
-        "name": "newOwner",
+        "name": "newAdmin",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferStarted",
+    "name": "AdminChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "beacon",
+        "type": "address"
+      }
+    ],
+    "name": "BeaconUpgraded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
     "type": "event"
   },
   {
@@ -88,7 +93,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "stakeNumber",
+        "name": "stakeIndex",
         "type": "uint256"
       },
       {
@@ -113,7 +118,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "stakeNumber",
+        "name": "stakeIndex",
         "type": "uint256"
       },
       {
@@ -151,7 +156,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "stakeNumber",
+        "name": "stakeIndex",
         "type": "uint256"
       },
       {
@@ -165,69 +170,17 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "StakeAmountForPerks",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "StakeDurationForPerks",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "anonymous": false,
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "StakeDurations",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "Token",
-    "outputs": [
-      {
-        "internalType": "contract IERC20",
-        "name": "",
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
         "type": "address"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "acceptOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "Upgraded",
+    "type": "event"
   },
   {
     "inputs": [
@@ -238,7 +191,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_stakeNumber",
+        "name": "_stakeIndex",
         "type": "uint256"
       }
     ],
@@ -270,7 +223,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_stakeNumber",
+        "name": "_stakeIndex",
         "type": "uint256"
       }
     ],
@@ -326,6 +279,45 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "globalBlacklist",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "globalOwner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "globalPause",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -342,6 +334,49 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_globalOwner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_globalPause",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_globalBlacklist",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_stakeRewardToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_stakeDurations",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_stakeDurationForPerks",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_stakeAmountForPerks",
+        "type": "uint256"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -398,13 +433,6 @@
   },
   {
     "inputs": [],
-    "name": "pause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "paused",
     "outputs": [
       {
@@ -418,22 +446,40 @@
   },
   {
     "inputs": [],
-    "name": "pendingOwner",
+    "name": "proxiableUUID",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "bytes32",
         "name": "",
-        "type": "address"
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "recoverERC20",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -510,13 +556,71 @@
       },
       {
         "internalType": "uint8",
-        "name": "_stakePeriodIndex",
+        "name": "_stakeDurationIndex",
         "type": "uint8"
       }
     ],
     "name": "stake",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stakeAmountForPerks",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stakeDurationForPerks",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "stakeDurations",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stakeRewardToken",
+    "outputs": [
+      {
+        "internalType": "contract IERC20Upgradeable",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -561,14 +665,7 @@
     ],
     "name": "transferOwnership",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "unpause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -580,13 +677,44 @@
       },
       {
         "internalType": "uint256",
-        "name": "_stakeNumber",
+        "name": "_stakeIndex",
         "type": "uint256"
       }
     ],
     "name": "unstake",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      }
+    ],
+    "name": "upgradeTo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "upgradeToAndCall",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
