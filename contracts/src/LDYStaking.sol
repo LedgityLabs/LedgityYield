@@ -97,6 +97,13 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     event RewardPaid(address indexed user, uint256 stakeIndex, uint256 reward);
 
     /**
+     * @notice Emitted when admin add rewards.
+     * @param rewardAmount Reward amount added by admin.
+     * @param rewardPerSec RewardRatePerSec updated.
+     */
+    event NotifiedRewardAmount(uint256 rewardAmount, uint256 rewardPerSec);
+
+    /**
      * @notice Holds a mapping of addresses that default to the highest staking tier.
      * @dev This is notably used to allow PreMining contracts to benefit from 0%
      * withdrawal fees in L-Tokens contracts, when accounts unlock their funds.
@@ -280,6 +287,8 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
         lastUpdateTime = block.timestamp;
 
         stakeRewardToken.safeTransferFrom(_msgSender(), address(this), amount);
+
+        emit NotifiedRewardAmount(amount, rewardRatePerSec);
     }
 
     // --------------------

@@ -53,6 +53,25 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "rewardAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "rewardPerSec",
+        "type": "uint256"
+      }
+    ],
+    "name": "NotifiedRewardAmount",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "previousOwner",
@@ -186,12 +205,12 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_account",
+        "name": "account",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "_stakeIndex",
+        "name": "stakeIndex",
         "type": "uint256"
       }
     ],
@@ -223,7 +242,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_stakeIndex",
+        "name": "stakeIndex",
         "type": "uint256"
       }
     ],
@@ -236,7 +255,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_user",
+        "name": "account",
         "type": "address"
       }
     ],
@@ -340,37 +359,37 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_globalOwner",
+        "name": "globalOwner_",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_globalPause",
+        "name": "globalPause_",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_globalBlacklist",
+        "name": "globalBlacklist_",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_stakeRewardToken",
+        "name": "stakeRewardToken_",
         "type": "address"
       },
       {
         "internalType": "uint256[]",
-        "name": "_stakeDurations",
+        "name": "stakeDurations_",
         "type": "uint256[]"
       },
       {
         "internalType": "uint256",
-        "name": "_stakeDurationForPerks",
+        "name": "stakeDurationForPerks_",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_stakeAmountForPerks",
+        "name": "stakeAmountForPerks_",
         "type": "uint256"
       }
     ],
@@ -409,7 +428,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -538,7 +557,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_duration",
+        "name": "duration",
         "type": "uint256"
       }
     ],
@@ -551,12 +570,12 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "amount",
         "type": "uint256"
       },
       {
         "internalType": "uint8",
-        "name": "_stakeDurationIndex",
+        "name": "stakeDurationIndex",
         "type": "uint8"
       }
     ],
@@ -672,12 +691,12 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "amount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_stakeIndex",
+        "name": "stakeIndex",
         "type": "uint256"
       }
     ],

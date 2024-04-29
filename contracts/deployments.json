@@ -27770,7 +27770,7 @@
       "chainId": "84532",
       "contracts": {
         "APRHistory": {
-          "address": "0xc8Db9118fc5a89C7f88a6298c2CfBd472005d627",
+          "address": "0x9b508ABEbB61a0C24d28A728BB45834e440e4761",
           "abi": [
             {
               "inputs": [
@@ -27866,7 +27866,7 @@
           ]
         },
         "GlobalBlacklist": {
-          "address": "0x88578535cA4bc6e45b90a3eDf3f43A80891354Dd",
+          "address": "0x546b48297Ce50FA31a383aFe7Df48297337c12B5",
           "abi": [
             {
               "anonymous": false,
@@ -28146,7 +28146,7 @@
           ]
         },
         "GlobalBlacklist_Implementation": {
-          "address": "0x5aEAEbc600b66F61924bC854752228440C2b594f",
+          "address": "0x3860D3642E0e6Ee4f8AF53B39777417eb697B1ec",
           "abi": [
             {
               "inputs": [],
@@ -28407,7 +28407,7 @@
           ]
         },
         "GlobalBlacklist_Proxy": {
-          "address": "0x88578535cA4bc6e45b90a3eDf3f43A80891354Dd",
+          "address": "0x546b48297Ce50FA31a383aFe7Df48297337c12B5",
           "abi": [
             {
               "inputs": [
@@ -28481,7 +28481,7 @@
           ]
         },
         "GlobalOwner": {
-          "address": "0x8dC054e19EB34B6b4f2f968FF2218094849aA8B3",
+          "address": "0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2",
           "abi": [
             {
               "anonymous": false,
@@ -28710,7 +28710,7 @@
           ]
         },
         "GlobalOwner_Implementation": {
-          "address": "0x3CBF80D6A6ddB0795a9Adfd7A09E7b5aDdA2DeE1",
+          "address": "0xcF85a7eF9f59D98F419Ba09a075De8319777C218",
           "abi": [
             {
               "inputs": [],
@@ -28920,7 +28920,7 @@
           ]
         },
         "GlobalOwner_Proxy": {
-          "address": "0x8dC054e19EB34B6b4f2f968FF2218094849aA8B3",
+          "address": "0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2",
           "abi": [
             {
               "inputs": [
@@ -28994,7 +28994,7 @@
           ]
         },
         "GlobalPause": {
-          "address": "0xe5053FFc5EEcb12bB3596fC4dA8625Ba30449DAE",
+          "address": "0x9992CC9176f2b86c56FDA697D814C1a054C2035e",
           "abi": [
             {
               "anonymous": false,
@@ -29256,7 +29256,7 @@
           ]
         },
         "GlobalPause_Implementation": {
-          "address": "0x706Cb4f3D672465a3915a8E1a3A2f40732Db128e",
+          "address": "0x1f3c77bE982B11a391646CC50149f3cD23A7b61B",
           "abi": [
             {
               "inputs": [],
@@ -29499,7 +29499,7 @@
           ]
         },
         "GlobalPause_Proxy": {
-          "address": "0xe5053FFc5EEcb12bB3596fC4dA8625Ba30449DAE",
+          "address": "0x9992CC9176f2b86c56FDA697D814C1a054C2035e",
           "abi": [
             {
               "inputs": [
@@ -29573,7 +29573,7 @@
           ]
         },
         "LDY": {
-          "address": "0x3AB39A3B53f316e2e4d4fdCaEdB0FD405C68dca7",
+          "address": "0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E",
           "abi": [
             {
               "inputs": [],
@@ -29884,33 +29884,26 @@
           ]
         },
         "LDYStaking": {
-          "address": "0x508c8530a9c87439Ff82AE3dFA070BCdEBf0715b",
+          "address": "0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1",
           "abi": [
             {
+              "anonymous": false,
               "inputs": [
                 {
+                  "indexed": false,
                   "internalType": "address",
-                  "name": "_stakeRewardToken",
+                  "name": "previousAdmin",
                   "type": "address"
                 },
                 {
-                  "internalType": "uint256[]",
-                  "name": "_stakeDurations",
-                  "type": "uint256[]"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "_stakeDurationForPerks",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "_stakeAmountForPerks",
-                  "type": "uint256"
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "newAdmin",
+                  "type": "address"
                 }
               ],
-              "stateMutability": "nonpayable",
-              "type": "constructor"
+              "name": "AdminChanged",
+              "type": "event"
             },
             {
               "anonymous": false,
@@ -29918,17 +29911,64 @@
                 {
                   "indexed": true,
                   "internalType": "address",
-                  "name": "previousOwner",
-                  "type": "address"
-                },
-                {
-                  "indexed": true,
-                  "internalType": "address",
-                  "name": "newOwner",
+                  "name": "beacon",
                   "type": "address"
                 }
               ],
-              "name": "OwnershipTransferStarted",
+              "name": "BeaconUpgraded",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "implementation",
+                  "type": "address"
+                }
+              ],
+              "name": "Upgraded",
+              "type": "event"
+            },
+            {
+              "stateMutability": "payable",
+              "type": "fallback"
+            },
+            {
+              "stateMutability": "payable",
+              "type": "receive"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint8",
+                  "name": "version",
+                  "type": "uint8"
+                }
+              ],
+              "name": "Initialized",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "rewardAmount",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "rewardPerSec",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NotifiedRewardAmount",
               "type": "event"
             },
             {
@@ -29975,7 +30015,7 @@
                 {
                   "indexed": false,
                   "internalType": "uint256",
-                  "name": "stakeNumber",
+                  "name": "stakeIndex",
                   "type": "uint256"
                 },
                 {
@@ -30000,7 +30040,7 @@
                 {
                   "indexed": false,
                   "internalType": "uint256",
-                  "name": "stakeNumber",
+                  "name": "stakeIndex",
                   "type": "uint256"
                 },
                 {
@@ -30038,7 +30078,7 @@
                 {
                   "indexed": false,
                   "internalType": "uint256",
-                  "name": "stakeNumber",
+                  "name": "stakeIndex",
                   "type": "uint256"
                 },
                 {
@@ -30052,80 +30092,15 @@
               "type": "event"
             },
             {
-              "inputs": [],
-              "name": "StakeAmountForPerks",
-              "outputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [],
-              "name": "StakeDurationForPerks",
-              "outputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "name": "StakeDurations",
-              "outputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [],
-              "name": "Token",
-              "outputs": [
-                {
-                  "internalType": "contract IERC20",
-                  "name": "",
-                  "type": "address"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [],
-              "name": "acceptOwnership",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
               "inputs": [
                 {
                   "internalType": "address",
-                  "name": "_account",
+                  "name": "account",
                   "type": "address"
                 },
                 {
                   "internalType": "uint256",
-                  "name": "_stakeNumber",
+                  "name": "stakeIndex",
                   "type": "uint256"
                 }
               ],
@@ -30157,7 +30132,7 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_stakeNumber",
+                  "name": "stakeIndex",
                   "type": "uint256"
                 }
               ],
@@ -30170,7 +30145,7 @@
               "inputs": [
                 {
                   "internalType": "address",
-                  "name": "_user",
+                  "name": "account",
                   "type": "address"
                 }
               ],
@@ -30213,6 +30188,45 @@
               "type": "function"
             },
             {
+              "inputs": [],
+              "name": "globalBlacklist",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "globalOwner",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "globalPause",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
               "inputs": [
                 {
                   "internalType": "address",
@@ -30229,6 +30243,49 @@
                 }
               ],
               "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "globalOwner_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "globalPause_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "globalBlacklist_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "stakeRewardToken_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256[]",
+                  "name": "stakeDurations_",
+                  "type": "uint256[]"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "stakeDurationForPerks_",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "stakeAmountForPerks_",
+                  "type": "uint256"
+                }
+              ],
+              "name": "initialize",
+              "outputs": [],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -30261,7 +30318,7 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_amount",
+                  "name": "amount",
                   "type": "uint256"
                 }
               ],
@@ -30285,13 +30342,6 @@
             },
             {
               "inputs": [],
-              "name": "pause",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
-              "inputs": [],
               "name": "paused",
               "outputs": [
                 {
@@ -30305,22 +30355,40 @@
             },
             {
               "inputs": [],
-              "name": "pendingOwner",
+              "name": "proxiableUUID",
               "outputs": [
                 {
-                  "internalType": "address",
+                  "internalType": "bytes32",
                   "name": "",
-                  "type": "address"
+                  "type": "bytes32"
                 }
               ],
               "stateMutability": "view",
               "type": "function"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "tokenAddress",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "recoverERC20",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
               "inputs": [],
               "name": "renounceOwnership",
               "outputs": [],
-              "stateMutability": "nonpayable",
+              "stateMutability": "view",
               "type": "function"
             },
             {
@@ -30379,7 +30447,7 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_duration",
+                  "name": "duration",
                   "type": "uint256"
                 }
               ],
@@ -30392,18 +30460,76 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_amount",
+                  "name": "amount",
                   "type": "uint256"
                 },
                 {
                   "internalType": "uint8",
-                  "name": "_stakePeriodIndex",
+                  "name": "stakeDurationIndex",
                   "type": "uint8"
                 }
               ],
               "name": "stake",
               "outputs": [],
               "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "stakeAmountForPerks",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "stakeDurationForPerks",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "name": "stakeDurations",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "stakeRewardToken",
+              "outputs": [
+                {
+                  "internalType": "contract IERC20Upgradeable",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
               "type": "function"
             },
             {
@@ -30448,12 +30574,686 @@
               ],
               "name": "transferOwnership",
               "outputs": [],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "stakeIndex",
+                  "type": "uint256"
+                }
+              ],
+              "name": "unstake",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newImplementation",
+                  "type": "address"
+                }
+              ],
+              "name": "upgradeTo",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newImplementation",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "name": "upgradeToAndCall",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "name": "userStakingInfo",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "stakedAmount",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "unStakeAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "duration",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rewardPerTokenPaid",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rewards",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "_logic",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "_data",
+                  "type": "bytes"
+                }
+              ],
+              "stateMutability": "payable",
+              "type": "constructor"
+            }
+          ]
+        },
+        "LDYStaking_Implementation": {
+          "address": "0x1157f1b171DC382165389c43a70De2E73da3645E",
+          "abi": [
+            {
+              "inputs": [],
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "previousAdmin",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "newAdmin",
+                  "type": "address"
+                }
+              ],
+              "name": "AdminChanged",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "beacon",
+                  "type": "address"
+                }
+              ],
+              "name": "BeaconUpgraded",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint8",
+                  "name": "version",
+                  "type": "uint8"
+                }
+              ],
+              "name": "Initialized",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "rewardAmount",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "rewardPerSec",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NotifiedRewardAmount",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "previousOwner",
+                  "type": "address"
+                },
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "newOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "OwnershipTransferred",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "Paused",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "stakeIndex",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "reward",
+                  "type": "uint256"
+                }
+              ],
+              "name": "RewardPaid",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "stakeIndex",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "Staked",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "Unpaused",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "stakeIndex",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "Unstaked",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "implementation",
+                  "type": "address"
+                }
+              ],
+              "name": "Upgraded",
+              "type": "event"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "stakeIndex",
+                  "type": "uint256"
+                }
+              ],
+              "name": "earned",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "finishAt",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "stakeIndex",
+                  "type": "uint256"
+                }
+              ],
+              "name": "getReward",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "getUserStakes",
+              "outputs": [
+                {
+                  "components": [
+                    {
+                      "internalType": "uint256",
+                      "name": "stakedAmount",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "unStakeAt",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "duration",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "rewardPerTokenPaid",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "rewards",
+                      "type": "uint256"
+                    }
+                  ],
+                  "internalType": "struct LDYStaking.StakingInfo[]",
+                  "name": "",
+                  "type": "tuple[]"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "globalBlacklist",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "globalOwner",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "globalPause",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "name": "highTierAccounts",
+              "outputs": [
+                {
+                  "internalType": "bool",
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "globalOwner_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "globalPause_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "globalBlacklist_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "stakeRewardToken_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256[]",
+                  "name": "stakeDurations_",
+                  "type": "uint256[]"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "stakeDurationForPerks_",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "stakeAmountForPerks_",
+                  "type": "uint256"
+                }
+              ],
+              "name": "initialize",
+              "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
             },
             {
               "inputs": [],
-              "name": "unpause",
+              "name": "lastTimeRewardApplicable",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "lastUpdateTime",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "notifyRewardAmount",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "owner",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "paused",
+              "outputs": [
+                {
+                  "internalType": "bool",
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "proxiableUUID",
+              "outputs": [
+                {
+                  "internalType": "bytes32",
+                  "name": "",
+                  "type": "bytes32"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "tokenAddress",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "recoverERC20",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "renounceOwnership",
+              "outputs": [],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "rewardPerToken",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "rewardPerTokenStored",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "rewardRatePerSec",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "rewardsDuration",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "duration",
+                  "type": "uint256"
+                }
+              ],
+              "name": "setRewardsDuration",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -30462,18 +31262,170 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_amount",
+                  "name": "amount",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "stakeDurationIndex",
+                  "type": "uint8"
+                }
+              ],
+              "name": "stake",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "stakeAmountForPerks",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "stakeDurationForPerks",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "name": "stakeDurations",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "stakeRewardToken",
+              "outputs": [
+                {
+                  "internalType": "contract IERC20Upgradeable",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "tierOf",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "tier",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "totalStaked",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "transferOwnership",
+              "outputs": [],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
                   "type": "uint256"
                 },
                 {
                   "internalType": "uint256",
-                  "name": "_stakeNumber",
+                  "name": "stakeIndex",
                   "type": "uint256"
                 }
               ],
               "name": "unstake",
               "outputs": [],
               "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newImplementation",
+                  "type": "address"
+                }
+              ],
+              "name": "upgradeTo",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newImplementation",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "name": "upgradeToAndCall",
+              "outputs": [],
+              "stateMutability": "payable",
               "type": "function"
             },
             {
@@ -30522,8 +31474,82 @@
             }
           ]
         },
+        "LDYStaking_Proxy": {
+          "address": "0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1",
+          "abi": [
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "_logic",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "_data",
+                  "type": "bytes"
+                }
+              ],
+              "stateMutability": "payable",
+              "type": "constructor"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "previousAdmin",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "newAdmin",
+                  "type": "address"
+                }
+              ],
+              "name": "AdminChanged",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "beacon",
+                  "type": "address"
+                }
+              ],
+              "name": "BeaconUpgraded",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "implementation",
+                  "type": "address"
+                }
+              ],
+              "name": "Upgraded",
+              "type": "event"
+            },
+            {
+              "stateMutability": "payable",
+              "type": "fallback"
+            },
+            {
+              "stateMutability": "payable",
+              "type": "receive"
+            }
+          ]
+        },
         "LTokenSignaler": {
-          "address": "0x0772879C3025451A3AE88478044E4eF7bEe2F832",
+          "address": "0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B",
           "abi": [
             {
               "anonymous": false,
@@ -30758,7 +31784,7 @@
           ]
         },
         "LTokenSignaler_Implementation": {
-          "address": "0x9699c3596b8D011B814192e72E6AcA621c71C683",
+          "address": "0xBa93a7D76cD3873D63cb9F6510FEF3c1fB78be86",
           "abi": [
             {
               "inputs": [],
@@ -30974,7 +32000,7 @@
           ]
         },
         "LTokenSignaler_Proxy": {
-          "address": "0x0772879C3025451A3AE88478044E4eF7bEe2F832",
+          "address": "0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B",
           "abi": [
             {
               "inputs": [
@@ -31048,7 +32074,7 @@
           ]
         },
         "LUSDC": {
-          "address": "0x5566CfD614b89caEb65cE94551BBe4960Ce4dEaD",
+          "address": "0x3E995f24C0417b4A010B2DC403093F3e27B85d33",
           "abi": [
             {
               "anonymous": false,
@@ -32376,7 +33402,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0xE1Dab2ab15613472eeFB6C0Bd99B418bc15C8adc",
+          "address": "0x2c0F4C6127693C688ff4b8794fdB22FfB235cd87",
           "abi": [
             {
               "anonymous": false,
@@ -33680,7 +34706,7 @@
           ]
         },
         "LUSDC_Proxy": {
-          "address": "0x5566CfD614b89caEb65cE94551BBe4960Ce4dEaD",
+          "address": "0x3E995f24C0417b4A010B2DC403093F3e27B85d33",
           "abi": [
             {
               "inputs": [
