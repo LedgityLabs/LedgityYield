@@ -9,7 +9,7 @@ import {GlobalOwner} from "../../src/GlobalOwner.sol";
 import {GlobalPause} from "../../src/GlobalPause.sol";
 import {GlobalBlacklist} from "../../src/GlobalBlacklist.sol";
 import {GenericERC20} from "../../src/GenericERC20.sol";
-import {LDYStaking} from "../../src/DummyLDYStaking.sol";
+import {LDYStaking} from "../../src/LDYStaking.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {ModifiersExpectations} from "./_helpers/ModifiersExpectations.sol";
 
@@ -43,6 +43,8 @@ contract Tests is Test, ModifiersExpectations {
     address payable withdrawerWallet = payable(address(bytes20("withdrawerWallet")));
     address payable fundWallet = payable(address(bytes20("fundWallet")));
 
+    uint256[] public stakingDurations;
+
     function setUp() public {
         // Deploy GenericERC20 (the $LDY token)
         ldyToken = new GenericERC20("Ledgity Token", "LDY", 18);
@@ -73,8 +75,27 @@ contract Tests is Test, ModifiersExpectations {
         globalBlacklist.initialize(address(globalOwner));
         vm.label(address(globalBlacklist), "GlobalBlacklist");
 
-        // Deploy dummy LDYStaking contract
-        ldyStaking = new LDYStaking();
+        uint256 oneMonth = 31 * 24 * 60 * 60;
+        stakingDurations = [
+            1 * oneMonth,
+            6 * oneMonth,
+            12 * oneMonth,
+            24 * oneMonth,
+            36 * oneMonth
+        ];
+        // Deploy LDYStaking
+        LDYStaking impl4 = new LDYStaking();
+        ERC1967Proxy proxy4 = new ERC1967Proxy(address(impl4), "");
+        ldyStaking = LDYStaking(address(proxy4));
+        ldyStaking.initialize(
+            address(globalOwner),
+            address(globalPause),
+            address(globalBlacklist),
+            address(ldyToken),
+            stakingDurations,
+            12 * oneMonth,
+            1000 * 1e18
+        );
 
         // Deploy the L-Token contract
         TestedLToken impl5 = new TestedLToken();
@@ -108,7 +129,13 @@ contract Tests is Test, ModifiersExpectations {
 
         // Set the lockdrop contract as high tier account in LDYStaking contract
         // This prevents it from having to pay for withdrawal fees
-        ldyStaking.setHighTierAccount(address(tested), true);
+        uint256 tier2Amount = 1000 * 10 ** ldyToken.decimals();
+        // Deposit enough $LDY tokens to be eligible to tier 2
+        deal(address(ldyToken), address(tested), tier2Amount, true);
+        vm.startPrank(address(tested));
+        ldyToken.approve(address(ldyStaking), tier2Amount);
+        ldyStaking.stake(tier2Amount, 2); // minimal 1000 tokens with 12 months stakng duration
+        vm.stopPrank();
     }
 
     // ==============================
