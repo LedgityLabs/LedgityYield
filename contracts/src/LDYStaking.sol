@@ -319,16 +319,30 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /**
-     * @notice Calculate the total earned rewards for a user.
+     * @notice Calculate the user's stake pool earnings
      * @param account Address of the user.
-     * @param stakeIndex User's locked token balance.
-     * @return Total earned rewards for the user.
+     * @param stakeIndex Index of the stakePool
+     * @return Return earned amounts
      */
     function earned(address account, uint256 stakeIndex) public view returns (uint256) {
         StakingInfo memory userInfo = userStakingInfo[account][stakeIndex];
         uint256 rewardsSinceLastUpdate = ((userInfo.stakedAmount *
             (rewardPerToken() - userInfo.rewardPerTokenPaid)) / 1e18);
         return rewardsSinceLastUpdate + userInfo.rewards;
+    }
+
+    /**
+     * @notice Get the earned rewards array for a user.
+     * @param account Address of the user.
+     * @return Return earned rewards array for a user.
+     */
+    function getEarnedUser(address account) public view returns (uint256[] memory) {
+        uint256 numberOfPools = userStakingInfo[account].length;
+        uint256[] memory earnedArray = new uint256[](numberOfPools);
+        for (uint256 index; index < numberOfPools; index++) {
+            earnedArray[index] = earned(account, index);
+        }
+        return earnedArray;
     }
 
     /**

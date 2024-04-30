@@ -329,6 +329,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyStaking.stake(amount2, stakingPeriodIndex2);
         vm.stopPrank();
 
+        // check the lenght of earnedArray
+        uint256[] memory earnedArray = ldyStaking.getEarnedUser(account1);
+        assertEq(earnedArray.length, 2);
+
         // account1 unstakes token from staking pool 1
         uint256 skipDuration1 = stakingDurations[stakingPeriodIndex1];
         skip(skipDuration1);
@@ -338,6 +342,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.stopPrank();
         assertEq(ldyToken.balanceOf(account1), amount1 + earned1);
 
+        // check the lenght of earnedArray
+        earnedArray = ldyStaking.getEarnedUser(account1);
+        assertEq(earnedArray.length, 1);
+
         // account1 unstakes token from staking pool 2
         uint256 skipDuration2 = stakingDurations[stakingPeriodIndex2];
         skip(skipDuration2);
@@ -346,6 +354,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyStaking.unstake(amount2, 0);
         vm.stopPrank();
         assertEq(ldyToken.balanceOf(account1), amount1 + earned1 + amount2 + earned2);
+
+        // check the lenght of earnedArray
+        earnedArray = ldyStaking.getEarnedUser(account1);
+        assertEq(earnedArray.length, 0);
     }
 
     function testFuzz_Unstake_2(address account, uint256 amount, uint8 stakingPeriodIndex) public {
@@ -374,6 +386,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.stopPrank();
         assertEq(ldyToken.balanceOf(account), partAmount);
 
+        // check the lenght of earnedArray
+        uint256[] memory earnedArray = ldyStaking.getEarnedUser(account);
+        assertEq(earnedArray.length, 1);
+
         // account unstakes rest of token after 100 secs
         uint256 restAmount = amount - partAmount;
         skip(100);
@@ -383,6 +399,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyStaking.unstake(restAmount, 0);
         vm.stopPrank();
         assertEq(ldyToken.balanceOf(account), amount + earned);
+
+        // check the lenght of earnedArray
+        earnedArray = ldyStaking.getEarnedUser(account);
+        assertEq(earnedArray.length, 0);
     }
 
     function testFuzz_GetReward_Failed(

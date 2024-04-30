@@ -30131,6 +30131,25 @@
             {
               "inputs": [
                 {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "getEarnedUser",
+              "outputs": [
+                {
+                  "internalType": "uint256[]",
+                  "name": "",
+                  "type": "uint256[]"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
                   "internalType": "uint256",
                   "name": "stakeIndex",
                   "type": "uint256"
@@ -30689,7 +30708,7 @@
           ]
         },
         "LDYStaking_Implementation": {
-          "address": "0x1157f1b171DC382165389c43a70De2E73da3645E",
+          "address": "0xFFF42672fb476afe698142A9B6211b772b89b8Ee",
           "abi": [
             {
               "inputs": [],
@@ -30925,6 +30944,25 @@
                   "internalType": "uint256",
                   "name": "",
                   "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                }
+              ],
+              "name": "getEarnedUser",
+              "outputs": [
+                {
+                  "internalType": "uint256[]",
+                  "name": "",
+                  "type": "uint256[]"
                 }
               ],
               "stateMutability": "view",
@@ -33402,7 +33440,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0x2c0F4C6127693C688ff4b8794fdB22FfB235cd87",
+          "address": "0xE0434e00f3088Ed0cE950F985f9dbe9898A18153",
           "abi": [
             {
               "anonymous": false,
