@@ -146,7 +146,6 @@ export const prettyErrorMessage = (error: BaseError | Error) => {
   //     prettyError = errObj.value.data.message;
   //   } else prettyError = details.split("'")[1];
   // }
-
   // If the error has a displayed override, use it instead
   const displayOverride = displayedErrors[prettyError];
   if (displayOverride) prettyError = displayOverride;

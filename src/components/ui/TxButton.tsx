@@ -18,6 +18,7 @@ import { BaseError } from "viem";
 import { Card } from "./Card";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: UseSimulateContractReturnType;
@@ -31,6 +32,8 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   // Allow parent to force error state
   parentIsError?: boolean;
   parentError?: string;
+
+  queryKeys?: any[];
 }
 
 export const TxButton: FC<Props> = ({
@@ -41,11 +44,13 @@ export const TxButton: FC<Props> = ({
   hideTooltips = false,
   parentIsError = false,
   parentError = undefined,
+  queryKeys = [],
   ...props
 }) => {
   const { isPending } = useSwitchChain();
   const account = useAccount();
   const publicClient = usePublicClient();
+  const queryClient = useQueryClient();
 
   // Fix Safe math issue when no value is provided
   // if (preparation.data && preparation.data.request && !preparation.data.request.value) {
@@ -73,6 +78,13 @@ export const TxButton: FC<Props> = ({
     if (account.address) preparation.refetch();
   }, [account.address, publicClient]);
 
+  // Refetch query data based on queryKeys in case of tx success
+  useEffect(() => {
+    if (txIsSuccess && waitIsSuccess && !txIsError && !waitIsError) {
+      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+    }
+  }, [txIsSuccess, waitIsSuccess, txIsError, waitIsError]);
+
   const isLoading = preparation.isFetching || preparation.isLoading || txIsLoading;
 
   // Build tooltip message and error state
@@ -92,7 +104,6 @@ export const TxButton: FC<Props> = ({
     tooltipIsError = true;
     tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
   }
-
   return (
     <>
       <div className="relative flex flex-col">
@@ -127,7 +138,7 @@ export const TxButton: FC<Props> = ({
           <DialogContent className="!px-0 !sm:px-0">
             <DialogHeader>
               <DialogTitle>Ongoing transaction</DialogTitle>
-              <DialogDescription className="flex flex-col items-center justify-center gap-3">
+              <DialogDescription className="flex flex-col items-center justify-center gap-3 px-3">
                 <div className="mb-2 w-[calc(100%-4px)] whitespace-normal bg-fg/90 px-10 py-10 text-center text-lg font-semibold text-bg">
                   {transactionSummary}
                 </div>
@@ -201,10 +212,10 @@ export const TxButton: FC<Props> = ({
                     </p>
                   </li>
                 </ul>
-                {(txIsSuccess && waitIsSuccess) ||
-                  ((txIsError || waitIsError) && (
-                    <p className="font-semibold ">You can now safely close this modal</p>
-                  ))}
+                {((txIsSuccess && waitIsSuccess && !txIsError && !waitIsError) ||
+                  ((!txIsSuccess || !waitIsSuccess) && (txIsError || waitIsError))) && (
+                  <p className="font-semibold ">You can now safely close this modal</p>
+                )}
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

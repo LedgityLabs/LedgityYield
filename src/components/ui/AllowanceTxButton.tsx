@@ -1,17 +1,15 @@
 "use client";
-import { type FC, useEffect, type ReactNode } from "react";
+import { type FC, useEffect, type ReactNode, useState } from "react";
 import {
   useSimulateContract,
   useReadContract,
   useAccount,
-  useBlockNumber,
   UseSimulateContractReturnType,
 } from "wagmi";
 import { erc20Abi, zeroAddress } from "viem";
 import { TxButton } from "./TxButton";
 import { Amount } from "./Amount";
 import { twMerge } from "tailwind-merge";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   token: `0x${string}`;
@@ -48,6 +46,7 @@ export const AllowanceTxButton: FC<Props> = ({
   ...props
 }) => {
   const account = useAccount();
+  const [hasEnoughAllowance, setHasEnoughAllowance] = useState(false);
   const { data: symbol } = useReadContract({
     abi: erc20Abi,
     functionName: "symbol",
@@ -78,26 +77,19 @@ export const AllowanceTxButton: FC<Props> = ({
   });
   useEffect(() => {
     preparation.refetch();
-  }, [allowance]);
-
-  // Refresh some data every 5 blocks
-  // const queryKeys = [allowanceQueryKey, balanceQueryKey];
-  // const { data: blockNumber } = useBlockNumber({ watch: true });
-  // const queryClient = useQueryClient();
-  // useEffect(() => {
-  //   if (blockNumber && blockNumber % 5n === 0n)
-  //     queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  // }, [blockNumber, ...queryKeys]);
-
-  const hasEnoughAllowance = Boolean(allowance !== undefined && allowance >= amount);
+    setHasEnoughAllowance(allowance !== undefined && allowance >= amount);
+  }, [allowance, amount]);
 
   // Check if the user has enough balance, and raise error else
   let isError = false;
   let errorMessage: string = "";
-  if (!balance || balance < amount) {
-    isError = true;
-    errorMessage = "Insufficient balance";
-  }
+
+  useEffect(() => {
+    if (!balance || balance < amount) {
+      isError = true;
+      errorMessage = "Insufficient balance";
+    }
+  }, [balance, amount]);
 
   return (
     <div>
@@ -110,6 +102,7 @@ export const AllowanceTxButton: FC<Props> = ({
         transactionSummary={transactionSummary}
         parentIsError={isError}
         parentError={errorMessage}
+        queryKeys={[balanceQueryKey]}
         {...props}
       />
       <TxButton
@@ -132,6 +125,7 @@ export const AllowanceTxButton: FC<Props> = ({
             />
           </span>
         }
+        queryKeys={[allowanceQueryKey]}
         {...props}
       >
         Allow

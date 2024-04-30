@@ -11,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { AppAirdrop } from "@/components/app/airdrop/AppAirdrop";
 import { SessionProvider } from "next-auth/react";
+import { AppStaking } from "@/components/app/staking/AppStaking";
 
 interface Props {
   defaultTab: string;
@@ -59,7 +60,7 @@ const _AppTabs: FC = () => {
         >
           Pre-Mining
         </TabsTrigger>
-        {/* <TabsTrigger value="get-usdc">Get USDC</TabsTrigger> */}
+        <TabsTrigger value="staking">Staking</TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
@@ -75,6 +76,9 @@ const _AppTabs: FC = () => {
           </TabsContent>
           <TabsContent value="get-usdc">
             <AppGetUSDC />
+          </TabsContent>
+          <TabsContent value="staking">
+            <AppStaking />
           </TabsContent>
           <TabsContent value="dashboard">
             <AppDashboard />
