@@ -13,7 +13,7 @@ export const USER_STAKING_QUERY = gql`
 `;
 
 export const STAKING_APR_INFO_QUERY = gql`
-  query MyQuery($stakeAprId: String!) {
+  query getStakingAPRInfo($stakeAprId: String!) {
     stakingAPRInfo(id: $stakeAprId) {
       rewardPerSec
       totalStaked

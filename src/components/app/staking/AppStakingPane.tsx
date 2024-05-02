@@ -1,52 +1,48 @@
 import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from "react";
 import { AllowanceTxButton, Amount, AmountInputWithLogo, Button, Spinner } from "@/components/ui";
-import { erc20Abi, formatUnits, parseUnits, zeroAddress } from "viem";
-import { UseSimulateContractReturnType, useAccount, useReadContract } from "wagmi";
+import { Address, formatUnits, parseUnits } from "viem";
+import { UseSimulateContractReturnType } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { useReadLTokenDecimals, useReadLdyDecimals, useSimulateLdyStakingStake } from "@/generated";
+import { useSimulateLdyStakingStake } from "@/generated";
 import * as Slider from "@radix-ui/react-slider";
-import { useGetStakingAprById, useGetUserStakingsByAddress } from "@/services/graph";
-import { STAKING_APR_INFO_ID, StakeDurations } from "@/constants/staking";
+import { StakeDurations } from "@/constants/staking";
 import { useAPYCalculation } from "@/hooks/useAPYCalculation";
+import { IStakingAPRInfo } from "@/services/graph/hooks/useStakingEvent";
 
-export const AppStakingPane: FC = () => {
-  const account = useAccount();
-  const ldySymbol = "LDY";
-  const ldyTokenAddress = useContractAddress(ldySymbol);
+export const AppStakingPane: FC<{
+  ldyTokenSymbol: string;
+  ldyTokenAddress?: Address;
+  ldyTokenBalance?: bigint;
+  ldyTokenDecimals?: number;
+  stakingAprInfo?: IStakingAPRInfo;
+}> = ({
+  ldyTokenSymbol = "LDY",
+  ldyTokenAddress,
+  ldyTokenBalance,
+  ldyTokenDecimals,
+  stakingAprInfo,
+}) => {
   const ldyStakingAddress = useContractAddress("LDYStaking");
-  const { data: ldyDecimals } = useReadLdyDecimals();
-  const { data: ldyBalance, queryKey } = useReadContract({
-    abi: erc20Abi,
-    functionName: "balanceOf",
-    address: ldyTokenAddress,
-    args: [account.address || zeroAddress],
-  });
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [stakeOptionIndex, setStakeOptionIndex] = useState(0);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  const {
-    data: stakingAprInfo,
-    refetch: refetchStakingAPR,
-    isFetching: isFetchingAPR,
-  } = useGetStakingAprById(STAKING_APR_INFO_ID);
-
-  // Reset everything whenever user ldy balance is changed.
+  // Reset everything on ldyBalance change.
   useEffect(() => {
-    refetchStakingAPR();
+    // Reset input field
     setDepositedAmount(0n);
     setHasUserInteracted(false);
     if (inputEl && inputEl.current) {
       inputEl.current.value = "0";
     }
-  }, [ldyBalance]);
+  }, [ldyTokenBalance]);
 
   // Calculate APY based on stakeIndex and stakingAprInfo.
   const APY = useMemo(() => {
-    if (stakingAprInfo && stakingAprInfo.stakingAPRInfo) {
-      return useAPYCalculation(stakingAprInfo.stakingAPRInfo.APR, true, stakeOptionIndex) + "%";
+    if (stakingAprInfo) {
+      return useAPYCalculation(stakingAprInfo.APR, true, stakeOptionIndex) + "%";
     } else {
       return "-%";
     }
@@ -60,11 +56,11 @@ export const AppStakingPane: FC = () => {
       <div className="font-heading font-bold text-xl">STAKE LDY TO GET REWARDS AND BENEFITS</div>
       <AmountInputWithLogo
         ref={inputEl}
-        maxValue={ldyBalance}
-        decimals={ldyDecimals}
-        symbol={ldySymbol}
+        maxValue={ldyTokenBalance}
+        decimals={ldyTokenDecimals}
+        symbol={ldyTokenSymbol}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setDepositedAmount(parseUnits(e.target.value, ldyDecimals!));
+          setDepositedAmount(parseUnits(e.target.value, ldyTokenDecimals!));
           if (hasUserInteracted === false) setHasUserInteracted(true);
           if (e.target.value === "") setHasUserInteracted(false);
         }}
@@ -75,9 +71,12 @@ export const AppStakingPane: FC = () => {
           variant="outline"
           className="hover:bg-primary-fg"
           onClick={() => {
-            setDepositedAmount((ldyBalance! * 25n) / 100n);
+            setDepositedAmount((ldyTokenBalance! * 25n) / 100n);
             if (inputEl.current)
-              inputEl.current.value = formatUnits((ldyBalance! * 25n) / 100n, ldyDecimals!);
+              inputEl.current.value = formatUnits(
+                (ldyTokenBalance! * 25n) / 100n,
+                ldyTokenDecimals!,
+              );
           }}
         >
           25%
@@ -87,9 +86,12 @@ export const AppStakingPane: FC = () => {
           variant="outline"
           className="hover:bg-primary-fg"
           onClick={() => {
-            setDepositedAmount((ldyBalance! * 50n) / 100n);
+            setDepositedAmount((ldyTokenBalance! * 50n) / 100n);
             if (inputEl.current)
-              inputEl.current.value = formatUnits((ldyBalance! * 50n) / 100n, ldyDecimals!);
+              inputEl.current.value = formatUnits(
+                (ldyTokenBalance! * 50n) / 100n,
+                ldyTokenDecimals!,
+              );
           }}
         >
           50%
@@ -99,9 +101,12 @@ export const AppStakingPane: FC = () => {
           variant="outline"
           className="hover:bg-primary-fg"
           onClick={() => {
-            setDepositedAmount((ldyBalance! * 75n) / 100n);
+            setDepositedAmount((ldyTokenBalance! * 75n) / 100n);
             if (inputEl.current)
-              inputEl.current.value = formatUnits((ldyBalance! * 75n) / 100n, ldyDecimals!);
+              inputEl.current.value = formatUnits(
+                (ldyTokenBalance! * 75n) / 100n,
+                ldyTokenDecimals!,
+              );
           }}
         >
           75%
@@ -111,8 +116,9 @@ export const AppStakingPane: FC = () => {
           variant="outline"
           className="hover:bg-primary-fg"
           onClick={() => {
-            setDepositedAmount(ldyBalance!);
-            if (inputEl.current) inputEl.current.value = formatUnits(ldyBalance!, ldyDecimals!);
+            setDepositedAmount(ldyTokenBalance!);
+            if (inputEl.current)
+              inputEl.current.value = formatUnits(ldyTokenBalance!, ldyTokenDecimals!);
           }}
         >
           MAX
@@ -168,7 +174,8 @@ export const AppStakingPane: FC = () => {
 
       <div className="grid gap-4 grid-cols-2 h-full content-center">
         <div className="flex flex-col items-center">
-          <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APY}</div>
+          {/* <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APY}</div> */}
+          <div className="text-4xl font-bold">{APY}</div>
           <div className="text-xl text-gray">APY</div>
         </div>
         <div className="flex flex-col items-center">
@@ -185,8 +192,8 @@ export const AppStakingPane: FC = () => {
                 Deposit{" "}
                 <Amount
                   value={depositedAmount}
-                  decimals={ldyDecimals}
-                  suffix={ldySymbol}
+                  decimals={ldyTokenDecimals}
+                  suffix={ldyTokenSymbol}
                   displaySymbol={true}
                   className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
                 />{" "}

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect } from "react";
 
 import {
   Carousel,
@@ -7,35 +7,38 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/Carousel";
-import { Button, Card } from "@/components/ui";
-import { useGetStakingAprById, useGetUserStakingsByAddress } from "@/services/graph";
-import { useAccount, useReadContract } from "wagmi";
-import { useContractAddress } from "@/hooks/useContractAddress";
+import { TxButton } from "@/components/ui";
+import { useGetUserStakingsByAddress } from "@/services/graph";
+import { useAccount, usePublicClient } from "wagmi";
 import { formatUnits, zeroAddress } from "viem";
 import {
-  useReadLdyDecimals,
-  useReadLdyStakingEarned,
   useReadLdyStakingGetEarnedUser,
   useReadLdyStakingGetUserStakes,
-  useReadLdyStakingRewardsDuration,
+  useSimulateLdyStakingGetReward,
+  useSimulateLdyStakingUnstake,
 } from "@/generated";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-import { OneMonth, STAKING_APR_INFO_ID } from "@/constants/staking";
+import { OneMonth } from "@/constants/staking";
 import { useAPYCalculation } from "@/hooks/useAPYCalculation";
-import { useQueries } from "@tanstack/react-query";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
+import { twMerge } from "tailwind-merge";
+import { USER_STAKING_QUERY } from "@/services/graph/queries";
+import { IStakingAPRInfo } from "@/services/graph/hooks/useStakingEvent";
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
-export const AppStakingPool: FC = () => {
+export const AppStakingPool: FC<{
+  ldyTokenDecimals?: number;
+  ldyTokenBalanceQuery?: QueryKey;
+  stakingAprInfo?: IStakingAPRInfo;
+}> = ({ ldyTokenDecimals, ldyTokenBalanceQuery, stakingAprInfo }) => {
+  const queryClient = useQueryClient();
   const account = useAccount();
-  const ldyStakingAddress = useContractAddress("LDYStaking");
-  const { data: ldyDecimals } = useReadLdyDecimals();
-
-  const [claimAmounts, setClaimAmounts] = useState<bigint[]>([0n]);
+  const publicClient = usePublicClient();
 
   // Fetch user staking info including earnedAmount from subgraph
   const {
@@ -49,22 +52,35 @@ export const AppStakingPool: FC = () => {
     args: [account.address || zeroAddress],
   });
 
-  // Fetch staking APR info from subgraph
-  const {
-    data: stakingAprInfo,
-    refetch: refetchStakingAPR,
-    isFetching: isFetchingAPR,
-  } = useGetStakingAprById(STAKING_APR_INFO_ID);
-
   // Fetch claimable rewards array from ldyStaking Contract
-  const { data: earnedArray, queryKey: earnedArrayQuery } = useReadLdyStakingGetEarnedUser({
+  const { data: rewardsArray, queryKey: rewardsArrayQuery } = useReadLdyStakingGetEarnedUser({
     args: [account.address || zeroAddress],
   });
+
+  // Refetch staking info, earned array from subgraph & contracts on wallet, network change
+  const queryKeys = [rewardsArrayQuery, getUserStakesQuery, [USER_STAKING_QUERY]];
+  useEffect(() => {
+    queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+  }, [account.address, publicClient]);
+
+  // Refetch staking info(earned info) on rewardsArray change
+  useEffect(() => {
+    // Refetch after 3 seconds due to subgraph latency
+    const timeoutId = setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey: [USER_STAKING_QUERY] });
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [rewardsArray]);
 
   return (
     <div className="flex flex-col justify-start gap-y-2 p-4 h-full">
       <div className="font-heading font-bold text-xl text-white">MY $LDY POOLS</div>
-      <Carousel className="w-full justify-center">
+      <Carousel
+        className={twMerge(
+          "w-full justify-center",
+          (!stakingPools || !stakingPools.length) && "hidden",
+        )}
+      >
         <CarouselContent className="-ml-1">
           {stakingPools &&
             stakingPools.map((poolInfo, index) => (
@@ -75,7 +91,7 @@ export const AppStakingPool: FC = () => {
                     <div className="flex text-sm justify-between">
                       <span>Staked Amount</span>
                       <span className="font-semibold">
-                        {formatUnits(poolInfo.stakedAmount, ldyDecimals!)}
+                        {formatUnits(poolInfo.stakedAmount, ldyTokenDecimals!)}
                       </span>
                     </div>
                     <div className="flex text-sm justify-between">
@@ -93,10 +109,12 @@ export const AppStakingPool: FC = () => {
                     <div className="flex text-sm justify-between">
                       <span>Earned</span>
                       <span className="font-semibold">
-                        {userStakingInfo
+                        {userStakingInfo &&
+                        userStakingInfo.stakingUsers &&
+                        userStakingInfo.stakingUsers[index]
                           ? formatUnits(
                               BigInt(userStakingInfo.stakingUsers[index].earnedAmount),
-                              ldyDecimals!,
+                              ldyTokenDecimals!,
                             )
                           : 0}{" "}
                         Token
@@ -106,11 +124,7 @@ export const AppStakingPool: FC = () => {
                       <span>APY</span>
                       <span className="font-semibold">
                         {stakingAprInfo
-                          ? useAPYCalculation(
-                              stakingAprInfo.stakingAPRInfo.APR,
-                              false,
-                              Number(poolInfo.duration),
-                            )
+                          ? useAPYCalculation(stakingAprInfo.APR, false, Number(poolInfo.duration))
                           : "-"}
                         %
                       </span>
@@ -122,16 +136,46 @@ export const AppStakingPool: FC = () => {
                       </span>
                     </div>
                     <div className="flex py-1 w-full">
-                      <Button size="tiny" variant="primary" className="w-full">
+                      <TxButton
+                        preparation={useSimulateLdyStakingUnstake({
+                          args: [poolInfo.stakedAmount, BigInt(index)],
+                        })}
+                        variant="primary"
+                        size="tiny"
+                        disabled={dayjs().isBefore(Number(poolInfo.unStakeAt) * 1000)}
+                        className="w-full"
+                        queryKeys={[ldyTokenBalanceQuery, getUserStakesQuery, rewardsArrayQuery]}
+                      >
                         UNSTAKE
-                      </Button>
+                      </TxButton>
                     </div>
                     <div className="flex py-1 w-full">
-                      <Button size="tiny" variant="outline" className="w-full">
+                      <TxButton
+                        preparation={useSimulateLdyStakingGetReward({
+                          args: [BigInt(index)],
+                        })}
+                        variant="outline"
+                        size="tiny"
+                        disabled={
+                          Number(
+                            formatUnits(
+                              BigInt(rewardsArray ? rewardsArray[index] : 0),
+                              ldyTokenDecimals!,
+                            ),
+                          ) < 0.0001
+                        }
+                        className="w-full"
+                        queryKeys={[rewardsArrayQuery, ldyTokenBalanceQuery]}
+                      >
                         CLAIM{" "}
-                        {Number(formatUnits(BigInt(earnedArray![index]), ldyDecimals!)).toFixed(4)}{" "}
+                        {Number(
+                          formatUnits(
+                            BigInt(rewardsArray ? rewardsArray[index] : 0),
+                            ldyTokenDecimals!,
+                          ),
+                        ).toFixed(4)}{" "}
                         Token
-                      </Button>
+                      </TxButton>
                     </div>
                   </div>
                 </div>

@@ -75,6 +75,8 @@ export const AllowanceTxButton: FC<Props> = ({
     address: token,
     args: [spender, amount],
   });
+
+  // Set hasEnoughAllowance when allowance or amount chanages
   useEffect(() => {
     preparation.refetch();
     setHasEnoughAllowance(allowance !== undefined && allowance >= amount);

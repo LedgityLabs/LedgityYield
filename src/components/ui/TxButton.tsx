@@ -1,6 +1,6 @@
 "use client";
 import { FC, type ReactNode, useEffect, useState } from "react";
-import { Button } from "./Button";
+import { Button, ButtonSize, ButtonVariant } from "./Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./Dialog";
 import { Spinner } from "./Spinner";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
@@ -51,7 +51,6 @@ export const TxButton: FC<Props> = ({
   const account = useAccount();
   const publicClient = usePublicClient();
   const queryClient = useQueryClient();
-
   // Fix Safe math issue when no value is provided
   // if (preparation.data && preparation.data.request && !preparation.data.request.value) {
   //   preparation.data.request.value = 0n;
@@ -106,7 +105,7 @@ export const TxButton: FC<Props> = ({
   }
   return (
     <>
-      <div className="relative flex flex-col">
+      <div className="relative flex flex-col w-full">
         <Dialog>
           <Tooltip
             open={
