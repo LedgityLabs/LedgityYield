@@ -319,7 +319,7 @@ export const AppAirdrop: FC = () => {
                 </TooltipContent>
               </Tooltip> */}
 
-              <Tooltip>
+              {/* <Tooltip>
                 <TooltipTrigger asChild={true}>
                   <li
                     className="h-28 min-w-[127px] inline-flex flex-col items-center justify-center gap-2.5 bg-gradient-to-tl from-slate-900 to-slate-700 rounded-3xl border-2 border-slate-600 shadow-lg hover:shadow-2xl transition-shadow"
@@ -344,7 +344,7 @@ export const AppAirdrop: FC = () => {
                   -- $AA
                   <br />
                 </TooltipContent>
-              </Tooltip>
+              </Tooltip> */}
             </ul>
           </div>
 
