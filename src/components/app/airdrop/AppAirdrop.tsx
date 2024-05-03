@@ -200,7 +200,7 @@ export const AppAirdrop: FC = () => {
               </p>
             </div>
 
-            <ul className="flex gap-5 flex-nowrap p-5 bg-fg/70 overflow-x-scroll scrollbar-thumb-slate-600 scrollbar-track-slate-900/70 scrollbar-w-2 scrollbar-h-2 scrollbar  scrollbar-thumb-rounded">
+            <ul className="flex gap-5 justify-center flex-nowrap p-5 bg-fg/70 overflow-x-scroll scrollbar-thumb-slate-600 scrollbar-track-slate-900/70 scrollbar-w-2 scrollbar-h-2 scrollbar  scrollbar-thumb-rounded">
               <Tooltip>
                 <TooltipTrigger asChild={true}>
                   <li
