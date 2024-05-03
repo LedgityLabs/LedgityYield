@@ -1,3 +1,10 @@
+## [1.254.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.254.1...v1.254.2) (2024-05-03)
+
+
+### Fixes
+
+* center airdropped tokens ([d86ed36](https://github.com/LedgityLabs/LedgityYield/commit/d86ed366fa57476760996d6387e3a8690c408a10))
+
 ## [1.254.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.254.0...v1.254.1) (2024-05-03)
 
 
