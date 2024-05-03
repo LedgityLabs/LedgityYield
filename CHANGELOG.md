@@ -1,3 +1,15 @@
+## [1.254.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.4...v1.254.0) (2024-04-30)
+
+
+### Features
+
+* staking contract ([7418642](https://github.com/LedgityLabs/LedgityYield/commit/7418642d330ec9cdda5619b6880d45e0999119d1))
+
+
+### Fixes
+
+* modify contracts ([f826640](https://github.com/LedgityLabs/LedgityYield/commit/f826640d5eca862798cb82cbca57cb55404ca7c3))
+
 ## [1.253.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.3...v1.253.4) (2024-04-10)
 
 
