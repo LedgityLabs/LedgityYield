@@ -1,3 +1,10 @@
+## [1.254.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.254.0...v1.254.1) (2024-05-03)
+
+
+### Fixes
+
+* hide discarded multi-drop participation ([efc4273](https://github.com/LedgityLabs/LedgityYield/commit/efc427362084e9225b5d1a7e67bf5bf14229eed8))
+
 ## [1.254.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.253.4...v1.254.0) (2024-04-30)
 
 
