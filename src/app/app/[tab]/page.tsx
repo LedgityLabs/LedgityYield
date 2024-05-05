@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     airdrop: "Multi-Airdrop",
     "get-usdc": "Get USDC",
     "pre-mining": "Pre-Mining",
+    staking: "Staking",
   }[params.tab];
 
   const description = {

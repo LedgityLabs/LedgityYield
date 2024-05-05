@@ -12,7 +12,6 @@ import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { AppAirdrop } from "@/components/app/airdrop/AppAirdrop";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
-
 interface Props {
   defaultTab: string;
 }
@@ -27,7 +26,6 @@ const AppTabs: FC<Props> = ({ defaultTab }) => {
 
 const _AppTabs: FC = () => {
   const { currentTab, switchTab } = useSwitchAppTab();
-
   return (
     <Tabs
       value={currentTab}
@@ -60,7 +58,8 @@ const _AppTabs: FC = () => {
         >
           Pre-Mining
         </TabsTrigger>
-        <TabsTrigger value="staking">Staking</TabsTrigger>
+
+        {/* <TabsTrigger value="staking">Staking</TabsTrigger> */}
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">

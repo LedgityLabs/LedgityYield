@@ -2,7 +2,7 @@ import { Card } from "@/components/ui";
 import { FC, useEffect, useRef } from "react";
 import { AppStakingPane } from "./AppStakingPane";
 import { AppStakingDescription } from "./AppStakingDescription";
-import { AppStakingPool } from "./AppStakingPool";
+import { AppStakingPools } from "./AppStakingPools";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { useAccount, usePublicClient } from "wagmi";
 import { zeroAddress } from "viem";
@@ -73,7 +73,7 @@ export const AppStaking: FC = () => {
         defaultGradient={false}
         className="w-full flex flex-col gap-8 col-span-12 before:bg-primary p-2"
       >
-        <AppStakingPool
+        <AppStakingPools
           ldyTokenDecimals={ldyDecimals}
           ldyTokenBalanceQuery={ldyBalanceQuery || []}
           stakingAprInfo={stakingAprInfo ? stakingAprInfo.stakingAPRInfo || undefined : undefined}
