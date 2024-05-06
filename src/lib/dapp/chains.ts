@@ -6,6 +6,7 @@ import {
   linea,
   Chain,
   base,
+  baseSepolia,
 } from "@wagmi/core/chains";
 
 // Build chain icons map
@@ -17,6 +18,7 @@ export const chainsIcons = {
   59144: "/assets/chains/linea.png",
   195: "/assets/chains/okxlogo.png",
   8453: "/assets/chains/base.png",
+  84532: "/assets/chains/base.png",
 } as { [key: number]: string };
 
 const okcTestnet: Chain = {
@@ -49,5 +51,6 @@ const devChains: readonly [Chain, ...Chain[]] = [
   hardhat,
   arbitrumGoerli,
   lineaTestnet,
+  baseSepolia,
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;

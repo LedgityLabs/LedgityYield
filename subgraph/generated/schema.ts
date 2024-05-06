@@ -612,6 +612,181 @@ export class PreMiningLock extends Entity {
   }
 }
 
+export class StakingUser extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save StakingUser entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type StakingUser must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("StakingUser", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): StakingUser | null {
+    return changetype<StakingUser | null>(
+      store.get_in_block("StakingUser", id),
+    );
+  }
+
+  static load(id: string): StakingUser | null {
+    return changetype<StakingUser | null>(store.get("StakingUser", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get user(): Bytes {
+    let value = this.get("user");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set user(value: Bytes) {
+    this.set("user", Value.fromBytes(value));
+  }
+
+  get stakeIndex(): BigInt {
+    let value = this.get("stakeIndex");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set stakeIndex(value: BigInt) {
+    this.set("stakeIndex", Value.fromBigInt(value));
+  }
+
+  get stakedAmount(): BigInt {
+    let value = this.get("stakedAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set stakedAmount(value: BigInt) {
+    this.set("stakedAmount", Value.fromBigInt(value));
+  }
+
+  get earnedAmount(): BigInt {
+    let value = this.get("earnedAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set earnedAmount(value: BigInt) {
+    this.set("earnedAmount", Value.fromBigInt(value));
+  }
+}
+
+export class StakingAPRInfo extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save StakingAPRInfo entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type StakingAPRInfo must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("StakingAPRInfo", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): StakingAPRInfo | null {
+    return changetype<StakingAPRInfo | null>(
+      store.get_in_block("StakingAPRInfo", id),
+    );
+  }
+
+  static load(id: string): StakingAPRInfo | null {
+    return changetype<StakingAPRInfo | null>(store.get("StakingAPRInfo", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get rewardPerSec(): BigInt {
+    let value = this.get("rewardPerSec");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set rewardPerSec(value: BigInt) {
+    this.set("rewardPerSec", Value.fromBigInt(value));
+  }
+
+  get totalStaked(): BigInt {
+    let value = this.get("totalStaked");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set totalStaked(value: BigInt) {
+    this.set("totalStaked", Value.fromBigInt(value));
+  }
+
+  get APR(): BigDecimal {
+    let value = this.get("APR");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigDecimal();
+    }
+  }
+
+  set APR(value: BigDecimal) {
+    this.set("APR", Value.fromBigDecimal(value));
+  }
+}
+
 export class TVLChangeLoader extends Entity {
   _entity: string;
   _field: string;

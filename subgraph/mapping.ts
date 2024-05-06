@@ -5,6 +5,13 @@ import {
   ActivityEvent,
   MintedRewardsEvent,
 } from "./generated/templates/LToken/LToken";
+import {
+  Staked as StakedEvent,
+  Unstaked as UnstakedEvent,
+  RewardPaid as RewardPaidEvent,
+  NotifiedRewardAmount as NotififiedRewardAmountEvent,
+} from "./generated/LdyStaking/LdyStaking";
+import { StakingUser } from "./generated/schema";
 import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
@@ -18,6 +25,7 @@ import {
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 import { store } from "@graphprotocol/graph-ts";
+import { SECONDS_PER_YEAR, getOrCreateStakingAPRInfo, updateStakingAPRInfo } from "./helper";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
   // Start indexing the signaled LToken
@@ -231,4 +239,59 @@ export function handlePreMiningLock(event: Lock): void {
 
   // Save the lock data
   lockData.save();
+}
+
+export function handleStaked(event: StakedEvent): void {
+  const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
+
+  let entity = new StakingUser(id);
+  entity.user = event.params.user;
+  entity.stakeIndex = event.params.stakeIndex;
+  entity.stakedAmount = event.params.amount;
+  entity.earnedAmount = BigInt.fromI32(0);
+
+  entity.save();
+
+  // update StakingAPRInfo
+  const stakingAPRInfo = getOrCreateStakingAPRInfo();
+  stakingAPRInfo.totalStaked = stakingAPRInfo.totalStaked.plus(event.params.amount);
+  stakingAPRInfo.save();
+  updateStakingAPRInfo();
+}
+
+export function handleUnstaked(event: UnstakedEvent): void {
+  const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
+  let entity = StakingUser.load(id);
+
+  if (entity) {
+    if (entity.stakedAmount.equals(event.params.amount)) {
+      store.remove("StakingUser", id);
+    } else {
+      entity.stakedAmount = entity.stakedAmount.minus(event.params.amount);
+      entity.save();
+    }
+
+    // update StakingAPRInfo
+    const stakingAPRInfo = getOrCreateStakingAPRInfo();
+    stakingAPRInfo.totalStaked = stakingAPRInfo.totalStaked.minus(event.params.amount);
+    stakingAPRInfo.save();
+    updateStakingAPRInfo();
+  }
+}
+
+export function handleRewardPaid(event: RewardPaidEvent): void {
+  const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
+  let entity = StakingUser.load(id);
+
+  if (entity) {
+    entity.earnedAmount = entity.earnedAmount.plus(event.params.reward);
+    entity.save();
+  }
+}
+
+export function handleNotifiedRewardAmount(event: NotififiedRewardAmountEvent): void {
+  const stakingAPRInfo = getOrCreateStakingAPRInfo();
+  stakingAPRInfo.rewardPerSec = event.params.rewardPerSec;
+  stakingAPRInfo.save();
+  updateStakingAPRInfo();
 }

@@ -1,9 +1,9 @@
 **THIS CHECKLIST IS NOT COMPLETE**. Use `--show-ignored-findings` to show all the results.
 Summary
  - [events-access](#events-access) (2 results) (Low)
- - [events-maths](#events-maths) (3 results) (Low)
+ - [events-maths](#events-maths) (2 results) (Low)
  - [calls-loop](#calls-loop) (1 results) (Low)
- - [reentrancy-events](#reentrancy-events) (1 results) (Low)
+ - [reentrancy-events](#reentrancy-events) (2 results) (Low)
  - [timestamp](#timestamp) (4 results) (Low)
  - [costly-loop](#costly-loop) (3 results) (Informational)
  - [low-level-calls](#low-level-calls) (1 results) (Informational)
@@ -43,18 +43,10 @@ contracts/src/LToken.sol#L283-L286
 contracts/src/LToken.sol#L272-L275
 
 
- - [ ] ID-4
-[LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L258-L283) should emit an event for: 
-	- [rewardRatePerSec = amount / rewardsDuration](contracts/src/LDYStaking.sol#L265) 
-	- [rewardRatePerSec = (amount + remainingRewards) / rewardsDuration](contracts/src/LDYStaking.sol#L268) 
-
-contracts/src/LDYStaking.sol#L258-L283
-
-
 ## calls-loop
 Impact: Low
 Confidence: Medium
- - [ ] ID-5
+ - [ ] ID-4
 [LToken.getWithdrawnAmountAndFees(address,uint256)](contracts/src/LToken.sol#L603-L621) has external calls inside a loop: [ldyStaking.tierOf(account) >= 2](contracts/src/LToken.sol#L608)
 
 contracts/src/LToken.sol#L603-L621
@@ -63,6 +55,16 @@ contracts/src/LToken.sol#L603-L621
 ## reentrancy-events
 Impact: Low
 Confidence: Medium
+ - [ ] ID-5
+Reentrancy in [LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L265-L292):
+	External calls:
+	- [stakeRewardToken.safeTransferFrom(_msgSender(),address(this),amount)](contracts/src/LDYStaking.sol#L289)
+	Event emitted after the call(s):
+	- [NotifiedRewardAmount(amount,rewardRatePerSec)](contracts/src/LDYStaking.sol#L291)
+
+contracts/src/LDYStaking.sol#L265-L292
+
+
  - [ ] ID-6
 Reentrancy in [LToken.processQueuedRequests()](contracts/src/LToken.sol#L740-L851):
 	External calls:
@@ -78,37 +80,37 @@ contracts/src/LToken.sol#L740-L851
 Impact: Low
 Confidence: Medium
  - [ ] ID-7
-[LDYStaking.unstake(uint256,uint256)](contracts/src/LDYStaking.sol#L187-L226) uses timestamp for comparisons
+[LDYStaking._min(uint256,uint256)](contracts/src/LDYStaking.sol#L389-L391) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [require(bool,string)(block.timestamp >= userStakingInfo[_msgSender()][stakeIndex].unStakeAt,not allowed unstaking in the staking period)](contracts/src/LDYStaking.sol#L193-L196)
+	- [x <= y](contracts/src/LDYStaking.sol#L390)
 
-contracts/src/LDYStaking.sol#L187-L226
+contracts/src/LDYStaking.sol#L389-L391
 
 
  - [ ] ID-8
-[LDYStaking._min(uint256,uint256)](contracts/src/LDYStaking.sol#L380-L382) uses timestamp for comparisons
+[LDYStaking.unstake(uint256,uint256)](contracts/src/LDYStaking.sol#L194-L233) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [x <= y](contracts/src/LDYStaking.sol#L381)
+	- [require(bool,string)(block.timestamp >= userStakingInfo[_msgSender()][stakeIndex].unStakeAt,not allowed unstaking in the staking period)](contracts/src/LDYStaking.sol#L200-L203)
 
-contracts/src/LDYStaking.sol#L380-L382
+contracts/src/LDYStaking.sol#L194-L233
 
 
  - [ ] ID-9
-[LDYStaking.setRewardsDuration(uint256)](contracts/src/LDYStaking.sol#L248-L251) uses timestamp for comparisons
+[LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L265-L292) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [require(bool,string)(finishAt < block.timestamp,reward duration is not finished)](contracts/src/LDYStaking.sol#L249)
+	- [block.timestamp >= finishAt](contracts/src/LDYStaking.sol#L271)
+	- [require(bool,string)(rewardRatePerSec > 0,reward rate = 0)](contracts/src/LDYStaking.sol#L278)
+	- [require(bool,string)(rewardRatePerSec <= (stakeRewardToken.balanceOf(address(this)) + amount - totalStaked) / rewardsDuration,reward amount > balance)](contracts/src/LDYStaking.sol#L279-L284)
 
-contracts/src/LDYStaking.sol#L248-L251
+contracts/src/LDYStaking.sol#L265-L292
 
 
  - [ ] ID-10
-[LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L258-L283) uses timestamp for comparisons
+[LDYStaking.setRewardsDuration(uint256)](contracts/src/LDYStaking.sol#L255-L258) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [block.timestamp >= finishAt](contracts/src/LDYStaking.sol#L264)
-	- [require(bool,string)(rewardRatePerSec > 0,reward rate = 0)](contracts/src/LDYStaking.sol#L271)
-	- [require(bool,string)(rewardRatePerSec <= (stakeRewardToken.balanceOf(address(this)) + amount - totalStaked) / rewardsDuration,reward amount > balance)](contracts/src/LDYStaking.sol#L272-L277)
+	- [require(bool,string)(finishAt < block.timestamp,reward duration is not finished)](contracts/src/LDYStaking.sol#L256)
 
-contracts/src/LDYStaking.sol#L258-L283
+contracts/src/LDYStaking.sol#L255-L258
 
 
 ## costly-loop

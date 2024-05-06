@@ -29,7 +29,9 @@
     "graph:linea-remove": "graph remove --node https://graph-deploy.linea.build/ LedgityLabs/LedgityYield",
     "graph:arbitrum-gen": "cd subgraph && graph codegen ./arbitrum-subgraph.yaml && graph build ./arbitrum-subgraph.yaml",
     "graph:arbitrum-deploy": "graph deploy --studio ledgity-yield-arbitrum ./subgraph/arbitrum-subgraph.yaml",
-    "graph:OKX_X1_Testnet-remove": "graph remove --node https://www.okx.com/api/v1/x1-testnet/index/subgraphs/name/LedgityLabs/LedgityYield/"
+    "graph:OKX_X1_Testnet-remove": "graph remove --node https://www.okx.com/api/v1/x1-testnet/index/subgraphs/name/LedgityLabs/LedgityYield/",
+    "graph:base-sepolia-gen": "cd subgraph && graph codegen ./base-sepolia_subgraph.yaml && graph build ./base-sepolia_subgraph.yaml",
+    "graph:base-sepolia-deploy": "cd subgraph && graph deploy --node https://api.studio.thegraph.com/deploy/ ldystaking-subgraph ./base-sepolia_subgraph.yaml"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.0.11",
@@ -44,6 +46,7 @@
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-radio-group": "^1.1.3",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
@@ -60,7 +63,10 @@
     "clsx": "^2.1.0",
     "cookies-next": "^4.1.0",
     "d3-format": "^3.1.0",
+    "dayjs": "^1.11.11",
+    "embla-carousel-react": "^8.0.2",
     "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0",
     "ioredis": "^5.3.2",
     "lodash.merge": "^4.6.2",
     "lokijs": "^1.5.12",

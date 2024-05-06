@@ -2,7 +2,7 @@ specVersion: 1.0.0
 indexerHints:
   prune: auto
 schema:
-  file: schema.graphql
+  file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
@@ -15,14 +15,14 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: LTokenSignaler/LTokenSignaler.wasm
+      file: ./mapping.ts
       entities:
         - LToken
       abis:
         - name: LTokenSignaler
-          file: contracts/abis/LTokenSignaler.json
+          file: ../contracts/abis/LTokenSignaler.json
         - name: LToken
-          file: contracts/abis/LToken.json
+          file: ../contracts/abis/LToken.json
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
@@ -37,12 +37,12 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: LTokenSignaler/LTokenSignaler.wasm
+      file: ./mapping.ts
       entities:
         - PreMining
       abis:
         - name: PreMining
-          file: contracts/abis/PreMining.json
+          file: ../contracts/abis/PreMining.json
       eventHandlers:
         - event: Lock(indexed address,uint256,uint8)
           handler: handlePreMiningLock
@@ -64,7 +64,7 @@ dataSources:
         - NotifiedRewardAmount
       abis:
         - name: LdyStaking
-          file: contracts/abis/LdyStaking.json
+          file: ../contracts/abis/LdyStaking.json
       eventHandlers:
         - event: Staked(indexed address,uint256,uint256)
           handler: handleStaked
@@ -74,7 +74,7 @@ dataSources:
           handler: handleRewardPaid
         - event: NotifiedRewardAmount(uint256,uint256)
           handler: handleNotifiedRewardAmount
-      file: LTokenSignaler/LTokenSignaler.wasm
+      file: ./mapping.ts
 templates:
   - kind: ethereum/contract
     name: LToken
@@ -85,7 +85,7 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: LTokenSignaler/LTokenSignaler.wasm
+      file: ./mapping.ts
       entities:
         - LToken
         - TVLChange
@@ -94,14 +94,13 @@ templates:
         - RewardsMint
       abis:
         - name: LToken
-          file: contracts/abis/LToken.json
+          file: ../contracts/abis/LToken.json
       eventHandlers:
         - event: TVLChangeEvent(uint256)
           handler: handleTVLChangeEvent
         - event: APRChangeEvent(uint16)
           handler: handleAPRChangeEvent
-        - event: ActivityEvent(indexed int256,indexed address,indexed
-            uint8,uint256,uint256,uint8,int256)
+        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint256,uint8,int256)
           handler: handleActivityEvent
         - event: MintedRewardsEvent(indexed address,uint256,uint256)
           handler: handleMintedRewardsEvent

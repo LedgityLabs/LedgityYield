@@ -62,3 +62,18 @@ type PreMiningLock @entity {
   amount: BigDecimal!
   duration: Int!
 }
+
+type StakingUser @entity {
+  id: ID! #User-StakeIndex
+  user: Bytes! # Address
+  stakeIndex: BigInt!
+  stakedAmount: BigInt!
+  earnedAmount: BigInt!
+}
+
+type StakingAPRInfo @entity {
+  id: ID! # Static ID, "StakingAPRInfo"
+  rewardPerSec: BigInt!
+  totalStaked: BigInt!
+  APR: BigDecimal!
+}
