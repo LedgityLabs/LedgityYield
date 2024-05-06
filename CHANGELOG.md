@@ -1,3 +1,15 @@
+## [1.255.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.254.2...v1.255.0) (2024-05-06)
+
+
+### Features
+
+* add staking ui ([45add7f](https://github.com/LedgityLabs/LedgityYield/commit/45add7f5fb69b7826827e6b7084dc1a1e30ab8c3))
+
+
+### Fixes
+
+* issues on staking ui ([f9b6d05](https://github.com/LedgityLabs/LedgityYield/commit/f9b6d05912cb421b751025b963e5f784fc2145f1))
+
 ## [1.254.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.254.1...v1.254.2) (2024-05-03)
 
 
