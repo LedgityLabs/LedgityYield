@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     invest: "Invest",
     airdrop: "Multi-Airdrop",
     "get-usdc": "Get USDC",
-    "pre-mining": "Pre-Mining",
+    // "pre-mining": "Pre-Mining",
     staking: "Staking",
   }[params.tab];
 
@@ -43,15 +43,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "Liquid staking",
       "Real World Assets",
     ],
-    "pre-mining": [
-      "Ledgity Yield Pre-Mining",
-      "Ledgity Pre-Mining",
-      "RWA",
-      "Stablecoins",
-      "Yield",
-      "Liquid staking",
-      "Real World Assets",
-    ],
+    // "pre-mining": [
+    //   "Ledgity Yield Pre-Mining",
+    //   "Ledgity Pre-Mining",
+    //   "RWA",
+    //   "Stablecoins",
+    //   "Yield",
+    //   "Liquid staking",
+    //   "Real World Assets",
+    // ],
   }[params.tab];
 
   return {

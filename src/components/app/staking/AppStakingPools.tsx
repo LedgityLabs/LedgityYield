@@ -17,9 +17,9 @@ import { IStakingAPRInfo } from "@/services/graph/hooks/useStakingEvent";
 import { AppStakingPoolPane } from "./AppStakingPoolPane";
 
 export const AppStakingPools: FC<{
-  ldyTokenDecimals?: number;
-  ldyTokenBalanceQuery?: QueryKey;
-  stakingAprInfo?: IStakingAPRInfo;
+  ldyTokenDecimals: number;
+  ldyTokenBalanceQuery: QueryKey;
+  stakingAprInfo: IStakingAPRInfo | undefined;
 }> = ({ ldyTokenDecimals, ldyTokenBalanceQuery, stakingAprInfo }) => {
   const queryClient = useQueryClient();
   const account = useAccount();

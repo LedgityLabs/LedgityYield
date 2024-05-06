@@ -1,6 +1,6 @@
 import { StakeDurations, OneMonth } from "@/constants/staking";
 
-export const useAPYCalculation = (
+export const getAPYCalculation = (
   apr: string,
   useStakeIndex: boolean = true,
   stakeDuration: number,

@@ -27,4 +27,6 @@ export enum ChainId {
 export const SUBGRAPH_CLIENT_URLS = {
   [ChainId.BASE_SEPOLIA]:
     "https://api.studio.thegraph.com/query/60646/ldystaking-subgraph/version/latest",
+  [ChainId.ETHEREUM_SEPOLIA]:
+    "https://api.studio.thegraph.com/query/60646/ledgity-sepolia/version/latest",
 } satisfies Record<ChainId, string>;

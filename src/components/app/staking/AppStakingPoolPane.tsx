@@ -9,7 +9,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 import { OneMonth } from "@/constants/staking";
-import { useAPYCalculation } from "@/hooks/useAPYCalculation";
+import { getAPYCalculation } from "@/lib/getAPYCalculation";
 import { QueryKey } from "@tanstack/react-query";
 import { IStakingAPRInfo, IUserStakingInfo } from "@/services/graph/hooks/useStakingEvent";
 dayjs.extend(localizedFormat);
@@ -79,9 +79,11 @@ export const AppStakingPoolPane: FC<{
           <div className="flex text-sm justify-between">
             <span>APY</span>
             <span className="font-semibold">
-              {stakingAprInfo
-                ? useAPYCalculation(stakingAprInfo.APR, false, Number(poolInfo.duration))
-                : "-"}
+              {getAPYCalculation(
+                stakingAprInfo ? stakingAprInfo.APR : "0",
+                false,
+                Number(poolInfo.duration),
+              )}
               %
             </span>
           </div>

@@ -55,9 +55,9 @@ export const AppStaking: FC = () => {
       >
         <AppStakingPane
           ldyTokenSymbol={ldySymbol}
-          ldyTokenAddress={ldyTokenAddress}
+          ldyTokenAddress={ldyTokenAddress || zeroAddress}
           ldyTokenBalance={ldyBalance || 0n}
-          ldyTokenDecimals={ldyDecimals}
+          ldyTokenDecimals={ldyDecimals || 18}
           stakingAprInfo={stakingAprInfo ? stakingAprInfo.stakingAPRInfo || undefined : undefined}
         />
       </Card>
@@ -74,7 +74,7 @@ export const AppStaking: FC = () => {
         className="w-full flex flex-col gap-8 col-span-12 before:bg-primary p-2"
       >
         <AppStakingPools
-          ldyTokenDecimals={ldyDecimals}
+          ldyTokenDecimals={ldyDecimals || 18}
           ldyTokenBalanceQuery={ldyBalanceQuery || []}
           stakingAprInfo={stakingAprInfo ? stakingAprInfo.stakingAPRInfo || undefined : undefined}
         />

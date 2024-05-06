@@ -20,7 +20,7 @@ import {
   Activity,
   APRChange,
   RewardsMint,
-  PreMiningLock,
+  // PreMiningLock,
 } from "./generated/schema";
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
@@ -223,23 +223,23 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
   }
 }
 
-export function handlePreMiningLock(event: Lock): void {
-  // Try retrrieving existing lock data
-  let lockData = PreMiningLock.load(event.params.account.toHexString());
-  if (lockData === null) {
-    // Create new lock data and set initial amount if not existing
-    lockData = new PreMiningLock(event.params.account.toHexString());
-    lockData.amount = event.params.amount.toBigDecimal();
-  }
-  // Else, increment amount
-  else lockData.amount = lockData.amount.plus(event.params.amount.toBigDecimal());
+// export function handlePreMiningLock(event: Lock): void {
+//   // Try retrrieving existing lock data
+//   let lockData = PreMiningLock.load(event.params.account.toHexString());
+//   if (lockData === null) {
+//     // Create new lock data and set initial amount if not existing
+//     lockData = new PreMiningLock(event.params.account.toHexString());
+//     lockData.amount = event.params.amount.toBigDecimal();
+//   }
+//   // Else, increment amount
+//   else lockData.amount = lockData.amount.plus(event.params.amount.toBigDecimal());
 
-  // Apply duration changes
-  lockData.duration = event.params.duration;
+//   // Apply duration changes
+//   lockData.duration = event.params.duration;
 
-  // Save the lock data
-  lockData.save();
-}
+//   // Save the lock data
+//   lockData.save();
+// }
 
 export function handleStaked(event: StakedEvent): void {
   const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
