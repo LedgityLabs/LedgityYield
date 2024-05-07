@@ -1,3 +1,15 @@
+## [1.256.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.255.0...v1.256.0) (2024-05-07)
+
+
+### Features
+
+* **base-sepolia_subgraph.yaml:** modify subgraph file ([318c504](https://github.com/LedgityLabs/LedgityYield/commit/318c5047216c0432338d561cd4376d156839e18f))
+
+
+### Others
+
+* **base-sepolia_subgraph.yaml:** modify subgraph file ([4b5a4d1](https://github.com/LedgityLabs/LedgityYield/commit/4b5a4d18b498e58e976c08bd6c02c7fda822119f))
+
 ## [1.255.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.254.2...v1.255.0) (2024-05-06)
 
 
