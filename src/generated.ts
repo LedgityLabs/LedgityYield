@@ -207,6 +207,7 @@ export const genericErc20Abi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const globalBlacklistAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -402,6 +403,7 @@ export const globalBlacklistAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const globalBlacklistAddress = {
   195: '0xc44395eC149C6743A268A901a38e5b02dc87D10C',
@@ -411,6 +413,7 @@ export const globalBlacklistAddress = {
   59144: '0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350',
   84532: '0x546b48297Ce50FA31a383aFe7Df48297337c12B5',
   421613: '0x1549647606A71B2a79b85AEb54631b8eA2a1939a',
+  11155111: '0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1',
 } as const
 
 /**
@@ -421,6 +424,7 @@ export const globalBlacklistAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const globalBlacklistConfig = {
   address: globalBlacklistAddress,
@@ -439,6 +443,7 @@ export const globalBlacklistConfig = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const globalOwnerAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -611,6 +616,7 @@ export const globalOwnerAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const globalOwnerAddress = {
   195: '0x2547A36186eCC16C25649B9234D4937216e45978',
@@ -620,6 +626,7 @@ export const globalOwnerAddress = {
   59144: '0xe4Af4573bFc5F04D8b84c61744de8A94059f2462',
   84532: '0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2',
   421613: '0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350',
+  11155111: '0x91849bAe327965a5Cc7BA970233dBee10C610105',
 } as const
 
 /**
@@ -630,6 +637,7 @@ export const globalOwnerAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const globalOwnerConfig = {
   address: globalOwnerAddress,
@@ -648,6 +656,7 @@ export const globalOwnerConfig = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const globalPauseAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -843,6 +852,7 @@ export const globalPauseAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const globalPauseAddress = {
   195: '0x696C4B4f35Ee60e110cDaE5b3eBd78a5597f6Ac6',
@@ -852,6 +862,7 @@ export const globalPauseAddress = {
   59144: '0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB',
   84532: '0x9992CC9176f2b86c56FDA697D814C1a054C2035e',
   421613: '0x06f54B7f27eEC56616b951598BaA3B84D7660AB4',
+  11155111: '0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322',
 } as const
 
 /**
@@ -862,6 +873,7 @@ export const globalPauseAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const globalPauseConfig = {
   address: globalPauseAddress,
@@ -891,7 +903,8 @@ export const iTransfersListenerAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const ldyAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -1051,14 +1064,17 @@ export const ldyAbi = [
 ] as const
 
 /**
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const ldyAddress = {
   84532: '0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E',
+  11155111: '0xD57baAf94696F178804fBFB2345c977C40F20266',
 } as const
 
 /**
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const ldyConfig = { address: ldyAddress, abi: ldyAbi } as const
 
@@ -1074,6 +1090,7 @@ export const ldyConfig = { address: ldyAddress, abi: ldyAbi } as const
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const ldyStakingAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -1570,6 +1587,7 @@ export const ldyStakingAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const ldyStakingAddress = {
   195: '0x045f9E9d2225319dF5E0909007FE7979E2674a32',
@@ -1579,6 +1597,7 @@ export const ldyStakingAddress = {
   59144: '0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1',
   84532: '0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1',
   421613: '0x5BFFC5303719f0dC6050a2D8042936714109985f',
+  11155111: '0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415',
 } as const
 
 /**
@@ -1589,6 +1608,7 @@ export const ldyStakingAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const ldyStakingConfig = {
   address: ldyStakingAddress,
@@ -2390,6 +2410,7 @@ export const lTokenAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const lTokenSignalerAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
@@ -2560,6 +2581,7 @@ export const lTokenSignalerAbi = [
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const lTokenSignalerAddress = {
   195: '0x6A88b87aA4865e8d67D7CD32178bA03F885a088a',
@@ -2569,6 +2591,7 @@ export const lTokenSignalerAddress = {
   59144: '0xBA427517505b14C560854aED003304Fc69cbadfb',
   84532: '0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B',
   421613: '0x1dA817E33C0dB209C7b508B79F9dac4480f94522',
+  11155111: '0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3',
 } as const
 
 /**
@@ -2579,6 +2602,7 @@ export const lTokenSignalerAddress = {
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const lTokenSignalerConfig = {
   address: lTokenSignalerAddress,
@@ -3256,6 +3280,7 @@ export const useWatchGenericErc20TransferEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklist = /*#__PURE__*/ createUseReadContract({
   abi: globalBlacklistAbi,
@@ -3272,6 +3297,7 @@ export const useReadGlobalBlacklist = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklistGlobalOwner =
   /*#__PURE__*/ createUseReadContract({
@@ -3290,6 +3316,7 @@ export const useReadGlobalBlacklistGlobalOwner =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklistIsBlacklisted =
   /*#__PURE__*/ createUseReadContract({
@@ -3308,6 +3335,7 @@ export const useReadGlobalBlacklistIsBlacklisted =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklistOwner = /*#__PURE__*/ createUseReadContract({
   abi: globalBlacklistAbi,
@@ -3325,6 +3353,7 @@ export const useReadGlobalBlacklistOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklistProxiableUuid =
   /*#__PURE__*/ createUseReadContract({
@@ -3343,6 +3372,7 @@ export const useReadGlobalBlacklistProxiableUuid =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklistRenounceOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -3361,6 +3391,7 @@ export const useReadGlobalBlacklistRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useReadGlobalBlacklistTransferOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -3379,6 +3410,7 @@ export const useReadGlobalBlacklistTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWriteGlobalBlacklist = /*#__PURE__*/ createUseWriteContract({
   abi: globalBlacklistAbi,
@@ -3395,6 +3427,7 @@ export const useWriteGlobalBlacklist = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWriteGlobalBlacklistBlacklist =
   /*#__PURE__*/ createUseWriteContract({
@@ -3413,6 +3446,7 @@ export const useWriteGlobalBlacklistBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWriteGlobalBlacklistInitialize =
   /*#__PURE__*/ createUseWriteContract({
@@ -3431,6 +3465,7 @@ export const useWriteGlobalBlacklistInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWriteGlobalBlacklistUnBlacklist =
   /*#__PURE__*/ createUseWriteContract({
@@ -3449,6 +3484,7 @@ export const useWriteGlobalBlacklistUnBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWriteGlobalBlacklistUpgradeTo =
   /*#__PURE__*/ createUseWriteContract({
@@ -3467,6 +3503,7 @@ export const useWriteGlobalBlacklistUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWriteGlobalBlacklistUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
@@ -3485,6 +3522,7 @@ export const useWriteGlobalBlacklistUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useSimulateGlobalBlacklist =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3502,6 +3540,7 @@ export const useSimulateGlobalBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useSimulateGlobalBlacklistBlacklist =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3520,6 +3559,7 @@ export const useSimulateGlobalBlacklistBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useSimulateGlobalBlacklistInitialize =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3538,6 +3578,7 @@ export const useSimulateGlobalBlacklistInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useSimulateGlobalBlacklistUnBlacklist =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3556,6 +3597,7 @@ export const useSimulateGlobalBlacklistUnBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useSimulateGlobalBlacklistUpgradeTo =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3574,6 +3616,7 @@ export const useSimulateGlobalBlacklistUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useSimulateGlobalBlacklistUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3592,6 +3635,7 @@ export const useSimulateGlobalBlacklistUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3609,6 +3653,7 @@ export const useWatchGlobalBlacklistEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3627,6 +3672,7 @@ export const useWatchGlobalBlacklistAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistBeaconUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3645,6 +3691,7 @@ export const useWatchGlobalBlacklistBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistBlacklistedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3663,6 +3710,7 @@ export const useWatchGlobalBlacklistBlacklistedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3681,6 +3729,7 @@ export const useWatchGlobalBlacklistInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3699,6 +3748,7 @@ export const useWatchGlobalBlacklistOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistUnblacklistedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3717,6 +3767,7 @@ export const useWatchGlobalBlacklistUnblacklistedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const useWatchGlobalBlacklistUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -3735,6 +3786,7 @@ export const useWatchGlobalBlacklistUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useReadGlobalOwner = /*#__PURE__*/ createUseReadContract({
   abi: globalOwnerAbi,
@@ -3751,6 +3803,7 @@ export const useReadGlobalOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useReadGlobalOwnerOwner = /*#__PURE__*/ createUseReadContract({
   abi: globalOwnerAbi,
@@ -3768,6 +3821,7 @@ export const useReadGlobalOwnerOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useReadGlobalOwnerPendingOwner =
   /*#__PURE__*/ createUseReadContract({
@@ -3786,6 +3840,7 @@ export const useReadGlobalOwnerPendingOwner =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useReadGlobalOwnerProxiableUuid =
   /*#__PURE__*/ createUseReadContract({
@@ -3804,6 +3859,7 @@ export const useReadGlobalOwnerProxiableUuid =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwner = /*#__PURE__*/ createUseWriteContract({
   abi: globalOwnerAbi,
@@ -3820,6 +3876,7 @@ export const useWriteGlobalOwner = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwnerAcceptOwnership =
   /*#__PURE__*/ createUseWriteContract({
@@ -3838,6 +3895,7 @@ export const useWriteGlobalOwnerAcceptOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwnerInitialize =
   /*#__PURE__*/ createUseWriteContract({
@@ -3856,6 +3914,7 @@ export const useWriteGlobalOwnerInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwnerRenounceOwnership =
   /*#__PURE__*/ createUseWriteContract({
@@ -3874,6 +3933,7 @@ export const useWriteGlobalOwnerRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwnerTransferOwnership =
   /*#__PURE__*/ createUseWriteContract({
@@ -3892,6 +3952,7 @@ export const useWriteGlobalOwnerTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwnerUpgradeTo =
   /*#__PURE__*/ createUseWriteContract({
@@ -3910,6 +3971,7 @@ export const useWriteGlobalOwnerUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWriteGlobalOwnerUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
@@ -3928,6 +3990,7 @@ export const useWriteGlobalOwnerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwner = /*#__PURE__*/ createUseSimulateContract({
   abi: globalOwnerAbi,
@@ -3944,6 +4007,7 @@ export const useSimulateGlobalOwner = /*#__PURE__*/ createUseSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwnerAcceptOwnership =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3962,6 +4026,7 @@ export const useSimulateGlobalOwnerAcceptOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwnerInitialize =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3980,6 +4045,7 @@ export const useSimulateGlobalOwnerInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwnerRenounceOwnership =
   /*#__PURE__*/ createUseSimulateContract({
@@ -3998,6 +4064,7 @@ export const useSimulateGlobalOwnerRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwnerTransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4016,6 +4083,7 @@ export const useSimulateGlobalOwnerTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwnerUpgradeTo =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4034,6 +4102,7 @@ export const useSimulateGlobalOwnerUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useSimulateGlobalOwnerUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4052,6 +4121,7 @@ export const useSimulateGlobalOwnerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4069,6 +4139,7 @@ export const useWatchGlobalOwnerEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4087,6 +4158,7 @@ export const useWatchGlobalOwnerAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerBeaconUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4105,6 +4177,7 @@ export const useWatchGlobalOwnerBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4123,6 +4196,7 @@ export const useWatchGlobalOwnerInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerOwnershipTransferStartedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4141,6 +4215,7 @@ export const useWatchGlobalOwnerOwnershipTransferStartedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4159,6 +4234,7 @@ export const useWatchGlobalOwnerOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const useWatchGlobalOwnerUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4177,6 +4253,7 @@ export const useWatchGlobalOwnerUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPause = /*#__PURE__*/ createUseReadContract({
   abi: globalPauseAbi,
@@ -4193,6 +4270,7 @@ export const useReadGlobalPause = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPauseGlobalOwner =
   /*#__PURE__*/ createUseReadContract({
@@ -4211,6 +4289,7 @@ export const useReadGlobalPauseGlobalOwner =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPauseOwner = /*#__PURE__*/ createUseReadContract({
   abi: globalPauseAbi,
@@ -4228,6 +4307,7 @@ export const useReadGlobalPauseOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPausePaused = /*#__PURE__*/ createUseReadContract({
   abi: globalPauseAbi,
@@ -4245,6 +4325,7 @@ export const useReadGlobalPausePaused = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPauseProxiableUuid =
   /*#__PURE__*/ createUseReadContract({
@@ -4263,6 +4344,7 @@ export const useReadGlobalPauseProxiableUuid =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPauseRenounceOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -4281,6 +4363,7 @@ export const useReadGlobalPauseRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useReadGlobalPauseTransferOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -4299,6 +4382,7 @@ export const useReadGlobalPauseTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWriteGlobalPause = /*#__PURE__*/ createUseWriteContract({
   abi: globalPauseAbi,
@@ -4315,6 +4399,7 @@ export const useWriteGlobalPause = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWriteGlobalPauseInitialize =
   /*#__PURE__*/ createUseWriteContract({
@@ -4333,6 +4418,7 @@ export const useWriteGlobalPauseInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWriteGlobalPausePause = /*#__PURE__*/ createUseWriteContract({
   abi: globalPauseAbi,
@@ -4350,6 +4436,7 @@ export const useWriteGlobalPausePause = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWriteGlobalPauseUnpause = /*#__PURE__*/ createUseWriteContract({
   abi: globalPauseAbi,
@@ -4367,6 +4454,7 @@ export const useWriteGlobalPauseUnpause = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWriteGlobalPauseUpgradeTo =
   /*#__PURE__*/ createUseWriteContract({
@@ -4385,6 +4473,7 @@ export const useWriteGlobalPauseUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWriteGlobalPauseUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
@@ -4403,6 +4492,7 @@ export const useWriteGlobalPauseUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useSimulateGlobalPause = /*#__PURE__*/ createUseSimulateContract({
   abi: globalPauseAbi,
@@ -4419,6 +4509,7 @@ export const useSimulateGlobalPause = /*#__PURE__*/ createUseSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useSimulateGlobalPauseInitialize =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4437,6 +4528,7 @@ export const useSimulateGlobalPauseInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useSimulateGlobalPausePause =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4455,6 +4547,7 @@ export const useSimulateGlobalPausePause =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useSimulateGlobalPauseUnpause =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4473,6 +4566,7 @@ export const useSimulateGlobalPauseUnpause =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useSimulateGlobalPauseUpgradeTo =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4491,6 +4585,7 @@ export const useSimulateGlobalPauseUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useSimulateGlobalPauseUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4509,6 +4604,7 @@ export const useSimulateGlobalPauseUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4526,6 +4622,7 @@ export const useWatchGlobalPauseEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4544,6 +4641,7 @@ export const useWatchGlobalPauseAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseBeaconUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4562,6 +4660,7 @@ export const useWatchGlobalPauseBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4580,6 +4679,7 @@ export const useWatchGlobalPauseInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4598,6 +4698,7 @@ export const useWatchGlobalPauseOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPausePausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4616,6 +4717,7 @@ export const useWatchGlobalPausePausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseUnpausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4634,6 +4736,7 @@ export const useWatchGlobalPauseUnpausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const useWatchGlobalPauseUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4676,7 +4779,8 @@ export const useSimulateITransfersListenerOnLTokenTransfer =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdy = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4686,7 +4790,8 @@ export const useReadLdy = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdyAllowance = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4697,7 +4802,8 @@ export const useReadLdyAllowance = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdyBalanceOf = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4708,7 +4814,8 @@ export const useReadLdyBalanceOf = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdyDecimals = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4719,7 +4826,8 @@ export const useReadLdyDecimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdyName = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4730,7 +4838,8 @@ export const useReadLdyName = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdySymbol = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4741,7 +4850,8 @@ export const useReadLdySymbol = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useReadLdyTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: ldyAbi,
@@ -4752,7 +4862,8 @@ export const useReadLdyTotalSupply = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdy = /*#__PURE__*/ createUseWriteContract({
   abi: ldyAbi,
@@ -4762,7 +4873,8 @@ export const useWriteLdy = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyApprove = /*#__PURE__*/ createUseWriteContract({
   abi: ldyAbi,
@@ -4773,7 +4885,8 @@ export const useWriteLdyApprove = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyBurn = /*#__PURE__*/ createUseWriteContract({
   abi: ldyAbi,
@@ -4784,7 +4897,8 @@ export const useWriteLdyBurn = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyBurnFrom = /*#__PURE__*/ createUseWriteContract({
   abi: ldyAbi,
@@ -4795,7 +4909,8 @@ export const useWriteLdyBurnFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyDecreaseAllowance =
   /*#__PURE__*/ createUseWriteContract({
@@ -4807,7 +4922,8 @@ export const useWriteLdyDecreaseAllowance =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyIncreaseAllowance =
   /*#__PURE__*/ createUseWriteContract({
@@ -4819,7 +4935,8 @@ export const useWriteLdyIncreaseAllowance =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyTransfer = /*#__PURE__*/ createUseWriteContract({
   abi: ldyAbi,
@@ -4830,7 +4947,8 @@ export const useWriteLdyTransfer = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWriteLdyTransferFrom = /*#__PURE__*/ createUseWriteContract({
   abi: ldyAbi,
@@ -4841,7 +4959,8 @@ export const useWriteLdyTransferFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdy = /*#__PURE__*/ createUseSimulateContract({
   abi: ldyAbi,
@@ -4851,7 +4970,8 @@ export const useSimulateLdy = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyApprove = /*#__PURE__*/ createUseSimulateContract({
   abi: ldyAbi,
@@ -4862,7 +4982,8 @@ export const useSimulateLdyApprove = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyBurn = /*#__PURE__*/ createUseSimulateContract({
   abi: ldyAbi,
@@ -4873,7 +4994,8 @@ export const useSimulateLdyBurn = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyBurnFrom = /*#__PURE__*/ createUseSimulateContract({
   abi: ldyAbi,
@@ -4884,7 +5006,8 @@ export const useSimulateLdyBurnFrom = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyDecreaseAllowance =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4896,7 +5019,8 @@ export const useSimulateLdyDecreaseAllowance =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyIncreaseAllowance =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4908,7 +5032,8 @@ export const useSimulateLdyIncreaseAllowance =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyTransfer = /*#__PURE__*/ createUseSimulateContract({
   abi: ldyAbi,
@@ -4919,7 +5044,8 @@ export const useSimulateLdyTransfer = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useSimulateLdyTransferFrom =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4931,7 +5057,8 @@ export const useSimulateLdyTransferFrom =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWatchLdyEvent = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ldyAbi,
@@ -4941,7 +5068,8 @@ export const useWatchLdyEvent = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWatchLdyApprovalEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4953,7 +5081,8 @@ export const useWatchLdyApprovalEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const useWatchLdyTransferEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4972,6 +5101,7 @@ export const useWatchLdyTransferEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStaking = /*#__PURE__*/ createUseReadContract({
   abi: ldyStakingAbi,
@@ -4988,6 +5118,7 @@ export const useReadLdyStaking = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingEarned = /*#__PURE__*/ createUseReadContract({
   abi: ldyStakingAbi,
@@ -5005,6 +5136,7 @@ export const useReadLdyStakingEarned = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingFinishAt = /*#__PURE__*/ createUseReadContract({
   abi: ldyStakingAbi,
@@ -5022,6 +5154,7 @@ export const useReadLdyStakingFinishAt = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingGetEarnedUser =
   /*#__PURE__*/ createUseReadContract({
@@ -5040,6 +5173,7 @@ export const useReadLdyStakingGetEarnedUser =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingGetUserStakes =
   /*#__PURE__*/ createUseReadContract({
@@ -5058,6 +5192,7 @@ export const useReadLdyStakingGetUserStakes =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingGlobalBlacklist =
   /*#__PURE__*/ createUseReadContract({
@@ -5076,6 +5211,7 @@ export const useReadLdyStakingGlobalBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingGlobalOwner = /*#__PURE__*/ createUseReadContract(
   {
@@ -5095,6 +5231,7 @@ export const useReadLdyStakingGlobalOwner = /*#__PURE__*/ createUseReadContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingGlobalPause = /*#__PURE__*/ createUseReadContract(
   {
@@ -5114,6 +5251,7 @@ export const useReadLdyStakingGlobalPause = /*#__PURE__*/ createUseReadContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingHighTierAccounts =
   /*#__PURE__*/ createUseReadContract({
@@ -5132,6 +5270,7 @@ export const useReadLdyStakingHighTierAccounts =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingLastTimeRewardApplicable =
   /*#__PURE__*/ createUseReadContract({
@@ -5150,6 +5289,7 @@ export const useReadLdyStakingLastTimeRewardApplicable =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingLastUpdateTime =
   /*#__PURE__*/ createUseReadContract({
@@ -5168,6 +5308,7 @@ export const useReadLdyStakingLastUpdateTime =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingOwner = /*#__PURE__*/ createUseReadContract({
   abi: ldyStakingAbi,
@@ -5185,6 +5326,7 @@ export const useReadLdyStakingOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingPaused = /*#__PURE__*/ createUseReadContract({
   abi: ldyStakingAbi,
@@ -5202,6 +5344,7 @@ export const useReadLdyStakingPaused = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingProxiableUuid =
   /*#__PURE__*/ createUseReadContract({
@@ -5220,6 +5363,7 @@ export const useReadLdyStakingProxiableUuid =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingRenounceOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -5238,6 +5382,7 @@ export const useReadLdyStakingRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingRewardPerToken =
   /*#__PURE__*/ createUseReadContract({
@@ -5256,6 +5401,7 @@ export const useReadLdyStakingRewardPerToken =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingRewardPerTokenStored =
   /*#__PURE__*/ createUseReadContract({
@@ -5274,6 +5420,7 @@ export const useReadLdyStakingRewardPerTokenStored =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingRewardRatePerSec =
   /*#__PURE__*/ createUseReadContract({
@@ -5292,6 +5439,7 @@ export const useReadLdyStakingRewardRatePerSec =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingRewardsDuration =
   /*#__PURE__*/ createUseReadContract({
@@ -5310,6 +5458,7 @@ export const useReadLdyStakingRewardsDuration =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingStakeAmountForPerks =
   /*#__PURE__*/ createUseReadContract({
@@ -5328,6 +5477,7 @@ export const useReadLdyStakingStakeAmountForPerks =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingStakeDurationForPerks =
   /*#__PURE__*/ createUseReadContract({
@@ -5346,6 +5496,7 @@ export const useReadLdyStakingStakeDurationForPerks =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingStakeDurations =
   /*#__PURE__*/ createUseReadContract({
@@ -5364,6 +5515,7 @@ export const useReadLdyStakingStakeDurations =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingStakeRewardToken =
   /*#__PURE__*/ createUseReadContract({
@@ -5382,6 +5534,7 @@ export const useReadLdyStakingStakeRewardToken =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingTierOf = /*#__PURE__*/ createUseReadContract({
   abi: ldyStakingAbi,
@@ -5399,6 +5552,7 @@ export const useReadLdyStakingTierOf = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingTotalStaked = /*#__PURE__*/ createUseReadContract(
   {
@@ -5418,6 +5572,7 @@ export const useReadLdyStakingTotalStaked = /*#__PURE__*/ createUseReadContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingTransferOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -5436,6 +5591,7 @@ export const useReadLdyStakingTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useReadLdyStakingUserStakingInfo =
   /*#__PURE__*/ createUseReadContract({
@@ -5454,6 +5610,7 @@ export const useReadLdyStakingUserStakingInfo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStaking = /*#__PURE__*/ createUseWriteContract({
   abi: ldyStakingAbi,
@@ -5470,6 +5627,7 @@ export const useWriteLdyStaking = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingGetReward = /*#__PURE__*/ createUseWriteContract(
   { abi: ldyStakingAbi, address: ldyStakingAddress, functionName: 'getReward' },
@@ -5485,6 +5643,7 @@ export const useWriteLdyStakingGetReward = /*#__PURE__*/ createUseWriteContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingInitialize =
   /*#__PURE__*/ createUseWriteContract({
@@ -5503,6 +5662,7 @@ export const useWriteLdyStakingInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingNotifyRewardAmount =
   /*#__PURE__*/ createUseWriteContract({
@@ -5521,6 +5681,7 @@ export const useWriteLdyStakingNotifyRewardAmount =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingRecoverErc20 =
   /*#__PURE__*/ createUseWriteContract({
@@ -5539,6 +5700,7 @@ export const useWriteLdyStakingRecoverErc20 =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingSetRewardsDuration =
   /*#__PURE__*/ createUseWriteContract({
@@ -5557,6 +5719,7 @@ export const useWriteLdyStakingSetRewardsDuration =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingStake = /*#__PURE__*/ createUseWriteContract({
   abi: ldyStakingAbi,
@@ -5574,6 +5737,7 @@ export const useWriteLdyStakingStake = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingUnstake = /*#__PURE__*/ createUseWriteContract({
   abi: ldyStakingAbi,
@@ -5591,6 +5755,7 @@ export const useWriteLdyStakingUnstake = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingUpgradeTo = /*#__PURE__*/ createUseWriteContract(
   { abi: ldyStakingAbi, address: ldyStakingAddress, functionName: 'upgradeTo' },
@@ -5606,6 +5771,7 @@ export const useWriteLdyStakingUpgradeTo = /*#__PURE__*/ createUseWriteContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWriteLdyStakingUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
@@ -5624,6 +5790,7 @@ export const useWriteLdyStakingUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStaking = /*#__PURE__*/ createUseSimulateContract({
   abi: ldyStakingAbi,
@@ -5640,6 +5807,7 @@ export const useSimulateLdyStaking = /*#__PURE__*/ createUseSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingGetReward =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5658,6 +5826,7 @@ export const useSimulateLdyStakingGetReward =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingInitialize =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5676,6 +5845,7 @@ export const useSimulateLdyStakingInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingNotifyRewardAmount =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5694,6 +5864,7 @@ export const useSimulateLdyStakingNotifyRewardAmount =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingRecoverErc20 =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5712,6 +5883,7 @@ export const useSimulateLdyStakingRecoverErc20 =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingSetRewardsDuration =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5730,6 +5902,7 @@ export const useSimulateLdyStakingSetRewardsDuration =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingStake =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5748,6 +5921,7 @@ export const useSimulateLdyStakingStake =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingUnstake =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5766,6 +5940,7 @@ export const useSimulateLdyStakingUnstake =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingUpgradeTo =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5784,6 +5959,7 @@ export const useSimulateLdyStakingUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useSimulateLdyStakingUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
@@ -5802,6 +5978,7 @@ export const useSimulateLdyStakingUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5819,6 +5996,7 @@ export const useWatchLdyStakingEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5837,6 +6015,7 @@ export const useWatchLdyStakingAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingBeaconUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5855,6 +6034,7 @@ export const useWatchLdyStakingBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5873,6 +6053,7 @@ export const useWatchLdyStakingInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingNotifiedRewardAmountEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5891,6 +6072,7 @@ export const useWatchLdyStakingNotifiedRewardAmountEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5909,6 +6091,7 @@ export const useWatchLdyStakingOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingPausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5927,6 +6110,7 @@ export const useWatchLdyStakingPausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingRewardPaidEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5945,6 +6129,7 @@ export const useWatchLdyStakingRewardPaidEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingStakedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5963,6 +6148,7 @@ export const useWatchLdyStakingStakedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingUnpausedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5981,6 +6167,7 @@ export const useWatchLdyStakingUnpausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingUnstakedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -5999,6 +6186,7 @@ export const useWatchLdyStakingUnstakedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const useWatchLdyStakingUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -6955,6 +7143,7 @@ export const useWatchLTokenUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useReadLTokenSignaler = /*#__PURE__*/ createUseReadContract({
   abi: lTokenSignalerAbi,
@@ -6971,6 +7160,7 @@ export const useReadLTokenSignaler = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useReadLTokenSignalerGlobalOwner =
   /*#__PURE__*/ createUseReadContract({
@@ -6989,6 +7179,7 @@ export const useReadLTokenSignalerGlobalOwner =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useReadLTokenSignalerOwner = /*#__PURE__*/ createUseReadContract({
   abi: lTokenSignalerAbi,
@@ -7006,6 +7197,7 @@ export const useReadLTokenSignalerOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useReadLTokenSignalerProxiableUuid =
   /*#__PURE__*/ createUseReadContract({
@@ -7024,6 +7216,7 @@ export const useReadLTokenSignalerProxiableUuid =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useReadLTokenSignalerRenounceOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -7042,6 +7235,7 @@ export const useReadLTokenSignalerRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useReadLTokenSignalerTransferOwnership =
   /*#__PURE__*/ createUseReadContract({
@@ -7060,6 +7254,7 @@ export const useReadLTokenSignalerTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWriteLTokenSignaler = /*#__PURE__*/ createUseWriteContract({
   abi: lTokenSignalerAbi,
@@ -7076,6 +7271,7 @@ export const useWriteLTokenSignaler = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWriteLTokenSignalerInitialize =
   /*#__PURE__*/ createUseWriteContract({
@@ -7094,6 +7290,7 @@ export const useWriteLTokenSignalerInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWriteLTokenSignalerSignalLToken =
   /*#__PURE__*/ createUseWriteContract({
@@ -7112,6 +7309,7 @@ export const useWriteLTokenSignalerSignalLToken =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWriteLTokenSignalerUpgradeTo =
   /*#__PURE__*/ createUseWriteContract({
@@ -7130,6 +7328,7 @@ export const useWriteLTokenSignalerUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWriteLTokenSignalerUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
@@ -7148,6 +7347,7 @@ export const useWriteLTokenSignalerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useSimulateLTokenSignaler =
   /*#__PURE__*/ createUseSimulateContract({
@@ -7165,6 +7365,7 @@ export const useSimulateLTokenSignaler =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useSimulateLTokenSignalerInitialize =
   /*#__PURE__*/ createUseSimulateContract({
@@ -7183,6 +7384,7 @@ export const useSimulateLTokenSignalerInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useSimulateLTokenSignalerSignalLToken =
   /*#__PURE__*/ createUseSimulateContract({
@@ -7201,6 +7403,7 @@ export const useSimulateLTokenSignalerSignalLToken =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useSimulateLTokenSignalerUpgradeTo =
   /*#__PURE__*/ createUseSimulateContract({
@@ -7219,6 +7422,7 @@ export const useSimulateLTokenSignalerUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useSimulateLTokenSignalerUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
@@ -7237,6 +7441,7 @@ export const useSimulateLTokenSignalerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -7254,6 +7459,7 @@ export const useWatchLTokenSignalerEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -7272,6 +7478,7 @@ export const useWatchLTokenSignalerAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerBeaconUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -7290,6 +7497,7 @@ export const useWatchLTokenSignalerBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -7308,6 +7516,7 @@ export const useWatchLTokenSignalerInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerLTokenSignalEventEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -7326,6 +7535,7 @@ export const useWatchLTokenSignalerLTokenSignalEventEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -7344,6 +7554,7 @@ export const useWatchLTokenSignalerOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const useWatchLTokenSignalerUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -8445,6 +8656,7 @@ export const watchGenericErc20TransferEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklist = /*#__PURE__*/ createReadContract({
   abi: globalBlacklistAbi,
@@ -8461,6 +8673,7 @@ export const readGlobalBlacklist = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklistGlobalOwner = /*#__PURE__*/ createReadContract({
   abi: globalBlacklistAbi,
@@ -8478,6 +8691,7 @@ export const readGlobalBlacklistGlobalOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklistIsBlacklisted =
   /*#__PURE__*/ createReadContract({
@@ -8496,6 +8710,7 @@ export const readGlobalBlacklistIsBlacklisted =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklistOwner = /*#__PURE__*/ createReadContract({
   abi: globalBlacklistAbi,
@@ -8513,6 +8728,7 @@ export const readGlobalBlacklistOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklistProxiableUuid =
   /*#__PURE__*/ createReadContract({
@@ -8531,6 +8747,7 @@ export const readGlobalBlacklistProxiableUuid =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklistRenounceOwnership =
   /*#__PURE__*/ createReadContract({
@@ -8549,6 +8766,7 @@ export const readGlobalBlacklistRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const readGlobalBlacklistTransferOwnership =
   /*#__PURE__*/ createReadContract({
@@ -8567,6 +8785,7 @@ export const readGlobalBlacklistTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const writeGlobalBlacklist = /*#__PURE__*/ createWriteContract({
   abi: globalBlacklistAbi,
@@ -8583,6 +8802,7 @@ export const writeGlobalBlacklist = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const writeGlobalBlacklistBlacklist = /*#__PURE__*/ createWriteContract({
   abi: globalBlacklistAbi,
@@ -8600,6 +8820,7 @@ export const writeGlobalBlacklistBlacklist = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const writeGlobalBlacklistInitialize = /*#__PURE__*/ createWriteContract(
   {
@@ -8619,6 +8840,7 @@ export const writeGlobalBlacklistInitialize = /*#__PURE__*/ createWriteContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const writeGlobalBlacklistUnBlacklist =
   /*#__PURE__*/ createWriteContract({
@@ -8637,6 +8859,7 @@ export const writeGlobalBlacklistUnBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const writeGlobalBlacklistUpgradeTo = /*#__PURE__*/ createWriteContract({
   abi: globalBlacklistAbi,
@@ -8654,6 +8877,7 @@ export const writeGlobalBlacklistUpgradeTo = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const writeGlobalBlacklistUpgradeToAndCall =
   /*#__PURE__*/ createWriteContract({
@@ -8672,6 +8896,7 @@ export const writeGlobalBlacklistUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const simulateGlobalBlacklist = /*#__PURE__*/ createSimulateContract({
   abi: globalBlacklistAbi,
@@ -8688,6 +8913,7 @@ export const simulateGlobalBlacklist = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const simulateGlobalBlacklistBlacklist =
   /*#__PURE__*/ createSimulateContract({
@@ -8706,6 +8932,7 @@ export const simulateGlobalBlacklistBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const simulateGlobalBlacklistInitialize =
   /*#__PURE__*/ createSimulateContract({
@@ -8724,6 +8951,7 @@ export const simulateGlobalBlacklistInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const simulateGlobalBlacklistUnBlacklist =
   /*#__PURE__*/ createSimulateContract({
@@ -8742,6 +8970,7 @@ export const simulateGlobalBlacklistUnBlacklist =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const simulateGlobalBlacklistUpgradeTo =
   /*#__PURE__*/ createSimulateContract({
@@ -8760,6 +8989,7 @@ export const simulateGlobalBlacklistUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const simulateGlobalBlacklistUpgradeToAndCall =
   /*#__PURE__*/ createSimulateContract({
@@ -8778,6 +9008,7 @@ export const simulateGlobalBlacklistUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistEvent = /*#__PURE__*/ createWatchContractEvent(
   { abi: globalBlacklistAbi, address: globalBlacklistAddress },
@@ -8793,6 +9024,7 @@ export const watchGlobalBlacklistEvent = /*#__PURE__*/ createWatchContractEvent(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8811,6 +9043,7 @@ export const watchGlobalBlacklistAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistBeaconUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8829,6 +9062,7 @@ export const watchGlobalBlacklistBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistBlacklistedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8847,6 +9081,7 @@ export const watchGlobalBlacklistBlacklistedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistInitializedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8865,6 +9100,7 @@ export const watchGlobalBlacklistInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistOwnershipTransferredEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8883,6 +9119,7 @@ export const watchGlobalBlacklistOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistUnblacklistedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8901,6 +9138,7 @@ export const watchGlobalBlacklistUnblacklistedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x546b48297Ce50FA31a383aFe7Df48297337c12B5)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1549647606A71B2a79b85AEb54631b8eA2a1939a)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1)
  */
 export const watchGlobalBlacklistUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -8919,6 +9157,7 @@ export const watchGlobalBlacklistUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const readGlobalOwner = /*#__PURE__*/ createReadContract({
   abi: globalOwnerAbi,
@@ -8935,6 +9174,7 @@ export const readGlobalOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const readGlobalOwnerOwner = /*#__PURE__*/ createReadContract({
   abi: globalOwnerAbi,
@@ -8952,6 +9192,7 @@ export const readGlobalOwnerOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const readGlobalOwnerPendingOwner = /*#__PURE__*/ createReadContract({
   abi: globalOwnerAbi,
@@ -8969,6 +9210,7 @@ export const readGlobalOwnerPendingOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const readGlobalOwnerProxiableUuid = /*#__PURE__*/ createReadContract({
   abi: globalOwnerAbi,
@@ -8986,6 +9228,7 @@ export const readGlobalOwnerProxiableUuid = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwner = /*#__PURE__*/ createWriteContract({
   abi: globalOwnerAbi,
@@ -9002,6 +9245,7 @@ export const writeGlobalOwner = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwnerAcceptOwnership =
   /*#__PURE__*/ createWriteContract({
@@ -9020,6 +9264,7 @@ export const writeGlobalOwnerAcceptOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwnerInitialize = /*#__PURE__*/ createWriteContract({
   abi: globalOwnerAbi,
@@ -9037,6 +9282,7 @@ export const writeGlobalOwnerInitialize = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwnerRenounceOwnership =
   /*#__PURE__*/ createWriteContract({
@@ -9055,6 +9301,7 @@ export const writeGlobalOwnerRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwnerTransferOwnership =
   /*#__PURE__*/ createWriteContract({
@@ -9073,6 +9320,7 @@ export const writeGlobalOwnerTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwnerUpgradeTo = /*#__PURE__*/ createWriteContract({
   abi: globalOwnerAbi,
@@ -9090,6 +9338,7 @@ export const writeGlobalOwnerUpgradeTo = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const writeGlobalOwnerUpgradeToAndCall =
   /*#__PURE__*/ createWriteContract({
@@ -9108,6 +9357,7 @@ export const writeGlobalOwnerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwner = /*#__PURE__*/ createSimulateContract({
   abi: globalOwnerAbi,
@@ -9124,6 +9374,7 @@ export const simulateGlobalOwner = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwnerAcceptOwnership =
   /*#__PURE__*/ createSimulateContract({
@@ -9142,6 +9393,7 @@ export const simulateGlobalOwnerAcceptOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwnerInitialize =
   /*#__PURE__*/ createSimulateContract({
@@ -9160,6 +9412,7 @@ export const simulateGlobalOwnerInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwnerRenounceOwnership =
   /*#__PURE__*/ createSimulateContract({
@@ -9178,6 +9431,7 @@ export const simulateGlobalOwnerRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwnerTransferOwnership =
   /*#__PURE__*/ createSimulateContract({
@@ -9196,6 +9450,7 @@ export const simulateGlobalOwnerTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwnerUpgradeTo =
   /*#__PURE__*/ createSimulateContract({
@@ -9214,6 +9469,7 @@ export const simulateGlobalOwnerUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const simulateGlobalOwnerUpgradeToAndCall =
   /*#__PURE__*/ createSimulateContract({
@@ -9232,6 +9488,7 @@ export const simulateGlobalOwnerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: globalOwnerAbi,
@@ -9248,6 +9505,7 @@ export const watchGlobalOwnerEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9266,6 +9524,7 @@ export const watchGlobalOwnerAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerBeaconUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9284,6 +9543,7 @@ export const watchGlobalOwnerBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerInitializedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9302,6 +9562,7 @@ export const watchGlobalOwnerInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerOwnershipTransferStartedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9320,6 +9581,7 @@ export const watchGlobalOwnerOwnershipTransferStartedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerOwnershipTransferredEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9338,6 +9600,7 @@ export const watchGlobalOwnerOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xe4Af4573bFc5F04D8b84c61744de8A94059f2462)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x01413E00B19Dde5A37a4Ef46eABa394535FdB1B2)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0xcA55A2394876e7Cf52e99Ab36Fc9151a7d9CF350)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x91849bAe327965a5Cc7BA970233dBee10C610105)
  */
 export const watchGlobalOwnerUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9356,6 +9619,7 @@ export const watchGlobalOwnerUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPause = /*#__PURE__*/ createReadContract({
   abi: globalPauseAbi,
@@ -9372,6 +9636,7 @@ export const readGlobalPause = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPauseGlobalOwner = /*#__PURE__*/ createReadContract({
   abi: globalPauseAbi,
@@ -9389,6 +9654,7 @@ export const readGlobalPauseGlobalOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPauseOwner = /*#__PURE__*/ createReadContract({
   abi: globalPauseAbi,
@@ -9406,6 +9672,7 @@ export const readGlobalPauseOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPausePaused = /*#__PURE__*/ createReadContract({
   abi: globalPauseAbi,
@@ -9423,6 +9690,7 @@ export const readGlobalPausePaused = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPauseProxiableUuid = /*#__PURE__*/ createReadContract({
   abi: globalPauseAbi,
@@ -9440,6 +9708,7 @@ export const readGlobalPauseProxiableUuid = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPauseRenounceOwnership =
   /*#__PURE__*/ createReadContract({
@@ -9458,6 +9727,7 @@ export const readGlobalPauseRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const readGlobalPauseTransferOwnership =
   /*#__PURE__*/ createReadContract({
@@ -9476,6 +9746,7 @@ export const readGlobalPauseTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const writeGlobalPause = /*#__PURE__*/ createWriteContract({
   abi: globalPauseAbi,
@@ -9492,6 +9763,7 @@ export const writeGlobalPause = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const writeGlobalPauseInitialize = /*#__PURE__*/ createWriteContract({
   abi: globalPauseAbi,
@@ -9509,6 +9781,7 @@ export const writeGlobalPauseInitialize = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const writeGlobalPausePause = /*#__PURE__*/ createWriteContract({
   abi: globalPauseAbi,
@@ -9526,6 +9799,7 @@ export const writeGlobalPausePause = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const writeGlobalPauseUnpause = /*#__PURE__*/ createWriteContract({
   abi: globalPauseAbi,
@@ -9543,6 +9817,7 @@ export const writeGlobalPauseUnpause = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const writeGlobalPauseUpgradeTo = /*#__PURE__*/ createWriteContract({
   abi: globalPauseAbi,
@@ -9560,6 +9835,7 @@ export const writeGlobalPauseUpgradeTo = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const writeGlobalPauseUpgradeToAndCall =
   /*#__PURE__*/ createWriteContract({
@@ -9578,6 +9854,7 @@ export const writeGlobalPauseUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const simulateGlobalPause = /*#__PURE__*/ createSimulateContract({
   abi: globalPauseAbi,
@@ -9594,6 +9871,7 @@ export const simulateGlobalPause = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const simulateGlobalPauseInitialize =
   /*#__PURE__*/ createSimulateContract({
@@ -9612,6 +9890,7 @@ export const simulateGlobalPauseInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const simulateGlobalPausePause = /*#__PURE__*/ createSimulateContract({
   abi: globalPauseAbi,
@@ -9629,6 +9908,7 @@ export const simulateGlobalPausePause = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const simulateGlobalPauseUnpause = /*#__PURE__*/ createSimulateContract({
   abi: globalPauseAbi,
@@ -9646,6 +9926,7 @@ export const simulateGlobalPauseUnpause = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const simulateGlobalPauseUpgradeTo =
   /*#__PURE__*/ createSimulateContract({
@@ -9664,6 +9945,7 @@ export const simulateGlobalPauseUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const simulateGlobalPauseUpgradeToAndCall =
   /*#__PURE__*/ createSimulateContract({
@@ -9682,6 +9964,7 @@ export const simulateGlobalPauseUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: globalPauseAbi,
@@ -9698,6 +9981,7 @@ export const watchGlobalPauseEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9716,6 +10000,7 @@ export const watchGlobalPauseAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseBeaconUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9734,6 +10019,7 @@ export const watchGlobalPauseBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseInitializedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9752,6 +10038,7 @@ export const watchGlobalPauseInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseOwnershipTransferredEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9770,6 +10057,7 @@ export const watchGlobalPauseOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPausePausedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9788,6 +10076,7 @@ export const watchGlobalPausePausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseUnpausedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9806,6 +10095,7 @@ export const watchGlobalPauseUnpausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xd4D4c68CE70fa88B9E527DD3A4a6d19c5cbdd4dB)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x9992CC9176f2b86c56FDA697D814C1a054C2035e)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x06f54B7f27eEC56616b951598BaA3B84D7660AB4)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322)
  */
 export const watchGlobalPauseUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -9849,7 +10139,8 @@ export const simulateITransfersListenerOnLTokenTransfer =
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdy = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9859,7 +10150,8 @@ export const readLdy = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"allowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdyAllowance = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9870,7 +10162,8 @@ export const readLdyAllowance = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"balanceOf"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdyBalanceOf = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9881,7 +10174,8 @@ export const readLdyBalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decimals"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdyDecimals = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9892,7 +10186,8 @@ export const readLdyDecimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"name"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdyName = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9903,7 +10198,8 @@ export const readLdyName = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"symbol"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdySymbol = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9914,7 +10210,8 @@ export const readLdySymbol = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"totalSupply"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const readLdyTotalSupply = /*#__PURE__*/ createReadContract({
   abi: ldyAbi,
@@ -9925,7 +10222,8 @@ export const readLdyTotalSupply = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdy = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -9935,7 +10233,8 @@ export const writeLdy = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyApprove = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -9946,7 +10245,8 @@ export const writeLdyApprove = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyBurn = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -9957,7 +10257,8 @@ export const writeLdyBurn = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyBurnFrom = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -9968,7 +10269,8 @@ export const writeLdyBurnFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyDecreaseAllowance = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -9979,7 +10281,8 @@ export const writeLdyDecreaseAllowance = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyIncreaseAllowance = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -9990,7 +10293,8 @@ export const writeLdyIncreaseAllowance = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyTransfer = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -10001,7 +10305,8 @@ export const writeLdyTransfer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const writeLdyTransferFrom = /*#__PURE__*/ createWriteContract({
   abi: ldyAbi,
@@ -10012,7 +10317,8 @@ export const writeLdyTransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdy = /*#__PURE__*/ createSimulateContract({
   abi: ldyAbi,
@@ -10022,7 +10328,8 @@ export const simulateLdy = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyApprove = /*#__PURE__*/ createSimulateContract({
   abi: ldyAbi,
@@ -10033,7 +10340,8 @@ export const simulateLdyApprove = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyBurn = /*#__PURE__*/ createSimulateContract({
   abi: ldyAbi,
@@ -10044,7 +10352,8 @@ export const simulateLdyBurn = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyBurnFrom = /*#__PURE__*/ createSimulateContract({
   abi: ldyAbi,
@@ -10055,7 +10364,8 @@ export const simulateLdyBurnFrom = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyDecreaseAllowance =
   /*#__PURE__*/ createSimulateContract({
@@ -10067,7 +10377,8 @@ export const simulateLdyDecreaseAllowance =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyIncreaseAllowance =
   /*#__PURE__*/ createSimulateContract({
@@ -10079,7 +10390,8 @@ export const simulateLdyIncreaseAllowance =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyTransfer = /*#__PURE__*/ createSimulateContract({
   abi: ldyAbi,
@@ -10090,7 +10402,8 @@ export const simulateLdyTransfer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const simulateLdyTransferFrom = /*#__PURE__*/ createSimulateContract({
   abi: ldyAbi,
@@ -10101,7 +10414,8 @@ export const simulateLdyTransferFrom = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyAbi}__
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const watchLdyEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ldyAbi,
@@ -10111,7 +10425,8 @@ export const watchLdyEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Approval"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const watchLdyApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ldyAbi,
@@ -10122,7 +10437,8 @@ export const watchLdyApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Transfer"`
  *
- * [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xE376Bd13399F1f86ad659145A2BED2cDC24a7E5E)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const watchLdyTransferEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ldyAbi,
@@ -10140,6 +10456,7 @@ export const watchLdyTransferEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStaking = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10156,6 +10473,7 @@ export const readLdyStaking = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingEarned = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10173,6 +10491,7 @@ export const readLdyStakingEarned = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingFinishAt = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10190,6 +10509,7 @@ export const readLdyStakingFinishAt = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingGetEarnedUser = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10207,6 +10527,7 @@ export const readLdyStakingGetEarnedUser = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingGetUserStakes = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10224,6 +10545,7 @@ export const readLdyStakingGetUserStakes = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingGlobalBlacklist = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10241,6 +10563,7 @@ export const readLdyStakingGlobalBlacklist = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingGlobalOwner = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10258,6 +10581,7 @@ export const readLdyStakingGlobalOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingGlobalPause = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10275,6 +10599,7 @@ export const readLdyStakingGlobalPause = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingHighTierAccounts = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10292,6 +10617,7 @@ export const readLdyStakingHighTierAccounts = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingLastTimeRewardApplicable =
   /*#__PURE__*/ createReadContract({
@@ -10310,6 +10636,7 @@ export const readLdyStakingLastTimeRewardApplicable =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingLastUpdateTime = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10327,6 +10654,7 @@ export const readLdyStakingLastUpdateTime = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingOwner = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10344,6 +10672,7 @@ export const readLdyStakingOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingPaused = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10361,6 +10690,7 @@ export const readLdyStakingPaused = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingProxiableUuid = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10378,6 +10708,7 @@ export const readLdyStakingProxiableUuid = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingRenounceOwnership = /*#__PURE__*/ createReadContract(
   {
@@ -10397,6 +10728,7 @@ export const readLdyStakingRenounceOwnership = /*#__PURE__*/ createReadContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingRewardPerToken = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10414,6 +10746,7 @@ export const readLdyStakingRewardPerToken = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingRewardPerTokenStored =
   /*#__PURE__*/ createReadContract({
@@ -10432,6 +10765,7 @@ export const readLdyStakingRewardPerTokenStored =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingRewardRatePerSec = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10449,6 +10783,7 @@ export const readLdyStakingRewardRatePerSec = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingRewardsDuration = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10466,6 +10801,7 @@ export const readLdyStakingRewardsDuration = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingStakeAmountForPerks =
   /*#__PURE__*/ createReadContract({
@@ -10484,6 +10820,7 @@ export const readLdyStakingStakeAmountForPerks =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingStakeDurationForPerks =
   /*#__PURE__*/ createReadContract({
@@ -10502,6 +10839,7 @@ export const readLdyStakingStakeDurationForPerks =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingStakeDurations = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10519,6 +10857,7 @@ export const readLdyStakingStakeDurations = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingStakeRewardToken = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10536,6 +10875,7 @@ export const readLdyStakingStakeRewardToken = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingTierOf = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10553,6 +10893,7 @@ export const readLdyStakingTierOf = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingTotalStaked = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10570,6 +10911,7 @@ export const readLdyStakingTotalStaked = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingTransferOwnership = /*#__PURE__*/ createReadContract(
   {
@@ -10589,6 +10931,7 @@ export const readLdyStakingTransferOwnership = /*#__PURE__*/ createReadContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const readLdyStakingUserStakingInfo = /*#__PURE__*/ createReadContract({
   abi: ldyStakingAbi,
@@ -10606,6 +10949,7 @@ export const readLdyStakingUserStakingInfo = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStaking = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10622,6 +10966,7 @@ export const writeLdyStaking = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingGetReward = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10639,6 +10984,7 @@ export const writeLdyStakingGetReward = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingInitialize = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10656,6 +11002,7 @@ export const writeLdyStakingInitialize = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingNotifyRewardAmount =
   /*#__PURE__*/ createWriteContract({
@@ -10674,6 +11021,7 @@ export const writeLdyStakingNotifyRewardAmount =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingRecoverErc20 = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10691,6 +11039,7 @@ export const writeLdyStakingRecoverErc20 = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingSetRewardsDuration =
   /*#__PURE__*/ createWriteContract({
@@ -10709,6 +11058,7 @@ export const writeLdyStakingSetRewardsDuration =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingStake = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10726,6 +11076,7 @@ export const writeLdyStakingStake = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingUnstake = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10743,6 +11094,7 @@ export const writeLdyStakingUnstake = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingUpgradeTo = /*#__PURE__*/ createWriteContract({
   abi: ldyStakingAbi,
@@ -10760,6 +11112,7 @@ export const writeLdyStakingUpgradeTo = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const writeLdyStakingUpgradeToAndCall =
   /*#__PURE__*/ createWriteContract({
@@ -10778,6 +11131,7 @@ export const writeLdyStakingUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStaking = /*#__PURE__*/ createSimulateContract({
   abi: ldyStakingAbi,
@@ -10794,6 +11148,7 @@ export const simulateLdyStaking = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingGetReward = /*#__PURE__*/ createSimulateContract(
   { abi: ldyStakingAbi, address: ldyStakingAddress, functionName: 'getReward' },
@@ -10809,6 +11164,7 @@ export const simulateLdyStakingGetReward = /*#__PURE__*/ createSimulateContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingInitialize =
   /*#__PURE__*/ createSimulateContract({
@@ -10827,6 +11183,7 @@ export const simulateLdyStakingInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingNotifyRewardAmount =
   /*#__PURE__*/ createSimulateContract({
@@ -10845,6 +11202,7 @@ export const simulateLdyStakingNotifyRewardAmount =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingRecoverErc20 =
   /*#__PURE__*/ createSimulateContract({
@@ -10863,6 +11221,7 @@ export const simulateLdyStakingRecoverErc20 =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingSetRewardsDuration =
   /*#__PURE__*/ createSimulateContract({
@@ -10881,6 +11240,7 @@ export const simulateLdyStakingSetRewardsDuration =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingStake = /*#__PURE__*/ createSimulateContract({
   abi: ldyStakingAbi,
@@ -10898,6 +11258,7 @@ export const simulateLdyStakingStake = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingUnstake = /*#__PURE__*/ createSimulateContract({
   abi: ldyStakingAbi,
@@ -10915,6 +11276,7 @@ export const simulateLdyStakingUnstake = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingUpgradeTo = /*#__PURE__*/ createSimulateContract(
   { abi: ldyStakingAbi, address: ldyStakingAddress, functionName: 'upgradeTo' },
@@ -10930,6 +11292,7 @@ export const simulateLdyStakingUpgradeTo = /*#__PURE__*/ createSimulateContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const simulateLdyStakingUpgradeToAndCall =
   /*#__PURE__*/ createSimulateContract({
@@ -10948,6 +11311,7 @@ export const simulateLdyStakingUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ldyStakingAbi,
@@ -10964,6 +11328,7 @@ export const watchLdyStakingEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -10982,6 +11347,7 @@ export const watchLdyStakingAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingBeaconUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11000,6 +11366,7 @@ export const watchLdyStakingBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingInitializedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11018,6 +11385,7 @@ export const watchLdyStakingInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingNotifiedRewardAmountEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11036,6 +11404,7 @@ export const watchLdyStakingNotifiedRewardAmountEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingOwnershipTransferredEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11054,6 +11423,7 @@ export const watchLdyStakingOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingPausedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11072,6 +11442,7 @@ export const watchLdyStakingPausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingRewardPaidEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11090,6 +11461,7 @@ export const watchLdyStakingRewardPaidEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingStakedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11108,6 +11480,7 @@ export const watchLdyStakingStakedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingUnpausedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11126,6 +11499,7 @@ export const watchLdyStakingUnpausedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingUnstakedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11144,6 +11518,7 @@ export const watchLdyStakingUnstakedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x5BFFC5303719f0dC6050a2D8042936714109985f)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415)
  */
 export const watchLdyStakingUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -12068,6 +12443,7 @@ export const watchLTokenUpgradedEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const readLTokenSignaler = /*#__PURE__*/ createReadContract({
   abi: lTokenSignalerAbi,
@@ -12084,6 +12460,7 @@ export const readLTokenSignaler = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const readLTokenSignalerGlobalOwner = /*#__PURE__*/ createReadContract({
   abi: lTokenSignalerAbi,
@@ -12101,6 +12478,7 @@ export const readLTokenSignalerGlobalOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const readLTokenSignalerOwner = /*#__PURE__*/ createReadContract({
   abi: lTokenSignalerAbi,
@@ -12118,6 +12496,7 @@ export const readLTokenSignalerOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const readLTokenSignalerProxiableUuid = /*#__PURE__*/ createReadContract(
   {
@@ -12137,6 +12516,7 @@ export const readLTokenSignalerProxiableUuid = /*#__PURE__*/ createReadContract(
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const readLTokenSignalerRenounceOwnership =
   /*#__PURE__*/ createReadContract({
@@ -12155,6 +12535,7 @@ export const readLTokenSignalerRenounceOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const readLTokenSignalerTransferOwnership =
   /*#__PURE__*/ createReadContract({
@@ -12173,6 +12554,7 @@ export const readLTokenSignalerTransferOwnership =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const writeLTokenSignaler = /*#__PURE__*/ createWriteContract({
   abi: lTokenSignalerAbi,
@@ -12189,6 +12571,7 @@ export const writeLTokenSignaler = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const writeLTokenSignalerInitialize = /*#__PURE__*/ createWriteContract({
   abi: lTokenSignalerAbi,
@@ -12206,6 +12589,7 @@ export const writeLTokenSignalerInitialize = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const writeLTokenSignalerSignalLToken =
   /*#__PURE__*/ createWriteContract({
@@ -12224,6 +12608,7 @@ export const writeLTokenSignalerSignalLToken =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const writeLTokenSignalerUpgradeTo = /*#__PURE__*/ createWriteContract({
   abi: lTokenSignalerAbi,
@@ -12241,6 +12626,7 @@ export const writeLTokenSignalerUpgradeTo = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const writeLTokenSignalerUpgradeToAndCall =
   /*#__PURE__*/ createWriteContract({
@@ -12259,6 +12645,7 @@ export const writeLTokenSignalerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const simulateLTokenSignaler = /*#__PURE__*/ createSimulateContract({
   abi: lTokenSignalerAbi,
@@ -12275,6 +12662,7 @@ export const simulateLTokenSignaler = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const simulateLTokenSignalerInitialize =
   /*#__PURE__*/ createSimulateContract({
@@ -12293,6 +12681,7 @@ export const simulateLTokenSignalerInitialize =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const simulateLTokenSignalerSignalLToken =
   /*#__PURE__*/ createSimulateContract({
@@ -12311,6 +12700,7 @@ export const simulateLTokenSignalerSignalLToken =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const simulateLTokenSignalerUpgradeTo =
   /*#__PURE__*/ createSimulateContract({
@@ -12329,6 +12719,7 @@ export const simulateLTokenSignalerUpgradeTo =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const simulateLTokenSignalerUpgradeToAndCall =
   /*#__PURE__*/ createSimulateContract({
@@ -12347,6 +12738,7 @@ export const simulateLTokenSignalerUpgradeToAndCall =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: lTokenSignalerAbi,
@@ -12363,6 +12755,7 @@ export const watchLTokenSignalerEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -12381,6 +12774,7 @@ export const watchLTokenSignalerAdminChangedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerBeaconUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -12399,6 +12793,7 @@ export const watchLTokenSignalerBeaconUpgradedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerInitializedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -12417,6 +12812,7 @@ export const watchLTokenSignalerInitializedEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerLTokenSignalEventEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -12435,6 +12831,7 @@ export const watchLTokenSignalerLTokenSignalEventEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerOwnershipTransferredEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -12453,6 +12850,7 @@ export const watchLTokenSignalerOwnershipTransferredEvent =
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0xBA427517505b14C560854aED003304Fc69cbadfb)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B)
  * - [__View Contract on Arbitrum Goerli Arbiscan__](https://goerli.arbiscan.io/address/0x1dA817E33C0dB209C7b508B79F9dac4480f94522)
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const watchLTokenSignalerUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
