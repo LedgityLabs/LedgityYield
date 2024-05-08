@@ -1,3 +1,10 @@
+## [1.256.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.256.0...v1.256.1) (2024-05-08)
+
+
+### Fixes
+
+* **wagmi generate:** regenerate wagmi file ([4eea9f2](https://github.com/LedgityLabs/LedgityYield/commit/4eea9f2986ede66274caa025faba98cd711ce152))
+
 ## [1.256.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.255.0...v1.256.0) (2024-05-07)
 
 
