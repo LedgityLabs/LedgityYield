@@ -1,3 +1,10 @@
+## [1.256.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.256.2...v1.256.3) (2024-05-13)
+
+
+### Fixes
+
+* round earned amount as 4 decimals ([f3236ab](https://github.com/LedgityLabs/LedgityYield/commit/f3236ab97dd27591442645f3ee92a14484805bd3))
+
 ## [1.256.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.256.1...v1.256.2) (2024-05-13)
 
 
