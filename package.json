@@ -5,7 +5,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=production next dev",
+    "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",

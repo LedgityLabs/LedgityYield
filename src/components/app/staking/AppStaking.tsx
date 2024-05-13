@@ -6,11 +6,12 @@ import { AppStakingPools } from "./AppStakingPools";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { useAccount, usePublicClient } from "wagmi";
 import { zeroAddress } from "viem";
-import { useReadLdyBalanceOf, useReadLdyDecimals } from "@/generated";
+import {
+  useReadLdyBalanceOf,
+  useReadLdyDecimals,
+  useReadLdyStakingRewardPerTokenStored,
+} from "@/generated";
 import { useQueryClient } from "@tanstack/react-query";
-import { useGetStakingAprById } from "@/services/graph";
-import { STAKING_APR_INFO_ID } from "@/constants/staking";
-import { STAKING_APR_INFO_QUERY } from "@/services/graph/queries";
 
 export const AppStaking: FC = () => {
   const queryClient = useQueryClient();
@@ -25,25 +26,18 @@ export const AppStaking: FC = () => {
 
   const { data: ldyDecimals } = useReadLdyDecimals();
 
-  const {
-    data: stakingAprInfo,
-    refetch: refetchStakingAPR,
-    isFetching: isFetchingAPR,
-  } = useGetStakingAprById(STAKING_APR_INFO_ID);
+  const { data: rewardPerToken, queryKey: rewardPerTokenQuery } =
+    useReadLdyStakingRewardPerTokenStored();
 
-  // Refetch LdyBalance & APR from contract on network/wallet change
-  const queryKeys = [ldyBalanceQuery, [STAKING_APR_INFO_QUERY]];
+  // Refetch LdyBalance & RewardPerToken from contract on network/wallet change
+  const queryKeys = [ldyBalanceQuery, rewardPerTokenQuery];
   useEffect(() => {
     queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
   }, [account.address, publicClient]);
 
-  // Refetch stakingAPR on ldyBalance change.
+  // Refetch rewardPerToken on ldyBalance change.
   useEffect(() => {
-    // Refetch after 3 seconds due to subgraph latency
-    const timeoutId = setTimeout(() => {
-      queryClient.invalidateQueries({ queryKey: [STAKING_APR_INFO_QUERY] });
-    }, 3000);
-    return () => clearTimeout(timeoutId);
+    queryClient.invalidateQueries({ queryKey: rewardPerTokenQuery });
   }, [ldyBalance]);
 
   return (
@@ -58,7 +52,7 @@ export const AppStaking: FC = () => {
           ldyTokenAddress={ldyTokenAddress || zeroAddress}
           ldyTokenBalance={ldyBalance || 0n}
           ldyTokenDecimals={ldyDecimals || 18}
-          stakingAprInfo={stakingAprInfo ? stakingAprInfo.stakingAPRInfo || undefined : undefined}
+          rewardPerToken={rewardPerToken || 0n}
         />
       </Card>
       <Card
@@ -75,8 +69,9 @@ export const AppStaking: FC = () => {
       >
         <AppStakingPools
           ldyTokenDecimals={ldyDecimals || 18}
+          ldyTokenBalance={ldyBalance || 0n}
           ldyTokenBalanceQuery={ldyBalanceQuery || []}
-          stakingAprInfo={stakingAprInfo ? stakingAprInfo.stakingAPRInfo || undefined : undefined}
+          rewardPerToken={rewardPerToken || 0n}
         />
       </Card>
     </section>

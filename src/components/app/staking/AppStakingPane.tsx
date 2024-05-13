@@ -7,20 +7,19 @@ import { useSimulateLdyStakingStake } from "@/generated";
 import * as Slider from "@radix-ui/react-slider";
 import { StakeDurations } from "@/constants/staking";
 import { getAPYCalculation } from "@/lib/getAPYCalculation";
-import { IStakingAPRInfo } from "@/services/graph/hooks/useStakingEvent";
 
 export const AppStakingPane: FC<{
   ldyTokenSymbol: string;
   ldyTokenAddress: Address;
   ldyTokenBalance: bigint;
   ldyTokenDecimals: number;
-  stakingAprInfo: IStakingAPRInfo | undefined;
+  rewardPerToken: bigint;
 }> = ({
   ldyTokenSymbol = "LDY",
   ldyTokenAddress,
   ldyTokenBalance,
   ldyTokenDecimals,
-  stakingAprInfo,
+  rewardPerToken,
 }) => {
   const ldyStakingAddress = useContractAddress("LDYStaking");
 
@@ -42,9 +41,10 @@ export const AppStakingPane: FC<{
   // Calculate APY based on stakeIndex and stakingAprInfo.
   const APY = useMemo(() => {
     return (
-      getAPYCalculation(stakingAprInfo ? stakingAprInfo.APR : "0", true, stakeOptionIndex) + "%"
+      getAPYCalculation(formatUnits(rewardPerToken, ldyTokenDecimals!), true, stakeOptionIndex) +
+      "%"
     );
-  }, [stakeOptionIndex, stakingAprInfo]);
+  }, [stakeOptionIndex, rewardPerToken]);
 
   const preparation = useSimulateLdyStakingStake({
     args: [depositedAmount, stakeOptionIndex],

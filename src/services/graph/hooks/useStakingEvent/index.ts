@@ -13,7 +13,7 @@ export interface IUserStakingInfo {
 export interface IStakingAPRInfo {
   rewardPerSec: string;
   totalStaked: string;
-  APR: string;
+  interestRate: string;
 }
 
 export const useGetUserStakingsByAddress = (

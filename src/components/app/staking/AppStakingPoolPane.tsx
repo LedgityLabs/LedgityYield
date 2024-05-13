@@ -11,7 +11,7 @@ import utc from "dayjs/plugin/utc";
 import { OneMonth } from "@/constants/staking";
 import { getAPYCalculation } from "@/lib/getAPYCalculation";
 import { QueryKey } from "@tanstack/react-query";
-import { IStakingAPRInfo, IUserStakingInfo } from "@/services/graph/hooks/useStakingEvent";
+import { IUserStakingInfo } from "@/services/graph/hooks/useStakingEvent";
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -30,7 +30,7 @@ export const AppStakingPoolPane: FC<{
   ldyTokenDecimals: number;
   userStakingInfo: IUserStakingInfo | undefined;
   rewardsArray: readonly bigint[] | undefined;
-  stakingAprInfo: IStakingAPRInfo | undefined;
+  rewardPerToken: bigint;
   getUserStakesQuery?: QueryKey;
   ldyTokenBalanceQuery?: QueryKey;
   rewardsArrayQuery?: QueryKey;
@@ -40,7 +40,7 @@ export const AppStakingPoolPane: FC<{
   ldyTokenDecimals,
   userStakingInfo,
   rewardsArray,
-  stakingAprInfo,
+  rewardPerToken,
   getUserStakesQuery,
   ldyTokenBalanceQuery,
   rewardsArrayQuery,
@@ -80,7 +80,7 @@ export const AppStakingPoolPane: FC<{
             <span>APY</span>
             <span className="font-semibold">
               {getAPYCalculation(
-                stakingAprInfo ? stakingAprInfo.APR : "0",
+                formatUnits(rewardPerToken, ldyTokenDecimals!),
                 false,
                 Number(poolInfo.duration),
               )}

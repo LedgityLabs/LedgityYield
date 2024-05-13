@@ -25,7 +25,7 @@ import {
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 import { store } from "@graphprotocol/graph-ts";
-import { SECONDS_PER_YEAR, getOrCreateStakingAPRInfo, updateStakingAPRInfo } from "./helper";
+import { getOrCreateStakingAPRInfo, updateStakingAPRInfo } from "./helper";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
   // Start indexing the signaled LToken

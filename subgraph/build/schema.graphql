@@ -75,5 +75,5 @@ type StakingAPRInfo @entity {
   id: ID! # Static ID, "StakingAPRInfo"
   rewardPerSec: BigInt!
   totalStaked: BigInt!
-  APR: BigDecimal!
+  interestRate: BigDecimal! # rewardPerSec/totalStaked
 }

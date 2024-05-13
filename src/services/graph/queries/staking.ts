@@ -17,7 +17,7 @@ export const STAKING_APR_INFO_QUERY = gql`
     stakingAPRInfo(id: $stakeAprId) {
       rewardPerSec
       totalStaked
-      APR
+      interestRate
       id
     }
   }

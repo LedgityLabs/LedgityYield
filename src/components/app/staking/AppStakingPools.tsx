@@ -8,19 +8,19 @@ import {
 } from "@/components/ui/Carousel";
 import { useGetUserStakingsByAddress } from "@/services/graph";
 import { useAccount, usePublicClient } from "wagmi";
-import { zeroAddress } from "viem";
+import { formatUnits, zeroAddress } from "viem";
 import { useReadLdyStakingGetEarnedUser, useReadLdyStakingGetUserStakes } from "@/generated";
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { USER_STAKING_QUERY } from "@/services/graph/queries";
-import { IStakingAPRInfo } from "@/services/graph/hooks/useStakingEvent";
 import { AppStakingPoolPane } from "./AppStakingPoolPane";
 
 export const AppStakingPools: FC<{
   ldyTokenDecimals: number;
+  ldyTokenBalance: bigint;
   ldyTokenBalanceQuery: QueryKey;
-  stakingAprInfo: IStakingAPRInfo | undefined;
-}> = ({ ldyTokenDecimals, ldyTokenBalanceQuery, stakingAprInfo }) => {
+  rewardPerToken: bigint;
+}> = ({ ldyTokenDecimals, ldyTokenBalance, ldyTokenBalanceQuery, rewardPerToken }) => {
   const queryClient = useQueryClient();
   const account = useAccount();
   const publicClient = usePublicClient();
@@ -42,11 +42,11 @@ export const AppStakingPools: FC<{
     args: [account.address || zeroAddress],
   });
 
-  // Refetch staking info, earned array from subgraph & contracts on wallet, network change
-  const queryKeys = [rewardsArrayQuery, getUserStakesQuery, [USER_STAKING_QUERY]];
+  // Refetch staking info, earned array from contracts on wallet, network change
+  const queryKeys = [rewardsArrayQuery, getUserStakesQuery];
   useEffect(() => {
     queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [account.address, publicClient]);
+  }, [account.address, publicClient, ldyTokenBalance]);
 
   // Refetch staking info(earned info) on rewardsArray change
   useEffect(() => {
@@ -82,7 +82,8 @@ export const AppStakingPools: FC<{
                     : undefined
                 }
                 rewardsArray={rewardsArray ? rewardsArray : undefined}
-                stakingAprInfo={stakingAprInfo}
+                // stakingAprInfo={stakingAprInfo}
+                rewardPerToken={rewardPerToken}
                 getUserStakesQuery={getUserStakesQuery}
                 ldyTokenBalanceQuery={ldyTokenBalanceQuery}
                 rewardsArrayQuery={rewardsArrayQuery}

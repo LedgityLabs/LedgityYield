@@ -773,8 +773,8 @@ export class StakingAPRInfo extends Entity {
     this.set("totalStaked", Value.fromBigInt(value));
   }
 
-  get APR(): BigDecimal {
-    let value = this.get("APR");
+  get interestRate(): BigDecimal {
+    let value = this.get("interestRate");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -782,8 +782,8 @@ export class StakingAPRInfo extends Entity {
     }
   }
 
-  set APR(value: BigDecimal) {
-    this.set("APR", Value.fromBigDecimal(value));
+  set interestRate(value: BigDecimal) {
+    this.set("interestRate", Value.fromBigDecimal(value));
   }
 }
 
