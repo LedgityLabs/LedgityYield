@@ -71,7 +71,9 @@ export const AppStakingPoolPane: FC<{
             <span>Earned</span>
             <span className="font-semibold">
               {userStakingInfo
-                ? formatUnits(BigInt(userStakingInfo.earnedAmount), ldyTokenDecimals!)
+                ? Number(
+                    formatUnits(BigInt(userStakingInfo.earnedAmount), ldyTokenDecimals!),
+                  ).toFixed(4)
                 : 0}{" "}
               Token
             </span>
