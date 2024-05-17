@@ -1,3 +1,10 @@
+## [1.257.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.256.3...v1.257.0) (2024-05-17)
+
+
+### Features
+
+* **ldystaking:** implement weight mechanism ([4dbfd21](https://github.com/LedgityLabs/LedgityYield/commit/4dbfd210e00ba677e101d471ad083d01e443010b))
+
 ## [1.256.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.256.2...v1.256.3) (2024-05-13)
 
 
