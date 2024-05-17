@@ -1,3 +1,10 @@
+## [1.258.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.257.0...v1.258.0) (2024-05-17)
+
+
+### Features
+
+* correct APY ([6013f28](https://github.com/LedgityLabs/LedgityYield/commit/6013f28582cdeea3ac3e85f98ce1a0e5d10cb0f6))
+
 ## [1.257.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.256.3...v1.257.0) (2024-05-17)
 
 
