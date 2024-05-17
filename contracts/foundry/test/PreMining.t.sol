@@ -43,7 +43,8 @@ contract Tests is Test, ModifiersExpectations {
     address payable withdrawerWallet = payable(address(bytes20("withdrawerWallet")));
     address payable fundWallet = payable(address(bytes20("fundWallet")));
 
-    uint256[] public stakingDurations;
+    uint256 public constant OneMonth = 31 * 24 * 60 * 60;
+    LDYStaking.StakeDurationInfo[] public stakingDurationInfos;
 
     function setUp() public {
         // Deploy GenericERC20 (the $LDY token)
@@ -75,14 +76,13 @@ contract Tests is Test, ModifiersExpectations {
         globalBlacklist.initialize(address(globalOwner));
         vm.label(address(globalBlacklist), "GlobalBlacklist");
 
-        uint256 oneMonth = 31 * 24 * 60 * 60;
-        stakingDurations = [
-            1 * oneMonth,
-            6 * oneMonth,
-            12 * oneMonth,
-            24 * oneMonth,
-            36 * oneMonth
-        ];
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(0 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(1 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(6 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(12 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(24 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(36 * OneMonth, 10000));
+
         // Deploy LDYStaking
         LDYStaking impl4 = new LDYStaking();
         ERC1967Proxy proxy4 = new ERC1967Proxy(address(impl4), "");
@@ -92,8 +92,8 @@ contract Tests is Test, ModifiersExpectations {
             address(globalPause),
             address(globalBlacklist),
             address(ldyToken),
-            stakingDurations,
-            12 * oneMonth,
+            stakingDurationInfos,
+            12 * OneMonth,
             1000 * 1e18
         );
 

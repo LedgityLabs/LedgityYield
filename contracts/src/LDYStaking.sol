@@ -39,6 +39,19 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
         uint256 rewards;
     }
 
+    /**
+     * @notice Represent duration and multiplier per each stake option.
+     * @param duration Staking period in seconds.
+     * @param multiplier Token weight
+     */
+    struct StakeDurationInfo {
+        uint256 duration;
+        uint256 multiplier;
+    }
+
+    /// @notice Decimals of multiplier
+    uint256 public constant MULTIPLIER_BASIS = 1e4;
+
     /// @notice Stake and Reward token.
     IERC20Upgradeable public stakeRewardToken;
 
@@ -48,8 +61,8 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     /// @notice Minimal stake amount for perks.
     uint256 public stakeAmountForPerks;
 
-    /// @notice Stake durations.
-    uint256[] public stakeDurations;
+    /// @notice Stake durations info array.
+    StakeDurationInfo[] public stakeDurationInfos;
 
     /// @notice Duration of the rewards (in seconds).
     uint256 public rewardsDuration;
@@ -68,6 +81,9 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
 
     /// @notice Total staked amounts.
     uint256 public totalStaked;
+
+    // Total staked amounts with multiplier applied
+    uint256 public totalWeightedStake;
 
     /// @notice User stakingInfo map, user address => array of the staking info
     mapping(address => StakingInfo[]) public userStakingInfo;
@@ -122,7 +138,7 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
      * @param globalPause_ The address of the GlobalPause contract.
      * @param globalBlacklist_ The address of the GlobalBlacklist contract.
      * @param stakeRewardToken_ The address of stake and reward token(LDY token).
-     * @param stakeDurations_ Available Staking Durations.
+     * @param stakeDurationInfos_ Available Staking Durations.
      * @param stakeDurationForPerks_ Minimal staking duration for perks.
      * @param stakeAmountForPerks_ Minimal staking amount for perks.
      */
@@ -131,13 +147,16 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
         address globalPause_,
         address globalBlacklist_,
         address stakeRewardToken_,
-        uint256[] memory stakeDurations_,
+        StakeDurationInfo[] memory stakeDurationInfos_,
         uint256 stakeDurationForPerks_,
         uint256 stakeAmountForPerks_
     ) public initializer {
         __Base_init(globalOwner_, globalPause_, globalBlacklist_);
         stakeRewardToken = IERC20Upgradeable(stakeRewardToken_);
-        stakeDurations = stakeDurations_;
+        uint stakeDurationInfosLength = stakeDurationInfos_.length;
+        for (uint256 i = 0; i < stakeDurationInfosLength; i++) {
+            stakeDurationInfos.push(stakeDurationInfos_[i]);
+        }
         stakeDurationForPerks = stakeDurationForPerks_;
         stakeAmountForPerks = stakeAmountForPerks_;
     }
@@ -150,33 +169,35 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
      * @notice Staked tokens cannot be withdrawn during the stakeDuration period and are eligible to claim rewards.
      * @dev Emits a `Staked` event upon successful staking.
      * @param amount The amount of tokens to stake.
-     * @param stakeDurationIndex The Index of stakeDurations array.
+     * @param stakeDurationIndex The Index of stakeDurationInfos array.
      */
     function stake(
         uint256 amount,
         uint8 stakeDurationIndex
     ) external nonReentrant whenNotPaused notBlacklisted(_msgSender()) {
         require(amount > 0, "amount = 0");
-        require(stakeDurationIndex <= stakeDurations.length - 1, "invalid staking period");
+        require(stakeDurationIndex <= stakeDurationInfos.length - 1, "Invalid staking period");
 
         _updateReward(address(0), 0);
-        uint256 stakeDuration = stakeDurations[stakeDurationIndex];
+        StakeDurationInfo memory stakeDurationInfo = stakeDurationInfos[stakeDurationIndex];
         StakingInfo memory stakingInfo = StakingInfo({
             stakedAmount: amount,
-            unStakeAt: block.timestamp + stakeDuration,
-            duration: stakeDuration,
+            unStakeAt: block.timestamp + stakeDurationInfo.duration,
+            duration: stakeDurationInfo.duration,
             rewardPerTokenPaid: rewardPerTokenStored,
             rewards: 0
         });
 
         // check whether account is eligible for benefit from the protocol
-        if (stakeDuration >= stakeDurationForPerks && amount >= stakeAmountForPerks) {
+        if (stakeDurationInfo.duration >= stakeDurationForPerks && amount >= stakeAmountForPerks) {
             highTierAccounts[_msgSender()] = true;
         }
 
         userStakingInfo[_msgSender()].push(stakingInfo);
 
         uint256 stakeIndex = userStakingInfo[_msgSender()].length - 1;
+        uint256 weightedStake = (amount * stakeDurationInfo.multiplier) / MULTIPLIER_BASIS;
+        totalWeightedStake += weightedStake;
         totalStaked += amount;
 
         stakeRewardToken.safeTransferFrom(_msgSender(), address(this), amount);
@@ -196,17 +217,23 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
         uint256 stakeIndex
     ) external nonReentrant notBlacklisted(_msgSender()) {
         require(amount > 0, "amount = 0");
-        require(userStakingInfo[_msgSender()].length >= stakeIndex + 1, "invalid stakeIndex");
+        require(userStakingInfo[_msgSender()].length >= stakeIndex + 1, "Invalid stakeIndex");
         require(
             block.timestamp >= userStakingInfo[_msgSender()][stakeIndex].unStakeAt,
-            "not allowed unstaking in the staking period"
+            "Cannot unstake during staking period"
         );
         require(
             amount <= userStakingInfo[_msgSender()][stakeIndex].stakedAmount,
-            "insufficient amount"
+            "Insufficient unstake amount"
         );
 
         _updateReward(_msgSender(), stakeIndex);
+
+        uint256 multiplier = _getMultiplier(userStakingInfo[_msgSender()][stakeIndex].duration);
+
+        uint256 currentWeightedStake = (amount * multiplier) / MULTIPLIER_BASIS;
+        totalWeightedStake -= currentWeightedStake;
+
         totalStaked -= amount;
         userStakingInfo[_msgSender()][stakeIndex].stakedAmount -= amount;
 
@@ -238,7 +265,7 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
      * @param stakeIndex The index of user staking pool.
      */
     function getReward(uint256 stakeIndex) external nonReentrant notBlacklisted(_msgSender()) {
-        require(userStakingInfo[_msgSender()].length >= stakeIndex + 1, "invalid stakeIndex");
+        require(userStakingInfo[_msgSender()].length >= stakeIndex + 1, "Invalid stakeIndex");
         _updateReward(_msgSender(), stakeIndex);
         _claimReward(_msgSender(), stakeIndex);
     }
@@ -314,8 +341,8 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
 
         return
             rewardPerTokenStored +
-            (rewardRatePerSec * (lastTimeRewardApplicable() - lastUpdateTime) * 1e18) /
-            totalStaked;
+            ((rewardRatePerSec * (lastTimeRewardApplicable() - lastUpdateTime) * 1e18) /
+                totalWeightedStake);
     }
 
     /**
@@ -326,7 +353,9 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
      */
     function earned(address account, uint256 stakeIndex) public view returns (uint256) {
         StakingInfo memory userInfo = userStakingInfo[account][stakeIndex];
-        uint256 rewardsSinceLastUpdate = ((userInfo.stakedAmount *
+        uint256 multiplier = _getMultiplier(userInfo.duration);
+        uint256 weightedAmount = (userInfo.stakedAmount * multiplier) / MULTIPLIER_BASIS;
+        uint256 rewardsSinceLastUpdate = ((weightedAmount *
             (rewardPerToken() - userInfo.rewardPerTokenPaid)) / 1e18);
         return rewardsSinceLastUpdate + userInfo.rewards;
     }
@@ -395,6 +424,21 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
             userStakingInfo[account][stakeIndex].rewards = earned(account, stakeIndex);
             userStakingInfo[account][stakeIndex].rewardPerTokenPaid = rewardPerTokenStored;
         }
+    }
+
+    /**
+     * @notice Get multiplier from stakeDurationInfo based on duration
+     * @param duration Stake Duration
+     */
+    function _getMultiplier(uint256 duration) private view returns (uint256) {
+        uint256 stakeDurationInfosLength = stakeDurationInfos.length;
+        for (uint256 i = 0; i < stakeDurationInfosLength; i++) {
+            StakeDurationInfo memory stakeDurationInfo = stakeDurationInfos[i];
+            if (duration == stakeDurationInfo.duration) {
+                return stakeDurationInfo.multiplier;
+            }
+        }
+        return 0;
     }
 
     /**

@@ -17,9 +17,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
 
     LDYStaking ldyStaking;
     GenericERC20 ldyToken;
-    uint256[] public stakingDurations;
-    uint256 public constant oneMonth = 31 * 24 * 60 * 60;
-    uint256 public initRewardsDuration = 12 * oneMonth;
+
+    uint256 public constant OneMonth = 31 * 24 * 60 * 60;
+    LDYStaking.StakeDurationInfo[] public stakingDurationInfos;
+    uint256 public initRewardsDuration = 12 * OneMonth;
 
     function setUp() public {
         // Deploy GlobalOwner
@@ -46,13 +47,13 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyToken = new GenericERC20("Ledgity Token", "LDY", 18);
         vm.label(address(ldyToken), "LDY token");
 
-        stakingDurations = [
-            1 * oneMonth,
-            6 * oneMonth,
-            12 * oneMonth,
-            24 * oneMonth,
-            36 * oneMonth
-        ];
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(0 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(1 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(6 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(12 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(24 * OneMonth, 10000));
+        stakingDurationInfos.push(LDYStaking.StakeDurationInfo(36 * OneMonth, 10000));
+
         // Deploy LDYStaking
         LDYStaking impl4 = new LDYStaking();
         ERC1967Proxy proxy4 = new ERC1967Proxy(address(impl4), "");
@@ -62,8 +63,8 @@ contract LDYStakingTest is Test, ModifiersExpectations {
             address(globalPause),
             address(globalBlacklist),
             address(ldyToken),
-            stakingDurations,
-            12 * oneMonth,
+            stakingDurationInfos,
+            12 * OneMonth,
             1000 * 1e18
         );
 
@@ -85,8 +86,8 @@ contract LDYStakingTest is Test, ModifiersExpectations {
             address(globalPause),
             address(globalBlacklist),
             address(ldyToken),
-            stakingDurations,
-            12 * oneMonth,
+            stakingDurationInfos,
+            12 * OneMonth,
             1000 * 1e18
         );
     }
@@ -118,8 +119,8 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.expectRevert("amount = 0");
         ldyStaking.stake(0, 0);
 
-        vm.expectRevert("invalid staking period");
-        ldyStaking.stake(1, uint8(stakingDurations.length));
+        vm.expectRevert("Invalid staking period");
+        ldyStaking.stake(1, uint8(stakingDurationInfos.length));
 
         vm.expectRevert("ERC20: insufficient allowance");
         ldyStaking.stake(1, 0);
@@ -135,7 +136,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.assume(account != address(ldyStaking));
         vm.assume(amount != 0);
 
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurations.length - 1));
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurationInfos.length - 1));
         amount = bound(amount, 1, ldyStaking.stakeAmountForPerks() - 1);
 
         // deposit ldy token into the account
@@ -189,7 +190,8 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.assume(account != address(ldyStaking));
         vm.assume(amount != 0);
 
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 2, stakingDurations.length - 1));
+        // stakingPeriodIndex is at least 3(1 year) to satisify perks condition in this case
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 3, stakingDurationInfos.length - 1));
         amount = bound(
             amount,
             ldyStaking.stakeAmountForPerks(),
@@ -204,7 +206,6 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyToken.approve(address(ldyStaking), amount);
         ldyStaking.stake(amount, stakingPeriodIndex);
         vm.stopPrank();
-
         assertEq(ldyStaking.tierOf(account), 3);
     }
 
@@ -214,7 +215,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         uint256 amount,
         uint8 stakingPeriodIndex
     ) public {
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurations.length - 1));
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurationInfos.length - 1));
         vm.assume(account1 != address(0));
         vm.assume(account1 != address(ldyToken));
         vm.assume(account1 != address(ldyStaking));
@@ -275,7 +276,9 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.assume(account != address(ldyToken));
         vm.assume(amount != 0);
         amount = bound(amount, 1, 1_000_000 * 10 ** ldyToken.decimals());
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurations.length - 1));
+
+        // stakingPeriodIndex is at least 1 in this case
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 1, stakingDurationInfos.length - 1));
         deal(address(ldyToken), account, amount);
 
         // stake
@@ -285,18 +288,21 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // unstake fail
-        vm.expectRevert("not allowed unstaking in the staking period");
+        vm.expectRevert("Cannot unstake during staking period");
         vm.prank(account);
         ldyStaking.unstake(amount, 0);
 
-        uint256 skipDuration = stakingDurations[stakingPeriodIndex];
+        LDYStaking.StakeDurationInfo memory stakeDurationInfo = stakingDurationInfos[
+            stakingPeriodIndex
+        ];
+        uint256 skipDuration = stakeDurationInfo.duration;
         skip(skipDuration);
 
-        vm.expectRevert("insufficient amount");
+        vm.expectRevert("Insufficient unstake amount");
         vm.prank(account);
         ldyStaking.unstake(amount + 1, 0);
 
-        vm.expectRevert("invalid stakeIndex");
+        vm.expectRevert("Invalid stakeIndex");
         vm.prank(account);
         ldyStaking.unstake(amount + 1, 100);
     }
@@ -316,8 +322,8 @@ contract LDYStakingTest is Test, ModifiersExpectations {
 
         amount1 = bound(amount1, 1, 1_000_000 * 10 ** ldyToken.decimals());
         amount2 = bound(amount1, 1, 1_000_000 * 10 ** ldyToken.decimals());
-        stakingPeriodIndex1 = uint8(bound(stakingPeriodIndex1, 0, stakingDurations.length - 1));
-        stakingPeriodIndex2 = uint8(bound(stakingPeriodIndex2, 0, stakingDurations.length - 1));
+        stakingPeriodIndex1 = uint8(bound(stakingPeriodIndex1, 0, stakingDurationInfos.length - 1));
+        stakingPeriodIndex2 = uint8(bound(stakingPeriodIndex2, 0, stakingDurationInfos.length - 1));
         deal(address(ldyToken), account1, amount1 + amount2);
 
         // account1 stakes ldy into the ldyStaking contract first time
@@ -334,7 +340,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         assertEq(earnedArray.length, 2);
 
         // account1 unstakes token from staking pool 1
-        uint256 skipDuration1 = stakingDurations[stakingPeriodIndex1];
+        LDYStaking.StakeDurationInfo memory stakeDurationInfo1 = stakingDurationInfos[
+            stakingPeriodIndex1
+        ];
+        uint256 skipDuration1 = stakeDurationInfo1.duration;
         skip(skipDuration1);
         vm.startPrank(account1);
         uint256 earned1 = ldyStaking.earned(account1, 0);
@@ -347,7 +356,11 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         assertEq(earnedArray.length, 1);
 
         // account1 unstakes token from staking pool 2
-        uint256 skipDuration2 = stakingDurations[stakingPeriodIndex2];
+        LDYStaking.StakeDurationInfo memory stakeDurationInfo2 = stakingDurationInfos[
+            stakingPeriodIndex2
+        ];
+        uint256 skipDuration2 = stakeDurationInfo2.duration;
+
         skip(skipDuration2);
         vm.startPrank(account1);
         uint256 earned2 = ldyStaking.earned(account1, 0);
@@ -368,7 +381,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
 
         amount = bound(amount, 100, 1_000_000 * 10 ** ldyToken.decimals());
 
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurations.length - 1));
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurationInfos.length - 1));
         deal(address(ldyToken), account, amount);
 
         // account stakes ldy into the ldyStaking contract
@@ -378,7 +391,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.stopPrank();
 
         // account unstakes part of token
-        uint256 skipDuration = stakingDurations[stakingPeriodIndex];
+        LDYStaking.StakeDurationInfo memory stakeDurationInfo = stakingDurationInfos[
+            stakingPeriodIndex
+        ];
+        uint256 skipDuration = stakeDurationInfo.duration;
         uint256 partAmount = bound(amount, 1, amount - 1);
         skip(skipDuration);
         vm.startPrank(account);
@@ -417,7 +433,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
 
         amount = bound(amount, 100, 1_000_000 * 10 ** ldyToken.decimals());
 
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurations.length - 1));
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurationInfos.length - 1));
         deal(address(ldyToken), account, amount);
 
         // account stakes ldy into the ldyStaking contract
@@ -426,7 +442,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyStaking.stake(amount, stakingPeriodIndex);
         vm.stopPrank();
 
-        vm.expectRevert("invalid stakeIndex");
+        vm.expectRevert("Invalid stakeIndex");
         vm.prank(account);
         ldyStaking.getReward(100);
     }
@@ -437,9 +453,13 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.assume(account != address(ldyStaking));
         vm.assume(amount != 0);
 
-        amount = bound(amount, 100, 1_000_000 * 10 ** ldyToken.decimals());
+        amount = bound(
+            amount,
+            10000 * 10 ** ldyToken.decimals(),
+            1_000_000 * 10 ** ldyToken.decimals()
+        );
 
-        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurations.length - 1));
+        stakingPeriodIndex = uint8(bound(stakingPeriodIndex, 0, stakingDurationInfos.length - 1));
         deal(address(ldyToken), account, amount);
 
         // account stakes ldy into the ldyStaking contract
@@ -455,10 +475,29 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         assertEq(rewards0, 0);
 
         skip(100);
+        uint256 earned1 = ldyStaking.earned(account, 0);
         vm.prank(account);
         ldyStaking.getReward(0);
         uint256 rewards1 = ldyToken.balanceOf(account);
-        assertGt(rewards1, 0);
+        assertGe(rewards1, earned1);
+
+        // After rewards duration(1year), rewards2 must greater than rewards1
+        skip(12 * OneMonth);
+        uint256 earned2 = ldyStaking.earned(account, 0);
+        vm.prank(account);
+        ldyStaking.getReward(0);
+        uint256 rewards2 = ldyToken.balanceOf(account);
+        assertGt(earned2, 0);
+        assertGe(rewards2, earned2);
+
+        // After 1year, rewards3 must be equal to rewards2, as there's no rewards accumulation
+        skip(12 * OneMonth);
+        uint256 earned3 = ldyStaking.earned(account, 0);
+        vm.prank(account);
+        ldyStaking.getReward(0);
+        uint256 rewards3 = ldyToken.balanceOf(account);
+        assertGe(earned3, 0);
+        assertEq(rewards3, rewards2);
     }
 
     function test_SetRewardsDurationByOwner() public {
@@ -467,9 +506,9 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.prank(nonOwner);
         ldyStaking.setRewardsDuration(123);
 
-        skip(oneMonth);
+        skip(OneMonth);
 
-        uint256 newRewardsDuration = 6 * oneMonth;
+        uint256 newRewardsDuration = 6 * OneMonth;
         vm.expectRevert("reward duration is not finished");
         ldyStaking.setRewardsDuration(newRewardsDuration);
 
