@@ -9,7 +9,8 @@ import { zeroAddress } from "viem";
 import {
   useReadLdyBalanceOf,
   useReadLdyDecimals,
-  useReadLdyStakingRewardPerTokenStored,
+  useReadLdyStakingRewardRatePerSec,
+  useReadLdyStakingTotalWeightedStake,
 } from "@/generated";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -26,18 +27,20 @@ export const AppStaking: FC = () => {
 
   const { data: ldyDecimals } = useReadLdyDecimals();
 
-  const { data: rewardPerToken, queryKey: rewardPerTokenQuery } =
-    useReadLdyStakingRewardPerTokenStored();
+  const { data: rewardRate, queryKey: rewardRateQuery } = useReadLdyStakingRewardRatePerSec();
+  const { data: totalWeightedStake, queryKey: totalWeightedStakeQuery } =
+    useReadLdyStakingTotalWeightedStake();
+  const apyQueryKeys = [rewardRateQuery, totalWeightedStakeQuery];
 
-  // Refetch LdyBalance & RewardPerToken from contract on network/wallet change
-  const queryKeys = [ldyBalanceQuery, rewardPerTokenQuery];
+  // Refetch LdyBalance & apy associated queries from contract on network/wallet change
+  const queryKeys = [ldyBalanceQuery, ...apyQueryKeys];
   useEffect(() => {
     queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
   }, [account.address, publicClient]);
 
-  // Refetch rewardPerToken on ldyBalance change.
+  // Refetch apy associated queries on ldyBalance change.
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: rewardPerTokenQuery });
+    apyQueryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
   }, [ldyBalance]);
 
   return (
@@ -52,7 +55,8 @@ export const AppStaking: FC = () => {
           ldyTokenAddress={ldyTokenAddress || zeroAddress}
           ldyTokenBalance={ldyBalance || 0n}
           ldyTokenDecimals={ldyDecimals || 18}
-          rewardPerToken={rewardPerToken || 0n}
+          rewardRate={Number(rewardRate) || 0}
+          totalWeightedStake={Number(totalWeightedStake) || 0}
         />
       </Card>
       <Card
@@ -71,7 +75,8 @@ export const AppStaking: FC = () => {
           ldyTokenDecimals={ldyDecimals || 18}
           ldyTokenBalance={ldyBalance || 0n}
           ldyTokenBalanceQuery={ldyBalanceQuery || []}
-          rewardPerToken={rewardPerToken || 0n}
+          rewardRate={Number(rewardRate) || 0}
+          totalWeightedStake={Number(totalWeightedStake) || 0}
         />
       </Card>
     </section>

@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-import { OneMonth } from "@/constants/staking";
+import { OneMonth, StakeDurations } from "@/constants/staking";
 import { getAPYCalculation } from "@/lib/getAPYCalculation";
 import { QueryKey } from "@tanstack/react-query";
 import { IUserStakingInfo } from "@/services/graph/hooks/useStakingEvent";
@@ -30,7 +30,8 @@ export const AppStakingPoolPane: FC<{
   ldyTokenDecimals: number;
   userStakingInfo: IUserStakingInfo | undefined;
   rewardsArray: readonly bigint[] | undefined;
-  rewardPerToken: bigint;
+  rewardRate: number;
+  totalWeightedStake: number;
   getUserStakesQuery?: QueryKey;
   ldyTokenBalanceQuery?: QueryKey;
   rewardsArrayQuery?: QueryKey;
@@ -40,7 +41,8 @@ export const AppStakingPoolPane: FC<{
   ldyTokenDecimals,
   userStakingInfo,
   rewardsArray,
-  rewardPerToken,
+  rewardRate,
+  totalWeightedStake,
   getUserStakesQuery,
   ldyTokenBalanceQuery,
   rewardsArrayQuery,
@@ -82,9 +84,11 @@ export const AppStakingPoolPane: FC<{
             <span>APY</span>
             <span className="font-semibold">
               {getAPYCalculation(
-                formatUnits(rewardPerToken, ldyTokenDecimals!),
-                false,
-                Number(poolInfo.duration),
+                rewardRate,
+                totalWeightedStake,
+                StakeDurations.findIndex((duration) => {
+                  return duration == Number(poolInfo.duration) / OneMonth;
+                }),
               )}
               %
             </span>

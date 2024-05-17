@@ -119,6 +119,18 @@ export const theme = {
       fadeAndMoveIn: "300ms ease-in-out forwards fadeAndMoveIn",
       fadeAndMoveOut: "300ms ease-in-out forwards fadeAndMoveOut",
     },
+    inset: {
+      "1/5": "20%",
+      "2/5": "40%",
+      "3/5": "60%",
+      "4/5": "80%",
+    },
+    translate: {
+      "1/5": "20%",
+      "2/5": "40%",
+      "3/5": "60%",
+      "4/5": "80%",
+    }
   },
 };
 export const plugins = [

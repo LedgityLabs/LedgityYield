@@ -19,8 +19,15 @@ export const AppStakingPools: FC<{
   ldyTokenDecimals: number;
   ldyTokenBalance: bigint;
   ldyTokenBalanceQuery: QueryKey;
-  rewardPerToken: bigint;
-}> = ({ ldyTokenDecimals, ldyTokenBalance, ldyTokenBalanceQuery, rewardPerToken }) => {
+  rewardRate: number;
+  totalWeightedStake: number;
+}> = ({
+  ldyTokenDecimals,
+  ldyTokenBalance,
+  ldyTokenBalanceQuery,
+  rewardRate,
+  totalWeightedStake,
+}) => {
   const queryClient = useQueryClient();
   const account = useAccount();
   const publicClient = usePublicClient();
@@ -82,8 +89,8 @@ export const AppStakingPools: FC<{
                     : undefined
                 }
                 rewardsArray={rewardsArray ? rewardsArray : undefined}
-                // stakingAprInfo={stakingAprInfo}
-                rewardPerToken={rewardPerToken}
+                rewardRate={rewardRate}
+                totalWeightedStake={totalWeightedStake}
                 getUserStakesQuery={getUserStakesQuery}
                 ldyTokenBalanceQuery={ldyTokenBalanceQuery}
                 rewardsArrayQuery={rewardsArrayQuery}

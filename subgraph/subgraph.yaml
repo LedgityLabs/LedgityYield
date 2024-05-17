@@ -30,9 +30,9 @@ dataSources:
     name: LdyStaking
     network: sepolia
     source:
-      address: "0xD5BAa62ed10f7812789f4f21b6aeDE6d25acF415"
+      address: "0x548a31740C5CE6304163f32B5312f2E89b61E11a"
       abi: LdyStaking
-      startBlock: 5849451
+      startBlock: 5920832
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
