@@ -5,9 +5,6 @@ export const env = createEnv({
   server: {
     TWITTER_CLIENT_ID: z.string().optional(),
     TWITTER_CLIENT_SECRET: z.string().optional(),
-    REDIS_HOST: z.string().optional(),
-    REDIS_USERNAME: z.string().optional(),
-    REDIS_PASSWORD: z.string().optional(),
     IPINFO_TOKEN: z.string(),
     SCORECHAIN_API_KEY: z.string(),
     AML_ALERT_WEBHOOK: z.string().url(),
