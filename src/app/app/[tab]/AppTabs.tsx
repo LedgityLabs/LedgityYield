@@ -43,7 +43,7 @@ const _AppTabs: FC = () => {
           Airdrop
           <div
             className={twMerge(
-              "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[#20456c] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
+              "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[red] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
               currentTab === "airdrop" && "opacity-50 hover:opacity-100",
             )}
           >

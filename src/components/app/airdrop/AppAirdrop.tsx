@@ -7,12 +7,12 @@ import galxeIcon from "~/assets/partners/galxe-icon.svg";
 
 export const AppAirdrop: FC = () => {
   return (
-    <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-44 xl:scale-105 xl:mt-5 pt-[4rem]">
-      <div className="relative text-center flex flex-col gap-16 w-full overflow-hidden bg-slate-800 pt-[8.5rem] rounded-[1.8rem] border-2 border-slate-500 shadow-lg">
+    <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-44 xl:scale-105 xl:mt-5">
+      <div className="relative text-center flex flex-col w-full overflow-hidden bg-slate-800 rounded-[1.8rem] gap-5 border-2 border-slate-500 shadow-lg p-[1rem] pt-[6rem]">
         <div className="absolute -top-3 right-0 left-0 bg-[url('/assets/banners/multi-airdrop-square.png')] bg-cover bg-top opacity-95 w-full h-[830px] rounded-t-[1.7rem] overflow-hidden aspect-square"></div>
-        <div className="py-3 sm:px-10 px-5 flex flex-col items-center gap-3 flex-wrap">
+        <div className="flex flex-row items-center justify-center gap-3 flex-wrap">
           <h3 className="font-bold text-[1.4rem] text-slate-100 font-heading text-start whitespace-nowrap">
-            Airdropped tokens
+            ON-CHAIN QUESTS
           </h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "baseline" }}>
             <p className="text-slate-100/60 text-sm font-medium italic">PHASE 1 - ENDED</p>
@@ -20,7 +20,7 @@ export const AppAirdrop: FC = () => {
           </div>
         </div>
 
-        <div className="sm:px-8 px-5 flex gap-8 flex-wrap justify-center pb-8">
+        <div className="flex flex-wrap justify-center">
           <a
             href="https://app.galxe.com/quest/ledgityyield/leaderboard"
             target="_blank"
