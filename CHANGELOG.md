@@ -1,3 +1,10 @@
+## [1.258.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.258.0...v1.258.1) (2024-05-22)
+
+
+### Fixes
+
+* broken pre-mining page since last PR ([ec67f62](https://github.com/LedgityLabs/LedgityYield/commit/ec67f623b05495dfe0f6b6e28ef0a4fc1b371b09))
+
 ## [1.258.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.257.0...v1.258.0) (2024-05-17)
 
 
