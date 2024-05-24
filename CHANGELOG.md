@@ -1,3 +1,10 @@
+## [1.259.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.258.1...v1.259.0) (2024-05-24)
+
+
+### Features
+
+* add more functions callable by owner in the staking contract ([8e78fde](https://github.com/LedgityLabs/LedgityYield/commit/8e78fdef99ec0a355f188dc0191c9113496ef28e))
+
 ## [1.258.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.258.0...v1.258.1) (2024-05-22)
 
 
