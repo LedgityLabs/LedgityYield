@@ -1,5 +1,5 @@
 {
-  "address": "0xE0168B12FA50c5F4E8B529744F9A63cd171083dC",
+  "address": "0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E",
   "abi": [
     {
       "anonymous": false,
@@ -71,25 +71,6 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "rewardAmount",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "rewardPerSec",
-          "type": "uint256"
-        }
-      ],
-      "name": "NotifiedRewardAmount",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
           "indexed": true,
           "internalType": "address",
           "name": "previousOwner",
@@ -122,56 +103,6 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "stakeIndex",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "reward",
-          "type": "uint256"
-        }
-      ],
-      "name": "RewardPaid",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "stakeIndex",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "Staked",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
           "indexed": false,
           "internalType": "address",
           "name": "account",
@@ -180,172 +111,6 @@
       ],
       "name": "Unpaused",
       "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "stakeIndex",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "Unstaked",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "MULTIPLIER_BASIS",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "stakeIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "earned",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "finishAt",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "getEarnedUser",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "stakeIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "getReward",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "getUserStakes",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "stakedAmount",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "unStakeAt",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "duration",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "rewardPerTokenPaid",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "rewards",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct LDYStaking.StakingInfo[]",
-          "name": "",
-          "type": "tuple[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "globalBlacklist",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "inputs": [],
@@ -361,127 +126,14 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "globalPause",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "highTierAccounts",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
           "name": "globalOwner_",
           "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "globalPause_",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "globalBlacklist_",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "stakeRewardToken_",
-          "type": "address"
-        },
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "duration",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "multiplier",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct LDYStaking.StakeDurationInfo[]",
-          "name": "stakeDurationInfos_",
-          "type": "tuple[]"
-        },
-        {
-          "internalType": "uint256",
-          "name": "stakeDurationForPerks_",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "stakeAmountForPerks_",
-          "type": "uint256"
         }
       ],
       "name": "initialize",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "lastTimeRewardApplicable",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "lastUpdateTime",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "notifyRewardAmount",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -501,6 +153,13 @@
     },
     {
       "inputs": [],
+      "name": "pause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "paused",
       "outputs": [
         {
@@ -510,13 +169,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "pop",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -533,269 +185,9 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "duration",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "multiplier",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct LDYStaking.StakeDurationInfo",
-          "name": "durationInfo",
-          "type": "tuple"
-        }
-      ],
-      "name": "pushStakeDurationInfo",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "tokenAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "recoverERC20",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "renounceOwnership",
       "outputs": [],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "rewardPerToken",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "rewardPerTokenStored",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "rewardRatePerSec",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "rewardsDuration",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "duration",
-          "type": "uint256"
-        }
-      ],
-      "name": "setRewardsDuration",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "stakeAmountForPerks_",
-          "type": "uint256"
-        }
-      ],
-      "name": "setStakeAmountForPerks",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "stakeDurationForPerks_",
-          "type": "uint256"
-        }
-      ],
-      "name": "setStakeDurationForPerks",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint8",
-          "name": "stakeDurationIndex",
-          "type": "uint8"
-        }
-      ],
-      "name": "stake",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "stakeAmountForPerks",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "stakeDurationForPerks",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "stakeDurationInfos",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "duration",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "multiplier",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "stakeRewardToken",
-      "outputs": [
-        {
-          "internalType": "contract IERC20Upgradeable",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "tierOf",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "tier",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "totalStaked",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "totalWeightedStake",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
       "stateMutability": "view",
       "type": "function"
     },
@@ -813,19 +205,8 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "stakeIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "unstake",
+      "inputs": [],
+      "name": "unpause",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -865,50 +246,6 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "userStakingInfo",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "stakedAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "unStakeAt",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "duration",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "rewardPerTokenPaid",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "rewards",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
           "name": "_logic",
           "type": "address"
         },
@@ -922,51 +259,51 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0x48d9e4d010b47c38040b5fa849e8a70b71f8f665e2530815838276a6bd5e0b99",
+  "transactionHash": "0x3d716c4a926805660321ef79fc5a69736c5aa79a5768138a13a34ac694ae8f57",
   "receipt": {
     "to": null,
     "from": "0x69b69DC81CAf0b2FF53b946421F51b0eC276E679",
-    "contractAddress": "0xE0168B12FA50c5F4E8B529744F9A63cd171083dC",
-    "transactionIndex": 22,
-    "gasUsed": "634369",
-    "logsBloom": "0x00000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000080000200000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000080000000000000000000000000000000000000000000200400000000000000000000000000000200000000000020000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-    "blockHash": "0x8dc7e91a8edcc5e9de5598d55008d4dcef244d1fd5ce9d9ed3f1017cbf983eef",
-    "transactionHash": "0x48d9e4d010b47c38040b5fa849e8a70b71f8f665e2530815838276a6bd5e0b99",
+    "contractAddress": "0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E",
+    "transactionIndex": 0,
+    "gasUsed": "334991",
+    "logsBloom": "0x00000000000000000000000000000000400000008040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200002000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000400800000000000000000000000000000000000000020000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xa014c22f2505fc4920d4dd4d5eebd9abbd1a8042bd7812d6b5c625e61c223dba",
+    "transactionHash": "0x3d716c4a926805660321ef79fc5a69736c5aa79a5768138a13a34ac694ae8f57",
     "logs": [
       {
-        "transactionIndex": 22,
-        "blockNumber": 5969238,
-        "transactionHash": "0x48d9e4d010b47c38040b5fa849e8a70b71f8f665e2530815838276a6bd5e0b99",
-        "address": "0xE0168B12FA50c5F4E8B529744F9A63cd171083dC",
+        "transactionIndex": 0,
+        "blockNumber": 1560041,
+        "transactionHash": "0x3d716c4a926805660321ef79fc5a69736c5aa79a5768138a13a34ac694ae8f57",
+        "address": "0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E",
         "topics": [
           "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b",
-          "0x0000000000000000000000008da66039fed644e73f757fa97cbcc1f4d40925cb"
+          "0x000000000000000000000000c27eec1c192500daa517d491f673ed81008a8c0b"
         ],
         "data": "0x",
-        "logIndex": 58,
-        "blockHash": "0x8dc7e91a8edcc5e9de5598d55008d4dcef244d1fd5ce9d9ed3f1017cbf983eef"
+        "logIndex": 0,
+        "blockHash": "0xa014c22f2505fc4920d4dd4d5eebd9abbd1a8042bd7812d6b5c625e61c223dba"
       },
       {
-        "transactionIndex": 22,
-        "blockNumber": 5969238,
-        "transactionHash": "0x48d9e4d010b47c38040b5fa849e8a70b71f8f665e2530815838276a6bd5e0b99",
-        "address": "0xE0168B12FA50c5F4E8B529744F9A63cd171083dC",
+        "transactionIndex": 0,
+        "blockNumber": 1560041,
+        "transactionHash": "0x3d716c4a926805660321ef79fc5a69736c5aa79a5768138a13a34ac694ae8f57",
+        "address": "0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E",
         "topics": [
           "0x7f26b83ff96e1f2b6a682f133852f6798a09c465da95921460cefb3847402498"
         ],
         "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
-        "logIndex": 59,
-        "blockHash": "0x8dc7e91a8edcc5e9de5598d55008d4dcef244d1fd5ce9d9ed3f1017cbf983eef"
+        "logIndex": 1,
+        "blockHash": "0xa014c22f2505fc4920d4dd4d5eebd9abbd1a8042bd7812d6b5c625e61c223dba"
       }
     ],
-    "blockNumber": 5969238,
-    "cumulativeGasUsed": "3720759",
+    "blockNumber": 1560041,
+    "cumulativeGasUsed": "334991",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0x8da66039fed644e73F757Fa97cBCC1f4d40925CB",
-    "0x63d0712000000000000000000000000091849bae327965a5cc7ba970233dbee10c6101050000000000000000000000005be502b3f0ac0aecc9175c2d9e0bbfb619f48322000000000000000000000000f7d04d50f3ec180173cefc73eb5427aefc9f5ff1000000000000000000000000d57baaf94696f178804fbfb2345c977c40f2026600000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000001ea6e0000000000000000000000000000000000000000000000003635c9adc5dea00000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002710000000000000000000000000000000000000000000000000000000000028de8000000000000000000000000000000000000000000000000000000000000030d40000000000000000000000000000000000000000000000000000000000f537000000000000000000000000000000000000000000000000000000000000003a980000000000000000000000000000000000000000000000000000000001ea6e000000000000000000000000000000000000000000000000000000000000004e20"
+    "0xC27EEc1c192500DaA517D491f673eD81008a8c0b",
+    "0xc4d66de8000000000000000000000000730c21c81f2baadeb54dad63050d42474a824900"
   ],
   "numDeployments": 1,
   "solcInputHash": "0e89febeebc7444140de8e67c9067d2c",
@@ -976,33 +313,10 @@
   "execute": {
     "methodName": "initialize",
     "args": [
-      "0x91849bAe327965a5Cc7BA970233dBee10C610105",
-      "0x5Be502B3F0aC0AECC9175C2d9E0BbFb619f48322",
-      "0xf7d04d50F3EC180173CEFc73EB5427aeFC9f5fF1",
-      "0xD57baAf94696F178804fBFB2345c977C40F20266",
-      [
-        [
-          0,
-          10000
-        ],
-        [
-          2678400,
-          12500
-        ],
-        [
-          16070400,
-          15000
-        ],
-        [
-          32140800,
-          20000
-        ]
-      ],
-      32140800,
-      "1000000000000000000000"
+      "0x730C21c81F2baaDEB54daD63050D42474a824900"
     ]
   },
-  "implementation": "0x8da66039fed644e73F757Fa97cBCC1f4d40925CB",
+  "implementation": "0xC27EEc1c192500DaA517D491f673eD81008a8c0b",
   "devdoc": {
     "details": "This contract implements an upgradeable proxy. It is upgradeable because calls are delegated to an implementation address that can be changed. This address is stored in storage in the location specified by https://eips.ethereum.org/EIPS/eip-1967[EIP1967], so that it doesn't conflict with the storage layout of the implementation behind the proxy.",
     "kind": "dev",

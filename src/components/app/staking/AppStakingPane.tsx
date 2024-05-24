@@ -126,7 +126,7 @@ export const AppStakingPane: FC<{
         <Slider.Root
           className="relative flex content-start items-center select-none touch-none w-full h-5"
           value={[stakeOptionIndex]}
-          max={5}
+          max={3}
           step={1}
           onValueChange={(value: number[]) => {
             setStakeOptionIndex(value[0]);
@@ -138,29 +138,19 @@ export const AppStakingPane: FC<{
                 {StakeDurations[0]}
               </span>
             </span>
-            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-1/5 -translate-x-1/5">
+            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-1/3 -translate-x-1/3">
               <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
                 {StakeDurations[1]}
               </span>
             </span>
-            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-2/5 -translate-x-2/5">
+            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-2/3 -translate-x-2/3">
               <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
                 {StakeDurations[2]}
               </span>
             </span>
-            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-3/5 -translate-x-3/5">
-              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[3]}
-              </span>
-            </span>
-            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-4/5 -translate-x-4/5">
-              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[4]}
-              </span>
-            </span>
             <span className="bg-gray-500 w-2 h-2 mr-2 rounded-full text-sm absolute end-0">
               <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[5]}
+                {StakeDurations[3]}
               </span>
             </span>
             {/* <Slider.Range className="absolute rounded-full h-full w-full" /> */}

@@ -1,0 +1,7 @@
+{
+  "Network": "xlayer-mainnet",
+  "LTokenSignaler_Address": "0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3",
+  "LTokenSignaler_StartBlock": "5849457",
+  "LDYStaking_Address": "0x548a31740C5CE6304163f32B5312f2E89b61E11a",
+  "LDYStaking_StartBlock": "5920832"
+}

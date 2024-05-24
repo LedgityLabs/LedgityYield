@@ -530,4 +530,22 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyToken.approve(address(ldyStaking), rewardsAmount);
         ldyStaking.notifyRewardAmount(rewardsAmount);
     }
+
+    function testFuzz_SetStakeDurationForPerksByOwner(uint256 duration) public {
+        address nonOwner = address(1234);
+        expectRevertOnlyOwner();
+        vm.prank(nonOwner);
+        ldyStaking.setStakeDurationForPerks(duration);
+
+        ldyStaking.setStakeDurationForPerks(duration);
+    }
+
+    function testFuzz_SetStakeAmountForPerksByOwner(uint256 amount) public {
+        address nonOwner = address(1234);
+        expectRevertOnlyOwner();
+        vm.prank(nonOwner);
+        ldyStaking.setStakeAmountForPerks(amount);
+
+        ldyStaking.setStakeAmountForPerks(amount);
+    }
 }

@@ -34,7 +34,10 @@
     "graph:base-sepolia-deploy": "cd subgraph && graph deploy --node https://api.studio.thegraph.com/deploy/ ldystaking-subgraph ./base-sepolia_subgraph.yaml",
     "graph:prepare-eth-sepolia": "cd subgraph && mustache ./config/ethereum-sepolia.json ./subgraph.template.yaml > ./subgraph.yaml",
     "graph:gen-eth-sepolia": "cd subgraph && graph codegen ./subgraph.yaml && graph build ./subgraph.yaml",
-    "graph:deploy-eth-sepolia": "cd subgraph && graph deploy --node https://api.studio.thegraph.com/deploy/ ledgity-sepolia ./subgraph.yaml"
+    "graph:deploy-eth-sepolia": "cd subgraph && graph deploy --node https://api.studio.thegraph.com/deploy/ ledgity-sepolia ./subgraph.yaml",
+    "graph:prepare-okx-mainnet": "cd subgraph && mustache ./config/okx-mainnet.json ./subgraph.template.yaml > ./subgraph.yaml",
+    "graph:gen-okx-mainnet": "cd subgraph && graph codegen ./subgraph.yaml && graph build ./subgraph.yaml",
+    "graph:deploy-okx-mainnet": "cd subgraph && graph deploy --node https://api.studio.thegraph.com/deploy/ ledgity-okxmain ./subgraph.yaml"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.0.11",

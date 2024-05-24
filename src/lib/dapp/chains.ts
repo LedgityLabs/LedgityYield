@@ -18,6 +18,7 @@ export const chainsIcons = {
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
   195: "/assets/chains/okxlogo.png",
+  196: "/assets/chains/okxlogo.png",
   8453: "/assets/chains/base.png",
   84532: "/assets/chains/base.png",
   11155111: "/assets/chains/ethereum-sepolia.png",
@@ -41,15 +42,36 @@ const okcTestnet: Chain = {
   },
   testnet: true,
 };
+
+const okxMainnet: Chain = {
+  id: 196,
+  name: "OKX Mainnet",
+  nativeCurrency: {
+    name: "Mainnet OKB",
+    symbol: "OKB",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.xlayer.tech"],
+    },
+  },
+  blockExplorers: {
+    default: { name: "OKLink", url: "https://www.oklink.com/xlayer" },
+  },
+  testnet: false,
+};
+
 /// Figure whether we're in dev or prod environment
 let chainsEnv: "prod" | "dev" = "prod";
 if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, okcTestnet];
+const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, okcTestnet, okxMainnet];
 const devChains: readonly [Chain, ...Chain[]] = [
   // ...prodChains,
+  okxMainnet,
   sepolia,
   hardhat,
   arbitrumGoerli,

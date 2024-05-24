@@ -19,8 +19,8 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     [1 * ONE_MONTH, 12500], // 1 month
     [6 * ONE_MONTH, 15000], // 6 month
     [12 * ONE_MONTH, 20000], // 12 month
-    [24 * ONE_MONTH, 30000], // 24 month
-    [36 * ONE_MONTH, 40000], // 36 month
+    // [24 * ONE_MONTH, 30000], // 24 month
+    // [36 * ONE_MONTH, 40000], // 36 month
   ];
   const stakeDurationForPerks = 12 * ONE_MONTH;
   const stakeAmountForPerks = parseUnits("1000", 18);

@@ -277,11 +277,46 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     /**
      * @notice Update Rewards Duration.
      * @dev Only callable by owner, and setting available only after rewards period.
-     * @param duration The nmew rewards duration in seconds.
+     * @param duration New reward duration in seconds.
      */
     function setRewardsDuration(uint256 duration) external onlyOwner {
         require(finishAt < block.timestamp, "reward duration is not finished");
         rewardsDuration = duration;
+    }
+
+    /**
+     * @notice Update stakeDurationForPerks
+     * @dev Only callable by owner.
+     * @param stakeDurationForPerks_ New stakeDurationForPerks.
+     */
+    function setStakeDurationForPerks(uint256 stakeDurationForPerks_) external onlyOwner {
+        stakeDurationForPerks = stakeDurationForPerks_;
+    }
+
+    /**
+     * @notice Update stakeAmountForPerks
+     * @dev Only callable by owner.
+     * @param stakeAmountForPerks_ New stakeDurationForPerks.
+     */
+    function setStakeAmountForPerks(uint256 stakeAmountForPerks_) external onlyOwner {
+        stakeAmountForPerks = stakeAmountForPerks_;
+    }
+
+    /**
+     * @notice Push stakeDurationInfo
+     * @dev Only callable by owner.
+     */
+    function pushStakeDurationInfo(StakeDurationInfo memory durationInfo) external onlyOwner {
+        stakeDurationInfos.push(durationInfo);
+    }
+
+    /**
+     * @notice Pop stakeDurationInfo
+     * @dev Only callable by owner.
+     */
+    function pop() external onlyOwner {
+        require(stakeDurationInfos.length > 0, "array length=0");
+        stakeDurationInfos.pop();
     }
 
     /**
