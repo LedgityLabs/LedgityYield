@@ -68,10 +68,10 @@ if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, okcTestnet, okxMainnet];
+const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, okcTestnet];
 const devChains: readonly [Chain, ...Chain[]] = [
   // ...prodChains,
-  okxMainnet,
+  // okxMainnet,
   sepolia,
   hardhat,
   arbitrumGoerli,
