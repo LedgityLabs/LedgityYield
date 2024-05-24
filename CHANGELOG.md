@@ -1,3 +1,10 @@
+## [1.259.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.0...v1.259.1) (2024-05-24)
+
+
+### Fixes
+
+* remove okx mainnet from UI ([99d2e30](https://github.com/LedgityLabs/LedgityYield/commit/99d2e3086d27b20483a171db222eaaeed95eea16))
+
 ## [1.259.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.258.1...v1.259.0) (2024-05-24)
 
 
