@@ -1,3 +1,10 @@
+## [1.259.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.2...v1.259.3) (2024-05-26)
+
+
+### Fixes
+
+* aPY calculation ([46de883](https://github.com/LedgityLabs/LedgityYield/commit/46de8839accc49feb52538120f7148c7a76d4465))
+
 ## [1.259.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.1...v1.259.2) (2024-05-26)
 
 
