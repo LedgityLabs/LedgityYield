@@ -104,7 +104,7 @@ export const AllowanceTxButton: FC<Props> = ({
         transactionSummary={transactionSummary}
         parentIsError={isError}
         parentError={errorMessage}
-        queryKeys={[balanceQueryKey]}
+        queryKeys={[balanceQueryKey, allowanceQueryKey]}
         {...props}
       />
       <TxButton
