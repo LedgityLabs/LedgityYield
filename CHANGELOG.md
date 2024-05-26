@@ -1,3 +1,10 @@
+## [1.259.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.1...v1.259.2) (2024-05-26)
+
+
+### Fixes
+
+* time left issue on staking UI ([7ab4210](https://github.com/LedgityLabs/LedgityYield/commit/7ab4210db4a1646d7f2c0a970321f42c25fe9d66))
+
 ## [1.259.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.0...v1.259.1) (2024-05-24)
 
 
