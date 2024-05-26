@@ -1,3 +1,10 @@
+## [1.259.5](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.4...v1.259.5) (2024-05-26)
+
+
+### Fixes
+
+* **allowancetxbutton:** switching button issue between allow and execute ([9d38a50](https://github.com/LedgityLabs/LedgityYield/commit/9d38a5072ee725dffc0d9ed5462dc92638b19903))
+
 ## [1.259.4](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.3...v1.259.4) (2024-05-26)
 
 
