@@ -14,11 +14,11 @@ export const getAPYCalculation = (
     totalWeightedStake = OneToken;
   }
 
-  const rewardRatePerSec = rewardRate / totalWeightedStake;
-  const rewardRatePerYear = rewardRatePerSec * OneYear;
+  const rewardRatePerSecPerToken = (rewardRate * OneToken) / totalWeightedStake;
+  const rewardRatePerYearPerToken = rewardRatePerSecPerToken * OneYear;
   const multiplier = StakeDurationMultipliers[stakeDurationIndex];
   const myStakeAmount = (OneToken * multiplier) / MULTIPLIER_BASIS;
   const myPortion = myStakeAmount / totalWeightedStake;
-  const APY = rewardRatePerYear * myPortion * 100;
+  const APY = rewardRatePerYearPerToken * myPortion * 100;
   return APY.toFixed(2);
 };
