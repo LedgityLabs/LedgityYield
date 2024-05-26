@@ -12,6 +12,7 @@ import { OneMonth, StakeDurations } from "@/constants/staking";
 import { getAPYCalculation } from "@/lib/getAPYCalculation";
 import { QueryKey } from "@tanstack/react-query";
 import { IUserStakingInfo } from "@/services/graph/hooks/useStakingEvent";
+import { getTimeLeftString } from "@/lib/utils";
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -96,7 +97,7 @@ export const AppStakingPoolPane: FC<{
           <div className="flex text-sm justify-between">
             <span>Time Left</span>
             <span className="font-semibold">
-              {dayjs(Number(poolInfo.unStakeAt) * 1000).fromNow(true)}
+              {getTimeLeftString(Number(poolInfo.unStakeAt) * 1000)}
             </span>
           </div>
           <div className="flex py-1 w-full">
