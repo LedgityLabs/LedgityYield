@@ -1,3 +1,10 @@
+## [1.259.6](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.5...v1.259.6) (2024-05-28)
+
+
+### Fixes
+
+* change APY to APR in frontend UI ([eddd4b3](https://github.com/LedgityLabs/LedgityYield/commit/eddd4b393926e6a234a393cda4efd44cc890968d))
+
 ## [1.259.5](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.4...v1.259.5) (2024-05-26)
 
 
