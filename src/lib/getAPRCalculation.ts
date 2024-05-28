@@ -1,7 +1,7 @@
 import { OneMonth, StakeDurationMultipliers, MULTIPLIER_BASIS } from "@/constants/staking";
 import { parseUnits } from "viem";
 
-export const getAPYCalculation = (
+export const getAPRCalculation = (
   rewardRatePerSec: number,
   totalWeightedStake: number,
   stakeDurationIndex: number,
@@ -17,6 +17,6 @@ export const getAPYCalculation = (
   }
   const myPortion = myStakeAmount / totalWeightedStake;
   const rewardsAmountPerYear = rewardRatePerYear * myPortion;
-  const APY = (rewardsAmountPerYear / OneToken) * 100;
-  return APY.toFixed(2);
+  const APR = (rewardsAmountPerYear / OneToken) * 100;
+  return APR.toFixed(2);
 };

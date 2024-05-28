@@ -6,7 +6,7 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { useSimulateLdyStakingStake } from "@/generated";
 import * as Slider from "@radix-ui/react-slider";
 import { StakeDurations } from "@/constants/staking";
-import { getAPYCalculation } from "@/lib/getAPYCalculation";
+import { getAPRCalculation } from "@/lib/getAPRCalculation";
 
 export const AppStakingPane: FC<{
   ldyTokenSymbol: string;
@@ -40,9 +40,9 @@ export const AppStakingPane: FC<{
     }
   }, [ldyTokenBalance]);
 
-  // Calculate APY based on stakeIndex and stakingAprInfo.
-  const APY = useMemo(() => {
-    return getAPYCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%";
+  // Calculate APR based on stakeIndex and stakingAprInfo.
+  const APR = useMemo(() => {
+    return getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%";
   }, [stakeOptionIndex, rewardRate, totalWeightedStake]);
 
   const preparation = useSimulateLdyStakingStake({
@@ -166,9 +166,9 @@ export const AppStakingPane: FC<{
 
       <div className="grid gap-4 grid-cols-2 h-full content-center">
         <div className="flex flex-col items-center">
-          {/* <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APY}</div> */}
-          <div className="text-4xl font-bold">{APY}</div>
-          <div className="text-xl text-gray">APY</div>
+          {/* <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APR}</div> */}
+          <div className="text-4xl font-bold">{APR}</div>
+          <div className="text-xl text-gray">APR</div>
         </div>
         <div className="flex flex-col items-center">
           <AllowanceTxButton
