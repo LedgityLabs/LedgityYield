@@ -1,3 +1,10 @@
+## [1.261.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.260.0...v1.261.0) (2024-05-29)
+
+
+### Features
+
+* remove stakeDurationInfo associated ownable functions ([0ce932f](https://github.com/LedgityLabs/LedgityYield/commit/0ce932fa1d7a7ff411e924c6b081db3df86f3042))
+
 ## [1.260.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.6...v1.260.0) (2024-05-29)
 
 
