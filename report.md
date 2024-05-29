@@ -14,11 +14,11 @@ Summary
 Impact: Medium
 Confidence: Medium
  - [ ] ID-0
-[LDYStaking.earned(address,uint256)](contracts/src/LDYStaking.sol#L389-L396) performs a multiplication on the result of a division:
-	- [weightedAmount = (userInfo.stakedAmount * multiplier) / MULTIPLIER_BASIS](contracts/src/LDYStaking.sol#L392)
-	- [rewardsSinceLastUpdate = ((weightedAmount * (rewardPerToken() - userInfo.rewardPerTokenPaid)) / 1e18)](contracts/src/LDYStaking.sol#L393-L394)
+[LDYStaking.earned(address,uint256)](contracts/src/LDYStaking.sol#L409-L416) performs a multiplication on the result of a division:
+	- [weightedAmount = (userInfo.stakedAmount * multiplier) / MULTIPLIER_BASIS](contracts/src/LDYStaking.sol#L412)
+	- [rewardsSinceLastUpdate = ((weightedAmount * (rewardPerToken() - userInfo.rewardPerTokenPaid)) / 1e18)](contracts/src/LDYStaking.sol#L413-L414)
 
-contracts/src/LDYStaking.sol#L389-L396
+contracts/src/LDYStaking.sol#L409-L416
 
 
 ## events-access
@@ -49,10 +49,10 @@ contracts/src/LToken.sol#L283-L286
 
 
  - [ ] ID-4
-[LDYStaking.setStakeAmountForPerks(uint256)](contracts/src/LDYStaking.sol#L301-L303) should emit an event for: 
-	- [stakeAmountForPerks = stakeAmountForPerks_](contracts/src/LDYStaking.sol#L302) 
+[LDYStaking.setStakeAmountForPerks(uint256)](contracts/src/LDYStaking.sol#L304-L306) should emit an event for: 
+	- [stakeAmountForPerks = stakeAmountForPerks_](contracts/src/LDYStaking.sol#L305) 
 
-contracts/src/LDYStaking.sol#L301-L303
+contracts/src/LDYStaking.sol#L304-L306
 
 
  - [ ] ID-5
@@ -63,10 +63,10 @@ contracts/src/LToken.sol#L272-L275
 
 
  - [ ] ID-6
-[LDYStaking.setStakeDurationForPerks(uint256)](contracts/src/LDYStaking.sol#L292-L294) should emit an event for: 
-	- [stakeDurationForPerks = stakeDurationForPerks_](contracts/src/LDYStaking.sol#L293) 
+[LDYStaking.setStakeDurationForPerks(uint256)](contracts/src/LDYStaking.sol#L295-L297) should emit an event for: 
+	- [stakeDurationForPerks = stakeDurationForPerks_](contracts/src/LDYStaking.sol#L296) 
 
-contracts/src/LDYStaking.sol#L292-L294
+contracts/src/LDYStaking.sol#L295-L297
 
 
 ## calls-loop
@@ -82,6 +82,16 @@ contracts/src/LToken.sol#L603-L621
 Impact: Low
 Confidence: Medium
  - [ ] ID-8
+Reentrancy in [LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L346-L374):
+	External calls:
+	- [stakeRewardToken.safeTransferFrom(_msgSender(),address(this),amount)](contracts/src/LDYStaking.sol#L371)
+	Event emitted after the call(s):
+	- [NotifiedRewardAmount(amount,rewardRatePerSec)](contracts/src/LDYStaking.sol#L373)
+
+contracts/src/LDYStaking.sol#L346-L374
+
+
+ - [ ] ID-9
 Reentrancy in [LToken.processQueuedRequests()](contracts/src/LToken.sol#L740-L851):
 	External calls:
 	- [underlying().safeTransfer(request.account,withdrawnAmount)](contracts/src/LToken.sol#L829)
@@ -92,51 +102,41 @@ Reentrancy in [LToken.processQueuedRequests()](contracts/src/LToken.sol#L740-L85
 contracts/src/LToken.sol#L740-L851
 
 
- - [ ] ID-9
-Reentrancy in [LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L327-L354):
-	External calls:
-	- [stakeRewardToken.safeTransferFrom(_msgSender(),address(this),amount)](contracts/src/LDYStaking.sol#L351)
-	Event emitted after the call(s):
-	- [NotifiedRewardAmount(amount,rewardRatePerSec)](contracts/src/LDYStaking.sol#L353)
-
-contracts/src/LDYStaking.sol#L327-L354
-
-
 ## timestamp
 Impact: Low
 Confidence: Medium
  - [ ] ID-10
-[LDYStaking._min(uint256,uint256)](contracts/src/LDYStaking.sol#L482-L484) uses timestamp for comparisons
+[LDYStaking.unstake(uint256,uint256)](contracts/src/LDYStaking.sol#L218-L263) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [x <= y](contracts/src/LDYStaking.sol#L483)
+	- [require(bool,string)(block.timestamp >= userStakingInfo[_msgSender()][stakeIndex].unStakeAt,Cannot unstake during staking period)](contracts/src/LDYStaking.sol#L224-L227)
 
-contracts/src/LDYStaking.sol#L482-L484
+contracts/src/LDYStaking.sol#L218-L263
 
 
  - [ ] ID-11
-[LDYStaking.unstake(uint256,uint256)](contracts/src/LDYStaking.sol#L215-L260) uses timestamp for comparisons
+[LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L346-L374) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [require(bool,string)(block.timestamp >= userStakingInfo[_msgSender()][stakeIndex].unStakeAt,Cannot unstake during staking period)](contracts/src/LDYStaking.sol#L221-L224)
+	- [block.timestamp >= finishAt](contracts/src/LDYStaking.sol#L352)
+	- [require(bool,string)(rewardRatePerSec > 0,reward rate = 0)](contracts/src/LDYStaking.sol#L359)
+	- [require(bool,string)(rewardRatePerSec <= (stakeRewardToken.balanceOf(address(this)) + amount - totalStaked) / rewardsDuration,reward amount > balance)](contracts/src/LDYStaking.sol#L360-L365)
 
-contracts/src/LDYStaking.sol#L215-L260
+contracts/src/LDYStaking.sol#L346-L374
 
 
  - [ ] ID-12
-[LDYStaking.notifyRewardAmount(uint256)](contracts/src/LDYStaking.sol#L327-L354) uses timestamp for comparisons
+[LDYStaking.setRewardsDuration(uint256)](contracts/src/LDYStaking.sol#L285-L288) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [block.timestamp >= finishAt](contracts/src/LDYStaking.sol#L333)
-	- [require(bool,string)(rewardRatePerSec > 0,reward rate = 0)](contracts/src/LDYStaking.sol#L340)
-	- [require(bool,string)(rewardRatePerSec <= (stakeRewardToken.balanceOf(address(this)) + amount - totalStaked) / rewardsDuration,reward amount > balance)](contracts/src/LDYStaking.sol#L341-L346)
+	- [require(bool,string)(finishAt < block.timestamp,reward duration is not finished)](contracts/src/LDYStaking.sol#L286)
 
-contracts/src/LDYStaking.sol#L327-L354
+contracts/src/LDYStaking.sol#L285-L288
 
 
  - [ ] ID-13
-[LDYStaking.setRewardsDuration(uint256)](contracts/src/LDYStaking.sol#L282-L285) uses timestamp for comparisons
+[LDYStaking._min(uint256,uint256)](contracts/src/LDYStaking.sol#L513-L515) uses timestamp for comparisons
 	Dangerous comparisons:
-	- [require(bool,string)(finishAt < block.timestamp,reward duration is not finished)](contracts/src/LDYStaking.sol#L283)
+	- [x <= y](contracts/src/LDYStaking.sol#L514)
 
-contracts/src/LDYStaking.sol#L282-L285
+contracts/src/LDYStaking.sol#L513-L515
 
 
 ## costly-loop

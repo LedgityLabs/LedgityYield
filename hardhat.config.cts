@@ -7,6 +7,7 @@ import { type HardhatUserConfig } from "hardhat/config";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "@nomicfoundation/hardhat-verify";
+import "@okxweb3/hardhat-explorer-verify";
 
 // Retrieve deployer private key from secrets.json (if available)
 let deployerPrivateKey: string | undefined;
@@ -61,6 +62,9 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  // sourcify: {
+  //   enabled: true,
+  // },
   paths: {
     sources: "./contracts/src",
     cache: "./contracts/hardhat/cache",
@@ -127,30 +131,6 @@ const config: HardhatUserConfig = {
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
     },
-    OKX_X1_mainnet: {
-      chainId: 196,
-      url: "https://rpc.xlayer.tech",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: okxscanApiKey,
-          apiUrl: "https://www.oklink.com/api/explorer/v1/contract/verify/async/xlayer",
-        },
-      },
-    },
-    OKX_X1_testnet: {
-      chainId: 195,
-      url: "https://testrpc.xlayer.tech",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: okxscanApiKey,
-          apiUrl: "https://www.oklink.com/api/explorer/v1/contract/verify/async/xlayer_test",
-        },
-      },
-    },
     base: {
       chainId: 8453,
       url: "https://base-mainnet.g.alchemy.com/v2/XH9V8IOVLgFCIP-EAflB27MR0Bc5oVoO",
@@ -175,6 +155,36 @@ const config: HardhatUserConfig = {
         },
       },
     },
+    OKX_X1_mainnet: {
+      chainId: 196,
+      url: "https://rpc.xlayer.tech",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: okxscanApiKey,
+          apiUrl:
+            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
+        },
+      },
+    },
+    XLAYER_TESTNET: {
+      chainId: 195,
+      url: "https://testrpc.xlayer.tech",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: okxscanApiKey,
+          apiUrl:
+            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER_TESTNET",
+        },
+      },
+    },
+    // XLAYER_TESTNET: {
+    //   url: "https://testrpc.xlayer.tech",
+    //   accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+    // },
   },
   etherscan: {
     apiKey: {
@@ -184,9 +194,18 @@ const config: HardhatUserConfig = {
       base: basescanApiKey!,
       baseSepolia: basescanApiKey!,
       OKX_X1_mainnet: okxscanApiKey!,
-      OKX_X1_testnet: okxscanApiKey!,
+      XLAYER_TESTNET: okxscanApiKey!,
     },
     customChains: [
+      {
+        network: "XLAYER_TESTNET",
+        chainId: 195,
+        urls: {
+          apiURL:
+            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER_TESTNET",
+          browserURL: "https://www.oklink.com/xlayer-test",
+        },
+      },
       {
         network: "linea",
         chainId: 59144,
@@ -215,19 +234,15 @@ const config: HardhatUserConfig = {
         network: "OKX_X1_mainnet",
         chainId: 196,
         urls: {
-          apiURL: "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/xlayer",
+          apiURL:
+            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
           browserURL: "https://www.oklink.com/xlayer",
         },
       },
-      {
-        network: "OKX_X1_testnet",
-        chainId: 195,
-        urls: {
-          apiURL: "https://www.oklink.com/api/explorer/v1/contract/verify/async/api/xlayer_test",
-          browserURL: "https://www.oklink.com/xlayer-test",
-        },
-      },
     ],
+  },
+  okxweb3explorer: {
+    apiKey: okxscanApiKey,
   },
   defaultNetwork: "hardhat",
 };

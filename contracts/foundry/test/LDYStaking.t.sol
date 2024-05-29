@@ -21,6 +21,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
     uint256 public constant OneMonth = 31 * 24 * 60 * 60;
     LDYStaking.StakeDurationInfo[] public stakingDurationInfos;
     uint256 public initRewardsDuration = 12 * OneMonth;
+    uint256 public initRewardsAmount = 1_000_000e18;
 
     function setUp() public {
         // Deploy GlobalOwner
@@ -71,11 +72,10 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         // Set initial rewards amount and duration
         ldyStaking.setRewardsDuration(initRewardsDuration);
 
-        uint256 rewardsAmount = 1_000_000e18;
-        deal(address(ldyToken), address(this), rewardsAmount);
-        assertEq(ldyToken.balanceOf(address(this)), rewardsAmount);
-        ldyToken.approve(address(ldyStaking), rewardsAmount);
-        ldyStaking.notifyRewardAmount(rewardsAmount);
+        deal(address(ldyToken), address(this), initRewardsAmount);
+        assertEq(ldyToken.balanceOf(address(this)), initRewardsAmount);
+        ldyToken.approve(address(ldyStaking), initRewardsAmount);
+        ldyStaking.notifyRewardAmount(initRewardsAmount);
     }
 
     function test_initialize_1() public {
@@ -480,6 +480,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyStaking.getReward(0);
         uint256 rewards1 = ldyToken.balanceOf(account);
         assertGe(rewards1, earned1);
+        assertLt(ldyStaking.totalRewards(), initRewardsAmount);
 
         // After rewards duration(1year), rewards2 must greater than rewards1
         skip(12 * OneMonth);
@@ -489,6 +490,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         uint256 rewards2 = ldyToken.balanceOf(account);
         assertGt(earned2, 0);
         assertGe(rewards2, earned2);
+        assertLt(ldyStaking.totalRewards(), initRewardsAmount);
 
         // After 1year, rewards3 must be equal to rewards2, as there's no rewards accumulation
         skip(12 * OneMonth);
@@ -498,6 +500,7 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         uint256 rewards3 = ldyToken.balanceOf(account);
         assertGe(earned3, 0);
         assertEq(rewards3, rewards2);
+        assertLt(ldyStaking.totalRewards(), initRewardsAmount);
     }
 
     function test_SetRewardsDurationByOwner() public {
@@ -525,10 +528,12 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         vm.expectRevert("amount = 0");
         ldyStaking.notifyRewardAmount(0);
 
+        assertEq(ldyStaking.totalRewards(), initRewardsAmount);
         uint256 rewardsAmount = 1_000_000e18;
         deal(address(ldyToken), address(this), rewardsAmount);
         ldyToken.approve(address(ldyStaking), rewardsAmount);
         ldyStaking.notifyRewardAmount(rewardsAmount);
+        assertEq(ldyStaking.totalRewards(), initRewardsAmount + rewardsAmount);
     }
 
     function testFuzz_SetStakeDurationForPerksByOwner(uint256 duration) public {
@@ -547,5 +552,30 @@ contract LDYStakingTest is Test, ModifiersExpectations {
         ldyStaking.setStakeAmountForPerks(amount);
 
         ldyStaking.setStakeAmountForPerks(amount);
+    }
+
+    function tetFuzz_ModifyStakeDurationInfoByOwner(
+        uint256 duration,
+        uint256 multiplier,
+        uint256 index
+    ) public {
+        duration = bound(duration, 0, 1000000);
+        multiplier = bound(multiplier, 1, 10);
+        index = bound(index, 0, stakingDurationInfos.length - 1);
+
+        LDYStaking.StakeDurationInfo memory stakeDurationInfo = LDYStaking.StakeDurationInfo(
+            duration,
+            multiplier
+        );
+        address nonOwner = address(1234);
+        expectRevertOnlyOwner();
+        vm.prank(nonOwner);
+        ldyStaking.modifyStakeDurationInfo(stakeDurationInfo, index);
+
+        ldyStaking.modifyStakeDurationInfo(stakeDurationInfo, index);
+        LDYStaking.StakeDurationInfo memory stakeDurationInfoModified = ldyStaking
+            .getStakeDurationInfo(index);
+        assertEq(stakeDurationInfoModified.duration, stakeDurationInfo.duration);
+        assertEq(stakeDurationInfoModified.multiplier, stakeDurationInfo.multiplier);
     }
 }

@@ -88,6 +88,9 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     /// @notice User stakingInfo map, user address => array of the staking info
     mapping(address => StakingInfo[]) public userStakingInfo;
 
+    /// @notice Total rewards amount.
+    uint256 public totalRewards;
+
     /**
      * @notice Emitted when users stake token
      * @param user User address
@@ -311,12 +314,28 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /**
-     * @notice Pop stakeDurationInfo
+     * @notice Pop last element of stakeDurationInfos
      * @dev Only callable by owner.
      */
-    function pop() external onlyOwner {
+    function popLastStakeDurationInfo() external onlyOwner {
         require(stakeDurationInfos.length > 0, "array length=0");
         stakeDurationInfos.pop();
+    }
+
+    /**
+     * @notice Modify existing element of stakeDurationInfos
+     * @dev Only callable by owner.
+     * @param durationInfo stakeDurationInfo to modify
+     * @param index index of stakeDurationInfos
+     */
+    function modifyStakeDurationInfo(
+        StakeDurationInfo memory durationInfo,
+        uint256 index
+    ) external onlyOwner {
+        require(stakeDurationInfos.length - 1 >= index, "wrong index");
+        StakeDurationInfo storage stakeDurationInfo = stakeDurationInfos[index];
+        stakeDurationInfo.duration = durationInfo.duration;
+        stakeDurationInfo.multiplier = durationInfo.multiplier;
     }
 
     /**
@@ -348,6 +367,7 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
         finishAt = block.timestamp + rewardsDuration;
         lastUpdateTime = block.timestamp;
 
+        totalRewards += amount;
         stakeRewardToken.safeTransferFrom(_msgSender(), address(this), amount);
 
         emit NotifiedRewardAmount(amount, rewardRatePerSec);
@@ -430,6 +450,16 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /**
+     * @notice Get StakeDurationInfo.
+     * @param index Index of StakeDurationInfos.
+     * @return StakeDurationInfo.
+     */
+    function getStakeDurationInfo(uint256 index) external view returns (StakeDurationInfo memory) {
+        require(stakeDurationInfos.length - 1 >= index, "wrong index");
+        return stakeDurationInfos[index];
+    }
+
+    /**
      * @notice Send rewards to user.
      * @dev This is private function, called by getReward function.
      * @param account The address of user.
@@ -440,6 +470,7 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
 
         if (reward > 0) {
             userStakingInfo[account][stakeIndex].rewards = 0;
+            totalRewards -= reward;
             stakeRewardToken.safeTransfer(account, reward);
             emit RewardPaid(account, stakeIndex, reward);
         }

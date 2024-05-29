@@ -1,5 +1,5 @@
 {
-  "address": "0xc44395eC149C6743A268A901a38e5b02dc87D10C",
+  "address": "0x7C6F2171a9B390a6d09A48B1853a096B86d084Aa",
   "abi": [
     {
       "anonymous": false,
@@ -73,6 +73,19 @@
         {
           "indexed": true,
           "internalType": "address",
+          "name": "lTokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "LTokenSignalEvent",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
           "name": "previousOwner",
           "type": "address"
         },
@@ -85,19 +98,6 @@
       ],
       "name": "OwnershipTransferred",
       "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "blacklist",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
     },
     {
       "inputs": [],
@@ -123,25 +123,6 @@
       "name": "initialize",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "isBlacklisted",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -181,6 +162,19 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "lTokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "signalLToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "newOwner",
           "type": "address"
         }
@@ -188,19 +182,6 @@
       "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "unBlacklist",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -251,51 +232,51 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0x57faaff42f061c8fed3700df9aed8538f4817930cdbb0879e0e112d4810e03a3",
+  "transactionHash": "0xe3e17ba2265833a2149827eb6ac5699e957e490581b5b433f4c7eecbf9460d22",
   "receipt": {
     "to": null,
-    "from": "0xB8A2b9DA0b39b9D41907F2Db44cfD0d67d7237c4",
-    "contractAddress": "0xc44395eC149C6743A268A901a38e5b02dc87D10C",
+    "from": "0x69b69DC81CAf0b2FF53b946421F51b0eC276E679",
+    "contractAddress": "0x7C6F2171a9B390a6d09A48B1853a096B86d084Aa",
     "transactionIndex": 0,
-    "gasUsed": "332449",
-    "logsBloom": "0x00000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000020000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000800000000000000000000000000000000000000000080000000000000000008000000000000000000000000000400000000000000000000000000000000000010000020000000000000000000040000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000",
-    "blockHash": "0x478d143f57d1764b85aa10fc95fae3adbb21ca34a6eac823c87cdc5f24455b88",
-    "transactionHash": "0x57faaff42f061c8fed3700df9aed8538f4817930cdbb0879e0e112d4810e03a3",
+    "gasUsed": "332471",
+    "logsBloom": "0x00000000000000000000000000000000400000000000000000040080000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000040000000000000000000000000000000400000000000000000000000000000000000000000020000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040",
+    "blockHash": "0xb3d0f95f01d26f87ea041ba8958ec82a4d4b5537622345b23d57227cbd8ede42",
+    "transactionHash": "0xe3e17ba2265833a2149827eb6ac5699e957e490581b5b433f4c7eecbf9460d22",
     "logs": [
       {
         "transactionIndex": 0,
-        "blockNumber": 10172227,
-        "transactionHash": "0x57faaff42f061c8fed3700df9aed8538f4817930cdbb0879e0e112d4810e03a3",
-        "address": "0xc44395eC149C6743A268A901a38e5b02dc87D10C",
+        "blockNumber": 14524175,
+        "transactionHash": "0xe3e17ba2265833a2149827eb6ac5699e957e490581b5b433f4c7eecbf9460d22",
+        "address": "0x7C6F2171a9B390a6d09A48B1853a096B86d084Aa",
         "topics": [
           "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b",
-          "0x000000000000000000000000fd2a2358d1acefaba5581771f50312244910f3bd"
+          "0x000000000000000000000000af0507bc503e0a8ba6ae4cd1d690b48931cc262f"
         ],
         "data": "0x",
         "logIndex": 0,
-        "blockHash": "0x478d143f57d1764b85aa10fc95fae3adbb21ca34a6eac823c87cdc5f24455b88"
+        "blockHash": "0xb3d0f95f01d26f87ea041ba8958ec82a4d4b5537622345b23d57227cbd8ede42"
       },
       {
         "transactionIndex": 0,
-        "blockNumber": 10172227,
-        "transactionHash": "0x57faaff42f061c8fed3700df9aed8538f4817930cdbb0879e0e112d4810e03a3",
-        "address": "0xc44395eC149C6743A268A901a38e5b02dc87D10C",
+        "blockNumber": 14524175,
+        "transactionHash": "0xe3e17ba2265833a2149827eb6ac5699e957e490581b5b433f4c7eecbf9460d22",
+        "address": "0x7C6F2171a9B390a6d09A48B1853a096B86d084Aa",
         "topics": [
           "0x7f26b83ff96e1f2b6a682f133852f6798a09c465da95921460cefb3847402498"
         ],
         "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
         "logIndex": 1,
-        "blockHash": "0x478d143f57d1764b85aa10fc95fae3adbb21ca34a6eac823c87cdc5f24455b88"
+        "blockHash": "0xb3d0f95f01d26f87ea041ba8958ec82a4d4b5537622345b23d57227cbd8ede42"
       }
     ],
-    "blockNumber": 10172227,
-    "cumulativeGasUsed": "332449",
+    "blockNumber": 14524175,
+    "cumulativeGasUsed": "332471",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0xfD2a2358d1AceFABA5581771F50312244910f3bd",
-    "0xc4d66de80000000000000000000000002547a36186ecc16c25649b9234d4937216e45978"
+    "0xaF0507bC503e0a8BA6Ae4cD1d690B48931Cc262f",
+    "0xc4d66de80000000000000000000000006f6eb78d4a05ef3ec6a0194a552e08f804d46e8e"
   ],
   "numDeployments": 1,
   "solcInputHash": "0e89febeebc7444140de8e67c9067d2c",
@@ -305,10 +286,10 @@
   "execute": {
     "methodName": "initialize",
     "args": [
-      "0x2547A36186eCC16C25649B9234D4937216e45978"
+      "0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E"
     ]
   },
-  "implementation": "0xfD2a2358d1AceFABA5581771F50312244910f3bd",
+  "implementation": "0xaF0507bC503e0a8BA6Ae4cD1d690B48931Cc262f",
   "devdoc": {
     "details": "This contract implements an upgradeable proxy. It is upgradeable because calls are delegated to an implementation address that can be changed. This address is stored in storage in the location specified by https://eips.ethereum.org/EIPS/eip-1967[EIP1967], so that it doesn't conflict with the storage layout of the implementation behind the proxy.",
     "kind": "dev",
