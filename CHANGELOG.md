@@ -1,3 +1,10 @@
+## [1.260.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.6...v1.260.0) (2024-05-29)
+
+
+### Features
+
+* add totalrewards variable and other ownable functions on staking contract ([396ce1f](https://github.com/LedgityLabs/LedgityYield/commit/396ce1f54f57e913ddc1b2c50981b86a11d72aed))
+
 ## [1.259.6](https://github.com/LedgityLabs/LedgityYield/compare/v1.259.5...v1.259.6) (2024-05-28)
 
 
