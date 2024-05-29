@@ -553,29 +553,4 @@ contract LDYStakingTest is Test, ModifiersExpectations {
 
         ldyStaking.setStakeAmountForPerks(amount);
     }
-
-    function tetFuzz_ModifyStakeDurationInfoByOwner(
-        uint256 duration,
-        uint256 multiplier,
-        uint256 index
-    ) public {
-        duration = bound(duration, 0, 1000000);
-        multiplier = bound(multiplier, 1, 10);
-        index = bound(index, 0, stakingDurationInfos.length - 1);
-
-        LDYStaking.StakeDurationInfo memory stakeDurationInfo = LDYStaking.StakeDurationInfo(
-            duration,
-            multiplier
-        );
-        address nonOwner = address(1234);
-        expectRevertOnlyOwner();
-        vm.prank(nonOwner);
-        ldyStaking.modifyStakeDurationInfo(stakeDurationInfo, index);
-
-        ldyStaking.modifyStakeDurationInfo(stakeDurationInfo, index);
-        LDYStaking.StakeDurationInfo memory stakeDurationInfoModified = ldyStaking
-            .getStakeDurationInfo(index);
-        assertEq(stakeDurationInfoModified.duration, stakeDurationInfo.duration);
-        assertEq(stakeDurationInfoModified.multiplier, stakeDurationInfo.multiplier);
-    }
 }

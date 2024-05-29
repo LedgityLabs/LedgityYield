@@ -16,9 +16,9 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   const ONE_MONTH = 31 * 24 * 60 * 60;
   const stakingDurations = [
     [0 * ONE_MONTH, 10000], // 0 month
-    [1 * ONE_MONTH, 12500], // 1 month
-    [6 * ONE_MONTH, 15000], // 6 month
-    [12 * ONE_MONTH, 20000], // 12 month
+    [1 * ONE_MONTH, 40000], // 1 month
+    [6 * ONE_MONTH, 60000], // 6 month
+    [12 * ONE_MONTH, 100000], // 12 month
     // [24 * ONE_MONTH, 30000], // 24 month
     // [36 * ONE_MONTH, 40000], // 36 month
   ];

@@ -314,31 +314,6 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /**
-     * @notice Pop last element of stakeDurationInfos
-     * @dev Only callable by owner.
-     */
-    function popLastStakeDurationInfo() external onlyOwner {
-        require(stakeDurationInfos.length > 0, "array length=0");
-        stakeDurationInfos.pop();
-    }
-
-    /**
-     * @notice Modify existing element of stakeDurationInfos
-     * @dev Only callable by owner.
-     * @param durationInfo stakeDurationInfo to modify
-     * @param index index of stakeDurationInfos
-     */
-    function modifyStakeDurationInfo(
-        StakeDurationInfo memory durationInfo,
-        uint256 index
-    ) external onlyOwner {
-        require(stakeDurationInfos.length - 1 >= index, "wrong index");
-        StakeDurationInfo storage stakeDurationInfo = stakeDurationInfos[index];
-        stakeDurationInfo.duration = durationInfo.duration;
-        stakeDurationInfo.multiplier = durationInfo.multiplier;
-    }
-
-    /**
      * @notice Notify the contract about the amount of rewards to be distributed and update reward parameters.
      * @dev Only callable by owner.
      * @param amount The amount of reward to be distributed.
