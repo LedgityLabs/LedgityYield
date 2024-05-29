@@ -1,3 +1,10 @@
+## [1.261.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.261.0...v1.261.1) (2024-05-29)
+
+
+### Fixes
+
+* multipler contant values in the frontend ([00e04e1](https://github.com/LedgityLabs/LedgityYield/commit/00e04e1fda8c9bd53501c39520159e7e0aa050f6))
+
 ## [1.261.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.260.0...v1.261.0) (2024-05-29)
 
 
