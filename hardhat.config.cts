@@ -53,18 +53,28 @@ try {
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.18",
-    settings: {
-      evmVersion: "london",
-      optimizer: {
-        enabled: true,
-        runs: 200,
+    compilers: [
+      // {
+      //   version: "0.8.10",
+      //   settings: {
+      //     optimizer: {
+      //       enabled: true,
+      //       runs: 200,
+      //     },
+      //   },
+      // },
+      {
+        version: "0.8.18",
+        settings: {
+          evmVersion: "london",
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
       },
-    },
+    ],
   },
-  // sourcify: {
-  //   enabled: true,
-  // },
   paths: {
     sources: "./contracts/src",
     cache: "./contracts/hardhat/cache",
@@ -155,7 +165,7 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    OKX_X1_mainnet: {
+    xlayer: {
       chainId: 196,
       url: "https://rpc.xlayer.tech",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
@@ -168,7 +178,7 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    XLAYER_TESTNET: {
+    xlayer_testnet: {
       chainId: 195,
       url: "https://testrpc.xlayer.tech",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
@@ -181,10 +191,6 @@ const config: HardhatUserConfig = {
         },
       },
     },
-    // XLAYER_TESTNET: {
-    //   url: "https://testrpc.xlayer.tech",
-    //   accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-    // },
   },
   etherscan: {
     apiKey: {
@@ -193,17 +199,26 @@ const config: HardhatUserConfig = {
       sepolia: sepoliaApiKey!,
       base: basescanApiKey!,
       baseSepolia: basescanApiKey!,
-      OKX_X1_mainnet: okxscanApiKey!,
-      XLAYER_TESTNET: okxscanApiKey!,
+      xlayer: okxscanApiKey!,
+      xlayer_testnet: okxscanApiKey!,
     },
     customChains: [
       {
-        network: "XLAYER_TESTNET",
+        network: "xlayer_testnet",
         chainId: 195,
         urls: {
           apiURL:
             "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER_TESTNET",
           browserURL: "https://www.oklink.com/xlayer-test",
+        },
+      },
+      {
+        network: "xlayer",
+        chainId: 196,
+        urls: {
+          apiURL:
+            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
+          browserURL: "https://www.oklink.com/xlayer",
         },
       },
       {
@@ -228,15 +243,6 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api-sepolia.basescan.org/api",
           browserURL: "https://sepolia.basescan.org",
-        },
-      },
-      {
-        network: "OKX_X1_mainnet",
-        chainId: 196,
-        urls: {
-          apiURL:
-            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
-          browserURL: "https://www.oklink.com/xlayer",
         },
       },
     ],

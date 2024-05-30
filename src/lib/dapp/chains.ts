@@ -24,9 +24,9 @@ export const chainsIcons = {
   11155111: "/assets/chains/ethereum-sepolia.png",
 } as { [key: number]: string };
 
-const okcTestnet: Chain = {
+const xlayerTestnet: Chain = {
   id: 195,
-  name: "OKC X1 Testnet",
+  name: "OKX Layer Testnet",
   nativeCurrency: {
     name: "Testnet OKB",
     symbol: "OKB",
@@ -43,9 +43,9 @@ const okcTestnet: Chain = {
   testnet: true,
 };
 
-const okxMainnet: Chain = {
+const xlayerMainnet: Chain = {
   id: 196,
-  name: "OKX Mainnet",
+  name: "OKX Layer",
   nativeCurrency: {
     name: "Mainnet OKB",
     symbol: "OKB",
@@ -68,14 +68,14 @@ if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, okcTestnet];
+const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, xlayerMainnet];
 const devChains: readonly [Chain, ...Chain[]] = [
   // ...prodChains,
-  // okxMainnet,
   sepolia,
   hardhat,
   arbitrumGoerli,
-  okcTestnet,
+  xlayerTestnet,
+  xlayerMainnet,
   lineaTestnet,
   baseSepolia,
 ];

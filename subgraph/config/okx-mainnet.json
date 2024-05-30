@@ -1,7 +1,7 @@
 {
   "Network": "xlayer-mainnet",
-  "LTokenSignaler_Address": "0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3",
-  "LTokenSignaler_StartBlock": "5849457",
-  "LDYStaking_Address": "0x548a31740C5CE6304163f32B5312f2E89b61E11a",
-  "LDYStaking_StartBlock": "5920832"
+  "LTokenSignaler_Address": "0x011C5B18aBC74A341209b12D1A6fD7B59E423428",
+  "LTokenSignaler_StartBlock": "1756244",
+  "LDYStaking_Address": "0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895",
+  "LDYStaking_StartBlock": "1756233"
 }

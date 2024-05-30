@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: sepolia
+    network: xlayer-mainnet
     source:
-      address: "0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3"
+      address: "0x011C5B18aBC74A341209b12D1A6fD7B59E423428"
       abi: LTokenSignaler
-      startBlock: 5849457
+      startBlock: 1756244
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,11 +28,11 @@ dataSources:
           handler: handleSignaledLToken
   - kind: ethereum
     name: LdyStaking
-    network: sepolia
+    network: xlayer-mainnet
     source:
-      address: "0x6f5B9DB5b87a9Ecf1a9E23e812799988A4b5B79e"
+      address: "0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895"
       abi: LdyStaking
-      startBlock: 5998860
+      startBlock: 1756233
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -58,7 +58,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: sepolia
+    network: xlayer-mainnet
     source:
       abi: LToken
     mapping:

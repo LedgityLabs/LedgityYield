@@ -21,7 +21,8 @@ export enum ChainId {
   LINEA_GOERLI = lineaTestnet.id,
   BASE = base.id,
   BASE_SEPOLIA = baseSepolia.id,
-  OKX_TESTNET = Number(195),
+  XLAYER_TESTNET = Number(195),
+  XLAYER = Number(196),
 }
 
 export const SUBGRAPH_CLIENT_URLS = {
@@ -29,4 +30,5 @@ export const SUBGRAPH_CLIENT_URLS = {
     "https://api.studio.thegraph.com/query/60646/ldystaking-subgraph/version/latest",
   [ChainId.ETHEREUM_SEPOLIA]:
     "https://api.studio.thegraph.com/query/60646/ledgity-sepolia/version/latest",
+  [ChainId.XLAYER]: "https://api.studio.thegraph.com/query/60646/ledgity-okxmain/version/latest",
 } satisfies Record<ChainId, string>;
