@@ -1,3 +1,10 @@
+## [1.262.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.261.1...v1.262.0) (2024-05-30)
+
+
+### Features
+
+* support okx layer mainnet ([3dd31c5](https://github.com/LedgityLabs/LedgityYield/commit/3dd31c5163b620d906263b367c494b68a16f5efc))
+
 ## [1.261.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.261.0...v1.261.1) (2024-05-29)
 
 
