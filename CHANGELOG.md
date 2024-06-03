@@ -1,3 +1,10 @@
+## [1.265.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.264.0...v1.265.0) (2024-06-03)
+
+
+### Features
+
+* visible staking tab on ui ([56cbde0](https://github.com/LedgityLabs/LedgityYield/commit/56cbde0c3fc1b2783d3cd81d9d90af565a9a6c5e))
+
 ## [1.264.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.263.0...v1.264.0) (2024-06-03)
 
 
