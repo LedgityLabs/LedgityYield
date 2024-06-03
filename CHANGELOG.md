@@ -1,3 +1,10 @@
+## [1.264.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.263.0...v1.264.0) (2024-06-03)
+
+
+### Features
+
+* add listing buttons, partners logos ([04cb876](https://github.com/LedgityLabs/LedgityYield/commit/04cb8762226c92d2283ace38bd218e4ee3df3b80))
+
 ## [1.263.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.262.0...v1.263.0) (2024-06-03)
 
 
