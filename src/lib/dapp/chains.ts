@@ -1,4 +1,5 @@
 import {
+  mainnet,
   hardhat,
   arbitrum,
   arbitrumGoerli,
@@ -12,6 +13,7 @@ import {
 
 // Build chain icons map
 export const chainsIcons = {
+  1: "/assets/chains/ethereum-mainnet.svg",
   31337: "/assets/chains/hardhat.svg",
   421613: "/assets/chains/arbitrum-goerli.png",
   42161: "/assets/chains/arbitrum.svg",
@@ -68,9 +70,10 @@ if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly [Chain, ...Chain[]] = [arbitrum, linea, sepolia, xlayerMainnet];
+const prodChains: readonly [Chain, ...Chain[]] = [mainnet, arbitrum, linea, xlayerMainnet];
 const devChains: readonly [Chain, ...Chain[]] = [
   // ...prodChains,
+  mainnet,
   sepolia,
   hardhat,
   arbitrumGoerli,

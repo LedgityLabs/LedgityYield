@@ -1,0 +1,7 @@
+{
+  "Network": "mainnet",
+  "LTokenSignaler_Address": "0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e",
+  "LTokenSignaler_StartBlock": "20008643",
+  "LDYStaking_Address": "0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e",
+  "LDYStaking_StartBlock": "20008643"
+}

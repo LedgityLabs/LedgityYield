@@ -30,11 +30,11 @@ try {
   arbiscanApiKey = secrets.ARBISCAN_API_KEY;
 } catch (e) {}
 
-// Retrive Sepolia API key from secrets.json (if available)
-let sepoliaApiKey: string | undefined;
+// Retrive Mainnet API key from secrets.json (if available)
+let mainnetApiKey: string | undefined;
 try {
   const secrets = require("./secrets.json");
-  sepoliaApiKey = secrets.ETHERSCAN_API_KEY;
+  mainnetApiKey = secrets.ETHERSCAN_API_KEY;
 } catch (e) {}
 
 // Retrive BaseScan API key from secrets.json (if available)
@@ -49,6 +49,13 @@ let okxscanApiKey: string | undefined;
 try {
   const secrets = require("./secrets.json");
   okxscanApiKey = secrets.OKXSCAN_API_KEY;
+} catch (e) {}
+
+// Retrive Mainnet RPC URL from secrets.json (if available)
+let MAINNET_RPC_URL: string | undefined;
+try {
+  const secrets = require("./secrets.json");
+  MAINNET_RPC_URL = secrets.MAINNET_RPC_URL;
 } catch (e) {}
 
 const config: HardhatUserConfig = {
@@ -91,7 +98,23 @@ const config: HardhatUserConfig = {
     hardhat: {
       // Is used to fix gas estimation error
       // See: https://github.com/NomicFoundation/hardhat/issues/3089#issuecomment-1366428941
+      chainId: 31337,
       initialBaseFeePerGas: 0,
+      deploy: ["./contracts/hardhat/mainnet-deploy"],
+      saveDeployments: true,
+    },
+    mainnet: {
+      chainId: 1,
+      url: MAINNET_RPC_URL,
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      deploy: ["./contracts/hardhat/mainnet-deploy"],
+      verify: {
+        etherscan: {
+          apiKey: mainnetApiKey,
+          apiUrl: "https://api.etherscan.io",
+        },
+      },
     },
     linea: {
       chainId: 59144,
@@ -112,7 +135,7 @@ const config: HardhatUserConfig = {
       saveDeployments: true,
       verify: {
         etherscan: {
-          apiKey: sepoliaApiKey,
+          apiKey: mainnetApiKey,
           apiUrl: "https://api-sepolia.etherscan.io",
         },
       },
@@ -194,9 +217,10 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
+      mainnet: mainnetApiKey!,
+      sepolia: mainnetApiKey!,
       linea: lineascanApiKey!,
       arbitrumOne: arbiscanApiKey!,
-      sepolia: sepoliaApiKey!,
       base: basescanApiKey!,
       baseSepolia: basescanApiKey!,
       xlayer: okxscanApiKey!,

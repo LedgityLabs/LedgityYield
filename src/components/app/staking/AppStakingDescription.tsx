@@ -13,7 +13,7 @@ export const AppStakingDescription: FC = () => {
       </div>
       <div className="font-medium flex items-center">
         <i className="ri-checkbox-circle-line text-xl" />
-        <span className="mx-1">0x Withdrawal fees</span>
+        <span className="mx-1">0% Withdrawal fees</span>
       </div>
       <div className="font-medium flex items-center">
         <i className="ri-checkbox-circle-line text-xl" />
