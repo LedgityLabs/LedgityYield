@@ -12,6 +12,8 @@ import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { AppAirdrop } from "@/components/app/airdrop/AppAirdrop";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
+import Link from "next/link";
+
 interface Props {
   defaultTab: string;
 }
@@ -32,6 +34,18 @@ const _AppTabs: FC = () => {
       className="flex w-screen max-w-[100vw] flex-col items-center justify-center sm:gap-10 gap-5"
       onValueChange={(v) => switchTab(v)}
     >
+      <Link href="https://www.coingecko.com/en/coins/ledgity-token" target="_blank">
+        <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl text-white opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+          <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-[#20456c]/50 to-[purple] px-4 py-2 text-lg font-bold text-white">
+            <i className="ri-fire-fill text-x animate-pulse" />
+            <p>LDY Token</p>
+          </div>
+          <div className="flex items-center justify-center bg-gradient-to-bl from-[#20456c]/50 to-[red] gap-2 px-4 py-2 text-center text-lg font-semibold text-white md:px-3 md:py-1.5 ">
+            Buy on MEXC, Bitmart or Uniswap
+            <i className="ri-arrow-right-line text-xl font-bold text-orange-[#20456c]" />
+          </div>
+        </div>
+      </Link>
       <TabsList className="mb-6 mt-12 sm:w-fit w-[250px]">
         <TabsTrigger
           value="invest"
