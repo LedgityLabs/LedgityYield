@@ -73,7 +73,7 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
 
-        {/* <TabsTrigger value="staking">Staking</TabsTrigger> */}
+        <TabsTrigger value="staking">Staking</TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
