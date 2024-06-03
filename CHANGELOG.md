@@ -1,3 +1,10 @@
+## [1.263.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.262.0...v1.263.0) (2024-06-03)
+
+
+### Features
+
+* deploy staking on eth mainnet ([75bc802](https://github.com/LedgityLabs/LedgityYield/commit/75bc802317405482878f14ed4c12b6f29bd60bcf))
+
 ## [1.262.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.261.1...v1.262.0) (2024-05-30)
 
 
