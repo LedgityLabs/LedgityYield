@@ -37,19 +37,14 @@ const HomeHero: FC<Props> = ({ className }) => {
         <Cube size="small" className="-bottom-4 left-[30%] hidden 2xl:block" />
 
         <section className="flex flex-col items-center justify-center gap-[5vh]">
-          <Link
-            href={{
-              pathname: "/app/airdrop",
-              query: { ref: "abar" },
-            }}
-          >
-            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl border border-white bg-slate-600 text-white opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
-              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-slate-700 to-slate-900 px-4 py-2 text-lg font-bold text-white sm:rounded-3xl md:px-3 md:py-1">
-                <i className="ri-fire-fill animate-pulse text-xl" />
-                Multi-Airdrop
+          <Link href="https://www.coingecko.com/en/coins/ledgity-token" target="_blank">
+            <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl text-white opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
+              <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-[#20456c]/50 to-[purple] px-4 py-2 text-lg font-bold text-white">
+                <i className="ri-fire-fill text-x animate-pulse" />
+                <p>LDY Token</p>
               </div>
-              <div className="flex items-center justify-center gap-2 px-4 py-2 text-center text-lg font-semibold text-white md:px-3 md:py-1.5 ">
-                Complete tasks and get tokens from 5+ projects
+              <div className="flex items-center justify-center bg-gradient-to-bl from-[#20456c]/50 to-[red] gap-2 px-4 py-2 text-center text-lg font-semibold text-white md:px-3 md:py-1.5 ">
+                Buy on MEXC, Bitmart or Uniswap
                 <i className="ri-arrow-right-line text-xl font-bold text-orange-[#20456c]" />
               </div>
             </div>

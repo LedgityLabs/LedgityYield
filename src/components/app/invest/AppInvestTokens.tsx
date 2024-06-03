@@ -372,7 +372,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
           </div>
         );
       })}
-      <a
+      {/* <a
         onClick={() => switchTab("pre-mining")}
         className="cursor-pointer py-6 flex md:col-span-5 col-span-4 w-full items-center justify-between sm:px-10 px-5 bg-gradient-to-bl from-primary/40 to-bg  hover:opacity-80 transition-opacity border-b border-b-fg/10"
       >
@@ -401,7 +401,7 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         >
           See <i className="ri-arrow-right-line" />
         </Button>
-      </a>
+      </a> */}
       {(() => {
         const tableRows = table.getRowModel().rows;
         if (isLoading)

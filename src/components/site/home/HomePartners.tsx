@@ -12,6 +12,9 @@ import hederaLogo from "~/assets/partners/hedera.png";
 import lineaLogo from "~/assets/partners/linea.png";
 import offchainLabsLogo from "~/assets/partners/offchain-labs.svg";
 import risepartnersLogo from "~/assets/partners/risepartners.png";
+import mexcLogo from "~/assets/partners/mexc.svg";
+import bitmartLogo from "~/assets/partners/bitmart.svg";
+import uniswapLogo from "~/assets/partners/uniswap.svg";
 
 const HomePartners: FC = () => {
   return (
@@ -20,6 +23,33 @@ const HomePartners: FC = () => {
 
       <h3 className="pb-16 text-center font-heading text-4xl font-bold text-fg/90">Our partners</h3>
       <ul className="flex flex-wrap justify-center items-center gap-16 px-16 lg:[max-width:80vw] xl:[max-width:50vw]">
+        <li>
+          <Link
+            href="https://www.mexc.com/"
+            target="_blank"
+            className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
+          >
+            <Image src={mexcLogo} alt="Mexc Logo" height={30} />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://www.bitmart.com/"
+            target="_blank"
+            className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
+          >
+            <Image src={bitmartLogo} alt="Bitmart Logo" height={45} />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://uniswap.org/"
+            target="_blank"
+            className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
+          >
+            <Image src={uniswapLogo} alt="Uniswap Logo" height={45} />
+          </Link>
+        </li>
         <li>
           <Link
             href="https://arbitrum.io/"

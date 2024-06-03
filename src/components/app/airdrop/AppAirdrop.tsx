@@ -8,8 +8,8 @@ import galxeIcon from "~/assets/partners/galxe-icon.svg";
 export const AppAirdrop: FC = () => {
   return (
     <div className="min-[750px]:w-[720px] w-full flex flex-col gap-8 pb-44 xl:scale-105 xl:mt-5">
-      <div className="relative text-center flex flex-col w-full overflow-hidden bg-slate-800 rounded-[1.8rem] gap-5 border-2 border-slate-500 shadow-lg p-[1rem] pt-[6rem]">
-        <div className="absolute -top-3 right-0 left-0 bg-[url('/assets/banners/multi-airdrop-square.png')] bg-cover bg-top opacity-95 w-full h-[830px] rounded-t-[1.7rem] overflow-hidden aspect-square"></div>
+      <div className="relative text-center flex flex-col w-full overflow-hidden bg-slate-800 rounded-[1.8rem] gap-5 border-2 border-slate-500 shadow-lg p-[1rem] pt-[2rem]">
+        <div className="absolute -top-3 right-0 left-0 bg-[url('/assets/banners/multi-airdrop-square.png')] opacity-95 w-full h-[830px] rounded-t-[1.7rem] overflow-hidden aspect-square"></div>
         <div className="flex flex-row items-center justify-center gap-3 flex-wrap">
           <h3 className="font-bold text-[1.4rem] text-slate-100 font-heading text-start whitespace-nowrap">
             ON-CHAIN QUESTS
