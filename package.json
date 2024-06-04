@@ -1,6 +1,6 @@
 {
   "name": "ledgity-yield",
-  "version": "1.265.3",
+  "version": "1.266.0",
   "engines": {
     "node": ">=16.0.0"
   },

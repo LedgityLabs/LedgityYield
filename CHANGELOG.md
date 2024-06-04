@@ -1,3 +1,10 @@
+## [1.266.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.3...v1.266.0) (2024-06-04)
+
+
+### Features
+
+* add dextools logo ([7ab7474](https://github.com/LedgityLabs/LedgityYield/commit/7ab74747a31650e7995d3802eac706eafd12d677))
+
 ## [1.265.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.2...v1.265.3) (2024-06-04)
 
 
