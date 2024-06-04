@@ -15,6 +15,7 @@ import risepartnersLogo from "~/assets/partners/risepartners.png";
 import mexcLogo from "~/assets/partners/mexc.svg";
 import bitmartLogo from "~/assets/partners/bitmart.svg";
 import uniswapLogo from "~/assets/partners/uniswap.svg";
+import dexToolsLogo from "~/assets/partners/dextools_logo.svg";
 
 const HomePartners: FC = () => {
   return (
@@ -139,6 +140,15 @@ const HomePartners: FC = () => {
             className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
           >
             <Image src={adanLogo} alt="ADAN Logo" height={35} />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href=" https://www.dextools.io/app/en/ether/pair-explorer/0x229d1c1f72be9cbd0998d377b3327a72bdc071f4?t=1717508944051"
+            target="_blank"
+            className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
+          >
+            <Image src={dexToolsLogo} alt="DexTools Logo" height={50} />
           </Link>
         </li>
       </ul>
