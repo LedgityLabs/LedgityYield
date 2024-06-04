@@ -1,3 +1,10 @@
+## [1.265.3](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.2...v1.265.3) (2024-06-04)
+
+
+### Fixes
+
+* use static ldy token address instead of fetching wagmi generated file ([49633e0](https://github.com/LedgityLabs/LedgityYield/commit/49633e06f7eb938f7445ff5e5202594c73f130ea))
+
 ## [1.265.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.1...v1.265.2) (2024-06-04)
 
 
