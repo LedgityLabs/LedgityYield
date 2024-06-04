@@ -1,3 +1,10 @@
+## [1.265.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.0...v1.265.1) (2024-06-04)
+
+
+### Fixes
+
+* compile mainnet contract for wagmi generated file ([bc248ab](https://github.com/LedgityLabs/LedgityYield/commit/bc248ab6fbc86ed284b2d98f6a2d132348a125ef))
+
 ## [1.265.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.264.0...v1.265.0) (2024-06-03)
 
 
