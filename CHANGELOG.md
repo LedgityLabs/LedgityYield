@@ -1,3 +1,10 @@
+## [1.265.2](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.1...v1.265.2) (2024-06-04)
+
+
+### Fixes
+
+* **dependencies.json:** add LDY token address for mainnet on dependencies json file ([5b6641b](https://github.com/LedgityLabs/LedgityYield/commit/5b6641bbdc500e9a34787c28898f74b95097c2ce))
+
 ## [1.265.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.0...v1.265.1) (2024-06-04)
 
 
