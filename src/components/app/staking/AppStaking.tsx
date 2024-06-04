@@ -4,11 +4,9 @@ import { AppStakingPane } from "./AppStakingPane";
 import { AppStakingDescription } from "./AppStakingDescription";
 import { AppStakingPools } from "./AppStakingPools";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { useAccount, usePublicClient } from "wagmi";
-import { zeroAddress } from "viem";
+import { useAccount, usePublicClient, useReadContract } from "wagmi";
+import { erc20Abi, zeroAddress } from "viem";
 import {
-  useReadLdyBalanceOf,
-  useReadLdyDecimals,
   useReadLdyStakingRewardRatePerSec,
   useReadLdyStakingTotalWeightedStake,
 } from "@/generated";
@@ -21,11 +19,18 @@ export const AppStaking: FC = () => {
   const ldySymbol = "LDY";
   const ldyTokenAddress = useContractAddress(ldySymbol);
 
-  const { data: ldyBalance, queryKey: ldyBalanceQuery } = useReadLdyBalanceOf({
+  const { data: ldyBalance, queryKey: ldyBalanceQuery } = useReadContract({
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    address: ldyTokenAddress,
     args: [account.address || zeroAddress],
   });
 
-  const { data: ldyDecimals } = useReadLdyDecimals();
+  const { data: ldyDecimals } = useReadContract({
+    abi: erc20Abi,
+    address: ldyTokenAddress,
+    functionName: "decimals",
+  });
 
   const { data: rewardRate, queryKey: rewardRateQuery } = useReadLdyStakingRewardRatePerSec();
   const { data: totalWeightedStake, queryKey: totalWeightedStakeQuery } =
