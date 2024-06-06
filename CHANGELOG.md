@@ -1,3 +1,10 @@
+## [1.267.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.266.0...v1.267.0) (2024-06-06)
+
+
+### Features
+
+* add coingecko logo image ([baf0f78](https://github.com/LedgityLabs/LedgityYield/commit/baf0f782dacbd5143f6a89d488ec0bdc2ac24913))
+
 ## [1.266.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.265.3...v1.266.0) (2024-06-04)
 
 
