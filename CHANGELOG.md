@@ -1,3 +1,10 @@
+## [1.268.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.267.0...v1.268.0) (2024-06-08)
+
+
+### Features
+
+* deploy staking on arbi mainnet ([5e99001](https://github.com/LedgityLabs/LedgityYield/commit/5e99001dc55304aa8996139920ba28e1814334a3))
+
 ## [1.267.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.266.0...v1.267.0) (2024-06-06)
 
 
