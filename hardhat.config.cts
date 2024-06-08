@@ -76,7 +76,7 @@ const config: HardhatUserConfig = {
           evmVersion: "london",
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 100,
           },
         },
       },
@@ -150,6 +150,7 @@ const config: HardhatUserConfig = {
       chainId: 42161,
       url: "https://arbitrum-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      deploy: ["./contracts/hardhat/arbi-mainnet-deploy"],
       saveDeployments: true,
       verify: {
         etherscan: {

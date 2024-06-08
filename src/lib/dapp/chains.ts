@@ -76,7 +76,7 @@ const devChains: readonly [Chain, ...Chain[]] = [
   mainnet,
   sepolia,
   hardhat,
-  arbitrumGoerli,
+  arbitrum,
   xlayerTestnet,
   xlayerMainnet,
   lineaTestnet,

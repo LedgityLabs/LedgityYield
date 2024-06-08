@@ -965,6 +965,19 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "withdrwalFeeInEth_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWithdrwalFeeInEth",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -1293,6 +1306,19 @@
         "internalType": "address payable",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrwalFeeInEth",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

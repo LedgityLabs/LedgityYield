@@ -1,0 +1,7 @@
+{
+  "Network": "arbitrum-one",
+  "LTokenSignaler_Address": "0x011C5B18aBC74A341209b12D1A6fD7B59E423428",
+  "LTokenSignaler_StartBlock": "1756244",
+  "LDYStaking_Address": "0x98002b5c06b44c8769dA3DAe97CA498aB6F97137",
+  "LDYStaking_StartBlock": "218746026"
+}

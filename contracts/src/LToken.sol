@@ -138,6 +138,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     ITransfersListener[] public transfersListeners;
 
     /**
+     * @notice Holds the withdrwalFee amount in ETH that will be sent to withdrawer wallet.
+     */
+    uint256 public withdrwalFeeInEth;
+
+    /**
      * @notice Emitted to inform listeners about a change in the contract's TVL.
      * @dev TVL = realTotalSupply()
      * @param newTVL The new TVL of the contract.
@@ -230,6 +235,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         // any loss of funds if a deposit/withdrawal is made before those are manually set.
         withdrawer = payable(owner());
         fund = payable(owner());
+
+        // Set initial withdrwalFeeInEth
+        withdrwalFeeInEth = 0.00075 * 1e18;
     }
 
     /**
@@ -272,6 +280,15 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     function setFeesRate(uint32 feesRateUD7x3_) public onlyOwner {
         require(feesRateUD7x3_ <= MAX_FEES_RATE_UD7x3, "L88");
         feesRateUD7x3 = feesRateUD7x3_;
+    }
+
+    /**
+     * @notice Updates the current withdrawalFeeInETH.
+     * @param withdrwalFeeInEth_ The new withdrawalFee in ETH.
+     */
+    function setWithdrwalFeeInEth(uint256 withdrwalFeeInEth_) public onlyOwner {
+        require(withdrwalFeeInEth <= MAX_FEES_RATE_UD7x3, "L88");
+        withdrwalFeeInEth = withdrwalFeeInEth_;
     }
 
     /**
@@ -672,7 +689,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /**
      * @notice Allows requesting the exchange of a given amount of L-Tokens for the same
      * amount of underlying tokens. The request will be automatically processed later.
-     * @dev The sender must attach 0.003 ETH to pre-pay the future processing gas fees
+     * @dev The sender must attach withdrwalFeeInETH to pre-pay the future processing gas fees
      * paid by the withdrawer wallet.
      * @param amount The amount L-Tokens to withdraw.
      */
@@ -686,7 +703,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(amount <= type(uint96).max, "L54");
 
         // Ensure the sender attached the pre-paid processing gas fees
-        require(msg.value == 0.003 * 10 ** 18, "L55");
+        require(msg.value == withdrwalFeeInEth, "L55");
 
         // Create withdrawal request data
         WithdrawalRequest memory request = WithdrawalRequest({

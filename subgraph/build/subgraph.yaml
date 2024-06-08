@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: mainnet
+    network: arbitrum-one
     source:
-      address: "0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e"
+      address: "0x011C5B18aBC74A341209b12D1A6fD7B59E423428"
       abi: LTokenSignaler
-      startBlock: 20008643
+      startBlock: 1756244
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,11 +28,11 @@ dataSources:
           handler: handleSignaledLToken
   - kind: ethereum
     name: LdyStaking
-    network: mainnet
+    network: arbitrum-one
     source:
-      address: "0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e"
+      address: "0x98002b5c06b44c8769dA3DAe97CA498aB6F97137"
       abi: LdyStaking
-      startBlock: 20008643
+      startBlock: 218746026
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -58,7 +58,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: mainnet
+    network: arbitrum-one
     source:
       abi: LToken
     mapping:

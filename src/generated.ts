@@ -1106,7 +1106,7 @@ export const ldyConfig = { address: ldyAddress, abi: ldyAbi } as const
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -1696,7 +1696,7 @@ export const ldyStakingAbi = [
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -1708,7 +1708,7 @@ export const ldyStakingAddress = {
   195: '0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895',
   196: '0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895',
   31337: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
-  42161: '0x4e80beDBD58b084a8946b7BA6814c28906Be2d02',
+  42161: '0x98002b5c06b44c8769dA3DAe97CA498aB6F97137',
   59140: '0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6',
   59144: '0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1',
   84532: '0xA798B51F15B0024880f835723C681cB730835628',
@@ -1720,7 +1720,7 @@ export const ldyStakingAddress = {
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -2343,6 +2343,15 @@ export const lTokenAbi = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
+      { name: 'withdrwalFeeInEth_', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setWithdrwalFeeInEth',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
       { name: 'to', internalType: 'address', type: 'address' },
     ],
@@ -2512,6 +2521,13 @@ export const lTokenAbi = [
     inputs: [],
     name: 'withdrawer',
     outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'withdrwalFeeInEth',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
   },
 ] as const
 
@@ -5316,7 +5332,7 @@ export const useWatchLdyTransferEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5334,7 +5350,7 @@ export const useReadLdyStaking = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5354,7 +5370,7 @@ export const useReadLdyStakingMultiplierBasis =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5373,7 +5389,7 @@ export const useReadLdyStakingEarned = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5392,7 +5408,7 @@ export const useReadLdyStakingFinishAt = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5412,7 +5428,7 @@ export const useReadLdyStakingGetEarnedUser =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5432,7 +5448,7 @@ export const useReadLdyStakingGetStakeDurationInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5452,7 +5468,7 @@ export const useReadLdyStakingGetUserStakes =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5472,7 +5488,7 @@ export const useReadLdyStakingGlobalBlacklist =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5493,7 +5509,7 @@ export const useReadLdyStakingGlobalOwner = /*#__PURE__*/ createUseReadContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5514,7 +5530,7 @@ export const useReadLdyStakingGlobalPause = /*#__PURE__*/ createUseReadContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5534,7 +5550,7 @@ export const useReadLdyStakingHighTierAccounts =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5554,7 +5570,7 @@ export const useReadLdyStakingLastTimeRewardApplicable =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5574,7 +5590,7 @@ export const useReadLdyStakingLastUpdateTime =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5593,7 +5609,7 @@ export const useReadLdyStakingOwner = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5612,7 +5628,7 @@ export const useReadLdyStakingPaused = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5632,7 +5648,7 @@ export const useReadLdyStakingProxiableUuid =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5652,7 +5668,7 @@ export const useReadLdyStakingRenounceOwnership =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5672,7 +5688,7 @@ export const useReadLdyStakingRewardPerToken =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5692,7 +5708,7 @@ export const useReadLdyStakingRewardPerTokenStored =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5712,7 +5728,7 @@ export const useReadLdyStakingRewardRatePerSec =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5732,7 +5748,7 @@ export const useReadLdyStakingRewardsDuration =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5752,7 +5768,7 @@ export const useReadLdyStakingStakeAmountForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5772,7 +5788,7 @@ export const useReadLdyStakingStakeDurationForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5792,7 +5808,7 @@ export const useReadLdyStakingStakeDurationInfos =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5812,7 +5828,7 @@ export const useReadLdyStakingStakeRewardToken =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5831,7 +5847,7 @@ export const useReadLdyStakingTierOf = /*#__PURE__*/ createUseReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5851,7 +5867,7 @@ export const useReadLdyStakingTotalRewards =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5872,7 +5888,7 @@ export const useReadLdyStakingTotalStaked = /*#__PURE__*/ createUseReadContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5892,7 +5908,7 @@ export const useReadLdyStakingTotalWeightedStake =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5912,7 +5928,7 @@ export const useReadLdyStakingTransferOwnership =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5932,7 +5948,7 @@ export const useReadLdyStakingUserStakingInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5950,7 +5966,7 @@ export const useWriteLdyStaking = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5967,7 +5983,7 @@ export const useWriteLdyStakingGetReward = /*#__PURE__*/ createUseWriteContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -5987,7 +6003,7 @@ export const useWriteLdyStakingInitialize =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6007,7 +6023,7 @@ export const useWriteLdyStakingNotifyRewardAmount =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6027,7 +6043,7 @@ export const useWriteLdyStakingPushStakeDurationInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6047,7 +6063,7 @@ export const useWriteLdyStakingRecoverErc20 =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6067,7 +6083,7 @@ export const useWriteLdyStakingSetRewardsDuration =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6087,7 +6103,7 @@ export const useWriteLdyStakingSetStakeAmountForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6107,7 +6123,7 @@ export const useWriteLdyStakingSetStakeDurationForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6126,7 +6142,7 @@ export const useWriteLdyStakingStake = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6145,7 +6161,7 @@ export const useWriteLdyStakingUnstake = /*#__PURE__*/ createUseWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6162,7 +6178,7 @@ export const useWriteLdyStakingUpgradeTo = /*#__PURE__*/ createUseWriteContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6182,7 +6198,7 @@ export const useWriteLdyStakingUpgradeToAndCall =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6200,7 +6216,7 @@ export const useSimulateLdyStaking = /*#__PURE__*/ createUseSimulateContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6220,7 +6236,7 @@ export const useSimulateLdyStakingGetReward =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6240,7 +6256,7 @@ export const useSimulateLdyStakingInitialize =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6260,7 +6276,7 @@ export const useSimulateLdyStakingNotifyRewardAmount =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6280,7 +6296,7 @@ export const useSimulateLdyStakingPushStakeDurationInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6300,7 +6316,7 @@ export const useSimulateLdyStakingRecoverErc20 =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6320,7 +6336,7 @@ export const useSimulateLdyStakingSetRewardsDuration =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6340,7 +6356,7 @@ export const useSimulateLdyStakingSetStakeAmountForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6360,7 +6376,7 @@ export const useSimulateLdyStakingSetStakeDurationForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6380,7 +6396,7 @@ export const useSimulateLdyStakingStake =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6400,7 +6416,7 @@ export const useSimulateLdyStakingUnstake =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6420,7 +6436,7 @@ export const useSimulateLdyStakingUpgradeTo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6440,7 +6456,7 @@ export const useSimulateLdyStakingUpgradeToAndCall =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6459,7 +6475,7 @@ export const useWatchLdyStakingEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6479,7 +6495,7 @@ export const useWatchLdyStakingAdminChangedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6499,7 +6515,7 @@ export const useWatchLdyStakingBeaconUpgradedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6519,7 +6535,7 @@ export const useWatchLdyStakingInitializedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6539,7 +6555,7 @@ export const useWatchLdyStakingNotifiedRewardAmountEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6559,7 +6575,7 @@ export const useWatchLdyStakingOwnershipTransferredEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6579,7 +6595,7 @@ export const useWatchLdyStakingPausedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6599,7 +6615,7 @@ export const useWatchLdyStakingRewardPaidEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6619,7 +6635,7 @@ export const useWatchLdyStakingStakedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6639,7 +6655,7 @@ export const useWatchLdyStakingUnpausedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6659,7 +6675,7 @@ export const useWatchLdyStakingUnstakedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -6993,6 +7009,15 @@ export const useReadLTokenWithdrawer = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrwalFeeInEth"`
+ */
+export const useReadLTokenWithdrwalFeeInEth =
+  /*#__PURE__*/ createUseReadContract({
+    abi: lTokenAbi,
+    functionName: 'withdrwalFeeInEth',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__
  */
 export const useWriteLToken = /*#__PURE__*/ createUseWriteContract({
@@ -7174,6 +7199,15 @@ export const useWriteLTokenSetRetentionRate =
 export const useWriteLTokenSetWithdrawer = /*#__PURE__*/ createUseWriteContract(
   { abi: lTokenAbi, functionName: 'setWithdrawer' },
 )
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrwalFeeInEth"`
+ */
+export const useWriteLTokenSetWithdrwalFeeInEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: lTokenAbi,
+    functionName: 'setWithdrwalFeeInEth',
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
@@ -7422,6 +7456,15 @@ export const useSimulateLTokenSetWithdrawer =
   /*#__PURE__*/ createUseSimulateContract({
     abi: lTokenAbi,
     functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrwalFeeInEth"`
+ */
+export const useSimulateLTokenSetWithdrwalFeeInEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'setWithdrwalFeeInEth',
   })
 
 /**
@@ -10974,7 +11017,7 @@ export const watchLdyTransferEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -10992,7 +11035,7 @@ export const readLdyStaking = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11011,7 +11054,7 @@ export const readLdyStakingMultiplierBasis = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11030,7 +11073,7 @@ export const readLdyStakingEarned = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11049,7 +11092,7 @@ export const readLdyStakingFinishAt = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11068,7 +11111,7 @@ export const readLdyStakingGetEarnedUser = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11088,7 +11131,7 @@ export const readLdyStakingGetStakeDurationInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11107,7 +11150,7 @@ export const readLdyStakingGetUserStakes = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11126,7 +11169,7 @@ export const readLdyStakingGlobalBlacklist = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11145,7 +11188,7 @@ export const readLdyStakingGlobalOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11164,7 +11207,7 @@ export const readLdyStakingGlobalPause = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11183,7 +11226,7 @@ export const readLdyStakingHighTierAccounts = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11203,7 +11246,7 @@ export const readLdyStakingLastTimeRewardApplicable =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11222,7 +11265,7 @@ export const readLdyStakingLastUpdateTime = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11241,7 +11284,7 @@ export const readLdyStakingOwner = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11260,7 +11303,7 @@ export const readLdyStakingPaused = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11279,7 +11322,7 @@ export const readLdyStakingProxiableUuid = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11300,7 +11343,7 @@ export const readLdyStakingRenounceOwnership = /*#__PURE__*/ createReadContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11319,7 +11362,7 @@ export const readLdyStakingRewardPerToken = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11339,7 +11382,7 @@ export const readLdyStakingRewardPerTokenStored =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11358,7 +11401,7 @@ export const readLdyStakingRewardRatePerSec = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11377,7 +11420,7 @@ export const readLdyStakingRewardsDuration = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11397,7 +11440,7 @@ export const readLdyStakingStakeAmountForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11417,7 +11460,7 @@ export const readLdyStakingStakeDurationForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11437,7 +11480,7 @@ export const readLdyStakingStakeDurationInfos =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11456,7 +11499,7 @@ export const readLdyStakingStakeRewardToken = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11475,7 +11518,7 @@ export const readLdyStakingTierOf = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11494,7 +11537,7 @@ export const readLdyStakingTotalRewards = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11513,7 +11556,7 @@ export const readLdyStakingTotalStaked = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11533,7 +11576,7 @@ export const readLdyStakingTotalWeightedStake =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11554,7 +11597,7 @@ export const readLdyStakingTransferOwnership = /*#__PURE__*/ createReadContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11573,7 +11616,7 @@ export const readLdyStakingUserStakingInfo = /*#__PURE__*/ createReadContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11591,7 +11634,7 @@ export const writeLdyStaking = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11610,7 +11653,7 @@ export const writeLdyStakingGetReward = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11629,7 +11672,7 @@ export const writeLdyStakingInitialize = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11649,7 +11692,7 @@ export const writeLdyStakingNotifyRewardAmount =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11669,7 +11712,7 @@ export const writeLdyStakingPushStakeDurationInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11688,7 +11731,7 @@ export const writeLdyStakingRecoverErc20 = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11708,7 +11751,7 @@ export const writeLdyStakingSetRewardsDuration =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11728,7 +11771,7 @@ export const writeLdyStakingSetStakeAmountForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11748,7 +11791,7 @@ export const writeLdyStakingSetStakeDurationForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11767,7 +11810,7 @@ export const writeLdyStakingStake = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11786,7 +11829,7 @@ export const writeLdyStakingUnstake = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11805,7 +11848,7 @@ export const writeLdyStakingUpgradeTo = /*#__PURE__*/ createWriteContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11825,7 +11868,7 @@ export const writeLdyStakingUpgradeToAndCall =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11843,7 +11886,7 @@ export const simulateLdyStaking = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11860,7 +11903,7 @@ export const simulateLdyStakingGetReward = /*#__PURE__*/ createSimulateContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11880,7 +11923,7 @@ export const simulateLdyStakingInitialize =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11900,7 +11943,7 @@ export const simulateLdyStakingNotifyRewardAmount =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11920,7 +11963,7 @@ export const simulateLdyStakingPushStakeDurationInfo =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11940,7 +11983,7 @@ export const simulateLdyStakingRecoverErc20 =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11960,7 +12003,7 @@ export const simulateLdyStakingSetRewardsDuration =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -11980,7 +12023,7 @@ export const simulateLdyStakingSetStakeAmountForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12000,7 +12043,7 @@ export const simulateLdyStakingSetStakeDurationForPerks =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12019,7 +12062,7 @@ export const simulateLdyStakingStake = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12038,7 +12081,7 @@ export const simulateLdyStakingUnstake = /*#__PURE__*/ createSimulateContract({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12055,7 +12098,7 @@ export const simulateLdyStakingUpgradeTo = /*#__PURE__*/ createSimulateContract(
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12075,7 +12118,7 @@ export const simulateLdyStakingUpgradeToAndCall =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12093,7 +12136,7 @@ export const watchLdyStakingEvent = /*#__PURE__*/ createWatchContractEvent({
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12113,7 +12156,7 @@ export const watchLdyStakingAdminChangedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12133,7 +12176,7 @@ export const watchLdyStakingBeaconUpgradedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12153,7 +12196,7 @@ export const watchLdyStakingInitializedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12173,7 +12216,7 @@ export const watchLdyStakingNotifiedRewardAmountEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12193,7 +12236,7 @@ export const watchLdyStakingOwnershipTransferredEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12213,7 +12256,7 @@ export const watchLdyStakingPausedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12233,7 +12276,7 @@ export const watchLdyStakingRewardPaidEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12253,7 +12296,7 @@ export const watchLdyStakingStakedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12273,7 +12316,7 @@ export const watchLdyStakingUnpausedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12293,7 +12336,7 @@ export const watchLdyStakingUnstakedEvent =
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/x1-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * -
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x4e80beDBD58b084a8946b7BA6814c28906Be2d02)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x98002b5c06b44c8769dA3DAe97CA498aB6F97137)
  * - [__View Contract on Linea Goerli Testnet Etherscan__](https://goerli.lineascan.build/address/0x7A78A93dad6A64d0A92C913C008dC79dBf919Fa6)
  * - [__View Contract on Linea Mainnet Etherscan__](https://lineascan.build/address/0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xA798B51F15B0024880f835723C681cB730835628)
@@ -12619,6 +12662,14 @@ export const readLTokenWithdrawer = /*#__PURE__*/ createReadContract({
 })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"withdrwalFeeInEth"`
+ */
+export const readLTokenWithdrwalFeeInEth = /*#__PURE__*/ createReadContract({
+  abi: lTokenAbi,
+  functionName: 'withdrwalFeeInEth',
+})
+
+/**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__
  */
 export const writeLToken = /*#__PURE__*/ createWriteContract({ abi: lTokenAbi })
@@ -12793,6 +12844,15 @@ export const writeLTokenSetWithdrawer = /*#__PURE__*/ createWriteContract({
   abi: lTokenAbi,
   functionName: 'setWithdrawer',
 })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrwalFeeInEth"`
+ */
+export const writeLTokenSetWithdrwalFeeInEth =
+  /*#__PURE__*/ createWriteContract({
+    abi: lTokenAbi,
+    functionName: 'setWithdrwalFeeInEth',
+  })
 
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
@@ -13033,6 +13093,15 @@ export const simulateLTokenSetRetentionRate =
 export const simulateLTokenSetWithdrawer = /*#__PURE__*/ createSimulateContract(
   { abi: lTokenAbi, functionName: 'setWithdrawer' },
 )
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"setWithdrwalFeeInEth"`
+ */
+export const simulateLTokenSetWithdrwalFeeInEth =
+  /*#__PURE__*/ createSimulateContract({
+    abi: lTokenAbi,
+    functionName: 'setWithdrwalFeeInEth',
+  })
 
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`

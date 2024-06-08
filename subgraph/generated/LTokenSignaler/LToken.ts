@@ -1275,6 +1275,29 @@ export class LToken extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
+
+  withdrwalFeeInEth(): BigInt {
+    let result = super.call(
+      "withdrwalFeeInEth",
+      "withdrwalFeeInEth():(uint256)",
+      [],
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_withdrwalFeeInEth(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "withdrwalFeeInEth",
+      "withdrwalFeeInEth():(uint256)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 }
 
 export class ApproveCall extends ethereum.Call {
@@ -1935,6 +1958,36 @@ export class SetWithdrawerCall__Outputs {
   _call: SetWithdrawerCall;
 
   constructor(call: SetWithdrawerCall) {
+    this._call = call;
+  }
+}
+
+export class SetWithdrwalFeeInEthCall extends ethereum.Call {
+  get inputs(): SetWithdrwalFeeInEthCall__Inputs {
+    return new SetWithdrwalFeeInEthCall__Inputs(this);
+  }
+
+  get outputs(): SetWithdrwalFeeInEthCall__Outputs {
+    return new SetWithdrwalFeeInEthCall__Outputs(this);
+  }
+}
+
+export class SetWithdrwalFeeInEthCall__Inputs {
+  _call: SetWithdrwalFeeInEthCall;
+
+  constructor(call: SetWithdrwalFeeInEthCall) {
+    this._call = call;
+  }
+
+  get withdrwalFeeInEth_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetWithdrwalFeeInEthCall__Outputs {
+  _call: SetWithdrwalFeeInEthCall;
+
+  constructor(call: SetWithdrwalFeeInEthCall) {
     this._call = call;
   }
 }
