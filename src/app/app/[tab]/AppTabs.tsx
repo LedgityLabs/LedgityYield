@@ -52,13 +52,6 @@ const _AppTabs: FC = () => {
         >
           Invest
         </TabsTrigger>
-        <TabsTrigger
-          value="pre-mining"
-          className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0 hidden"
-        >
-          Pre-Mining
-        </TabsTrigger>
-
         <TabsTrigger value="staking">
           Staking
           <div
@@ -71,6 +64,12 @@ const _AppTabs: FC = () => {
             Hot
             <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
           </div>
+        </TabsTrigger>
+        <TabsTrigger
+          value="pre-mining"
+          className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0 hidden"
+        >
+          Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
       </TabsList>
