@@ -215,6 +215,12 @@ const config: HardhatUserConfig = {
         },
       },
     },
+    iexec_sidechain: {
+      chainId: 134,
+      url: "https://bellecour.iex.ec",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+    }
   },
   etherscan: {
     apiKey: {

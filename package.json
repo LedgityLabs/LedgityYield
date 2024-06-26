@@ -48,7 +48,7 @@
     "@graphprotocol/graph-cli": "^0.68.0",
     "@graphql-mesh/transform-prefix": "^0.97.0",
     "@graphql-tools/utils": "9.2.1",
-    "@iexec/dataprotector": "^1.0.0",
+    "@iexec/dataprotector": "2.0.0-beta.4",
     "@okxweb3/hardhat-explorer-verify": "^1.6.4",
     "@prisma/client": "^5.7.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",

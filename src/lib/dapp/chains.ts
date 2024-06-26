@@ -64,6 +64,25 @@ const xlayerMainnet: Chain = {
   testnet: false,
 };
 
+const iexec_sidechain: Chain = {
+  id: 134,
+  name: "iExec Sidechain",
+  nativeCurrency: {
+    name: "Iexec Token",
+    symbol: "XRLC",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://bellecour.iex.ec"],
+    },
+  },
+  blockExplorers: {
+    default: { name: "iexec-explorer", url: "https://blockscout-bellecour.iex.ec" },
+  },
+  testnet: false,
+};
+
 /// Figure whether we're in dev or prod environment
 let chainsEnv: "prod" | "dev" = "prod";
 if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
@@ -81,5 +100,6 @@ const devChains: readonly [Chain, ...Chain[]] = [
   xlayerMainnet,
   lineaTestnet,
   baseSepolia,
+  iexec_sidechain
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;
