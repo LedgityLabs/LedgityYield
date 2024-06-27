@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import  MailToolTip from "@/components/mail/MailTooltip";
+import MailToolTip from "@/components/mail/MailTooltip";
 
 
 interface Props {
@@ -12,9 +12,8 @@ export const metadata = {
 
 const AppLayout: NextPage<Props> = ({ children }) => {
   return <>
-  {children}
-  <MailToolTip/>
-  
+    {children}
+    <MailToolTip />
   </>;
 };
 

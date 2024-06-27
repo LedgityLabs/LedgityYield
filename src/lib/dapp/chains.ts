@@ -24,6 +24,7 @@ export const chainsIcons = {
   8453: "/assets/chains/base.png",
   84532: "/assets/chains/base.png",
   11155111: "/assets/chains/ethereum-sepolia.png",
+  134: "/assets/chains/iexec.svg",
 } as { [key: number]: string };
 
 const xlayerTestnet: Chain = {
