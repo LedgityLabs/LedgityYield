@@ -102,7 +102,6 @@ const Page: NextPage = () => {
       if (appIsGrantedAccess.length > 0) {
         setAppIsGrantedAccess(true);
       }
-      setAppIsGrantedAccess(true);
     }
 
     /*const { grantedAccess: appIsGrantedAccess } = await dataProtectorCore.getGrantedAccess({
