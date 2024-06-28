@@ -2,7 +2,7 @@
 
 import { IExecDataProtector } from "@iexec/dataprotector";
 import { FC } from "react";
-import { Address } from '@/utils/types';
+import { type Address } from "@iexec/web3mail";
 
 interface Props {
     protectedData: Address;

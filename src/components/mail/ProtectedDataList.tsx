@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import SubscribeButton from './buttons/SubscribeButton';
 import CancelSubscriptionButton from './buttons/CancelSubscriptionButton';
-import { Address } from '@/utils/types';
+import { type Address } from "@iexec/web3mail";
 
 interface ProtectedDataListProps {
     protectedAddressDataList: Address[];
@@ -29,8 +29,9 @@ const ProtectedDataList: React.FC<ProtectedDataListProps> = ({ protectedAddressD
                 </li>
             ))}
         </ul>
+        <p> Subscription to our emails:</p>
         <div className="flex justify-between px-8 mt-4">
-            {appIsGrantedAccess && (<SubscribeButton protectedData={protectedAddressDataList[0]} />)}
+            {!appIsGrantedAccess && (<SubscribeButton protectedData={protectedAddressDataList[0]} />)}
             {appIsGrantedAccess && (<CancelSubscriptionButton protectedData={protectedAddressDataList[0]} />)}
         </div>
     </div>)

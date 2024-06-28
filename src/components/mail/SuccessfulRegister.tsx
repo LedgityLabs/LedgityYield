@@ -2,7 +2,8 @@
 
 import React from 'react';
 import SubscribeButton from './buttons/SubscribeButton';
-import { Address } from '@/utils/types';
+import { type Address } from "@iexec/web3mail";
+import Link from 'next/link';
 
 interface SuccessfulRegisterProps {
     protectedData: Address;
@@ -17,9 +18,14 @@ const SuccessfulRegister: React.FC<SuccessfulRegisterProps> = ({ protectedData }
             <span className="font-bold">Your data is protected</span>
         </div>
         <p className="mt-2">
-            Address of your protected data: <span className="font-mono">{protectedData}</span>
+            Address of your protected data:
         </p>
-        <SubscribeButton protectedData={protectedData} />
+        <Link href={`https://blockscout-bellecour.iex.ec/address/${protectedData}`} className="font-mono underline">
+            {protectedData}
+        </Link>
+        <div className="flex justify-center items-center mt-4">
+            <SubscribeButton protectedData={protectedData} />
+        </div>
     </div>
 );
 

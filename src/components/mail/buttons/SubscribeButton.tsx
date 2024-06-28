@@ -2,7 +2,7 @@
 
 import { IExecDataProtector } from "@iexec/dataprotector";
 import { FC } from "react";
-import { Address } from '@/utils/types';
+import { type Address } from "@iexec/web3mail";
 
 //Hardcoded address of the Ledgity app - test address
 const LedgityAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
