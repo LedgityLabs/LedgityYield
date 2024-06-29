@@ -5,7 +5,8 @@ import { FC } from "react";
 import { type Address } from "@iexec/web3mail";
 
 //Hardcoded address of the Ledgity app - test address
-const LedgityAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+const LedgityAddress = ('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266').toLowerCase();
+
 
 interface Props {
     protectedData: Address;
@@ -19,9 +20,9 @@ const SubscribeButton: FC<Props> = ({ protectedData }) => {
 
         await dataProtectorCore.grantAccess({
             protectedData: protectedData,
-            authorizedApp: "0x1cb7D4F3FFa203F211e57357D759321C6CE49921",
+            authorizedApp: "0x781482C39CcE25546583EaC4957Fb7Bf04C277D2",
             authorizedUser: LedgityAddress,
-            numberOfAccess: 10000
+            numberOfAccess: 1000
         });
     }
 

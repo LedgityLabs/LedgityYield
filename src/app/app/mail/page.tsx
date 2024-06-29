@@ -6,12 +6,12 @@ import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
 import { IExecWeb3mail } from "@iexec/web3mail";
 import ExplanationCard from "@/components/mail/ExplanationCard";
 import EmailForm from "@/components/mail/EmailForm";
-import SuccessfulRegister from "@/components/mail/SuccessfulRegister";
-import ProtectedDataList from "@/components/mail/ProtectedDataList";
+import SuccessfulProtection from "@/components/mail/SuccessfulProtection"
+import ProtectedDataBox from "@/components/mail/ProtectedDataBox";
 import { type Address } from "@iexec/web3mail";
 
 //Hardcoded address of the Ledgity app - test address
-const LedgityAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+const LedgityAddress = ('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266').toLowerCase();
 
 const Page: NextPage = () => {
   const currentChainId = useChainId();
@@ -21,16 +21,17 @@ const Page: NextPage = () => {
   const desiredChainId = 134; // For iExec sidechain.
 
   const web3Provider = window.ethereum;
-  const web3mail = new IExecWeb3mail(web3Provider);
   const dataProtector = new IExecDataProtector(web3Provider);
   const dataProtectorCore = dataProtector.core;
 
   const [protectedDataAddress, setProtectedDataAddress] = useState<string>('');
-  const [protectedAddressDataList, setProtectedDataList] = useState<string[]>([]);
   const [isProtected, setIsProtected] = useState(false);
   const [hasJustRegistered, setHasJustRegistered] = useState(false);
   const [appIsGrantedAccess, setAppIsGrantedAccess] = useState(false);
 
+  // ----------
+  //   Effects
+  // ----------
 
   useEffect(() => {
     if (currentChainId !== desiredChainId) {
@@ -48,6 +49,10 @@ const Page: NextPage = () => {
     checkAppIsGrantedAccess();
   });
 
+  // ----------
+  //   Functions
+  // ----------
+
   const checkIsProtected = async (_userAddress: Address) => {
     const protectedDataList = await dataProtectorCore.getProtectedData({
       owner: _userAddress,
@@ -57,7 +62,7 @@ const Page: NextPage = () => {
     });
     const protectedAddressDataList = protectedDataList.map((protectedData: ProtectedData) => protectedData.address as Address);
     if (protectedDataList.length > 0) {
-      setProtectedDataList(protectedAddressDataList);
+      setProtectedDataAddress(protectedAddressDataList[0]);
       setIsProtected(true);
     }
   }
@@ -76,15 +81,17 @@ const Page: NextPage = () => {
     }
   }
 
+
   const checkAppIsGrantedAccess = async () => {
 
-    // console.log(userAddress)
-    const contactList = await web3mail.fetchUserContacts({ userAddress });
-    // console.log(contactList)
+    const { grantedAccess: isGrantedAccess } = await dataProtectorCore.getGrantedAccess({
+      protectedData: protectedDataAddress as Address,
+      authorizedUser: LedgityAddress,
+    })
 
-    const grantedAccess = contactList.some((contact) => contact.owner === LedgityAddress);
+    const arra = isGrantedAccess.filter((oneAccess) => oneAccess.requesterrestrict.toLowerCase() === LedgityAddress);
 
-    if (grantedAccess) {
+    if (arra.length > 0) {
       setAppIsGrantedAccess(true);
     }
 
@@ -94,9 +101,8 @@ const Page: NextPage = () => {
     <div className="max-w-md mx-auto mt-10">
       <ExplanationCard />
       {!isProtected && <EmailForm onSubmit={handleSubmitProtection} />}
-      {isProtected && hasJustRegistered && <SuccessfulRegister protectedData={protectedDataAddress} />}
-      {protectedAddressDataList.length > 0 && <ProtectedDataList protectedAddressDataList={protectedAddressDataList} appIsGrantedAccess={appIsGrantedAccess} />}
-      <p> app is: {String(appIsGrantedAccess)}</p>
+      {isProtected && hasJustRegistered && <SuccessfulProtection protectedData={protectedDataAddress} />}
+      {isProtected && <ProtectedDataBox protectedAddressData={protectedDataAddress} appIsGrantedAccess={appIsGrantedAccess} userAddress={userAddress} />}
     </div>
   );
 };

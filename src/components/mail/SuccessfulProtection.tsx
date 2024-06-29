@@ -5,11 +5,11 @@ import SubscribeButton from './buttons/SubscribeButton';
 import { type Address } from "@iexec/web3mail";
 import Link from 'next/link';
 
-interface SuccessfulRegisterProps {
+interface SuccessfulProtectionProps {
     protectedData: Address;
 }
 
-const SuccessfulRegister: React.FC<SuccessfulRegisterProps> = ({ protectedData }) => (
+const SuccessfulProtection: React.FC<SuccessfulProtectionProps> = ({ protectedData }) => (
     <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-md mt-4">
         <div className="flex items-center">
             <svg className="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,4 +29,4 @@ const SuccessfulRegister: React.FC<SuccessfulRegisterProps> = ({ protectedData }
     </div>
 );
 
-export default SuccessfulRegister;
+export default SuccessfulProtection;
