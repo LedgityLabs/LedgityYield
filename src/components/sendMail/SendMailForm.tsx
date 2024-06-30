@@ -42,7 +42,6 @@ const SendMailForm: React.FC = () => {
                 contentType,
                 senderName: senderName || undefined,
                 label: label || undefined
-                // You can add more optional parameters here as needed
             });
 
             console.log('Email sent:', result);
