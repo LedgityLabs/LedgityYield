@@ -1,51 +1,67 @@
 'use client'
 
 import { IExecDataProtector, type ProtectedData, type GrantedAccess } from "@iexec/dataprotector";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { type Address } from "@iexec/web3mail";
-import { useAccount } from "wagmi";
 
 interface Props {
     protectedData: Address;
     userAddress: Address;
+    onSuccessfulUnsubscription: () => void;
+    onError: (message: string) => void;
 }
 
-const LedgityAddress = ('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266').toLowerCase();
+const LedgityAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'.toLowerCase();
 
-const CancelSubscriptionButton: FC<Props> = ({ protectedData, userAddress }) => {
+const CancelSubscriptionButton: FC<Props> = ({ protectedData, userAddress, onSuccessfulUnsubscription, onError }) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const cancelSubscription = async () => {
+        setIsLoading(true);
+        try {
+            const dataProtector = new IExecDataProtector(window.ethereum);
+            const dataProtectorCore = dataProtector.core;
 
-        const dataProtector = new IExecDataProtector(window.ethereum);
-        const dataProtectorCore = dataProtector.core;
+            const listProtectedData = await dataProtectorCore.getProtectedData({
+                owner: userAddress,
+                requiredSchema: {
+                    email: 'string',
+                },
+            });
 
-        console.log(userAddress);
+            if (listProtectedData.length === 0) {
+                throw new Error("No protected data found for the user");
+            }
 
-        const listProtectedData = await dataProtectorCore.getProtectedData({
-            owner: userAddress,
-            requiredSchema: {
-                email: 'string',
-            },
-        });
+            const protectedAddressDataList = listProtectedData.map((protectedData: ProtectedData) => protectedData.address as Address);
 
-        const protectedAddressDataList = listProtectedData.map((protectedData: ProtectedData) => protectedData.address as Address);
+            const { grantedAccess } = await dataProtectorCore.getGrantedAccess({
+                protectedData: protectedAddressDataList[0],
+                authorizedUser: LedgityAddress,
+            });
 
-        const { grantedAccess } = await dataProtectorCore.getGrantedAccess({
-            protectedData: protectedAddressDataList[0],
-            authorizedUser: LedgityAddress,
-        })
+            const protectedDataArray = grantedAccess.filter((oneAccess) => oneAccess.dataset.toLowerCase() === protectedData);
 
-        const protectedDataArray = grantedAccess.filter((oneAccess) => oneAccess.dataset.toLowerCase() === protectedData);
+            if (protectedDataArray.length === 0) {
+                throw new Error("No matching granted access found for revocation");
+            }
 
-        const revokeAccess = await dataProtectorCore.revokeOneAccess(protectedDataArray[0]);
-        console.log(revokeAccess);
-    }
+            await dataProtectorCore.revokeOneAccess(protectedDataArray[0]);
+            onSuccessfulUnsubscription();
+        } catch (error) {
+            onError(`Error during subscription cancellation: ${(error as Error).message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={cancelSubscription}
+            disabled={isLoading}
         >
-            Cancel Subscription
+            {isLoading ? 'Cancelling...' : 'Cancel Subscription'}
         </button>
     );
 }

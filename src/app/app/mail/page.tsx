@@ -2,107 +2,113 @@
 import { type NextPage } from "next";
 import React, { useEffect, useState } from 'react';
 import { useSwitchChain, useChainId, useAccount } from 'wagmi'
-import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
-import { IExecWeb3mail } from "@iexec/web3mail";
 import ExplanationCard from "@/components/mail/ExplanationCard";
 import EmailForm from "@/components/mail/EmailForm";
 import SuccessfulProtection from "@/components/mail/SuccessfulProtection"
 import ProtectedDataBox from "@/components/mail/ProtectedDataBox";
 import { type Address } from "@iexec/web3mail";
-
-//Hardcoded address of the Ledgity app - test address
-const LedgityAddress = ('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266').toLowerCase();
+import { checkIsProtected, handleSubmitProtection, checkAppIsGrantedAccess } from "@/components/mail/utils/utils";
 
 const Page: NextPage = () => {
   const currentChainId = useChainId();
   const { switchChain } = useSwitchChain();
   const { address } = useAccount();
-  const userAddress = address as Address;
+  const userAddress = address as string;
   const desiredChainId = 134; // For iExec sidechain.
-
-  const web3Provider = window.ethereum;
-  const dataProtector = new IExecDataProtector(web3Provider);
-  const dataProtectorCore = dataProtector.core;
 
   const [protectedDataAddress, setProtectedDataAddress] = useState<string>('');
   const [isProtected, setIsProtected] = useState(false);
   const [hasJustRegistered, setHasJustRegistered] = useState(false);
   const [appIsGrantedAccess, setAppIsGrantedAccess] = useState(false);
-
-  // ----------
-  //   Effects
-  // ----------
-
-  useEffect(() => {
-    if (currentChainId !== desiredChainId) {
-      switchChain({ chainId: desiredChainId });
-    }
-  }, [currentChainId, switchChain, desiredChainId]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (address) {
-      checkIsProtected(address);
+      resetStates();
+      checkIsProtectedWrapper(address as Address);
     }
   }, [address]);
 
   useEffect(() => {
-    checkAppIsGrantedAccess();
-  });
-
-  // ----------
-  //   Functions
-  // ----------
-
-  const checkIsProtected = async (_userAddress: Address) => {
-    const protectedDataList = await dataProtectorCore.getProtectedData({
-      owner: _userAddress,
-      requiredSchema: {
-        email: 'string',
-      },
-    });
-    const protectedAddressDataList = protectedDataList.map((protectedData: ProtectedData) => protectedData.address as Address);
-    if (protectedDataList.length > 0) {
-      setProtectedDataAddress(protectedAddressDataList[0]);
-      setIsProtected(true);
+    if (currentChainId !== desiredChainId) {
+      try {
+        switchChain({ chainId: desiredChainId });
+      } catch (err) {
+        setError(`Failed to switch chain: ${(err as Error).message}`);
+      }
     }
-  }
+  }, [currentChainId, switchChain, desiredChainId]);
 
-  const handleSubmitProtection = async (email: string) => {
+  useEffect(() => {
+    if (protectedDataAddress) {
+      checkAppIsGrantedAccessWrapper();
+    }
+  }, [protectedDataAddress]);
+
+  const resetStates = () => {
+    setIsProtected(false);
+    setHasJustRegistered(false);
+    setAppIsGrantedAccess(false);
+    setProtectedDataAddress('');
+    setError(null);
+  };
+
+  const checkIsProtectedWrapper = async (_userAddress: Address) => {
     try {
-      const { address: protectedDataAddress } = await dataProtectorCore.protectData({
-        data: { email }
-      })
-
-      setProtectedDataAddress(protectedDataAddress as Address);
-      setIsProtected(true);
-      setHasJustRegistered(true);
-    } catch (error) {
-      console.error('Error:', error);
+      const protectedAddress = await checkIsProtected(_userAddress);
+      if (protectedAddress) {
+        setProtectedDataAddress(protectedAddress);
+        setIsProtected(true);
+      }
+    } catch (err) {
+      setError(`Failed to check protection status: ${(err as Error).message}`);
     }
   }
 
-
-  const checkAppIsGrantedAccess = async () => {
-
-    const { grantedAccess: isGrantedAccess } = await dataProtectorCore.getGrantedAccess({
-      protectedData: protectedDataAddress as Address,
-      authorizedUser: LedgityAddress,
-    })
-
-    const arra = isGrantedAccess.filter((oneAccess) => oneAccess.requesterrestrict.toLowerCase() === LedgityAddress);
-
-    if (arra.length > 0) {
-      setAppIsGrantedAccess(true);
+  const handleSubmitProtectionWrapper = async (email: string) => {
+    try {
+      const protectedAddress = await handleSubmitProtection(email);
+      if (protectedAddress) {
+        setProtectedDataAddress(protectedAddress);
+        setIsProtected(true);
+        setHasJustRegistered(true);
+      }
+    } catch (err) {
+      setError(`Failed to submit protection: ${(err as Error).message}`);
     }
-
   }
+
+  const checkAppIsGrantedAccessWrapper = async () => {
+    try {
+      const isGranted = await checkAppIsGrantedAccess(protectedDataAddress);
+      setAppIsGrantedAccess(isGranted);
+    } catch (err) {
+      setError(`Failed to check app access: ${(err as Error).message}`);
+    }
+  };
+
+  const handleSubscriptionChange = (isSubscribed: boolean) => {
+    setAppIsGrantedAccess(isSubscribed);
+  };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
+    <div className="max-w-md mx-auto mt-10 mb-20 px-4">
       <ExplanationCard />
-      {!isProtected && <EmailForm onSubmit={handleSubmitProtection} />}
-      {isProtected && hasJustRegistered && <SuccessfulProtection protectedData={protectedDataAddress} />}
-      {isProtected && <ProtectedDataBox protectedAddressData={protectedDataAddress} appIsGrantedAccess={appIsGrantedAccess} userAddress={userAddress} />}
+      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">{error}</div>}
+      {!isProtected && <EmailForm onSubmit={handleSubmitProtectionWrapper} />}
+      {isProtected && hasJustRegistered &&
+        <SuccessfulProtection
+          protectedData={protectedDataAddress}
+          onSubscriptionChange={handleSubscriptionChange} />
+      }
+      {isProtected && !hasJustRegistered &&
+        <ProtectedDataBox
+          protectedAddressData={protectedDataAddress}
+          appIsGrantedAccess={appIsGrantedAccess}
+          userAddress={userAddress}
+          onSubscriptionChange={handleSubscriptionChange}
+        />
+      }
     </div>
   );
 };
