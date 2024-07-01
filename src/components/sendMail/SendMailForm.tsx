@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
+import { useAccount } from 'wagmi'
 import { IExecWeb3mail } from '@iexec/web3mail';
 import { type Contact } from '@iexec/web3mail';
 import { checkAppIsGrantedAccess } from '../mail/utils/utils';
@@ -10,7 +11,6 @@ const web3mail = new IExecWeb3mail(window.ethereum);
 const dataProtector = new IExecDataProtector(window.ethereum);
 const dataProtectorCore = dataProtector.core;
 
-const LedgityAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'.toLowerCase();
 
 const SendMailForm: React.FC = () => {
     const [subject, setSubject] = useState('');
