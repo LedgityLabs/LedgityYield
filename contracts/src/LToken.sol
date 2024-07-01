@@ -2,7 +2,8 @@
 pragma solidity 0.8.18;
 
 // Contracts
-import {ERC20WrapperUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
+import {ERC20WrapperUpgradeable} from
+    "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
 import "./abstracts/base/ERC20BaseUpgradeable.sol";
 import {InvestUpgradeable} from "./abstracts/InvestUpgradeable.sol";
 import {LDYStaking} from "./LDYStaking.sol";
@@ -13,7 +14,8 @@ import {SUD} from "./libs/SUD.sol";
 
 // Interfaces
 import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
+import {IERC20MetadataUpgradeable} from
+    "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import {ITransfersListener} from "./interfaces/ITransfersListener.sol";
 
 /**
@@ -247,12 +249,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * decimals amount of the underlying stablecoin token.
      * @inheritdoc ERC20WrapperUpgradeable
      */
-    function decimals()
-        public
-        view
-        override(ERC20Upgradeable, ERC20WrapperUpgradeable)
-        returns (uint8)
-    {
+    function decimals() public view override(ERC20Upgradeable, ERC20WrapperUpgradeable) returns (uint8) {
         return ERC20WrapperUpgradeable.decimals();
     }
 
@@ -263,13 +260,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * GlobalPausableUpgradeable.paused(), so a random one is chosen.
      * @inheritdoc GlobalPausableUpgradeable
      */
-    function paused()
-        public
-        view
-        virtual
-        override(GlobalPausableUpgradeable, ERC20BaseUpgradeable)
-        returns (bool)
-    {
+    function paused() public view virtual override(GlobalPausableUpgradeable, ERC20BaseUpgradeable) returns (bool) {
         return GlobalPausableUpgradeable.paused();
     }
 
@@ -287,7 +278,6 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param withdrwalFeeInEth_ The new withdrawalFee in ETH.
      */
     function setWithdrwalFeeInEth(uint256 withdrwalFeeInEth_) public onlyOwner {
-        require(withdrwalFeeInEth <= MAX_FEES_RATE_UD7x3, "L88");
         withdrwalFeeInEth = withdrwalFeeInEth_;
     }
 
@@ -492,11 +482,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * already included in ERC20BaseUpgradeable._beforeTokenTransfer().
      * @inheritdoc ERC20BaseUpgradeable
      */
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal override(ERC20Upgradeable, ERC20BaseUpgradeable) {
+    function _beforeTokenTransfer(address from, address to, uint256 amount)
+        internal
+        override(ERC20Upgradeable, ERC20BaseUpgradeable)
+    {
         ERC20BaseUpgradeable._beforeTokenTransfer(from, to, amount);
 
         // Invoke _beforeInvestmentChange() hook for non-zero accounts
@@ -594,15 +583,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         usableUnderlyings += amount;
 
         // Inform listeners of the deposit activity event
-        emit ActivityEvent(
-            NO_ID,
-            _msgSender(),
-            Action.Deposit,
-            amount,
-            amount,
-            Status.Success,
-            NO_ID
-        );
+        emit ActivityEvent(NO_ID, _msgSender(), Action.Deposit, amount, amount, Status.Success, NO_ID);
 
         // Receive underlying tokens and mint L-Tokens to the account in a 1:1 ratio
         super.depositFor(_msgSender(), amount);
@@ -617,10 +598,11 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param account The account initiating the withdrawal.
      * @param amount The amount of the withdrawal.
      */
-    function getWithdrawnAmountAndFees(
-        address account,
-        uint256 amount
-    ) public view returns (uint256 withdrawnAmount, uint256 fees) {
+    function getWithdrawnAmountAndFees(address account, uint256 amount)
+        public
+        view
+        returns (uint256 withdrawnAmount, uint256 fees)
+    {
         // If the account is eligible to staking tier 2, no fees are applied
         if (ldyStaking.tierOf(account) >= 2) return (amount, 0);
 
@@ -669,15 +651,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         usableUnderlyings -= withdrawnAmount;
 
         // Inform listeners of this instant withdrawal activity event
-        emit ActivityEvent(
-            NO_ID,
-            _msgSender(),
-            Action.Withdraw,
-            amount,
-            withdrawnAmount,
-            Status.Success,
-            NO_ID
-        );
+        emit ActivityEvent(NO_ID, _msgSender(), Action.Withdraw, amount, withdrawnAmount, Status.Success, NO_ID);
 
         // Burn withdrawal fees from the account
         _burn(_msgSender(), fees);
@@ -693,9 +667,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * paid by the withdrawer wallet.
      * @param amount The amount L-Tokens to withdraw.
      */
-    function requestWithdrawal(
-        uint256 amount
-    ) public payable whenNotPaused notBlacklisted(_msgSender()) {
+    function requestWithdrawal(uint256 amount) public payable whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough L-Tokens to withdraw
         require(amount <= balanceOf(_msgSender()), "L53");
 
@@ -706,10 +678,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(msg.value == withdrwalFeeInEth, "L55");
 
         // Create withdrawal request data
-        WithdrawalRequest memory request = WithdrawalRequest({
-            account: _msgSender(),
-            amount: uint96(amount)
-        });
+        WithdrawalRequest memory request = WithdrawalRequest({account: _msgSender(), amount: uint96(amount)});
 
         // Will hold the request ID
         uint256 requestId;
@@ -731,21 +700,13 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         totalQueued += amount;
 
         // Inform listeners of this new queued withdrawal activity event
-        emit ActivityEvent(
-            int256(requestId),
-            _msgSender(),
-            Action.Withdraw,
-            amount,
-            amount,
-            Status.Queued,
-            NO_ID
-        );
+        emit ActivityEvent(int256(requestId), _msgSender(), Action.Withdraw, amount, amount, Status.Queued, NO_ID);
 
         // Burn withdrawal L-Tokens amount from account's balance
         _burn(_msgSender(), amount);
 
         // Forward pre-paid processing gas fees to the withdrawer wallet
-        (bool sent, ) = withdrawer.call{value: msg.value}("");
+        (bool sent,) = withdrawer.call{value: msg.value}("");
         require(sent, "L56");
     }
 
@@ -811,10 +772,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             // Else, continue request processing
             else {
                 // Retrieve withdrawal fees and net withdrawn amount
-                (uint256 withdrawnAmount, uint256 fees) = getWithdrawnAmountAndFees(
-                    request.account,
-                    request.amount
-                );
+                (uint256 withdrawnAmount, uint256 fees) = getWithdrawnAmountAndFees(request.account, request.amount);
 
                 // Break if the contract doesn't hold enough funds to cover the request
                 if (withdrawnAmount > usableUnderlyings - cumulatedWithdrawnAmount) break;
@@ -889,10 +847,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(request.amount > getExpectedRetained() / 2, "L51");
 
         // Retrieve withdrawal fees and net withdrawn amount
-        (uint256 withdrawnAmount, uint256 fees) = getWithdrawnAmountAndFees(
-            request.account,
-            request.amount
-        );
+        (uint256 withdrawnAmount, uint256 fees) = getWithdrawnAmountAndFees(request.account, request.amount);
 
         // Ensure withdrawn amount can be covered by contract + fund wallet balances
         uint256 fundBalance = underlying().balanceOf(fund);
@@ -909,13 +864,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Inform listeners of this queued withdrawal processing activity event
         emit ActivityEvent(
-            int256(requestId),
-            request.account,
-            Action.Withdraw,
-            request.amount,
-            withdrawnAmount,
-            Status.Success,
-            NO_ID
+            int256(requestId), request.account, Action.Withdraw, request.amount, withdrawnAmount, Status.Success, NO_ID
         );
 
         // Remove request from queue
@@ -949,9 +898,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * L-Tokens and no fees will be charged.
      * @param requestId The ID of the withdrawal request to cancel.
      */
-    function cancelWithdrawalRequest(
-        uint256 requestId
-    ) public whenNotPaused notBlacklisted(_msgSender()) {
+    function cancelWithdrawalRequest(uint256 requestId) public whenNotPaused notBlacklisted(_msgSender()) {
         // Retrieve request data
         WithdrawalRequest memory request = withdrawalQueue[requestId];
 
@@ -966,13 +913,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
         // Inform listeners of this cancelled withdrawal request activity event
         emit ActivityEvent(
-            int256(requestId),
-            request.account,
-            Action.Withdraw,
-            request.amount,
-            request.amount,
-            Status.Cancelled,
-            NO_ID
+            int256(requestId), request.account, Action.Withdraw, request.amount, request.amount, Status.Cancelled, NO_ID
         );
 
         // Mint back L-Tokens to account
