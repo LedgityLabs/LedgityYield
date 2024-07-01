@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
-import { useAccount } from 'wagmi'
+
 import { IExecWeb3mail } from '@iexec/web3mail';
 import { type Contact } from '@iexec/web3mail';
 import { checkAppIsGrantedAccess } from '../mail/utils/utils';
@@ -11,6 +11,7 @@ const web3mail = new IExecWeb3mail(window.ethereum);
 const dataProtector = new IExecDataProtector(window.ethereum);
 const dataProtectorCore = dataProtector.core;
 
+const LedgityAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 
 const SendMailForm: React.FC = () => {
     const [subject, setSubject] = useState('');
@@ -23,6 +24,7 @@ const SendMailForm: React.FC = () => {
     const [success, setSuccess] = useState(false);
     const [protectedData, setProtectedData] = useState<string>('');
     const [contacts, setContacts] = useState<Contact[]>([]);
+    const [chosenContact, setChosenContact] = useState<string>('Select a contact');
 
     useEffect(() => {
         fetchContactList();
@@ -34,7 +36,6 @@ const SendMailForm: React.FC = () => {
         setSuccess(false);
 
         try {
-            console.log('sending email via: ' + protectedData)
             const result = await web3mail.sendEmail({
                 protectedData,
                 emailSubject: subject,
@@ -44,7 +45,6 @@ const SendMailForm: React.FC = () => {
                 label: label || undefined
             });
 
-            console.log('Email sent:', result);
             setSuccess(true);
         } catch (err) {
             console.error('Error sending email:', err);
@@ -67,15 +67,10 @@ const SendMailForm: React.FC = () => {
                     return hasAccess ? contact : null;
                 })
             );
-            console.log(filteredContacts);
 
             // Remove null values and set the filtered contacts
             const validContacts = filteredContacts.filter((contact): contact is Contact => contact !== null);
-            console.log(validContacts);
-
             setContacts(validContacts);
-
-            console.log('Filtered contacts:', validContacts);
         } catch (err) {
             console.error('Error fetching contacts:', err);
             setError('Failed to fetch contacts. Please try again.');
@@ -84,20 +79,21 @@ const SendMailForm: React.FC = () => {
 
     const handleContactSelection = async (contactAddress: string) => {
         try {
-            console.log('Selected contact:', contactAddress);
+
             // Get protected data for the selected contact
             const listProtectedData = await dataProtectorCore.getProtectedData({
                 owner: contactAddress,
                 requiredSchema: { email: 'string' },
             });
-            console.log(listProtectedData);
+
 
             // Find the first protected data that Ledgity has access to
             for (const data of listProtectedData) {
                 const hasAccess = await checkAppIsGrantedAccess(data.address);
-                console.log('Checking access for:', data.address, hasAccess);
+
                 if (hasAccess) {
                     setProtectedData(data.address);
+                    setChosenContact(data.address)
                     return;
                 }
             }
@@ -126,7 +122,7 @@ const SendMailForm: React.FC = () => {
                     value={protectedData}
                     onChange={(e) => handleContactSelection(e.target.value)}
                 >
-                    <option value="">Select a contact</option>
+                    <option value="" >{chosenContact}</option>
                     {contacts.map((contact, index) => (
                         <option key={index} value={contact.owner}>
                             {contact.owner}
