@@ -1,7 +1,7 @@
-import { Card, Input, TxButton, Rate } from "@/components/ui";
+import { Card, Input, TxButton } from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { AdminBrick } from "../AdminBrick";
-import { ChangeEvent, FC, useState, useEffect } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { UseSimulateContractReturnType } from "wagmi";
 import { useSimulateLTokenSetWithdrwalFeeInEth, useReadLTokenWithdrwalFeeInEth } from "@/generated";
 
@@ -24,7 +24,6 @@ export const AdminLTokenSetWithdrawalFeeInEth: FC<Props> = ({ lTokenSymbol }) =>
     function weiToEth(value: bigint): number {
         return Number(value) / 10 ** 18;
     }
-
 
     const ethToWei = (eth: number): bigint => {
         const converted = BigInt(Math.floor(eth * 10 ** 18));
