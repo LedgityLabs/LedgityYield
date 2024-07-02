@@ -120,7 +120,7 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                   target="_blank"
                   className="inline-block h-8 w-8"
                 >
-                  <i className="ri-twitter-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
+                  <i className="ri-twitter-x-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
                 </Link>
               </li>
               <li className="flex items-center justify-center">

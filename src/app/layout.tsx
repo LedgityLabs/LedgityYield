@@ -9,7 +9,6 @@ import clsx from "clsx";
 import dynamic from "next/dynamic";
 import Loader from "@/app/loading";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/Toaster";
 // import DApp from "@/components/DApp";
