@@ -63,6 +63,7 @@ model User {
   // Custom
   walletAddress String?   @unique
   generatedMessage String?
+  protectedDataAddress String? @unique
 
   twitterId String?       @unique
   twitterUsername String?
