@@ -2,18 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
-
-import { IExecWeb3mail } from '@iexec/web3mail';
-import { type Contact } from '@iexec/web3mail';
+import { IExecWeb3mail, type Contact } from '@iexec/web3mail';
 import { checkAppIsGrantedAccess } from '../mail/utils/utils';
+import { LedgityAddress } from "@/utils/address";
 
+// Initialize Web3Mail and DataProtector instances
 const web3mail = new IExecWeb3mail(window.ethereum);
 const dataProtector = new IExecDataProtector(window.ethereum);
 const dataProtectorCore = dataProtector.core;
 
-const LedgityAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 
 const SendMailForm: React.FC = () => {
+    // State management
     const [subject, setSubject] = useState('');
     const [content, setContent] = useState('');
     const [contentType, setContentType] = useState('text/plain');
@@ -26,39 +26,15 @@ const SendMailForm: React.FC = () => {
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [chosenContact, setChosenContact] = useState<string>('Select a contact');
 
+    // Effects
     useEffect(() => {
         fetchContactList();
     }, []);
 
-    const handleSendEmail = async () => {
-        setIsSending(true);
-        setError(null);
-        setSuccess(false);
-
-        try {
-            const result = await web3mail.sendEmail({
-                protectedData,
-                emailSubject: subject,
-                emailContent: content,
-                contentType,
-                senderName: senderName || undefined,
-                label: label || undefined
-            });
-
-            setSuccess(true);
-        } catch (err) {
-            console.error('Error sending email:', err);
-            setError('Failed to send email. Please try again.');
-        } finally {
-            setIsSending(false);
-        }
-    };
-
+    // Helper functions
     const fetchContactList = async () => {
         try {
             const contactsList: Contact[] = await web3mail.fetchUserContacts({ userAddress: LedgityAddress });
-
-
 
             // Filter contacts and check access for each
             const filteredContacts = await Promise.all(
@@ -79,18 +55,15 @@ const SendMailForm: React.FC = () => {
 
     const handleContactSelection = async (contactAddress: string) => {
         try {
-
             // Get protected data for the selected contact
             const listProtectedData = await dataProtectorCore.getProtectedData({
                 owner: contactAddress,
                 requiredSchema: { email: 'string' },
             });
 
-
             // Find the first protected data that Ledgity has access to
             for (const data of listProtectedData) {
                 const hasAccess = await checkAppIsGrantedAccess(data.address);
-
                 if (hasAccess) {
                     setProtectedData(data.address);
                     setChosenContact(data.address)
@@ -108,10 +81,36 @@ const SendMailForm: React.FC = () => {
         }
     };
 
+    const handleSendEmail = async () => {
+        setIsSending(true);
+        setError(null);
+        setSuccess(false);
 
+        try {
+            await web3mail.sendEmail({
+                protectedData,
+                emailSubject: subject,
+                emailContent: content,
+                contentType,
+                senderName: senderName || undefined,
+                label: label || undefined
+            });
+
+            setSuccess(true);
+        } catch (err) {
+            console.error('Error sending email:', err);
+            setError('Failed to send email. Please try again.');
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    // Render function
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
             <h2 className="text-2xl font-bold mb-4">Send Web3 Email</h2>
+            
+            {/* Recipient Selection */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contact">
                     Recipient
@@ -130,6 +129,8 @@ const SendMailForm: React.FC = () => {
                     ))}
                 </select>
             </div>
+
+            {/* Email Subject */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="subject">
                     Subject
@@ -144,6 +145,8 @@ const SendMailForm: React.FC = () => {
                     maxLength={78}
                 />
             </div>
+
+            {/* Email Content */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="content">
                     Content
@@ -157,6 +160,8 @@ const SendMailForm: React.FC = () => {
                     rows={4}
                 />
             </div>
+
+            {/* Content Type Selection */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contentType">
                     Content Type
@@ -171,6 +176,8 @@ const SendMailForm: React.FC = () => {
                     <option value="text/html">HTML</option>
                 </select>
             </div>
+
+            {/* Sender Name */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="senderName">
                     Sender Name
@@ -184,6 +191,8 @@ const SendMailForm: React.FC = () => {
                     placeholder="Enter sender name"
                 />
             </div>
+
+            {/* Custom Label */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="label">
                     Custom Label
@@ -197,10 +206,11 @@ const SendMailForm: React.FC = () => {
                     placeholder="Enter custom label"
                 />
             </div>
+
+            {/* Send Button */}
             <div className="flex items-center justify-between">
                 <button
-                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isSending ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
+                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isSending ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
                     onClick={handleSendEmail}
                     disabled={isSending || !protectedData}
@@ -208,6 +218,8 @@ const SendMailForm: React.FC = () => {
                     {isSending ? 'Sending...' : 'Send Email'}
                 </button>
             </div>
+
+            {/* Error and Success Messages */}
             {error && <p className="text-red-500 text-xs italic mt-2">{error}</p>}
             {success && <p className="text-green-500 text-xs italic mt-2">Email sent successfully!</p>}
         </div>

@@ -1,30 +1,33 @@
 "use client";
-import { type NextPage } from "next";
 
+import { type NextPage } from "next";
 import React, { useEffect, useState } from 'react';
 import { useSwitchChain, useChainId, useAccount } from 'wagmi'
+import { type Address } from "@iexec/web3mail";
+import { checkIsProtected, handleSubmitProtection, checkAppIsGrantedAccess } from "@/components/mail/utils/utils";
+
+// Component imports
 import ExplanationCard from "@/components/mail/ExplanationCard";
 import EmailForm from "@/components/mail/EmailForm";
 import SuccessfulProtection from "@/components/mail/SuccessfulProtection"
 import ProtectedDataBox from "@/components/mail/ProtectedDataBox";
-import { type Address } from "@iexec/web3mail";
-import { checkIsProtected, handleSubmitProtection, checkAppIsGrantedAccess } from "@/components/mail/utils/utils";
-
 
 const Page: NextPage = () => {
+  // Blockchain related hooks and constants
   const currentChainId = useChainId();
   const { switchChain } = useSwitchChain();
   const { address } = useAccount();
   const userAddress = address as string;
   const desiredChainId = 134; // For iExec sidechain.
 
-
+  // State management
   const [protectedDataAddress, setProtectedDataAddress] = useState<string>('');
   const [isProtected, setIsProtected] = useState(false);
   const [hasJustRegistered, setHasJustRegistered] = useState(false);
   const [appIsGrantedAccess, setAppIsGrantedAccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Effect hooks for managing side effects
   useEffect(() => {
     if (address) {
       resetStates();
@@ -48,6 +51,8 @@ const Page: NextPage = () => {
     }
   }, [protectedDataAddress]);
 
+  // Helper functions
+  // Resets all state variables to their initial values
   const resetStates = () => {
     setIsProtected(false);
     setHasJustRegistered(false);
@@ -56,6 +61,7 @@ const Page: NextPage = () => {
     setError(null);
   };
 
+  // Checks if the user's address is protected
   const checkIsProtectedWrapper = async (_userAddress: Address) => {
     try {
       const protectedAddress = await checkIsProtected(_userAddress);
@@ -68,6 +74,7 @@ const Page: NextPage = () => {
     }
   };
 
+  // Handles the submission of email protection
   const handleSubmitProtectionWrapper = async (email: string) => {
     try {
       const protectedAddress = await handleSubmitProtection(email);
@@ -81,6 +88,7 @@ const Page: NextPage = () => {
     }
   };
 
+  // Checks if the app is granted access to the protected data
   const checkAppIsGrantedAccessWrapper = async () => {
     try {
       const isGranted = await checkAppIsGrantedAccess(protectedDataAddress);
@@ -90,10 +98,12 @@ const Page: NextPage = () => {
     }
   };
 
+  // Updates the app's access status based on subscription changes
   const handleSubscriptionChange = (isSubscribed: boolean) => {
     setAppIsGrantedAccess(isSubscribed);
   };
 
+  // Render function
   return (
     <div className="max-w-md mx-auto mt-10 mb-20 px-4">
       <ExplanationCard />

@@ -1,16 +1,20 @@
 'use client'
+
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import Link from "next/link";
-import { checkIsProtected, checkAppIsGrantedAccess } from './utils/utils';
 import { usePathname } from 'next/navigation';
-
+import { checkIsProtected, checkAppIsGrantedAccess } from './utils/utils';
 
 const MailTooltip = () => {
+    // State management
     const [isVisible, setIsVisible] = useState(true);
+
+    // Hooks
     const { address } = useAccount();
     const pathname = usePathname();
 
+    // Effects
     useEffect(() => {
         if (pathname !== '/app/mail') {
             displayMailTooltip();
@@ -19,7 +23,7 @@ const MailTooltip = () => {
         }
     }, [pathname, address]);
 
-
+    // Helper function to check and display the tooltip
     const displayMailTooltip = async () => {
         const protectedAddress = await checkIsProtected(address as string);
         const isGranted = await checkAppIsGrantedAccess(protectedAddress as string);
@@ -29,12 +33,17 @@ const MailTooltip = () => {
         }
     };
 
-
+    // Early return if tooltip should not be visible
     if (!isVisible) return null;
 
+    // Render function
     return (
         <div className="fixed bottom-4 left-4 bg-blue-500 text-white px-3 py-2 rounded-md shadow-md flex items-center">
-            <span><Link href="/app/mail" >Web3mail with: {address ? `${address.slice(0, 6)}...` : 'Unknown'}</Link></span>
+            <span>
+                <Link href="/app/mail">
+                    Web3mail with: {address ? `${address.slice(0, 6)}...` : 'Unknown'}
+                </Link>
+            </span>
             <button
                 onClick={() => setIsVisible(false)}
                 className="ml-2 text-white hover:text-gray-200 focus:outline-none"

@@ -1,13 +1,18 @@
 // utils.tsx
+
 import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
 import { type Address } from "@iexec/web3mail";
+import { LedgityAddress } from "@/utils/address";
 
-export const LedgityAddress = ('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266').toLowerCase();
-
-
+// Initialize IExecDataProtector
 const dataProtector = new IExecDataProtector(window.ethereum);
 const dataProtectorCore = dataProtector.core;
 
+/**
+ * Data Protection Functions
+ */
+
+// Checks if a user's address is protected
 export const checkIsProtected = async (_userAddress: string) => {
     const protectedDataList = await dataProtectorCore.getProtectedData({
         owner: _userAddress,
@@ -19,6 +24,7 @@ export const checkIsProtected = async (_userAddress: string) => {
     return protectedDataList.length > 0 ? protectedAddressDataList[0] : null;
 };
 
+// Handles the submission of email protection
 export const handleSubmitProtection = async (email: string) => {
     try {
         const { address: protectedDataAddress } = await dataProtectorCore.protectData({
@@ -31,6 +37,11 @@ export const handleSubmitProtection = async (email: string) => {
     }
 };
 
+/**
+ * Access Control Functions
+ */
+
+// Checks if the app (Ledgity) is granted access to the protected data
 export const checkAppIsGrantedAccess = async (protectedDataAddress: string) => {
     if (!protectedDataAddress || protectedDataAddress === '') {
         console.log("No protected data address available");
@@ -43,7 +54,10 @@ export const checkAppIsGrantedAccess = async (protectedDataAddress: string) => {
             authorizedUser: LedgityAddress,
         });
 
-        const LedgityIsGranted = isGrantedAccess.filter((oneAccess: any) => oneAccess.requesterrestrict.toLowerCase() === LedgityAddress);
+        // Filter granted access for Ledgity address
+        const LedgityIsGranted = isGrantedAccess.filter((oneAccess: any) => 
+            oneAccess.requesterrestrict.toLowerCase() === LedgityAddress
+        );
 
         return LedgityIsGranted.length > 0;
     } catch (error) {

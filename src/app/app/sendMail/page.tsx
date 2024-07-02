@@ -2,13 +2,12 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import SendMailForm from '@/components/sendMail/SendMailForm';
-
-const LEDGITY_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+import { LedgityAddress } from '@/utils/address';
 
 export default function EmailPage() {
     const { address } = useAccount();
 
-    const isLedgityAddress = address?.toLowerCase() === LEDGITY_ADDRESS.toLowerCase();
+    const isLedgityAddress = address?.toLowerCase() === LedgityAddress;
 
     return (
         <div className="container mx-auto px-4 py-8">
