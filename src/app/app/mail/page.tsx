@@ -1,130 +1,117 @@
 "use client";
 import { type NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import { useSwitchChain, useChainId, useAccount } from "wagmi";
-import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
+
+import React, { useEffect, useState } from 'react';
+import { useSwitchChain, useChainId, useAccount } from 'wagmi'
 import ExplanationCard from "@/components/mail/ExplanationCard";
 import EmailForm from "@/components/mail/EmailForm";
-import SuccessfulRegister from "@/components/mail/SuccessfulRegister";
-import ProtectedDataList from "@/components/mail/ProtectedDataList";
-import { Address } from "@/utils/types";
-import { type GrantedAccessResponse } from "@iexec/dataprotector";
+import SuccessfulProtection from "@/components/mail/SuccessfulProtection"
+import ProtectedDataBox from "@/components/mail/ProtectedDataBox";
+import { type Address } from "@iexec/web3mail";
+import { checkIsProtected, handleSubmitProtection, checkAppIsGrantedAccess } from "@/components/mail/utils/utils";
 
-//Hardcoded address of the Ledgity app - test address
-const LedgityAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
 const Page: NextPage = () => {
   const currentChainId = useChainId();
   const { switchChain } = useSwitchChain();
   const { address } = useAccount();
+  const userAddress = address as string;
   const desiredChainId = 134; // For iExec sidechain.
 
-  const [protectedData, setProtectedData] = useState<Address>("0x0");
-  const [protectedAddressDataList, setProtectedDataList] = useState<Address[]>([]);
+
+  const [protectedDataAddress, setProtectedDataAddress] = useState<string>('');
   const [isProtected, setIsProtected] = useState(false);
   const [hasJustRegistered, setHasJustRegistered] = useState(false);
   const [appIsGrantedAccess, setAppIsGrantedAccess] = useState(false);
-
-  const provider = window.ethereum;
-  const dataProtector = new IExecDataProtector(provider);
-  const dataProtectorCore = dataProtector.core;
-
-  useEffect(() => {
-    if (currentChainId !== desiredChainId) {
-      switchChain({ chainId: desiredChainId });
-    }
-  }, [currentChainId, switchChain, desiredChainId]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (address) {
-      checkIsProtected(address);
+      resetStates();
+      checkIsProtectedWrapper(address as Address);
     }
   }, [address]);
 
   useEffect(() => {
-    checkAppIsGrantedAccess();
-  });
+    if (currentChainId !== desiredChainId) {
+      try {
+        switchChain({ chainId: desiredChainId });
+      } catch (err) {
+        setError(`Failed to switch chain: ${(err as Error).message}`);
+      }
+    }
+  }, [currentChainId, switchChain, desiredChainId]);
 
-  const checkIsProtected = async (address: Address) => {
-    const protectedDataList = await dataProtectorCore.getProtectedData({
-      owner: address,
-      requiredSchema: {
-        email: "string",
-      },
-    });
-    const protectedAddressDataList = protectedDataList.map(
-      (protectedData: ProtectedData) => protectedData.address as Address,
-    );
-    if (protectedDataList.length > 0) {
-      setProtectedDataList(protectedAddressDataList);
-      setIsProtected(true);
+  useEffect(() => {
+    if (protectedDataAddress) {
+      checkAppIsGrantedAccessWrapper();
+    }
+  }, [protectedDataAddress]);
+
+  const resetStates = () => {
+    setIsProtected(false);
+    setHasJustRegistered(false);
+    setAppIsGrantedAccess(false);
+    setProtectedDataAddress('');
+    setError(null);
+  };
+
+  const checkIsProtectedWrapper = async (_userAddress: Address) => {
+    try {
+      const protectedAddress = await checkIsProtected(_userAddress);
+      if (protectedAddress) {
+        setProtectedDataAddress(protectedAddress);
+        setIsProtected(true);
+      }
+    } catch (err) {
+      setError(`Failed to check protection status: ${(err as Error).message}`);
     }
   };
 
-  const handleSubmitProtection = async (email: string) => {
+  const handleSubmitProtectionWrapper = async (email: string) => {
     try {
-      const { address: protectedDataAddress } = await dataProtectorCore.protectData({
-        data: { email },
-      });
-
-      const response = await fetch(`/api/mailing/saveProtectedDataAddress`, {
-        method: "POST",
-        body: JSON.stringify({ protectedDataAddress }),
-        cache: "no-cache",
-      });
-      if (response.ok) {
-        setProtectedData(protectedDataAddress as Address);
+      const protectedAddress = await handleSubmitProtection(email);
+      if (protectedAddress) {
+        setProtectedDataAddress(protectedAddress);
         setIsProtected(true);
         setHasJustRegistered(true);
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (err) {
+      setError(`Failed to submit protection: ${(err as Error).message}`);
     }
   };
 
-  const checkAppIsGrantedAccess = async () => {
-    // TODO(@Turof): Je ne sais pas exactement ou tu veux mettre ton check
-    // mais je te laisse un exemple en dessous, à modifier en fonction de tes besoins
-
-    console.log(" check granted access1: " + protectedAddressDataList[0]);
-    const response = await fetch(`/api/mailing/retrieveProtectedDataAddress`, {
-      cache: "no-cache",
-    });
-    if (response.ok) {
-      const data = await response.json();
-      if (!data?.protectedDataAddress) return;
-
-      const { grantedAccess: appIsGrantedAccess } = await dataProtectorCore.getGrantedAccess({
-        protectedData: data!.protectedDataAddress,
-        authorizedUser: address,
-      });
-      console.log(appIsGrantedAccess);
-      if (appIsGrantedAccess.length > 0) {
-        setAppIsGrantedAccess(true);
-      }
+  const checkAppIsGrantedAccessWrapper = async () => {
+    try {
+      const isGranted = await checkAppIsGrantedAccess(protectedDataAddress);
+      setAppIsGrantedAccess(isGranted);
+    } catch (err) {
+      setError(`Failed to check app access: ${(err as Error).message}`);
     }
+  };
 
-    /*const { grantedAccess: appIsGrantedAccess } = await dataProtectorCore.getGrantedAccess({
-      protectedData: protectedAddressDataList[0],
-      authorizedUser: LedgityAddress,
-    });
-    console.log(appIsGrantedAccess);
-    if (appIsGrantedAccess.length > 0) {
-      setAppIsGrantedAccess(true);
-    }*/
+  const handleSubscriptionChange = (isSubscribed: boolean) => {
+    setAppIsGrantedAccess(isSubscribed);
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
+    <div className="max-w-md mx-auto mt-10 mb-20 px-4">
       <ExplanationCard />
-      {!isProtected && <EmailForm onSubmit={handleSubmitProtection} />}
-      {isProtected && hasJustRegistered && <SuccessfulRegister protectedData={protectedData} />}
-      {protectedAddressDataList.length > 0 && (
-        <ProtectedDataList
-          protectedAddressDataList={protectedAddressDataList}
+      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">{error}</div>}
+      {!isProtected && <EmailForm onSubmit={handleSubmitProtectionWrapper} />}
+      {isProtected && hasJustRegistered &&
+        <SuccessfulProtection
+          protectedData={protectedDataAddress}
+          onSubscriptionChange={handleSubscriptionChange} />
+      }
+      {isProtected && !hasJustRegistered &&
+        <ProtectedDataBox
+          protectedAddressData={protectedDataAddress}
           appIsGrantedAccess={appIsGrantedAccess}
+          userAddress={userAddress}
+          onSubscriptionChange={handleSubscriptionChange}
         />
-      )}
+      }
     </div>
   );
 };
