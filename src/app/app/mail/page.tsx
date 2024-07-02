@@ -1,5 +1,6 @@
-'use client'
+"use client";
 import { type NextPage } from "next";
+
 import React, { useEffect, useState } from 'react';
 import { useSwitchChain, useChainId, useAccount } from 'wagmi'
 import ExplanationCard from "@/components/mail/ExplanationCard";
@@ -9,12 +10,14 @@ import ProtectedDataBox from "@/components/mail/ProtectedDataBox";
 import { type Address } from "@iexec/web3mail";
 import { checkIsProtected, handleSubmitProtection, checkAppIsGrantedAccess } from "@/components/mail/utils/utils";
 
+
 const Page: NextPage = () => {
   const currentChainId = useChainId();
   const { switchChain } = useSwitchChain();
   const { address } = useAccount();
   const userAddress = address as string;
   const desiredChainId = 134; // For iExec sidechain.
+
 
   const [protectedDataAddress, setProtectedDataAddress] = useState<string>('');
   const [isProtected, setIsProtected] = useState(false);
@@ -63,7 +66,7 @@ const Page: NextPage = () => {
     } catch (err) {
       setError(`Failed to check protection status: ${(err as Error).message}`);
     }
-  }
+  };
 
   const handleSubmitProtectionWrapper = async (email: string) => {
     try {
@@ -76,7 +79,7 @@ const Page: NextPage = () => {
     } catch (err) {
       setError(`Failed to submit protection: ${(err as Error).message}`);
     }
-  }
+  };
 
   const checkAppIsGrantedAccessWrapper = async () => {
     try {
