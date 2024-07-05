@@ -39,5 +39,9 @@ const nextConfig = {
       },
     ];
   },
+  env: {
+    SENDER_PRIVATE_KEY: process.env.SENDER_PRIVATE_KEY,
+    RPC_URL: process.env.RPC_URL,
+  },
 };
 export default nextConfig;

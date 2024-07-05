@@ -2,6 +2,7 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import SendMailForm from '@/components/sendMail/SendMailForm';
+import BatchEmailComposer from '@/components/sendMail/BatchEmailComposer';
 import { LedgityAddress } from '@/utils/address';
 
 export default function EmailPage() {
@@ -14,7 +15,10 @@ export default function EmailPage() {
             <h1 className="text-2xl font-bold mb-4">Sending secure emails with web3mail</h1>
 
             {isLedgityAddress ? (
-                <SendMailForm />
+                <>
+                    <SendMailForm />
+                    <BatchEmailComposer />
+                </>
             ) : (
                 <div className="border-2 border-red-500 bg-red-100 text-red-700 p-4 rounded-md text-center">
                     Only for Ledgity

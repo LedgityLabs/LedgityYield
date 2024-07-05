@@ -1,22 +1,18 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-// Define props interface for EmailForm component
 interface EmailFormProps {
     onSubmit: (email: string) => void;
 }
 
 const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
-    // State management
     const [email, setEmail] = useState<string>('');
     const [error, setError] = useState<string>('');
 
-    // Email validation function
     const validateEmail = (email: string): boolean => {
         const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return re.test(email);
     };
 
-    // Event handlers
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
         setError('');
@@ -32,17 +28,15 @@ const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
         }
     };
 
-    // Render function
     return (
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4" data-testid="email-form">
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                     Email Address
                 </label>
                 <input
-                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                        error ? 'border-red-500' : ''
-                    }`}
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${error ? 'border-red-500' : ''
+                        }`}
                     id="email"
                     type="email"
                     placeholder="Enter your email"
@@ -50,7 +44,7 @@ const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
                     onChange={handleEmailChange}
                     required
                 />
-                {error && <p className="text-red-500 text-xs italic mt-1">{error}</p>}
+                {error && <p className="text-red-500 text-xs italic mt-1" data-testid="error-message">{error}</p>}
             </div>
             <div className="flex items-center justify-between">
                 <button
