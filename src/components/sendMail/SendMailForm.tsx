@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { IExecDataProtector, type ProtectedData } from "@iexec/dataprotector";
 import { IExecWeb3mail, type Contact } from '@iexec/web3mail';
-import { checkAppIsGrantedAccess } from '../mail/utils/utils';
+import { checkAppIsGrantedAccess, batchEmails } from '../mail/utils/utils';
 import { LedgityAddress } from "@/utils/address";
 
 // Initialize Web3Mail and DataProtector instances
@@ -25,6 +25,7 @@ const SendMailForm: React.FC = () => {
     const [protectedData, setProtectedData] = useState<string>('');
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [chosenContact, setChosenContact] = useState<string>('Select a contact');
+    const [isBatchSending, setIsBatchSending] = useState(false);
 
     // Effects
     useEffect(() => {
@@ -47,6 +48,7 @@ const SendMailForm: React.FC = () => {
             // Remove null values and set the filtered contacts
             const validContacts = filteredContacts.filter((contact): contact is Contact => contact !== null);
             setContacts(validContacts);
+            return validContacts;
         } catch (err) {
             console.error('Error fetching contacts:', err);
             setError('Failed to fetch contacts. Please try again.');
@@ -105,11 +107,27 @@ const SendMailForm: React.FC = () => {
         }
     };
 
+    const handleBatchSendEmails = async () => {
+        setIsBatchSending(true);
+        setError(null);
+        setSuccess(false);
+
+        try {
+            await batchEmails(subject, content, contentType, senderName, label);
+            setSuccess(true);
+        } catch (err) {
+            console.error('Error batch sending emails:', err);
+            setError('Failed to batch send emails. Please try again.');
+        } finally {
+            setIsBatchSending(false);
+        }
+    };
+
     // Render function
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
             <h2 className="text-2xl font-bold mb-4">Send Web3 Email</h2>
-            
+
             {/* Recipient Selection */}
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="contact">
@@ -216,6 +234,18 @@ const SendMailForm: React.FC = () => {
                     disabled={isSending || !protectedData}
                 >
                     {isSending ? 'Sending...' : 'Send Email'}
+                </button>
+            </div>
+
+            {/* Batch Send Button */}
+            <div className="flex items-center justify-between">
+                <button
+                    className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isBatchSending ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    type="button"
+                    onClick={handleBatchSendEmails}
+                    disabled={isBatchSending || !subject || !content}
+                >
+                    {isBatchSending ? 'Batch Sending...' : 'Batch Send Emails'}
                 </button>
             </div>
 

@@ -11,9 +11,9 @@ interface SuccessfulProtectionProps {
     onSubscriptionChange: (isSubscribed: boolean) => void;
 }
 
-const SuccessfulProtection: React.FC<SuccessfulProtectionProps> = ({ 
-    protectedData, 
-    onSubscriptionChange 
+const SuccessfulProtection: React.FC<SuccessfulProtectionProps> = ({
+    protectedData,
+    onSubscriptionChange
 }) => {
     // State management
     const [error, setError] = useState<string | null>(null);
@@ -43,9 +43,12 @@ const SuccessfulProtection: React.FC<SuccessfulProtectionProps> = ({
             <p className="mt-2">
                 Address of your protected data:
             </p>
-            <Link href={`https://blockscout-bellecour.iex.ec/address/${protectedData}`} className="font-mono underline">
-                {protectedData}
-            </Link>
+            <ul className="list-disc list-inside mt-2 mb-4 text-center">
+                <Link href={`https://blockscout-bellecour.iex.ec/address/${protectedData}`} className="font-mono underline">
+                    {protectedData.slice(0, 12)} [...] {protectedData.slice(-10)}
+                </Link>
+            </ul>
+
 
             {/* Error Display Section */}
             {error && (

@@ -14,11 +14,11 @@ interface ProtectedDataBoxProps {
     onSubscriptionChange: (isSubscribed: boolean) => void;
 }
 
-const ProtectedDataBox: React.FC<ProtectedDataBoxProps> = ({ 
-    protectedAddressData, 
-    appIsGrantedAccess, 
-    userAddress, 
-    onSubscriptionChange 
+const ProtectedDataBox: React.FC<ProtectedDataBoxProps> = ({
+    protectedAddressData,
+    appIsGrantedAccess,
+    userAddress,
+    onSubscriptionChange
 }) => {
     // State management
     const [error, setError] = useState<string | null>(null);
@@ -41,11 +41,11 @@ const ProtectedDataBox: React.FC<ProtectedDataBoxProps> = ({
                 <svg className="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="font-bold">Address of protected data:</span>
+                <span className="font-bold">Address of your protected data:</span>
             </div>
-            <ul className="list-disc list-inside mt-2 mb-4">
+            <ul className="list-disc list-inside mt-2 mb-4 text-center">
                 <Link href={`https://blockscout-bellecour.iex.ec/address/${protectedAddressData}`} className="font-mono underline">
-                    {protectedAddressData}
+                    {protectedAddressData.slice(0, 12)} [...] {protectedAddressData.slice(-10)}
                 </Link>
             </ul>
 
