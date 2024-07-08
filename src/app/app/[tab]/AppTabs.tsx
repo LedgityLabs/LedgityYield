@@ -12,6 +12,7 @@ import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
 import Link from "next/link";
+import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
 
 interface Props {
   defaultTab: string;
@@ -72,6 +73,7 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+        <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -89,6 +91,9 @@ const _AppTabs: FC = () => {
           </TabsContent>
           <TabsContent value="dashboard">
             <AppDashboard />
+          </TabsContent>
+          <TabsContent value="affiliate">
+            <AppAffiliate />
           </TabsContent>
         </SessionProvider>
       </div>

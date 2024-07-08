@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     "get-usdc": "Get USDC",
     // "pre-mining": "Pre-Mining",
     staking: "Staking",
+    affiliate: "Affiliate Program",
   }[params.tab];
 
   const description = {
