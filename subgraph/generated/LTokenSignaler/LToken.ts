@@ -68,6 +68,10 @@ export class ActivityEvent__Params {
   get newId(): BigInt {
     return this._event.parameters[6].value.toBigInt();
   }
+
+  get referralCode(): string {
+    return this._event.parameters[7].value.toString();
+  }
 }
 
 export class AdminChanged extends ethereum.Event {
@@ -1205,6 +1209,29 @@ export class LToken extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  withdrawalFeeInEth(): BigInt {
+    let result = super.call(
+      "withdrawalFeeInEth",
+      "withdrawalFeeInEth():(uint256)",
+      [],
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_withdrawalFeeInEth(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "withdrawalFeeInEth",
+      "withdrawalFeeInEth():(uint256)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   withdrawalQueue(param0: BigInt): LToken__withdrawalQueueResult {
     let result = super.call(
       "withdrawalQueue",
@@ -1274,29 +1301,6 @@ export class LToken extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  withdrwalFeeInEth(): BigInt {
-    let result = super.call(
-      "withdrwalFeeInEth",
-      "withdrwalFeeInEth():(uint256)",
-      [],
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_withdrwalFeeInEth(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "withdrwalFeeInEth",
-      "withdrwalFeeInEth():(uint256)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -1451,6 +1455,10 @@ export class DepositCall__Inputs {
 
   get amount(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get refCode(): string {
+    return this._call.inputValues[1].value.toString();
   }
 }
 
@@ -1932,6 +1940,36 @@ export class SetRetentionRateCall__Outputs {
   }
 }
 
+export class SetWithdrawalFeeInEthCall extends ethereum.Call {
+  get inputs(): SetWithdrawalFeeInEthCall__Inputs {
+    return new SetWithdrawalFeeInEthCall__Inputs(this);
+  }
+
+  get outputs(): SetWithdrawalFeeInEthCall__Outputs {
+    return new SetWithdrawalFeeInEthCall__Outputs(this);
+  }
+}
+
+export class SetWithdrawalFeeInEthCall__Inputs {
+  _call: SetWithdrawalFeeInEthCall;
+
+  constructor(call: SetWithdrawalFeeInEthCall) {
+    this._call = call;
+  }
+
+  get withdrawalFeeInEth_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetWithdrawalFeeInEthCall__Outputs {
+  _call: SetWithdrawalFeeInEthCall;
+
+  constructor(call: SetWithdrawalFeeInEthCall) {
+    this._call = call;
+  }
+}
+
 export class SetWithdrawerCall extends ethereum.Call {
   get inputs(): SetWithdrawerCall__Inputs {
     return new SetWithdrawerCall__Inputs(this);
@@ -1958,36 +1996,6 @@ export class SetWithdrawerCall__Outputs {
   _call: SetWithdrawerCall;
 
   constructor(call: SetWithdrawerCall) {
-    this._call = call;
-  }
-}
-
-export class SetWithdrwalFeeInEthCall extends ethereum.Call {
-  get inputs(): SetWithdrwalFeeInEthCall__Inputs {
-    return new SetWithdrwalFeeInEthCall__Inputs(this);
-  }
-
-  get outputs(): SetWithdrwalFeeInEthCall__Outputs {
-    return new SetWithdrwalFeeInEthCall__Outputs(this);
-  }
-}
-
-export class SetWithdrwalFeeInEthCall__Inputs {
-  _call: SetWithdrwalFeeInEthCall;
-
-  constructor(call: SetWithdrwalFeeInEthCall) {
-    this._call = call;
-  }
-
-  get withdrwalFeeInEth_(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetWithdrwalFeeInEthCall__Outputs {
-  _call: SetWithdrwalFeeInEthCall;
-
-  constructor(call: SetWithdrwalFeeInEthCall) {
     this._call = call;
   }
 }

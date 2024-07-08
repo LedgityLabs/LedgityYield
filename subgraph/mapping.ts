@@ -11,7 +11,7 @@ import {
   RewardPaid as RewardPaidEvent,
   NotifiedRewardAmount as NotififiedRewardAmountEvent,
 } from "./generated/LdyStaking/LdyStaking";
-import { StakingUser } from "./generated/schema";
+import { AffiliateUser, AffiliateInfo, StakingUser, AffiliateActivity } from "./generated/schema";
 import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
@@ -25,7 +25,12 @@ import {
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 import { store } from "@graphprotocol/graph-ts";
-import { getOrCreateStakingAPRInfo, updateStakingAPRInfo } from "./helper";
+import {
+  ActivityAction,
+  ActivityStatus,
+  getOrCreateStakingAPRInfo,
+  updateStakingAPRInfo,
+} from "./helper";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
   // Start indexing the signaled LToken
@@ -65,22 +70,6 @@ export function handleAPRChangeEvent(event: APRChangeEvent): void {
     aprUpdate.save();
     ltoken.save();
   }
-}
-
-/**
- * Required, see:
- * https://ethereum.stackexchange.com/questions/139078/how-to-use-subgraph-enums-in-the-mapping
- */
-class ActivityStatus {
-  static Success: string = "Success";
-  static Fulfilled: string = "Fulfilled";
-  static Cancelled: string = "Cancelled";
-  static Queued: string = "Queued";
-  static Moved: string = "Moved";
-}
-class ActivityAction {
-  static Withdraw: string = "Withdraw";
-  static Deposit: string = "Deposit";
 }
 
 function buildActivityID(
@@ -195,6 +184,59 @@ export function handleActivityEvent(event: ActivityEvent): void {
 
       // Save the activity
       activity.save();
+    }
+
+    // Check AffiliateUser
+    let affiliateUser = AffiliateUser.load(event.params.account.toHexString());
+    if (
+      action == ActivityAction.Deposit &&
+      event.params.referralCode.length &&
+      affiliateUser == null
+    ) {
+      affiliateUser = new AffiliateUser(event.params.account.toHexString());
+      affiliateUser.walletAddress = event.params.account;
+      affiliateUser.affiliateCode = event.params.referralCode;
+      affiliateUser.save();
+    }
+
+    // Check AffiliateInfo(Only check successful activities)
+    if (event.params.newStatus == 2 && affiliateUser !== null) {
+      const affiliateInfoId =
+        affiliateUser.walletAddress.toHexString() + "-" + affiliateUser.affiliateCode;
+      let userAffiliateInfo = AffiliateInfo.load(affiliateInfoId);
+      if (userAffiliateInfo == null) {
+        userAffiliateInfo = new AffiliateInfo(affiliateInfoId);
+        userAffiliateInfo.affiliateCode = event.params.referralCode;
+        userAffiliateInfo.ltoken = ltoken.id;
+        userAffiliateInfo.account = affiliateUser.id;
+        userAffiliateInfo.totalAmount = BigInt.fromI32(0);
+        userAffiliateInfo.totalAmountAfterFees = BigInt.fromI32(0);
+      }
+
+      if (action == ActivityAction.Deposit) {
+        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.plus(event.params.amount);
+        userAffiliateInfo.totalAmountAfterFees = userAffiliateInfo.totalAmountAfterFees.plus(
+          event.params.amountAfterFees,
+        );
+      } else {
+        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.minus(event.params.amount);
+        userAffiliateInfo.totalAmountAfterFees = userAffiliateInfo.totalAmountAfterFees.minus(
+          event.params.amountAfterFees,
+        );
+      }
+      userAffiliateInfo.lastTimestamp = event.block.timestamp;
+      userAffiliateInfo.save();
+
+      // Check AffiliateActivity
+      const affiliateActivityId =
+        userAffiliateInfo.id + "-" + action + "-" + event.block.timestamp.toString();
+      const affiliateActivity = new AffiliateActivity(affiliateActivityId);
+      affiliateActivity.affiliateInfo = userAffiliateInfo.id;
+      affiliateActivity.action = action;
+      affiliateActivity.amount = event.params.amount;
+      affiliateActivity.amountAfterFees = event.params.amountAfterFees;
+      affiliateActivity.timestamp = event.block.timestamp;
+      affiliateActivity.save();
     }
   }
 }
