@@ -72,7 +72,7 @@ if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 // Build chain lists for each environment, and export chains for the current one
 const prodChains: readonly [Chain, ...Chain[]] = [mainnet, arbitrum, linea, xlayerMainnet];
 const devChains: readonly [Chain, ...Chain[]] = [
-  // ...prodChains,
+  ...prodChains,
   mainnet,
   sepolia,
   hardhat,

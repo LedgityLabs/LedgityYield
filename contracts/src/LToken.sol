@@ -138,9 +138,9 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     ITransfersListener[] public transfersListeners;
 
     /**
-     * @notice Holds the withdrwalFee amount in ETH that will be sent to withdrawer wallet.
+     * @notice Holds the withdrawalFee amount in ETH that will be sent to withdrawer wallet.
      */
-    uint256 public withdrwalFeeInEth;
+    uint256 public withdrawalFeeInEth;
 
     /**
      * @notice Emitted to inform listeners about a change in the contract's TVL.
@@ -165,7 +165,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         uint256 amount,
         uint256 amountAfterFees,
         Status newStatus,
-        int256 newId
+        int256 newId,
+        string referralCode
     );
 
     /**
@@ -236,8 +237,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         withdrawer = payable(owner());
         fund = payable(owner());
 
-        // Set initial withdrwalFeeInEth
-        withdrwalFeeInEth = 0.00075 * 1e18;
+        // Set initial withdrawalFeeInEth
+        withdrawalFeeInEth = 0.00075 * 1e18;
     }
 
     /**
@@ -284,11 +285,10 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
 
     /**
      * @notice Updates the current withdrawalFeeInETH.
-     * @param withdrwalFeeInEth_ The new withdrawalFee in ETH.
+     * @param withdrawalFeeInEth_ The new withdrawalFee in ETH.
      */
-    function setWithdrwalFeeInEth(uint256 withdrwalFeeInEth_) public onlyOwner {
-        require(withdrwalFeeInEth <= MAX_FEES_RATE_UD7x3, "L88");
-        withdrwalFeeInEth = withdrwalFeeInEth_;
+    function setWithdrawalFeeInEth(uint256 withdrawalFeeInEth_) public onlyOwner {
+        withdrawalFeeInEth = withdrawalFeeInEth_;
     }
 
     /**
@@ -585,8 +585,12 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /**
      * @notice Allows exchanging some underlying tokens for the same amount of L-Tokens.
      * @param amount The amount of underlying tokens to deposit.
+     * @param refCode The Referral code
      */
-    function deposit(uint256 amount) public whenNotPaused notBlacklisted(_msgSender()) {
+    function deposit(
+        uint256 amount,
+        string memory refCode
+    ) public whenNotPaused notBlacklisted(_msgSender()) {
         // Ensure the account has enough underlying tokens to deposit
         require(underlying().balanceOf(_msgSender()) >= amount, "L47");
 
@@ -601,7 +605,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             amount,
             amount,
             Status.Success,
-            NO_ID
+            NO_ID,
+            refCode
         );
 
         // Receive underlying tokens and mint L-Tokens to the account in a 1:1 ratio
@@ -676,7 +681,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             amount,
             withdrawnAmount,
             Status.Success,
-            NO_ID
+            NO_ID,
+            ""
         );
 
         // Burn withdrawal fees from the account
@@ -689,7 +695,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
     /**
      * @notice Allows requesting the exchange of a given amount of L-Tokens for the same
      * amount of underlying tokens. The request will be automatically processed later.
-     * @dev The sender must attach withdrwalFeeInETH to pre-pay the future processing gas fees
+     * @dev The sender must attach withdrawalFeeInETH to pre-pay the future processing gas fees
      * paid by the withdrawer wallet.
      * @param amount The amount L-Tokens to withdraw.
      */
@@ -703,7 +709,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         require(amount <= type(uint96).max, "L54");
 
         // Ensure the sender attached the pre-paid processing gas fees
-        require(msg.value == withdrwalFeeInEth, "L55");
+        require(msg.value == withdrawalFeeInEth, "L55");
 
         // Create withdrawal request data
         WithdrawalRequest memory request = WithdrawalRequest({
@@ -738,7 +744,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             amount,
             amount,
             Status.Queued,
-            NO_ID
+            NO_ID,
+            ""
         );
 
         // Burn withdrawal L-Tokens amount from account's balance
@@ -798,7 +805,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                     request.amount,
                     request.amount,
                     Status.Moved,
-                    int256(withdrawalQueue.length)
+                    int256(withdrawalQueue.length),
+                    ""
                 );
 
                 // Remove request from queue
@@ -831,7 +839,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                     request.amount,
                     withdrawnAmount,
                     Status.Success,
-                    NO_ID
+                    NO_ID,
+                    ""
                 );
 
                 // Remove request from queue
@@ -915,7 +924,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             request.amount,
             withdrawnAmount,
             Status.Success,
-            NO_ID
+            NO_ID,
+            ""
         );
 
         // Remove request from queue
@@ -972,7 +982,8 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             request.amount,
             request.amount,
             Status.Cancelled,
-            NO_ID
+            NO_ID,
+            ""
         );
 
         // Mint back L-Tokens to account
