@@ -97,7 +97,6 @@ const RootLayout: NextPage<Props> = ({ children }) => {
             </div>
           </DApp>
         </TooltipProvider>
-
         {/* Google tag (gtag.js) */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-90LEKEYYXG" />
         <Script id="google-analytics">
