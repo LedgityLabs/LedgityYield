@@ -1,30 +1,31 @@
 export const retryable = async <T>(
   executor: () => Promise<T>,
   {
-    maxTries = 10,
-    initialWaitTime = 5000,
+    maxTries = 5,
+    initialWaitTime = 1000,
+    factor = 2,
   }: {
     maxTries?: number;
     initialWaitTime?: number;
+    factor?: number;
   } = {}
 ): Promise<T> => {
   let retryCount = 0;
-  let result: T;
+  let waitTime = initialWaitTime;
+
   while (true) {
     try {
-      result = await executor();
-      break;
+      return await executor();
     } catch (e) {
       console.log('Error: ', e);
-      let backoffTime = Math.pow(2, retryCount) * initialWaitTime;
       retryCount++;
       if (retryCount >= maxTries) {
         console.log(`Max retry reached: ${e}`);
         throw e;
       }
-      console.log(`Retrying... Waiting for ${backoffTime / 1000} seconds.`);
-      await new Promise(resolve => setTimeout(resolve, backoffTime));
+      console.log(`Retrying... Waiting for ${waitTime / 1000} seconds.`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+      waitTime *= factor; // Increase wait time for next attempt
     }
   }
-  return result;
 };

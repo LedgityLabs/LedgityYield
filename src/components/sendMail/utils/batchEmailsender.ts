@@ -12,56 +12,107 @@ const MAX_RETRIES = 5;
 const INITIAL_WAIT_TIME = 1000; // 5 seconds
 const MAX_CONTACTS = 20; // Limit for testing
 
+// export async function sendBatchEmails(subject: string, content: string) {
+//     const signer = getAutomaticSigner();
+//     if (!signer) {
+//         throw new Error('Failed to initialize signer. Check your environment variables.');
+//     }
+
+//     const web3mail = new IExecWeb3mail(signer);
+
+//     try {
+//         const contacts = await fetchContactsWithAccess(signer);
+//         console.log(`Fetched ${contacts.length} contacts`);
+
+//         const limitedContacts = contacts.slice(0, MAX_CONTACTS);
+//         console.log(`Limited to ${limitedContacts.length} contacts`);
+
+//         for (let i = 0; i < limitedContacts.length; i++) {
+//             const contact = limitedContacts[i];
+//             try {
+//                 console.log(`Processing contact ${i + 1}/${limitedContacts.length}: ${contact.address}`);
+
+//                 if (hasEmailBeenSent(contact.address)) {
+//                     console.log(`Email already sent to ${contact.address}. Skipping.`);
+//                     continue;
+//                 }
+
+//                 console.log(`Attempting to send email to ${contact.address}`);
+
+//                 const { taskId } = await retryable(
+//                     async () => {
+//                         const result = await web3mail.sendEmail({
+//                             protectedData: contact.address,
+//                             emailSubject: subject,
+//                             emailContent: content,
+//                             contentType: 'text/plain',
+//                             senderName: 'Ledgity',
+//                         });
+//                         console.log(`Email sent successfully, taskId: ${result.taskId}`);
+//                         return result;
+//                     },
+//                     {
+//                         initialWaitTime: INITIAL_WAIT_TIME,
+//                         maxTries: MAX_RETRIES,
+//                     }
+//                 );
+
+//                 markEmailAsSent(contact.address, taskId);
+//                 console.log(`Email marked as sent for ${contact.address}`);
+
+//                 console.log(`Waiting ${DELAY_BETWEEN_EMAILS / 1000} seconds before next email`);
+//                 await new Promise(resolve => setTimeout(resolve, DELAY_BETWEEN_EMAILS));
+//             } catch (error) {
+//                 console.error(`Failed to send email to ${contact.address}:`, error);
+//             }
+//         }
+//     } catch (error) {
+//         console.error('Error in batch email process:', error);
+//         throw error;
+//     }
+// }
+
 export async function sendBatchEmails(subject: string, content: string) {
     const signer = getAutomaticSigner();
     if (!signer) {
         throw new Error('Failed to initialize signer. Check your environment variables.');
     }
+    console.log(signer)
 
     const web3mail = new IExecWeb3mail(signer);
 
     try {
         const contacts = await fetchContactsWithAccess(signer);
-        const limitedContacts = contacts.slice(0, MAX_CONTACTS);
 
-        for (const contact of limitedContacts) {
-            try {
-                if (hasEmailBeenSent(contact.address)) {
-                    console.log(`Email already sent to ${contact.address}. Skipping.`);
-                    continue;
-                }
 
-                console.log(`Attempting to send email to ${contact.address}`);
+        for (let i = 0; i < contacts.length; i++) {
+            const contact = contacts[i];
 
-                const { taskId } = await retryable(
-                    async () => {
-                        try {
-                            return await web3mail.sendEmail({
-                                protectedData: contact.address,
-                                emailSubject: subject,
-                                emailContent: content,
-                                contentType: 'text/plain',
-                                senderName: 'Ledgity',
-                            });
-                        } catch (error) {
-                            console.error('Error sending email:', error);
-                            throw error;
-                        }
-                    },
-                    {
-                        initialWaitTime: INITIAL_WAIT_TIME,
-                        maxTries: MAX_RETRIES,
-                    }
-                );
+            console.log(`Processing contact ${i + 1}/${contacts.length}: ${contact.address}`);
 
-                markEmailAsSent(contact.address, taskId);
-                console.log(`Email sent successfully to ${contact.address}`);
-
-                await new Promise(resolve => setTimeout(resolve, DELAY_BETWEEN_EMAILS));
-            } catch (error) {
-                console.error(`Failed to send email to ${contact.address}:`, error);
+            if (hasEmailBeenSent(contact.address)) {
+                console.log(`Email already sent to ${contact.address}. Skipping.`);
+                continue;
             }
+
+
+            const result = await web3mail.sendEmail({
+                protectedData: contact.address,
+                emailSubject: subject,
+                emailContent: content,
+                contentType: 'text/plain',
+                senderName: 'Ledgity',
+                workerpoolAddressOrEns: 'prod-v8-bellecour.main.pools.iexec.eth'
+            });
+            console.log(result.taskId)
+
+
+            console.log(`Waiting ${DELAY_BETWEEN_EMAILS / 1000} seconds before next email`);
+            await new Promise(resolve => setTimeout(resolve, DELAY_BETWEEN_EMAILS));
+
         }
+
+        console.log('Batch email sending process completed.');
     } catch (error) {
         console.error('Error in batch email process:', error);
         throw error;
@@ -88,5 +139,10 @@ async function checkAppIsGrantedAccess(protectedDataAddress: string, signer: any
         protectedData: protectedDataAddress,
         authorizedUser: LedgityAddress,
     });
-    return grantedAccess.length > 0;
+    // Filter granted access for Ledgity address
+    const LedgityIsGranted = grantedAccess.filter((oneAccess: any) =>
+        oneAccess.requesterrestrict.toLowerCase() === LedgityAddress
+    );
+
+    return LedgityIsGranted.length > 0;
 }
