@@ -1,5 +1,17 @@
-import { Button, Card, Input } from "@/components/ui";
-import { createAffiliateCode, RequestParams } from "@/services/api/createAffiliateCode";
+import {
+  Button,
+  Card,
+  DialogTrigger,
+  Input,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
+import {
+  AffiliateResponse,
+  createAffiliateCode,
+  RequestParams,
+} from "@/services/api/createAffiliateCode";
 import { FC, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -10,6 +22,9 @@ export const AppAffiliate: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [copiedText, copy] = useCopyToClipboard();
   const [affiliateUrl, setAffiliateUrl] = useState<string>("https://ledgity.finance/example");
+  const [errorMsg, setErrorMsg] = useState<string>();
+  const [isError, setIsError] = useState<boolean>(false);
+  const [affiliateData, setAffiliateData] = useState<AffiliateResponse>();
 
   const handleCopy = (text: string) => {
     copy(text)
@@ -28,7 +43,10 @@ export const AppAffiliate: FC = () => {
         walletAddress: getAddress(walletAddress),
       };
       const data = await createAffiliateCode(requestParams);
-      console.log("data: ", data);
+      // setIsError(!data.isSuccess);
+      // setErrorMsg(data.message);
+      // setErrorMsg(data.message);
+      setAffiliateData(data);
       setIsLoading(false);
     }
   };
@@ -51,13 +69,25 @@ export const AppAffiliate: FC = () => {
         >
           <div className="">Paste your wallet to participate in the affiliate program!</div>
           <div className="flex justify-start w-full gap-x-2">
-            <Input
-              placeholder="Input Wallet Address"
-              value={walletAddress}
-              onChange={(e) => (setWalletAddress ? setWalletAddress(e.target.value) : null)}
-              disableDefaultCss={true}
-              className="bg-gray-300 w-full p-1 rounded-lg text-sm"
-            />
+            <Tooltip open={affiliateData && !affiliateData.isSuccess}>
+              <TooltipTrigger className="w-full h-full content-center">
+                <Input
+                  placeholder="Input Wallet Address"
+                  value={walletAddress}
+                  onChange={(e) => (setWalletAddress ? setWalletAddress(e.target.value) : null)}
+                  disableDefaultCss={true}
+                  className="bg-gray-300 w-full p-2 rounded-lg text-sm"
+                />
+              </TooltipTrigger>
+              <TooltipContent
+                className="font-semibold"
+                variant={"destructive"}
+                side="bottom"
+                sideOffset={4}
+              >
+                {affiliateData?.message}
+              </TooltipContent>
+            </Tooltip>
             <Button
               size="tiny"
               onClick={sendAffiliateRequest}
@@ -83,11 +113,11 @@ export const AppAffiliate: FC = () => {
           <div className="relative flex bg-gray-300 w-full rounded-lg">
             <i
               className="ri-link rounded-full px-1 text-2xl font-bold absolute z-20 h-8 top-1/2 transform -translate-y-1/2 left-3 bg-none hover:cursor-pointer hover:bg-gray-100"
-              onClick={() => handleCopy(affiliateUrl)}
+              onClick={() => affiliateData && handleCopy(affiliateData.referralUrl)}
             ></i>
             <input
               type="text"
-              value={affiliateUrl}
+              value={affiliateData && affiliateData.referralUrl}
               readOnly
               className="w-full bg-transparent text-gray-400 focus:ring relative rounded text-sm border-none outline-none focus:outline-none pl-12 pr-3 py-2"
             />
