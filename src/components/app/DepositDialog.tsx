@@ -23,6 +23,7 @@ import { erc20Abi, parseUnits, zeroAddress } from "viem";
 import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import useRestricted from "@/hooks/useRestricted";
+import { useMainContext } from "@/hooks/useMainContext";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
   underlyingSymbol: string;
@@ -30,6 +31,7 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
 }
 
 export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
+  const { referralCode } = useMainContext();
   const account = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
@@ -46,7 +48,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const preparation = useSimulateLTokenDeposit({
     address: lTokenAddress!,
-    args: [depositedAmount],
+    args: [depositedAmount, referralCode || ""],
   });
 
   // Refresh some data every 5 blocks

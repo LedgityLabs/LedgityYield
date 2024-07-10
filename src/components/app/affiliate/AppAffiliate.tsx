@@ -12,6 +12,7 @@ import {
   createAffiliateCode,
   RequestParams,
 } from "@/services/api/createAffiliateCode";
+import clsx from "clsx";
 import { FC, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -21,36 +22,24 @@ export const AppAffiliate: FC = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [copiedText, copy] = useCopyToClipboard();
-  const [affiliateUrl, setAffiliateUrl] = useState<string>("https://ledgity.finance/example");
-  const [errorMsg, setErrorMsg] = useState<string>();
-  const [isError, setIsError] = useState<boolean>(false);
   const [affiliateData, setAffiliateData] = useState<AffiliateResponse>();
 
   const handleCopy = (text: string) => {
-    copy(text)
-      .then(() => {
-        console.log("Copied!", { text });
-      })
-      .catch((error) => {
-        console.error("Failed to copy!", error);
-      });
+    copy(text);
   };
 
   const sendAffiliateRequest = async () => {
     if (walletAddress?.length) {
+      handleCopy("");
       setIsLoading(true);
       const requestParams: RequestParams = {
         walletAddress: getAddress(walletAddress),
       };
       const data = await createAffiliateCode(requestParams);
-      // setIsError(!data.isSuccess);
-      // setErrorMsg(data.message);
-      // setErrorMsg(data.message);
       setAffiliateData(data);
       setIsLoading(false);
     }
   };
-
   return (
     <div className="lg:w-[1080px] flex flex-col items-center justify-center w-full h-full text-slate-700 gap-y-4">
       <span className="text-2xl lg:text-5xl font-extrabold text-nowrap leading-loose">
@@ -112,14 +101,18 @@ export const AppAffiliate: FC = () => {
           </div>
           <div className="relative flex bg-gray-300 w-full rounded-lg">
             <i
-              className="ri-link rounded-full px-1 text-2xl font-bold absolute z-20 h-8 top-1/2 transform -translate-y-1/2 left-3 bg-none hover:cursor-pointer hover:bg-gray-100"
+              className={clsx(
+                copiedText ? "ri-checkbox-circle-line" : "ri-link",
+                "rounded-full px-1 text-2xl font-bold absolute z-20 h-8 top-1/2 transform -translate-y-1/2 left-1 bg-none hover:cursor-pointer hover:bg-gray-100",
+              )}
               onClick={() => affiliateData && handleCopy(affiliateData.referralUrl)}
-            ></i>
+            />
+
             <input
               type="text"
               value={affiliateData && affiliateData.referralUrl}
               readOnly
-              className="w-full bg-transparent text-gray-400 focus:ring relative rounded text-sm border-none outline-none focus:outline-none pl-12 pr-3 py-2"
+              className="w-full bg-white text-gray-500 focus:ring relative rounded text-sm border border-1 outline-none focus:outline-none pl-12 pr-3 py-2"
             />
           </div>
         </Card>
