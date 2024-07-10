@@ -74,7 +74,7 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-        <TabsTrigger value="bridge">Bridge</TabsTrigger>
+        <TabsTrigger value="bridge">Swap</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
