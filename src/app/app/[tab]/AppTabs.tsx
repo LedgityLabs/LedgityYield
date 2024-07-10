@@ -1,16 +1,18 @@
-"use client";
+'use client';
+
+import "@swing.xyz/ui/theme.css";
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
-
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
+import { AppBridge } from "@/components/app/bridge/AppBridge";
 import Link from "next/link";
 
 interface Props {
@@ -57,7 +59,7 @@ const _AppTabs: FC = () => {
           <div
             className={twMerge(
               "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[red] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-              currentTab === "staking" && "opacity-50 hover:opacity-100",
+              currentTab === "staking" && "opacity-50 hover:opacity-100"
             )}
           >
             <i className="ri-fire-fill text-x animate-pulse" />
@@ -72,6 +74,7 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+        <TabsTrigger value="bridge">Bridge</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -89,6 +92,9 @@ const _AppTabs: FC = () => {
           </TabsContent>
           <TabsContent value="dashboard">
             <AppDashboard />
+          </TabsContent>
+          <TabsContent value="bridge">
+            <AppBridge />
           </TabsContent>
         </SessionProvider>
       </div>
