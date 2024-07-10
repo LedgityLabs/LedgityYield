@@ -1,3 +1,16 @@
+## [1.269.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.268.0...v1.269.0) (2024-07-10)
+
+
+### Features
+
+* **swap:** swap or bridge ([e5d462e](https://github.com/LedgityLabs/LedgityYield/commit/e5d462e33d243b62bdc3049fb3cf8537baea758f))
+* **x_swap_bridge:** integrating bridge and swap with xswap widget ([7d7d102](https://github.com/LedgityLabs/LedgityYield/commit/7d7d1029013681488b56cc2304300ed3237f9192))
+
+
+### Others
+
+* **optional env:** changing some environment variables to be optional ([14749e1](https://github.com/LedgityLabs/LedgityYield/commit/14749e1ade2d3a15e4abf26b243b2573ad58879d))
+
 ## [1.268.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.267.0...v1.268.0) (2024-06-08)
 
 
