@@ -1,3 +1,10 @@
+## [1.270.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.269.0...v1.270.0) (2024-07-12)
+
+
+### Features
+
+* x_swap_bridge: integrating bridge and swap with xswap widget ([a2123ed](https://github.com/LedgityLabs/LedgityYield/commit/a2123ed01e9d3c2f9e90dbf97304b4e4a93a9016))
+
 ## [1.269.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.268.0...v1.269.0) (2024-07-10)
 
 
