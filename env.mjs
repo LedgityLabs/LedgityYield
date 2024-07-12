@@ -5,9 +5,9 @@ export const env = createEnv({
   server: {
     TWITTER_CLIENT_ID: z.string().optional(),
     TWITTER_CLIENT_SECRET: z.string().optional(),
-    IPINFO_TOKEN: z.string().optional(),
-    SCORECHAIN_API_KEY: z.string().optional(),
-    AML_ALERT_WEBHOOK: z.string().url().optional(),
+    IPINFO_TOKEN: z.string(),
+    SCORECHAIN_API_KEY: z.string(),
+    AML_ALERT_WEBHOOK: z.string().url(),
   },
   client: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),
