@@ -13,7 +13,6 @@ interface Props {
     onError: (message: string) => void;
 }
 
-
 const CancelSubscriptionButton: FC<Props> = ({ 
     protectedData, 
     userAddress, 
@@ -51,7 +50,7 @@ const CancelSubscriptionButton: FC<Props> = ({
             });
 
             // Filter for the specific protected data
-            const protectedDataArray = grantedAccess.filter((oneAccess) => oneAccess.dataset.toLowerCase() === protectedData);
+            const protectedDataArray = grantedAccess.filter((oneAccess: any) => oneAccess.dataset.toLowerCase() === protectedData);
 
             if (protectedDataArray.length === 0) {
                 throw new Error("No matching granted access found for revocation");
@@ -67,7 +66,7 @@ const CancelSubscriptionButton: FC<Props> = ({
         }
     };
 
-    // Render function
+    // Render function for the CancelSubscriptionButton component
     return (
         <button
             className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}

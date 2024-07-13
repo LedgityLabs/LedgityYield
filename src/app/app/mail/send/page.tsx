@@ -1,8 +1,7 @@
 'use client'
 import React from 'react';
 import { useAccount } from 'wagmi';
-import SendMailForm from '@/components/sendMail/SendMailForm';
-import BatchEmailComposer from '@/components/sendMail/BatchEmailComposer';
+import BatchEmailComposer from '@/components/send/BatchEmailComposer';
 import { LedgityAddress } from '@/utils/address';
 
 export default function EmailPage() {
@@ -16,7 +15,6 @@ export default function EmailPage() {
 
             {isLedgityAddress ? (
                 <>
-                    <SendMailForm />
                     <BatchEmailComposer />
                 </>
             ) : (

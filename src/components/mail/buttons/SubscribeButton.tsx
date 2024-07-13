@@ -5,7 +5,6 @@ import { IExecDataProtector } from "@iexec/dataprotector";
 import { type Address } from "@iexec/web3mail";
 import { LedgityAddress, AuthorizedAppAddress } from "@/utils/address";
 
-
 // Define props interface for SubscribeButton component
 interface Props {
     protectedData: Address;
@@ -21,7 +20,9 @@ const SubscribeButton: FC<Props> = ({
     // State management
     const [isLoading, setIsLoading] = useState(false);
 
-    // Helper function to grant access
+    /**
+     * Helper function to grant access
+     */
     const grantAccessSubmit = async () => {
         setIsLoading(true);
         const dataProtector = new IExecDataProtector(window.ethereum);
@@ -43,7 +44,9 @@ const SubscribeButton: FC<Props> = ({
         }
     }
 
-    // Render function
+    /**
+     * Render function for the SubscribeButton component
+     */
     return (
         <button
             className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}

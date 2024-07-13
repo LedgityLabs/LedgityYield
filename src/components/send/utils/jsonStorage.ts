@@ -31,3 +31,7 @@ export function markEmailAsSent(address: string, taskId: string): void {
   };
   setEmailStatus(data);
 }
+
+export function clearEmailSendStatus(): void {
+  localStorage.removeItem(STORAGE_KEY);
+}
