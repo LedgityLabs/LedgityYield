@@ -88,7 +88,8 @@ mailQueue.process(async (job) => {
 // Clear status on completed state
 mailQueue.on('completed', () => clearEmailSendStatus())
 
-// TODO: maybe add some security requirements (to avoid mail send from unauthorized entity/user)
+// TODO: maybe add some security requirements
+//  (to avoid mail send from unauthorized entity/user)
 export const POST = async (request: NextRequest) => {
     const data = await request.json();
 
