@@ -11,7 +11,7 @@ import {
   RewardPaid as RewardPaidEvent,
   NotifiedRewardAmount as NotififiedRewardAmountEvent,
 } from "./generated/LdyStaking/LdyStaking";
-import { AffiliateUser, AffiliateInfo, StakingUser, AffiliateActivity } from "./generated/schema";
+import { AffiliateUser, StakingUser, AffiliateActivity } from "./generated/schema";
 import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
@@ -201,38 +201,13 @@ export function handleActivityEvent(event: ActivityEvent): void {
 
     // Check AffiliateInfo(Only check successful activities)
     if (event.params.newStatus == 2 && affiliateUser !== null) {
-      const affiliateInfoId =
-        affiliateUser.walletAddress.toHexString() + "-" + affiliateUser.affiliateCode;
-      let userAffiliateInfo = AffiliateInfo.load(affiliateInfoId);
-      if (userAffiliateInfo == null) {
-        userAffiliateInfo = new AffiliateInfo(affiliateInfoId);
-        userAffiliateInfo.affiliateCode = event.params.referralCode;
-        userAffiliateInfo.ltoken = ltoken.id;
-        userAffiliateInfo.account = affiliateUser.id;
-        userAffiliateInfo.totalAmount = BigInt.fromI32(0);
-        userAffiliateInfo.totalAmountAfterFees = BigInt.fromI32(0);
-      }
-
-      if (action == ActivityAction.Deposit) {
-        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.plus(event.params.amount);
-        userAffiliateInfo.totalAmountAfterFees = userAffiliateInfo.totalAmountAfterFees.plus(
-          event.params.amountAfterFees,
-        );
-      } else {
-        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.minus(event.params.amount);
-        userAffiliateInfo.totalAmountAfterFees = userAffiliateInfo.totalAmountAfterFees.minus(
-          event.params.amountAfterFees,
-        );
-      }
-      userAffiliateInfo.lastTimestamp = event.block.timestamp;
-      userAffiliateInfo.save();
-
-      // Check AffiliateActivity
-      const affiliateActivityId =
-        userAffiliateInfo.id + "-" + action + "-" + event.block.timestamp.toString();
-      const affiliateActivity = new AffiliateActivity(affiliateActivityId);
-      affiliateActivity.affiliateInfo = userAffiliateInfo.id;
+      const affiliateActivity = new AffiliateActivity(
+        event.transaction.hash.concatI32(event.logIndex.toI32()),
+      );
+      affiliateActivity.affiliateCode = affiliateUser.affiliateCode;
+      affiliateActivity.ltoken = ltoken.id;
       affiliateActivity.action = action;
+      affiliateActivity.account = event.params.userAccount;
       affiliateActivity.amount = event.params.amount;
       affiliateActivity.amountAfterFees = event.params.amountAfterFees;
       affiliateActivity.timestamp = event.block.timestamp;

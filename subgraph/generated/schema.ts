@@ -856,9 +856,9 @@ export class AffiliateUser extends Entity {
 }
 
 export class AffiliateActivity extends Entity {
-  constructor(id: string) {
+  constructor(id: Bytes) {
     super();
-    this.set("id", Value.fromString(id));
+    this.set("id", Value.fromBytes(id));
   }
 
   save(): void {
@@ -866,40 +866,40 @@ export class AffiliateActivity extends Entity {
     assert(id != null, "Cannot save AffiliateActivity entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type AffiliateActivity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        id.kind == ValueKind.BYTES,
+        `Entities of type AffiliateActivity must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("AffiliateActivity", id.toString(), this);
+      store.set("AffiliateActivity", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: string): AffiliateActivity | null {
+  static loadInBlock(id: Bytes): AffiliateActivity | null {
     return changetype<AffiliateActivity | null>(
-      store.get_in_block("AffiliateActivity", id),
+      store.get_in_block("AffiliateActivity", id.toHexString()),
     );
   }
 
-  static load(id: string): AffiliateActivity | null {
+  static load(id: Bytes): AffiliateActivity | null {
     return changetype<AffiliateActivity | null>(
-      store.get("AffiliateActivity", id),
+      store.get("AffiliateActivity", id.toHexString()),
     );
   }
 
-  get id(): string {
+  get id(): Bytes {
     let value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
   }
 
-  get affiliateInfo(): string {
-    let value = this.get("affiliateInfo");
+  get affiliateCode(): string {
+    let value = this.get("affiliateCode");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -907,8 +907,21 @@ export class AffiliateActivity extends Entity {
     }
   }
 
-  set affiliateInfo(value: string) {
-    this.set("affiliateInfo", Value.fromString(value));
+  set affiliateCode(value: string) {
+    this.set("affiliateCode", Value.fromString(value));
+  }
+
+  get ltoken(): string {
+    let value = this.get("ltoken");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set ltoken(value: string) {
+    this.set("ltoken", Value.fromString(value));
   }
 
   get action(): string {
@@ -922,6 +935,19 @@ export class AffiliateActivity extends Entity {
 
   set action(value: string) {
     this.set("action", Value.fromString(value));
+  }
+
+  get account(): Bytes {
+    let value = this.get("account");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set account(value: Bytes) {
+    this.set("account", Value.fromBytes(value));
   }
 
   get amount(): BigInt {
@@ -961,134 +987,6 @@ export class AffiliateActivity extends Entity {
 
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
-  }
-}
-
-export class AffiliateInfo extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save AffiliateInfo entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type AffiliateInfo must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
-      );
-      store.set("AffiliateInfo", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): AffiliateInfo | null {
-    return changetype<AffiliateInfo | null>(
-      store.get_in_block("AffiliateInfo", id),
-    );
-  }
-
-  static load(id: string): AffiliateInfo | null {
-    return changetype<AffiliateInfo | null>(store.get("AffiliateInfo", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get affiliateCode(): string {
-    let value = this.get("affiliateCode");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set affiliateCode(value: string) {
-    this.set("affiliateCode", Value.fromString(value));
-  }
-
-  get ltoken(): string {
-    let value = this.get("ltoken");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set ltoken(value: string) {
-    this.set("ltoken", Value.fromString(value));
-  }
-
-  get lastTimestamp(): BigInt {
-    let value = this.get("lastTimestamp");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set lastTimestamp(value: BigInt) {
-    this.set("lastTimestamp", Value.fromBigInt(value));
-  }
-
-  get account(): string {
-    let value = this.get("account");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set account(value: string) {
-    this.set("account", Value.fromString(value));
-  }
-
-  get totalAmount(): BigInt {
-    let value = this.get("totalAmount");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set totalAmount(value: BigInt) {
-    this.set("totalAmount", Value.fromBigInt(value));
-  }
-
-  get totalAmountAfterFees(): BigInt {
-    let value = this.get("totalAmountAfterFees");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set totalAmountAfterFees(value: BigInt) {
-    this.set("totalAmountAfterFees", Value.fromBigInt(value));
-  }
-
-  get activities(): AffiliateActivityLoader {
-    return new AffiliateActivityLoader(
-      "AffiliateInfo",
-      this.get("id")!.toString(),
-      "activities",
-    );
   }
 }
 
@@ -1161,23 +1059,5 @@ export class RewardsMintLoader extends Entity {
   load(): RewardsMint[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
     return changetype<RewardsMint[]>(value);
-  }
-}
-
-export class AffiliateActivityLoader extends Entity {
-  _entity: string;
-  _field: string;
-  _id: string;
-
-  constructor(entity: string, id: string, field: string) {
-    super();
-    this._entity = entity;
-    this._id = id;
-    this._field = field;
-  }
-
-  load(): AffiliateActivity[] {
-    let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<AffiliateActivity[]>(value);
   }
 }

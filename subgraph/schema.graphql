@@ -86,21 +86,12 @@ type AffiliateUser @entity(immutable: true) {
 }
 
 type AffiliateActivity @entity(immutable: true) {
-  id: ID! # affiliateInfo-action-timestamp
-  affiliateInfo: AffiliateInfo!
+  id: Bytes!
+  affiliateCode: String!
+  ltoken: LToken!
   action: ActivityAction!
+  account: Bytes! # wallet address
   amount: BigInt!
   amountAfterFees: BigInt!
   timestamp: BigInt!
-}
-
-type AffiliateInfo @entity {
-  id: ID! # account-affiliateCode
-  affiliateCode: String!
-  ltoken: LToken!
-  lastTimestamp: BigInt!
-  account: AffiliateUser! # wallet address
-  totalAmount: BigInt!
-  totalAmountAfterFees: BigInt!
-  activities: [AffiliateActivity!] @derivedFrom(field: "affiliateInfo")
 }
