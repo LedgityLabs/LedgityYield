@@ -46981,6 +46981,12 @@
                 },
                 {
                   "indexed": false,
+                  "internalType": "address",
+                  "name": "userAccount",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -48255,7 +48261,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0x346245eD74Cd6319f169228b980D91f17d98Cd99",
+          "address": "0x8f493FFf3903Fc35C37aBc04be21462aCfBd5B2e",
           "abi": [
             {
               "anonymous": false,
@@ -48290,6 +48296,12 @@
                   "internalType": "enum LToken.Action",
                   "name": "action",
                   "type": "uint8"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "userAccount",
+                  "type": "address"
                 },
                 {
                   "indexed": false,

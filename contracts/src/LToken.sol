@@ -154,6 +154,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
      * @param id ID of the involved withdrawal request or NO_ID (-1) if not applicable.
      * @param account The account involved in the activity.
      * @param action The type of activity.
+     * @param userAccount The user account involved in the activity.
      * @param amount The amount of underlying tokens involved in the activity.
      * @param newStatus The new status of the activity.
      * @param newId The new ID of the request if it has been moved in the queue.
@@ -162,6 +163,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
         int256 indexed id,
         address indexed account,
         Action indexed action,
+        address userAccount,
         uint256 amount,
         uint256 amountAfterFees,
         Status newStatus,
@@ -602,6 +604,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             NO_ID,
             _msgSender(),
             Action.Deposit,
+            _msgSender(),
             amount,
             amount,
             Status.Success,
@@ -678,6 +681,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             NO_ID,
             _msgSender(),
             Action.Withdraw,
+            _msgSender(),
             amount,
             withdrawnAmount,
             Status.Success,
@@ -741,6 +745,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             int256(requestId),
             _msgSender(),
             Action.Withdraw,
+            _msgSender(),
             amount,
             amount,
             Status.Queued,
@@ -802,6 +807,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                     int256(nextRequestId),
                     _msgSender(),
                     Action.Withdraw,
+                    request.account,
                     request.amount,
                     request.amount,
                     Status.Moved,
@@ -836,6 +842,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
                     int256(nextRequestId),
                     request.account,
                     Action.Withdraw,
+                    request.account,
                     request.amount,
                     withdrawnAmount,
                     Status.Success,
@@ -921,6 +928,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             int256(requestId),
             request.account,
             Action.Withdraw,
+            request.account,
             request.amount,
             withdrawnAmount,
             Status.Success,
@@ -979,6 +987,7 @@ contract LToken is ERC20BaseUpgradeable, InvestUpgradeable, ERC20WrapperUpgradea
             int256(requestId),
             request.account,
             Action.Withdraw,
+            request.account,
             request.amount,
             request.amount,
             Status.Cancelled,

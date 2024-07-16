@@ -1768,6 +1768,12 @@ export const lTokenAbi = [
         indexed: true,
       },
       {
+        name: 'userAccount',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
         name: 'amount',
         internalType: 'uint256',
         type: 'uint256',

@@ -53,24 +53,28 @@ export class ActivityEvent__Params {
     return this._event.parameters[2].value.toI32();
   }
 
-  get amount(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+  get userAccount(): Address {
+    return this._event.parameters[3].value.toAddress();
   }
 
-  get amountAfterFees(): BigInt {
+  get amount(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 
+  get amountAfterFees(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
   get newStatus(): i32 {
-    return this._event.parameters[5].value.toI32();
+    return this._event.parameters[6].value.toI32();
   }
 
   get newId(): BigInt {
-    return this._event.parameters[6].value.toBigInt();
+    return this._event.parameters[7].value.toBigInt();
   }
 
   get referralCode(): string {
-    return this._event.parameters[7].value.toString();
+    return this._event.parameters[8].value.toString();
   }
 }
 

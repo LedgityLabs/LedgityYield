@@ -81,7 +81,7 @@ templates:
         - event: APRChangeEvent(uint16)
           handler: handleAPRChangeEvent
         - event: ActivityEvent(indexed int256,indexed address,indexed
-            uint8,uint256,uint256,uint8,int256,string)
+            uint8,address,uint256,uint256,uint8,int256,string)
           handler: handleActivityEvent
         - event: MintedRewardsEvent(indexed address,uint256,uint256)
           handler: handleMintedRewardsEvent

@@ -187,14 +187,14 @@ export function handleActivityEvent(event: ActivityEvent): void {
     }
 
     // Check AffiliateUser
-    let affiliateUser = AffiliateUser.load(event.params.account.toHexString());
+    let affiliateUser = AffiliateUser.load(event.params.userAccount.toHexString());
     if (
       action == ActivityAction.Deposit &&
       event.params.referralCode.length &&
       affiliateUser == null
     ) {
-      affiliateUser = new AffiliateUser(event.params.account.toHexString());
-      affiliateUser.walletAddress = event.params.account;
+      affiliateUser = new AffiliateUser(event.params.userAccount.toHexString());
+      affiliateUser.walletAddress = event.params.userAccount;
       affiliateUser.affiliateCode = event.params.referralCode;
       affiliateUser.save();
     }
