@@ -1,16 +1,17 @@
-"use client";
+'use client';
+
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
-
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
+import { openXPay } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
 
 interface Props {
@@ -54,16 +55,6 @@ const _AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="staking">
           Staking
-          <div
-            className={twMerge(
-              "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[red] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-              currentTab === "staking" && "opacity-50 hover:opacity-100",
-            )}
-          >
-            <i className="ri-fire-fill text-x animate-pulse" />
-            Hot
-            <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
-          </div>
         </TabsTrigger>
         <TabsTrigger
           value="pre-mining"
@@ -72,6 +63,8 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+        <TabsTrigger value="swap">Swap</TabsTrigger>
+        <TabsTrigger value="bridge" onClick={openXPay}>Bridge</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
