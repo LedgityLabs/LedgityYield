@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { sendBatchEmails } from '@/components/send/utils/batchEmailSender';
 import { LedgityAddress } from '@/utils/address';
 import { useAccount } from 'wagmi';
 
@@ -18,15 +17,20 @@ const BatchEmailComposer: React.FC = () => {
             setStatus('Please fill in both subject and content.');
             return;
         }
-
         setIsSending(true);
         setStatus('Initiating batch email send...');
-
         try {
-            await sendBatchEmails(subject, content, contentType, label);
-            setStatus('Batch email sending process completed successfully.');
+            const response = await fetch('/api/send-batch-emails', {
+                method: 'POST',
+                cache: 'no-cache',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({subject, content, contentType, label})
+            });
+            const data = await response.json();
+
+            setStatus(`Batch email process initiated. Job IDs: ${data.jobIds}`);
         } catch (error) {
-            setStatus(`Error in batch email process: ${error instanceof Error ? error.message : String(error)}`);
+            setStatus(`Error initiating batch email process: ${error instanceof Error ? error.message : String(error)}`);
         } finally {
             setIsSending(false);
         }
