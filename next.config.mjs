@@ -10,7 +10,13 @@ const nextConfig = {
     // typedRoutes: true, // Enable internal link type-checking (see: https://nextjs.org/docs/pages/building-your-application/configuring/typescript#statically-typed-links)
   },
   // Require by Wagmi work in Next.js client components
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.node = {
+        __dirname: true,
+      };
+    }
+
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.resolve.alias['./fetch.node'] = path.resolve(__dirname, 'polyfills/fetch.js');
     // config.externals.push("pino-pretty", "lokijs", "encoding");
