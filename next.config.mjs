@@ -2,6 +2,7 @@
 // See: https://env.t3.gg/docs/nextjs
 import "./env.mjs";
 import * as path from 'path'
+import { fileURLToPath } from 'url';
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -11,11 +12,8 @@ const nextConfig = {
   },
   // Require by Wagmi work in Next.js client components
   webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.node = {
-        __dirname: true,
-      };
-    }
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
 
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.resolve.alias['./fetch.node'] = path.resolve(__dirname, 'polyfills/fetch.js');
