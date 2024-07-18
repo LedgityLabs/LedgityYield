@@ -1,3 +1,4 @@
+import '@/polyfills';
 import {NextRequest, NextResponse} from "next/server";
 import {clearEmailSendStatus, hasEmailBeenSent, markEmailAsSent} from "@/components/send/utils/jsonStorage";
 import {retryable} from "@/components/send/utils/retryable";
