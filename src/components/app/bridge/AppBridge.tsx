@@ -1,6 +1,8 @@
-import "@swing.xyz/ui/theme.css";
-import { Swap } from "@swing.xyz/ui";
+import '@swing.xyz/ui/theme.css';
+import { Swap } from '@swing.xyz/ui';
 
 export function AppBridge() {
-  return <Swap projectId="swing-bridge" environment="production" />;
+  return <div className="w-[800px]">
+      <Swap projectId="swing-bridge" environment='production' />
+    </div>
 }
