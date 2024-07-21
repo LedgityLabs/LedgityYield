@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
-import { openXPay } from "@/components/app/xswap/XswapModal";
+import { XPayButton } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
 import { AppSwap } from "@/components/app/swap/AppSwap";
 import "@swing.xyz/ui/theme.css";
@@ -66,7 +66,7 @@ const _AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="swap">Swap</TabsTrigger>
-        <TabsTrigger value="bridge" onClick={openXPay}>Bridge</TabsTrigger>
+        <XPayButton />
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
