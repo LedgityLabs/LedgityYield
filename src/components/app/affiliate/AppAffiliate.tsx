@@ -112,7 +112,7 @@ export const AppAffiliate: FC = () => {
               type="text"
               value={affiliateData && affiliateData.referralUrl}
               readOnly
-              className="w-full bg-white text-gray-500 focus:ring relative rounded text-sm border border-1 outline-none focus:outline-none pl-12 pr-3 py-2"
+              className="w-full bg-white text-gray-500 focus:ring relative rounded-lg text-sm border border-1 outline-none focus:outline-none pl-12 pr-3 py-2"
             />
           </div>
         </Card>

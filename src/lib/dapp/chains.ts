@@ -9,6 +9,7 @@ import {
   base,
   baseSepolia,
   sepolia,
+  arbitrumSepolia,
 } from "@wagmi/core/chains";
 
 // Build chain icons map
@@ -73,13 +74,12 @@ if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 const prodChains: readonly [Chain, ...Chain[]] = [mainnet, arbitrum, linea, xlayerMainnet];
 const devChains: readonly [Chain, ...Chain[]] = [
   ...prodChains,
-  mainnet,
   sepolia,
   hardhat,
-  arbitrum,
-  xlayerTestnet,
-  xlayerMainnet,
+  // xlayerTestnet,
+  // xlayerMainnet,
   lineaTestnet,
   baseSepolia,
+  // arbitrumSepolia,
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;
