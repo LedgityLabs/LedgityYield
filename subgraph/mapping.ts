@@ -210,6 +210,8 @@ export function handleActivityEvent(event: ActivityEvent): void {
       affiliateActivity.account = event.params.userAccount;
       affiliateActivity.amount = event.params.amount;
       affiliateActivity.amountAfterFees = event.params.amountAfterFees;
+      affiliateActivity.txHash = event.transaction.hash;
+      affiliateActivity.logIndex = event.logIndex;
       affiliateActivity.timestamp = event.block.timestamp;
       affiliateActivity.save();
     }

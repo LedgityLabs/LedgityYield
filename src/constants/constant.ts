@@ -1,1 +1,2 @@
-export const AFFILIATE_URL = "http://localhost:9010";
+export const AFFILIATE_API_URL = "https://ledgity-affiliate-backend.onrender.com";
+export const FRONTEND_URL = "http://localhost:3000";

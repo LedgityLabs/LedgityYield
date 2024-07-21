@@ -93,5 +93,7 @@ type AffiliateActivity @entity(immutable: true) {
   account: Bytes! # wallet address
   amount: BigInt!
   amountAfterFees: BigInt!
+  txHash: Bytes!
+  logIndex: BigInt!
   timestamp: BigInt!
 }
