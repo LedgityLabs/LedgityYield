@@ -14,7 +14,7 @@ import { AppStaking } from "@/components/app/staking/AppStaking";
 import { openXPay } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
 import "@swing.xyz/ui/theme.css";
-import { AppBridge } from "@/components/app/bridge/AppBridge";
+import { AppSwap } from "@/components/app/swap/AppSwap";
 
 interface Props {
   defaultTab: string;
@@ -85,8 +85,8 @@ const _AppTabs: FC = () => {
           <TabsContent value="dashboard">
             <AppDashboard />
           </TabsContent>
-          <TabsContent value="bridge">
-            <AppBridge />
+          <TabsContent value="swap">
+            <AppSwap />
           </TabsContent>
         </SessionProvider>
       </div>

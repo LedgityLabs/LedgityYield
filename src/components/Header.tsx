@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Button } from "./ui";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
-import { XPay } from "./app/xswap/XswapModal"
 
 const EnterAppButton = () => {
   return (
