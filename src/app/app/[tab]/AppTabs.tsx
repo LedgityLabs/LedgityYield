@@ -13,8 +13,8 @@ import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
 import { openXPay } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
-import "@swing.xyz/ui/theme.css";
 import { AppSwap } from "@/components/app/swap/AppSwap";
+import "@swing.xyz/ui/theme.css";
 
 interface Props {
   defaultTab: string;

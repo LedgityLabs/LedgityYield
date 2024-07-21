@@ -1,3 +1,15 @@
+## [1.270.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.0...v1.270.1) (2024-07-19)
+
+
+### Fixes
+
+* **fixed route name:** route and file name were wrong and unclear ([40789fe](https://github.com/LedgityLabs/LedgityYield/commit/40789fefabf3f90b9b0acefa8a89ff9c829486b6))
+
+
+### Others
+
+* **width styling:** make the component wider ([0d12a82](https://github.com/LedgityLabs/LedgityYield/commit/0d12a825fb7874e425a901ab129d3f564b3bde92))
+
 ## [1.270.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.269.0...v1.270.0) (2024-07-12)
 
 
