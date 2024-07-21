@@ -48,7 +48,7 @@ export const AppAffiliate: FC = () => {
       <div className="lg:w-[600px] text-center w-full">
         Simply invite your friends with your referral link and{" "}
         <p className="text-primary font-bold inline-block">earn up to 50% </p>
-        Ledgity's commission from the referral. It's as easy as that!
+        {"Ledgity's commission from the referral. It's as easy as that!"}
       </div>
       <div className="w-full grid grid-cols-12 gap-5 content-center place-content-center">
         <Card
@@ -110,8 +110,9 @@ export const AppAffiliate: FC = () => {
           className="w-full flex flex-col items-center col-span-12 xl:col-span-6 gap-2 p-8"
         >
           <div className="text-center">
-            Copy your referral link and share it to earn up to 50% of Ledgity's commission and help
-            your friends get stable yield.
+            {
+              "Copy your referral link and share it to earn up to 50% of Ledgity's commission and help your friends get stable yield."
+            }
           </div>
           <div className="relative flex bg-gray-300 w-full rounded-lg">
             <i

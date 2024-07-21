@@ -9,7 +9,6 @@ export const MainContext = createContext<IMainContext | undefined>(undefined);
 
 interface Props {
   children?: React.ReactNode;
-  defaultTab: string;
 }
 
 export const MainContextProvider: FC<Props> = ({ children }) => {
