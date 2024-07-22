@@ -39,6 +39,7 @@ export const AdminDashboard: FC = () => {
   const quarterList = Array.from({ length: 4 }, (_, i) => i + 1);
 
   const [searchResult, setSearchResult] = useState<SearchAffiliateActivityResponse>();
+  const [tableRows, setTableRows] = useState<any[]>([]);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [sorting, setSorting] = useState<SortingState>([
@@ -56,6 +57,7 @@ export const AdminDashboard: FC = () => {
     if (walletAddress && walletAddress.length) searchParams["walletAddress"] = walletAddress;
     if (affiliateCode && affiliateCode.length) searchParams["affiliateCode"] = affiliateCode;
     setIsLoading(true);
+    setTableRows([]);
     const result = await searchAffiliateActivity(searchParams);
     setSearchResult(result);
     setIsLoading(false);
@@ -95,6 +97,11 @@ export const AdminDashboard: FC = () => {
 
   // Get only header group
   const headerGroup = table.getHeaderGroups()[0];
+
+  useEffect(() => {
+    const { rows } = table.getRowModel();
+    setTableRows(rows);
+  }, [searchResult]);
 
   return (
     <Card className="lg:w-[1080px] flex flex-col gap-5 w-full h-full p-10">
@@ -204,40 +211,34 @@ export const AdminDashboard: FC = () => {
             </div>
           );
         })}
-        {(() => {
-          const tableRows = table.getRowModel().rows;
-
-          if (isLoading)
+        {isLoading && (
+          <div className="col-span-3 my-10 flex w-full items-center justify-center">
+            <Spinner />
+          </div>
+        )}
+        {!isLoading && tableRows.length === 0 && (
+          <p className="col-span-3 my-10 block w-full text-center text-lg font-semibold text-fg/60">
+            No Search Result.
+          </p>
+        )}
+        {tableRows.map((row, rowIndex) =>
+          row.getVisibleCells().map((cell: any, cellIndex: number) => {
             return (
-              <div className="col-span-3 my-10 flex w-full items-center justify-center">
-                <Spinner />
+              <div
+                key={cell.id}
+                style={{
+                  gridColumnStart: cellIndex + 1,
+                }}
+                className={clsx(
+                  "inline-flex items-center justify-center border-b border-b-fg/20 py-3 text-[0.9rem] text-lg font-medium text-fg/90",
+                  rowIndex == tableRows.length - 1 && "border-b-0",
+                )}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </div>
             );
-          else if (tableRows.length === 0)
-            return (
-              <p className="col-span-3 my-10 block w-full text-center text-lg font-semibold text-fg/60">
-                No Search Result.
-              </p>
-            );
-          else {
-            return tableRows.map((row, rowIndex) =>
-              row.getVisibleCells().map((cell, cellIndex) => (
-                <div
-                  key={cell.id}
-                  style={{
-                    gridColumnStart: cellIndex + 1,
-                  }}
-                  className={clsx(
-                    "inline-flex items-center justify-center border-b border-b-fg/20 py-3 text-[0.9rem] text-lg font-medium text-fg/90",
-                    rowIndex == tableRows.length - 1 && "border-b-0",
-                  )}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </div>
-              )),
-            );
-          }
-        })()}
+          }),
+        )}
       </div>
     </Card>
   );
