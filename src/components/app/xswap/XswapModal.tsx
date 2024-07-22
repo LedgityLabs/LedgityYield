@@ -21,7 +21,6 @@ export const XPayButton = () => {
   const handleOpenXPay = async () => {
     setIsLoading(true);
     
-    // Set a timeout to revert the button state after 5 seconds
     timeoutRef.current = setTimeout(() => {
       setIsLoading(false);
     }, 5000);
@@ -49,36 +48,27 @@ export const XPayButton = () => {
 
       const transactions: Transactions = result;
 
-      console.log('Transactions:', transactions);
-
-      // Clear the timeout as the modal has opened
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
       setIsLoading(false);
 
-      // Handle approve if needed
-      if (transactions.approve) {
+      if (transactions.approve && transactions.approve.to && transactions.approve.data) {
         const approveTxHash = await walletClient.sendTransaction({
           to: transactions.approve.to as `0x${string}`,
           data: transactions.approve.data as `0x${string}`,
           value: BigInt(transactions.approve.value || '0'),
         });
-        console.log('Approve transaction sent:', approveTxHash);
-        // Wait for approve transaction to be mined
         await waitForTransactionReceipt(walletClient, { hash: approveTxHash });
       }
 
-      // Send the swap transaction
-      if (transactions.swap) {
+      if (transactions.swap && transactions.swap.to && transactions.swap.data) {
         const swapTxHash = await walletClient.sendTransaction({
           to: transactions.swap.to as `0x${string}`,
           data: transactions.swap.data as `0x${string}`,
           value: BigInt(transactions.swap.value || '0'),
         });
-        console.log('Swap transaction sent:', swapTxHash);
-
-        // Render transaction status
+        await waitForTransactionReceipt(walletClient, { hash: swapTxHash });
         await renderTxStatus(chain.id.toString(), swapTxHash);
       }
     } catch (error) {
