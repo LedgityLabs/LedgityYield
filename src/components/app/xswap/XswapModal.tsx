@@ -1,6 +1,7 @@
 import { useAccount, useWalletClient } from 'wagmi';
-import { openTransactionModal, renderTxStatus } from "@xswap-link/sdk";
+import { openTransactionModal, renderTxStatus, Transactions } from "@xswap-link/sdk";
 import { useState, useRef, useEffect } from 'react';
+import { waitForTransactionReceipt } from 'viem/actions';
 
 export const XPayButton = () => {
   const { address, chain, connector } = useAccount();
@@ -20,7 +21,7 @@ export const XPayButton = () => {
   const handleOpenXPay = async () => {
     setIsLoading(true);
     
-    // Set a timeout to revert the button state after 10 seconds
+    // Set a timeout to revert the button state after 5 seconds
     timeoutRef.current = setTimeout(() => {
       setIsLoading(false);
     }, 5000);
@@ -30,17 +31,25 @@ export const XPayButton = () => {
       throw new Error("INTEGRATOR_ID is not set in the .env file");
     }
 
-    if (!address || !chain || !connector) {
+    if (!address || !chain || !connector || !walletClient) {
       throw new Error("Wallet not connected");
     }
 
     try {
-      const transactions = await openTransactionModal({
+      const result = await openTransactionModal({
         integratorId,
         dstChain: "42161",
         dstToken: "0x999FAF0AF2fF109938eeFE6A7BF91CA56f0D07e1",
         returnTransactions: true,
       });
+
+      if (!result) {
+        throw new Error("No transactions returned from openTransactionModal");
+      }
+
+      const transactions: Transactions = result;
+
+      console.log('Transactions:', transactions);
 
       // Clear the timeout as the modal has opened
       if (timeoutRef.current) {
@@ -48,17 +57,33 @@ export const XPayButton = () => {
       }
       setIsLoading(false);
 
-      if (transactions && transactions.swap && walletClient) {
-        const txHash = await walletClient.sendTransaction({
+      // Handle approve if needed
+      if (transactions.approve) {
+        const approveTxHash = await walletClient.sendTransaction({
+          to: transactions.approve.to as `0x${string}`,
+          data: transactions.approve.data as `0x${string}`,
+          value: BigInt(transactions.approve.value || '0'),
+        });
+        console.log('Approve transaction sent:', approveTxHash);
+        // Wait for approve transaction to be mined
+        await waitForTransactionReceipt(walletClient, { hash: approveTxHash });
+      }
+
+      // Send the swap transaction
+      if (transactions.swap) {
+        const swapTxHash = await walletClient.sendTransaction({
           to: transactions.swap.to as `0x${string}`,
           data: transactions.swap.data as `0x${string}`,
-          value: BigInt(transactions.swap.value)
+          value: BigInt(transactions.swap.value || '0'),
         });
-        
-        await renderTxStatus(chain.id.toString(), txHash);
+        console.log('Swap transaction sent:', swapTxHash);
+
+        // Render transaction status
+        await renderTxStatus(chain.id.toString(), swapTxHash);
       }
     } catch (error) {
       console.error("Error in openXPay:", error);
+    } finally {
       setIsLoading(false);
     }
   };
