@@ -55,16 +55,6 @@ const _AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="staking">
           Staking
-          <div
-            className={twMerge(
-              "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[red] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-              currentTab === "staking" && "opacity-50 hover:opacity-100",
-            )}
-          >
-            <i className="ri-fire-fill text-x animate-pulse" />
-            Hot
-            <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
-          </div>
         </TabsTrigger>
         <TabsTrigger
           value="pre-mining"
