@@ -2,6 +2,7 @@ import { type DeployFunction } from "hardhat-deploy/dist/types";
 import dependencies from "../../dependencies.json";
 
 export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => {
+  console.log('called?');
   return (async ({ getNamedAccounts, deployments, getChainId }) => {
     const { deployer } = await getNamedAccounts();
     const chainId = await getChainId();
