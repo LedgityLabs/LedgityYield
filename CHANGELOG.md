@@ -1,3 +1,35 @@
+## [1.270.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.0...v1.270.1) (2024-07-19)
+
+
+### Fixes
+
+* **fixed route name:** route and file name were wrong and unclear ([40789fe](https://github.com/LedgityLabs/LedgityYield/commit/40789fefabf3f90b9b0acefa8a89ff9c829486b6))
+
+
+### Others
+
+* **width styling:** make the component wider ([0d12a82](https://github.com/LedgityLabs/LedgityYield/commit/0d12a825fb7874e425a901ab129d3f564b3bde92))
+
+## [1.270.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.269.0...v1.270.0) (2024-07-12)
+
+
+### Features
+
+* x_swap_bridge: integrating bridge and swap with xswap widget ([a2123ed](https://github.com/LedgityLabs/LedgityYield/commit/a2123ed01e9d3c2f9e90dbf97304b4e4a93a9016))
+
+## [1.269.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.268.0...v1.269.0) (2024-07-10)
+
+
+### Features
+
+* **swap:** swap or bridge ([e5d462e](https://github.com/LedgityLabs/LedgityYield/commit/e5d462e33d243b62bdc3049fb3cf8537baea758f))
+* **x_swap_bridge:** integrating bridge and swap with xswap widget ([7d7d102](https://github.com/LedgityLabs/LedgityYield/commit/7d7d1029013681488b56cc2304300ed3237f9192))
+
+
+### Others
+
+* **optional env:** changing some environment variables to be optional ([14749e1](https://github.com/LedgityLabs/LedgityYield/commit/14749e1ade2d3a15e4abf26b243b2573ad58879d))
+
 ## [1.268.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.267.0...v1.268.0) (2024-06-08)
 
 
