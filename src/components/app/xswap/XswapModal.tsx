@@ -2,6 +2,7 @@ import { useAccount, useWalletClient } from 'wagmi';
 import { openTransactionModal, renderTxStatus, Transactions } from "@xswap-link/sdk";
 import { useState, useRef, useEffect } from 'react';
 import { waitForTransactionReceipt } from 'viem/actions';
+import { dstChain, dstToken } from '@/constants/xswap';
 
 export const XPayButton = () => {
   const { address, chain, connector } = useAccount();
@@ -37,8 +38,8 @@ export const XPayButton = () => {
     try {
       const result = await openTransactionModal({
         integratorId,
-        dstChain: "42161",
-        dstToken: "0x999FAF0AF2fF109938eeFE6A7BF91CA56f0D07e1",
+        dstChain,
+        dstToken,
         returnTransactions: true,
       });
 
