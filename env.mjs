@@ -11,8 +11,10 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),
+    NEXT_PUBLIC_INTEGRATOR_ID: z.string(),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+    NEXT_PUBLIC_INTEGRATOR_ID: process.env.NEXT_PUBLIC_INTEGRATOR_ID,
   },
 });

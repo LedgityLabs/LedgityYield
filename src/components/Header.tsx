@@ -20,6 +20,7 @@ const EnterAppButton = () => {
     </Link>
   );
 };
+
 const Header: FC = () => {
   const pathname = usePathname();
   const isAppOrAdmin = pathname.startsWith("/app") || pathname.startsWith("/admin");
@@ -29,12 +30,15 @@ const Header: FC = () => {
         <Logo className={twMerge("ml-2", isAppOrAdmin && "hidden md:flex")} />
         <Logo className={twMerge("ml-2 hidden", isAppOrAdmin && "flex md:hidden")} noText={true} />
 
-        <div className="flex sm:gap-6 gap-3 justify-end">
-          {isAppOrAdmin ? <ConnectButton /> : <EnterAppButton />}
-          <DotsMenu />
+        <div className="flex items-center gap-6">
+          <div className="flex sm:gap-6 gap-3 justify-end">
+            {isAppOrAdmin ? <ConnectButton /> : <EnterAppButton />}
+            <DotsMenu />
+          </div>
         </div>
       </nav>
     </header>
   );
 };
+
 export default Header;

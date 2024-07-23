@@ -1,18 +1,20 @@
-"use client";
+'use client';
+
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
-
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
+import { XPayButton } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
 import { AppSwap } from "@/components/app/swap/AppSwap";
+import "@swing.xyz/ui/theme.css";
 
 interface Props {
   defaultTab: string;
@@ -64,6 +66,7 @@ const _AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="swap">Swap</TabsTrigger>
+        <XPayButton />
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
