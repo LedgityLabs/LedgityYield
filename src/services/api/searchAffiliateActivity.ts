@@ -1,4 +1,4 @@
-import { AFFILIATE_API_URL } from "@/constants/constant";
+import { env } from "../../../env.mjs";
 
 export interface SearchAffiliateActivityParams {
   walletAddress?: string;
@@ -11,6 +11,7 @@ export interface AffiliateActivityResponse {
   code: string;
   walletAddress: string;
   amount: string;
+  commissionAmount: string;
 }
 
 export interface SearchAffiliateActivityResponse {
@@ -27,11 +28,13 @@ export const searchAffiliateActivity = (
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   };
-  return fetch(AFFILIATE_API_URL + "/affiliate/search", option).then(async (res) => {
-    const data: any = await res.json();
-    if (!res.ok) {
-      return { isSuccess: res.ok, message: data.message, data: [] };
-    }
-    return { isSuccess: res.ok, data };
-  });
+  return fetch(env.NEXT_PUBLIC_AFFILIATE_API_URL + "/affiliate/search", option).then(
+    async (res) => {
+      const data: any = await res.json();
+      if (!res.ok) {
+        return { isSuccess: res.ok, message: data.message, data: [] };
+      }
+      return { isSuccess: res.ok, data };
+    },
+  );
 };

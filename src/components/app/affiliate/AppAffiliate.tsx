@@ -59,8 +59,6 @@ export const AppAffiliate: FC = () => {
           <div className="">Paste your wallet to participate in the affiliate program!</div>
           <div className="flex flex-col justify-start w-full gap-2">
             <div className="flex w-full gap-2">
-              {/* <Tooltip open={!affiliateData?.isSuccess}>
-                <TooltipTrigger className="w-full h-full content-center"> */}
               <Input
                 placeholder="Input Wallet Address"
                 value={walletAddress}
@@ -68,16 +66,6 @@ export const AppAffiliate: FC = () => {
                 disableDefaultCss={true}
                 className="bg-gray-300 p-2 rounded-lg text-sm w-full"
               />
-              {/* </TooltipTrigger>
-                <TooltipContent
-                  className="font-semibold"
-                  variant={"destructive"}
-                  side="bottom"
-                  sideOffset={4}
-                >
-                  {affiliateData?.message}
-                </TooltipContent>
-              </Tooltip> */}
               <Button
                 size="tiny"
                 onClick={sendAffiliateRequest}

@@ -1,4 +1,3 @@
-import { AFFILIATE_API_URL, FRONTEND_URL } from "@/constants/constant";
 import { env } from "../../../env.mjs";
 
 import { Address } from "viem";
@@ -19,12 +18,14 @@ export const createAffiliateCode = (params: RequestParams) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   };
-  return fetch(AFFILIATE_API_URL + "/affiliate/create", option).then(async (res) => {
-    const data: any = await res.json();
-    return {
-      isSuccess: res.ok,
-      message: data.message,
-      referralUrl: FRONTEND_URL + "?referral=" + data.referralCode,
-    };
-  });
+  return fetch(env.NEXT_PUBLIC_AFFILIATE_API_URL + "/affiliate/create", option).then(
+    async (res) => {
+      const data: any = await res.json();
+      return {
+        isSuccess: res.ok,
+        message: data.message,
+        referralUrl: env.NEXT_PUBLIC_FRONTEND_URL + "?referral=" + data.referralCode,
+      };
+    },
+  );
 };
