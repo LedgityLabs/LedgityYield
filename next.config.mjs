@@ -16,7 +16,7 @@ const nextConfig = {
     const __dirname = path.dirname(__filename);
 
     config.resolve.fallback = { fs: false, net: false, tls: false };
-    config.resolve.alias['./fetch.node'] = 'file:' + path.resolve(__dirname, 'polyfills/fetch.js');
+    //config.resolve.alias['./fetch.node'] = 'file:' + path.resolve(__dirname, 'polyfills/fetch.js');
     // config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
