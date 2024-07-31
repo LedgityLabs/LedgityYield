@@ -73,7 +73,7 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-        <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
+        {/* <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger> */}
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -92,9 +92,9 @@ const _AppTabs: FC = () => {
           <TabsContent value="dashboard">
             <AppDashboard />
           </TabsContent>
-          <TabsContent value="affiliate">
+          {/* <TabsContent value="affiliate">
             <AppAffiliate />
-          </TabsContent>
+          </TabsContent> */}
         </SessionProvider>
       </div>
     </Tabs>

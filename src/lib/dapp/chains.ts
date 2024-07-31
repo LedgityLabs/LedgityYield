@@ -77,8 +77,8 @@ const prodChains: readonly [Chain, ...Chain[]] = [
   arbitrum,
   linea,
   xlayerMainnet,
-  baseSepolia,
-  arbitrumSepolia,
+  // baseSepolia,
+  // arbitrumSepolia,
 ];
 const devChains: readonly [Chain, ...Chain[]] = [
   // ...prodChains,
