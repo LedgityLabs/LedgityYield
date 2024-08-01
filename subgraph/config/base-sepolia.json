@@ -1,7 +1,7 @@
 {
   "Network": "base-sepolia",
-  "LTokenSignaler_Address": "0x51890D5AF72Cd619f8bF1535e655b1A73a7b399B",
-  "LTokenSignaler_StartBlock": "9269469",
-  "LDYStaking_Address": "0x5F1E968d9103ddDc896ff44B4Aac9972A422b4c1",
-  "LDYStaking_StartBlock": "9269451"
+  "LTokenSignaler_Address": "0x7A02c93681450241e97C87a2Decb511b42BB16f5",
+  "LTokenSignaler_StartBlock": "12320814",
+  "LDYStaking_Address": "0xB5C69197e5D6A52c776384479B529D2d76f9e2De",
+  "LDYStaking_StartBlock": "12320814"
 }

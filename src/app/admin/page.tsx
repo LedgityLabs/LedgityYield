@@ -22,7 +22,7 @@ const Page: NextPage = () => {
         className="flex w-screen flex-col items-center justify-center gap-10"
       >
         <TabsList className="mb-6 mt-6">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="dashboard">Affiliate Dashboard</TabsTrigger>
           <TabsTrigger value="ltokens">L-Tokens</TabsTrigger>
           <TabsTrigger value="recover">Recover</TabsTrigger>
           <TabsTrigger value="ownership">Ownership</TabsTrigger>

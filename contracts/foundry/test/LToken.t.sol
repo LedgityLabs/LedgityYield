@@ -635,7 +635,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         assertEq(tested.realBalanceOf(account), amount);
@@ -688,7 +688,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), depositedAmount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Assert the balance is currently equal to the minted amount
@@ -771,7 +771,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), depositedAmount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Assert minted tokens are taken into account in total supply
         assertEq(tested.totalSupply(), depositedAmount);
@@ -824,7 +824,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), amount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         tested.transfer(address(tested), amount);
         vm.stopPrank();
 
@@ -898,7 +898,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), depositedAmount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Ensure funded amount is lower than deposited amount so repatriate() doesn't revert because of retention rate exceeded
@@ -1095,7 +1095,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account1, amount, true);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
         assertEq(tested.balanceOf(account1), amount);
 
@@ -1183,7 +1183,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), totalSupply, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), totalSupply);
-        tested.deposit(totalSupply);
+        tested.deposit(totalSupply, "");
         vm.stopPrank();
 
         // Ensure that total supply is successfully applied
@@ -1237,7 +1237,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), totalSupply, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), totalSupply);
-        tested.deposit(totalSupply);
+        tested.deposit(totalSupply, "");
         vm.stopPrank();
 
         // Ensure that total supply is successfully applied
@@ -1297,7 +1297,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), depositedAmount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Store current fund and L-Token contract balances for later comparison
@@ -1346,7 +1346,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), depositedAmount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Expect balance of underlying from being equal to expect retained
@@ -1389,7 +1389,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), depositedAmount, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Expect balance of underlying from being equal to expect retained
@@ -1419,7 +1419,7 @@ contract Tests is Test, ModifiersExpectations {
         globalPause.pause();
         expectRevertPaused();
         vm.prank(account);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
     }
 
     function testFuzz_deposit_2(address account, uint256 amount) public {
@@ -1433,7 +1433,7 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert
         expectRevertRestricted();
         vm.prank(account);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
     }
 
     function testFuzz_deposit_3(
@@ -1469,7 +1469,7 @@ contract Tests is Test, ModifiersExpectations {
         // Expect revert when trying to deposit more than account balance
         underlyingToken.approve(address(tested), depositedAmount);
         vm.expectRevert(bytes("L47"));
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
     }
 
@@ -1510,7 +1510,7 @@ contract Tests is Test, ModifiersExpectations {
         // Deposit underlying tokens
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Assert that the account balance has decreased by the deposited amount
@@ -1554,7 +1554,7 @@ contract Tests is Test, ModifiersExpectations {
         // Deposit underlying tokens
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Assert that the account balance has increased by the deposited amount
@@ -1597,7 +1597,7 @@ contract Tests is Test, ModifiersExpectations {
         // Deposit underlying tokens
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Assert that the usableUnderlying state has increased by the deposited amount
@@ -1642,7 +1642,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Assert that no matter the deposited amount, the usable underlyings are always lower or equal than expected retained
@@ -1846,7 +1846,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Expect revert when trying to withdraw more than deposited amount
         vm.expectRevert(bytes("L48"));
@@ -1892,7 +1892,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Expect revert when because of insufficient funds available
         vm.expectRevert(bytes("L49"));
@@ -1956,7 +1956,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, tier2Amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), tier2Amount);
-        tested.deposit(tier2Amount);
+        tested.deposit(tier2Amount, "");
         vm.stopPrank();
 
         // Burn some contract reserves so it will not be able to cover the withdrawal
@@ -2008,7 +2008,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account1, processingFees);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), queuedAmount);
-        tested.deposit(queuedAmount);
+        tested.deposit(queuedAmount, "");
         tested.requestWithdrawal{value: processingFees}(queuedAmount);
         vm.stopPrank();
 
@@ -2022,7 +2022,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account2, depositedAmount, true);
         vm.startPrank(account2);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Assert that account2 L-Token balance is equal to deposited amount
         assertEq(tested.balanceOf(account2), depositedAmount);
@@ -2096,7 +2096,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, tier2Amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), tier2Amount);
-        tested.deposit(tier2Amount);
+        tested.deposit(tier2Amount, "");
 
         // Assert that account2 L-Token balance is equal to deposited amount
         assertEq(tested.balanceOf(account), tier2Amount);
@@ -2141,7 +2141,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Proceed to instant withdraw
         tested.instantWithdrawal(depositedAmount);
@@ -2181,7 +2181,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Store old usableUnderlying state for later comparison
         uint256 oldUsableUnderlying = tested.usableUnderlyings();
@@ -2224,7 +2224,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
 
         // Store old realTotalSupply state for later comparison
         uint256 oldRealTotalSupply = tested.realTotalSupply();
@@ -2341,7 +2341,7 @@ contract Tests is Test, ModifiersExpectations {
                 deal(address(underlyingToken), account, requestAmount, true);
                 vm.startPrank(account);
                 underlyingToken.approve(address(tested), requestAmount);
-                tested.deposit(requestAmount);
+                tested.deposit(requestAmount, "");
 
                 // Queue request
                 tested.requestWithdrawal{value: processingFees}(requestAmount);
@@ -2415,7 +2415,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, requestAmount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), requestAmount);
-            tested.deposit(requestAmount);
+            tested.deposit(requestAmount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(requestAmount);
@@ -2503,21 +2503,21 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), baseTVLDepositor, baseTVLAmount, true);
         vm.startPrank(baseTVLDepositor);
         underlyingToken.approve(address(tested), baseTVLAmount);
-        tested.deposit(baseTVLAmount);
+        tested.deposit(baseTVLAmount, "");
         vm.stopPrank();
 
         // Deposit big request amount
         deal(address(underlyingToken), bigRequestDepositor, bigRequestAmount, true);
         vm.startPrank(bigRequestDepositor);
         underlyingToken.approve(address(tested), bigRequestAmount);
-        tested.deposit(bigRequestAmount);
+        tested.deposit(bigRequestAmount, "");
         vm.stopPrank();
 
         // Deposit small request amount
         deal(address(underlyingToken), smallRequestDepositor, smallRequestAmount, true);
         vm.startPrank(smallRequestDepositor);
         underlyingToken.approve(address(tested), smallRequestAmount);
-        tested.deposit(smallRequestAmount);
+        tested.deposit(smallRequestAmount, "");
         vm.stopPrank();
 
         // Assert L-Token supply is equal to total deposited amount
@@ -2594,7 +2594,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, requestAmount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), requestAmount);
-            tested.deposit(requestAmount);
+            tested.deposit(requestAmount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(requestAmount);
@@ -2675,7 +2675,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, requestAmount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), requestAmount);
-            tested.deposit(requestAmount);
+            tested.deposit(requestAmount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(requestAmount);
@@ -2754,7 +2754,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, amount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), amount);
-            tested.deposit(amount);
+            tested.deposit(amount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(amount);
@@ -2846,7 +2846,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, amount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), amount);
-            tested.deposit(amount);
+            tested.deposit(amount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(amount);
@@ -2926,7 +2926,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, amount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), amount);
-            tested.deposit(amount);
+            tested.deposit(amount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(amount);
@@ -3012,7 +3012,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, amount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), amount);
-            tested.deposit(amount);
+            tested.deposit(amount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(amount);
@@ -3098,7 +3098,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, amount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), amount);
-            tested.deposit(amount);
+            tested.deposit(amount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(amount);
@@ -3180,7 +3180,7 @@ contract Tests is Test, ModifiersExpectations {
             deal(address(underlyingToken), account, amount, true);
             vm.startPrank(account);
             underlyingToken.approve(address(tested), amount);
-            tested.deposit(amount);
+            tested.deposit(amount, "");
 
             // Queue request
             tested.requestWithdrawal{value: processingFees}(amount);
@@ -3221,7 +3221,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), address(1234), requestsNumber, true);
         vm.startPrank(address(1234));
         underlyingToken.approve(address(tested), requestsNumber);
-        tested.deposit(requestsNumber);
+        tested.deposit(requestsNumber, "");
 
         // Now send 2000 requests of 1 L-token
         for (uint256 i = 0; i < requestsNumber; i++) {
@@ -3300,7 +3300,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Request withdrawal for the big amount
@@ -3356,7 +3356,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Request withdrawal for the whole amount (big request)
@@ -3411,7 +3411,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Compute a requested amount lower than retention rate (not a big request)
@@ -3469,7 +3469,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
@@ -3541,7 +3541,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account, processingFees);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Ensure requested amount can be covered by fund wallet
@@ -3617,7 +3617,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account, processingFees);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Ensure there is some funds both on the contract and the fund wallet
@@ -3684,7 +3684,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
@@ -3741,7 +3741,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
@@ -3800,7 +3800,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, amount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), amount);
-        tested.deposit(amount);
+        tested.deposit(amount, "");
         vm.stopPrank();
 
         // Request withdrawal for the non-big amount
@@ -3875,7 +3875,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Expect revert when trying to request more than deposited amount
@@ -3917,7 +3917,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Expect revert when trying to request more than type(uint96).max
@@ -3954,7 +3954,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Ensure processing fees are different than 0.003ETH
@@ -3993,7 +3993,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Mint processing fees to account
@@ -4042,7 +4042,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Mint processing fees to account
@@ -4091,7 +4091,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Mint processing fees to account
@@ -4153,7 +4153,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account1, processingFees);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), requestedAmount1);
-        tested.deposit(requestedAmount1);
+        tested.deposit(requestedAmount1, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount1);
         vm.stopPrank();
 
@@ -4169,7 +4169,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account1, processingFees);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), requestedAmount1);
-        tested.deposit(requestedAmount1);
+        tested.deposit(requestedAmount1, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount1);
         vm.stopPrank();
 
@@ -4191,7 +4191,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account2, processingFees);
         vm.startPrank(account2);
         underlyingToken.approve(address(tested), requestedAmount2);
-        tested.deposit(requestedAmount2);
+        tested.deposit(requestedAmount2, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount2);
         vm.stopPrank();
 
@@ -4243,7 +4243,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account1, processingFees);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), requestedAmount1);
-        tested.deposit(requestedAmount1);
+        tested.deposit(requestedAmount1, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount1);
         vm.stopPrank();
 
@@ -4259,7 +4259,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account1, processingFees);
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), requestedAmount1);
-        tested.deposit(requestedAmount1);
+        tested.deposit(requestedAmount1, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount1);
         vm.stopPrank();
 
@@ -4271,7 +4271,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(account2, processingFees);
         vm.startPrank(account2);
         underlyingToken.approve(address(tested), requestedAmount2);
-        tested.deposit(requestedAmount2);
+        tested.deposit(requestedAmount2, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount2);
         vm.stopPrank();
 
@@ -4315,7 +4315,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Mint processing fees to account
@@ -4355,7 +4355,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Mint processing fees to account
@@ -4398,7 +4398,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, requestedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         vm.stopPrank();
 
         // Mint processing fees to account
@@ -4471,7 +4471,7 @@ contract Tests is Test, ModifiersExpectations {
 
         vm.startPrank(account1);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
         vm.stopPrank();
 
@@ -4513,7 +4513,7 @@ contract Tests is Test, ModifiersExpectations {
 
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
         vm.stopPrank();
 
@@ -4556,7 +4556,7 @@ contract Tests is Test, ModifiersExpectations {
 
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
         vm.stopPrank();
 
@@ -4599,7 +4599,7 @@ contract Tests is Test, ModifiersExpectations {
 
         vm.startPrank(account);
         underlyingToken.approve(address(tested), requestedAmount);
-        tested.deposit(requestedAmount);
+        tested.deposit(requestedAmount, "");
         tested.requestWithdrawal{value: processingFees}(requestedAmount);
         vm.stopPrank();
 
@@ -4668,7 +4668,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Ensure funded amount is greater than fund wallet balance
@@ -4717,7 +4717,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Ensure funded amount is lower or equal than fund wallet balance
@@ -4765,7 +4765,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Force retention rate to 100% so it won't be exceeded
@@ -4831,7 +4831,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         vm.stopPrank();
 
         // Force retention rate to 100% so it won't be exceeded
@@ -4907,7 +4907,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         tested.instantWithdrawal(depositedAmount);
         vm.stopPrank();
 
@@ -4951,7 +4951,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         tested.instantWithdrawal(depositedAmount);
         vm.stopPrank();
 
@@ -5008,7 +5008,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         tested.instantWithdrawal(depositedAmount);
         vm.stopPrank();
 
@@ -5052,7 +5052,7 @@ contract Tests is Test, ModifiersExpectations {
         deal(address(underlyingToken), account, depositedAmount, true);
         vm.startPrank(account);
         underlyingToken.approve(address(tested), depositedAmount);
-        tested.deposit(depositedAmount);
+        tested.deposit(depositedAmount, "");
         tested.instantWithdrawal(depositedAmount);
         vm.stopPrank();
 

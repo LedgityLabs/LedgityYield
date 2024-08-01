@@ -35,6 +35,12 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "userAccount",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
@@ -56,6 +62,12 @@
         "internalType": "int256",
         "name": "newId",
         "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "referralCode",
+        "type": "string"
       }
     ],
     "name": "ActivityEvent",
@@ -382,6 +394,11 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "refCode",
+        "type": "string"
       }
     ],
     "name": "deposit",
@@ -952,12 +969,12 @@
   {
     "inputs": [
       {
-        "internalType": "address payable",
-        "name": "withdrawer_",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "withdrawalFeeInEth_",
+        "type": "uint256"
       }
     ],
-    "name": "setWithdrawer",
+    "name": "setWithdrawalFeeInEth",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -965,12 +982,12 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "withdrwalFeeInEth_",
-        "type": "uint256"
+        "internalType": "address payable",
+        "name": "withdrawer_",
+        "type": "address"
       }
     ],
-    "name": "setWithdrwalFeeInEth",
+    "name": "setWithdrawer",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1262,6 +1279,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "withdrawalFeeInEth",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -1306,19 +1336,6 @@
         "internalType": "address payable",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrwalFeeInEth",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

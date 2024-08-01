@@ -11,7 +11,7 @@ import {
   RewardPaid as RewardPaidEvent,
   NotifiedRewardAmount as NotififiedRewardAmountEvent,
 } from "./generated/LdyStaking/LdyStaking";
-import { StakingUser } from "./generated/schema";
+import { AffiliateUser, StakingUser, AffiliateActivity } from "./generated/schema";
 import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
@@ -25,7 +25,12 @@ import {
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { LTokenSignalEvent } from "./generated/LTokenSignaler/LTokenSignaler";
 import { store } from "@graphprotocol/graph-ts";
-import { getOrCreateStakingAPRInfo, updateStakingAPRInfo } from "./helper";
+import {
+  ActivityAction,
+  ActivityStatus,
+  getOrCreateStakingAPRInfo,
+  updateStakingAPRInfo,
+} from "./helper";
 
 export function handleSignaledLToken(event: LTokenSignalEvent): void {
   // Start indexing the signaled LToken
@@ -65,22 +70,6 @@ export function handleAPRChangeEvent(event: APRChangeEvent): void {
     aprUpdate.save();
     ltoken.save();
   }
-}
-
-/**
- * Required, see:
- * https://ethereum.stackexchange.com/questions/139078/how-to-use-subgraph-enums-in-the-mapping
- */
-class ActivityStatus {
-  static Success: string = "Success";
-  static Fulfilled: string = "Fulfilled";
-  static Cancelled: string = "Cancelled";
-  static Queued: string = "Queued";
-  static Moved: string = "Moved";
-}
-class ActivityAction {
-  static Withdraw: string = "Withdraw";
-  static Deposit: string = "Deposit";
 }
 
 function buildActivityID(
@@ -195,6 +184,36 @@ export function handleActivityEvent(event: ActivityEvent): void {
 
       // Save the activity
       activity.save();
+    }
+
+    // Check AffiliateUser
+    let affiliateUser = AffiliateUser.load(event.params.userAccount.toHexString());
+    if (
+      action == ActivityAction.Deposit &&
+      event.params.referralCode.length &&
+      affiliateUser == null
+    ) {
+      affiliateUser = new AffiliateUser(event.params.userAccount.toHexString());
+      affiliateUser.walletAddress = event.params.userAccount;
+      affiliateUser.affiliateCode = event.params.referralCode;
+      affiliateUser.save();
+    }
+
+    // Check AffiliateInfo(Only check successful activities)
+    if (event.params.newStatus == 2 && affiliateUser !== null) {
+      const affiliateActivity = new AffiliateActivity(
+        event.transaction.hash.concatI32(event.logIndex.toI32()),
+      );
+      affiliateActivity.affiliateCode = affiliateUser.affiliateCode;
+      affiliateActivity.ltoken = ltoken.id;
+      affiliateActivity.action = action;
+      affiliateActivity.account = event.params.userAccount;
+      affiliateActivity.amount = event.params.amount;
+      affiliateActivity.amountAfterFees = event.params.amountAfterFees;
+      affiliateActivity.txHash = event.transaction.hash;
+      affiliateActivity.logIndex = event.logIndex;
+      affiliateActivity.timestamp = event.block.timestamp;
+      affiliateActivity.save();
     }
   }
 }

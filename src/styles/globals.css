@@ -50,3 +50,11 @@
   transform: translateY(-200px) rotate(180deg) translateZ(0px);
   transform-origin: center center 0px;
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}

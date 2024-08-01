@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
@@ -13,6 +13,7 @@ import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
 import { XPayButton } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
+import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
 import { AppSwap } from "@/components/app/swap/AppSwap";
 import "@swing.xyz/ui/theme.css";
 
@@ -55,9 +56,7 @@ const _AppTabs: FC = () => {
         >
           Invest
         </TabsTrigger>
-        <TabsTrigger value="staking">
-          Staking
-        </TabsTrigger>
+        <TabsTrigger value="staking">Staking</TabsTrigger>
         <TabsTrigger
           value="pre-mining"
           className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0 hidden"
@@ -65,7 +64,8 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-        <TabsTrigger value="swap">Swap</TabsTrigger>
+        {/* <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger> */}
+        <TabsTrigger value="bridge">Swap</TabsTrigger>
         <XPayButton />
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
@@ -85,6 +85,9 @@ const _AppTabs: FC = () => {
           <TabsContent value="dashboard">
             <AppDashboard />
           </TabsContent>
+          {/* <TabsContent value="affiliate">
+            <AppAffiliate />
+          </TabsContent> */}
           <TabsContent value="swap">
             <AppSwap />
           </TabsContent>

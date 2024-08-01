@@ -9,6 +9,7 @@ import {
   base,
   baseSepolia,
   sepolia,
+  arbitrumSepolia,
 } from "@wagmi/core/chains";
 
 // Build chain icons map
@@ -17,6 +18,7 @@ export const chainsIcons = {
   31337: "/assets/chains/hardhat.svg",
   421613: "/assets/chains/arbitrum-goerli.png",
   42161: "/assets/chains/arbitrum.svg",
+  421614: "/assets/chains/arbitrum.svg",
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
   195: "/assets/chains/okxlogo.png",
@@ -70,16 +72,22 @@ if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
 if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly [Chain, ...Chain[]] = [mainnet, arbitrum, linea, xlayerMainnet];
+const prodChains: readonly [Chain, ...Chain[]] = [
+  mainnet,
+  arbitrum,
+  linea,
+  xlayerMainnet,
+  // baseSepolia,
+  // arbitrumSepolia,
+];
 const devChains: readonly [Chain, ...Chain[]] = [
   // ...prodChains,
-  mainnet,
   sepolia,
   hardhat,
-  arbitrum,
-  xlayerTestnet,
-  xlayerMainnet,
+  // xlayerTestnet,
+  // xlayerMainnet,
   lineaTestnet,
   baseSepolia,
+  arbitrumSepolia,
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;
