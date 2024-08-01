@@ -65,7 +65,7 @@ const _AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         {/* <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger> */}
-        <TabsTrigger value="bridge">Swap</TabsTrigger>
+        <TabsTrigger value="swap">Swap</TabsTrigger>
         <XPayButton />
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
