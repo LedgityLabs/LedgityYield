@@ -1,20 +1,21 @@
 "use client";
+
 import { AppDashboard } from "@/components/app/dashboard/AppDashboard";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppInvest } from "@/components/app/invest/AppInvest";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
-
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
+import { XPayButton } from "@/components/app/xswap/XswapModal";
 import Link from "next/link";
 import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
+import { AppSwap } from "@/components/app/swap/AppSwap";
 import "@swing.xyz/ui/theme.css";
-import { AppBridge } from "@/components/app/bridge/AppBridge";
 
 interface Props {
   defaultTab: string;
@@ -55,19 +56,7 @@ const _AppTabs: FC = () => {
         >
           Invest
         </TabsTrigger>
-        <TabsTrigger value="staking">
-          Staking
-          <div
-            className={twMerge(
-              "absolute right-[20%] -top-[2rem] z-20 flex items-center justify-center gap-1 rounded-xl bg-gradient-to-bl from-[#20456c]/50 to-[red] px-[0.47rem] py-[0.04rem] text-center text-[0.8rem] font-bold text-white",
-              currentTab === "staking" && "opacity-50 hover:opacity-100",
-            )}
-          >
-            <i className="ri-fire-fill text-x animate-pulse" />
-            Hot
-            <i className="ri-arrow-down-s-fill absolute -bottom-[1.33rem] left-1.5 -z-10 text-3xl text-[#20456c]/90"></i>
-          </div>
-        </TabsTrigger>
+        <TabsTrigger value="staking">Staking</TabsTrigger>
         <TabsTrigger
           value="pre-mining"
           className="[&_div:hover]:!opacity-100 [&_div:hover]:!grayscale-0 hidden"
@@ -77,6 +66,7 @@ const _AppTabs: FC = () => {
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         {/* <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger> */}
         <TabsTrigger value="bridge">Swap</TabsTrigger>
+        <XPayButton />
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -98,8 +88,8 @@ const _AppTabs: FC = () => {
           {/* <TabsContent value="affiliate">
             <AppAffiliate />
           </TabsContent> */}
-          <TabsContent value="bridge">
-            <AppBridge />
+          <TabsContent value="swap">
+            <AppSwap />
           </TabsContent>
         </SessionProvider>
       </div>

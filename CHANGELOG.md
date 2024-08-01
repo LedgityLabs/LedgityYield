@@ -1,3 +1,42 @@
+## [1.271.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.1...v1.271.0) (2024-07-23)
+
+
+### Features
+
+* **xswap bridge:** integration of xswap bridge ([3627a81](https://github.com/LedgityLabs/LedgityYield/commit/3627a81f395440fd3a5b781cad141f7a82a9b7a5))
+
+
+### Fixes
+
+* **approval:** approval triggered ([fa729dd](https://github.com/LedgityLabs/LedgityYield/commit/fa729dda1de0c5c9a38ecc572dff7c3a7296500e))
+* **path weren't right:** paths were wrong. swap was rerouting to /bridge and in bridge component ([cb72bc3](https://github.com/LedgityLabs/LedgityYield/commit/cb72bc310fbd3dd79d36cc42e9fa148f63b73f70))
+
+
+### Others
+
+* **env and constants:** moved environnement variable to env.msj and refactored some constants ([34a49ff](https://github.com/LedgityLabs/LedgityYield/commit/34a49ff3f4344576e9431c5f46b46f882ebcae71))
+* **responsive widget:** changed of styles of swing widget to be responsive, removed tooltip ([112ac1b](https://github.com/LedgityLabs/LedgityYield/commit/112ac1b3dd8fdbef2d8dc7f89487809cd1906e01)), closes [#139](https://github.com/LedgityLabs/LedgityYield/issues/139)
+* **tailwind:** remove .css and move to tailwind ([fa96dba](https://github.com/LedgityLabs/LedgityYield/commit/fa96dbaff965dcd780b4f5db45d0fef1ea774dc8))
+
+## [1.270.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.0...v1.270.1) (2024-07-19)
+
+
+### Fixes
+
+* **fixed route name:** route and file name were wrong and unclear ([40789fe](https://github.com/LedgityLabs/LedgityYield/commit/40789fefabf3f90b9b0acefa8a89ff9c829486b6))
+
+
+### Others
+
+* **width styling:** make the component wider ([0d12a82](https://github.com/LedgityLabs/LedgityYield/commit/0d12a825fb7874e425a901ab129d3f564b3bde92))
+
+## [1.270.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.269.0...v1.270.0) (2024-07-12)
+
+
+### Features
+
+* x_swap_bridge: integrating bridge and swap with xswap widget ([a2123ed](https://github.com/LedgityLabs/LedgityYield/commit/a2123ed01e9d3c2f9e90dbf97304b4e4a93a9016))
+
 ## [1.269.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.268.0...v1.269.0) (2024-07-10)
 
 
