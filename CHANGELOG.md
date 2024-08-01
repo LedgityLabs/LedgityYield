@@ -1,3 +1,10 @@
+## [1.272.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.0...v1.272.1) (2024-08-01)
+
+
+### Fixes
+
+* fix route path ([101fc2b](https://github.com/LedgityLabs/LedgityYield/commit/101fc2b3de721074b56deee13a5dab8801f37572))
+
 ## [1.272.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.271.0...v1.272.0) (2024-08-01)
 
 
