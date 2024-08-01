@@ -13,6 +13,8 @@ import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
 import Link from "next/link";
 import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
+import "@swing.xyz/ui/theme.css";
+import { AppBridge } from "@/components/app/bridge/AppBridge";
 
 interface Props {
   defaultTab: string;
@@ -74,6 +76,7 @@ const _AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         {/* <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger> */}
+        <TabsTrigger value="bridge">Swap</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -95,6 +98,9 @@ const _AppTabs: FC = () => {
           {/* <TabsContent value="affiliate">
             <AppAffiliate />
           </TabsContent> */}
+          <TabsContent value="bridge">
+            <AppBridge />
+          </TabsContent>
         </SessionProvider>
       </div>
     </Tabs>
