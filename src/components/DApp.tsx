@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { config } from "../lib/dapp/config";
 import RainbowKitProvider from "./RainbowKitProvider";
+import { MainContextProvider } from "@/contexts";
 
 const queryClient = new QueryClient();
 
@@ -15,11 +16,13 @@ interface Props {
 
 const DApp: FC<Props> = ({ children }) => {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <MainContextProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>{children}</RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </MainContextProvider>
   );
 };
 

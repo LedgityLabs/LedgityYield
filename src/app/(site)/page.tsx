@@ -1,16 +1,22 @@
+"use client";
 import { type NextPage } from "next";
 import HomeHero from "@/components/site/home/HomeHero";
 import HomePartners from "@/components/site/home/HomePartners";
 import HomeHowItWorks from "@/components/site/home/HomeHowItWorks";
 import HomeFeatures from "@/components/site/home/HomeFeatures";
 import Footer from "@/components/Footer";
-
-export const metadata = {
-  title: "Stable Yield For Stablecoins",
-};
+import { useMainContext } from "@/hooks/useMainContext";
+import { useSearchParams } from "next/navigation";
 
 //
 const Page: NextPage = () => {
+  const searchParams = useSearchParams();
+  const { changeReferalCode } = useMainContext();
+  if (searchParams.has("referral")) {
+    const referralCode = searchParams.get("referral");
+    changeReferalCode(referralCode);
+  }
+
   return (
     <>
       <HomeHero />

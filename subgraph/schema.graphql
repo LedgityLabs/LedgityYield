@@ -77,3 +77,23 @@ type StakingAPRInfo @entity {
   totalStaked: BigInt!
   interestRate: BigDecimal! # rewardPerSec/totalStaked
 }
+
+type AffiliateUser @entity(immutable: true) {
+  # wallet address
+  id: ID!
+  walletAddress: Bytes!
+  affiliateCode: String!
+}
+
+type AffiliateActivity @entity(immutable: true) {
+  id: Bytes!
+  affiliateCode: String!
+  ltoken: LToken!
+  action: ActivityAction!
+  account: Bytes! # wallet address
+  amount: BigInt!
+  amountAfterFees: BigInt!
+  txHash: Bytes!
+  logIndex: BigInt!
+  timestamp: BigInt!
+}

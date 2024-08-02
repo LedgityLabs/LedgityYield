@@ -1,5 +1,22 @@
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
-import { StakingAPRInfo } from "./generated/schema";
+import { AffiliateActivity, StakingAPRInfo } from "./generated/schema";
+
+/**
+ * Required, see:
+ * https://ethereum.stackexchange.com/questions/139078/how-to-use-subgraph-enums-in-the-mapping
+ */
+export class ActivityStatus {
+  static Success: string = "Success";
+  static Fulfilled: string = "Fulfilled";
+  static Cancelled: string = "Cancelled";
+  static Queued: string = "Queued";
+  static Moved: string = "Moved";
+}
+
+export class ActivityAction {
+  static Withdraw: string = "Withdraw";
+  static Deposit: string = "Deposit";
+}
 
 export const STAKING_APR_INFO_ID = "STAKING_APR_INFO_ID";
 

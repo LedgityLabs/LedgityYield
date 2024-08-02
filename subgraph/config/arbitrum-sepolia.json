@@ -1,0 +1,7 @@
+{
+  "Network": "arbitrum-sepolia",
+  "LTokenSignaler_Address": "0x8AeD5D3C5844D26671Ae63BE08aD2A6903BD293e",
+  "LTokenSignaler_StartBlock": "65600011",
+  "LDYStaking_Address": "0x20Cb912b0E1B8018F2E308A7f6f2Da66754923E4",
+  "LDYStaking_StartBlock": "65599956"
+}

@@ -14,6 +14,7 @@ import {
 import {
   useReadLTokenBalanceOf,
   useReadLTokenDecimals,
+  useReadLTokenWithdrawalFeeInEth,
   useSimulateLTokenInstantWithdrawal,
   useSimulateLTokenRequestWithdrawal,
 } from "@/generated";
@@ -38,6 +39,11 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
     address: lTokenAddress!,
     args: [account.address || zeroAddress],
   });
+  const { data: withdrawalFeeInEth, queryKey: queryForWithdrawalFeeInEth } =
+    useReadLTokenWithdrawalFeeInEth({
+      address: lTokenAddress!,
+      args: [],
+    });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
@@ -49,11 +55,11 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
   const requestWithdrawalPreparation = useSimulateLTokenRequestWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
-    value: parseEther("0.003"),
+    value: BigInt(withdrawalFeeInEth || 0),
   });
 
   // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  const queryKeys = [queryKey, queryForWithdrawalFeeInEth];
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
   useEffect(() => {

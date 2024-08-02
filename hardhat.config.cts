@@ -159,6 +159,18 @@ const config: HardhatUserConfig = {
         },
       },
     },
+    arbitrumSepolia: {
+      chainId: 421614,
+      url: "https://arb-sepolia.g.alchemy.com/v2/_976nGRu_17y8mA3ywVTwBsmNAbE2NL1",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+      verify: {
+        etherscan: {
+          apiKey: arbiscanApiKey,
+          apiUrl: "https://api-sepolia.arbiscan.io",
+        },
+      },
+    },
     arbitrumGoerli: {
       chainId: 421613,
       url: "https://arbitrum-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
@@ -222,6 +234,7 @@ const config: HardhatUserConfig = {
       sepolia: mainnetApiKey!,
       linea: lineascanApiKey!,
       arbitrumOne: arbiscanApiKey!,
+      arbitrumSepolia: arbiscanApiKey!,
       base: basescanApiKey!,
       baseSepolia: basescanApiKey!,
       xlayer: okxscanApiKey!,
@@ -268,6 +281,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api-sepolia.basescan.org/api",
           browserURL: "https://sepolia.basescan.org",
+        },
+      },
+      {
+        network: "arbitrumSepolia",
+        chainId: 421614,
+        urls: {
+          apiURL: "https://api-sepolia.arbiscan.io/api",
+          browserURL: "https://sepolia.arbiscan.io/",
         },
       },
     ],

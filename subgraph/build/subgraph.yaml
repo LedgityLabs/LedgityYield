@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: arbitrum-one
+    network: arbitrum-sepolia
     source:
-      address: "0x011C5B18aBC74A341209b12D1A6fD7B59E423428"
+      address: "0x8AeD5D3C5844D26671Ae63BE08aD2A6903BD293e"
       abi: LTokenSignaler
-      startBlock: 1756244
+      startBlock: 65600011
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,11 +28,11 @@ dataSources:
           handler: handleSignaledLToken
   - kind: ethereum
     name: LdyStaking
-    network: arbitrum-one
+    network: arbitrum-sepolia
     source:
-      address: "0x98002b5c06b44c8769dA3DAe97CA498aB6F97137"
+      address: "0x20Cb912b0E1B8018F2E308A7f6f2Da66754923E4"
       abi: LdyStaking
-      startBlock: 218746026
+      startBlock: 65599956
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -58,7 +58,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: arbitrum-one
+    network: arbitrum-sepolia
     source:
       abi: LToken
     mapping:
@@ -81,7 +81,7 @@ templates:
         - event: APRChangeEvent(uint16)
           handler: handleAPRChangeEvent
         - event: ActivityEvent(indexed int256,indexed address,indexed
-            uint8,uint256,uint256,uint8,int256)
+            uint8,address,uint256,uint256,uint8,int256,string)
           handler: handleActivityEvent
         - event: MintedRewardsEvent(indexed address,uint256,uint256)
           handler: handleMintedRewardsEvent

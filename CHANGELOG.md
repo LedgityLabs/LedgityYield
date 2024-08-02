@@ -1,3 +1,41 @@
+## [1.272.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.0...v1.272.1) (2024-08-01)
+
+
+### Fixes
+
+* fix route path ([101fc2b](https://github.com/LedgityLabs/LedgityYield/commit/101fc2b3de721074b56deee13a5dab8801f37572))
+
+## [1.272.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.271.0...v1.272.0) (2024-08-01)
+
+
+### Features
+
+* add affiliate dashboard ([8c01d52](https://github.com/LedgityLabs/LedgityYield/commit/8c01d521c0fa868510475d32de81381192d92440))
+* add commission part on the affiliate dashboard ([e12789c](https://github.com/LedgityLabs/LedgityYield/commit/e12789ccc17f1469a89dfa2876c4861a7162ad7b))
+* affiliate ui ([3dc347c](https://github.com/LedgityLabs/LedgityYield/commit/3dc347cfc71a7087762ef7244cca11317d4268c0))
+* change frontend url ([44766eb](https://github.com/LedgityLabs/LedgityYield/commit/44766eb8629277a58d3984ce1f5021e010323d72))
+* configure prod and dev chains ([dbac111](https://github.com/LedgityLabs/LedgityYield/commit/dbac111319ba7e882a5c308782c9c56ab4d7902f))
+* hide affilaite ui section ([ef8a07d](https://github.com/LedgityLabs/LedgityYield/commit/ef8a07d77169e2385ec4fc2b54f4914b145b86cd))
+* implement affiliate ([1a54679](https://github.com/LedgityLabs/LedgityYield/commit/1a54679bc82b08b55ee2f482662d9cbe733314d6))
+* implment affiliate dashboard ([1e1ce06](https://github.com/LedgityLabs/LedgityYield/commit/1e1ce06413179b78f80c42e3d68201950e1ceecb))
+* modify event on l-token contract ([33a93b5](https://github.com/LedgityLabs/LedgityYield/commit/33a93b52655a2e5ea5ec4149aa689d042e60d88b))
+* subgraph support for affiliate system ([aff59b3](https://github.com/LedgityLabs/LedgityYield/commit/aff59b3326e6c43fbffb5eb1cbf52a6b1428b5a2))
+
+
+### Fixes
+
+* bugs on affiliate ([07e3181](https://github.com/LedgityLabs/LedgityYield/commit/07e3181910c0e9954afe84f14ff0fef4db1de50d))
+* contract integration issues ([16af300](https://github.com/LedgityLabs/LedgityYield/commit/16af3002ea0c63d77f03944f7efc256403d60d85))
+* fix build issues ([b98a138](https://github.com/LedgityLabs/LedgityYield/commit/b98a13828a8ce1e41750c4996d49706419a4b6ac))
+* fix table frozen issue on affiliate dashboard ([f73a4d5](https://github.com/LedgityLabs/LedgityYield/commit/f73a4d5fac71f1d8faff0bf1c5a0db32ba93f058))
+* modify subgraph schema ([89f95f6](https://github.com/LedgityLabs/LedgityYield/commit/89f95f62f7f181f1db8bef2f4391879cb09c8d52))
+
+
+### Others
+
+* resolve conflicts ([633b267](https://github.com/LedgityLabs/LedgityYield/commit/633b26762c8b6ff7117c7afb81d22d9ba710dee8))
+* resolve merge conflicts ([e2371a5](https://github.com/LedgityLabs/LedgityYield/commit/e2371a506d4972ff37525916f495ab563f388398))
+
 ## [1.271.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.1...v1.271.0) (2024-07-23)
 
 
