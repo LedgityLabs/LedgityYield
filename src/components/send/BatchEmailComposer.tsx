@@ -20,7 +20,7 @@ const BatchEmailComposer: React.FC = () => {
         setIsSending(true);
         setStatus('Initiating batch email send...');
         try {
-            const response = await fetch('/api/send-batch-emails', {
+            const response = await fetch('/api/mailing/send-batch-emails', {
                 method: 'POST',
                 cache: 'no-cache',
                 headers: {'Content-Type': 'application/json'},

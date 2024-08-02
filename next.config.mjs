@@ -1,8 +1,7 @@
 // This ensure env vars are validated at build-time
 // See: https://env.t3.gg/docs/nextjs
 import "./env.mjs";
-import * as path from 'path'
-import { fileURLToPath } from 'url';
+import webpack from 'webpack';
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -12,8 +11,13 @@ const nextConfig = {
   },
   // Require by Wagmi work in Next.js client components
   webpack: (config, { isServer }) => {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
+    if (isServer) {
+      config.plugins.push(new webpack.IgnorePlugin({
+        resourceRegExp: /^ipfs-utils$/,
+      }));
+    }
+
+    //config.resolve.alias['ipfs-utils'] = path.resolve(__dirname, 'node_modules/ipfs-utils');
 
     config.resolve.fallback = { fs: false, net: false, tls: false };
     //config.resolve.alias['./fetch.node'] = 'file:' + path.resolve(__dirname, 'polyfills/fetch.js');

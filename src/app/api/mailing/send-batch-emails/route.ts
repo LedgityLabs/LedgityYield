@@ -1,4 +1,4 @@
-import '@/polyfills';
+//import '@/polyfills';
 import {NextRequest, NextResponse} from "next/server";
 import {clearEmailSendStatus, hasEmailBeenSent, markEmailAsSent} from "@/components/send/utils/jsonStorage";
 import {retryable} from "@/components/send/utils/retryable";
@@ -99,11 +99,16 @@ export const POST = async (request: NextRequest) => {
         return NextResponse.json({success: false, error: "Invalid payload"});
     }
 
-    const contacts = await fetchContactsWithAccess(signer);
-    const jobs = await mailQueue.addBulk(
-        contacts.map(contact => ({data: {...data, contact}})
-    ))
+    try {
+        const contacts = await fetchContactsWithAccess(signer);
+        const jobs = await mailQueue.addBulk(
+            contacts.map(contact => ({data: {...data, contact}})
+            ))
 
-    // Return success
-    return NextResponse.json({ success: true, data: {jobIds: jobs.map(job => job.id)} });
+        // Return success
+        return NextResponse.json({ success: true, data: {jobIds: jobs.map(job => job.id)} });
+    } catch (err) {
+        console.error(err);
+        return NextResponse.json({success: false, error: err});
+    }
 }
