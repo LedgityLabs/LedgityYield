@@ -120,6 +120,7 @@ const config: HardhatUserConfig = {
       chainId: 59144,
       url: "https://linea-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      deploy: ["./contracts/hardhat/linea-mainnet-deploy"],
       saveDeployments: true,
       verify: {
         etherscan: {

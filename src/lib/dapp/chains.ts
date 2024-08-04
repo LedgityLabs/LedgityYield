@@ -89,5 +89,7 @@ const devChains: readonly [Chain, ...Chain[]] = [
   lineaTestnet,
   baseSepolia,
   arbitrumSepolia,
+  arbitrum,
+  linea,
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;
