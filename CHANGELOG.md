@@ -1,3 +1,10 @@
+## [1.273.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.1...v1.273.0) (2024-08-04)
+
+
+### Features
+
+* update config ([550d7ea](https://github.com/LedgityLabs/LedgityYield/commit/550d7ea4b6e99167ed368cc4703cf9dd98f61711))
+
 ## [1.272.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.0...v1.272.1) (2024-08-01)
 
 
