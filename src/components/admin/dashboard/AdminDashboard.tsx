@@ -342,7 +342,7 @@ export const AdminDashboard: FC = () => {
         )}
         {!isLoading && tableRows.length === 0 && (
           <p className="col-span-4 my-10 block w-full text-center text-lg font-semibold text-fg/60">
-            No Search Result.
+            No Search Result
           </p>
         )}
         {tableRows.map((row, rowIndex) =>
