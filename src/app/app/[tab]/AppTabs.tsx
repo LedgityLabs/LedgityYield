@@ -64,7 +64,7 @@ const _AppTabs: FC = () => {
           Pre-Mining
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-        {/* <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger> */}
+        <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
         <TabsTrigger value="swap">Swap</TabsTrigger>
         <XPayButton />
       </TabsList>
@@ -85,9 +85,9 @@ const _AppTabs: FC = () => {
           <TabsContent value="dashboard">
             <AppDashboard />
           </TabsContent>
-          {/* <TabsContent value="affiliate">
+          <TabsContent value="affiliate">
             <AppAffiliate />
-          </TabsContent> */}
+          </TabsContent>
           <TabsContent value="swap">
             <AppSwap />
           </TabsContent>
