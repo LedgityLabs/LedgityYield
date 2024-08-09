@@ -1,3 +1,22 @@
+## [1.274.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.273.0...v1.274.0) (2024-08-05)
+
+
+### Features
+
+* enable affiliate tab ([f966e5a](https://github.com/LedgityLabs/LedgityYield/commit/f966e5af89d2cabefbede6ec4a96c137e5c846c7))
+
+
+### Others
+
+* enable affiliate tab ([00bbda6](https://github.com/LedgityLabs/LedgityYield/commit/00bbda6762447ec348efd566c88685826cfc4c8a))
+
+## [1.273.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.1...v1.273.0) (2024-08-04)
+
+
+### Features
+
+* update config ([550d7ea](https://github.com/LedgityLabs/LedgityYield/commit/550d7ea4b6e99167ed368cc4703cf9dd98f61711))
+
 ## [1.272.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.0...v1.272.1) (2024-08-01)
 
 

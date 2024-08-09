@@ -29524,7 +29524,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0x8584BCd220A048104e654F842C56E33d37d6aEe3",
+          "address": "0x346245eD74Cd6319f169228b980D91f17d98Cd99",
           "abi": [
             {
               "anonymous": false,
@@ -29562,6 +29562,12 @@
                 },
                 {
                   "indexed": false,
+                  "internalType": "address",
+                  "name": "userAccount",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -29583,6 +29589,12 @@
                   "internalType": "int256",
                   "name": "newId",
                   "type": "int256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "referralCode",
+                  "type": "string"
                 }
               ],
               "name": "ActivityEvent",
@@ -29909,6 +29921,11 @@
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "string",
+                  "name": "refCode",
+                  "type": "string"
                 }
               ],
               "name": "deposit",
@@ -30479,12 +30496,12 @@
             {
               "inputs": [
                 {
-                  "internalType": "address payable",
-                  "name": "withdrawer_",
-                  "type": "address"
+                  "internalType": "uint256",
+                  "name": "withdrawalFeeInEth_",
+                  "type": "uint256"
                 }
               ],
-              "name": "setWithdrawer",
+              "name": "setWithdrawalFeeInEth",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -30492,12 +30509,12 @@
             {
               "inputs": [
                 {
-                  "internalType": "uint256",
-                  "name": "withdrwalFeeInEth_",
-                  "type": "uint256"
+                  "internalType": "address payable",
+                  "name": "withdrawer_",
+                  "type": "address"
                 }
               ],
-              "name": "setWithdrwalFeeInEth",
+              "name": "setWithdrawer",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -30789,6 +30806,19 @@
               "type": "function"
             },
             {
+              "inputs": [],
+              "name": "withdrawalFeeInEth",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
               "inputs": [
                 {
                   "internalType": "uint256",
@@ -30833,19 +30863,6 @@
                   "internalType": "address payable",
                   "name": "",
                   "type": "address"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [],
-              "name": "withdrwalFeeInEth",
-              "outputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
                 }
               ],
               "stateMutability": "view",
@@ -40287,7 +40304,7 @@
           ]
         },
         "LUSDC_Implementation": {
-          "address": "0x768fa735a0D894784fe38F52124B246dd6347D19",
+          "address": "0x73B7EA670ad41021A311f60B2Be2FccB97784a39",
           "abi": [
             {
               "anonymous": false,
@@ -40325,6 +40342,12 @@
                 },
                 {
                   "indexed": false,
+                  "internalType": "address",
+                  "name": "userAccount",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -40346,6 +40369,12 @@
                   "internalType": "int256",
                   "name": "newId",
                   "type": "int256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "referralCode",
+                  "type": "string"
                 }
               ],
               "name": "ActivityEvent",
@@ -40672,6 +40701,11 @@
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "string",
+                  "name": "refCode",
+                  "type": "string"
                 }
               ],
               "name": "deposit",
@@ -41242,6 +41276,19 @@
             {
               "inputs": [
                 {
+                  "internalType": "uint256",
+                  "name": "withdrawalFeeInEth_",
+                  "type": "uint256"
+                }
+              ],
+              "name": "setWithdrawalFeeInEth",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
                   "internalType": "address payable",
                   "name": "withdrawer_",
                   "type": "address"
@@ -41536,6 +41583,19 @@
                 }
               ],
               "stateMutability": "pure",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "withdrawalFeeInEth",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
               "type": "function"
             },
             {
