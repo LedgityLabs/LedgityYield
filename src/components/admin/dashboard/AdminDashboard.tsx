@@ -37,7 +37,8 @@ export const AdminDashboard: FC = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [affiliateCode, setAffiliateCode] = useState<string>("");
   const [searchYear, setSearchYear] = useState<number>(new Date().getFullYear());
-  const [searchQuarter, setSearchQuarter] = useState<number>(new Date().getMonth() / 3 + 1);
+  const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3);
+  const [searchQuarter, setSearchQuarter] = useState<number>(currentQuarter);
   const searchYearList = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
   const quarterList = Array.from({ length: 4 }, (_, i) => i + 1);
 

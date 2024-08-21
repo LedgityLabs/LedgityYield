@@ -1,3 +1,10 @@
+## [1.274.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.0...v1.274.1) (2024-08-09)
+
+
+### Fixes
+
+* quarter selection in admin dashboard ([0f985e8](https://github.com/LedgityLabs/LedgityYield/commit/0f985e818dc4e1a66fe53317d0ddbd74ebdecb99))
+
 ## [1.274.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.273.0...v1.274.0) (2024-08-05)
 
 
