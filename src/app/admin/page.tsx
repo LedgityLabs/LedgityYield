@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { type NextPage } from "next";
 import { AdminOwnership } from "@/components/admin/ownership/AdminOwnership";
 import { AdminPause } from "@/components/admin/pause/AdminPause";
+import AdminEthVault from "@/components/admin/eth-vault/AdminEthVault";
 import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 const Page: NextPage = () => {
@@ -28,6 +29,9 @@ const Page: NextPage = () => {
           <TabsTrigger value="ownership">Ownership</TabsTrigger>
           <TabsTrigger value="pause">Pause</TabsTrigger>
           <TabsTrigger value="blacklist">Blacklist</TabsTrigger>
+          <TabsTrigger value="ethvault">
+            EthVault
+          </TabsTrigger>
           {isLocalnet && (
             <TabsTrigger value="testing" className="!text-blue-500">
               Testing
@@ -57,6 +61,9 @@ const Page: NextPage = () => {
 
           <TabsContent value="blacklist">
             <AdminBlacklist />
+          </TabsContent>
+          <TabsContent value="ethvault">
+            <AdminEthVault />
           </TabsContent>
 
           {isLocalnet && (

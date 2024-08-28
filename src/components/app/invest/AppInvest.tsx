@@ -7,6 +7,7 @@ import { Card } from "@/components/ui";
 import Link from "next/link";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
 import { AppInvestHoldersCount } from "./AppInvestHoldersCount";
+import AppInvestEthVault from "./EthVault/AppInvestEthVault";
 
 export const AppInvest: FC = () => {
   const { switchTab } = useSwitchAppTab();
@@ -63,6 +64,7 @@ export const AppInvest: FC = () => {
           </Link>
         </p>
       </Card>
+      <AppInvestEthVault />
     </div>
   );
 };
