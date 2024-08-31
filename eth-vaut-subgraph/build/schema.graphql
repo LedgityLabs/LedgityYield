@@ -1,0 +1,21 @@
+type Epoch @entity {
+  id: ID!
+  totalValueLocked: BigInt!
+  totalEpochRewards: BigInt!
+  number: Int!
+}
+
+type User @entity {
+  id: ID!
+  totalDeposited: BigInt!
+  totalWithdrawn: BigInt!
+  totalRewardsClaimed: BigInt!
+  stakes: [Stake!] @derivedFrom(field: "user")
+}
+
+type Stake @entity {
+  id: ID!
+  user: User!
+  amount: BigInt!
+  epochNumber: Int!
+}
