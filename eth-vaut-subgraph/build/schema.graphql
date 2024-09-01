@@ -1,21 +1,24 @@
-type Epoch @entity {
-  id: ID!
-  totalValueLocked: BigInt!
-  totalEpochRewards: BigInt!
-  number: Int!
-}
-
 type User @entity {
   id: ID!
   totalDeposited: BigInt!
   totalWithdrawn: BigInt!
   totalRewardsClaimed: BigInt!
-  stakes: [Stake!] @derivedFrom(field: "user")
+  actions: [UserAction!]! @derivedFrom(field: "user")
+  epochInvestments: [EpochInvestment!]! @derivedFrom(field: "user")
 }
 
-type Stake @entity {
+type UserAction @entity {
   id: ID!
   user: User!
-  amount: BigInt!
   epochNumber: Int!
+  amount: BigInt!
+  actionType: String!
+  timestamp: BigInt!
+}
+
+type EpochInvestment @entity {
+  id: ID!
+  user: User!
+  epochNumber: Int!
+  amount: BigInt!
 }

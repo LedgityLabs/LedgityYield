@@ -11,85 +11,6 @@ import {
   BigDecimal,
 } from "@graphprotocol/graph-ts";
 
-export class Epoch extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Epoch entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Epoch must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
-      );
-      store.set("Epoch", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): Epoch | null {
-    return changetype<Epoch | null>(store.get_in_block("Epoch", id));
-  }
-
-  static load(id: string): Epoch | null {
-    return changetype<Epoch | null>(store.get("Epoch", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get totalValueLocked(): BigInt {
-    let value = this.get("totalValueLocked");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set totalValueLocked(value: BigInt) {
-    this.set("totalValueLocked", Value.fromBigInt(value));
-  }
-
-  get totalEpochRewards(): BigInt {
-    let value = this.get("totalEpochRewards");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set totalEpochRewards(value: BigInt) {
-    this.set("totalEpochRewards", Value.fromBigInt(value));
-  }
-
-  get number(): i32 {
-    let value = this.get("number");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set number(value: i32) {
-    this.set("number", Value.fromI32(value));
-  }
-}
-
 export class User extends Entity {
   constructor(id: string) {
     super();
@@ -168,12 +89,20 @@ export class User extends Entity {
     this.set("totalRewardsClaimed", Value.fromBigInt(value));
   }
 
-  get stakes(): StakeLoader {
-    return new StakeLoader("User", this.get("id")!.toString(), "stakes");
+  get actions(): UserActionLoader {
+    return new UserActionLoader("User", this.get("id")!.toString(), "actions");
+  }
+
+  get epochInvestments(): EpochInvestmentLoader {
+    return new EpochInvestmentLoader(
+      "User",
+      this.get("id")!.toString(),
+      "epochInvestments",
+    );
   }
 }
 
-export class Stake extends Entity {
+export class UserAction extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -181,22 +110,22 @@ export class Stake extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Stake entity without an ID");
+    assert(id != null, "Cannot save UserAction entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Stake must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        `Entities of type UserAction must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("Stake", id.toString(), this);
+      store.set("UserAction", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): Stake | null {
-    return changetype<Stake | null>(store.get_in_block("Stake", id));
+  static loadInBlock(id: string): UserAction | null {
+    return changetype<UserAction | null>(store.get_in_block("UserAction", id));
   }
 
-  static load(id: string): Stake | null {
-    return changetype<Stake | null>(store.get("Stake", id));
+  static load(id: string): UserAction | null {
+    return changetype<UserAction | null>(store.get("UserAction", id));
   }
 
   get id(): string {
@@ -225,6 +154,19 @@ export class Stake extends Entity {
     this.set("user", Value.fromString(value));
   }
 
+  get epochNumber(): i32 {
+    let value = this.get("epochNumber");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set epochNumber(value: i32) {
+    this.set("epochNumber", Value.fromI32(value));
+  }
+
   get amount(): BigInt {
     let value = this.get("amount");
     if (!value || value.kind == ValueKind.NULL) {
@@ -236,6 +178,87 @@ export class Stake extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
+  }
+
+  get actionType(): string {
+    let value = this.get("actionType");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set actionType(value: string) {
+    this.set("actionType", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+}
+
+export class EpochInvestment extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save EpochInvestment entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type EpochInvestment must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("EpochInvestment", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): EpochInvestment | null {
+    return changetype<EpochInvestment | null>(
+      store.get_in_block("EpochInvestment", id),
+    );
+  }
+
+  static load(id: string): EpochInvestment | null {
+    return changetype<EpochInvestment | null>(store.get("EpochInvestment", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get user(): string {
+    let value = this.get("user");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set user(value: string) {
+    this.set("user", Value.fromString(value));
   }
 
   get epochNumber(): i32 {
@@ -250,9 +273,22 @@ export class Stake extends Entity {
   set epochNumber(value: i32) {
     this.set("epochNumber", Value.fromI32(value));
   }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
 }
 
-export class StakeLoader extends Entity {
+export class UserActionLoader extends Entity {
   _entity: string;
   _field: string;
   _id: string;
@@ -264,8 +300,26 @@ export class StakeLoader extends Entity {
     this._field = field;
   }
 
-  load(): Stake[] {
+  load(): UserAction[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<Stake[]>(value);
+    return changetype<UserAction[]>(value);
+  }
+}
+
+export class EpochInvestmentLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): EpochInvestment[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<EpochInvestment[]>(value);
   }
 }

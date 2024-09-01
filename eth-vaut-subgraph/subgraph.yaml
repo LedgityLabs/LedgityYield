@@ -17,7 +17,8 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - User
-        - Epoch
+        - UserAction
+        - EpochInvestment
       abis:
         - name: EthVault
           file: ../contracts/abis/EthVault.json
