@@ -233,7 +233,6 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         if (!claimableRewards) revert WrongPhase("END EPOCH: rewards must be allocated before ending the epoch");
         uint256 requiredFunds = epochs[currentEpochId].totalValueLocked;
         if (msg.value < requiredFunds) {
-            //ALERT it may be possible to send less
             revert InsufficientFundsReturned(msg.value, requiredFunds);
         }
 
@@ -314,14 +313,6 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         uint256 previousMininmumStake = mininmumStake;
         mininmumStake = _mininmumStake;
         emit MinimumStakeChanged(previousMininmumStake, mininmumStake);
-    }
-
-    function getCurrentEpoch() external view returns (Epoch memory) {
-        return epochs[currentEpochId];
-    }
-
-    function getEpochCount() external view returns (uint256) {
-        return epochs.length;
     }
 
     function getAllEpochs() external view returns (Epoch[] memory) {

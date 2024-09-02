@@ -82,7 +82,7 @@ const VaultActionButtons: React.FC<VaultActionButtonsProps> = ({
                 disabledReason={withdrawDisabledReason}
             />
             <ActionButton
-                label="Claim Rewards"
+                label="Claim"
                 primary={false}
                 disabled={isClaimRewardsDisabled}
                 onClick={onClaimRewards}

@@ -79,6 +79,7 @@
     "d3-format": "^3.1.0",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.0.2",
+    "framer-motion": "^11.3.31",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "lodash.merge": "^4.6.2",

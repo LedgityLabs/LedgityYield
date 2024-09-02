@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Info } from 'lucide-react';
+import React from 'react';
+import { Info } from 'lucide-react';
 import CustomTooltip from './Tooltip';
+import { formatEther } from 'viem';
 
 interface EpochData {
     id: number;
     apr: string;
-    invested: string;
     tvl: string;
     status: string;
 }
@@ -13,9 +13,10 @@ interface EpochData {
 interface EpochRowProps {
     epoch: EpochData;
     isClaimable: boolean;
+    subgraphInvestment: string;
 }
 
-const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable }) => {
+const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestment }) => {
     let tooltipContent = '';
 
     if (epoch.status === 'Running') {
@@ -27,6 +28,8 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable }) => {
     } else {
         tooltipContent = "Epoch has ended, rewards have been distributed";
     }
+
+    const formattedSubgraphInvestment = parseFloat(formatEther(BigInt(subgraphInvestment))).toFixed(4);
 
     return (
         <tr>
@@ -45,8 +48,8 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable }) => {
                     </span>
                 </CustomTooltip>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{parseFloat(epoch.invested).toFixed(4)} ETH</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{parseFloat(epoch.tvl).toFixed(4)} ETH</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formattedSubgraphInvestment} ETH</td>
         </tr>
     );
 };
@@ -54,53 +57,42 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable }) => {
 interface EpochsOverviewProps {
     epochs: EpochData[];
     isClaimable: boolean;
+    investmentPerEpoch: { [key: number]: string };
 }
 
-const EpochsOverview: React.FC<EpochsOverviewProps> = ({ epochs, isClaimable }) => {
-    const [showPastEpochs, setShowPastEpochs] = useState(false);
+const EpochsOverview: React.FC<EpochsOverviewProps> = ({ epochs, isClaimable, investmentPerEpoch }) => {
+    const sortedEpochs = [...epochs].sort((a, b) => b.id - a.id);
 
     return (
-        <>
-            <div className="overflow-x-auto">
-                <table className="w-full bg-white">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Epoch</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">APR</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invested</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TVL</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                        {epochs.slice(0, showPastEpochs ? undefined : 2).map((epoch) => (
-                            <EpochRow
-                                key={epoch.id}
-                                epoch={epoch}
-                                isClaimable={isClaimable}
-                            />
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            <div className="mt-4 text-center">
-                <button
-                    onClick={() => setShowPastEpochs(!showPastEpochs)}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                    {showPastEpochs ? (
-                        <>
-                            Hide Past Epochs <ChevronUp className="ml-2 h-5 w-5" />
-                        </>
-                    ) : (
-                        <>
-                            Show Past Epochs <ChevronDown className="ml-2 h-5 w-5" />
-                        </>
-                    )}
-                </button>
-            </div>
-        </>
+        <div style={{
+            maxHeight: '400px',
+            overflowY: 'auto',
+            border: '1px solid #e5e7eb',
+            borderRadius: '4px',
+            backgroundColor: 'white'
+        }}>
+            <table className="w-full">
+                <thead className="bg-gray-100 sticky top-0 z-10">
+                    <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Epoch</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">APR</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TVL</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Your Investment</th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                    {sortedEpochs.map((epoch) => (
+                        <EpochRow
+                            key={epoch.id}
+                            epoch={epoch}
+                            isClaimable={isClaimable}
+                            subgraphInvestment={investmentPerEpoch[epoch.id] || "0"}
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 

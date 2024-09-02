@@ -17,7 +17,8 @@ import {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const ethVaultAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -635,14 +636,17 @@ export const ethVaultAbi = [
 ] as const
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const ethVaultAddress = {
   31337: '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318',
+  11155111: '0x74D425621681b4F130a6132Be0aF952641BFf55f',
 } as const
 
 /**
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const ethVaultConfig = {
   address: ethVaultAddress,
@@ -3843,7 +3847,8 @@ export const preMiningConfig = {
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVault = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -3853,7 +3858,8 @@ export const useReadEthVault = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"calculateRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultCalculateRewards =
   /*#__PURE__*/ createUseReadContract({
@@ -3865,7 +3871,8 @@ export const useReadEthVaultCalculateRewards =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimableRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultClaimableRewards =
   /*#__PURE__*/ createUseReadContract({
@@ -3877,7 +3884,8 @@ export const useReadEthVaultClaimableRewards =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"currentEpochId"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultCurrentEpochId =
   /*#__PURE__*/ createUseReadContract({
@@ -3889,7 +3897,8 @@ export const useReadEthVaultCurrentEpochId =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"currentEpochStatus"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultCurrentEpochStatus =
   /*#__PURE__*/ createUseReadContract({
@@ -3901,7 +3910,8 @@ export const useReadEthVaultCurrentEpochStatus =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"epochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultEpochs = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -3912,7 +3922,8 @@ export const useReadEthVaultEpochs = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"fundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultFundWallet = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -3923,7 +3934,8 @@ export const useReadEthVaultFundWallet = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getAllEpochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultGetAllEpochs = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -3934,7 +3946,8 @@ export const useReadEthVaultGetAllEpochs = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getCurrentEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultGetCurrentEpoch =
   /*#__PURE__*/ createUseReadContract({
@@ -3946,7 +3959,8 @@ export const useReadEthVaultGetCurrentEpoch =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getEpochCount"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultGetEpochCount = /*#__PURE__*/ createUseReadContract(
   { abi: ethVaultAbi, address: ethVaultAddress, functionName: 'getEpochCount' },
@@ -3955,7 +3969,8 @@ export const useReadEthVaultGetEpochCount = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getEpochLengthToClaim"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultGetEpochLengthToClaim =
   /*#__PURE__*/ createUseReadContract({
@@ -3967,7 +3982,8 @@ export const useReadEthVaultGetEpochLengthToClaim =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"hasClaimableRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultHasClaimableRewards =
   /*#__PURE__*/ createUseReadContract({
@@ -3979,7 +3995,8 @@ export const useReadEthVaultHasClaimableRewards =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"locked"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultLocked = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -3990,7 +4007,8 @@ export const useReadEthVaultLocked = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"mininmumStake"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultMininmumStake = /*#__PURE__*/ createUseReadContract(
   { abi: ethVaultAbi, address: ethVaultAddress, functionName: 'mininmumStake' },
@@ -3999,7 +4017,8 @@ export const useReadEthVaultMininmumStake = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"owner"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultOwner = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -4010,7 +4029,8 @@ export const useReadEthVaultOwner = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"proxiableUUID"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultProxiableUuid = /*#__PURE__*/ createUseReadContract(
   { abi: ethVaultAbi, address: ethVaultAddress, functionName: 'proxiableUUID' },
@@ -4019,7 +4039,8 @@ export const useReadEthVaultProxiableUuid = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"userStakes"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useReadEthVaultUserStakes = /*#__PURE__*/ createUseReadContract({
   abi: ethVaultAbi,
@@ -4030,7 +4051,8 @@ export const useReadEthVaultUserStakes = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVault = /*#__PURE__*/ createUseWriteContract({
   abi: ethVaultAbi,
@@ -4040,7 +4062,8 @@ export const useWriteEthVault = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"allocateRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultAllocateRewards =
   /*#__PURE__*/ createUseWriteContract({
@@ -4052,7 +4075,8 @@ export const useWriteEthVaultAllocateRewards =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultClaimRewards =
   /*#__PURE__*/ createUseWriteContract({
@@ -4064,7 +4088,8 @@ export const useWriteEthVaultClaimRewards =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewardsForEpochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultClaimRewardsForEpochs =
   /*#__PURE__*/ createUseWriteContract({
@@ -4076,7 +4101,8 @@ export const useWriteEthVaultClaimRewardsForEpochs =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"enter"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultEnter = /*#__PURE__*/ createUseWriteContract({
   abi: ethVaultAbi,
@@ -4087,7 +4113,8 @@ export const useWriteEthVaultEnter = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"exit"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultExit = /*#__PURE__*/ createUseWriteContract({
   abi: ethVaultAbi,
@@ -4098,7 +4125,8 @@ export const useWriteEthVaultExit = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"initialize"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultInitialize = /*#__PURE__*/ createUseWriteContract({
   abi: ethVaultAbi,
@@ -4109,7 +4137,8 @@ export const useWriteEthVaultInitialize = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockFundsAndRunCurrentEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultLockFundsAndRunCurrentEpoch =
   /*#__PURE__*/ createUseWriteContract({
@@ -4121,7 +4150,8 @@ export const useWriteEthVaultLockFundsAndRunCurrentEpoch =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockOrUnlockContract"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultLockOrUnlockContract =
   /*#__PURE__*/ createUseWriteContract({
@@ -4133,7 +4163,8 @@ export const useWriteEthVaultLockOrUnlockContract =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"renounceOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultRenounceOwnership =
   /*#__PURE__*/ createUseWriteContract({
@@ -4145,7 +4176,8 @@ export const useWriteEthVaultRenounceOwnership =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setFundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultSetFundWallet =
   /*#__PURE__*/ createUseWriteContract({
@@ -4157,7 +4189,8 @@ export const useWriteEthVaultSetFundWallet =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setMinimumStake"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultSetMinimumStake =
   /*#__PURE__*/ createUseWriteContract({
@@ -4169,7 +4202,8 @@ export const useWriteEthVaultSetMinimumStake =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"terminateCurrentAndOpenNextEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultTerminateCurrentAndOpenNextEpoch =
   /*#__PURE__*/ createUseWriteContract({
@@ -4181,7 +4215,8 @@ export const useWriteEthVaultTerminateCurrentAndOpenNextEpoch =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"transferOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultTransferOwnership =
   /*#__PURE__*/ createUseWriteContract({
@@ -4193,7 +4228,8 @@ export const useWriteEthVaultTransferOwnership =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeTo"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultUpgradeTo = /*#__PURE__*/ createUseWriteContract({
   abi: ethVaultAbi,
@@ -4204,7 +4240,8 @@ export const useWriteEthVaultUpgradeTo = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWriteEthVaultUpgradeToAndCall =
   /*#__PURE__*/ createUseWriteContract({
@@ -4216,7 +4253,8 @@ export const useWriteEthVaultUpgradeToAndCall =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVault = /*#__PURE__*/ createUseSimulateContract({
   abi: ethVaultAbi,
@@ -4226,7 +4264,8 @@ export const useSimulateEthVault = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"allocateRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultAllocateRewards =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4238,7 +4277,8 @@ export const useSimulateEthVaultAllocateRewards =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultClaimRewards =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4250,7 +4290,8 @@ export const useSimulateEthVaultClaimRewards =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewardsForEpochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultClaimRewardsForEpochs =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4262,7 +4303,8 @@ export const useSimulateEthVaultClaimRewardsForEpochs =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"enter"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultEnter = /*#__PURE__*/ createUseSimulateContract(
   { abi: ethVaultAbi, address: ethVaultAddress, functionName: 'enter' },
@@ -4271,7 +4313,8 @@ export const useSimulateEthVaultEnter = /*#__PURE__*/ createUseSimulateContract(
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"exit"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultExit = /*#__PURE__*/ createUseSimulateContract({
   abi: ethVaultAbi,
@@ -4282,7 +4325,8 @@ export const useSimulateEthVaultExit = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"initialize"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultInitialize =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4294,7 +4338,8 @@ export const useSimulateEthVaultInitialize =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockFundsAndRunCurrentEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultLockFundsAndRunCurrentEpoch =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4306,7 +4351,8 @@ export const useSimulateEthVaultLockFundsAndRunCurrentEpoch =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockOrUnlockContract"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultLockOrUnlockContract =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4318,7 +4364,8 @@ export const useSimulateEthVaultLockOrUnlockContract =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"renounceOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultRenounceOwnership =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4330,7 +4377,8 @@ export const useSimulateEthVaultRenounceOwnership =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setFundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultSetFundWallet =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4342,7 +4390,8 @@ export const useSimulateEthVaultSetFundWallet =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setMinimumStake"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultSetMinimumStake =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4354,7 +4403,8 @@ export const useSimulateEthVaultSetMinimumStake =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"terminateCurrentAndOpenNextEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultTerminateCurrentAndOpenNextEpoch =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4366,7 +4416,8 @@ export const useSimulateEthVaultTerminateCurrentAndOpenNextEpoch =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"transferOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultTransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4378,7 +4429,8 @@ export const useSimulateEthVaultTransferOwnership =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeTo"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultUpgradeTo =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4390,7 +4442,8 @@ export const useSimulateEthVaultUpgradeTo =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useSimulateEthVaultUpgradeToAndCall =
   /*#__PURE__*/ createUseSimulateContract({
@@ -4402,7 +4455,8 @@ export const useSimulateEthVaultUpgradeToAndCall =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultEvent = /*#__PURE__*/ createUseWatchContractEvent({
   abi: ethVaultAbi,
@@ -4412,7 +4466,8 @@ export const useWatchEthVaultEvent = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"AdminChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4424,7 +4479,8 @@ export const useWatchEthVaultAdminChangedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultBeaconUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4436,7 +4492,8 @@ export const useWatchEthVaultBeaconUpgradedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"EpochOpened"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultEpochOpenedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4448,7 +4505,8 @@ export const useWatchEthVaultEpochOpenedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"EpochRunning"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultEpochRunningEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4460,7 +4518,8 @@ export const useWatchEthVaultEpochRunningEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"EpochTerminated"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultEpochTerminatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4472,7 +4531,8 @@ export const useWatchEthVaultEpochTerminatedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"FundWalletChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultFundWalletChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4484,7 +4544,8 @@ export const useWatchEthVaultFundWalletChangedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"FundsTransferredToFundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultFundsTransferredToFundWalletEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4496,7 +4557,8 @@ export const useWatchEthVaultFundsTransferredToFundWalletEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"Initialized"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultInitializedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4508,7 +4570,8 @@ export const useWatchEthVaultInitializedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"LockingContract"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultLockingContractEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4520,7 +4583,8 @@ export const useWatchEthVaultLockingContractEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"MinimumStakeChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultMinimumStakeChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4532,7 +4596,8 @@ export const useWatchEthVaultMinimumStakeChangedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4544,7 +4609,8 @@ export const useWatchEthVaultOwnershipTransferredEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"RewardsAllocated"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultRewardsAllocatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4556,7 +4622,8 @@ export const useWatchEthVaultRewardsAllocatedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"RewardsClaimabilityChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultRewardsClaimabilityChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4568,7 +4635,8 @@ export const useWatchEthVaultRewardsClaimabilityChangedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"Upgraded"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4580,7 +4648,8 @@ export const useWatchEthVaultUpgradedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"UserDeposit"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultUserDepositEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4592,7 +4661,8 @@ export const useWatchEthVaultUserDepositEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"UserRewardClaim"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultUserRewardClaimEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -4604,7 +4674,8 @@ export const useWatchEthVaultUserRewardClaimEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"UserWithdraw"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const useWatchEthVaultUserWithdrawEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -10698,7 +10769,8 @@ export const useWatchPreMiningUnpausedEvent =
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVault = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10708,7 +10780,8 @@ export const readEthVault = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"calculateRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultCalculateRewards = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10719,7 +10792,8 @@ export const readEthVaultCalculateRewards = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimableRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultClaimableRewards = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10730,7 +10804,8 @@ export const readEthVaultClaimableRewards = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"currentEpochId"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultCurrentEpochId = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10741,7 +10816,8 @@ export const readEthVaultCurrentEpochId = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"currentEpochStatus"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultCurrentEpochStatus = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10752,7 +10828,8 @@ export const readEthVaultCurrentEpochStatus = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"epochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultEpochs = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10763,7 +10840,8 @@ export const readEthVaultEpochs = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"fundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultFundWallet = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10774,7 +10852,8 @@ export const readEthVaultFundWallet = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getAllEpochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultGetAllEpochs = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10785,7 +10864,8 @@ export const readEthVaultGetAllEpochs = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getCurrentEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultGetCurrentEpoch = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10796,7 +10876,8 @@ export const readEthVaultGetCurrentEpoch = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getEpochCount"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultGetEpochCount = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10807,7 +10888,8 @@ export const readEthVaultGetEpochCount = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"getEpochLengthToClaim"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultGetEpochLengthToClaim =
   /*#__PURE__*/ createReadContract({
@@ -10819,7 +10901,8 @@ export const readEthVaultGetEpochLengthToClaim =
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"hasClaimableRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultHasClaimableRewards = /*#__PURE__*/ createReadContract(
   {
@@ -10832,7 +10915,8 @@ export const readEthVaultHasClaimableRewards = /*#__PURE__*/ createReadContract(
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"locked"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultLocked = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10843,7 +10927,8 @@ export const readEthVaultLocked = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"mininmumStake"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultMininmumStake = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10854,7 +10939,8 @@ export const readEthVaultMininmumStake = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"owner"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultOwner = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10865,7 +10951,8 @@ export const readEthVaultOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"proxiableUUID"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultProxiableUuid = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10876,7 +10963,8 @@ export const readEthVaultProxiableUuid = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"userStakes"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const readEthVaultUserStakes = /*#__PURE__*/ createReadContract({
   abi: ethVaultAbi,
@@ -10887,7 +10975,8 @@ export const readEthVaultUserStakes = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVault = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -10897,7 +10986,8 @@ export const writeEthVault = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"allocateRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultAllocateRewards = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -10908,7 +10998,8 @@ export const writeEthVaultAllocateRewards = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultClaimRewards = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -10919,7 +11010,8 @@ export const writeEthVaultClaimRewards = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewardsForEpochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultClaimRewardsForEpochs =
   /*#__PURE__*/ createWriteContract({
@@ -10931,7 +11023,8 @@ export const writeEthVaultClaimRewardsForEpochs =
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"enter"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultEnter = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -10942,7 +11035,8 @@ export const writeEthVaultEnter = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"exit"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultExit = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -10953,7 +11047,8 @@ export const writeEthVaultExit = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"initialize"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultInitialize = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -10964,7 +11059,8 @@ export const writeEthVaultInitialize = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockFundsAndRunCurrentEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultLockFundsAndRunCurrentEpoch =
   /*#__PURE__*/ createWriteContract({
@@ -10976,7 +11072,8 @@ export const writeEthVaultLockFundsAndRunCurrentEpoch =
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockOrUnlockContract"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultLockOrUnlockContract =
   /*#__PURE__*/ createWriteContract({
@@ -10988,7 +11085,8 @@ export const writeEthVaultLockOrUnlockContract =
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"renounceOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultRenounceOwnership = /*#__PURE__*/ createWriteContract(
   {
@@ -11001,7 +11099,8 @@ export const writeEthVaultRenounceOwnership = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setFundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultSetFundWallet = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -11012,7 +11111,8 @@ export const writeEthVaultSetFundWallet = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setMinimumStake"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultSetMinimumStake = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -11023,7 +11123,8 @@ export const writeEthVaultSetMinimumStake = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"terminateCurrentAndOpenNextEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultTerminateCurrentAndOpenNextEpoch =
   /*#__PURE__*/ createWriteContract({
@@ -11035,7 +11136,8 @@ export const writeEthVaultTerminateCurrentAndOpenNextEpoch =
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"transferOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultTransferOwnership = /*#__PURE__*/ createWriteContract(
   {
@@ -11048,7 +11150,8 @@ export const writeEthVaultTransferOwnership = /*#__PURE__*/ createWriteContract(
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeTo"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultUpgradeTo = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -11059,7 +11162,8 @@ export const writeEthVaultUpgradeTo = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const writeEthVaultUpgradeToAndCall = /*#__PURE__*/ createWriteContract({
   abi: ethVaultAbi,
@@ -11070,7 +11174,8 @@ export const writeEthVaultUpgradeToAndCall = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVault = /*#__PURE__*/ createSimulateContract({
   abi: ethVaultAbi,
@@ -11080,7 +11185,8 @@ export const simulateEthVault = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"allocateRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultAllocateRewards =
   /*#__PURE__*/ createSimulateContract({
@@ -11092,7 +11198,8 @@ export const simulateEthVaultAllocateRewards =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewards"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultClaimRewards =
   /*#__PURE__*/ createSimulateContract({
@@ -11104,7 +11211,8 @@ export const simulateEthVaultClaimRewards =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"claimRewardsForEpochs"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultClaimRewardsForEpochs =
   /*#__PURE__*/ createSimulateContract({
@@ -11116,7 +11224,8 @@ export const simulateEthVaultClaimRewardsForEpochs =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"enter"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultEnter = /*#__PURE__*/ createSimulateContract({
   abi: ethVaultAbi,
@@ -11127,7 +11236,8 @@ export const simulateEthVaultEnter = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"exit"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultExit = /*#__PURE__*/ createSimulateContract({
   abi: ethVaultAbi,
@@ -11138,7 +11248,8 @@ export const simulateEthVaultExit = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"initialize"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultInitialize = /*#__PURE__*/ createSimulateContract({
   abi: ethVaultAbi,
@@ -11149,7 +11260,8 @@ export const simulateEthVaultInitialize = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockFundsAndRunCurrentEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultLockFundsAndRunCurrentEpoch =
   /*#__PURE__*/ createSimulateContract({
@@ -11161,7 +11273,8 @@ export const simulateEthVaultLockFundsAndRunCurrentEpoch =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"lockOrUnlockContract"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultLockOrUnlockContract =
   /*#__PURE__*/ createSimulateContract({
@@ -11173,7 +11286,8 @@ export const simulateEthVaultLockOrUnlockContract =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"renounceOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultRenounceOwnership =
   /*#__PURE__*/ createSimulateContract({
@@ -11185,7 +11299,8 @@ export const simulateEthVaultRenounceOwnership =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setFundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultSetFundWallet =
   /*#__PURE__*/ createSimulateContract({
@@ -11197,7 +11312,8 @@ export const simulateEthVaultSetFundWallet =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"setMinimumStake"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultSetMinimumStake =
   /*#__PURE__*/ createSimulateContract({
@@ -11209,7 +11325,8 @@ export const simulateEthVaultSetMinimumStake =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"terminateCurrentAndOpenNextEpoch"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultTerminateCurrentAndOpenNextEpoch =
   /*#__PURE__*/ createSimulateContract({
@@ -11221,7 +11338,8 @@ export const simulateEthVaultTerminateCurrentAndOpenNextEpoch =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"transferOwnership"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultTransferOwnership =
   /*#__PURE__*/ createSimulateContract({
@@ -11233,7 +11351,8 @@ export const simulateEthVaultTransferOwnership =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeTo"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultUpgradeTo = /*#__PURE__*/ createSimulateContract({
   abi: ethVaultAbi,
@@ -11244,7 +11363,8 @@ export const simulateEthVaultUpgradeTo = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ethVaultAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const simulateEthVaultUpgradeToAndCall =
   /*#__PURE__*/ createSimulateContract({
@@ -11256,7 +11376,8 @@ export const simulateEthVaultUpgradeToAndCall =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultEvent = /*#__PURE__*/ createWatchContractEvent({
   abi: ethVaultAbi,
@@ -11266,7 +11387,8 @@ export const watchEthVaultEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"AdminChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11278,7 +11400,8 @@ export const watchEthVaultAdminChangedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultBeaconUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11290,7 +11413,8 @@ export const watchEthVaultBeaconUpgradedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"EpochOpened"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultEpochOpenedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11302,7 +11426,8 @@ export const watchEthVaultEpochOpenedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"EpochRunning"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultEpochRunningEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11314,7 +11439,8 @@ export const watchEthVaultEpochRunningEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"EpochTerminated"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultEpochTerminatedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11326,7 +11452,8 @@ export const watchEthVaultEpochTerminatedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"FundWalletChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultFundWalletChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11338,7 +11465,8 @@ export const watchEthVaultFundWalletChangedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"FundsTransferredToFundWallet"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultFundsTransferredToFundWalletEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11350,7 +11478,8 @@ export const watchEthVaultFundsTransferredToFundWalletEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"Initialized"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultInitializedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11362,7 +11491,8 @@ export const watchEthVaultInitializedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"LockingContract"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultLockingContractEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11374,7 +11504,8 @@ export const watchEthVaultLockingContractEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"MinimumStakeChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultMinimumStakeChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11386,7 +11517,8 @@ export const watchEthVaultMinimumStakeChangedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultOwnershipTransferredEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11398,7 +11530,8 @@ export const watchEthVaultOwnershipTransferredEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"RewardsAllocated"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultRewardsAllocatedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11410,7 +11543,8 @@ export const watchEthVaultRewardsAllocatedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"RewardsClaimabilityChanged"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultRewardsClaimabilityChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11422,7 +11556,8 @@ export const watchEthVaultRewardsClaimabilityChangedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"Upgraded"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11434,7 +11569,8 @@ export const watchEthVaultUpgradedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"UserDeposit"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultUserDepositEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11446,7 +11582,8 @@ export const watchEthVaultUserDepositEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"UserRewardClaim"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultUserRewardClaimEvent =
   /*#__PURE__*/ createWatchContractEvent({
@@ -11458,7 +11595,8 @@ export const watchEthVaultUserRewardClaimEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ethVaultAbi}__ and `eventName` set to `"UserWithdraw"`
  *
- *
+ * -
+ * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0x74D425621681b4F130a6132Be0aF952641BFf55f)
  */
 export const watchEthVaultUserWithdrawEvent =
   /*#__PURE__*/ createWatchContractEvent({
