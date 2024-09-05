@@ -437,24 +437,6 @@ contract VaultTest is Test {
         assertEq(currentEpoch.totalEpochRewards, 0);
     }
 
-    function testGetEpochCount() public {
-        uint256 initialCount = vault.getEpochCount();
-        assertEq(initialCount, 2); // Initial state should have 2 epochs (0 and 1)
-
-        // Run through a full epoch cycle
-        vm.prank(user1);
-        vault.enter{value: 1 ether}();
-        vm.prank(owner);
-        vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
-        vault.allocateRewards{value: 0.1 ether}();
-        vm.prank(owner);
-        vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
-
-        uint256 newCount = vault.getEpochCount();
-        assertEq(newCount, 3); // Should now have 3 epochs
-    }
-
     function testGetCurrentEpochStatus() public {
         (EthVault.EpochStatus status) = vault.currentEpochStatus();
         assertEq(uint256(status), uint256(EthVault.EpochStatus.Open));

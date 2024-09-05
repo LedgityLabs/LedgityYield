@@ -70,6 +70,7 @@ export const theme = {
     colors: {
       bg: "rgb(var(--bg) / <alpha-value>)",
       fg: "rgb(var(--fg) / <alpha-value>)",
+      "custom-light-blue": '#e6ebff',
       primary: {
         DEFAULT: "rgb(var(--primary-bg) / <alpha-value>)",
         fg: "rgb(var(--primary-fg) / <alpha-value>)",

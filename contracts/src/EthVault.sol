@@ -80,7 +80,6 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
     event RewardsClaimabilityChanged(bool claimable);
     event LockingContract(bool locked);
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
@@ -317,6 +316,10 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
 
     function getAllEpochs() external view returns (Epoch[] memory) {
         return epochs;
+    }
+
+    function getCurrentEpoch() external view returns (Epoch memory) {
+        return epochs[currentEpochId];
     }
 
     function lockOrUnlockContract(bool _locked) external onlyOwner {

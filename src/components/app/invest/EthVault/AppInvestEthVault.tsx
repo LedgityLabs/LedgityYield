@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Coins, Check, X, AlertTriangle } from 'lucide-react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { formatEther } from 'viem';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import DepositModal from './DepositModal';
 import WithdrawModal from './WithdrawModal';
-import StatCard from './StatCard';
-import EpochsOverview from './EpochsOverview';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import { useEthVault } from './useEthVault';
+import { useEthVault } from '@/hooks/useEthVault';
 import { useNotify } from '@/hooks/useNotify';
 import { Spinner } from '@/components/ui/Spinner';
-import { Card } from '@/components/ui';
+import { Card, Button } from '@/components/ui';
 import Link from 'next/link';
+import EpochsOverview from './EpochsOverview';
 
 const AppInvestEthVault: React.FC = () => {
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
@@ -20,7 +18,6 @@ const AppInvestEthVault: React.FC = () => {
   const {
     currentEpoch,
     epochs,
-    isError,
     isLoading,
     claimableRewards,
     hasClaimableRewards,
@@ -113,33 +110,25 @@ const AppInvestEthVault: React.FC = () => {
         <span className="absolute px-2 py-1.5 pt-1 text-sm leading-none rounded-bl-lg rounded-br-lg text-bg top-0 left-5 bg-orange-700 font-medium drop-shadow-md">
           Beta
         </span>
-        {subgraphError && (
-          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
-            <div className="flex">
-              <div className="py-1"><AlertTriangle className="h-6 w-6 text-yellow-500 mr-4" /></div>
-              <div>
-                <p className="font-bold">Warning</p>
-                <p>{subgraphError}</p>
-              </div>
-            </div>
-          </div>
-        )}
-        <div className="bg-gray-200 flex sm:gap-10 gap-6 justify-between flex-wrap-reverse sm:p-10 p-5 pt-8 pb-8">
+        <div className="flex sm:gap-10 gap-6 justify-between flex-wrap-reverse sm:p-10 p-5 pt-8 pb-0">
           <div className="flex flex-col gap-2">
-            <h3 className="font-bold text-lg text-gray-600">ETH Vault</h3>
-            <div className="text-[1.92rem] text-gray-800 font-heading font-bold flex items-center">
-              <Coins size={32} className="mr-2" />
+            <div className="text-[1.92rem] text-fg font-heading font-bold flex items-center">
+              <img
+                src="/assets/logo/eth.png"
+                alt="ETH Logo"
+                className="w-16 h-16 -ml-5 sm:-ml-10 mr-4" // Increased size, negative margin to stick to left, adjusted right margin
+              />
               ETH Vault
             </div>
           </div>
-          <div className="flex sm:gap-14 gap-10 flex-wrap">
-            <div className="flex flex-col md:items-end items-start gap-2">
-              <h3 className="font-bold text-lg text-gray-600 whitespace-nowrap">Current APR</h3>
-              <span className="text-[1.92rem] text-gray-800 font-heading font-bold">{epochs[0]?.apr || "0%"}</span>
+          <div className="flex sm:gap-6 gap-4 flex-wrap">
+            <div className="flex flex-col items-start gap-1">
+              <h3 className="font-bold text-sm text-fg/50 whitespace-nowrap">Claimable</h3>
+              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumber(calculatedRewards)}</span>
             </div>
-            <div className="flex flex-col md:items-end items-start gap-2">
-              <h3 className="font-bold text-lg text-gray-600 whitespace-nowrap">Your Investment</h3>
-              <span className="text-[1.92rem] text-gray-800 font-heading font-bold">{formatNumber(invested)}</span>
+            <div className="flex flex-col items-start gap-1">
+              <h3 className="font-bold text-sm text-fg/50 whitespace-nowrap">Claimed</h3>
+              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumber(totalRewardsClaimed)}</span>
             </div>
           </div>
         </div>
@@ -157,25 +146,19 @@ const AppInvestEthVault: React.FC = () => {
             </span>
           </Link>
         </p>
-
         <div className="sm:px-10 px-5">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <StatCard title="Current Epoch TVL" value={formatNumber(formatEther(currentEpoch.totalValueLocked))} />
-            <StatCard title="Your current Investment" value={formatNumber(invested)} />
-            <StatCard title="Your available Rewards" value={formatNumber(calculatedRewards)} />
-            <StatCard title="Total Rewards Claimed" value={formatNumber(totalRewardsClaimed)} />
-          </div>
-
-          <div className="bg-gray-200 p-4 rounded-lg mb-6 flex flex-col md:flex-row items-center">
-            <div className="flex flex-col md:flex-row md:space-x-16 flex-grow mb-4 md:mb-0">
-              <div className="font-semibold text-gray-700">APR</div>
-              <div className="font-semibold text-gray-700">TVL</div>
-              <div className="font-semibold text-gray-700">Invested</div>
+          <div className="bg-fg/5 py-4 px-6 -mx-5 sm:-mx-10 mb-8">
+            <div className="max-w-[calc(100%+2rem)] sm:max-w-[calc(100%+5rem)] mx-auto flex items-center">
+              <div className="flex space-x-12 pl-8 md:pl-12 flex-grow">
+                <div className="font-semibold text-fg/70">APR</div>
+                <div className="font-semibold text-fg/70">TVL</div>
+                <div className="font-semibold text-fg/70">Invested</div>
+              </div>
+              <div className="font-semibold text-fg/70 flex-grow text-center">Actions</div>
+              <div className="flex-grow"></div> {/* This empty div helps to position 'Actions' in the middle */}
             </div>
-            <div className="font-semibold text-gray-700">Actions</div>
           </div>
-
-          <div className="bg-blue-50 p-6 rounded-lg shadow-md mb-6">
+          <div className="p-6 rounded-lg shadow-md mb-6" style={{ backgroundColor: '#d7defb' }}>
             <div className="flex flex-col md:flex-row items-center mb-6">
               <div className="flex flex-col md:flex-row md:space-x-16 flex-grow mb-4 md:mb-0">
                 <div>{epochs[0]?.apr || "0%"}</div>
@@ -183,37 +166,45 @@ const AppInvestEthVault: React.FC = () => {
                 <div>{formatNumber(invested)}</div>
               </div>
               <div className="flex space-x-2">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
+                  size="tiny"
                   onClick={() => setIsDepositModalOpen(true)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   disabled={currentEpoch.status !== 'Open'}
+                  className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
                 >
-                  Deposit
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  <span className="rotate-90 text-bg/90">
+                    <i className="ri-login-circle-line text-xs" />
+                  </span>
+                  <span className="sm:inline-block hidden">Deposit</span>
+                </Button>
+                <Button
+                  size="tiny"
+                  variant="outline"
                   onClick={() => setIsWithdrawModalOpen(true)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   disabled={currentEpoch.status !== 'Open' || !hasInvestment}
+                  className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
                 >
-                  Withdraw
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  <span className="rotate-[270deg] text-fg/70">
+                    <i className="ri-logout-circle-r-line text-xs" />
+                  </span>
+                  <span className="sm:inline-block hidden">Withdraw</span>
+                </Button>
+                <Button
+                  size="tiny"
+                  variant="outline"
                   onClick={onClaimRewards}
-                  className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                   disabled={!hasClaimableRewards}
+                  className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
                 >
-                  Claim
-                </motion.button>
+                  <span className="text-fg/70">
+                    <i className="ri-money-dollar-circle-line text-xs" />
+                  </span>
+                  <span className="sm:inline-block hidden">Claim</span>
+                </Button>
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 bg-white rounded-lg overflow-hidden">
               <EpochsOverview
                 epochs={epochs}
                 isClaimable={claimableRewards !== undefined ? claimableRewards : false}

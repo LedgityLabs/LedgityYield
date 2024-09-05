@@ -29,13 +29,19 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestm
         tooltipContent = "Epoch has ended, rewards have been distributed";
     }
 
-    const formattedSubgraphInvestment = parseFloat(formatEther(BigInt(subgraphInvestment))).toFixed(4);
+    const formatValue = (value: string) => {
+        return parseFloat(value).toFixed(3);
+    };
+
+    const formatWeiToEther = (weiValue: string) => {
+        return parseFloat(formatEther(BigInt(weiValue))).toFixed(3);
+    };
 
     return (
-        <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{epoch.id}</td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{epoch.apr}</td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <tr className="bg-custom-light-blue">
+            <td className="pl-16 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{epoch.id}</td>
+            <td className="px-6 py-4 pr-2 whitespace-nowrap text-sm text-gray-500">{epoch.apr}</td>
+            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                 <CustomTooltip content={tooltipContent}>
                     <span className={`px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-full ${epoch.status === 'Running' ? 'bg-yellow-100 text-yellow-800' :
                         epoch.status === 'Open' ? 'bg-green-100 text-green-800' :
@@ -48,8 +54,8 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestm
                     </span>
                 </CustomTooltip>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{parseFloat(epoch.tvl).toFixed(4)} ETH</td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formattedSubgraphInvestment} ETH</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatValue(epoch.tvl)}</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatWeiToEther(subgraphInvestment)}</td>
         </tr>
     );
 };
@@ -64,34 +70,33 @@ const EpochsOverview: React.FC<EpochsOverviewProps> = ({ epochs, isClaimable, in
     const sortedEpochs = [...epochs].sort((a, b) => b.id - a.id);
 
     return (
-        <div style={{
-            maxHeight: '400px',
-            overflowY: 'auto',
-            border: '1px solid #e5e7eb',
-            borderRadius: '4px',
-            backgroundColor: 'white'
-        }}>
-            <table className="w-full">
-                <thead className="bg-gray-100 sticky top-0 z-10">
-                    <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Epoch</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">APR</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TVL</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Your Investment</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                    {sortedEpochs.map((epoch) => (
-                        <EpochRow
-                            key={epoch.id}
-                            epoch={epoch}
-                            isClaimable={isClaimable}
-                            subgraphInvestment={investmentPerEpoch[epoch.id] || "0"}
-                        />
-                    ))}
-                </tbody>
-            </table>
+        <div className="bg-custom-light-blue">
+            <div className="flex justify-between px-6 py-3">
+                {['Epoch', 'APR', 'Status', 'TVL', 'Invested'].map((title) => (
+                    <div
+                        key={title}
+                        className="px-4 py-1 bg-gray-100 text-sm font-medium text-gray-700 uppercase tracking-wider border border-gray-200 rounded-md shadow-sm"
+                    >
+                        {title}
+                    </div>
+                ))}
+            </div>
+            <div className="overflow-x-auto">
+                <div className="overflow-y-auto max-h-[300px]">
+                    <table className="min-w-full" >
+                        <tbody>
+                            {sortedEpochs.map((epoch) => (
+                                <EpochRow
+                                    key={epoch.id}
+                                    epoch={epoch}
+                                    isClaimable={isClaimable}
+                                    subgraphInvestment={investmentPerEpoch[epoch.id] || "0"}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 };
