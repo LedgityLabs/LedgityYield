@@ -116,7 +116,7 @@ const AppInvestEthVault: React.FC = () => {
               <img
                 src="/assets/logo/eth.png"
                 alt="ETH Logo"
-                className="w-16 h-16 -ml-5 sm:-ml-10 mr-4" // Increased size, negative margin to stick to left, adjusted right margin
+                className="w-16 h-16 -ml-5 sm:-ml-10 mr-4"
               />
               ETH Vault
             </div>

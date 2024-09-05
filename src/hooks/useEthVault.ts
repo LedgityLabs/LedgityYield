@@ -69,7 +69,6 @@ export const useEthVault = () => {
     const fetchSubgraphData = useCallback(async (address: string, retryCount = 0): Promise<void> => {
         const now = Date.now();
         if (now - lastFetchTime.current < MIN_INTERVAL_BETWEEN_CALLS) {
-            console.log('Too soon to fetch. Using cached data or waiting.');
             if (cachedData.current && now - cachedData.current.timestamp < CACHE_DURATION) {
                 setSubgraphData(cachedData.current.data);
                 return;
@@ -87,15 +86,12 @@ export const useEthVault = () => {
             setSubgraphError(null);
             cachedData.current = { data: userData, timestamp: now };
         } catch (error) {
-            console.error('Error fetching subgraph data:', error);
             if (retryCount < 3) {
                 const backoffDelay = Math.pow(2, retryCount) * 1000;
-                console.log(`Retrying in ${backoffDelay}ms...`);
                 setTimeout(() => fetchSubgraphData(address, retryCount + 1), backoffDelay);
             } else {
                 setSubgraphError('Failed to fetch data after multiple attempts. Please try again later.');
                 if (cachedData.current) {
-                    console.log('Using last cached data');
                     setSubgraphData(cachedData.current.data);
                 }
             }
