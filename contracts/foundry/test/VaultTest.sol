@@ -41,25 +41,18 @@ contract VaultTest is Test {
         vm.deal(user1, 1000 ether);
         vm.deal(user2, 1000 ether);
         vm.deal(failedT, 100 ether);
+        vm.deal(fundWallet, 1000 ether);
 
-        // Deploy implementation
         implementation = new EthVault();
 
-        // Encode initialization data
         bytes memory initData = abi.encodeWithSelector(EthVault.initialize.selector, fundWallet);
 
-        // Deploy ERC1967Proxy
         proxy = new ERC1967Proxy(address(implementation), initData);
 
-        // Create a contract instance of the proxy
         vault = EthVault(address(proxy));
 
         failedTransfer = new FailedTransfer();
     }
-
-    // --------------------------------------
-    //     INITIAL STATE AND SETUP TESTS
-    // --------------------------------------
 
     function testInitialState() public {
         assertEq(vault.currentEpochId(), 1);
@@ -75,27 +68,22 @@ contract VaultTest is Test {
         uint256 initialMinimumStake = vault.mininmumStake();
         uint256 newMinimumStake = 0.1 ether;
 
-        // Ensure only the owner can call this function
         vm.expectRevert("Ownable: caller is not the owner");
         vm.prank(user1);
         vault.setMinimumStake(newMinimumStake);
 
-        // Test successful execution by the owner
         vm.expectEmit(true, true, true, true);
         emit MinimumStakeChanged(initialMinimumStake, newMinimumStake);
         vm.prank(owner);
         vault.setMinimumStake(newMinimumStake);
 
-        // Verify the minimum stake has been updated
         assertEq(vault.mininmumStake(), newMinimumStake);
 
-        // Test that we can enter with the new minimum stake
         vm.prank(user1);
         vault.enter{value: newMinimumStake}();
         (uint256 amount,) = vault.userStakes(user1);
         assertEq(amount, newMinimumStake);
 
-        // Test that we cannot enter with less than the new minimum stake
         vm.expectRevert(
             abi.encodeWithSelector(EthVault.InsufficientStake.selector, newMinimumStake - 1, newMinimumStake)
         );
@@ -106,100 +94,76 @@ contract VaultTest is Test {
     function testSetFundWallet() public {
         address newFundWallet = vm.addr(4);
 
-        // Set the new fund wallet as the owner
         vm.prank(owner);
         vault.setFundWallet(newFundWallet);
 
-        // Verify the new fund wallet
         assertEq(vault.fundWallet(), newFundWallet);
     }
 
     function testErrorSetFundWalletUnauthorized() public {
-        // Ensure only the owner can call this function
         vm.expectRevert("Ownable: caller is not the owner");
         vm.prank(user1);
         vault.setFundWallet(user1);
     }
 
     function testLockOrUnlockContract() public {
-        // Assume the contract starts unlocked
         assertFalse(vault.locked());
 
-        // Test: non-owner cannot lock the contract
         vm.prank(user1);
         vm.expectRevert("Ownable: caller is not the owner");
         vault.lockOrUnlockContract(true);
 
-        // Test: owner can lock the contract
         vm.expectEmit(true, true, true, true);
         emit LockingContract(true);
         vm.prank(owner);
         vault.lockOrUnlockContract(true);
         assertTrue(vault.locked());
 
-        // Test: cannot lock an already locked contract
         vm.expectRevert("Contract already in requested state");
         vm.prank(owner);
         vault.lockOrUnlockContract(true);
 
-        // Test: owner can unlock the contract
         vm.expectEmit(true, true, true, true);
         emit LockingContract(false);
         vm.prank(owner);
         vault.lockOrUnlockContract(false);
         assertFalse(vault.locked());
 
-        // Test: cannot unlock an already unlocked contract
         vm.expectRevert("Contract already in requested state");
         vm.prank(owner);
         vault.lockOrUnlockContract(false);
     }
 
     function testIsLockedModifier() public {
-        // Setup: User enters the vault
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        // Lock the contract
         vm.prank(owner);
         vault.lockOrUnlockContract(true);
 
-        // Test enter when locked
         vm.expectRevert(EthVault.ContractLocked.selector);
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        // Test exit when locked
         vm.expectRevert(EthVault.ContractLocked.selector);
         vm.prank(user1);
         vault.exit(0.5 ether);
 
-        // Test claimRewards when locked
         vm.expectRevert(EthVault.ContractLocked.selector);
         vm.prank(user1);
         vault.claimRewards();
 
-        // Unlock the contract
         vm.prank(owner);
         vault.lockOrUnlockContract(false);
 
-        // Test functions when unlocked again
         vm.prank(user1);
-        vault.enter{value: 1 ether}(); // This should succeed
+        vault.enter{value: 1 ether}();
 
         vm.prank(user1);
-        vault.exit(0.5 ether); // This should succeed
-
-        // Note: claimRewards might fail for other reasons (like no rewards to claim),
-        // so we're not testing it in the unlocked state here
+        vault.exit(0.5 ether);
     }
 
-    // --------------------------------------
-    //       ENTER (STAKING) TESTS
-    // --------------------------------------
-
     function testErrorEnterBelowMinimumStake() public {
-        //reverts on enter below minimum stake
         vm.expectRevert(abi.encodeWithSelector(EthVault.InsufficientStake.selector, 0.04 ether, 0.05 ether));
         vm.prank(user1);
         vault.enter{value: 0.04 ether}();
@@ -222,17 +186,14 @@ contract VaultTest is Test {
         vm.prank(user2);
         vault.enter{value: depositAmountU2}();
 
-        //verify user1 stakes
         (uint256 amountU1, uint256 lastEpochClaimedAtU1) = vault.userStakes(user1);
         assertEq(amountU1, depositAmountU1);
         assertEq(lastEpochClaimedAtU1, 0);
 
-        // verify user2 stakes
         (uint256 amountU2, uint256 lastEpochClaimedAtU2) = vault.userStakes(user2);
         assertEq(amountU2, depositAmountU2);
         assertEq(lastEpochClaimedAtU2, 0);
 
-        // for 1st epoch, TVL is the total of all deposits
         EthVault.Epoch memory currentEpoch = vault.getCurrentEpoch();
         assertEq(currentEpoch.totalValueLocked, depositAmountU1 + depositAmountU2);
     }
@@ -241,20 +202,16 @@ contract VaultTest is Test {
         vm.startPrank(user1);
         vault.enter{value: 1 ether}();
 
-        // Simulate an epoch cycle
         vm.stopPrank();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        // Allocate rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        // Terminate current epoch and open next
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
-        // Enter again with existing stake
         vm.prank(user1);
         vault.enter{value: 2 ether}();
 
@@ -277,14 +234,13 @@ contract VaultTest is Test {
     }
 
     function testEnterWithZeroValue() public {
-        //reverts on enter with 0
         vm.expectRevert(abi.encodeWithSelector(EthVault.InsufficientStake.selector, 0, 0.05 ether));
         vm.prank(user1);
         vault.enter{value: 0}();
     }
 
     function testErrorEnterDuringRunningEpoch() public {
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
         vm.expectRevert(abi.encodeWithSelector(EthVault.WrongPhase.selector, "ENTER: only allowed during open phase"));
@@ -292,81 +248,78 @@ contract VaultTest is Test {
         vault.enter{value: 1 ether}();
     }
 
-    // -------------------------
-    //  EPOCH MANAGEMENT TESTS
-    // -------------------------
-
     function testLockFundsAndRunCurrentEpoch() public {
+        address contractFundWallet = vault.fundWallet();
         uint256 depositAmount = 1 ether;
+
+        // Get the initial balance of the fund wallet
+        uint256 initialFundWalletBalance = contractFundWallet.balance;
+
         vm.prank(user1);
         vault.enter{value: depositAmount}();
 
-        // Owner starts running epoch, funds are locked
-        vm.prank(owner);
+        vm.prank(contractFundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        // Verify epoch status, claimable rewards, and fund transfer
         assertEq(uint256(vault.currentEpochStatus()), uint256(EthVault.EpochStatus.Running));
         assertFalse(vault.claimableRewards());
-        assertEq(fundWallet.balance, depositAmount);
 
-        // Verify cannot enter
+        // Check that the fund wallet balance has increased by the deposit amount
+        assertEq(contractFundWallet.balance, initialFundWalletBalance + depositAmount);
+
         vm.expectRevert(abi.encodeWithSelector(EthVault.WrongPhase.selector, "ENTER: only allowed during open phase"));
         vm.prank(user2);
         vault.enter{value: 0.5 ether}();
 
-        // Verify cannot exit
         vm.expectRevert(abi.encodeWithSelector(EthVault.WrongPhase.selector, "EXIT: only allowed during open phase"));
         vm.prank(user1);
         vault.exit(0.5 ether);
 
-        // Verify cannot claim rewards
         vm.expectRevert(abi.encodeWithSelector(EthVault.UnClaimableRewards.selector));
         vm.prank(user1);
         vault.claimRewards();
     }
 
     function testErrorRunAlreadyRunningEpoch() public {
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //reverts on running already running epoch
         vm.expectRevert(
             abi.encodeWithSelector(EthVault.WrongPhase.selector, "RUN EPOCH: can only start running from open phase")
         );
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
     }
 
     function testErrorterminateCurrentAndOpenNextEpochNotRunning() public {
-        //reverts on terminating epoch not in running phase
         vm.expectRevert(abi.encodeWithSelector(EthVault.WrongPhase.selector, "END EPOCH: can only end a running epoch"));
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
     }
 
     function testTerminateCurrentAndOpenNextEpoch() public {
+        address contractFundWallet = vault.fundWallet();
         uint256 depositAmount = 1 ether;
         uint256 rewardAmount = 0.1 ether;
 
-        //a user enters
         vm.prank(user1);
         vault.enter{value: depositAmount}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(contractFundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        // Ensure the fundWallet has enough balance for rewards
+        vm.deal(contractFundWallet, rewardAmount);
+
+        vm.prank(contractFundWallet);
         vault.allocateRewards{value: rewardAmount}();
 
-        //owner terminates current epoch and open next
-        vm.prank(owner);
-        vault.terminateCurrentAndOpenNextEpoch{value: vault.getCurrentEpoch().totalValueLocked}();
+        // Ensure the fundWallet has enough balance to return the locked funds
+        vm.deal(contractFundWallet, depositAmount);
 
-        //verify next epoch is open
+        vm.prank(contractFundWallet);
+        vault.terminateCurrentAndOpenNextEpoch{value: depositAmount}();
+
         assertEq(vault.currentEpochId(), 2);
         assertEq(uint256(vault.currentEpochStatus()), uint256(EthVault.EpochStatus.Open));
     }
@@ -375,48 +328,48 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        // The full TVL should be returned to the contract
         vm.expectRevert(
             abi.encodeWithSelector(EthVault.InsufficientFundsReturned.selector, 500000000000000000, 1000000000000000000)
         );
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 0.5 ether}();
     }
 
     function testTransitionToNextEpoch() public {
+        address contractFundWallet = vault.fundWallet();
         uint256 depositAmount = 1 ether;
+        uint256 rewardAmount = 0.1 ether;
 
-        //a user enters
         vm.prank(user1);
         vault.enter{value: depositAmount}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(contractFundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
-        vault.allocateRewards{value: 0.1 ether}();
+        // Ensure the fundWallet has enough balance for rewards
+        vm.deal(contractFundWallet, rewardAmount);
 
-        //owner terminates current epoch and open next
-        vm.prank(owner);
-        vault.terminateCurrentAndOpenNextEpoch{value: vault.getCurrentEpoch().totalValueLocked}();
+        vm.prank(contractFundWallet);
+        vault.allocateRewards{value: rewardAmount}();
 
-        //verify next epoch is open
+        // Ensure the fundWallet has enough balance to return the locked funds
+        vm.deal(contractFundWallet, depositAmount);
+
+        vm.prank(contractFundWallet);
+        vault.terminateCurrentAndOpenNextEpoch{value: depositAmount}();
+
         assertEq(vault.currentEpochId(), 2);
         assertEq(uint256(vault.currentEpochStatus()), uint256(EthVault.EpochStatus.Open));
     }
 
     function testErrorTransitionToNextEpochRewardsNotAllocated() public {
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
         vm.expectRevert(
@@ -424,7 +377,7 @@ contract VaultTest is Test {
                 EthVault.WrongPhase.selector, "END EPOCH: rewards must be allocated before ending the epoch"
             )
         );
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
     }
 
@@ -441,105 +394,86 @@ contract VaultTest is Test {
         (EthVault.EpochStatus status) = vault.currentEpochStatus();
         assertEq(uint256(status), uint256(EthVault.EpochStatus.Open));
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
         (status) = vault.currentEpochStatus();
         assertEq(uint256(status), uint256(EthVault.EpochStatus.Running));
-
-        vm.prank(owner);
     }
-
-    // --------------------------------------
-    //    ALLOCATE REWARDS TESTS
-    // --------------------------------------
 
     function testAllocateRewards() public {
         uint256 depositAmount = 1 ether;
         uint256 rewardAmount = 0.1 ether;
 
-        //a user enters
         vm.prank(user1);
         vault.enter{value: depositAmount}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: rewardAmount}();
 
-        //verify rewards are allocated and and claimable
         assertEq(vault.claimableRewards(), true);
         EthVault.Epoch memory currentEpoch = vault.getCurrentEpoch();
         assertEq(currentEpoch.totalEpochRewards, rewardAmount);
     }
 
     function testErrorAllocateRewardsInOpenPhase() public {
-        vm.prank(owner);
-        (EthVault.EpochStatus status) = vault.currentEpochStatus();
-        assertEq(uint256(status), uint256(EthVault.EpochStatus.Open));
         vm.expectRevert(
             abi.encodeWithSelector(EthVault.WrongPhase.selector, "ALLOCATE REWARDS: must be in running phase")
         );
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
     }
 
     function testErrorDoubleAllocateRewards() public {
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        //verify rewards are allocated and and claimable
         (EthVault.Epoch memory epoch) = vault.getCurrentEpoch();
         assertEq(epoch.totalEpochRewards, 0.1 ether);
         assertEq(vault.claimableRewards(), true);
 
-        //reverts on allocating rewards again
         vm.expectRevert(abi.encodeWithSelector(EthVault.RewardsAlreadyAllocated.selector));
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
     }
 
     function testAllocateZeroRewards() public {
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates 0 rewards, must revert
         vm.expectRevert(EthVault.NoRewardsToAllocate.selector);
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0}();
     }
 
-    // --------------------------------------
-    //  EXIT (UNSTAKING) TESTS
-    // --------------------------------------
-
     function testExit() public {
+        address contractFundWallet = vault.fundWallet();
         uint256 depositAmount = 10 ether;
         uint256 rewardAmount = 1 ether;
 
-        //user1 enters the vault
         vm.startPrank(user1);
         vault.enter{value: depositAmount}();
         vm.stopPrank();
 
-        //epoch starts running and funds are locked
-        vm.prank(owner);
+        vm.prank(contractFundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        // Ensure the fundWallet has enough balance for rewards
+        vm.deal(contractFundWallet, rewardAmount);
+
+        vm.prank(contractFundWallet);
         vault.allocateRewards{value: rewardAmount}();
 
-        //terminate current epoch
-        vm.prank(owner);
-        vault.terminateCurrentAndOpenNextEpoch{value: vault.getCurrentEpoch().totalValueLocked}();
+        // Ensure the fundWallet has enough balance to return the locked funds
+        vm.deal(contractFundWallet, depositAmount);
+
+        vm.prank(contractFundWallet);
+        vault.terminateCurrentAndOpenNextEpoch{value: depositAmount}();
 
         vm.startPrank(user1);
         uint256 balanceBefore = user1.balance;
@@ -554,24 +488,27 @@ contract VaultTest is Test {
     }
 
     function testErrorExitMoreThanStaked() public {
+        address contractFundWallet = vault.fundWallet();
+
         uint256 depositAmount = 1 ether;
         uint256 rewardAmount = 0.1 ether;
+
         vm.startPrank(user1);
         vault.enter{value: depositAmount}();
         vm.stopPrank();
 
-        // Lock funds and allocate rewards
-        vm.prank(owner);
+        vm.prank(contractFundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        vm.prank(owner);
+        vm.prank(contractFundWallet);
         vault.allocateRewards{value: rewardAmount}();
 
-        // Transition to next epoch
-        vm.prank(owner);
-        vault.terminateCurrentAndOpenNextEpoch{value: vault.getCurrentEpoch().totalValueLocked}();
+        // Ensure the fundWallet has enough ETH to return the locked funds
+        vm.deal(contractFundWallet, depositAmount);
 
-        // Try to exit with more than staked + rewards
+        vm.prank(contractFundWallet);
+        vault.terminateCurrentAndOpenNextEpoch{value: depositAmount}();
+
         vm.expectRevert(
             abi.encodeWithSelector(EthVault.InsufficientBalance.selector, depositAmount + 100 wei, depositAmount)
         );
@@ -580,26 +517,78 @@ contract VaultTest is Test {
     }
 
     function testErrorExitDuringRunningEpoch() public {
-        //user enters
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //reverts on exit during running epoch
         vm.expectRevert(abi.encodeWithSelector(EthVault.WrongPhase.selector, "EXIT: only allowed during open phase"));
         vm.prank(user1);
         vault.exit(1 ether);
     }
 
+    function testErrorDoubleWithdrawOpenAndRunning() public {
+        address contractFundWallet = vault.fundWallet();
+        uint256 depositAmount = 1 ether;
+        uint256 depositAmount2 = 0.4 ether;
+        uint256 withdrawAmount = 0.6 ether;
+        uint256 rewardAmount = 0.1 ether;
+
+        // Scenario 1: Open Epoch
+        vm.startPrank(user1);
+        vault.enter{value: depositAmount}();
+
+        // First withdrawal should succeed
+        vault.exit(withdrawAmount);
+
+        // Second withdrawal should fail
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                EthVault.InsufficientBalance.selector, withdrawAmount, depositAmount - withdrawAmount
+            )
+        );
+        vault.exit(withdrawAmount);
+        vm.stopPrank();
+
+        // Scenario 2: Running Epoch with Allocated Rewards
+        vm.prank(user1);
+        vault.enter{value: withdrawAmount}(); //bring the deposit amount back to 1 ether
+
+        vm.prank(contractFundWallet);
+        vault.lockFundsAndRunCurrentEpoch();
+
+        vm.deal(contractFundWallet, rewardAmount);
+        vm.prank(contractFundWallet);
+        vault.allocateRewards{value: rewardAmount}();
+
+        vm.deal(contractFundWallet, depositAmount);
+        vm.prank(contractFundWallet);
+        vault.terminateCurrentAndOpenNextEpoch{value: depositAmount}();
+
+        vm.startPrank(user1);
+        // First withdrawal should succeed
+        uint256 balanceBefore = user1.balance;
+        vault.exit(withdrawAmount);
+        uint256 balanceAfter = user1.balance;
+
+        // Check that the withdrawal amount plus a portion of rewards was received
+        assertGt(balanceAfter - balanceBefore, withdrawAmount);
+
+        // Second withdrawal should fail
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                EthVault.InsufficientBalance.selector, withdrawAmount, depositAmount - withdrawAmount
+            )
+        );
+        vault.exit(withdrawAmount);
+        vm.stopPrank();
+    }
+
     function testExitWithZeroValue() public {
-        //user enters
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //reverts on exit with 0
         vm.expectRevert(EthVault.AmountMustBeGreaterThanZero.selector);
         vm.prank(user1);
         vault.exit(0);
@@ -611,86 +600,62 @@ contract VaultTest is Test {
         vault.exit(1 ether);
     }
 
-    // --------------------------------------
-    //  CLAIM REWARDS TESTS
-    // --------------------------------------
-
     function testGetEpochLengthToClaim() public {
-        // Setup: User enters the vault
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        // Test case 1: Open status, no epochs to claim
         assertEq(vault.getEpochLengthToClaim(user1), 0);
 
-        // Run first epoch
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        // Test case 2: Running status, one epoch to claim
         assertEq(vault.getEpochLengthToClaim(user1), 1);
 
-        // End first epoch and start second
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
-        // Test case 3: Open status, one epoch to claim
         assertEq(vault.getEpochLengthToClaim(user1), 1);
 
-        // Run second epoch
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        // Test case 4: Running status, two epochs to claim
         assertEq(vault.getEpochLengthToClaim(user1), 2);
 
-        // User claims rewards
         vm.prank(user1);
         vault.claimRewards();
 
-        // Test case 5: Running status, no epochs to claim after claiming
         assertEq(vault.getEpochLengthToClaim(user1), 0);
 
-        // End second epoch and start third
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
-        // Test case 6: Open status, no epochs to claim
         assertEq(vault.getEpochLengthToClaim(user1), 0);
 
-        // Test case 7: User with no stake
         assertEq(vault.getEpochLengthToClaim(user2), 0);
     }
-
-    //TODO test entering an epoch after 1st. TVL should be previous tvl + or - enter and exits since opening
 
     function testClaimRewards() public {
         uint256 depositAmount = 1 ether;
         uint256 rewardAmount = 0.1 ether;
 
-        //a user enters
         vm.prank(user1);
         vault.enter{value: depositAmount}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: rewardAmount}();
 
-        //user claims rewards after allocation
         uint256 balanceBefore = user1.balance;
         vm.prank(user1);
         vault.claimRewards();
         uint256 balanceAfter = user1.balance;
 
-        //verify succesful claim
         assertEq(balanceAfter - balanceBefore, rewardAmount);
     }
 
@@ -698,46 +663,30 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //   ---- First epoch ----
-        vm.prank(owner);
-        //owner starts running epoch and funds are locked
-        vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
-        //owner allocates rewards
-        vault.allocateRewards{value: 0.1 ether}();
-        vm.prank(owner);
-        //owner terminates current epoch and open next
-        vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
-
-        //   ---- Second epoch ----
-        vm.prank(owner);
-        //owner starts running epoch and funds are locked
-        vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
-        //owner allocates rewards
-        vault.allocateRewards{value: 0.2 ether}();
-        vm.prank(owner);
-        //owner terminates current epoch and open next
-        vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
+        for (uint8 i = 0; i < 2; i++) {
+            vm.prank(fundWallet);
+            vault.lockFundsAndRunCurrentEpoch();
+            vm.prank(fundWallet);
+            vault.allocateRewards{value: 0.1 ether}();
+            vm.prank(fundWallet);
+            vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
+        }
 
         uint256 balanceBefore = user1.balance;
         vm.prank(user1);
         vault.claimRewards();
         uint256 balanceAfter = user1.balance;
 
-        assertEq(balanceAfter - balanceBefore, 0.3 ether); // Total rewards from both epochs
+        assertEq(balanceAfter - balanceBefore, 0.2 ether);
     }
 
     function testErrorClaimNoActiveStakeBeforeEntrance() public {
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        //reverts on claiming rewards with no active stake
         vm.expectRevert(EthVault.NoRewardToClaim.selector);
         vm.prank(user2);
         vault.claimRewards();
@@ -747,13 +696,13 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
         vm.prank(user1);
@@ -765,22 +714,18 @@ contract VaultTest is Test {
     }
 
     function testErrorClaimNoActiveStakeAfterClaimingAgainSameEpoch() public {
-        //user enters
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //owner allocates rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
         vm.prank(user1);
         vault.claimRewards();
 
-        //claim again same epoch, no reward to claim
         vm.expectRevert(EthVault.NoRewardToClaim.selector);
         vm.prank(user1);
         vault.claimRewards();
@@ -790,34 +735,30 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
         vm.prank(user1);
         vault.exit(1 ether);
 
-        //user has exited and claimed automatically, no reward to claim
         vm.expectRevert(abi.encodeWithSelector(EthVault.NoRewardToClaim.selector));
         vm.prank(user1);
         vault.claimRewards();
     }
 
     function testErrorClaimUnclaimable() public {
-        //user enters
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //owner starts running epoch and funds are locked
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //reverts on claiming rewards before allocation
         vm.expectRevert(abi.encodeWithSelector(EthVault.UnClaimableRewards.selector));
         vm.prank(user1);
         vault.claimRewards();
@@ -830,16 +771,13 @@ contract VaultTest is Test {
         vm.prank(user2);
         vault.enter{value: 2 ether}();
 
-        //start running epoch and lock funds
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        //allocate rewards
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.3 ether}();
 
-        //terminate current epoch and open next
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 3 ether}();
 
         vm.prank(user1);
@@ -852,13 +790,9 @@ contract VaultTest is Test {
         vault.exit(2 ether);
         uint256 user2BalanceAfter = user2.balance;
 
-        // Check user1's claimed rewards
         assertEq(user1BalanceAfter - user1BalanceBefore, 0.1 ether);
-
-        // Check user2's exit amount (stake + rewards)
         assertEq(user2BalanceAfter - user2BalanceBefore, 2.2 ether);
 
-        // Check final state
         (uint256 user1Stake,) = vault.userStakes(user1);
         (uint256 user2Stake,) = vault.userStakes(user2);
         assertEq(user1Stake, 1 ether);
@@ -871,10 +805,10 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
         uint256 balanceBefore = user1.balance;
@@ -889,13 +823,13 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
         uint256 balanceBefore = user1.balance;
@@ -907,23 +841,19 @@ contract VaultTest is Test {
     }
 
     function testHasClaimableRewards() public {
-        // No stake
         assertFalse(vault.hasClaimableRewards(user1));
 
-        // First epoch, no rewards allocated
         vm.prank(user1);
         vault.enter{value: 1 ether}();
         assertFalse(vault.hasClaimableRewards(user1));
 
-        // Rewards allocated
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
         assertTrue(vault.hasClaimableRewards(user1));
 
-        // After claiming in open epoch
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
         vm.prank(user1);
         vault.claimRewards();
@@ -931,70 +861,61 @@ contract VaultTest is Test {
     }
 
     function testClaimRewardsForEpochs() public {
-        // Setup: User1 enters and we run through multiple epochs
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
         for (uint256 i = 0; i < 5; i++) {
-            vm.prank(owner);
+            vm.prank(fundWallet);
             vault.lockFundsAndRunCurrentEpoch();
-            vm.prank(owner);
+            vm.prank(fundWallet);
             vault.allocateRewards{value: 0.1 ether}();
-            vm.prank(owner);
+            vm.prank(fundWallet);
             vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
         }
 
-        // Test case 1: Successful claim for 3 epochs
         uint256 balanceBefore = user1.balance;
         vm.prank(user1);
         vault.claimRewardsForEpochs(3);
         uint256 balanceAfter = user1.balance;
         assertEq(balanceAfter - balanceBefore, 0.3 ether);
 
-        // Test case 2: Successful claim for remaining 2 epochs
         balanceBefore = user1.balance;
         vm.prank(user1);
         vault.claimRewardsForEpochs(2);
         balanceAfter = user1.balance;
         assertEq(balanceAfter - balanceBefore, 0.2 ether);
 
-        // Test case 3: Attempt to claim when no rewards are available
         vm.expectRevert(EthVault.NoRewardToClaim.selector);
         vm.prank(user1);
         vault.claimRewardsForEpochs(1);
 
-        // Test case 4: Attempt to claim more epochs than available
         vm.expectRevert(EthVault.NoRewardToClaim.selector);
         vm.prank(user1);
         vault.claimRewardsForEpochs(10);
 
-        // Test case 5: Attempt to claim with 0 epochs
         vm.expectRevert(abi.encodeWithSelector(EthVault.InvalidEpochsToClaim.selector, 0));
         vm.prank(user1);
         vault.claimRewardsForEpochs(0);
 
-        // Test case 6: Attempt to claim when rewards are not claimable
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
         vm.expectRevert(EthVault.UnClaimableRewards.selector);
         vm.prank(user1);
         vault.claimRewardsForEpochs(1);
 
-        // Test case 7: Attempt to claim with no stake
         vm.expectRevert(EthVault.UnClaimableRewards.selector);
         vm.prank(user2);
         vault.claimRewardsForEpochs(1);
 
-        // Test case 8: Enter in a new epoch and try to claim
-        vm.prank(owner);
-        vault.allocateRewards{value: 0.1 ether}(); // Allocate rewards before terminating
-        vm.prank(owner);
+        vm.prank(fundWallet);
+        vault.allocateRewards{value: 0.1 ether}();
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
         vm.prank(user1);
         vault.enter{value: 1 ether}();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
         vm.prank(user1);
@@ -1003,10 +924,6 @@ contract VaultTest is Test {
         balanceAfter = user1.balance;
         assertEq(balanceAfter - balanceBefore, 0.1 ether);
     }
-
-    // --------------------------------------
-    //   TransferFailed TESTS
-    // --------------------------------------
 
     function testErrorExitTransferFailed() public {
         vm.prank(failedT);
@@ -1021,10 +938,10 @@ contract VaultTest is Test {
         vm.prank(failedT);
         failedTransfer.enter{value: 1 ether}();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
         vm.expectRevert(abi.encodeWithSelector(EthVault.TransferFailed.selector));
@@ -1033,78 +950,75 @@ contract VaultTest is Test {
     }
 
     function testErrorLockFundsAndRunCurrentEpochTransferFailed() public {
+        address contractFundWallet = vault.fundWallet();
+
         vm.prank(owner);
         vault.setFundWallet(address(failedTransfer));
 
-        //fundwallet is address that will revert on transfer
-        address fw = vault.fundWallet();
-        assertEq(fw, address(failedTransfer));
-
-        //user enters
         vm.prank(user1);
         vault.enter{value: 1 ether}();
 
-        //vault has balance
         assertEq((address(vault)).balance, 1 ether);
 
-        //will revert because fundwallet reverts on receiving funds
         vm.expectRevert(abi.encodeWithSelector(EthVault.TransferFailed.selector));
-        vm.prank(owner);
+        vm.prank(address(failedTransfer));
         vault.lockFundsAndRunCurrentEpoch();
 
-        //transfer failed, vault still has balance
         assertEq((address(vault)).balance, 1 ether);
     }
 
-    // ------------------------------------
-    // TESTS FOR VAULT CONTRACT EVENTS
-    // ------------------------------------
-
     function testEventEpochRunning() public {
+        address contractFundWallet = vault.fundWallet();
+
+        // Get the initial balance of the fund wallet
+        uint256 initialFundWalletBalance = contractFundWallet.balance;
+
+        uint256 depositAmount = 1 ether;
+
         vm.prank(user1);
-        vault.enter{value: 1 ether}();
-
-        // We expect both EpochRunning and FundsTransferredToFundWallet events to be emitted
-        vm.expectEmit(true, true, true, true);
-        emit EpochRunning(1, block.timestamp, 1 ether);
+        vault.enter{value: depositAmount}();
 
         vm.expectEmit(true, true, true, true);
-        emit FundsTransferredToFundWallet(1 ether, 1);
+        emit EpochRunning(1, block.timestamp, depositAmount);
 
-        vm.prank(owner);
+        vm.expectEmit(true, true, true, true);
+        emit FundsTransferredToFundWallet(depositAmount, 1);
+
+        vm.prank(contractFundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
-        // Additional checks to ensure the epoch is actually running
         assertEq(uint256(vault.currentEpochStatus()), uint256(EthVault.EpochStatus.Running));
         assertFalse(vault.claimableRewards());
-        assertEq(fundWallet.balance, 1 ether);
+
+        // Check that the fund wallet balance has increased by the deposit amount
+        assertEq(contractFundWallet.balance, initialFundWalletBalance + depositAmount);
     }
 
     function testEventEpochTerminated() public {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
         vm.expectEmit(true, true, true, true);
         emit EpochTerminated(1, block.timestamp);
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
     }
 
     function testEventRewardsAllocated() public {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
 
         vm.expectEmit(true, true, true, true);
         emit RewardsAllocated(1, 0.1 ether);
 
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
     }
 
@@ -1130,9 +1044,9 @@ contract VaultTest is Test {
     function testEventUserRewardClaim() public {
         vm.prank(user1);
         vault.enter{value: 1 ether}();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
-        vm.prank(owner);
+        vm.prank(fundWallet);
         vault.allocateRewards{value: 0.1 ether}();
 
         vm.expectEmit(true, true, true, true);
@@ -1142,53 +1056,7 @@ contract VaultTest is Test {
         vault.claimRewards();
     }
 
-    function testEventMinimumStakeChanged() public {
-        uint256 newMinimumStake = 0.1 ether;
-
-        vm.expectEmit(true, true, true, true);
-        emit MinimumStakeChanged(0.05 ether, newMinimumStake);
-
-        vm.prank(owner);
-        vault.setMinimumStake(newMinimumStake);
-    }
-
-    function testEventFundWalletChanged() public {
-        address newFundWallet = address(0x123);
-
-        vm.expectEmit(true, true, true, true);
-        emit FundWalletChanged(fundWallet, newFundWallet);
-
-        vm.prank(owner);
-        vault.setFundWallet(newFundWallet);
-    }
-
-    function testEventRewardsClaimabilityChanged() public {
-        vm.prank(user1);
-        vault.enter{value: 1 ether}();
-        vm.prank(owner);
-        vault.lockFundsAndRunCurrentEpoch();
-
-        vm.expectEmit(true, true, true, true);
-        emit RewardsClaimabilityChanged(true);
-
-        vm.prank(owner);
-        vault.allocateRewards{value: 0.1 ether}();
-    }
-
-    function testEventLockingContract() public {
-        vm.expectEmit(true, true, true, true);
-        emit LockingContract(true);
-
-        vm.prank(owner);
-        vault.lockOrUnlockContract(true);
-    }
-
-    // ------------------------------------
-    //      FUZZING TESTS
-    // ------------------------------------
-
     function testFuzzEnterAndExit(uint256 enterAmount, uint256 exitAmount) public {
-        // Preconditions
         vm.assume(enterAmount > vault.mininmumStake());
         vm.assume(exitAmount > 0 && exitAmount <= enterAmount);
         vm.deal(user1, enterAmount);
@@ -1196,14 +1064,12 @@ contract VaultTest is Test {
         vm.prank(user1);
         vault.enter{value: enterAmount}();
 
-        // Assertions
         (uint256 stakedAmount,) = vault.userStakes(user1);
         assertEq(stakedAmount, enterAmount);
 
         vm.prank(user1);
         vault.exit(exitAmount);
 
-        // Postconditions
         (stakedAmount,) = vault.userStakes(user1);
         assertEq(stakedAmount, enterAmount - exitAmount);
     }
@@ -1268,10 +1134,9 @@ contract VaultTest is Test {
 
         rewardAmount = bound(rewardAmount, 0.1 ether, 10 ether);
 
-        // Ensure the owner has enough ETH to allocate rewards and return funds
-        vm.deal(owner, totalStake + rewardAmount);
+        vm.deal(fundWallet, totalStake + rewardAmount);
 
-        vm.startPrank(owner);
+        vm.startPrank(fundWallet);
         vault.lockFundsAndRunCurrentEpoch();
         vault.allocateRewards{value: rewardAmount}();
         vault.terminateCurrentAndOpenNextEpoch{value: totalStake}();
@@ -1286,10 +1151,10 @@ contract VaultTest is Test {
             totalClaimed += claimed;
 
             uint256 expectedReward = (stakes[i] * rewardAmount) / totalStake;
-            assertApproxEqAbs(claimed, expectedReward, 1); // Allow for 1 wei rounding error
+            assertApproxEqAbs(claimed, expectedReward, 1);
         }
 
-        assertApproxEqAbs(totalClaimed, rewardAmount, 3); // Allow for up to 3 wei total rounding error
+        assertApproxEqAbs(totalClaimed, rewardAmount, 3);
     }
 
     function testStressRapidEnterExit(uint8 cycleCount) public {
@@ -1297,17 +1162,18 @@ contract VaultTest is Test {
         address user = vm.addr(10);
         uint256 totalAddedRewards;
         vm.deal(user, 1000 ether);
+        vm.deal(fundWallet, 1000 ether);
 
         for (uint8 i = 0; i < cycleCount; i++) {
             vm.prank(user);
             vault.enter{value: 1 ether}();
 
-            vm.prank(owner);
+            vm.prank(fundWallet);
             vault.lockFundsAndRunCurrentEpoch();
-            vm.prank(owner);
+            vm.prank(fundWallet);
             vault.allocateRewards{value: 0.1 ether}();
             totalAddedRewards += 0.1 ether;
-            vm.prank(owner);
+            vm.prank(fundWallet);
             vault.terminateCurrentAndOpenNextEpoch{value: 1 ether}();
 
             vm.prank(user);

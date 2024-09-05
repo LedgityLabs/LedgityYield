@@ -111,6 +111,11 @@
   },
   {
     "inputs": [],
+    "name": "NotFundwallet",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotWithdrawable",
     "type": "error"
   },
@@ -644,19 +649,6 @@
         "internalType": "struct EthVault.Epoch",
         "name": "",
         "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getEpochCount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

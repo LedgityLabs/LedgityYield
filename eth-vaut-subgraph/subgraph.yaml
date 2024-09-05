@@ -8,7 +8,7 @@ dataSources:
     name: EthVault
     network: sepolia
     source:
-      address: "0x74D425621681b4F130a6132Be0aF952641BFf55f"
+      address: "0x97AD00e93366477C90B50305d31aeB66eE2Fe48E"
       abi: EthVault
       startBlock: 6607043
     mapping:

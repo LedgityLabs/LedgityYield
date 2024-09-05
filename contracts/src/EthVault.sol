@@ -42,13 +42,13 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
     }
 
     EpochStatus public currentEpochStatus;
-    address public fundWallet;
-    bool public claimableRewards;
     Epoch[] public epochs;
-    uint256 public currentEpochId;
+    address public fundWallet;
     mapping(address => UserStake) public userStakes;
+    uint256 public currentEpochId;
     uint256 public mininmumStake;
     bool public locked;
+    bool public claimableRewards;
 
     error WrongPhase(string);
     error NoRewardToClaim();
@@ -66,6 +66,7 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
     error ContractLocked();
     error InsufficientClaimableEpochs(uint256 requestedEpochs, uint256 availableEpochs);
     error InvalidEpochsToClaim(uint256 requestedEpochs);
+    error NotFundwallet();
 
     event EpochOpened(uint256 indexed epochNumber, uint256 timestamp);
     event EpochRunning(uint256 indexed epochNumber, uint256 timestamp, uint256 totalValueLocked);
@@ -80,10 +81,13 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
     event RewardsClaimabilityChanged(bool claimable);
     event LockingContract(bool locked);
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
 
+    /// @notice Initializes the contract
+    /// @param _fundWallet The address of the fund wallet
     function initialize(address _fundWallet) public initializer {
         __Ownable_init();
         __ReentrancyGuard_init();
@@ -95,16 +99,23 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         fundWallet = _fundWallet;
         currentEpochStatus = EpochStatus.Open;
         currentEpochId = 1;
-        mininmumStake = 5 ether / 100;
+        mininmumStake = 5 ether / 100; //initial minimum stake is 0.05 ETH
 
         emit EpochOpened(currentEpochId, block.timestamp);
     }
 
+    /// @notice Modifier to check if the contract is locked
     modifier IsLocked() {
         if (locked) revert ContractLocked();
         _;
     }
 
+    modifier OnlyFundWallet() {
+        if (msg.sender != fundWallet) revert NotFundwallet();
+        _;
+    }
+
+    /// @notice Allows users to enter the vault by staking ETH
     function enter() public payable nonReentrant IsLocked {
         if (currentEpochStatus != EpochStatus.Open) revert WrongPhase("ENTER: only allowed during open phase");
         if (msg.value < mininmumStake) revert InsufficientStake(msg.value, mininmumStake);
@@ -114,7 +125,7 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         if (hasClaimableRewards(msg.sender)) {
             _claimRewards(msg.sender);
         } else {
-            userStake.lastEpochClaimedAt = currentEpochId - 1;
+            userStake.lastEpochClaimedAt = currentEpochId - 1; // when epoch is opened rewards of current epoch haven't been distributed yet
         }
 
         userStake.amount += msg.value;
@@ -123,6 +134,8 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit UserDeposit(msg.sender, msg.value, currentEpochId);
     }
 
+    /// @notice Allows users to exit the vault by withdrawing their stake
+    /// @param _amount The amount of ETH to withdraw
     function exit(uint256 _amount) public nonReentrant IsLocked {
         if (currentEpochStatus != EpochStatus.Open) revert WrongPhase("EXIT: only allowed during open phase");
         UserStake storage userStake = userStakes[msg.sender];
@@ -140,12 +153,16 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit UserWithdraw(msg.sender, _amount, currentEpochId);
     }
 
+    /// @notice Allows users to claim their rewards
     function claimRewards() public IsLocked {
         if (!claimableRewards) revert UnClaimableRewards();
         if (!hasClaimableRewards(msg.sender)) revert NoRewardToClaim();
         _claimRewards(msg.sender);
     }
 
+    /// @notice Checks if a user has claimable rewards
+    /// @param _user The address of the user
+    /// @return bool indicating if the user has claimable rewards
     function hasClaimableRewards(address _user) public view returns (bool) {
         if (userStakes[_user].amount == 0) return false;
         if (currentEpochId == 1 && !claimableRewards) return false;
@@ -156,12 +173,14 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         else return true;
     }
 
+    /// @notice Internal function to claim rewards for a user
+    /// @param _user The address of the user
     function _claimRewards(address _user) internal {
         uint256 totalRewards = calculateRewards(_user);
 
         // Update lastEpochClaimedAt
         if (currentEpochStatus == EpochStatus.Open) {
-            userStakes[_user].lastEpochClaimedAt = currentEpochId - 1;
+            userStakes[_user].lastEpochClaimedAt = currentEpochId - 1; // when epoch is opened rewards of current epoch haven't been distributed yet
         } else {
             userStakes[_user].lastEpochClaimedAt = currentEpochId;
         }
@@ -172,6 +191,9 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit UserRewardClaim(msg.sender, totalRewards, currentEpochId);
     }
 
+    /// @notice Calculates the rewards for a user
+    /// @param _user The address of the user
+    /// @return uint256 The total rewards for the user
     function calculateRewards(address _user) public view returns (uint256) {
         if (!hasClaimableRewards(_user)) return 0;
 
@@ -195,6 +217,9 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         return totalRewards;
     }
 
+    /// @notice Allows users to claim rewards for a specific number of epochs
+    /// @dev this is a secutiry function to avoid out of gas errors for the main claim function
+    /// @param _numberOfEpochs The number of epochs to claim rewards for
     function claimRewardsForEpochs(uint256 _numberOfEpochs) public {
         if (_numberOfEpochs == 0) revert InvalidEpochsToClaim(_numberOfEpochs);
         if (!claimableRewards) revert UnClaimableRewards();
@@ -227,7 +252,8 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit UserRewardClaim(msg.sender, totalRewards, endEpoch);
     }
 
-    function terminateCurrentAndOpenNextEpoch() external payable onlyOwner {
+    /// @notice Terminates the current epoch and opens the next one by giving back the funds from the fundwallet
+    function terminateCurrentAndOpenNextEpoch() external payable OnlyFundWallet {
         if (currentEpochStatus != EpochStatus.Running) revert WrongPhase("END EPOCH: can only end a running epoch");
         if (!claimableRewards) revert WrongPhase("END EPOCH: rewards must be allocated before ending the epoch");
         uint256 requiredFunds = epochs[currentEpochId].totalValueLocked;
@@ -249,7 +275,8 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit EpochOpened(currentEpochId, block.timestamp);
     }
 
-    function allocateRewards() external payable onlyOwner {
+    /// @notice Allocates rewards for the current epoch
+    function allocateRewards() external payable OnlyFundWallet {
         if (currentEpochStatus != EpochStatus.Running) revert WrongPhase("ALLOCATE REWARDS: must be in running phase");
         if (msg.value == 0) revert NoRewardsToAllocate();
 
@@ -264,7 +291,8 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit RewardsClaimabilityChanged(true);
     }
 
-    function lockFundsAndRunCurrentEpoch() external onlyOwner {
+    /// @notice Locks funds and starts running the current epoch
+    function lockFundsAndRunCurrentEpoch() external OnlyFundWallet {
         if (currentEpochStatus != EpochStatus.Open) {
             revert WrongPhase("RUN EPOCH: can only start running from open phase");
         }
@@ -280,6 +308,9 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         emit FundsTransferredToFundWallet(amountToTransfer, currentEpochId);
     }
 
+    /// @notice Gets the number of epochs a user can claim rewards for
+    /// @param _user The address of the user
+    /// @return uint256 The number of epochs the user can claim rewards for
     function getEpochLengthToClaim(address _user) external view returns (uint256) {
         if (userStakes[_user].amount == 0) {
             return 0;
@@ -302,31 +333,43 @@ contract EthVault is Initializable, UUPSUpgradeable, OwnableUpgradeable, Reentra
         return length;
     }
 
+    /// @notice Sets the fund wallet address
+    /// @param _fundWallet The new fund wallet address
     function setFundWallet(address _fundWallet) external onlyOwner {
         address previousFundWallet = fundWallet;
         fundWallet = _fundWallet;
         emit FundWalletChanged(previousFundWallet, fundWallet);
     }
 
+    /// @notice Sets the minimum stake amount
+    /// @param _mininmumStake The new minimum stake amount
     function setMinimumStake(uint256 _mininmumStake) external onlyOwner {
         uint256 previousMininmumStake = mininmumStake;
         mininmumStake = _mininmumStake;
         emit MinimumStakeChanged(previousMininmumStake, mininmumStake);
     }
 
+    /// @notice Gets all epochs
+    /// @return Epoch[] An array of all epochs
     function getAllEpochs() external view returns (Epoch[] memory) {
         return epochs;
     }
 
+    /// @notice Gets the current epoch
+    /// @return Epoch The current epoch
     function getCurrentEpoch() external view returns (Epoch memory) {
         return epochs[currentEpochId];
     }
 
+    /// @notice Locks or unlocks the contract
+    /// @param _locked The new lock state
     function lockOrUnlockContract(bool _locked) external onlyOwner {
         require(locked != _locked, "Contract already in requested state");
         locked = _locked;
         emit LockingContract(locked);
     }
 
+    /// @notice Internal function to authorize an upgrade
+    /// @param newImplementation Address of the new implementation
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 }

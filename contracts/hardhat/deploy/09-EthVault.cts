@@ -13,7 +13,7 @@ const chainId = await getChainId();
       proxyContract: "UUPS",
       execute: {
         methodName: "initialize",
-        args: ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"],
+        args: ["0x257b728F2841F44d22E5F06f76D0a67467ACbD35"],
       },
     },
     log: true,
