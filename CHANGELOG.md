@@ -1,3 +1,10 @@
+## [1.275.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.1...v1.275.0) (2024-09-05)
+
+
+### Features
+
+* **eth vault:** ethereum staking vault ([c8bd62b](https://github.com/LedgityLabs/LedgityYield/commit/c8bd62bfe7561490104fae07e43867b84c890bbc))
+
 ## [1.274.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.0...v1.274.1) (2024-08-09)
 
 
