@@ -1,3 +1,10 @@
+## [1.275.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.0...v1.275.1) (2024-09-05)
+
+
+### Fixes
+
+* **dependencies:** fixing dependencies problems ([0a98a95](https://github.com/LedgityLabs/LedgityYield/commit/0a98a950a718858d4b25b7a2634f84418cc47c18))
+
 ## [1.275.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.1...v1.275.0) (2024-09-05)
 
 
