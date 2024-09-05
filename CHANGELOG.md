@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.1...v2.0.0) (2024-09-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **changed to yarn:** yarn package manager
+
+### Others
+
+* **changed to yarn:** modified the package manager from npm to yarn ([fba6f47](https://github.com/LedgityLabs/LedgityYield/commit/fba6f4756b299b43fe3b9552096a64be5f28be20))
+
 ## [1.275.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.0...v1.275.1) (2024-09-05)
 
 
