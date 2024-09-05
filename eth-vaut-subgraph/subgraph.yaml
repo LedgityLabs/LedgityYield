@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: EthVault
+    network: sepolia
+    source:
+      address: "0x97AD00e93366477C90B50305d31aeB66eE2Fe48E"
+      abi: EthVault
+      startBlock: 6607043
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - UserAction
+        - EpochInvestment
+      abis:
+        - name: EthVault
+          file: ../contracts/abis/EthVault.json
+      eventHandlers:
+        - event: UserDeposit(indexed address,uint256,uint256)
+          handler: handleUserDeposit
+        - event: UserWithdraw(indexed address,uint256,uint256)
+          handler: handleUserWithdraw
+        - event: UserRewardClaim(indexed address,uint256,uint256)
+          handler: handleUserRewardClaim
+      file: ./mapping.ts

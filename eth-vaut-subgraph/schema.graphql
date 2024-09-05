@@ -1,0 +1,24 @@
+type User @entity {
+  id: ID!
+  totalDeposited: BigInt!
+  totalWithdrawn: BigInt!
+  totalRewardsClaimed: BigInt!
+  actions: [UserAction!]! @derivedFrom(field: "user")
+  epochInvestments: [EpochInvestment!]! @derivedFrom(field: "user")
+}
+
+type UserAction @entity {
+  id: ID!
+  user: User!
+  epochNumber: Int!
+  amount: BigInt!
+  actionType: String!
+  timestamp: BigInt!
+}
+
+type EpochInvestment @entity {
+  id: ID!
+  user: User!
+  epochNumber: Int!
+  amount: BigInt!
+}
