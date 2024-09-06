@@ -53,6 +53,15 @@ const AppInvestEthVault: React.FC = () => {
   }, [hasClaimableRewards, handleClaimRewards, notify]);
 
   const onDeposit = useCallback(async (amount: string) => {
+    if (!amount || isNaN(parseFloat(amount))) {
+      notify.error('Invalid Input', 'Please enter a valid amount to deposit.');
+      return;
+    }
+    const depositAmount = parseFloat(amount);
+    if (depositAmount < 0.05) {
+      notify.error('Deposit Failed', 'Minimum deposit amount is 0.05 ETH.');
+      return;
+    }
     try {
       const loadingToast = notify.loading('Processing Deposit', 'Please wait while we process your deposit...');
       await handleDeposit(amount);
@@ -66,6 +75,16 @@ const AppInvestEthVault: React.FC = () => {
   }, [handleDeposit, notify]);
 
   const onWithdraw = useCallback(async (amount: string) => {
+    if (!amount || isNaN(parseFloat(amount))) {
+      notify.error('Invalid Input', 'Please enter a valid amount to withdraw.');
+      return;
+    }
+    const withdrawAmount = parseFloat(amount);
+    const availableBalance = parseFloat(invested);
+    if (withdrawAmount > availableBalance) {
+      notify.error('Withdrawal Failed', `You can't withdraw more than your available balance of ${availableBalance} ETH.`);
+      return;
+    }
     try {
       const loadingToast = notify.loading('Processing Withdrawal', 'Please wait while we process your withdrawal...');
       await handleWithdraw(amount);
@@ -76,7 +95,7 @@ const AppInvestEthVault: React.FC = () => {
       console.error('Error during withdrawal:', error);
       notify.error('Withdrawal Failed', 'An error occurred during the withdrawal. Please check your wallet and try again.');
     }
-  }, [handleWithdraw, notify]);
+  }, [handleWithdraw, notify, invested]);
 
   useEffect(() => {
     refetchSubgraphData();
@@ -102,7 +121,7 @@ const AppInvestEthVault: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <Card
+           <Card
         defaultGradient={true}
         circleIntensity={0.07}
         className="w-full flex flex-col gap-10 relative overflow-hidden"
@@ -155,7 +174,7 @@ const AppInvestEthVault: React.FC = () => {
                 <div className="font-semibold text-fg/70">Invested</div>
               </div>
               <div className="font-semibold text-fg/70 flex-grow text-center">Actions</div>
-              <div className="flex-grow"></div> {/* This empty div helps to position 'Actions' in the middle */}
+              <div className="flex-grow"></div>
             </div>
           </div>
           <div className="p-6 rounded-lg shadow-md mb-6" style={{ backgroundColor: '#d7defb' }}>

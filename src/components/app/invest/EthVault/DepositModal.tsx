@@ -16,7 +16,6 @@ const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose, onDeposit 
         setIsLoading(true);
         try {
             await onDeposit(amount);
-            onClose();
         } catch (error) {
             console.error('Deposit failed:', error);
         } finally {
@@ -50,7 +49,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose, onDeposit 
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                            <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-gradient-to-r from-white to-blue-50 p-6 text-left align-middle shadow-xl transition-all">
                                 <Dialog.Title
                                     as="h3"
                                     className="text-lg font-medium leading-6 text-gray-900 mb-4"
@@ -58,19 +57,20 @@ const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose, onDeposit 
                                     Deposit ETH
                                 </Dialog.Title>
                                 <div className="mt-2">
+                                    <p className="mb-2 text-sm text-blue-500">minimum stake of 0.05 ETH</p>
                                     <input
                                         type="text"
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
                                         placeholder="Enter amount in ETH"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-blue-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white"
                                     />
                                 </div>
 
                                 <div className="mt-4 flex justify-between">
                                     <button
                                         type="button"
-                                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         onClick={handleDeposit}
                                         disabled={isLoading}
                                     >
@@ -78,7 +78,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose, onDeposit 
                                     </button>
                                     <button
                                         type="button"
-                                        className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                                        className="inline-flex justify-center rounded-md border border-blue-200 bg-white px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         onClick={onClose}
                                     >
                                         Cancel
