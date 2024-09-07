@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { GraphQLClient } from 'graphql-request';
 import { GET_USER_DATA } from '@/services/graph/queries/ethVault';
@@ -27,24 +27,6 @@ interface SubgraphData {
 }
 
 export const useEthVault = () => {
-    const [currentEpoch, setCurrentEpoch] = useState({
-        totalValueLocked: BigInt(0),
-        totalEpochRewards: BigInt(0),
-        status: 'Open' as 'Open' | 'Running',
-        rewardsDistributed: false
-    });
-    const [epochs, setEpochs] = useState<Array<{
-        id: number;
-        apr: string;
-        invested: string;
-        tvl: string;
-        status: string;
-    }>>([]);
-    const [subgraphData, setSubgraphData] = useState<SubgraphData | null>(null);
-    const [subgraphError, setSubgraphError] = useState<string | null>(null);
-    const lastFetchTime = useRef<number>(0);
-    const cachedData = useRef<{ data: SubgraphData | null, timestamp: number } | null>(null);
-
     const { address: userAddress } = useAccount();
 
     const { data: currentEpochData, isError, isLoading } = useReadEthVaultGetCurrentEpoch();
@@ -65,6 +47,19 @@ export const useEthVault = () => {
     const writeHookResult = useWriteEthVaultEnter();
     const withdrawHookResult = useWriteEthVaultExit();
     const claimRewardsHook = useWriteEthVaultClaimRewards();
+
+    const [subgraphData, setSubgraphData] = useState<SubgraphData | null>(null);
+    const [subgraphError, setSubgraphError] = useState<string | null>(null);
+    const lastFetchTime = useRef<number>(0);
+    const cachedData = useRef<{ data: SubgraphData | null, timestamp: number } | null>(null);
+
+    const calculateAPR = useCallback((tvl: string, rewards: string): string => {
+        const tvlValue = parseFloat(tvl);
+        const rewardsValue = parseFloat(rewards);
+        if (tvlValue === 0 || rewardsValue === 0) return "0";
+        const aprValue = (rewardsValue / tvlValue) * 100;
+        return aprValue.toFixed(2);
+    }, []);
 
     const fetchSubgraphData = useCallback(async (address: string, retryCount = 0): Promise<void> => {
         const now = Date.now();
@@ -104,20 +99,26 @@ export const useEthVault = () => {
         }
     }, [userAddress, fetchSubgraphData]);
 
-    useEffect(() => {
+    const currentEpoch = useMemo(() => {
         if (currentEpochData && currentEpochStatus !== undefined) {
-            setCurrentEpoch({
+            return {
                 totalValueLocked: currentEpochData.totalValueLocked,
                 totalEpochRewards: currentEpochData.totalEpochRewards,
                 status: currentEpochStatus === 0 ? 'Open' : 'Running',
                 rewardsDistributed: currentEpochData.totalEpochRewards > 0n
-            });
+            };
         }
+        return {
+            totalValueLocked: BigInt(0),
+            totalEpochRewards: BigInt(0),
+            status: 'Open' as 'Open' | 'Running',
+            rewardsDistributed: false
+        };
     }, [currentEpochData, currentEpochStatus]);
 
-    useEffect(() => {
+    const epochs = useMemo(() => {
         if (allEpochs && currentEpochId && userStake) {
-            const formattedEpochs = allEpochs
+            return allEpochs
                 .slice(1) // Remove epoch 0
                 .map((epoch, index) => {
                     const actualEpochId = index + 1; // Adjust epoch ID to start from 1
@@ -131,20 +132,12 @@ export const useEthVault = () => {
                             ? (currentEpochStatus === 0 ? 'Open' : 'Running')
                             : (actualEpochId < Number(currentEpochId) ? 'Ended' : 'Future')
                     };
-                });
-            setEpochs(formattedEpochs.reverse());
+                }).reverse();
         }
-    }, [allEpochs, currentEpochId, userStake, currentEpochStatus]);
+        return [];
+    }, [allEpochs, currentEpochId, userStake, currentEpochStatus, calculateAPR]);
 
-    const calculateAPR = (tvl: string, rewards: string): string => {
-        const tvlValue = parseFloat(tvl);
-        const rewardsValue = parseFloat(rewards);
-        if (tvlValue === 0 || rewardsValue === 0) return "0";
-        const aprValue = (rewardsValue / tvlValue) * 100;
-        return aprValue.toFixed(2);
-    };
-
-    const calculateInvestmentPerEpoch = (): { [key: number]: string } => {
+    const calculateInvestmentPerEpoch = useCallback((): { [key: number]: string } => {
         const investmentPerEpoch: { [key: number]: string } = {};
 
         if (subgraphData?.user?.actions) {
@@ -179,9 +172,9 @@ export const useEthVault = () => {
         }
 
         return investmentPerEpoch;
-    };
+    }, [subgraphData, currentEpochId]);
 
-    const handleDeposit = async (amount: string) => {
+    const handleDeposit = useCallback(async (amount: string) => {
         if (!writeHookResult.writeContractAsync) {
             console.error('Write function is not available');
             throw new Error('The deposit function is not ready. Please try again in a few moments.');
@@ -199,9 +192,9 @@ export const useEthVault = () => {
             console.error('Deposit error:', error);
             throw error;
         }
-    };
+    }, [writeHookResult.writeContractAsync, fetchSubgraphData, userAddress]);
 
-    const handleWithdraw = async (amount: string) => {
+    const handleWithdraw = useCallback(async (amount: string) => {
         if (!withdrawHookResult.writeContractAsync) {
             console.error('Withdraw function is not available');
             throw new Error('The withdraw function is not ready. Please try again in a few moments.');
@@ -218,9 +211,9 @@ export const useEthVault = () => {
             console.error('Withdraw error:', error);
             throw error;
         }
-    };
+    }, [withdrawHookResult.writeContractAsync, fetchSubgraphData, userAddress]);
 
-    const handleClaimRewards = async () => {
+    const handleClaimRewards = useCallback(async () => {
         if (!claimRewardsHook.writeContractAsync) {
             console.error('Claim rewards function is not available');
             throw new Error('The claim rewards function is not ready. Please try again in a few moments.');
@@ -238,17 +231,17 @@ export const useEthVault = () => {
             console.error('Claim rewards error:', error);
             throw error;
         }
-    };
+    }, [claimRewardsHook.writeContractAsync, refetchHasClaimableRewards, fetchSubgraphData, userAddress]);
 
-    const calculateTotalRewardsClaimed = () => {
+    const totalRewardsClaimed = useMemo(() => {
         if (subgraphData?.user?.totalRewardsClaimed) {
             return parseFloat(formatEther(BigInt(subgraphData.user.totalRewardsClaimed))).toFixed(4);
         }
         return "0.0000";
-    };
+    }, [subgraphData]);
 
-    const invested: string = userStake && userStake[0] ? formatEther(userStake[0]) : "0";
-    const hasInvestment = parseFloat(invested) > 0;
+    const invested = useMemo(() => userStake && userStake[0] ? formatEther(userStake[0]) : "0", [userStake]);
+    const hasInvestment = useMemo(() => parseFloat(invested) > 0, [invested]);
 
     return {
         currentEpoch,
@@ -264,7 +257,7 @@ export const useEthVault = () => {
         handleWithdraw,
         handleClaimRewards,
         subgraphData,
-        totalRewardsClaimed: calculateTotalRewardsClaimed(),
+        totalRewardsClaimed,
         investmentPerEpoch: calculateInvestmentPerEpoch(),
         subgraphError,
         refetchSubgraphData: () => fetchSubgraphData(userAddress as string),
