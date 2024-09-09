@@ -11,7 +11,6 @@ import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
-import { XPayButton } from "@/components/app/xswap/XswapModal";
 import { XSwapWidget } from "@/components/app/xswap/XswapWidget";
 import Link from "next/link";
 import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
