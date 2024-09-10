@@ -18,6 +18,26 @@ import uniswapLogo from "~/assets/partners/uniswap.svg";
 import dexToolsLogo from "~/assets/partners/dextools_logo.svg";
 import coingeckoLogo from "~/assets/partners/coingecko-logo.webp";
 
+const ChainlinkBadge: FC<{ src: string; alt: string }> = ({ src, alt }) => {
+  return (
+    <li>
+      <Link
+        href="https://chain.link/badge"
+        target="_blank"
+        className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
+      >
+        <Image 
+          src={src}
+          alt={alt}
+          width={200}
+          height={60}
+          unoptimized // This bypasses Next.js image optimization
+        />
+      </Link>
+    </li>
+  );
+};
+
 const HomePartners: FC = () => {
   return (
     <section className="relative flex flex-col items-center pb-56">
@@ -161,6 +181,18 @@ const HomePartners: FC = () => {
             <Image src={coingeckoLogo} alt="Coingecko Logo" height={50} />
           </Link>
         </li>
+         {/* <ChainlinkBadge 
+          src="https://chain.link/badge-market-data-white"
+          alt="market data secured with chainlink"
+        />
+        <ChainlinkBadge 
+          src="https://chain.link/badge-proof-of-reserve-white"
+          alt="proof of reserve secured with chainlink"
+        />
+        <ChainlinkBadge 
+          src="https://chain.link/badge-cross-chain-white"
+          alt="CCIP secured with chainlink"
+        /> */}
       </ul>
     </section>
   );

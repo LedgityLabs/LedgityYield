@@ -53,6 +53,15 @@ const AppInvestEthVault: React.FC = () => {
   }, [hasClaimableRewards, handleClaimRewards, notify]);
 
   const onDeposit = useCallback(async (amount: string) => {
+    if (!amount || isNaN(parseFloat(amount))) {
+      notify.error('Invalid Input', 'Please enter a valid amount to deposit.');
+      return;
+    }
+    const depositAmount = parseFloat(amount);
+    if (depositAmount < 0.05) {
+      notify.error('Deposit Failed', 'Minimum deposit amount is 0.05 ETH.');
+      return;
+    }
     try {
       const loadingToast = notify.loading('Processing Deposit', 'Please wait while we process your deposit...');
       await handleDeposit(amount);
@@ -66,6 +75,16 @@ const AppInvestEthVault: React.FC = () => {
   }, [handleDeposit, notify]);
 
   const onWithdraw = useCallback(async (amount: string) => {
+    if (!amount || isNaN(parseFloat(amount))) {
+      notify.error('Invalid Input', 'Please enter a valid amount to withdraw.');
+      return;
+    }
+    const withdrawAmount = parseFloat(amount);
+    const availableBalance = parseFloat(invested);
+    if (withdrawAmount > availableBalance) {
+      notify.error('Withdrawal Failed', `You can't withdraw more than your available balance of ${availableBalance} ETH.`);
+      return;
+    }
     try {
       const loadingToast = notify.loading('Processing Withdrawal', 'Please wait while we process your withdrawal...');
       await handleWithdraw(amount);
@@ -76,7 +95,7 @@ const AppInvestEthVault: React.FC = () => {
       console.error('Error during withdrawal:', error);
       notify.error('Withdrawal Failed', 'An error occurred during the withdrawal. Please check your wallet and try again.');
     }
-  }, [handleWithdraw, notify]);
+  }, [handleWithdraw, notify, invested]);
 
   useEffect(() => {
     refetchSubgraphData();
@@ -96,13 +115,19 @@ const AppInvestEthVault: React.FC = () => {
     );
   }
 
-  const formatNumber = (value: string | number) => {
+  const formatNumberTo2 = (value: string | number) => {
     return parseFloat(value.toString()).toFixed(2);
   };
 
+  const formatNumberTo3 = (value: string | number) => {
+    return parseFloat(value.toString()).toFixed(3);
+  };
+
+
+
   return (
     <ErrorBoundary>
-      <Card
+           <Card
         defaultGradient={true}
         circleIntensity={0.07}
         className="w-full flex flex-col gap-10 relative overflow-hidden"
@@ -124,11 +149,11 @@ const AppInvestEthVault: React.FC = () => {
           <div className="flex sm:gap-6 gap-4 flex-wrap">
             <div className="flex flex-col items-start gap-1">
               <h3 className="font-bold text-sm text-fg/50 whitespace-nowrap">Claimable</h3>
-              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumber(calculatedRewards)}</span>
+              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumberTo3(calculatedRewards)}</span>
             </div>
             <div className="flex flex-col items-start gap-1">
               <h3 className="font-bold text-sm text-fg/50 whitespace-nowrap">Claimed</h3>
-              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumber(totalRewardsClaimed)}</span>
+              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumberTo3(totalRewardsClaimed)}</span>
             </div>
           </div>
         </div>
@@ -155,15 +180,15 @@ const AppInvestEthVault: React.FC = () => {
                 <div className="font-semibold text-fg/70">Invested</div>
               </div>
               <div className="font-semibold text-fg/70 flex-grow text-center">Actions</div>
-              <div className="flex-grow"></div> {/* This empty div helps to position 'Actions' in the middle */}
+              <div className="flex-grow"></div>
             </div>
           </div>
           <div className="p-6 rounded-lg shadow-md mb-6" style={{ backgroundColor: '#d7defb' }}>
             <div className="flex flex-col md:flex-row items-center mb-6">
               <div className="flex flex-col md:flex-row md:space-x-16 flex-grow mb-4 md:mb-0">
                 <div>{epochs[0]?.apr || "0%"}</div>
-                <div>{formatNumber(formatEther(currentEpoch.totalValueLocked))}</div>
-                <div>{formatNumber(invested)}</div>
+                <div>{formatNumberTo2(formatEther(currentEpoch.totalValueLocked))}</div>
+                <div>{formatNumberTo2(invested)}</div>
               </div>
               <div className="flex space-x-2">
                 <Button

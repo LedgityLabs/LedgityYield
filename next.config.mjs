@@ -28,6 +28,12 @@ const nextConfig = {
         hostname: "pbs.twimg.com",
         port: "",
       },
+      // Added for Chainlink badges
+      {
+        protocol: "https",
+        hostname: "chain.link",
+        port: "",
+      },
     ],
   },
   async redirects() {
@@ -40,4 +46,5 @@ const nextConfig = {
     ];
   },
 };
+
 export default nextConfig;
