@@ -1,3 +1,24 @@
+## [2.1.0](https://github.com/LedgityLabs/LedgityYield/compare/v2.0.0...v2.1.0) (2024-09-10)
+
+
+### Features
+
+* **refresh rate:** rerender and refresh rate is now lower and more healthy ([21f1e1c](https://github.com/LedgityLabs/LedgityYield/commit/21f1e1c0a7f98f7c881cc837a90e6baada6be4ba))
+* **xswap widget:** from modal to widget ([b2df702](https://github.com/LedgityLabs/LedgityYield/commit/b2df7022528921f85ee3acb9e6776bc88db2ca96))
+
+
+### Fixes
+
+* **remove legacy modal:** removed xswap legacy modal ([6e6d6bc](https://github.com/LedgityLabs/LedgityYield/commit/6e6d6bc7d48281e31efd385f0eccfc5689489b4c))
+
+
+### Others
+
+* **claim format:** claim rewards format to 3 decimals ([9c747c9](https://github.com/LedgityLabs/LedgityYield/commit/9c747c9acbac2408f5b182259b9843ada9295d0c))
+* **modals and errors:** restyled modals and improved error messages ([0677a59](https://github.com/LedgityLabs/LedgityYield/commit/0677a59678b07a9653e715611783c796b22a0aef))
+* **sepolia:** added sepolia to available networks for testing ([6222352](https://github.com/LedgityLabs/LedgityYield/commit/6222352bf5cd9215d299381ee76d53282984d333))
+* **yarn configs:** added yarn configs ([716b3d8](https://github.com/LedgityLabs/LedgityYield/commit/716b3d8d599f9c5dfdfab1b970f17ee16048f6cf))
+
 ## [2.0.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.1...v2.0.0) (2024-09-05)
 
 
