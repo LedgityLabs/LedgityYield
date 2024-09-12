@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.0...v2.1.1) (2024-09-12)
+
+
+### Fixes
+
+* **ethvault working:** working version of ethVault with contract and subgraph correct data fetching ([9020c43](https://github.com/LedgityLabs/LedgityYield/commit/9020c4326fb7a19f8d90d0bd48c7cedd2aae0b0f))
+
 ## [2.1.0](https://github.com/LedgityLabs/LedgityYield/compare/v2.0.0...v2.1.0) (2024-09-10)
 
 
