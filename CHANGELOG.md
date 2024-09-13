@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.1...v2.1.2) (2024-09-13)
+
+
+### Fixes
+
+* **eth-vault subgraph data:** data is correctly fetched, calculated and displayed from subgraph ([e1fd1dd](https://github.com/LedgityLabs/LedgityYield/commit/e1fd1ddd06721efeb59c6d9cf9fd295892af04d6))
+
 ## [2.1.1](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.0...v2.1.1) (2024-09-12)
 
 
