@@ -18,7 +18,7 @@ import {
 } from "@/generated";
 import { parseEther, formatEther } from 'viem';
 
-const GRAPH_API_URL = 'https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/eth-vault-subgraph/api';
+const GRAPH_API_URL = 'https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/eth-vault/api';
 const CACHE_DURATION = 60000; // 1 minute
 const MIN_INTERVAL_BETWEEN_CALLS = 5000; // 5 seconds
 
@@ -29,27 +29,29 @@ interface SubgraphData {
 export const useEthVault = () => {
     const { address: userAddress } = useAccount();
 
-    const { data: currentEpochData, isError, isLoading } = useReadEthVaultGetCurrentEpoch();
-    const { data: currentEpochStatus } = useReadEthVaultCurrentEpochStatus();
-    const { data: userStake } = useReadEthVaultUserStakes({
+    const { data: currentEpochData, isError, isLoading, refetch: refetchCurrentEpoch } = useReadEthVaultGetCurrentEpoch();
+    const { data: currentEpochStatus, refetch: refetchCurrentEpochStatus } = useReadEthVaultCurrentEpochStatus();
+    const { data: userStake, refetch: refetchUserStake } = useReadEthVaultUserStakes({
         args: [userAddress as `0x${string}`],
-    }) as { data: readonly [bigint, bigint] | undefined };
-    const { data: currentEpochId } = useReadEthVaultCurrentEpochId();
-    const { data: allEpochs } = useReadEthVaultGetAllEpochs();
-    const { data: claimableRewards } = useReadEthVaultClaimableRewards();
+    }) as { data: readonly [bigint, bigint] | undefined, refetch: () => Promise<any> };
+    const { data: currentEpochId, refetch: refetchCurrentEpochId } = useReadEthVaultCurrentEpochId();
+    const { data: allEpochs, refetch: refetchAllEpochs } = useReadEthVaultGetAllEpochs();
+    const { data: claimableRewards, refetch: refetchClaimableRewards } = useReadEthVaultClaimableRewards();
     const { data: hasClaimableRewards, refetch: refetchHasClaimableRewards } = useReadEthVaultHasClaimableRewards({
         args: [userAddress as `0x${string}`]
     });
-    const { data: calculatedRewards } = useReadEthVaultCalculateRewards({
+    const { data: calculatedRewards, refetch: refetchCalculatedRewards } = useReadEthVaultCalculateRewards({
         args: [userAddress as `0x${string}`],
     });
 
-    const writeHookResult = useWriteEthVaultEnter();
-    const withdrawHookResult = useWriteEthVaultExit();
-    const claimRewardsHook = useWriteEthVaultClaimRewards();
+    const { writeContract: writeEnter } = useWriteEthVaultEnter();
+    const { writeContract: writeExit } = useWriteEthVaultExit();
+    const { writeContract: writeClaimRewards } = useWriteEthVaultClaimRewards();
 
     const [subgraphData, setSubgraphData] = useState<SubgraphData | null>(null);
     const [subgraphError, setSubgraphError] = useState<string | null>(null);
+    const [userDepositEvents, setUserDepositEvents] = useState<UserAction[]>([]);
+    const [userWithdrawEvents, setUserWithdrawEvents] = useState<UserAction[]>([]);
     const lastFetchTime = useRef<number>(0);
     const cachedData = useRef<{ data: SubgraphData | null, timestamp: number } | null>(null);
 
@@ -80,6 +82,15 @@ export const useEthVault = () => {
             setSubgraphData(userData);
             setSubgraphError(null);
             cachedData.current = { data: userData, timestamp: now };
+
+            // Process and set deposit and withdraw events
+            if (userData.user && userData.user.actions) {
+                const deposits = userData.user.actions.filter(action => action.actionType === 'DEPOSIT');
+                const withdrawals = userData.user.actions.filter(action => action.actionType === 'WITHDRAW');
+                setUserDepositEvents(deposits);
+                setUserWithdrawEvents(withdrawals);
+
+            }
         } catch (error) {
             if (retryCount < 3) {
                 const backoffDelay = Math.pow(2, retryCount) * 1000;
@@ -93,11 +104,25 @@ export const useEthVault = () => {
         }
     }, []);
 
+    const refetchAllData = useCallback(async () => {
+        await Promise.all([
+            refetchCurrentEpoch(),
+            refetchCurrentEpochStatus(),
+            refetchUserStake(),
+            refetchCurrentEpochId(),
+            refetchAllEpochs(),
+            refetchClaimableRewards(),
+            refetchHasClaimableRewards(),
+            refetchCalculatedRewards(),
+            fetchSubgraphData(userAddress as string)
+        ]);
+    }, [refetchCurrentEpoch, refetchCurrentEpochStatus, refetchUserStake, refetchCurrentEpochId, refetchAllEpochs, refetchClaimableRewards, refetchHasClaimableRewards, refetchCalculatedRewards, fetchSubgraphData, userAddress]);
+
     useEffect(() => {
         if (userAddress) {
-            fetchSubgraphData(userAddress);
+            refetchAllData();
         }
-    }, [userAddress, fetchSubgraphData]);
+    }, [userAddress, refetchAllData]);
 
     const currentEpoch = useMemo(() => {
         if (currentEpochData && currentEpochStatus !== undefined) {
@@ -144,7 +169,15 @@ export const useEthVault = () => {
             let currentInvestment = BigInt(0);
             let lastProcessedEpoch = 0;
 
-            subgraphData.user.actions.forEach((action: UserAction) => {
+            // Sort actions by epoch and then by timestamp
+            const sortedActions = [...subgraphData.user.actions].sort((a, b) => {
+                if (a.epochNumber === b.epochNumber) {
+                    return Number(a.timestamp) - Number(b.timestamp);
+                }
+                return a.epochNumber - b.epochNumber;
+            });
+
+            sortedActions.forEach((action: UserAction) => {
                 const epochNumber = action.epochNumber;
                 const amount = BigInt(action.amount);
 
@@ -153,13 +186,14 @@ export const useEthVault = () => {
                     investmentPerEpoch[i] = currentInvestment.toString();
                 }
 
+                // Update current investment based on action type
                 if (action.actionType === 'DEPOSIT') {
                     currentInvestment += amount;
                 } else if (action.actionType === 'WITHDRAW') {
-                    currentInvestment -= amount;
-                    if (currentInvestment < BigInt(0)) currentInvestment = BigInt(0);
+                    currentInvestment = currentInvestment >= amount ? currentInvestment - amount : BigInt(0);
                 }
 
+                // Update or set the investment for the current epoch
                 investmentPerEpoch[epochNumber] = currentInvestment.toString();
                 lastProcessedEpoch = epochNumber;
             });
@@ -175,63 +209,71 @@ export const useEthVault = () => {
     }, [subgraphData, currentEpochId]);
 
     const handleDeposit = useCallback(async (amount: string) => {
-        if (!writeHookResult.writeContractAsync) {
+        if (!writeEnter) {
             console.error('Write function is not available');
             throw new Error('The deposit function is not ready. Please try again in a few moments.');
         }
 
         try {
-            const tx = await writeHookResult.writeContractAsync({
+            const hash = await writeEnter({
                 args: [],
                 value: parseEther(amount),
             });
-            console.log('Transaction submitted:', tx);
-            await fetchSubgraphData(userAddress as string);
-            return tx;
+            console.log('Transaction submitted:', hash);
+            
+            // Refetch data after a short delay to allow time for the transaction to be processed
+            setTimeout(() => refetchAllData(), 5000);
+            
+            return hash;
         } catch (error) {
             console.error('Deposit error:', error);
             throw error;
         }
-    }, [writeHookResult.writeContractAsync, fetchSubgraphData, userAddress]);
+    }, [writeEnter, refetchAllData]);
 
     const handleWithdraw = useCallback(async (amount: string) => {
-        if (!withdrawHookResult.writeContractAsync) {
+        if (!writeExit) {
             console.error('Withdraw function is not available');
             throw new Error('The withdraw function is not ready. Please try again in a few moments.');
         }
 
         try {
-            const tx = await withdrawHookResult.writeContractAsync({
+            const hash = await writeExit({
                 args: [parseEther(amount)],
             });
-            console.log('Withdraw transaction submitted:', tx);
-            await fetchSubgraphData(userAddress as string);
-            return tx;
+            console.log('Withdraw transaction submitted:', hash);
+            
+            // Refetch data after a short delay to allow time for the transaction to be processed
+            setTimeout(() => refetchAllData(), 5000);
+            
+            return hash;
         } catch (error) {
             console.error('Withdraw error:', error);
             throw error;
         }
-    }, [withdrawHookResult.writeContractAsync, fetchSubgraphData, userAddress]);
+    }, [writeExit, refetchAllData]);
 
     const handleClaimRewards = useCallback(async () => {
-        if (!claimRewardsHook.writeContractAsync) {
+        if (!writeClaimRewards) {
             console.error('Claim rewards function is not available');
             throw new Error('The claim rewards function is not ready. Please try again in a few moments.');
         }
 
         try {
-            const tx = await claimRewardsHook.writeContractAsync({
+            const hash = await writeClaimRewards({
                 args: [],
             });
-            console.log('Claim rewards transaction submitted:', tx);
-            await refetchHasClaimableRewards();
-            await fetchSubgraphData(userAddress as string);
-            return tx;
+            console.log('Claim rewards transaction submitted:', hash);
+            
+            // Refetch data after a short delay to allow time for the transaction to be processed
+            setTimeout(() => refetchAllData(), 5000);
+            
+            return hash;
         } catch (error) {
             console.error('Claim rewards error:', error);
             throw error;
         }
-    }, [claimRewardsHook.writeContractAsync, refetchHasClaimableRewards, fetchSubgraphData, userAddress]);
+    }, [writeClaimRewards, refetchAllData]);
 
     const totalRewardsClaimed = useMemo(() => {
         if (subgraphData?.user?.totalRewardsClaimed) {
@@ -260,6 +302,6 @@ export const useEthVault = () => {
         totalRewardsClaimed,
         investmentPerEpoch: calculateInvestmentPerEpoch(),
         subgraphError,
-        refetchSubgraphData: () => fetchSubgraphData(userAddress as string),
+        refetchAllData,
     };
 };

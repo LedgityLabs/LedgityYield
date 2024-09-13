@@ -1,6 +1,6 @@
 import React from 'react';
 import { Info } from 'lucide-react';
-import CustomTooltip from './Tooltip';
+import Tooltip from './Tooltip';
 import { formatEther } from 'viem';
 
 interface EpochData {
@@ -13,10 +13,10 @@ interface EpochData {
 interface EpochRowProps {
     epoch: EpochData;
     isClaimable: boolean;
-    subgraphInvestment: string;
+    investment: string;
 }
 
-const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestment }) => {
+const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, investment }) => {
     let tooltipContent = '';
 
     if (epoch.status === 'Running') {
@@ -30,11 +30,7 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestm
     }
 
     const formatValue = (value: string) => {
-        return parseFloat(value).toFixed(3);
-    };
-
-    const formatWeiToEther = (weiValue: string) => {
-        return parseFloat(formatEther(BigInt(weiValue))).toFixed(3);
+        return parseFloat(value).toFixed(4);
     };
 
     return (
@@ -42,7 +38,7 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestm
             <td className="pl-16 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{epoch.id}</td>
             <td className="px-6 py-4 pr-2 whitespace-nowrap text-sm text-gray-500">{epoch.apr}</td>
             <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                <CustomTooltip content={tooltipContent}>
+                <Tooltip content={tooltipContent}>
                     <span className={`px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-full ${epoch.status === 'Running' ? 'bg-yellow-100 text-yellow-800' :
                         epoch.status === 'Open' ? 'bg-green-100 text-green-800' :
                             'bg-blue-100 text-blue-800'
@@ -52,10 +48,10 @@ const EpochRow: React.FC<EpochRowProps> = ({ epoch, isClaimable, subgraphInvestm
                             <Info size={16} className="inline-block ml-1 text-gray-400" />
                         )}
                     </span>
-                </CustomTooltip>
+                </Tooltip>
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatValue(epoch.tvl)}</td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatWeiToEther(subgraphInvestment)}</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatValue(investment)}</td>
         </tr>
     );
 };
@@ -85,14 +81,18 @@ const EpochsOverview: React.FC<EpochsOverviewProps> = ({ epochs, isClaimable, in
                 <div className="overflow-y-auto max-h-[300px]">
                     <table className="min-w-full" >
                         <tbody>
-                            {sortedEpochs.map((epoch) => (
-                                <EpochRow
-                                    key={epoch.id}
-                                    epoch={epoch}
-                                    isClaimable={isClaimable}
-                                    subgraphInvestment={investmentPerEpoch[epoch.id] || "0"}
-                                />
-                            ))}
+                            {sortedEpochs.map((epoch) => {
+                                const rawInvestment = investmentPerEpoch[epoch.id] || "0";
+                                const formattedInvestment = formatEther(BigInt(rawInvestment));
+                                return (
+                                    <EpochRow
+                                        key={epoch.id}
+                                        epoch={epoch}
+                                        isClaimable={isClaimable}
+                                        investment={formattedInvestment}
+                                    />
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { formatEther } from 'viem';
 import { AnimatePresence } from 'framer-motion';
 import DepositModal from './DepositModal';
@@ -14,6 +14,7 @@ import EpochsOverview from './EpochsOverview';
 const AppInvestEthVault: React.FC = () => {
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [isTransactionPending, setIsTransactionPending] = useState(false);
 
   const {
     currentEpoch,
@@ -27,14 +28,11 @@ const AppInvestEthVault: React.FC = () => {
     handleDeposit,
     handleWithdraw,
     handleClaimRewards,
-    subgraphData,
-    totalRewardsClaimed,
     investmentPerEpoch,
-    subgraphError,
-    refetchSubgraphData,
   } = useEthVault();
 
   const notify = useNotify();
+
 
   const onClaimRewards = useCallback(async () => {
     if (!hasClaimableRewards) {
@@ -42,13 +40,16 @@ const AppInvestEthVault: React.FC = () => {
       return;
     }
     try {
+      setIsTransactionPending(true);
       const loadingToast = notify.loading('Claiming Rewards', 'Please wait while we process your claim...');
-      await handleClaimRewards();
+      const hash = await handleClaimRewards();
       notify.dismiss(loadingToast.id);
-      notify.success('Rewards Claimed', 'Your rewards have been claimed successfully!');
+      notify.success('Claim Transaction Submitted', `Transaction hash: ${hash}`);
     } catch (error) {
       console.error('Error claiming rewards:', error);
       notify.error('Claim Failed', 'An error occurred while claiming rewards. Please try again.');
+    } finally {
+      setIsTransactionPending(false);
     }
   }, [hasClaimableRewards, handleClaimRewards, notify]);
 
@@ -63,14 +64,17 @@ const AppInvestEthVault: React.FC = () => {
       return;
     }
     try {
+      setIsTransactionPending(true);
       const loadingToast = notify.loading('Processing Deposit', 'Please wait while we process your deposit...');
-      await handleDeposit(amount);
+      const hash = await handleDeposit(amount);
       notify.dismiss(loadingToast.id);
-      notify.success('Deposit Successful', `You have successfully deposited ${amount} ETH.`);
+      notify.success('Deposit Transaction Submitted', `Transaction hash: ${hash}`);
       setIsDepositModalOpen(false);
     } catch (error) {
       console.error('Error during deposit:', error);
       notify.error('Deposit Failed', 'An error occurred during the deposit. Please check your wallet and try again.');
+    } finally {
+      setIsTransactionPending(false);
     }
   }, [handleDeposit, notify]);
 
@@ -86,34 +90,19 @@ const AppInvestEthVault: React.FC = () => {
       return;
     }
     try {
+      setIsTransactionPending(true);
       const loadingToast = notify.loading('Processing Withdrawal', 'Please wait while we process your withdrawal...');
-      await handleWithdraw(amount);
+      const hash = await handleWithdraw(amount);
       notify.dismiss(loadingToast.id);
-      notify.success('Withdrawal Successful', `You have successfully withdrawn ${amount} ETH.`);
+      notify.success('Withdrawal Transaction Submitted', `Transaction hash: ${hash}`);
       setIsWithdrawModalOpen(false);
     } catch (error) {
       console.error('Error during withdrawal:', error);
       notify.error('Withdrawal Failed', 'An error occurred during the withdrawal. Please check your wallet and try again.');
+    } finally {
+      setIsTransactionPending(false);
     }
   }, [handleWithdraw, notify, invested]);
-
-  useEffect(() => {
-    refetchSubgraphData();
-  }, [refetchSubgraphData]);
-
-  useEffect(() => {
-    if (subgraphError) {
-      notify.error('Data Fetch Error', subgraphError);
-    }
-  }, [subgraphError, notify]);
-
-  if (isLoading && !subgraphData) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Spinner className="text-blue-500 text-4xl" />
-      </div>
-    );
-  }
 
   const formatNumberTo2 = (value: string | number) => {
     return parseFloat(value.toString()).toFixed(2);
@@ -123,11 +112,9 @@ const AppInvestEthVault: React.FC = () => {
     return parseFloat(value.toString()).toFixed(3);
   };
 
-
-
   return (
     <ErrorBoundary>
-           <Card
+      <Card
         defaultGradient={true}
         circleIntensity={0.07}
         className="w-full flex flex-col gap-10 relative overflow-hidden"
@@ -153,7 +140,7 @@ const AppInvestEthVault: React.FC = () => {
             </div>
             <div className="flex flex-col items-start gap-1">
               <h3 className="font-bold text-sm text-fg/50 whitespace-nowrap">Claimed</h3>
-              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumberTo3(totalRewardsClaimed)}</span>
+              <span className="text-lg text-fg/90 font-heading font-bold">{formatNumberTo3(0)}</span>
             </div>
           </div>
         </div>
@@ -183,60 +170,66 @@ const AppInvestEthVault: React.FC = () => {
               <div className="flex-grow"></div>
             </div>
           </div>
-          <div className="p-6 rounded-lg shadow-md mb-6" style={{ backgroundColor: '#d7defb' }}>
-            <div className="flex flex-col md:flex-row items-center mb-6">
-              <div className="flex flex-col md:flex-row md:space-x-16 flex-grow mb-4 md:mb-0">
-                <div>{epochs[0]?.apr || "0%"}</div>
-                <div>{formatNumberTo2(formatEther(currentEpoch.totalValueLocked))}</div>
-                <div>{formatNumberTo2(invested)}</div>
-              </div>
-              <div className="flex space-x-2">
-                <Button
-                  size="tiny"
-                  onClick={() => setIsDepositModalOpen(true)}
-                  disabled={currentEpoch.status !== 'Open'}
-                  className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
-                >
-                  <span className="rotate-90 text-bg/90">
-                    <i className="ri-login-circle-line text-xs" />
-                  </span>
-                  <span className="sm:inline-block hidden">Deposit</span>
-                </Button>
-                <Button
-                  size="tiny"
-                  variant="outline"
-                  onClick={() => setIsWithdrawModalOpen(true)}
-                  disabled={currentEpoch.status !== 'Open' || !hasInvestment}
-                  className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
-                >
-                  <span className="rotate-[270deg] text-fg/70">
-                    <i className="ri-logout-circle-r-line text-xs" />
-                  </span>
-                  <span className="sm:inline-block hidden">Withdraw</span>
-                </Button>
-                <Button
-                  size="tiny"
-                  variant="outline"
-                  onClick={onClaimRewards}
-                  disabled={!hasClaimableRewards}
-                  className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
-                >
-                  <span className="text-fg/70">
-                    <i className="ri-money-dollar-circle-line text-xs" />
-                  </span>
-                  <span className="sm:inline-block hidden">Claim</span>
-                </Button>
-              </div>
+          {isLoading || isTransactionPending ? (
+            <div className="flex justify-center items-center h-40">
+              <Spinner className="text-blue-500 text-4xl" />
             </div>
+          ) : (
+            <div className="p-6 rounded-lg shadow-md mb-6" style={{ backgroundColor: '#d7defb' }}>
+              <div className="flex flex-col md:flex-row items-center mb-6">
+                <div className="flex flex-col md:flex-row md:space-x-16 flex-grow mb-4 md:mb-0">
+                  <div>{epochs[0]?.apr || "0%"}</div>
+                  <div>{formatNumberTo2(formatEther(currentEpoch.totalValueLocked))}</div>
+                  <div>{formatNumberTo2(invested)}</div>
+                </div>
+                <div className="flex space-x-2">
+                  <Button
+                    size="tiny"
+                    onClick={() => setIsDepositModalOpen(true)}
+                    disabled={currentEpoch.status !== 'Open'}
+                    className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
+                  >
+                    <span className="rotate-90 text-bg/90">
+                      <i className="ri-login-circle-line text-xs" />
+                    </span>
+                    <span className="sm:inline-block hidden">Deposit</span>
+                  </Button>
+                  <Button
+                    size="tiny"
+                    variant="outline"
+                    onClick={() => setIsWithdrawModalOpen(true)}
+                    disabled={currentEpoch.status !== 'Open' || !hasInvestment}
+                    className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
+                  >
+                    <span className="rotate-[270deg] text-fg/70">
+                      <i className="ri-logout-circle-r-line text-xs" />
+                    </span>
+                    <span className="sm:inline-block hidden">Withdraw</span>
+                  </Button>
+                  <Button
+                    size="tiny"
+                    variant="outline"
+                    onClick={onClaimRewards}
+                    disabled={!hasClaimableRewards}
+                    className="text-sm inline-flex gap-1 justify-center items-center py-1 px-2"
+                  >
+                    <span className="text-fg/70">
+                      <i className="ri-money-dollar-circle-line text-xs" />
+                    </span>
+                    <span className="sm:inline-block hidden">Claim</span>
+                  </Button>
+                </div>
+              </div>
 
-            <div className="mt-6 bg-white rounded-lg overflow-hidden">
-              <EpochsOverview
-                epochs={epochs}
-                isClaimable={claimableRewards !== undefined ? claimableRewards : false}
-                investmentPerEpoch={investmentPerEpoch}
-              />
+              <div className="mt-6 bg-white rounded-lg overflow-hidden">
+                <EpochsOverview
+                  epochs={epochs}
+                  isClaimable={claimableRewards !== undefined ? claimableRewards : false}
+                  investmentPerEpoch={investmentPerEpoch}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <p className="text-center pb-5 -mt-5 opacity-60 font-medium text-[0.85rem] px-5">

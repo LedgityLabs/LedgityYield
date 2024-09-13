@@ -638,25 +638,6 @@ export class EthVault extends ethereum.SmartContract {
     );
   }
 
-  getEpochCount(): BigInt {
-    let result = super.call("getEpochCount", "getEpochCount():(uint256)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_getEpochCount(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "getEpochCount",
-      "getEpochCount():(uint256)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   getEpochLengthToClaim(_user: Address): BigInt {
     let result = super.call(
       "getEpochLengthToClaim",
