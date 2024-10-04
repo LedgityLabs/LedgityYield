@@ -38,7 +38,6 @@ export const AppDashboard: FC = () => {
     );
 
   return (
-    <>
       <div className="lg:w-[900px] w-full flex flex-col gap-10 justify-center items-center mb-10">
         <Card
           circleIntensity={0.07}
@@ -85,6 +84,5 @@ export const AppDashboard: FC = () => {
           <AppDashboardActivity className="w-full" />
         </Card>
       </div>
-    </>
   );
 };
