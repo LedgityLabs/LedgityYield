@@ -19,7 +19,7 @@ import {
   useSimulateLTokenDeposit,
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { erc20Abi, parseUnits, zeroAddress } from "viem";
+import { erc20Abi, parseUnits, zeroAddress, formatUnits } from "viem";
 import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import useRestricted from "@/hooks/useRestricted";
@@ -32,38 +32,69 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
 
 export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
   const { referralCode } = useMainContext();
+  console.log("Referral Code:", referralCode);
+
   const account = useAccount();
+  console.log("Account:", account.address);
+
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
+  console.log("LToken Address:", lTokenAddress);
+
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
+  console.log("Decimals:", decimals);
+
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
+  console.log("Underlying Address:", underlyingAddress);
+
   const { data: underlyingBalance, queryKey } = useReadContract({
     abi: erc20Abi,
     functionName: "balanceOf",
     address: underlyingAddress,
     args: [account.address || zeroAddress],
   });
+  console.log("Underlying Balance:", underlyingBalance ? formatUnits(underlyingBalance, decimals!) : "N/A");
+
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
+  console.log("Deposited Amount:", depositedAmount ? formatUnits(depositedAmount, decimals!) : "0");
+
   const preparation = useSimulateLTokenDeposit({
     address: lTokenAddress!,
     args: [depositedAmount, referralCode || ""],
   });
+
+  console.log("Simulation Preparation:", preparation);
+
+  // Error handling
+  useEffect(() => {
+    if (preparation.error) {
+      console.error("Deposit simulation error:", preparation.error);
+      // You could add a state to display this error to the user
+    }
+  }, [preparation.error]);
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey];
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
+    if (blockNumber && blockNumber % 5n === 0n) {
+      console.log("Refreshing data at block:", blockNumber);
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    }
+  }, [blockNumber, queryClient, queryKeys]);
 
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();
+  console.log("Is Restricted:", isRestricted, "Is Loading:", isRestrictionLoading);
 
-  if (!lTokenAddress) return null;
+  if (!lTokenAddress) {
+    console.log("LToken address is null, not rendering dialog");
+    return null;
+  }
+
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -74,13 +105,15 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
         }}
       >
         {(() => {
-          if (isRestrictionLoading)
+          if (isRestrictionLoading) {
+            console.log("Restriction loading, showing spinner");
             return (
               <div className="py-8 px-16 text-2xl">
                 <Spinner />
               </div>
             );
-          else if (isRestricted) {
+          } else if (isRestricted) {
+            console.log("User is restricted, showing restriction message");
             return (
               <div className="flex flex-col gap-5 text-lg justify-center items-center">
                 <span className="text-[5rem] leading-[5rem]">🤷</span>
@@ -96,7 +129,8 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                 </span>
               </div>
             );
-          } else
+          } else {
+            console.log("Rendering deposit dialog content");
             return (
               <>
                 <DialogHeader>
@@ -125,9 +159,15 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                       decimals={decimals}
                       symbol={underlyingSymbol}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setDepositedAmount(parseUnits(e.target.value, decimals!));
-                        if (hasUserInteracted === false) setHasUserInteracted(true);
-                        if (e.target.value === "") setHasUserInteracted(false);
+                        const amount = parseUnits(e.target.value || "0", decimals!);
+                        console.log("Input changed. Raw value:", e.target.value, "Parsed amount:", amount.toString());
+                        if (amount > 0n) {
+                          setDepositedAmount(amount);
+                          if (hasUserInteracted === false) setHasUserInteracted(true);
+                        } else {
+                          setDepositedAmount(0n);
+                          setHasUserInteracted(false);
+                        }
                       }}
                     />
                     <AllowanceTxButton
@@ -165,6 +205,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                 </DialogFooter>
               </>
             );
+          }
         })()}
       </DialogContent>
     </Dialog>

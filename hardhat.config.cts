@@ -8,6 +8,7 @@ import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "@nomicfoundation/hardhat-verify";
 import "@okxweb3/hardhat-explorer-verify";
+import "@nomicfoundation/hardhat-ethers";
 
 // Retrieve deployer private key from secrets.json (if available)
 let deployerPrivateKey: string | undefined;
@@ -105,7 +106,7 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       chainId: 1,
-      url: MAINNET_RPC_URL,
+      url: "https://eth-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
       deploy: ["./contracts/hardhat/mainnet-deploy"],
@@ -118,14 +119,14 @@ const config: HardhatUserConfig = {
     },
     linea: {
       chainId: 59144,
-      url: "https://linea-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
+      url: "https://linea-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       deploy: ["./contracts/hardhat/linea-mainnet-deploy"],
       saveDeployments: true,
       verify: {
         etherscan: {
           apiKey: lineascanApiKey,
-          apiUrl: "https://api.lineascan.build",
+          apiUrl: "https://api.lineascan.build/api",
         },
       },
     },
