@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from "react";
-import { AllowanceTxButton, Amount, AmountInputWithLogo, Button, Spinner } from "@/components/ui";
+import { AllowanceTxButton, Amount, AmountInputWithLogo, Button } from "@/components/ui";
 import { Address, formatUnits, parseUnits } from "viem";
 import { UseSimulateContractReturnType } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
