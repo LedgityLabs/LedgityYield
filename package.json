@@ -1,6 +1,6 @@
 {
   "name": "ledgity-yield",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "private": true,
   "workspaces": [
     "frontend"
