@@ -1,3 +1,15 @@
+## [2.1.3](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.2...v2.1.3) (2024-10-07)
+
+
+### Fixes
+
+* **simulate txbutton:** fixed the txButton type problem ([00274d9](https://github.com/LedgityLabs/LedgityYield/commit/00274d995b0736ba8b474f4dedacc6d5068d6034))
+
+
+### Others
+
+* **clean of the app:** cleaning the app for better readability, accessibility and performance ([9e64cd9](https://github.com/LedgityLabs/LedgityYield/commit/9e64cd9ab55c57d4c15820f55fb7794e5d094422))
+
 ## [2.1.2](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.1...v2.1.2) (2024-09-13)
 
 
