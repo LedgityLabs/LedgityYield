@@ -39,7 +39,7 @@ export const AdminAddressSetter: FC<Props> = ({
     abi: contractAbi,
     functionName: setterFunctionName,
     args: [newAddress],
-  });
+  }) as UseSimulateContractReturnType;
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   // Refresh some data every 5 blocks
@@ -49,7 +49,7 @@ export const AdminAddressSetter: FC<Props> = ({
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -68,7 +68,7 @@ export const AdminAddressSetter: FC<Props> = ({
         />
         <TxButton
           size="medium"
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           disabled={newAddress === zeroAddress}
           hasUserInteracted={hasUserInteracted}
         >
