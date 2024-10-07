@@ -23,16 +23,10 @@ import { useQueryClient } from "@tanstack/react-query";
 interface Props extends React.ComponentPropsWithoutRef<typeof Button> {
   preparation: UseSimulateContractReturnType | null;
   transactionSummary?: string | ReactNode;
-  // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
-
-  // Allow to force hide tooltips
   hideTooltips?: boolean;
-
-  // Allow parent to force error state
   parentIsError?: boolean;
   parentError?: string;
-
   queryKeys?: any[];
 }
 
@@ -68,12 +62,10 @@ export const TxButton: FC<Props> = ({
     hash: writeData,
   });
 
-  // Refetch preparation on wallet or network change
   useEffect(() => {
     if (account.address && preparation?.refetch) preparation.refetch();
   }, [account.address, publicClient, preparation]);
 
-  // Refetch query data based on queryKeys in case of tx success
   useEffect(() => {
     if (txIsSuccess && waitIsSuccess && !txIsError && !waitIsError) {
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
@@ -82,7 +74,6 @@ export const TxButton: FC<Props> = ({
 
   const isLoading = preparation?.isFetching || preparation?.isLoading || txIsLoading;
 
-  // Build tooltip message and error state
   let tooltipMessage = "";
   let tooltipIsError = false;
   if (isLoading) {
@@ -99,6 +90,7 @@ export const TxButton: FC<Props> = ({
     tooltipIsError = true;
     tooltipMessage = prettyErrorMessage(preparation.error as BaseError);
   }
+
   return (
     <div className="relative flex flex-col w-full">
       <Dialog>
@@ -132,7 +124,6 @@ export const TxButton: FC<Props> = ({
             </TooltipContent>
           )}
         </Tooltip>
-        {/* Transaction dialog */}
         <DialogContent className="!px-0 !sm:px-0">
           <DialogHeader>
             <DialogTitle>Ongoing transaction</DialogTitle>
