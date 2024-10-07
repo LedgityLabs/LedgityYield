@@ -67,3 +67,6 @@ contracts/foundry/out/
 secrets.json
 
 yarn.lock
+
+/frontend/.next
+frontend/.next
