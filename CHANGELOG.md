@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.3...v2.1.4) (2024-10-07)
+
+
+### Fixes
+
+* **deploy:** issue with type for txButton ([bba242e](https://github.com/LedgityLabs/LedgityYield/commit/bba242e0cdbccb7b80e2d3c62ac5c40606bab89f))
+
 ## [2.1.3](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.2...v2.1.3) (2024-10-07)
 
 
