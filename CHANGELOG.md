@@ -1,3 +1,10 @@
+## [2.1.5](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.4...v2.1.5) (2024-10-07)
+
+
+### Fixes
+
+* **txbutton simulation:** remade and updated the correct txButton with type for all files ([a8d3fc5](https://github.com/LedgityLabs/LedgityYield/commit/a8d3fc53046e892a041dda9b263f36c54b11e18f))
+
 ## [2.1.4](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.3...v2.1.4) (2024-10-07)
 
 
