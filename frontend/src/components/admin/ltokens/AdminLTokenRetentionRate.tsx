@@ -22,7 +22,7 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
   const preparation = useSimulateLTokenSetRetentionRate({
     address: lTokenAddress,
     args: [newRetentionRate],
-  });
+  }) as UseSimulateContractReturnType;
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   // Refresh some data every 5 blocks
@@ -32,7 +32,7 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AdminBrick title="Retention rate">
@@ -52,7 +52,7 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
           }}
         />
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           hasUserInteracted={hasUserInteracted}
           size="medium"
         >

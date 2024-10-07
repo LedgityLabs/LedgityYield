@@ -38,7 +38,7 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
   const preparation = useSimulateLTokenRepatriate({
     address: lTokenAddress,
     args: [repatriatedAmount],
-  });
+  }) as UseSimulateContractReturnType;
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   // Refresh some data every 5 blocks
@@ -48,7 +48,7 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AdminBrick title="Repatriate funds">
@@ -69,7 +69,7 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
         />
         <AllowanceTxButton
           size="medium"
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           token={underlyingAddress!}
           spender={lTokenAddress!}
           amount={repatriatedAmount}

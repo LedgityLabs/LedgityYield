@@ -1,146 +1,200 @@
-import { FC } from "react";
-
-import { CarouselItem } from "@/components/ui/Carousel";
-import { TxButton } from "@/components/ui";
-import { formatUnits } from "viem";
-import { useSimulateLdyStakingGetReward, useSimulateLdyStakingUnstake } from "@/generated";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import relativeTime from "dayjs/plugin/relativeTime";
-import utc from "dayjs/plugin/utc";
-import { OneMonth, StakeDurations } from "@/constants/staking";
+import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from "react";
+import { AllowanceTxButton, Amount, AmountInputWithLogo, Button, Spinner } from "@/components/ui";
+import { Address, formatUnits, parseUnits } from "viem";
+import { UseSimulateContractReturnType } from "wagmi";
+import { useContractAddress } from "@/hooks/useContractAddress";
+import { useSimulateLdyStakingStake } from "@/generated";
+import * as Slider from "@radix-ui/react-slider";
+import { StakeDurations } from "@/constants/staking";
 import { getAPRCalculation } from "@/lib/getAPRCalculation";
-import { QueryKey } from "@tanstack/react-query";
-import { IUserStakingInfo } from "@/services/graph/hooks/useStakingEvent";
-import { getTimeLeftString } from "@/lib/utils";
-dayjs.extend(localizedFormat);
-dayjs.extend(relativeTime);
-dayjs.extend(utc);
 
-export interface IPoolInfo {
-  stakedAmount: bigint;
-  unStakeAt: bigint;
-  duration: bigint;
-  rewardPerTokenPaid: bigint;
-  rewards: bigint;
-}
-
-export const AppStakingPoolPane: FC<{
-  poolInfo: IPoolInfo;
-  poolIndex: number;
+export const AppStakingPane: FC<{
+  ldyTokenSymbol: string;
+  ldyTokenAddress: Address;
+  ldyTokenBalance: bigint;
   ldyTokenDecimals: number;
-  userStakingInfo: IUserStakingInfo | undefined;
-  rewardsArray: readonly bigint[] | undefined;
   rewardRate: number;
   totalWeightedStake: number;
-  getUserStakesQuery?: QueryKey;
-  ldyTokenBalanceQuery?: QueryKey;
-  rewardsArrayQuery?: QueryKey;
 }> = ({
-  poolInfo,
-  poolIndex,
+  ldyTokenSymbol = "LDY",
+  ldyTokenAddress,
+  ldyTokenBalance,
   ldyTokenDecimals,
-  userStakingInfo,
-  rewardsArray,
   rewardRate,
   totalWeightedStake,
-  getUserStakesQuery,
-  ldyTokenBalanceQuery,
-  rewardsArrayQuery,
-  ...props
 }) => {
+  const ldyStakingAddress = useContractAddress("LDYStaking");
+
+  const inputEl = useRef<HTMLInputElement>(null);
+  const [depositedAmount, setDepositedAmount] = useState(0n);
+  const [stakeOptionIndex, setStakeOptionIndex] = useState(0);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  // Reset everything on ldyBalance change.
+  useEffect(() => {
+    // Reset input field
+    setDepositedAmount(0n);
+    setHasUserInteracted(false);
+    if (inputEl && inputEl.current) {
+      inputEl.current.value = "0";
+    }
+  }, [ldyTokenBalance]);
+
+  // Calculate APR based on stakeIndex and stakingAprInfo.
+  const APR = useMemo(() => {
+    return getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%";
+  }, [stakeOptionIndex, rewardRate, totalWeightedStake]);
+
+  const preparation = useSimulateLdyStakingStake({
+    args: [depositedAmount, stakeOptionIndex],
+  }) as UseSimulateContractReturnType;
+
   return (
-    <CarouselItem key={poolIndex} className="px-2 md:basis-1/2 lg:basis-1/3">
-      <div className="p-3 lg:p-4 rounded-lg bg-card-content-default">
-        <div className="flex flex-col justify-start">
-          <span className="font-semibold text-lg">Pool #{poolIndex + 1}</span>
-          <div className="flex text-sm justify-between">
-            <span>Staked Amount</span>
-            <span className="font-semibold">
-              {formatUnits(poolInfo.stakedAmount, ldyTokenDecimals!)}
+    <div className="flex flex-col w-full p-4 gap-y-2 h-full">
+      <div className="font-heading font-bold text-xl">STAKE LDY TO GET REWARDS AND BENEFITS</div>
+      <AmountInputWithLogo
+        ref={inputEl}
+        maxValue={ldyTokenBalance}
+        decimals={ldyTokenDecimals}
+        symbol={ldyTokenSymbol}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setDepositedAmount(parseUnits(e.target.value, ldyTokenDecimals!));
+          if (hasUserInteracted === false) setHasUserInteracted(true);
+          if (e.target.value === "") setHasUserInteracted(false);
+        }}
+      />
+      <div className="grid gap-4 grid-cols-4">
+        <Button
+          size="small"
+          variant="outline"
+          className="hover:bg-primary-fg"
+          onClick={() => {
+            setDepositedAmount((ldyTokenBalance! * 25n) / 100n);
+            if (inputEl.current)
+              inputEl.current.value = formatUnits(
+                (ldyTokenBalance! * 25n) / 100n,
+                ldyTokenDecimals!,
+              );
+          }}
+        >
+          25%
+        </Button>
+        <Button
+          size="small"
+          variant="outline"
+          className="hover:bg-primary-fg"
+          onClick={() => {
+            setDepositedAmount((ldyTokenBalance! * 50n) / 100n);
+            if (inputEl.current)
+              inputEl.current.value = formatUnits(
+                (ldyTokenBalance! * 50n) / 100n,
+                ldyTokenDecimals!,
+              );
+          }}
+        >
+          50%
+        </Button>
+        <Button
+          size="small"
+          variant="outline"
+          className="hover:bg-primary-fg"
+          onClick={() => {
+            setDepositedAmount((ldyTokenBalance! * 75n) / 100n);
+            if (inputEl.current)
+              inputEl.current.value = formatUnits(
+                (ldyTokenBalance! * 75n) / 100n,
+                ldyTokenDecimals!,
+              );
+          }}
+        >
+          75%
+        </Button>
+        <Button
+          size="small"
+          variant="outline"
+          className="hover:bg-primary-fg"
+          onClick={() => {
+            setDepositedAmount(ldyTokenBalance!);
+            if (inputEl.current)
+              inputEl.current.value = formatUnits(ldyTokenBalance!, ldyTokenDecimals!);
+          }}
+        >
+          MAX
+        </Button>
+      </div>
+
+      <div className="py-8">
+        <Slider.Root
+          className="relative flex content-start items-center select-none touch-none w-full h-5"
+          value={[stakeOptionIndex]}
+          max={3}
+          step={1}
+          onValueChange={(value: number[]) => {
+            setStakeOptionIndex(value[0]);
+          }}
+        >
+          <Slider.Track className="bg-border relative flex items-center grow rounded-full h-1">
+            <span className="bg-gray-500 w-2 h-2 ml-2 rounded-full align-middle text-sm absolute start-0">
+              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
+                {StakeDurations[0]}
+              </span>
             </span>
-          </div>
-          <div className="flex text-sm justify-between">
-            <span>Duration</span>
-            <span className="font-semibold">{Number(poolInfo.duration) / OneMonth} Months</span>
-          </div>
-          <div className="flex text-sm justify-between">
-            <span>Unlock Timestamp</span>
-            <span className="font-semibold">
-              {dayjs.utc(Number(poolInfo.unStakeAt) * 1000).format("DD/MM/YYYY")}
+            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-1/3 -translate-x-1/3">
+              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
+                {StakeDurations[1]}
+              </span>
             </span>
-          </div>
-          <div className="flex text-sm justify-between">
-            <span>Earned</span>
-            <span className="font-semibold">
-              {userStakingInfo
-                ? Number(
-                    formatUnits(BigInt(userStakingInfo.earnedAmount), ldyTokenDecimals!),
-                  ).toFixed(4)
-                : 0}{" "}
-              Token
+            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-2/3 -translate-x-2/3">
+              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
+                {StakeDurations[2]}
+              </span>
             </span>
-          </div>
-          <div className="flex text-sm justify-between">
-            <span>APY</span>
-            <span className="font-semibold">
-              {getAPRCalculation(
-                rewardRate,
-                totalWeightedStake,
-                StakeDurations.findIndex((duration) => {
-                  return duration == Number(poolInfo.duration) / OneMonth;
-                }),
-              )}
-              %
+            <span className="bg-gray-500 w-2 h-2 mr-2 rounded-full text-sm absolute end-0">
+              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
+                {StakeDurations[3]}
+              </span>
             </span>
-          </div>
-          <div className="flex text-sm justify-between">
-            <span>Time Left</span>
-            <span className="font-semibold">
-              {getTimeLeftString(Number(poolInfo.unStakeAt) * 1000)}
-            </span>
-          </div>
-          <div className="flex py-1 w-full">
-            <TxButton
-              preparation={useSimulateLdyStakingUnstake({
-                args: [poolInfo.stakedAmount, BigInt(poolIndex)],
-              })}
-              variant="primary"
-              size="tiny"
-              disabled={dayjs().isBefore(Number(poolInfo.unStakeAt) * 1000)}
-              className="w-full"
-              queryKeys={[ldyTokenBalanceQuery, getUserStakesQuery, rewardsArrayQuery]}
-            >
-              UNSTAKE
-            </TxButton>
-          </div>
-          <div className="flex py-1 w-full">
-            <TxButton
-              preparation={useSimulateLdyStakingGetReward({
-                args: [BigInt(poolIndex)],
-              })}
-              variant="outline"
-              size="tiny"
-              disabled={
-                Number(
-                  formatUnits(
-                    BigInt(rewardsArray ? rewardsArray[poolIndex] : 0),
-                    ldyTokenDecimals!,
-                  ),
-                ) < 0.0001
-              }
-              className="w-full"
-              queryKeys={[rewardsArrayQuery, ldyTokenBalanceQuery]}
-            >
-              CLAIM{" "}
-              {Number(
-                formatUnits(BigInt(rewardsArray ? rewardsArray[poolIndex] : 0), ldyTokenDecimals!),
-              ).toFixed(4)}{" "}
-              Token
-            </TxButton>
-          </div>
+          </Slider.Track>
+          <Slider.Thumb
+            className="block px-1 rounded-lg bg-primary text-sm text-primary-fg border-indigo-200 border-2 focus:ring-2 hover:cursor-pointer"
+            aria-label="Volume"
+          >
+            {StakeDurations[stakeOptionIndex]}M
+          </Slider.Thumb>
+        </Slider.Root>
+      </div>
+
+      <div className="grid gap-4 grid-cols-2 h-full content-center">
+        <div className="flex flex-col items-center">
+          <div className="text-4xl font-bold">{APR}</div>
+          <div className="text-xl text-gray">APR</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <AllowanceTxButton
+            size="medium"
+            preparation={preparation}
+            token={ldyTokenAddress!}
+            spender={ldyStakingAddress!}
+            amount={depositedAmount}
+            disabled={depositedAmount === 0n}
+            hasUserInteracted={hasUserInteracted}
+            transactionSummary={
+              <span>
+                Deposit{" "}
+                <Amount
+                  value={depositedAmount}
+                  decimals={ldyTokenDecimals}
+                  suffix={ldyTokenSymbol}
+                  displaySymbol={true}
+                  className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+                />{" "}
+              </span>
+            }
+          >
+            STAKE LDY
+          </AllowanceTxButton>
         </div>
       </div>
-    </CarouselItem>
+    </div>
   );
 };

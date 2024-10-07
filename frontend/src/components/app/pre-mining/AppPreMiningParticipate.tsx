@@ -36,8 +36,8 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
     (Date.now() - lockStart.getTime()) / (lockEnd.getTime() - lockStart.getTime());
 
   // Prepare unlock
-  const instantPreparation = useSimulatePreMiningInstantUnlock();
-  const requestPreparation = useSimulatePreMiningRequestUnlock();
+  const instantPreparation = useSimulatePreMiningInstantUnlock() as UseSimulateContractReturnType;
+  const requestPreparation = useSimulatePreMiningRequestUnlock() as UseSimulateContractReturnType;
 
   // Compute account's eligible LDY amount
   const maxWeight = parseUnits((4_000_000 * 12).toString(), 6);
@@ -94,11 +94,7 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                 <Progress value={lockProgression * 100} />
                 <TxButton
                   size="medium"
-                  preparation={
-                    (instantPreparation.isError
-                      ? requestPreparation
-                      : instantPreparation) as UseSimulateContractReturnType
-                  }
+                  preparation={instantPreparation.isError ? requestPreparation : instantPreparation}
                   disabled={!hasLocked || lockUnlocked}
                   className=""
                   transactionSummary={

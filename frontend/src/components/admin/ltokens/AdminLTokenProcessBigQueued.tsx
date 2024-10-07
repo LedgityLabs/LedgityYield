@@ -20,7 +20,7 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
   const preparation = useSimulateLTokenProcessBigQueuedRequest({
     address: lTokenAddress,
     args: [requestId],
-  });
+  }) as UseSimulateContractReturnType;
   const { data: requestData } = useReadLTokenWithdrawalQueue({
     address: lTokenAddress,
     args: [requestId],
@@ -46,7 +46,7 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
           step={1}
         />
         <AllowanceTxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           hasUserInteracted={hasUserInteracted}
           token={underlyingAddress!}
           spender={lTokenAddress!}

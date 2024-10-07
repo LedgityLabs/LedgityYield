@@ -49,8 +49,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
   const preparation = useSimulateLTokenDeposit({
     address: lTokenAddress!,
     args: [depositedAmount, referralCode || ""],
-  });
-
+  }) as UseSimulateContractReturnType;
 
   // Error handling
   useEffect(() => {
@@ -151,7 +150,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                     />
                     <AllowanceTxButton
                       size="medium"
-                      preparation={preparation as UseSimulateContractReturnType}
+                      preparation={preparation}
                       token={underlyingAddress!}
                       spender={lTokenAddress}
                       amount={depositedAmount}

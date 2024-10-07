@@ -44,7 +44,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
   const preparation = useSimulateGenericErc20Mint({
     address: address,
     args: [mintedAmount],
-  });
+  }) as UseSimulateContractReturnType;
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey];
@@ -53,7 +53,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <div {...props} className="mt-8">
@@ -92,7 +92,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
                 setMintedAmount(parseUnits(e.target.value, tokenDecimals!))
               }
             />
-            <TxButton size="medium" preparation={preparation as UseSimulateContractReturnType}>
+            <TxButton size="medium" preparation={preparation}>
               Mint
             </TxButton>
           </div>
@@ -101,6 +101,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
     </div>
   );
 };
+
 export const AdminTesting: FC = () => {
   const lTokens = useAvailableLTokens();
   const [dayForwards, setDayForwards] = useState(0);

@@ -18,7 +18,10 @@ export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
     address: lTokenAddress,
   });
   const [newApr, setNewApr] = useState(0);
-  const preparation = useSimulateLTokenSetApr({ address: lTokenAddress, args: [newApr] });
+  const preparation = useSimulateLTokenSetApr({
+    address: lTokenAddress,
+    args: [newApr],
+  }) as UseSimulateContractReturnType;
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   // Refresh some data every 5 blocks
@@ -28,7 +31,7 @@ export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AdminBrick title="APR">
@@ -44,7 +47,7 @@ export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
           }}
         />
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           hasUserInteracted={hasUserInteracted}
           size="medium"
         >

@@ -12,12 +12,12 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export const AdminPause: FC = () => {
   const { data: paused, queryKey } = useReadGlobalPausePaused({});
-  const pausePreparation = useSimulateGlobalPausePause();
-  const unpausePreparation = useSimulateGlobalPauseUnpause();
+  const pausePreparation = useSimulateGlobalPausePause() as UseSimulateContractReturnType;
+  const unpausePreparation = useSimulateGlobalPauseUnpause() as UseSimulateContractReturnType;
   useEffect(() => {
     pausePreparation.refetch();
     unpausePreparation.refetch();
-  }, [paused]);
+  }, [paused, pausePreparation, unpausePreparation]);
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey];
@@ -26,7 +26,7 @@ export const AdminPause: FC = () => {
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AdminMasonry className="!columns-1 w-[400px]">
@@ -38,14 +38,14 @@ export const AdminPause: FC = () => {
         </p>
         <div className="flex gap-6 justify-center items-center">
           <TxButton
-            preparation={pausePreparation as UseSimulateContractReturnType}
+            preparation={pausePreparation}
             disabled={paused}
             size="medium"
           >
             Pause
           </TxButton>
           <TxButton
-            preparation={unpausePreparation as UseSimulateContractReturnType}
+            preparation={unpausePreparation}
             disabled={!paused}
             size="medium"
           >

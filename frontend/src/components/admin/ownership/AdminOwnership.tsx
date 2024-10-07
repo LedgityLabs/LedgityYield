@@ -10,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 export const AdminOwnership: FC = () => {
   const account = useAccount();
   const { data: pendingOwner, queryKey } = useReadGlobalOwnerPendingOwner({});
-  const preparation = useSimulateGlobalOwnerAcceptOwnership();
+  const preparation = useSimulateGlobalOwnerAcceptOwnership() as UseSimulateContractReturnType;
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey];
@@ -19,7 +19,8 @@ export const AdminOwnership: FC = () => {
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
+
   return (
     <AdminMasonry className="!columns-2 w-[900px]">
       <AdminBrick title="Transfer global ownership">
@@ -36,7 +37,7 @@ export const AdminOwnership: FC = () => {
             <p className="text-center">
               The connected wallet is the recipient of a pending transfer
             </p>
-            <TxButton preparation={preparation as UseSimulateContractReturnType} size="medium">
+            <TxButton preparation={preparation} size="medium">
               Accept
             </TxButton>
           </>

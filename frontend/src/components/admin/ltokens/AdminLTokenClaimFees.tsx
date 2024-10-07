@@ -20,7 +20,7 @@ export const AdminLTokenClaimFees: FC<Props> = ({ lTokenSymbol }) => {
     address: lTokenAddress,
   });
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress });
-  const preparation = useSimulateLTokenClaimFees({ address: lTokenAddress });
+  const preparation = useSimulateLTokenClaimFees({ address: lTokenAddress }) as UseSimulateContractReturnType;
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey];
@@ -29,7 +29,7 @@ export const AdminLTokenClaimFees: FC<Props> = ({ lTokenSymbol }) => {
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AdminBrick title="Unclaimed fees">
@@ -44,7 +44,7 @@ export const AdminLTokenClaimFees: FC<Props> = ({ lTokenSymbol }) => {
       </p>
       <div className="flex justify-center items-end gap-3">
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           size="medium"
           disabled={unclaimedFees === 0n}
         >

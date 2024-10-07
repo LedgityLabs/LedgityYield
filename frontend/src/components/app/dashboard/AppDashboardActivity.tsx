@@ -57,11 +57,11 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   const preparation = useSimulateLTokenCancelWithdrawalRequest({
     address: ltokenAddress,
     args: [requestId],
-  });
+  }) as UseSimulateContractReturnType;
 
   useEffect(() => {
     preparation.refetch();
-  }, [requestData]);
+  }, [requestData, preparation]);
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey];
@@ -70,7 +70,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AlertDialog>
@@ -111,7 +111,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             <TxButton
               variant="destructive"
               size="small"
-              preparation={preparation as UseSimulateContractReturnType}
+              preparation={preparation}
             >
               Cancel this request
             </TxButton>

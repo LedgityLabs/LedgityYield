@@ -47,7 +47,8 @@ export const AppStakingPane: FC<{
 
   const preparation = useSimulateLdyStakingStake({
     args: [depositedAmount, stakeOptionIndex],
-  });
+  }) as UseSimulateContractReturnType;
+
   return (
     <div className="flex flex-col w-full p-4 gap-y-2 h-full">
       <div className="font-heading font-bold text-xl">STAKE LDY TO GET REWARDS AND BENEFITS</div>
@@ -153,7 +154,6 @@ export const AppStakingPane: FC<{
                 {StakeDurations[3]}
               </span>
             </span>
-            {/* <Slider.Range className="absolute rounded-full h-full w-full" /> */}
           </Slider.Track>
           <Slider.Thumb
             className="block px-1 rounded-lg bg-primary text-sm text-primary-fg border-indigo-200 border-2 focus:ring-2 hover:cursor-pointer"
@@ -166,14 +166,13 @@ export const AppStakingPane: FC<{
 
       <div className="grid gap-4 grid-cols-2 h-full content-center">
         <div className="flex flex-col items-center">
-          {/* <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APR}</div> */}
           <div className="text-4xl font-bold">{APR}</div>
           <div className="text-xl text-gray">APR</div>
         </div>
         <div className="flex flex-col items-center">
           <AllowanceTxButton
             size="medium"
-            preparation={preparation as UseSimulateContractReturnType}
+            preparation={preparation}
             token={ldyTokenAddress!}
             spender={ldyStakingAddress!}
             amount={depositedAmount}

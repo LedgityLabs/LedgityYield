@@ -11,12 +11,12 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 
 export const AdminLTokenProcessRequests: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const preparation = useSimulateLTokenProcessQueuedRequests({ address: lTokenAddress });
+  const preparation = useSimulateLTokenProcessQueuedRequests({ address: lTokenAddress }) as UseSimulateContractReturnType;
 
   return (
     <AdminBrick title="Process withdrawal requests">
       <div className="flex justify-center items-center">
-        <TxButton preparation={preparation as UseSimulateContractReturnType} size="medium">
+        <TxButton preparation={preparation} size="medium">
           Process
         </TxButton>
       </div>
