@@ -1,0 +1,7 @@
+{
+  "Network": "base-sepolia",
+  "LTokenSignaler_Address": "0x7A02c93681450241e97C87a2Decb511b42BB16f5",
+  "LTokenSignaler_StartBlock": "12320814",
+  "LDYStaking_Address": "0xB5C69197e5D6A52c776384479B529D2d76f9e2De",
+  "LDYStaking_StartBlock": "12320814"
+}

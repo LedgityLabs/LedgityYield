@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
-    "types": ["node","jest", "@testing-library/jest-dom"],
-    
+    "module": "CommonJS",
     "moduleResolution": "node", // Use Node.js's module resolution algorithm
     "strict": true, // Enable all strict type-checking options
     "esModuleInterop": true, // Enables ESM-style imports
@@ -17,7 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./frontend/src/*","./*"],
       "~/*": ["./public/*"],
       "graphclient": ["./.graphclient/"]
     },
@@ -35,17 +33,13 @@
   },
   "include": [
     "next-env.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
+    "frontend/src/**/*.ts",
+    "frontend/src/**/*.tsx",
     ".next/types/**/*.ts",
     "~/src/env.mjs",
     "hardhat.config.cjs",
     "scripts/**/*.mts",
-    ".graphclient/**/*.ts",
-    "**/*.jsx",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "tests/mocks/**/*.ts"
+    ".graphclient/**/*.ts"
   ],
   "exclude": ["node_modules"]
-}
+} 

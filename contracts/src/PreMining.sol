@@ -340,7 +340,7 @@ contract PreMining is Ownable2Step, Pausable {
 
         // Deposit USDC in the L-Token contract
         underlyingToken.safeApprove(address(lToken), amount);
-        lToken.deposit(amount);
+        lToken.deposit(amount, "");
     }
 
     /**

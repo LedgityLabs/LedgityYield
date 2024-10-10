@@ -1,3 +1,205 @@
+## [2.1.5](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.4...v2.1.5) (2024-10-07)
+
+
+### Fixes
+
+* **txbutton simulation:** remade and updated the correct txButton with type for all files ([a8d3fc5](https://github.com/LedgityLabs/LedgityYield/commit/a8d3fc53046e892a041dda9b263f36c54b11e18f))
+
+## [2.1.4](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.3...v2.1.4) (2024-10-07)
+
+
+### Fixes
+
+* **deploy:** issue with type for txButton ([bba242e](https://github.com/LedgityLabs/LedgityYield/commit/bba242e0cdbccb7b80e2d3c62ac5c40606bab89f))
+
+## [2.1.3](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.2...v2.1.3) (2024-10-07)
+
+
+### Fixes
+
+* **simulate txbutton:** fixed the txButton type problem ([00274d9](https://github.com/LedgityLabs/LedgityYield/commit/00274d995b0736ba8b474f4dedacc6d5068d6034))
+
+
+### Others
+
+* **clean of the app:** cleaning the app for better readability, accessibility and performance ([9e64cd9](https://github.com/LedgityLabs/LedgityYield/commit/9e64cd9ab55c57d4c15820f55fb7794e5d094422))
+
+## [2.1.2](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.1...v2.1.2) (2024-09-13)
+
+
+### Fixes
+
+* **eth-vault subgraph data:** data is correctly fetched, calculated and displayed from subgraph ([e1fd1dd](https://github.com/LedgityLabs/LedgityYield/commit/e1fd1ddd06721efeb59c6d9cf9fd295892af04d6))
+
+## [2.1.1](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.0...v2.1.1) (2024-09-12)
+
+
+### Fixes
+
+* **ethvault working:** working version of ethVault with contract and subgraph correct data fetching ([9020c43](https://github.com/LedgityLabs/LedgityYield/commit/9020c4326fb7a19f8d90d0bd48c7cedd2aae0b0f))
+
+## [2.1.0](https://github.com/LedgityLabs/LedgityYield/compare/v2.0.0...v2.1.0) (2024-09-10)
+
+
+### Features
+
+* **refresh rate:** rerender and refresh rate is now lower and more healthy ([21f1e1c](https://github.com/LedgityLabs/LedgityYield/commit/21f1e1c0a7f98f7c881cc837a90e6baada6be4ba))
+* **xswap widget:** from modal to widget ([b2df702](https://github.com/LedgityLabs/LedgityYield/commit/b2df7022528921f85ee3acb9e6776bc88db2ca96))
+
+
+### Fixes
+
+* **remove legacy modal:** removed xswap legacy modal ([6e6d6bc](https://github.com/LedgityLabs/LedgityYield/commit/6e6d6bc7d48281e31efd385f0eccfc5689489b4c))
+
+
+### Others
+
+* **claim format:** claim rewards format to 3 decimals ([9c747c9](https://github.com/LedgityLabs/LedgityYield/commit/9c747c9acbac2408f5b182259b9843ada9295d0c))
+* **modals and errors:** restyled modals and improved error messages ([0677a59](https://github.com/LedgityLabs/LedgityYield/commit/0677a59678b07a9653e715611783c796b22a0aef))
+* **sepolia:** added sepolia to available networks for testing ([6222352](https://github.com/LedgityLabs/LedgityYield/commit/6222352bf5cd9215d299381ee76d53282984d333))
+* **yarn configs:** added yarn configs ([716b3d8](https://github.com/LedgityLabs/LedgityYield/commit/716b3d8d599f9c5dfdfab1b970f17ee16048f6cf))
+
+## [2.0.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.1...v2.0.0) (2024-09-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **changed to yarn:** yarn package manager
+
+### Others
+
+* **changed to yarn:** modified the package manager from npm to yarn ([fba6f47](https://github.com/LedgityLabs/LedgityYield/commit/fba6f4756b299b43fe3b9552096a64be5f28be20))
+
+## [1.275.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.0...v1.275.1) (2024-09-05)
+
+
+### Fixes
+
+* **dependencies:** fixing dependencies problems ([0a98a95](https://github.com/LedgityLabs/LedgityYield/commit/0a98a950a718858d4b25b7a2634f84418cc47c18))
+
+## [1.275.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.1...v1.275.0) (2024-09-05)
+
+
+### Features
+
+* **eth vault:** ethereum staking vault ([c8bd62b](https://github.com/LedgityLabs/LedgityYield/commit/c8bd62bfe7561490104fae07e43867b84c890bbc))
+
+## [1.274.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.0...v1.274.1) (2024-08-09)
+
+
+### Fixes
+
+* quarter selection in admin dashboard ([0f985e8](https://github.com/LedgityLabs/LedgityYield/commit/0f985e818dc4e1a66fe53317d0ddbd74ebdecb99))
+
+## [1.274.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.273.0...v1.274.0) (2024-08-05)
+
+
+### Features
+
+* enable affiliate tab ([f966e5a](https://github.com/LedgityLabs/LedgityYield/commit/f966e5af89d2cabefbede6ec4a96c137e5c846c7))
+
+
+### Others
+
+* enable affiliate tab ([00bbda6](https://github.com/LedgityLabs/LedgityYield/commit/00bbda6762447ec348efd566c88685826cfc4c8a))
+
+## [1.273.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.1...v1.273.0) (2024-08-04)
+
+
+### Features
+
+* update config ([550d7ea](https://github.com/LedgityLabs/LedgityYield/commit/550d7ea4b6e99167ed368cc4703cf9dd98f61711))
+
+## [1.272.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.272.0...v1.272.1) (2024-08-01)
+
+
+### Fixes
+
+* fix route path ([101fc2b](https://github.com/LedgityLabs/LedgityYield/commit/101fc2b3de721074b56deee13a5dab8801f37572))
+
+## [1.272.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.271.0...v1.272.0) (2024-08-01)
+
+
+### Features
+
+* add affiliate dashboard ([8c01d52](https://github.com/LedgityLabs/LedgityYield/commit/8c01d521c0fa868510475d32de81381192d92440))
+* add commission part on the affiliate dashboard ([e12789c](https://github.com/LedgityLabs/LedgityYield/commit/e12789ccc17f1469a89dfa2876c4861a7162ad7b))
+* affiliate ui ([3dc347c](https://github.com/LedgityLabs/LedgityYield/commit/3dc347cfc71a7087762ef7244cca11317d4268c0))
+* change frontend url ([44766eb](https://github.com/LedgityLabs/LedgityYield/commit/44766eb8629277a58d3984ce1f5021e010323d72))
+* configure prod and dev chains ([dbac111](https://github.com/LedgityLabs/LedgityYield/commit/dbac111319ba7e882a5c308782c9c56ab4d7902f))
+* hide affilaite ui section ([ef8a07d](https://github.com/LedgityLabs/LedgityYield/commit/ef8a07d77169e2385ec4fc2b54f4914b145b86cd))
+* implement affiliate ([1a54679](https://github.com/LedgityLabs/LedgityYield/commit/1a54679bc82b08b55ee2f482662d9cbe733314d6))
+* implment affiliate dashboard ([1e1ce06](https://github.com/LedgityLabs/LedgityYield/commit/1e1ce06413179b78f80c42e3d68201950e1ceecb))
+* modify event on l-token contract ([33a93b5](https://github.com/LedgityLabs/LedgityYield/commit/33a93b52655a2e5ea5ec4149aa689d042e60d88b))
+* subgraph support for affiliate system ([aff59b3](https://github.com/LedgityLabs/LedgityYield/commit/aff59b3326e6c43fbffb5eb1cbf52a6b1428b5a2))
+
+
+### Fixes
+
+* bugs on affiliate ([07e3181](https://github.com/LedgityLabs/LedgityYield/commit/07e3181910c0e9954afe84f14ff0fef4db1de50d))
+* contract integration issues ([16af300](https://github.com/LedgityLabs/LedgityYield/commit/16af3002ea0c63d77f03944f7efc256403d60d85))
+* fix build issues ([b98a138](https://github.com/LedgityLabs/LedgityYield/commit/b98a13828a8ce1e41750c4996d49706419a4b6ac))
+* fix table frozen issue on affiliate dashboard ([f73a4d5](https://github.com/LedgityLabs/LedgityYield/commit/f73a4d5fac71f1d8faff0bf1c5a0db32ba93f058))
+* modify subgraph schema ([89f95f6](https://github.com/LedgityLabs/LedgityYield/commit/89f95f62f7f181f1db8bef2f4391879cb09c8d52))
+
+
+### Others
+
+* resolve conflicts ([633b267](https://github.com/LedgityLabs/LedgityYield/commit/633b26762c8b6ff7117c7afb81d22d9ba710dee8))
+* resolve merge conflicts ([e2371a5](https://github.com/LedgityLabs/LedgityYield/commit/e2371a506d4972ff37525916f495ab563f388398))
+
+## [1.271.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.1...v1.271.0) (2024-07-23)
+
+
+### Features
+
+* **xswap bridge:** integration of xswap bridge ([3627a81](https://github.com/LedgityLabs/LedgityYield/commit/3627a81f395440fd3a5b781cad141f7a82a9b7a5))
+
+
+### Fixes
+
+* **approval:** approval triggered ([fa729dd](https://github.com/LedgityLabs/LedgityYield/commit/fa729dda1de0c5c9a38ecc572dff7c3a7296500e))
+* **path weren't right:** paths were wrong. swap was rerouting to /bridge and in bridge component ([cb72bc3](https://github.com/LedgityLabs/LedgityYield/commit/cb72bc310fbd3dd79d36cc42e9fa148f63b73f70))
+
+
+### Others
+
+* **env and constants:** moved environnement variable to env.msj and refactored some constants ([34a49ff](https://github.com/LedgityLabs/LedgityYield/commit/34a49ff3f4344576e9431c5f46b46f882ebcae71))
+* **responsive widget:** changed of styles of swing widget to be responsive, removed tooltip ([112ac1b](https://github.com/LedgityLabs/LedgityYield/commit/112ac1b3dd8fdbef2d8dc7f89487809cd1906e01)), closes [#139](https://github.com/LedgityLabs/LedgityYield/issues/139)
+* **tailwind:** remove .css and move to tailwind ([fa96dba](https://github.com/LedgityLabs/LedgityYield/commit/fa96dbaff965dcd780b4f5db45d0fef1ea774dc8))
+
+## [1.270.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.270.0...v1.270.1) (2024-07-19)
+
+
+### Fixes
+
+* **fixed route name:** route and file name were wrong and unclear ([40789fe](https://github.com/LedgityLabs/LedgityYield/commit/40789fefabf3f90b9b0acefa8a89ff9c829486b6))
+
+
+### Others
+
+* **width styling:** make the component wider ([0d12a82](https://github.com/LedgityLabs/LedgityYield/commit/0d12a825fb7874e425a901ab129d3f564b3bde92))
+
+## [1.270.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.269.0...v1.270.0) (2024-07-12)
+
+
+### Features
+
+* x_swap_bridge: integrating bridge and swap with xswap widget ([a2123ed](https://github.com/LedgityLabs/LedgityYield/commit/a2123ed01e9d3c2f9e90dbf97304b4e4a93a9016))
+
+## [1.269.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.268.0...v1.269.0) (2024-07-10)
+
+
+### Features
+
+* **swap:** swap or bridge ([e5d462e](https://github.com/LedgityLabs/LedgityYield/commit/e5d462e33d243b62bdc3049fb3cf8537baea758f))
+* **x_swap_bridge:** integrating bridge and swap with xswap widget ([7d7d102](https://github.com/LedgityLabs/LedgityYield/commit/7d7d1029013681488b56cc2304300ed3237f9192))
+
+
+### Others
+
+* **optional env:** changing some environment variables to be optional ([14749e1](https://github.com/LedgityLabs/LedgityYield/commit/14749e1ade2d3a15e4abf26b243b2573ad58879d))
+
 ## [1.268.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.267.0...v1.268.0) (2024-06-08)
 
 
