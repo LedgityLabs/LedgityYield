@@ -50,12 +50,31 @@
     "dev": "yarn workspace ledgity-yield-frontend dev"
   },
   "dependencies": {
+    "@envelop/core": "^5.0.0",
+    "@graphprotocol/client-cli": "^3.0.7",
+    "@graphql-mesh/cache-localforage": "^0.102.7",
+    "@graphql-mesh/cli": "^0.96.6",
+    "@graphql-mesh/cross-helpers": "^0.4.7",
+    "@graphql-mesh/graphql": "^0.102.8",
+    "@graphql-mesh/http": "^0.103.8",
+    "@graphql-mesh/runtime": "^0.103.8",
+    "@graphql-mesh/store": "^0.102.7",
+    "@graphql-mesh/transform-prefix": "^0.102.7",
+    "@graphql-mesh/types": "^0.102.7",
+    "@graphql-mesh/utils": "^0.102.7",
+    "@graphql-tools/delegate": "^9.0.32",
+    "@graphql-tools/merge": "^8.3.14",
+    "@graphql-tools/utils": "^10.5.5",
+    "@graphql-tools/wrap": "^9.4.2",
     "@okxweb3/hardhat-explorer-verify": "^1.6.4",
     "@prisma/client": "^5.7.0",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
+    "graphql-tag": "^2.0.0",
+    "graphql-yoga": "^5.7.0",
     "mustache": "^4.2.0",
-    "solady": "^0.0.235"
+    "solady": "^0.0.235",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.8",

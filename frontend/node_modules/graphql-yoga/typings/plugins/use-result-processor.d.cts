@@ -1,2 +1,0 @@
-import { Plugin } from './types.cjs';
-export declare function useResultProcessors(): Plugin;

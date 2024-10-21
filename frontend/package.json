@@ -14,6 +14,7 @@
     "@auth/prisma-adapter": "^1.0.11",
     "@envelop/core": "^2.4.2",
     "@graphprotocol/client-cli": "^3.0.7",
+    "@graphql-mesh/cache-localforage": "^0.102.7",
     "@graphql-mesh/cli": "^0.96.6",
     "@graphql-mesh/cross-helpers": "^0.4.7",
     "@graphql-mesh/graphql": "^0.102.8",
