@@ -149,7 +149,7 @@ const config: HardhatUserConfig = {
     },
     arbitrum: {
       chainId: 42161,
-      url: "https://arbitrum-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
+      url: "https://arb-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       deploy: ["./contracts/hardhat/arbi-mainnet-deploy"],
       saveDeployments: true,
