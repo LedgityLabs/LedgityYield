@@ -17,20 +17,12 @@ interface Props extends React.ComponentPropsWithoutRef<typeof TxButton> {
   amount?: bigint;
   preparation: UseSimulateContractReturnType;
   transactionSummary?: string | ReactNode;
-  // This prevents displaying errors when user hasn't interacted with the button or input yet
   hasUserInteracted?: boolean;
-
-  // Allow parent to force error state
   parentIsError?: boolean;
   parentError?: string;
-
-  // Allow 0 amount
   allowZeroAmount?: boolean;
 }
-/**
- * A version of the TxButton that allows to ensure and set (if needed) a given ERC20 allowance before
- * signing the transaction.
- */
+
 export const AllowanceTxButton: FC<Props> = ({
   token,
   spender,
@@ -76,15 +68,13 @@ export const AllowanceTxButton: FC<Props> = ({
     args: [spender, amount],
   });
 
-  // Set hasEnoughAllowance when allowance or amount chanages
   useEffect(() => {
     preparation.refetch();
     setHasEnoughAllowance(allowance !== undefined && allowance >= amount);
   }, [allowance, amount]);
 
-  // Check if the user has enough balance, and raise error else
   let isError = false;
-  let errorMessage: string = "";
+  let errorMessage = "";
 
   useEffect(() => {
     if (!balance || balance < amount) {
@@ -110,7 +100,7 @@ export const AllowanceTxButton: FC<Props> = ({
       <TxButton
         className={twMerge(hasEnoughAllowance && "pointer-events-none hidden", className)}
         hideTooltips={hasEnoughAllowance}
-        preparation={allowancePreparation as UseSimulateContractReturnType}
+        preparation={allowancePreparation as unknown as UseSimulateContractReturnType}
         disabled={(amount === 0n && !allowZeroAmount) || disabled}
         hasUserInteracted={hasUserInteracted}
         parentIsError={parentIsError || isError}
