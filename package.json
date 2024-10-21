@@ -50,8 +50,6 @@
     "dev": "yarn workspace ledgity-yield-frontend dev"
   },
   "dependencies": {
-    "@graphprotocol/client-add-source-name": "^2.0.7",
-    "@graphprotocol/graph-cli": "^0.81.0",
     "@okxweb3/hardhat-explorer-verify": "^1.6.4",
     "@prisma/client": "^5.7.0",
     "graphql": "^16.8.1",
@@ -60,8 +58,6 @@
     "solady": "^0.0.235"
   },
   "devDependencies": {
-    "@graphprotocol/client-cli": "3.0.0",
-    "@graphprotocol/graph-ts": "0.31.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-verify": "^2",
     "@openzeppelin/contracts": "4.9.0",
