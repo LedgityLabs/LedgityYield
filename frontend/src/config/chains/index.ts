@@ -34,5 +34,5 @@ export const SUBGRAPH_CLIENT_URLS = {
   [ChainId.ETHEREUM]:
     "https://api.studio.thegraph.com/query/60646/ledgity-eth-mainnet/version/latest",
   [ChainId.ARBITRUM_ONE]:
-    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-arbi-main/api",
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-yield-arbitrum/api",
 } satisfies Record<ChainId, string>;
