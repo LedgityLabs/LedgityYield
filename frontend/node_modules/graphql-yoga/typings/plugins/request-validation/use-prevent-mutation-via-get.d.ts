@@ -1,0 +1,6 @@
+import { DocumentNode } from 'graphql';
+import { Maybe } from '@envelop/core';
+import type { YogaInitialContext } from '../../types.js';
+import type { Plugin } from '../types.js';
+export declare function assertMutationViaGet(method: string, document: Maybe<DocumentNode>, operationName?: string): void;
+export declare function usePreventMutationViaGET(): Plugin<YogaInitialContext>;
