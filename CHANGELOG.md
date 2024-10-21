@@ -1,3 +1,10 @@
+## [2.1.6](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.5...v2.1.6) (2024-10-21)
+
+
+### Fixes
+
+* **subgraph:** subgraph versioning ([1e507db](https://github.com/LedgityLabs/LedgityYield/commit/1e507db4a468477b6e35e90b0e57608dbad05645))
+
 ## [2.1.5](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.4...v2.1.5) (2024-10-07)
 
 
