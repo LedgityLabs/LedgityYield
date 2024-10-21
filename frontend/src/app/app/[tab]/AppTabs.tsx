@@ -23,12 +23,12 @@ interface Props {
 const AppTabs: FC<Props> = ({ defaultTab }) => {
   return (
     <SwitchAppTabProvider defaultTab={defaultTab}>
-      <_AppTabs />
+      <InnerAppTabs />
     </SwitchAppTabProvider>
   );
 };
 
-const _AppTabs: FC = () => {
+const InnerAppTabs: FC = () => {
   const { currentTab, switchTab } = useSwitchAppTab();
   return (
     <Tabs

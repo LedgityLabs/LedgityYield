@@ -13,7 +13,7 @@ import { useReadLdyStakingGetEarnedUser, useReadLdyStakingGetUserStakes } from "
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { USER_STAKING_QUERY } from "@/services/graph/queries";
-import { AppStakingPoolPane } from "./AppStakingPoolPane";
+import { AppStakingPoolPanel } from "./AppStakingPoolPanel";
 
 export const AppStakingPools: FC<{
   ldyTokenDecimals: number;
@@ -76,7 +76,7 @@ export const AppStakingPools: FC<{
         <CarouselContent className="-ml-1">
           {stakingPools !== undefined &&
             stakingPools.map((poolInfo, index) => (
-              <AppStakingPoolPane
+              <AppStakingPoolPanel
                 key={index}
                 poolInfo={poolInfo}
                 poolIndex={index}
