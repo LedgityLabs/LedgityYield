@@ -50,6 +50,8 @@
     "dev": "yarn workspace ledgity-yield-frontend dev"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-env": "^7.1.6",
     "@envelop/core": "^5.0.0",
     "@graphprotocol/client-cli": "^3.0.7",
     "@graphql-mesh/cache-localforage": "^0.102.7",
@@ -68,13 +70,19 @@
     "@graphql-tools/wrap": "^9.4.2",
     "@okxweb3/hardhat-explorer-verify": "^1.6.4",
     "@prisma/client": "^5.7.0",
+    "csstype": "^3.0.10",
+    "ethers": "^6.1.0",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "graphql-tag": "^2.0.0",
     "graphql-yoga": "^5.7.0",
     "mustache": "^4.2.0",
+    "prettier": "^3.3.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "solady": "^0.0.235",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "webpack": "^5"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
@@ -83,7 +91,7 @@
     "@openzeppelin/contracts-upgradeable": "4.9.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^20.8.6",
+    "@types/node": "*",
     "@wagmi/cli": "^2",
     "conventional-changelog-conventionalcommits": "^7.0.2",
     "cross-env": "^7.0.3",
@@ -97,7 +105,7 @@
     "string-replace-loader": "^3.1.0",
     "tap": "^18.6.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.6.3"
   },
   "trustedDependencies": [
     "sharp"
