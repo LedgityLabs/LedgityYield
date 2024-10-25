@@ -1,13 +1,13 @@
 import {
   mainnet,
   hardhat,
-  arbitrum,
   lineaTestnet,
-  linea,
   Chain,
   baseSepolia,
   sepolia,
   arbitrumSepolia,
+  // arbitrum,
+  // linea
 } from "@wagmi/core/chains";
 
 // Build chain icons map
@@ -64,6 +64,57 @@ const xlayerMainnet: Chain = {
   testnet: false,
 };
 
+const arbitrum: Chain = {
+  id: 42_161,
+  name: 'Arbitrum One',
+  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://arb-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Arbiscan',
+      url: 'https://arbiscan.io',
+      apiUrl: 'https://api.arbiscan.io/api',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 7654707,
+    },
+  },
+};
+
+const linea: Chain = {
+  id: 59144,
+  name: 'Linea Mainnet',
+  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://linea-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh'],
+    },
+    public: {
+      http: ['https://linea-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh'],
+    },
+  },
+  blockExplorers: {
+    default: { 
+      name: 'Lineascan', 
+      url: 'https://lineascan.build',
+      apiUrl: 'https://api.lineascan.build/api',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      blockCreated: 42,
+    },
+  },
+};
+
 /// Figure whether we're in dev or prod environment
 let chainsEnv: "prod" | "dev" = "prod";
 if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
@@ -75,20 +126,17 @@ const prodChains: readonly [Chain, ...Chain[]] = [
   arbitrum,
   linea,
   xlayerMainnet,
-  // sepolia,
-  // baseSepolia,
-  // arbitrumSepolia,
 ];
 const devChains: readonly [Chain, ...Chain[]] = [
-  // ...prodChains,
   sepolia,
   hardhat,
-  // xlayerTestnet,
-  // xlayerMainnet,
   lineaTestnet,
   baseSepolia,
   arbitrumSepolia,
   arbitrum,
   linea,
+  // ...prodChains,
+  // xlayerTestnet,
+  // xlayerMainnet,
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;

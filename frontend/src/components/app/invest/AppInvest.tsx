@@ -62,7 +62,7 @@ export const AppInvest: FC = () => {
           </Link>
         </p>
       </Card>
-      <AppInvestEthVault />
+      {/* <AppInvestEthVault /> */}
     </div>
   );
 };
