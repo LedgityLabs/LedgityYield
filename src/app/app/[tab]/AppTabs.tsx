@@ -7,11 +7,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { SwitchAppTabProvider } from "@/contexts/SwitchAppTabContext";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
 import { FC } from "react";
-import { twMerge } from "tailwind-merge";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { SessionProvider } from "next-auth/react";
 import { AppStaking } from "@/components/app/staking/AppStaking";
-import { XPayButton } from "@/components/app/xswap/XswapModal";
+import { XSwapWidget } from "@/components/app/xswap/XswapWidget";
 import Link from "next/link";
 import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
 import { AppSwap } from "@/components/app/swap/AppSwap";
@@ -66,7 +65,7 @@ const _AppTabs: FC = () => {
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
         <TabsTrigger value="swap">Swap</TabsTrigger>
-        <XPayButton />
+        <XSwapWidget />
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
