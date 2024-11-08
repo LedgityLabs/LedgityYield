@@ -20,16 +20,9 @@ interface Props {
   defaultTab: string;
 }
 
-const AppTabs: FC<Props> = ({ defaultTab }) => {
-  return (
-    <SwitchAppTabProvider defaultTab={defaultTab}>
-      <_AppTabs />
-    </SwitchAppTabProvider>
-  );
-};
-
-const _AppTabs: FC = () => {
+const InnerAppTabs: FC = () => {
   const { currentTab, switchTab } = useSwitchAppTab();
+  
   return (
     <Tabs
       value={currentTab}
@@ -93,6 +86,14 @@ const _AppTabs: FC = () => {
         </SessionProvider>
       </div>
     </Tabs>
+  );
+};
+
+const AppTabs: FC<Props> = ({ defaultTab }) => {
+  return (
+    <SwitchAppTabProvider defaultTab={defaultTab}>
+      <InnerAppTabs />
+    </SwitchAppTabProvider>
   );
 };
 
