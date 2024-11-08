@@ -58,7 +58,7 @@ const InnerAppTabs: FC = () => {
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
         <TabsTrigger value="swap">Swap</TabsTrigger>
-        <XSwapWidget />
+        <TabsTrigger value="bridge">Bridge</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -82,6 +82,9 @@ const InnerAppTabs: FC = () => {
           </TabsContent>
           <TabsContent value="swap">
             <AppSwap />
+          </TabsContent>
+          <TabsContent value="bridge">
+            <XSwapWidget />
           </TabsContent>
         </SessionProvider>
       </div>
