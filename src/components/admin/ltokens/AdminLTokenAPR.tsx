@@ -1,56 +1,111 @@
-import { Card, Rate, TxButton } from "@/components/ui";
-import { RateInput } from "@/components/ui/RateInput";
-import { useReadLTokenGetApr, useSimulateLTokenSetApr } from "@/generated";
+import { Address, Input, TxButton } from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import { parseUnits } from "viem";
-import { AdminBrick } from "../AdminBrick";
-import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
+import { ChangeEvent, FC, useEffect, useCallback, useState } from "react";
+import {
+  useBlockNumber,
+  useReadContract,
+  useSimulateContract,
+  UseSimulateContractReturnType,
+} from "wagmi";
+import { zeroAddress, Abi } from "viem";
+import { useContractAbi } from "@/hooks/useContractAbi";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenSymbol: string;
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  displayName?: string;
+  contractName: string;
+  getterFunctionName: string;
+  setterFunctionName: string;
+  txButtonName?: string;
 }
 
-export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
-  const lTokenAddress = useContractAddress(lTokenSymbol);
-  const { data: apr, queryKey } = useReadLTokenGetApr({
-    address: lTokenAddress,
+export const AdminAddressSetter: FC<Props> = ({
+  displayName = null,
+  contractName,
+  getterFunctionName,
+  setterFunctionName,
+  txButtonName = "Set",
+}) => {
+  const contractAddress = useContractAddress(contractName);
+  const contractAbi = useContractAbi(contractName);
+  const { data: currentAddress, queryKey } = useReadContract({
+    address: contractAddress,
+    abi: contractAbi,
+    functionName: getterFunctionName,
   });
-  const [newApr, setNewApr] = useState(0);
-  const preparation = useSimulateLTokenSetApr({ address: lTokenAddress, args: [newApr] });
+
+  const [newAddress, setNewAddress] = useState<string>(zeroAddress);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  const simulation = useSimulateContract({
+    address: contractAddress,
+    abi: contractAbi as Abi,
+    functionName: setterFunctionName,
+    args: [newAddress] as const,
+    query: {
+      enabled: Boolean(contractAddress && contractAbi && newAddress && newAddress !== zeroAddress),
+    },
+  });
+
+  // Convert simulation to expected type
+  const preparation = {
+    ...simulation,
+    data: simulation.data
+      ? {
+          ...simulation.data,
+          request: {
+            ...simulation.data.request,
+            __mode: "prepared" as const,
+          },
+        }
+      : undefined,
+  } as UseSimulateContractReturnType;
+
+  // Refresh data every 5 blocks
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+
+  const handleRefreshData = useCallback(() => {
+    if (queryKey) {
+      queryClient.invalidateQueries({ queryKey });
+    }
+  }, [queryClient, queryKey]);
+
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n) {
+      handleRefreshData();
+    }
+  }, [blockNumber, handleRefreshData]);
+
+  const handleAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNewAddress(value);
+    setHasUserInteracted(value !== "");
+  };
+
+  if (!contractAddress || !contractAbi) return null;
 
   return (
-    <AdminBrick title="APR">
+    <div className="flex flex-col gap-5">
+      {displayName && <h4 className="text-lg font-semibold">{displayName}</h4>}
       <p>
-        Current value: <Rate value={apr} className="font-bold" />
+        Current address: <Address address={currentAddress as `0x${string}`} copyable={true} />
       </p>
       <div className="flex justify-center items-end gap-3">
-        <RateInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setNewApr(Number(parseUnits(e.target.value, 3)));
-            if (hasUserInteracted === false) setHasUserInteracted(true);
-            if (e.target.value === "") setHasUserInteracted(false);
-          }}
+        <Input
+          type="text"
+          onChange={handleAddressChange}
+          placeholder="Enter new address"
         />
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
-          hasUserInteracted={hasUserInteracted}
           size="medium"
+          preparation={preparation}
+          disabled={!newAddress || newAddress === zeroAddress}
+          hasUserInteracted={hasUserInteracted}
         >
-          Set
+          {txButtonName}
         </TxButton>
       </div>
-    </AdminBrick>
+    </div>
   );
 };
