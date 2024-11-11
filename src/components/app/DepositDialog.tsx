@@ -20,7 +20,12 @@ import {
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { erc20Abi, parseUnits, zeroAddress } from "viem";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
+import { 
+  UseSimulateContractReturnType,
+  useAccount, 
+  useBlockNumber, 
+  useReadContract,
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import useRestricted from "@/hooks/useRestricted";
 import { useMainContext } from "@/hooks/useMainContext";
@@ -32,38 +37,105 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
 
 export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
   const { referralCode } = useMainContext();
-  const account = useAccount();
+  const { address, isConnected } = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
-  const { data: underlyingBalance, queryKey } = useReadContract({
+  
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [depositedAmount, setDepositedAmount] = useState(0n);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Read balance and allowance
+  const { data: underlyingBalance, queryKey: balanceQueryKey } = useReadContract({
     abi: erc20Abi,
     functionName: "balanceOf",
     address: underlyingAddress,
-    args: [account.address || zeroAddress],
+    args: [address || zeroAddress],
+    query: {
+      enabled: Boolean(isConnected && underlyingAddress && address)
+    }
   });
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  const inputEl = useRef<HTMLInputElement>(null);
-  const [depositedAmount, setDepositedAmount] = useState(0n);
+  const { data: allowance, queryKey: allowanceQueryKey } = useReadContract({
+    abi: erc20Abi,
+    functionName: "allowance",
+    address: underlyingAddress,
+    args: [address || zeroAddress, lTokenAddress!],
+    query: {
+      enabled: Boolean(isConnected && underlyingAddress && address && lTokenAddress)
+    }
+  });
+
+  // Check if we need approval
+  const requiresApproval = Boolean(
+    depositedAmount > 0n && 
+    allowance !== undefined && 
+    depositedAmount > allowance
+  );
+
+  // Only simulate deposit if we have enough allowance
   const preparation = useSimulateLTokenDeposit({
     address: lTokenAddress!,
     args: [depositedAmount, referralCode || ""],
-  });
+    query: {
+      enabled: Boolean(
+        isConnected && 
+        lTokenAddress && 
+        depositedAmount > 0n && 
+        !requiresApproval && 
+        allowance !== undefined && 
+        allowance >= depositedAmount
+      )
+    }
+  }) as UseSimulateContractReturnType;
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  const inputEl = useRef<HTMLInputElement>(null);
+
+  // Error handling
+  useEffect(() => {
+    if (preparation.error) {
+      console.error("Deposit simulation error:", preparation.error);
+      setError("Failed to simulate deposit. Please try again.");
+    } else {
+      setError(null);
+    }
+  }, [preparation.error]);
+
+  // Refresh data every 5 blocks
+  const queryKeys = [balanceQueryKey, allowanceQueryKey];
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+  
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n) {
+      queryKeys.forEach((k) => k && queryClient.invalidateQueries({ queryKey: k }));
+    }
+  }, [blockNumber, queryClient, queryKeys]);
 
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();
 
   if (!lTokenAddress) return null;
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value || "0";
+    try {
+      const amount = parseUnits(value, decimals!);
+      if (amount > 0n) {
+        setDepositedAmount(amount);
+        if (!hasUserInteracted) setHasUserInteracted(true);
+      } else {
+        setDepositedAmount(0n);
+        setHasUserInteracted(false);
+      }
+      setError(null);
+    } catch (err) {
+      console.error("Error parsing amount:", err);
+      setError("Invalid amount entered");
+    }
+  };
+
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -74,13 +146,13 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
         }}
       >
         {(() => {
-          if (isRestrictionLoading)
+          if (isRestrictionLoading) {
             return (
               <div className="py-8 px-16 text-2xl">
                 <Spinner />
               </div>
             );
-          else if (isRestricted) {
+          } else if (isRestricted) {
             return (
               <div className="flex flex-col gap-5 text-lg justify-center items-center">
                 <span className="text-[5rem] leading-[5rem]">🤷</span>
@@ -96,7 +168,7 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                 </span>
               </div>
             );
-          } else
+          } else {
             return (
               <>
                 <DialogHeader>
@@ -115,6 +187,17 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                         your rewards. There is no need to stake, lock or claim anything.
                       </div>
                     </div>
+                    {requiresApproval && (
+                      <div className="mt-4 p-3 bg-yellow-100 text-yellow-700 rounded-lg">
+                        You need to approve the contract to spend your {underlyingSymbol}.
+                        This will require two transactions: first to approve, then to deposit.
+                      </div>
+                    )}
+                    {error && (
+                      <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                        {error}
+                      </div>
+                    )}
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -124,15 +207,11 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                       maxValue={underlyingBalance}
                       decimals={decimals}
                       symbol={underlyingSymbol}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setDepositedAmount(parseUnits(e.target.value, decimals!));
-                        if (hasUserInteracted === false) setHasUserInteracted(true);
-                        if (e.target.value === "") setHasUserInteracted(false);
-                      }}
+                      onChange={handleAmountChange}
                     />
                     <AllowanceTxButton
                       size="medium"
-                      preparation={preparation as UseSimulateContractReturnType}
+                      preparation={preparation}
                       token={underlyingAddress!}
                       spender={lTokenAddress}
                       amount={depositedAmount}
@@ -159,12 +238,13 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                         </span>
                       }
                     >
-                      Deposit
+                      {requiresApproval ? 'Approve' : 'Deposit'}
                     </AllowanceTxButton>
                   </div>
                 </DialogFooter>
               </>
             );
+          }
         })()}
       </DialogContent>
     </Dialog>

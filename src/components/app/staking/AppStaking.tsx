@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui";
 import { FC, useEffect, useRef } from "react";
-import { AppStakingPane } from "./AppStakingPane";
+import { AppStakingPanel } from "./AppStakingPanel";
 import { AppStakingDescription } from "./AppStakingDescription";
 import { AppStakingPools } from "./AppStakingPools";
 import { useContractAddress } from "@/hooks/useContractAddress";
@@ -55,7 +55,7 @@ export const AppStaking: FC = () => {
         defaultGradient={true}
         className="w-full flex flex-col col-span-12 xl:col-span-6 gap-2 p-2"
       >
-        <AppStakingPane
+        <AppStakingPanel
           ldyTokenSymbol={ldySymbol}
           ldyTokenAddress={ldyTokenAddress || zeroAddress}
           ldyTokenBalance={ldyBalance || 0n}

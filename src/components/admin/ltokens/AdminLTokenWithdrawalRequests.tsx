@@ -8,7 +8,7 @@ import {
   TxButton,
 } from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useMemo, useCallback } from "react";
 import { AdminBrick } from "../AdminBrick";
 import {
   SortingState,
@@ -28,10 +28,8 @@ import {
   useReadLTokenUsableUnderlyings,
   useReadLTokenWithdrawalQueue,
   useReadLTokenWithdrawalQueueCursor,
-  useSimulateLTokenProcessBigQueuedRequest,
   useSimulateLTokenProcessQueuedRequests,
   useSimulateLTokenRepatriate,
-  useWriteLTokenProcessBigQueuedRequest,
   writeGenericErc20Approve,
   writeLTokenProcessBigQueuedRequest,
 } from "@/generated";
@@ -39,6 +37,19 @@ import clsx from "clsx";
 import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { config } from "@/lib/dapp/config";
+
+const convertSimulationToPreparation = (simulationResult: any): UseSimulateContractReturnType => ({
+  ...simulationResult,
+  data: simulationResult.data
+    ? {
+        ...simulationResult.data,
+        request: {
+          ...simulationResult.data.request,
+          __mode: "prepared" as const,
+        },
+      }
+    : undefined,
+}) as unknown as UseSimulateContractReturnType;
 
 interface ProcessBigRequestButtonProps {
   lTokenAddress: `0x${string}`;
@@ -49,11 +60,6 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
   lTokenAddress,
   requestId,
 }) => {
-  console.log("rendered");
-  // const preparation = useSimulateLTokenProcessBigQueuedRequest({
-  //   address: lTokenAddress,
-  //   args: [requestId],
-  // });
   const account = useAccount();
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
   const { data: requestData } = useReadLTokenWithdrawalQueue({
@@ -65,17 +71,23 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
     args: [account.address!, lTokenAddress],
   });
 
+  const requestAmount = requestData ? requestData[1] : 0n;
+  const isAllowButtonDisabled = !allowance || allowance >= requestAmount;
+  const isProcessButtonDisabled = !allowance || allowance < requestAmount;
+
   return (
     <div className="flex gap-3 justify-center items-center">
       <Button
         size="tiny"
         isLoading={allowance === undefined}
-        disabled={allowance === undefined || allowance >= (requestData ? requestData[1] : 0n)}
+        disabled={isAllowButtonDisabled}
         onClick={() => {
-          writeGenericErc20Approve(config, {
-            address: underlyingAddress!,
-            args: [lTokenAddress, requestData ? requestData[1] : 0n],
-          });
+          if (underlyingAddress) {
+            writeGenericErc20Approve(config, {
+              address: underlyingAddress,
+              args: [lTokenAddress, requestAmount],
+            });
+          }
         }}
       >
         1. Allow
@@ -83,7 +95,7 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
       <Button
         size="tiny"
         isLoading={allowance === undefined}
-        disabled={allowance === undefined || allowance < (requestData ? requestData[1] : 0n)}
+        disabled={isProcessButtonDisabled}
         onClick={() => {
           writeLTokenProcessBigQueuedRequest(config, {
             address: lTokenAddress,
@@ -94,16 +106,6 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
         2. Process
       </Button>
     </div>
-    // <AllowanceTxButton
-    //   token={underlyingAddress!}
-    //   spender={lTokenAddress!}
-    //   amount={requestData ? requestData[1] : 0n}
-    //   size="tiny"
-    //   preparation={preparation as UseSimulateContractReturnType}
-    //   transactionSummary={`Process big request with ID = ${Number(requestId)}`}
-    // >
-    //   Process
-    // </AllowanceTxButton>
   );
 };
 
@@ -142,26 +144,47 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
   const [nonBigRequestsCount, setNonBigRequestsCount] = useState(0);
   const [repatriationNeeded, setRepatriationNeeded] = useState(false);
   const [repatriationAmount, setRepatriationAmount] = useState(0n);
-  const processNonBigPreparation = useSimulateLTokenProcessQueuedRequests({
-    address: lTokenAddress,
-  });
-  const repatriationPreparation = useSimulateLTokenRepatriate({
-    address: lTokenAddress,
-    args: [repatriationAmount],
-  });
   const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
 
-  const computeRequestsData = async () => {
-    // setIsLoading(true);
-    // If queue cursor is available
-    if (typeof queueCursor === "bigint") {
-      let endOfQueueEncountered = false;
-      const newRequestsData: WithdrawalRequest[] = [];
-      let readQueueCursor = queueCursor;
-      // Until we reach the end of the queue
+  // Get simulation results
+  const processNonBigSimulation = useSimulateLTokenProcessQueuedRequests({
+    address: lTokenAddress,
+    query: {
+      enabled: Boolean(lTokenAddress && nonBigRequestsCount > 0),
+    },
+  });
+
+  const repatriationSimulation = useSimulateLTokenRepatriate({
+    address: lTokenAddress,
+    args: [repatriationAmount],
+    query: {
+      enabled: Boolean(lTokenAddress && repatriationAmount > 0n),
+    },
+  });
+
+  // Convert simulations to preparations
+  const processNonBigPreparation = useMemo(
+    () => convertSimulationToPreparation(processNonBigSimulation),
+    [processNonBigSimulation]
+  );
+
+  const repatriationPreparation = useMemo(
+    () => convertSimulationToPreparation(repatriationSimulation),
+    [repatriationSimulation]
+  );
+
+  const computeRequestsData = useCallback(async () => {
+    if (!queueCursor || !expectedRetained) return;
+
+    setIsLoading(true);
+    let endOfQueueEncountered = false;
+    const newRequestsData: WithdrawalRequest[] = [];
+    let readQueueCursor = queueCursor;
+
+    try {
       while (!endOfQueueEncountered) {
         const proms: Promise<readonly [`0x${string}`, bigint]>[] = [];
-        // Retrieve batch of 50 queued requests data
+        
         for (let i = readQueueCursor; i < readQueueCursor + 50n; i++) {
           proms.push(
             readLToken(config, {
@@ -171,41 +194,40 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
             }),
           );
         }
-        // Wait for all data requests to settle
+
         const _requestsData = await Promise.allSettled(proms);
-        // Add requests data to the new data array
+
         for (let i = readQueueCursor; i < readQueueCursor + 50n; i++) {
           const _requestData = _requestsData[Number(i - readQueueCursor)];
           if (_requestData.status === "fulfilled") {
             const [account, amount] = _requestData.value;
-            // Skip already processed requests
-            if (Number(account) == 0) continue;
-            // Else, add request data to the new data array
-            console.log(typeof expectedRetained);
+            if (Number(account) === 0) continue;
+            
             newRequestsData.push({
               id: i,
               account: account,
               amount: amount,
-              isBig: amount > expectedRetained! / 2n,
+              isBig: amount > expectedRetained / 2n,
             });
-          }
-          // If an error occurred, we reached the end of the queue
-          else {
+          } else {
             endOfQueueEncountered = true;
+            break;
           }
         }
-        // Increment queue cursor for next batch
         readQueueCursor += 50n;
       }
-      // Set new data
+
       setRequestsData(newRequestsData);
+    } catch (error) {
+      console.error("Error fetching requests data:", error);
+    } finally {
+      setIsLoading(false);
     }
-    // setIsLoading(false);
-  };
+  }, [queueCursor, expectedRetained, lTokenAddress]);
 
   useEffect(() => {
     computeRequestsData();
-  }, [queueCursor]);
+  }, [computeRequestsData]);
 
   const requestsColumns = [
     columnHelper.accessor("id", {
@@ -233,10 +255,8 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
       header: "Big",
       cell: (info) => {
         if (!info.getValue()) return "No";
-        else {
-          const requestId = requestsData[info.row.index].id;
-          return <ProcessBigRequestButton requestId={requestId} lTokenAddress={lTokenAddress!} />;
-        }
+        const requestId = requestsData[info.row.index].id;
+        return <ProcessBigRequestButton requestId={requestId} lTokenAddress={lTokenAddress!} />;
       },
     }),
   ];
@@ -255,17 +275,18 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  // Set page size
-  useEffect(() => table.setPageSize(10), []);
+  useEffect(() => {
+    table.setPageSize(10);
+  }, [table]);
 
-  // Get only header group
   const headerGroup = table.getHeaderGroups()[0];
 
   useEffect(() => {
-    // Retrieve data about non-big requests
+    if (!usableUnderlyings) return;
+
     const nonBigData = requestsData.reduce(
       (acc, item) => {
-        if (item.isBig === false) {
+        if (!item.isBig) {
           acc.count++;
           acc.totalAmount += item.amount;
         }
@@ -274,19 +295,18 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
       { count: 0, totalAmount: 0n },
     );
 
-    // Set non-big requests count and amount
     setNonBigRequestsCount(nonBigData.count);
 
-    // Retrieve whether repatriation is needed, and if so, how much
-    const _repatriationNeeded = nonBigData.totalAmount > usableUnderlyings!;
+    const _repatriationNeeded = nonBigData.totalAmount > usableUnderlyings;
     const _repatriationAmount = _repatriationNeeded
-      ? nonBigData.totalAmount - usableUnderlyings!
+      ? nonBigData.totalAmount - usableUnderlyings
       : 0n;
 
-    // Set repatriation states
     setRepatriationNeeded(_repatriationNeeded);
     setRepatriationAmount(_repatriationAmount);
-  }, [requestsData]);
+  }, [requestsData, usableUnderlyings]);
+
+  if (!lTokenAddress || !decimals) return null;
 
   return (
     <AdminBrick
@@ -311,7 +331,8 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                     </p>
                     <TxButton
                       size="tiny"
-                      preparation={processNonBigPreparation as UseSimulateContractReturnType}
+                      preparation={processNonBigPreparation}
+                      disabled={!lTokenAddress || nonBigRequestsCount === 0}
                       transactionSummary="Process as much as possible non-big requests"
                     >
                       Process
@@ -339,8 +360,9 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                       size="tiny"
                       amount={repatriationAmount}
                       token={underlyingAddress!}
-                      spender={lTokenAddress!}
-                      preparation={repatriationPreparation as UseSimulateContractReturnType}
+                      spender={lTokenAddress}
+                      preparation={repatriationPreparation}
+                      disabled={!lTokenAddress || repatriationAmount === 0n}
                       transactionSummary={
                         <>
                           Repatriate{" "}

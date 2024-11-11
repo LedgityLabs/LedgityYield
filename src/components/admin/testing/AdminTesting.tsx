@@ -1,6 +1,6 @@
 import { Address, Amount, AmountInput, Button, Card, Input } from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useMemo, useState, useCallback } from "react";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
 import { createTestClient, erc20Abi, http, parseUnits, zeroAddress } from "viem";
@@ -9,7 +9,6 @@ import {
   useAccount,
   useBlockNumber,
   useReadContract,
-  useSimulateContract,
 } from "wagmi";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
@@ -17,44 +16,105 @@ import { hardhat } from "wagmi/chains";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSimulateGenericErc20Mint } from "@/generated";
 
-const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props }) => {
+interface SimulationResult {
+  data?: {
+    request?: {
+      [key: string]: unknown;
+    };
+  };
+  [key: string]: unknown;
+}
+
+const convertSimulationToPreparation = (
+  simulationResult: SimulationResult
+): UseSimulateContractReturnType => ({
+  ...simulationResult,
+  data: simulationResult.data && 'request' in simulationResult.data
+    ? {
+        ...simulationResult.data,
+        request: {
+          ...simulationResult.data.request,
+          __mode: "prepared" as const,
+        },
+      }
+    : undefined,
+}) as unknown as UseSimulateContractReturnType;
+
+interface MintFakeTokenProps {
+  contractName: string;
+  className?: string;
+}
+
+const MintFakeToken: FC<MintFakeTokenProps> = ({ contractName, ...props }) => {
   const account = useAccount();
   const address = useContractAddress(contractName);
+  
   const { data: tokenSymbol } = useReadContract({
     abi: erc20Abi,
     functionName: "symbol",
     address: address,
   });
+  
   const { data: tokenName } = useReadContract({
     abi: erc20Abi,
     functionName: "name",
     address: address,
   });
+  
   const { data: tokenDecimals } = useReadContract({
     abi: erc20Abi,
     functionName: "decimals",
     address: address,
   });
+  
   const { data: tokenBalance, queryKey } = useReadContract({
     abi: erc20Abi,
     functionName: "balanceOf",
     address: address,
     args: [account.address || zeroAddress],
   });
+
   const [mintedAmount, setMintedAmount] = useState(0n);
-  const preparation = useSimulateGenericErc20Mint({
+
+  // Get simulation with proper options
+  const simulationResult = useSimulateGenericErc20Mint({
     address: address,
     args: [mintedAmount],
+    query: {
+      enabled: Boolean(address && mintedAmount > 0n),
+    },
   });
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  // Convert simulation to preparation with proper type checking
+  const preparation = useMemo(
+    () => convertSimulationToPreparation(simulationResult),
+    [simulationResult]
+  );
+
+  // Handle data refresh
   const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+
+  const handleRefreshData = useCallback(() => {
+    if (queryKey) {
+      queryClient.invalidateQueries({ queryKey });
+    }
+  }, [queryClient, queryKey]);
+
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n) {
+      handleRefreshData();
+    }
+  }, [blockNumber, handleRefreshData]);
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (tokenDecimals) {
+      setMintedAmount(value ? parseUnits(value, tokenDecimals) : 0n);
+    }
+  };
+
+  if (!address || !tokenDecimals) return null;
 
   return (
     <div {...props} className="mt-8">
@@ -75,11 +135,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Your balance</h5>
           <span>
-            {tokenBalance && tokenDecimals ? (
-              <Amount value={tokenBalance} decimals={tokenDecimals} />
-            ) : (
-              0
-            )}
+            <Amount value={tokenBalance || 0n} decimals={tokenDecimals} />
           </span>
         </li>
         <li className="flex flex-col">
@@ -87,13 +143,15 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
           <div className="flex justify-end items-end gap-4">
             <AmountInput
               maxName="Max"
-              maxValue={parseUnits("9999999", tokenDecimals!)}
+              maxValue={parseUnits("9999999", tokenDecimals)}
               decimals={tokenDecimals}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setMintedAmount(parseUnits(e.target.value, tokenDecimals!))
-              }
+              onChange={handleAmountChange}
             />
-            <TxButton size="medium" preparation={preparation as UseSimulateContractReturnType}>
+            <TxButton
+              size="medium"
+              preparation={preparation}
+              disabled={mintedAmount === 0n}
+            >
               Mint
             </TxButton>
           </div>
@@ -102,15 +160,34 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
     </div>
   );
 };
+
 export const AdminTesting: FC = () => {
   const lTokens = useAvailableLTokens();
   const [dayForwards, setDayForwards] = useState(0);
 
-  const testClient = createTestClient({
-    chain: hardhat,
-    mode: "hardhat",
-    transport: http(),
-  });
+  const testClient = useMemo(
+    () => createTestClient({
+      chain: hardhat,
+      mode: "hardhat",
+      transport: http(),
+    }),
+    []
+  );
+
+  const handleDayChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDayForwards(value ? Number(value) : 0);
+  };
+
+  const handleTimeIncrease = useCallback(() => {
+    if (dayForwards > 0) {
+      testClient.increaseTime({ seconds: dayForwards * 24 * 60 * 60 });
+    }
+  }, [dayForwards, testClient]);
+
+  const handleMineBlock = useCallback(() => {
+    testClient.mine({ blocks: 1 });
+  }, [testClient]);
 
   return (
     <AdminMasonry>
@@ -146,21 +223,19 @@ export const AdminTesting: FC = () => {
           <Input
             type="number"
             placeholder="Number of days"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setDayForwards(Number(e.target.value))}
+            onChange={handleDayChange}
+            min={0}
           />
-          <Button onClick={() => testClient.increaseTime({ seconds: dayForwards * 24 * 60 * 60 })}>
+          <Button 
+            onClick={handleTimeIncrease}
+            disabled={dayForwards <= 0}
+          >
             Increase time
           </Button>
         </div>
       </AdminBrick>
       <AdminBrick title="Mint block">
-        <Button
-          onClick={() =>
-            testClient.mine({
-              blocks: 1,
-            })
-          }
-        >
+        <Button onClick={handleMineBlock}>
           Mint one block
         </Button>
       </AdminBrick>

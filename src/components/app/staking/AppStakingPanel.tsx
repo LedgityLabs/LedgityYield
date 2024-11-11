@@ -1,3 +1,4 @@
+"use client";
 import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from "react";
 import { AllowanceTxButton, Amount, AmountInputWithLogo, Button, Spinner } from "@/components/ui";
 import { Address, formatUnits, parseUnits } from "viem";
@@ -8,7 +9,18 @@ import * as Slider from "@radix-ui/react-slider";
 import { StakeDurations } from "@/constants/staking";
 import { getAPRCalculation } from "@/lib/getAPRCalculation";
 
-export const AppStakingPane: FC<{
+type SafePreparation = UseSimulateContractReturnType & {
+  __brand: 'safe_preparation'
+};
+
+function castPreparation(prep: any): SafePreparation {
+  return {
+    ...prep,
+    __brand: 'safe_preparation'
+  } as SafePreparation;
+}
+
+export const AppStakingPanel: FC<{
   ldyTokenSymbol: string;
   ldyTokenAddress: Address;
   ldyTokenBalance: bigint;
@@ -32,10 +44,9 @@ export const AppStakingPane: FC<{
 
   // Reset everything on ldyBalance change.
   useEffect(() => {
-    // Reset input field
     setDepositedAmount(0n);
     setHasUserInteracted(false);
-    if (inputEl && inputEl.current) {
+    if (inputEl.current) {
       inputEl.current.value = "0";
     }
   }, [ldyTokenBalance]);
@@ -45,9 +56,35 @@ export const AppStakingPane: FC<{
     return getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%";
   }, [stakeOptionIndex, rewardRate, totalWeightedStake]);
 
-  const preparation = useSimulateLdyStakingStake({
+  const simulationResult = useSimulateLdyStakingStake({
     args: [depositedAmount, stakeOptionIndex],
   });
+
+  const preparation = useMemo(() => castPreparation(simulationResult), [simulationResult]);
+
+  const handlePercentageClick = (percentage: number) => {
+    const amount = (ldyTokenBalance! * BigInt(percentage)) / 100n;
+    setDepositedAmount(amount);
+    if (inputEl.current) {
+      inputEl.current.value = formatUnits(amount, ldyTokenDecimals!);
+      if (!hasUserInteracted) setHasUserInteracted(true);
+    }
+  };
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    try {
+      setDepositedAmount(parseUnits(value || "0", ldyTokenDecimals!));
+      if (!hasUserInteracted && value !== "") {
+        setHasUserInteracted(true);
+      } else if (value === "") {
+        setHasUserInteracted(false);
+      }
+    } catch (err) {
+      console.error("Error parsing amount:", err);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full p-4 gap-y-2 h-full">
       <div className="font-heading font-bold text-xl">STAKE LDY TO GET REWARDS AND BENEFITS</div>
@@ -56,25 +93,14 @@ export const AppStakingPane: FC<{
         maxValue={ldyTokenBalance}
         decimals={ldyTokenDecimals}
         symbol={ldyTokenSymbol}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setDepositedAmount(parseUnits(e.target.value, ldyTokenDecimals!));
-          if (hasUserInteracted === false) setHasUserInteracted(true);
-          if (e.target.value === "") setHasUserInteracted(false);
-        }}
+        onChange={handleAmountChange}
       />
       <div className="grid gap-4 grid-cols-4">
         <Button
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount((ldyTokenBalance! * 25n) / 100n);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                (ldyTokenBalance! * 25n) / 100n,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handlePercentageClick(25)}
         >
           25%
         </Button>
@@ -82,14 +108,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount((ldyTokenBalance! * 50n) / 100n);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                (ldyTokenBalance! * 50n) / 100n,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handlePercentageClick(50)}
         >
           50%
         </Button>
@@ -97,14 +116,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount((ldyTokenBalance! * 75n) / 100n);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                (ldyTokenBalance! * 75n) / 100n,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handlePercentageClick(75)}
         >
           75%
         </Button>
@@ -112,11 +124,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount(ldyTokenBalance!);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(ldyTokenBalance!, ldyTokenDecimals!);
-          }}
+          onClick={() => handlePercentageClick(100)}
         >
           MAX
         </Button>
@@ -133,27 +141,22 @@ export const AppStakingPane: FC<{
           }}
         >
           <Slider.Track className="bg-border relative flex items-center grow rounded-full h-1">
-            <span className="bg-gray-500 w-2 h-2 ml-2 rounded-full align-middle text-sm absolute start-0">
-              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[0]}
+            {StakeDurations.map((duration, index) => (
+              <span
+                key={duration}
+                className={`bg-gray-500 w-2 h-2 rounded-full text-sm absolute ${
+                  index === 0 
+                    ? "start-0 ml-2" 
+                    : index === StakeDurations.length - 1
+                    ? "end-0 mr-2"
+                    : `inset-x-${(index + 1)}/3 -translate-x-${(index + 1)}/3`
+                }`}
+              >
+                <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
+                  {duration}
+                </span>
               </span>
-            </span>
-            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-1/3 -translate-x-1/3">
-              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[1]}
-              </span>
-            </span>
-            <span className="bg-gray-500 w-2 h-2 rounded-full text-sm absolute inset-x-2/3 -translate-x-2/3">
-              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[2]}
-              </span>
-            </span>
-            <span className="bg-gray-500 w-2 h-2 mr-2 rounded-full text-sm absolute end-0">
-              <span className="flex justify-center text-sm font-semibold text-gray-500 -bottom-5">
-                {StakeDurations[3]}
-              </span>
-            </span>
-            {/* <Slider.Range className="absolute rounded-full h-full w-full" /> */}
+            ))}
           </Slider.Track>
           <Slider.Thumb
             className="block px-1 rounded-lg bg-primary text-sm text-primary-fg border-indigo-200 border-2 focus:ring-2 hover:cursor-pointer"
@@ -166,14 +169,13 @@ export const AppStakingPane: FC<{
 
       <div className="grid gap-4 grid-cols-2 h-full content-center">
         <div className="flex flex-col items-center">
-          {/* <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APR}</div> */}
           <div className="text-4xl font-bold">{APR}</div>
           <div className="text-xl text-gray">APR</div>
         </div>
         <div className="flex flex-col items-center">
           <AllowanceTxButton
             size="medium"
-            preparation={preparation as UseSimulateContractReturnType}
+            preparation={preparation}
             token={ldyTokenAddress!}
             spender={ldyStakingAddress!}
             amount={depositedAmount}

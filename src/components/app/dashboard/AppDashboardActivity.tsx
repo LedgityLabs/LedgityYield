@@ -19,7 +19,7 @@ import {
   Spinner,
   TxButton,
 } from "@/components/ui";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   SortingState,
@@ -32,7 +32,6 @@ import {
 } from "@tanstack/react-table";
 import clsx from "clsx";
 import { Activity, LToken, execute } from "../../../../.graphclient";
-
 import { useContractAddress } from "@/hooks/useContractAddress";
 import {
   useReadLTokenDecimals,
@@ -42,6 +41,17 @@ import {
 import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 
+type SafePreparation = UseSimulateContractReturnType & {
+  __brand: 'safe_preparation'
+};
+
+function castPreparation(prep: any): SafePreparation {
+  return {
+    ...prep,
+    __brand: 'safe_preparation'
+  } as SafePreparation;
+}
+
 const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint }> = ({
   lTokenSymbol,
   requestId,
@@ -50,27 +60,35 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   const { data: decimals } = useReadLTokenDecimals({
     address: ltokenAddress,
   });
+  
   const { data: requestData, queryKey } = useReadLTokenWithdrawalQueue({
     address: ltokenAddress,
     args: [requestId],
   });
-  const preparation = useSimulateLTokenCancelWithdrawalRequest({
+
+  const simulation = useSimulateLTokenCancelWithdrawalRequest({
     address: ltokenAddress,
     args: [requestId],
   });
 
-  useEffect(() => {
-    preparation.refetch();
-  }, [requestData]);
+  const preparation = useMemo(() => castPreparation(simulation), [simulation]);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  // Refresh simulation when request data changes
+  useEffect(() => {
+    simulation.refetch();
+  }, [simulation, requestData]);
+
+  // Refresh data every 5 blocks
+  const queryKeys = useMemo(() => [queryKey], [queryKey]);
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+  
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (!blockNumber || blockNumber % 5n !== 0n) return;
+    queryKeys.forEach((k) => {
+      if (k) queryClient.invalidateQueries({ queryKey: k });
+    });
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AlertDialog>
@@ -111,7 +129,7 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             <TxButton
               variant="destructive"
               size="small"
-              preparation={preparation as UseSimulateContractReturnType}
+              preparation={preparation}
             >
               Cancel this request
             </TxButton>
@@ -135,66 +153,58 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   const [activityData, setActivityData] = useState<Activity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const computeActivityData = async () => {
-    if (!isLoading) {
-      setIsLoading(true);
+  const computeActivityData = useCallback(async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
       if (account && account.address) {
-          await execute(
-            `
-            {
-              c${account.chainId}_activities(where: { account: "${account.address}" }) {
-                id
-                requestId
-                ltoken {
-                  symbol
-                  decimals
-                }
-                timestamp
-                action
-                amount
-                amountAfterFees
-                status
+        const result = await execute(
+          `
+          {
+            c${account.chainId}_activities(where: { account: "${account.address}" }) {
+              id
+              requestId
+              ltoken {
+                symbol
+                decimals
               }
+              timestamp
+              action
+              amount
+              amountAfterFees
+              status
             }
-            `,
-            {},
-          )
-            .then(
-              // @ts-ignore
-              (result: {
-                data: {
-                  [key: string]: Activity[];
-                };
-              }) => {
-                setActivityData(result.data[`c${account.chainId}_activities`]);
-                setIsLoading(false);
-              },
-            )
-            .catch((e: Error) => {
-              setActivityData([]);
-              setIsLoading(false);
-            });
+          }
+          `,
+          {},
+        );
+        
+        // @ts-ignore
+        setActivityData(result.data[`c${account.chainId}_activities`]);
       }
+    } catch (e) {
+      console.error('Failed to fetch activity data:', e);
+      setActivityData([]);
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [account?.address, account?.chainId, isLoading]);
 
   useEffect(() => {
     computeActivityData();
-  }, [account.address]);
+  }, [computeActivityData]);
 
-  const activityColumns = [
+  const activityColumns = useMemo(() => [
     columnHelper.accessor("timestamp", {
       header: "Date",
-      cell: (info) => {
-        return (
-          <DateTime
-            timestamp={Number.parseInt(info.getValue()) * 1000}
-            output="date"
-            className="cursor-help text-fg/50"
-          />
-        );
-      },
+      cell: (info) => (
+        <DateTime
+          timestamp={Number.parseInt(info.getValue()) * 1000}
+          output="date"
+          className="cursor-help text-fg/50"
+        />
+      ),
     }),
     columnHelper.accessor("action", {
       header: "Action",
@@ -233,7 +243,6 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         );
       },
     }),
-
     columnHelper.accessor("status", {
       header: "Status",
       cell: (info) => {
@@ -250,7 +259,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                 status === "Queued" && "border-amber-500 bg-amber-200",
                 status === "Cancelled" && "border-red-500 bg-red-200",
               )}
-            ></div>
+            />
             <div
               className={clsx(
                 "flex items-center justify-center gap-2 font-semibold",
@@ -272,7 +281,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         );
       },
     }),
-  ];
+  ], [activityData, columnHelper]);
+
   const sortableColumns = ["timestamp", "action", "amount", "ltoken", "status"];
 
   const table = useReactTable({
@@ -288,7 +298,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
   });
 
   // Set page size
-  useEffect(() => table.setPageSize(10), []);
+  useEffect(() => {
+    if (table) {
+      table.setPageSize(10);
+    }
+  }, [table]);
 
   const headerGroup = table.getHeaderGroups()[0];
 
@@ -320,11 +334,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                     {(() => {
                       switch (header.column.getIsSorted()) {
                         case "asc":
-                          return <i className="ri-sort-desc"></i>;
+                          return <i className="ri-sort-desc" />;
                         case "desc":
-                          return <i className="ri-sort-asc"></i>;
+                          return <i className="ri-sort-asc" />;
                         default:
-                          return <i className="ri-expand-up-down-fill"></i>;
+                          return <i className="ri-expand-up-down-fill" />;
                       }
                     })()}
                   </span>
@@ -359,7 +373,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
                   }}
                   className={clsx(
                     "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
-                    rowIndex == tableRows.length - 1 && "border-b-0",
+                    rowIndex === tableRows.length - 1 && "border-b-0",
                   )}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

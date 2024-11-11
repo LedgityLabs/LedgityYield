@@ -4,7 +4,7 @@ import {
   useReadLTokenUnderlying,
   useSimulateLTokenRepatriate,
 } from "@/generated";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState, useCallback } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { erc20Abi, parseUnits, zeroAddress } from "viem";
@@ -34,21 +34,56 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
     functionName: "symbol",
     address: underlyingAddress,
   });
+  
   const [repatriatedAmount, setRepatriatedAmount] = useState(0n);
-  const preparation = useSimulateLTokenRepatriate({
-    address: lTokenAddress,
-    args: [repatriatedAmount],
-  });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  // Get simulation result
+  const simulationResult = useSimulateLTokenRepatriate({
+    address: lTokenAddress,
+    args: [repatriatedAmount],
+    query: {
+      enabled: Boolean(lTokenAddress && repatriatedAmount > 0n),
+    },
+  });
+
+  // Create properly typed preparation object
+  const preparation = {
+    ...simulationResult,
+    data: simulationResult.data
+      ? {
+          ...simulationResult.data,
+          request: {
+            ...simulationResult.data.request,
+            __mode: "prepared" as const,
+          },
+        }
+      : undefined,
+  } as unknown as UseSimulateContractReturnType;
+
+  // Handle data refresh
   const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+
+  const handleRefreshData = useCallback(() => {
+    if (queryKey) {
+      queryClient.invalidateQueries({ queryKey });
+    }
+  }, [queryClient, queryKey]);
+
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n) {
+      handleRefreshData();
+    }
+  }, [blockNumber, handleRefreshData]);
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setRepatriatedAmount(value ? parseUnits(value, lTokenDecimals!) : 0n);
+    setHasUserInteracted(value !== "");
+  };
+
+  if (!lTokenAddress || !lTokenDecimals) return null;
 
   return (
     <AdminBrick title="Repatriate funds">
@@ -61,19 +96,15 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
           maxValue={underlyingBalance}
           decimals={lTokenDecimals}
           symbol={underlyingSymbol}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setRepatriatedAmount(parseUnits(e.target.value, lTokenDecimals!));
-            if (hasUserInteracted === false) setHasUserInteracted(true);
-            if (e.target.value === "") setHasUserInteracted(false);
-          }}
+          onChange={handleAmountChange}
         />
         <AllowanceTxButton
           size="medium"
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           token={underlyingAddress!}
-          spender={lTokenAddress!}
+          spender={lTokenAddress}
           amount={repatriatedAmount}
-          disabled={repatriatedAmount === 0n}
+          disabled={repatriatedAmount === 0n || !underlyingAddress}
           hasUserInteracted={hasUserInteracted}
           transactionSummary={
             <span>

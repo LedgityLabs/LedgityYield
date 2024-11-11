@@ -2,7 +2,7 @@ import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
 import { useReadLTokenRetentionRateUd7x3, useSimulateLTokenSetRetentionRate } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useCallback, useState } from "react";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
 import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
@@ -19,20 +19,54 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
     address: lTokenAddress,
   });
   const [newRetentionRate, setNewRetentionRate] = useState(0);
-  const preparation = useSimulateLTokenSetRetentionRate({
-    address: lTokenAddress,
-    args: [newRetentionRate],
-  });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  // Get simulation result with proper options
+  const simulationResult = useSimulateLTokenSetRetentionRate({
+    address: lTokenAddress,
+    args: [newRetentionRate],
+    query: {
+      enabled: Boolean(lTokenAddress && newRetentionRate >= 0),
+    },
+  });
+
+  // Convert simulation result to expected type
+  const preparation = {
+    ...simulationResult,
+    data: simulationResult.data
+      ? {
+          ...simulationResult.data,
+          request: {
+            ...simulationResult.data.request,
+            __mode: "prepared" as const,
+          },
+        }
+      : undefined,
+  } as unknown as UseSimulateContractReturnType;
+
+  // Handle data refresh
   const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+
+  const handleRefreshData = useCallback(() => {
+    if (queryKey) {
+      queryClient.invalidateQueries({ queryKey });
+    }
+  }, [queryClient, queryKey]);
+
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n) {
+      handleRefreshData();
+    }
+  }, [blockNumber, handleRefreshData]);
+
+  const handleRateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNewRetentionRate(value ? Number(parseUnits(value, 3)) : 0);
+    setHasUserInteracted(value !== "");
+  };
+
+  if (!lTokenAddress) return null;
 
   return (
     <AdminBrick title="Retention rate">
@@ -45,16 +79,14 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
       </p>
       <div className="flex justify-center items-end gap-3">
         <RateInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setNewRetentionRate(Number(parseUnits(e.target.value, 3)));
-            if (hasUserInteracted === false) setHasUserInteracted(true);
-            if (e.target.value === "") setHasUserInteracted(false);
-          }}
+          onChange={handleRateChange}
+          placeholder="Enter retention rate"
         />
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation}
           hasUserInteracted={hasUserInteracted}
           size="medium"
+          disabled={newRetentionRate < 0}
         >
           Set
         </TxButton>

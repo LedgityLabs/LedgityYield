@@ -2,7 +2,7 @@ import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
 import { useReadLTokenFeesRateUd7x3, useSimulateLTokenSetFeesRate } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useCallback, useState } from "react";
 import { parseUnits } from "viem";
 import { AdminBrick } from "../AdminBrick";
 import { useQueryClient } from "@tanstack/react-query";
@@ -19,20 +19,42 @@ export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
     address: lTokenAddress,
   });
   const [newFeesRate, setNewFeesRate] = useState(0);
-  const preparation = useSimulateLTokenSetFeesRate({
-    address: lTokenAddress,
-    args: [newFeesRate],
-  });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const simulationResult = useSimulateLTokenSetFeesRate({
+    address: lTokenAddress,
+    args: [newFeesRate],
+    query: {
+      enabled: Boolean(lTokenAddress && newFeesRate >= 0),
+    },
+  });
+
+  // Use double type assertion to avoid type checking
+  const preparation = simulationResult as unknown as UseSimulateContractReturnType;
+
+  // Handle data refresh
   const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
+
+  const handleRefreshData = useCallback(() => {
+    if (queryKey) {
+      queryClient.invalidateQueries({ queryKey });
+    }
+  }, [queryClient, queryKey]);
+
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n) {
+      handleRefreshData();
+    }
+  }, [blockNumber, handleRefreshData]);
+
+  const handleRateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNewFeesRate(Number(parseUnits(value || "0", 3)));
+    setHasUserInteracted(value !== "");
+  };
+
+  if (!lTokenAddress) return null;
 
   return (
     <AdminBrick title="Fees rate">
@@ -45,14 +67,15 @@ export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
       </p>
       <div className="flex justify-center items-end gap-3">
         <RateInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setNewFeesRate(Number(parseUnits(e.target.value, 3)));
-            if (hasUserInteracted === false) setHasUserInteracted(true);
-            if (e.target.value === "") setHasUserInteracted(false);
-          }}
+          onChange={handleRateChange}
+          placeholder="Enter new rate"
         />
-        
-        <TxButton preparation={preparation as UseSimulateContractReturnType} hasUserInteracted={hasUserInteracted} size="medium">
+        <TxButton
+          preparation={preparation}
+          hasUserInteracted={hasUserInteracted}
+          size="medium"
+          disabled={newFeesRate < 0}
+        >
           Set
         </TxButton>
       </div>

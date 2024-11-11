@@ -1,3 +1,4 @@
+"use client";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import {
   Amount,
@@ -21,9 +22,12 @@ import {
 import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { TxButton } from "../ui/TxButton";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import { 
+  UseSimulateContractReturnType, 
+  useAccount, 
+  useBlockNumber
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
-import { SimulateContractReturnType } from "@wagmi/core";
 import useRestricted from "@/hooks/useRestricted";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
@@ -31,13 +35,24 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   onOpenChange?: React.ComponentPropsWithoutRef<typeof Dialog>["onOpenChange"];
 }
 
+type SafePreparation = UseSimulateContractReturnType & {
+  __brand: 'safe_preparation'
+};
+
+function castPreparation(prep: any): SafePreparation {
+  return {
+    ...prep,
+    __brand: 'safe_preparation'
+  } as SafePreparation;
+}
+
 export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
-  const account = useAccount();
+  const { address, isConnected } = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
   const { data: balance, queryKey } = useReadLTokenBalanceOf({
     address: lTokenAddress!,
-    args: [account.address || zeroAddress],
+    args: [address || zeroAddress],
   });
   const { data: withdrawalFeeInEth, queryKey: queryForWithdrawalFeeInEth } =
     useReadLTokenWithdrawalFeeInEth({
@@ -48,15 +63,32 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
-  const instantWithdrawalPreparation = useSimulateLTokenInstantWithdrawal({
+  
+  // Instant withdrawal simulation
+  const instantWithdrawalResult = useSimulateLTokenInstantWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
+    query: {
+      enabled: Boolean(isConnected && lTokenAddress && withdrawnAmount > 0n)
+    }
   });
-  const requestWithdrawalPreparation = useSimulateLTokenRequestWithdrawal({
+  const instantWithdrawalPreparation = castPreparation(instantWithdrawalResult);
+
+  // Request withdrawal simulation
+  const requestWithdrawalResult = useSimulateLTokenRequestWithdrawal({
     address: lTokenAddress!,
     args: [withdrawnAmount],
     value: BigInt(withdrawalFeeInEth || 0),
+    query: {
+      enabled: Boolean(
+        isConnected && 
+        lTokenAddress && 
+        withdrawnAmount > 0n && 
+        withdrawalFeeInEth !== undefined
+      )
+    }
   });
+  const requestWithdrawalPreparation = castPreparation(requestWithdrawalResult);
 
   // Refresh some data every 5 blocks
   const queryKeys = [queryKey, queryForWithdrawalFeeInEth];
@@ -65,12 +97,28 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
   useEffect(() => {
     if (blockNumber && blockNumber % 5n === 0n)
       queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  }, [blockNumber, queryClient, queryKeys]);
 
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();
 
   if (!lTokenAddress) return null;
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value || "0";
+    try {
+      const amount = parseUnits(value, decimals!);
+      setWithdrawnAmount(amount);
+      if (hasUserInteracted === true && value === "") {
+        setHasUserInteracted(false);
+      } else if (!hasUserInteracted && amount > 0n) {
+        setHasUserInteracted(true);
+      }
+    } catch (err) {
+      console.error("Error parsing amount:", err);
+    }
+  };
+
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -107,7 +155,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
             return (
               <>
                 <DialogHeader>
-                  <DialogTitle>Witdhraw {underlyingSymbol}</DialogTitle>
+                  <DialogTitle>Withdraw {underlyingSymbol}</DialogTitle>
                   <DialogDescription>
                     <div>
                       <span className="mb-1 inline-block text-xl font-semibold text-primary">
@@ -116,7 +164,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       <br />
                       Note that you won&apos;t receive yield anymore.
                     </div>
-                    {/* If instant withdrawal is not posssible actually, display info message */}
+                    {/* If instant withdrawal is not possible actually, display info message */}
                     {instantWithdrawalPreparation.isError && (
                       <div className="flex items-stretch justify-stretch gap-2 rounded-2xl bg-fg/[7%] p-4 text-fg/80">
                         <div className="flex items-center justify-center border-r border-r-fg/20 pr-4">
@@ -137,18 +185,13 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       maxValue={balance}
                       decimals={decimals}
                       symbol={`L${underlyingSymbol}`}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setWithdrawnAmount(parseUnits(e.target.value, decimals!));
-                        if (hasUserInteracted === true && e.target.value === "")
-                          setHasUserInteracted(false);
-                        else if (hasUserInteracted === false) setHasUserInteracted(true);
-                      }}
+                      onChange={handleAmountChange}
                     />
-                    {/* If instant withdrawal is possible actually */}
+                    {/* If instant withdrawal is possible */}
                     {(!instantWithdrawalPreparation.isError && (
                       <TxButton
                         size="medium"
-                        preparation={instantWithdrawalPreparation as UseSimulateContractReturnType}
+                        preparation={instantWithdrawalPreparation}
                         className="relative -top-[1.5px]"
                         disabled={withdrawnAmount === 0n}
                         hasUserInteracted={hasUserInteracted}
@@ -178,7 +221,7 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                     )) || (
                       <TxButton
                         size="medium"
-                        preparation={requestWithdrawalPreparation as UseSimulateContractReturnType}
+                        preparation={requestWithdrawalPreparation}
                         className="relative -top-[1.5px]"
                         disabled={withdrawnAmount === 0n}
                         hasUserInteracted={hasUserInteracted}
