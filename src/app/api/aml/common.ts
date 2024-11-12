@@ -79,6 +79,10 @@ export async function isAccountHighRisk(
   alert: boolean = false,
   alertContext?: AlertContext,
 ) {
+  // Temporarily disabled ScoreChain integration
+  return false;
+  
+  /* Commented out original implementation for easy restoration later
   // Retrieve wallet's ScoreChain analysis
   const scoreChainReq = await fetch("https://api.scorechain.com/v1/scoringAnalysis", {
     method: "POST",
@@ -114,4 +118,5 @@ export async function isAccountHighRisk(
     );
 
   return isHighRisk;
+  */
 }
