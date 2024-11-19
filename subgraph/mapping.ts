@@ -10,7 +10,7 @@ import {
   Unstaked as UnstakedEvent,
   RewardPaid as RewardPaidEvent,
   NotifiedRewardAmount as NotififiedRewardAmountEvent,
-} from "./generated/LdyStaking/LdyStaking";
+} from "./generated/LDYStaking/LDYStaking";
 import { AffiliateUser, StakingUser, AffiliateActivity } from "./generated/schema";
 import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";

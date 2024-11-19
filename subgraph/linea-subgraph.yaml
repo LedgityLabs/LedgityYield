@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: linea-mainnet
+    network: linea
     source:
       address: "0xBA427517505b14C560854aED003304Fc69cbadfb"
       abi: LTokenSignaler
@@ -27,31 +27,10 @@ dataSources:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
 
-  - kind: ethereum/contract
-    name: PreMining
-    network: linea-mainnet
-    source:
-      address: "0xd54d564606611A3502FE8909bBD3075dbeb77813"
-      abi: PreMining
-      startBlock: 458807
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: ./mapping.ts
-      entities:
-        - PreMining
-      abis:
-        - name: PreMining
-          file: ../contracts/abis/PreMining.json
-      eventHandlers:
-        - event: Lock(indexed address,uint256,uint8)
-          handler: handlePreMiningLock
-
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: linea-mainnet
+    network: linea
     source:
       abi: LToken
     mapping:
@@ -73,7 +52,7 @@ templates:
           handler: handleTVLChangeEvent
         - event: APRChangeEvent(uint16)
           handler: handleAPRChangeEvent
-        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,uint256,uint256,uint8,int256)
+        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,address,uint256,uint256,uint8,int256,string)
           handler: handleActivityEvent
         - event: MintedRewardsEvent(indexed address,uint256,uint256)
           handler: handleMintedRewardsEvent

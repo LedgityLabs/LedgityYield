@@ -43,12 +43,8 @@ const SUPPORTED_NETWORKS = {
     name: 'Linea', 
     endpoint: process.env.NEXT_PUBLIC_LINEA_SUBGRAPH_URL || '',
     prefix: ''
-  },
-  195: { 
-    name: 'OKX X1 Testnet', 
-    endpoint: process.env.NEXT_PUBLIC_OKX_SUBGRAPH_URL || '',
-    prefix: ''
-  },
+  }
+  //ADD MORE NETWORKS HERE
 };
 
 export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card>> = ({ className }) => {

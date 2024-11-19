@@ -27,11 +27,11 @@ dataSources:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken   
   - kind: ethereum
-    name: LdyStaking
+    name: LDYStaking
     network: arbitrum-one
     source:
       address: "0x98002b5c06b44c8769dA3DAe97CA498aB6F97137"
-      abi: LdyStaking
+      abi: LDYStaking
       startBlock: 218746026
     mapping:
       kind: ethereum/events
@@ -43,8 +43,8 @@ dataSources:
         - RewardPaid
         - NotifiedRewardAmount
       abis:
-        - name: LdyStaking
-          file: ../contracts/abis/LdyStaking.json
+        - name: LDYStaking
+          file: ../contracts/abis/LDYStaking.json
       eventHandlers:
         - event: Staked(indexed address,uint256,uint256)
           handler: handleStaked
