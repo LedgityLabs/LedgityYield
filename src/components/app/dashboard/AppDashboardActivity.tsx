@@ -1,26 +1,11 @@
-"use client";
+import React, { FC, useEffect, useState } from "react";
 import {
-  Amount,
-  Button,
   Card,
   DateTime,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
+  Button,
   Spinner,
-  TxButton,
+  Amount,
 } from "@/components/ui";
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import {
   SortingState,
   createColumnHelper,
@@ -30,177 +15,165 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useAccount } from "wagmi";
 import clsx from "clsx";
-import { Activity, LToken, execute } from "../../../../.graphclient";
-import { useContractAddress } from "@/hooks/useContractAddress";
-import {
-  useReadLTokenDecimals,
-  useReadLTokenWithdrawalQueue,
-  useSimulateLTokenCancelWithdrawalRequest,
-} from "@/generated";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
-import { useQueryClient } from "@tanstack/react-query";
 
-type SafePreparation = UseSimulateContractReturnType & {
-  __brand: 'safe_preparation'
-};
-
-function castPreparation(prep: any): SafePreparation {
-  return {
-    ...prep,
-    __brand: 'safe_preparation'
-  } as SafePreparation;
+interface Activity {
+  id: string;
+  requestId: string;
+  timestamp: string;
+  action: string;
+  amount: string;
+  amountAfterFees: string;
+  status: string;
+  ltoken: {
+    symbol: string;
+    decimals: number;
+  };
+  chainId?: number;
 }
 
-const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint }> = ({
-  lTokenSymbol,
-  requestId,
-}) => {
-  const ltokenAddress = useContractAddress(lTokenSymbol);
-  const { data: decimals } = useReadLTokenDecimals({
-    address: ltokenAddress,
-  });
-  
-  const { data: requestData, queryKey } = useReadLTokenWithdrawalQueue({
-    address: ltokenAddress,
-    args: [requestId],
-  });
-
-  const simulation = useSimulateLTokenCancelWithdrawalRequest({
-    address: ltokenAddress,
-    args: [requestId],
-  });
-
-  const preparation = useMemo(() => castPreparation(simulation), [simulation]);
-
-  // Refresh simulation when request data changes
-  useEffect(() => {
-    simulation.refetch();
-  }, [simulation, requestData]);
-
-  // Refresh data every 5 blocks
-  const queryKeys = useMemo(() => [queryKey], [queryKey]);
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  
-  useEffect(() => {
-    if (!blockNumber || blockNumber % 5n !== 0n) return;
-    queryKeys.forEach((k) => {
-      if (k) queryClient.invalidateQueries({ queryKey: k });
-    });
-  }, [blockNumber, queryClient, queryKeys]);
-
-  return (
-    <AlertDialog>
-      <Tooltip>
-        <TooltipTrigger asChild className="absolute -inset-y-1 inset-x-0">
-          <AlertDialogTrigger asChild>
-            <Button
-              size="tiny"
-              variant="destructive"
-              className="flex h-full w-full items-center justify-center rounded-lg opacity-0 transition-opacity hover:bg-opacity-100 hover:opacity-100"
-            >
-              <i className="ri-close-fill text-xl"></i>
-            </Button>
-          </AlertDialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent className="font-semibold">Cancel withdrawal request</TooltipContent>
-      </Tooltip>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone and{" "}
-            <span className="font-semibold">you will loose your current position</span> in the
-            withdrawal queue.
-            <br />
-            <br />
-            By cancelling this request{" "}
-            <span className="font-semibold">
-              you will receive your{" "}
-              <Amount value={requestData ? requestData[1] : 0n} decimals={decimals} />{" "}
-              {lTokenSymbol}{" "}
-            </span>
-            tokens back to your wallet.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction customButton={true}>
-            <TxButton
-              variant="destructive"
-              size="small"
-              preparation={preparation}
-            >
-              Cancel this request
-            </TxButton>
-          </AlertDialogAction>
-          <AlertDialogCancel />
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
+const SUPPORTED_NETWORKS = {
+  42161: { 
+    name: 'Arbitrum', 
+    endpoint: process.env.NEXT_PUBLIC_ARBITRUM_SUBGRAPH_URL || '',
+    prefix: ''
+  },
+  59144: { 
+    name: 'Linea', 
+    endpoint: process.env.NEXT_PUBLIC_LINEA_SUBGRAPH_URL || '',
+    prefix: ''
+  },
+  195: { 
+    name: 'OKX X1 Testnet', 
+    endpoint: process.env.NEXT_PUBLIC_OKX_SUBGRAPH_URL || '',
+    prefix: ''
+  },
 };
 
-export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ className }) => {
-  const account = useAccount();
-  const [sorting, setSorting] = useState<SortingState>([
-    {
-      id: "timestamp",
-      desc: true,
-    },
-  ]);
-  const columnHelper = createColumnHelper<Activity>();
+export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card>> = ({ className }) => {
+  const { address, chainId } = useAccount();
+  const [sorting, setSorting] = useState<SortingState>([{ id: "timestamp", desc: true }]);
   const [activityData, setActivityData] = useState<Activity[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const computeActivityData = useCallback(async () => {
-    if (isLoading) return;
-    
-    setIsLoading(true);
+  const columnHelper = createColumnHelper<Activity>();
+
+  const getNetworkConfig = (chainId?: number) => {
+    if (!chainId) return null;
+    return SUPPORTED_NETWORKS[chainId as keyof typeof SUPPORTED_NETWORKS];
+  };
+
+  const querySubgraph = async (endpoint: string, query: string) => {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+  };
+
+  const fetchActivityData = async () => {
+    if (!address) {
+      setError("Please connect your wallet");
+      setIsLoading(false);
+      return;
+    }
+
+    const network = getNetworkConfig(chainId);
+    if (!network) {
+      setError("Please connect to a supported network");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!network.endpoint) {
+      setError(`Subgraph endpoint not configured for ${network.name}`);
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      if (account && account.address) {
-        const result = await execute(
-          `
-          {
-            c${account.chainId}_activities(where: { account: "${account.address}" }) {
-              id
-              requestId
-              ltoken {
-                symbol
-                decimals
-              }
-              timestamp
-              action
-              amount
-              amountAfterFees
-              status
+      const healthQuery = `
+        {
+          _meta {
+            block {
+              number
             }
           }
-          `,
-          {},
-        );
-        
-        // @ts-ignore
-        setActivityData(result.data[`c${account.chainId}_activities`]);
+        }
+      `;
+
+      await querySubgraph(network.endpoint, healthQuery);
+
+      const query = `
+        {
+          activities(
+            where: { account: "${address.toLowerCase()}" }
+            orderBy: timestamp
+            orderDirection: desc
+            first: 1000
+          ) {
+            id
+            requestId
+            ltoken {
+              symbol
+              decimals
+            }
+            timestamp
+            action
+            amount
+            amountAfterFees
+            status
+          }
+        }
+      `;
+
+      const result = await querySubgraph(network.endpoint, query);
+
+      if (result.errors) {
+        throw new Error(result.errors[0].message);
       }
-    } catch (e) {
-      console.error('Failed to fetch activity data:', e);
+
+      const activities = result.data?.activities;
+      
+      if (Array.isArray(activities) && activities.length > 0) {
+        const enrichedActivities = activities.map(activity => ({
+          ...activity,
+          chainId,
+        }));
+        setActivityData(enrichedActivities);
+        setError(null);
+      } else {
+        setActivityData([]);
+        setError(`No activity found for your account on ${network.name}`);
+      }
+    } catch (err) {
+      setError(`Failed to load activity data: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setActivityData([]);
     } finally {
       setIsLoading(false);
     }
-  }, [account?.address, account?.chainId, isLoading]);
+  };
 
   useEffect(() => {
-    computeActivityData();
-  }, [computeActivityData]);
+    fetchActivityData();
+  }, [address, chainId]);
 
-  const activityColumns = useMemo(() => [
+  const columns = [
     columnHelper.accessor("timestamp", {
       header: "Date",
       cell: (info) => (
         <DateTime
-          timestamp={Number.parseInt(info.getValue()) * 1000}
+          timestamp={Number(info.getValue()) * 1000}
           output="date"
           className="cursor-help text-fg/50"
         />
@@ -210,31 +183,29 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Action",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("ltoken", {
+    columnHelper.accessor("ltoken.symbol", {
       header: "L-Token",
-      cell: (info) => info.getValue().symbol,
+      cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => {
-        const amount = info.getValue() as string;
-        const amountAfterFees = activityData[info.row.index].amountAfterFees as string;
-        const ltoken = info.row.getValue("ltoken") as LToken;
+        const row = info.row.original;
         return (
           <Amount
-            value={BigInt(amount)}
-            decimals={ltoken.decimals}
-            suffix={ltoken.symbol}
+            value={BigInt(row.amount)}
+            decimals={row.ltoken.decimals}
+            suffix={row.ltoken.symbol}
             displaySymbol={false}
             tooltipChildren={
-              amount !== amountAfterFees && (
+              row.amount !== row.amountAfterFees && (
                 <span>
-                  <span className="font-medium opacity-80">Received after fees: </span>
+                  <span className="font-medium opacity-80">After fees: </span>
                   <Amount
                     tooltip={false}
-                    value={BigInt(amountAfterFees)}
-                    decimals={ltoken.decimals}
-                    suffix={ltoken.symbol}
+                    value={BigInt(row.amountAfterFees)}
+                    decimals={row.ltoken.decimals}
+                    suffix={row.ltoken.symbol}
                   />
                 </span>
               )
@@ -247,162 +218,153 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Status",
       cell: (info) => {
         const status = info.getValue();
-        const ltoken = info.row.getValue("ltoken") as LToken;
-        const requestId = activityData[info.row.index].requestId;
-        const amount = info.row.getValue("amount") as string;
         return (
-          <div className="relative flex items-center gap-1.5 [&:hover_>_button]:opacity-100">
+          <div className="flex items-center gap-1.5">
             <div
               className={clsx(
-                "block aspect-square h-3 w-3 rounded-full border-2",
+                "block h-3 w-3 rounded-full border-2",
                 ["Fulfilled", "Success"].includes(status) && "border-emerald-500 bg-emerald-200",
                 status === "Queued" && "border-amber-500 bg-amber-200",
-                status === "Cancelled" && "border-red-500 bg-red-200",
+                status === "Cancelled" && "border-red-500 bg-red-200"
               )}
             />
-            <div
+            <span
               className={clsx(
-                "flex items-center justify-center gap-2 font-semibold",
+                "font-semibold",
                 ["Fulfilled", "Success"].includes(status) && "text-emerald-500",
                 status === "Queued" && "text-amber-500",
-                status === "Cancelled" && "text-red-500",
+                status === "Cancelled" && "text-red-500"
               )}
             >
-              <p>{status}</p>
-            </div>
-            {status === "Queued" && (
-              <CancelButton
-                lTokenSymbol={ltoken.symbol}
-                requestId={BigInt(requestId)}
-                amount={BigInt(amount)}
-              />
-            )}
+              {status}
+            </span>
           </div>
         );
       },
     }),
-  ], [activityData, columnHelper]);
-
-  const sortableColumns = ["timestamp", "action", "amount", "ltoken", "status"];
+  ];
 
   const table = useReactTable({
     data: activityData,
-    columns: activityColumns,
-    state: {
-      sorting,
-    },
+    columns,
+    state: { sorting },
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  // Set page size
   useEffect(() => {
-    if (table) {
-      table.setPageSize(10);
-    }
-  }, [table]);
+    table.setPageSize(10);
+  }, []);
 
-  const headerGroup = table.getHeaderGroups()[0];
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center p-8">
+        <Spinner />
+        <span className="ml-3">Loading activities...</span>
+      </div>
+    );
+  }
+
+  const network = getNetworkConfig(chainId);
 
   return (
-    <div className="w-full flex-col">
-      <div
-        className={twMerge(
-          "grid w-full grid-cols-[repeat(5,minmax(0,200px))] border-b border-b-fg/20",
-          className,
-        )}
-      >
-        {headerGroup.headers.map((header, index) => {
-          const content = flexRender(header.column.columnDef.header, header.getContext());
-          return (
-            <div
-              key={header.column.id}
-              style={{
-                gridColumnStart: index + 1,
-              }}
-              className="inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50"
-            >
-              {(sortableColumns.includes(header.column.id) && (
-                <button
-                  onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
-                  className="flex items-center gap-1"
-                >
-                  {content}
-                  <span>
-                    {(() => {
-                      switch (header.column.getIsSorted()) {
-                        case "asc":
-                          return <i className="ri-sort-desc" />;
-                        case "desc":
-                          return <i className="ri-sort-asc" />;
-                        default:
-                          return <i className="ri-expand-up-down-fill" />;
-                      }
-                    })()}
-                  </span>
-                </button>
-              )) ||
-                content}
-            </div>
-          );
-        })}
-        {(() => {
-          const tableRows = table.getRowModel().rows;
+    <div className={className}>
+      <div className="mb-4 text-center text-sm">
+        <div className="text-fg/60">
+          {network ? `Connected to ${network.name}` : 'Unsupported Network'}
+        </div>
+        <div className="text-xs text-fg/40 mt-1">
+          {address && `${address.slice(0, 6)}...${address.slice(-4)}`}
+        </div>
+      </div>
 
-          if (isLoading)
-            return (
-              <div className="my-10 flex col-span-5 w-full items-center justify-center">
-                <Spinner />
-              </div>
-            );
-          else if (tableRows.length === 0)
-            return (
-              <p className="my-10 col-span-5 w-full block text-center text-lg font-semibold text-fg/60">
-                No activity yet.
-              </p>
-            );
-          else {
-            return tableRows.map((row, rowIndex) =>
-              row.getVisibleCells().map((cell, cellIndex) => (
-                <div
-                  key={cell.id}
-                  style={{
-                    gridColumnStart: cellIndex + 1,
-                  }}
-                  className={clsx(
-                    "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
-                    rowIndex === tableRows.length - 1 && "border-b-0",
-                  )}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </div>
-              )),
-            );
-          }
-        })()}
-      </div>
-      <div className="flex justify-center items-center gap-3 py-4">
-        <Button
-          size="tiny"
-          variant="outline"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <i className="ri-arrow-left-line" />
-          &nbsp; Newer
-        </Button>
-        <Button
-          size="tiny"
-          variant="outline"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Older&nbsp;
-          <i className="ri-arrow-right-line" />
-        </Button>
-      </div>
+      {error ? (
+        <div className="text-center p-8">
+          <div className="text-fg/60 font-semibold mb-2">
+            {error}
+          </div>
+          <div className="text-fg/40 text-sm">
+            Supported networks: {Object.values(SUPPORTED_NETWORKS).map(n => n.name).join(', ')}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className="p-3 text-left bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50"
+                      >
+                        {header.column.getCanSort() ? (
+                          <button
+                            className="flex items-center gap-1"
+                            onClick={() => header.column.toggleSorting()}
+                          >
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                            <span>
+                              {header.column.getIsSorted() === "asc" ? (
+                                <i className="ri-sort-desc" />
+                              ) : header.column.getIsSorted() === "desc" ? (
+                                <i className="ri-sort-asc" />
+                              ) : (
+                                <i className="ri-expand-up-down-fill" />
+                              )}
+                            </span>
+                          </button>
+                        ) : (
+                          flexRender(header.column.columnDef.header, header.getContext())
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="p-3 border-b border-b-fg/20 font-medium text-fg/90"
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-center items-center gap-3 py-4">
+            <Button
+              size="tiny"
+              variant="outline"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <i className="ri-arrow-left-line" />
+              &nbsp; Newer
+            </Button>
+            <Button
+              size="tiny"
+              variant="outline"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Older&nbsp;
+              <i className="ri-arrow-right-line" />
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
+
+export default AppDashboardActivity;
