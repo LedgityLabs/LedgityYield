@@ -953,7 +953,7 @@ export const iTransfersListenerAbi = [
 /**
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -1118,7 +1118,7 @@ export const ldyAbi = [
 /**
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -1126,7 +1126,7 @@ export const ldyAbi = [
 export const ldyAddress = {
   195: '0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b',
   196: '0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b',
-  8453: '0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005',
+  8453: '0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13',
   84532: '0x8584BCd220A048104e654F842C56E33d37d6aEe3',
   421614: '0xB5C69197e5D6A52c776384479B529D2d76f9e2De',
   11155111: '0xD57baAf94696F178804fBFB2345c977C40F20266',
@@ -1135,7 +1135,7 @@ export const ldyAddress = {
 /**
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5308,7 +5308,7 @@ export const useSimulateITransfersListenerOnLTokenTransfer =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5323,7 +5323,7 @@ export const useReadLdy = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5339,7 +5339,7 @@ export const useReadLdyAllowance = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5355,7 +5355,7 @@ export const useReadLdyBalanceOf = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5371,7 +5371,7 @@ export const useReadLdyDecimals = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5387,7 +5387,7 @@ export const useReadLdyName = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5403,7 +5403,7 @@ export const useReadLdySymbol = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5419,7 +5419,7 @@ export const useReadLdyTotalSupply = /*#__PURE__*/ createUseReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5434,7 +5434,7 @@ export const useWriteLdy = /*#__PURE__*/ createUseWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5450,7 +5450,7 @@ export const useWriteLdyApprove = /*#__PURE__*/ createUseWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5466,7 +5466,7 @@ export const useWriteLdyBurn = /*#__PURE__*/ createUseWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5482,7 +5482,7 @@ export const useWriteLdyBurnFrom = /*#__PURE__*/ createUseWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5499,7 +5499,7 @@ export const useWriteLdyDecreaseAllowance =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5516,7 +5516,7 @@ export const useWriteLdyIncreaseAllowance =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5532,7 +5532,7 @@ export const useWriteLdyTransfer = /*#__PURE__*/ createUseWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5548,7 +5548,7 @@ export const useWriteLdyTransferFrom = /*#__PURE__*/ createUseWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5563,7 +5563,7 @@ export const useSimulateLdy = /*#__PURE__*/ createUseSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5579,7 +5579,7 @@ export const useSimulateLdyApprove = /*#__PURE__*/ createUseSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5595,7 +5595,7 @@ export const useSimulateLdyBurn = /*#__PURE__*/ createUseSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5611,7 +5611,7 @@ export const useSimulateLdyBurnFrom = /*#__PURE__*/ createUseSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5628,7 +5628,7 @@ export const useSimulateLdyDecreaseAllowance =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5645,7 +5645,7 @@ export const useSimulateLdyIncreaseAllowance =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5661,7 +5661,7 @@ export const useSimulateLdyTransfer = /*#__PURE__*/ createUseSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5678,7 +5678,7 @@ export const useSimulateLdyTransferFrom =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5693,7 +5693,7 @@ export const useWatchLdyEvent = /*#__PURE__*/ createUseWatchContractEvent({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -5710,7 +5710,7 @@ export const useWatchLdyApprovalEvent =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11589,7 +11589,7 @@ export const simulateITransfersListenerOnLTokenTransfer =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11604,7 +11604,7 @@ export const readLdy = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11620,7 +11620,7 @@ export const readLdyAllowance = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11636,7 +11636,7 @@ export const readLdyBalanceOf = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11652,7 +11652,7 @@ export const readLdyDecimals = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11668,7 +11668,7 @@ export const readLdyName = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11684,7 +11684,7 @@ export const readLdySymbol = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11700,7 +11700,7 @@ export const readLdyTotalSupply = /*#__PURE__*/ createReadContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11715,7 +11715,7 @@ export const writeLdy = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11731,7 +11731,7 @@ export const writeLdyApprove = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11747,7 +11747,7 @@ export const writeLdyBurn = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11763,7 +11763,7 @@ export const writeLdyBurnFrom = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11779,7 +11779,7 @@ export const writeLdyDecreaseAllowance = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11795,7 +11795,7 @@ export const writeLdyIncreaseAllowance = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11811,7 +11811,7 @@ export const writeLdyTransfer = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11827,7 +11827,7 @@ export const writeLdyTransferFrom = /*#__PURE__*/ createWriteContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11842,7 +11842,7 @@ export const simulateLdy = /*#__PURE__*/ createSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11858,7 +11858,7 @@ export const simulateLdyApprove = /*#__PURE__*/ createSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11874,7 +11874,7 @@ export const simulateLdyBurn = /*#__PURE__*/ createSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11890,7 +11890,7 @@ export const simulateLdyBurnFrom = /*#__PURE__*/ createSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11907,7 +11907,7 @@ export const simulateLdyDecreaseAllowance =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11924,7 +11924,7 @@ export const simulateLdyIncreaseAllowance =
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11940,7 +11940,7 @@ export const simulateLdyTransfer = /*#__PURE__*/ createSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11956,7 +11956,7 @@ export const simulateLdyTransferFrom = /*#__PURE__*/ createSimulateContract({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11971,7 +11971,7 @@ export const watchLdyEvent = /*#__PURE__*/ createWatchContractEvent({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
@@ -11987,7 +11987,7 @@ export const watchLdyApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
  *
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x7fFeeB884D0e0Aa6Ef1c39e20045433e03649005)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Arbitrum Sepolia Arbiscan__](https://sepolia.arbiscan.io/address/0xB5C69197e5D6A52c776384479B529D2d76f9e2De)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
