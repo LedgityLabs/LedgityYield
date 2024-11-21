@@ -43,11 +43,17 @@ const SUPPORTED_NETWORKS = {
     name: 'Linea', 
     endpoint: process.env.NEXT_PUBLIC_LINEA_SUBGRAPH_URL || '',
     prefix: ''
+  },
+  8453: {  // Base Mainnet Chain ID
+    name: 'Base',
+    endpoint: process.env.NEXT_PUBLIC_BASE_SUBGRAPH_URL || '',
+    prefix: ''
   }
   //ADD MORE NETWORKS HERE
 };
 
 export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card>> = ({ className }) => {
+
   const { address, chainId } = useAccount();
   const [sorting, setSorting] = useState<SortingState>([{ id: "timestamp", desc: true }]);
   const [activityData, setActivityData] = useState<Activity[]>([]);

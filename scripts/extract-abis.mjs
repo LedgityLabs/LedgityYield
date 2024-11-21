@@ -1,26 +1,20 @@
-/** TheGraph YAML file requires ABI to be available as top level files (not nested in
- * deployments.json), this script extracts ABIs from hardhat artifacts folder into
- * individual files under contracts/abis/ folder.
- */
-
+// extract-abis.mjs
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-// For cross-platform compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const sourceDirectory = path.join(__dirname, "../contracts/hardhat/artifacts/contracts/src");
 const destinationDirectory = path.join(__dirname, "../contracts/abis");
 
-// Ensure 'contracts/abis/' directory exists or create it.
 if (!fs.existsSync(destinationDirectory)) {
   fs.mkdirSync(destinationDirectory, { recursive: true });
 }
 
-const extractABIsFromDirectory = async (directory: string) => {
+const extractABIsFromDirectory = async (directory) => {
   const files = fs.readdirSync(directory);
 
   for (const file of files) {
@@ -28,14 +22,14 @@ const extractABIsFromDirectory = async (directory: string) => {
     const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      extractABIsFromDirectory(filePath);
+      await extractABIsFromDirectory(filePath);
     } else if (filePath.endsWith(".json") && !filePath.endsWith(".dbg.json")) {
-      const contractData = await import(filePath, { assert: { type: "json" } });
+      const contractData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
       const contractName = path.basename(filePath, ".json");
-      if (contractData.default.abi && contractData.default.abi.length > 0) {
+      if (contractData.abi && contractData.abi.length > 0) {
         fs.writeFileSync(
           path.join(destinationDirectory, `${contractName}.json`),
-          JSON.stringify(contractData.default.abi, null, 2),
+          JSON.stringify(contractData.abi, null, 2),
         );
       } else {
         console.log(`No ABI found for ${contractName}`);
@@ -44,7 +38,12 @@ const extractABIsFromDirectory = async (directory: string) => {
   }
 };
 
-await extractABIsFromDirectory(sourceDirectory);
-console.log("ABIs extracted successfully!");
-
-
+(async () => {
+  try {
+    await extractABIsFromDirectory(sourceDirectory);
+    console.log("ABIs extracted successfully!");
+  } catch (error) {
+    console.error("Error extracting ABIs:", error);
+    process.exit(1);
+  }
+})();

@@ -6,7 +6,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   const chainId = await getChainId();
 
   // Retrieve LDY contract
-  const ldyToken = await deployments.get("LDY");
+  // const ldyToken = await deployments.get("LDY");
 
   // Retrieve global contracts
   const globalOwner = await deployments.get("GlobalOwner");
@@ -37,7 +37,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
             globalOwner.address,
             globalPause.address,
             globalBlacklist.address,
-            ldyToken.address,
+            "0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13",
             stakingDurations,
             stakeDurationForPerks,
             stakeAmountForPerks,

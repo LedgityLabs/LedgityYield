@@ -180,7 +180,7 @@ const config: HardhatUserConfig = {
     },
     base: {
       chainId: 8453,
-      url: "https://base-mainnet.g.alchemy.com/v2/XH9V8IOVLgFCIP-EAflB27MR0Bc5oVoO",
+      url: "https://base-mainnet.g.alchemy.com/v2/Ui4vv-Z6n-6lAyB9spGYJL1pV3MDNnTh",
       accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       saveDeployments: true,
       verify: {

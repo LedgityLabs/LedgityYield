@@ -76,20 +76,17 @@ const prodChains: readonly [Chain, ...Chain[]] = [
   mainnet,
   arbitrum,
   linea,
-  xlayerMainnet,
+  base,
+  // xlayerMainnet,
   // baseSepolia,
   // arbitrumSepolia,
 ];
 const devChains: readonly [Chain, ...Chain[]] = [
-  // ...prodChains,
+  ...prodChains,
   sepolia,
   hardhat,
-  // xlayerTestnet,
-  // xlayerMainnet,
   lineaTestnet,
   baseSepolia,
   arbitrumSepolia,
-  arbitrum,
-  linea,
 ];
 export const chains: readonly [Chain, ...Chain[]] = chainsEnv === "prod" ? prodChains : devChains;
