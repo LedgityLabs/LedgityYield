@@ -12,4 +12,4 @@ The protocol currently offers **7% APR** to USDC holders, on Linea and Arbitrum 
 
 You can browse our high-level public documentation at [https://docs.ledgity.finance](https://docs.ledgity.finance).
 
-If you are interested in the technical documentaton of this codebase, please contact [@LilaRest](https://t.me/LilaRest) on Telegram or drop us an email at [contact@ledgity.com](mailto:contact@ledgity.com).
+If you are interested in the technical documentation of this codebase, please contact [@LilaRest](https://t.me/LilaRest) on Telegram or drop us an email at [contact@ledgity.com](mailto:contact@ledgity.com).
