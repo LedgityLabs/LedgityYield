@@ -161,7 +161,14 @@ const HomePartners: FC = () => {
             <Image src={coingeckoLogo} alt="Coingecko Logo" height={50} />
           </Link>
         </li>
+        <li>
+          <a href="https://chain.link/badge"> <img src="https://chain.link/badge-cross-chain-white" alt="CCIP secured with chainlink" /></a>
+        </li>
+        <li>
+          <a href="https://chain.link/badge"> <img src="https://chain.link/badge-proof-of-reserve-black" alt="proof of reserve secured with chainlink" /></a>
+        </li>
       </ul>
+
     </section>
   );
 };

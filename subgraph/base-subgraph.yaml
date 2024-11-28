@@ -8,9 +8,9 @@ dataSources:
     name: LTokenSignaler
     network: base
     source:
-      address: "0x4552442Ee79ba69542bAA7D48Af1DF1a16Dd9dED"
+      address: "0xAA8832592c9eB1bca5EEf934db3724967143D664"
       abi: LTokenSignaler
-      startBlock: 9269469
+      startBlock: 22692827
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -26,27 +26,7 @@ dataSources:
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
-  # - kind: ethereum/contract
-  #   name: PreMining
-  #   network: base-sepolia
-  #   source:
-  #     address: "0x9d7AEDefE90B880c5a9Bed4FcBd3faD0ea5AA06c"
-  #     abi: PreMining
-  #     startBlock: 132839783
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.7
-  #     language: wasm/assemblyscript
-  #     file: ./mapping.ts
-  #     entities:
-  #       - PreMining
-  #     abis:
-  #       - name: PreMining
-  #         file: ../contracts/abis/PreMining.json
-  #     eventHandlers:
-  #       - event: Lock(indexed address,uint256,uint8)
-  #         handler: handlePreMiningLock
-  - kind: ethereum
+  - kind: ethereum/contract
     name: LDYStaking
     network: base
     source:

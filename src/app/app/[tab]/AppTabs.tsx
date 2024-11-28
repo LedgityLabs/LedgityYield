@@ -23,7 +23,7 @@ interface Props {
 
 const InnerAppTabs: FC = () => {
   const { currentTab, switchTab } = useSwitchAppTab();
-  
+
   return (
     <Tabs
       value={currentTab}
@@ -58,7 +58,7 @@ const InnerAppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
-        <TabsTrigger value="LiFi">Swap</TabsTrigger>
+        <TabsTrigger value="swap">Swap</TabsTrigger>
         <TabsTrigger value="bridge">Bridge</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
@@ -81,7 +81,7 @@ const InnerAppTabs: FC = () => {
           <TabsContent value="affiliate">
             <AppAffiliate />
           </TabsContent>
-          <TabsContent value="LiFi">
+          <TabsContent value="swap">
             <WidgetPage />
           </TabsContent>
           <TabsContent value="bridge">

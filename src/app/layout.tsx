@@ -61,10 +61,10 @@ export const metadata = {
     title: `${name} | Stable Yield For Stablecoins`,
     description: description,
   },
-  manifest: "https://ledgity.finance/manifest.json",
-  verification: {
-    google: "Gy_ommY7mtAUwTSdS8bNsHmmMeeKSmPAy8H5lEhX738",
-  },
+  // manifest: "https://ledgity.finance/manifest.json",
+  // verification: {
+  //   google: "Gy_ommY7mtAUwTSdS8bNsHmmMeeKSmPAy8H5lEhX738",
+  // },
 };
 
 interface Props {
