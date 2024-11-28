@@ -8,6 +8,8 @@ export const env = createEnv({
     IPINFO_TOKEN: z.string().optional(),
     SCORECHAIN_API_KEY: z.string().optional(),
     AML_ALERT_WEBHOOK: z.string().url().optional(),
+    SENDER_PRIVATE_KEY: z.string().required(),
+    RPC_URL: z.string().required(),
   },
   client: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),

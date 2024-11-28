@@ -100,7 +100,7 @@ const config: HardhatUserConfig = {
       // See: https://github.com/NomicFoundation/hardhat/issues/3089#issuecomment-1366428941
       chainId: 31337,
       initialBaseFeePerGas: 0,
-      deploy: ["./contracts/hardhat/mainnet-deploy"],
+      deploy: ["./contracts/hardhat/deploy"],
       saveDeployments: true,
     },
     mainnet: {
@@ -228,6 +228,12 @@ const config: HardhatUserConfig = {
         },
       },
     },
+    iexec_sidechain: {
+      chainId: 134,
+      url: "https://bellecour.iex.ec",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+      saveDeployments: true,
+    }
   },
   etherscan: {
     apiKey: {

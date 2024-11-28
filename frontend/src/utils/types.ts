@@ -41,3 +41,7 @@ export interface Stake {
   amount: string;
   epochNumber: number;
 }
+
+export type Address = `0x${string}`;
+
+export type AddressOrEnsName = Address | string;

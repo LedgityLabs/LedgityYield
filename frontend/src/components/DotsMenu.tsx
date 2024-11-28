@@ -8,7 +8,7 @@ import { NetworkStatus } from "./app/NetworkStatus";
 import packageJSON from "../../package.json";
 import { usePathname } from "next/navigation";
 
-interface Props extends React.HTMLAttributes<HTMLButtonElement> {}
+interface Props extends React.HTMLAttributes<HTMLButtonElement> { }
 
 export const DotsMenu: FC<Props> = ({ className }) => {
   const pathname = usePathname();
@@ -161,6 +161,16 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                   className="inline-block h-8 w-8"
                 >
                   <i className="ri-mail-fill inline-block text-3xl transition-[transform,fill] hover:scale-105 hover:opacity-80"></i>
+                </Link>
+              </li>
+              <li className="flex items-center justify-center">
+                <Link href="/app/mail" className="relative mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-500 absolute -top-1 -right-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                 </Link>
               </li>
             </ul>
