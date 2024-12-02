@@ -34,13 +34,13 @@ interface Activity {
 }
 
 const SUPPORTED_NETWORKS = {
-  42161: { 
-    name: 'Arbitrum', 
+  42161: {
+    name: 'Arbitrum',
     endpoint: process.env.NEXT_PUBLIC_ARBITRUM_SUBGRAPH_URL || '',
     prefix: ''
   },
-  59144: { 
-    name: 'Linea', 
+  59144: {
+    name: 'Linea',
     endpoint: process.env.NEXT_PUBLIC_LINEA_SUBGRAPH_URL || '',
     prefix: ''
   },
@@ -104,62 +104,101 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
     }
 
     try {
+      console.log('Network:', network.name);
+      console.log('Endpoint:', network.endpoint);
+      console.log('Connected address:', address);
+
+      // Health check
       const healthQuery = `
-        {
-          _meta {
-            block {
-              number
-            }
+      {
+        _meta {
+          block {
+            number
           }
+          deployment
+          hasIndexingErrors
         }
-      `;
+      }
+    `;
 
-      await querySubgraph(network.endpoint, healthQuery);
+      const healthResult = await querySubgraph(network.endpoint, healthQuery);
+      console.log('Health check result:', healthResult);
 
+      if (!healthResult.data?._meta?.block) {
+        throw new Error('Subgraph health check failed');
+      }
+
+      console.log(`Subgraph is at block ${healthResult.data._meta.block.number}`);
+
+      // Test query to check if subgraph has any data
+      const testQuery = `
+      {
+        activities(first: 5) {
+          id
+        }
+      }
+    `;
+
+      const testResult = await querySubgraph(network.endpoint, testQuery);
+      console.log('Test query result:', testResult);
+
+      // Main activity query
       const query = `
-        {
-          activities(
-            where: { account: "${address.toLowerCase()}" }
-            orderBy: timestamp
-            orderDirection: desc
-            first: 1000
-          ) {
-            id
-            requestId
-            ltoken {
-              symbol
-              decimals
-            }
-            timestamp
-            action
-            amount
-            amountAfterFees
-            status
+      {
+        activities(
+          where: { account: "${address.toLowerCase()}" }
+          orderBy: timestamp
+          orderDirection: desc
+          first: 1000
+        ) {
+          id
+          requestId
+          ltoken {
+            symbol
+            decimals
           }
+          timestamp
+          action
+          amount
+          amountAfterFees
+          status
         }
-      `;
+      }
+    `;
 
       const result = await querySubgraph(network.endpoint, query);
+      console.log('Main query result:', result);
 
       if (result.errors) {
+        console.error('Subgraph query errors:', result.errors);
         throw new Error(result.errors[0].message);
       }
 
       const activities = result.data?.activities;
-      
-      if (Array.isArray(activities) && activities.length > 0) {
-        const enrichedActivities = activities.map(activity => ({
-          ...activity,
-          chainId,
-        }));
-        setActivityData(enrichedActivities);
-        setError(null);
+
+      if (Array.isArray(activities)) {
+        if (activities.length > 0) {
+          const enrichedActivities = activities.map(activity => ({
+            ...activity,
+            chainId,
+          }));
+          console.log('Processed activities:', enrichedActivities);
+          setActivityData(enrichedActivities);
+          setError(null);
+        } else {
+          console.log('No activities found for address:', address);
+          setActivityData([]);
+          setError(`No activity found for your account on ${network.name}`);
+        }
       } else {
-        setActivityData([]);
-        setError(`No activity found for your account on ${network.name}`);
+        console.error('Invalid activities data structure:', activities);
+        throw new Error('Invalid response structure from subgraph');
       }
     } catch (err) {
-      setError(`Failed to load activity data: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      console.error('Error in fetchActivityData:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Detailed error:', errorMessage);
+      setError(`Failed to load activity data: ${errorMessage}`);
       setActivityData([]);
     } finally {
       setIsLoading(false);

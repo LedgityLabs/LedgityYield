@@ -1,0 +1,7 @@
+{
+  "Network": "base",
+  "LTokenSignaler_Address": "0x9f4c18C13001E5578399B7B3ECd40E581d99cD79",
+  "LTokenSignaler_StartBlock": "12320814",
+  "LDYStaking_Address": "0xc7fA0B277623a286F969bceA7Aff5c93b1e2D7Fb",
+  "LDYStaking_StartBlock": "14153547"
+}

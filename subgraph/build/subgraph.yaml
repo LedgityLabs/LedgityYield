@@ -1,3 +1,5 @@
+description: A subgraph of Ledgity Yield data
+repository: https://github.com/LedgityLabs/LedgityYield
 specVersion: 1.0.0
 indexerHints:
   prune: auto
@@ -6,11 +8,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: arbitrum-one
+    network: base
     source:
-      address: "0x627Ff3485a2e34916a6E1c0D0b350A422F5d89D1"
+      address: "0xAA8832592c9eB1bca5EEf934db3724967143D664"
       abi: LTokenSignaler
-      startBlock: 239382294
+      startBlock: 22692835
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -26,13 +28,13 @@ dataSources:
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
-  - kind: ethereum
+  - kind: ethereum/contract
     name: LDYStaking
-    network: arbitrum-one
+    network: base
     source:
-      address: "0x98002b5c06b44c8769dA3DAe97CA498aB6F97137"
+      address: "0xc7fA0B277623a286F969bceA7Aff5c93b1e2D7Fb"
       abi: LDYStaking
-      startBlock: 218746026
+      startBlock: 22692819
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -58,7 +60,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: arbitrum-one
+    network: base
     source:
       abi: LToken
     mapping:

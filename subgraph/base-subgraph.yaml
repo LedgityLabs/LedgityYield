@@ -1,3 +1,5 @@
+description: A subgraph of Ledgity Yield data
+repository: https://github.com/LedgityLabs/LedgityYield
 specVersion: 1.0.0
 indexerHints:
   prune: auto
@@ -10,7 +12,7 @@ dataSources:
     source:
       address: "0xAA8832592c9eB1bca5EEf934db3724967143D664"
       abi: LTokenSignaler
-      startBlock: 22692827
+      startBlock: 22692835
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -32,7 +34,7 @@ dataSources:
     source:
       address: "0xc7fA0B277623a286F969bceA7Aff5c93b1e2D7Fb"
       abi: LDYStaking
-      startBlock: 9269451
+      startBlock: 22692819
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
