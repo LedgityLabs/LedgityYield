@@ -1,0 +1,86 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: LTokenSignaler
+    network: base
+    source:
+      address: "0xAA8832592c9eB1bca5EEf934db3724967143D664"
+      abi: LTokenSignaler
+      startBlock: 22692827
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LToken
+      abis:
+        - name: LTokenSignaler
+          file: ../contracts/abis/LTokenSignaler.json
+        - name: LToken
+          file: ../contracts/abis/LToken.json
+      eventHandlers:
+        - event: LTokenSignalEvent(indexed address)
+          handler: handleSignaledLToken
+  - kind: ethereum/contract
+    name: LDYStaking
+    network: base
+    source:
+      address: "0xc7fA0B277623a286F969bceA7Aff5c93b1e2D7Fb"
+      abi: LDYStaking
+      startBlock: 9269451
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Staked
+        - Unstaked
+        - RewardPaid
+        - NotifiedRewardAmount
+      abis:
+        - name: LDYStaking
+          file: ../contracts/abis/LDYStaking.json
+      eventHandlers:
+        - event: Staked(indexed address,uint256,uint256)
+          handler: handleStaked
+        - event: Unstaked(indexed address,uint256,uint256)
+          handler: handleUnstaked
+        - event: RewardPaid(indexed address,uint256,uint256)
+          handler: handleRewardPaid
+        - event: NotifiedRewardAmount(uint256,uint256)
+          handler: handleNotifiedRewardAmount
+      file: ./mapping.ts
+templates:
+  - kind: ethereum/contract
+    name: LToken
+    network: base
+    source:
+      abi: LToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./mapping.ts
+      entities:
+        - LToken
+        - TVLChange
+        - APRChange
+        - Activity
+        - RewardsMint
+      abis:
+        - name: LToken
+          file: ../contracts/abis/LToken.json
+      eventHandlers:
+        - event: TVLChangeEvent(uint256)
+          handler: handleTVLChangeEvent
+        - event: APRChangeEvent(uint16)
+          handler: handleAPRChangeEvent
+        - event: ActivityEvent(indexed int256,indexed address,indexed uint8,address,uint256,uint256,uint8,int256,string)
+          handler: handleActivityEvent
+        - event: MintedRewardsEvent(indexed address,uint256,uint256)
+          handler: handleMintedRewardsEvent

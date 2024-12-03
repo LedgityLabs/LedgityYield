@@ -1,3 +1,89 @@
+## [2.1.5](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.4...v2.1.5) (2024-10-07)
+
+
+### Fixes
+
+* **txbutton simulation:** remade and updated the correct txButton with type for all files ([a8d3fc5](https://github.com/LedgityLabs/LedgityYield/commit/a8d3fc53046e892a041dda9b263f36c54b11e18f))
+
+## [2.1.4](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.3...v2.1.4) (2024-10-07)
+
+
+### Fixes
+
+* **deploy:** issue with type for txButton ([bba242e](https://github.com/LedgityLabs/LedgityYield/commit/bba242e0cdbccb7b80e2d3c62ac5c40606bab89f))
+
+## [2.1.3](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.2...v2.1.3) (2024-10-07)
+
+
+### Fixes
+
+* **simulate txbutton:** fixed the txButton type problem ([00274d9](https://github.com/LedgityLabs/LedgityYield/commit/00274d995b0736ba8b474f4dedacc6d5068d6034))
+
+
+### Others
+
+* **clean of the app:** cleaning the app for better readability, accessibility and performance ([9e64cd9](https://github.com/LedgityLabs/LedgityYield/commit/9e64cd9ab55c57d4c15820f55fb7794e5d094422))
+
+## [2.1.2](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.1...v2.1.2) (2024-09-13)
+
+
+### Fixes
+
+* **eth-vault subgraph data:** data is correctly fetched, calculated and displayed from subgraph ([e1fd1dd](https://github.com/LedgityLabs/LedgityYield/commit/e1fd1ddd06721efeb59c6d9cf9fd295892af04d6))
+
+## [2.1.1](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.0...v2.1.1) (2024-09-12)
+
+
+### Fixes
+
+* **ethvault working:** working version of ethVault with contract and subgraph correct data fetching ([9020c43](https://github.com/LedgityLabs/LedgityYield/commit/9020c4326fb7a19f8d90d0bd48c7cedd2aae0b0f))
+
+## [2.1.0](https://github.com/LedgityLabs/LedgityYield/compare/v2.0.0...v2.1.0) (2024-09-10)
+
+
+### Features
+
+* **refresh rate:** rerender and refresh rate is now lower and more healthy ([21f1e1c](https://github.com/LedgityLabs/LedgityYield/commit/21f1e1c0a7f98f7c881cc837a90e6baada6be4ba))
+* **xswap widget:** from modal to widget ([b2df702](https://github.com/LedgityLabs/LedgityYield/commit/b2df7022528921f85ee3acb9e6776bc88db2ca96))
+
+
+### Fixes
+
+* **remove legacy modal:** removed xswap legacy modal ([6e6d6bc](https://github.com/LedgityLabs/LedgityYield/commit/6e6d6bc7d48281e31efd385f0eccfc5689489b4c))
+
+
+### Others
+
+* **claim format:** claim rewards format to 3 decimals ([9c747c9](https://github.com/LedgityLabs/LedgityYield/commit/9c747c9acbac2408f5b182259b9843ada9295d0c))
+* **modals and errors:** restyled modals and improved error messages ([0677a59](https://github.com/LedgityLabs/LedgityYield/commit/0677a59678b07a9653e715611783c796b22a0aef))
+* **sepolia:** added sepolia to available networks for testing ([6222352](https://github.com/LedgityLabs/LedgityYield/commit/6222352bf5cd9215d299381ee76d53282984d333))
+* **yarn configs:** added yarn configs ([716b3d8](https://github.com/LedgityLabs/LedgityYield/commit/716b3d8d599f9c5dfdfab1b970f17ee16048f6cf))
+
+## [2.0.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.1...v2.0.0) (2024-09-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **changed to yarn:** yarn package manager
+
+### Others
+
+* **changed to yarn:** modified the package manager from npm to yarn ([fba6f47](https://github.com/LedgityLabs/LedgityYield/commit/fba6f4756b299b43fe3b9552096a64be5f28be20))
+
+## [1.275.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.275.0...v1.275.1) (2024-09-05)
+
+
+### Fixes
+
+* **dependencies:** fixing dependencies problems ([0a98a95](https://github.com/LedgityLabs/LedgityYield/commit/0a98a950a718858d4b25b7a2634f84418cc47c18))
+
+## [1.275.0](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.1...v1.275.0) (2024-09-05)
+
+
+### Features
+
+* **eth vault:** ethereum staking vault ([c8bd62b](https://github.com/LedgityLabs/LedgityYield/commit/c8bd62bfe7561490104fae07e43867b84c890bbc))
+
 ## [1.274.1](https://github.com/LedgityLabs/LedgityYield/compare/v1.274.0...v1.274.1) (2024-08-09)
 
 

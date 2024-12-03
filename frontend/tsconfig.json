@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom.iterable", "ESNext", "DOM"],
+    "allowJs": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*","../*"],
+      "~/*": ["./public/*"],
+      "@root/*": ["../*"],
+      "graphclient": ["../.graphclient/"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalResolver": true,
+    "experimentalSpecifierResolution": "node",
+    "files": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/env.mjs",
+    "../hardhat.config.cjs",
+    "../scripts/**/*.mts",
+    "../.graphclient/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
