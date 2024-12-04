@@ -8,7 +8,7 @@ import {
   TokenLogo,
   Button,
 } from "@/components/ui";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
@@ -33,14 +33,23 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
   const { data: decimals } = useReadLTokenDecimals({ address: address! });
   const underlyingSymbol = lTokenSymbol.slice(1);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  // Memoize queryKeys array
+  const queryKeys = useMemo(() => 
+    [queryKey].filter(Boolean),
+    [queryKey]
+  );
+
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+
+  // Refresh data every 5 blocks
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n && queryClient) {
+      queryKeys.forEach(k => {
+        if (k) queryClient.invalidateQueries({ queryKey: k });
+      });
+    }
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <li className="flex w-full gap-4 items-center justify-between" {...props}>
@@ -85,16 +94,19 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
     </li>
   );
 };
+
 export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ className }) => {
   const lTokens = useAvailableLTokens();
 
-  if (lTokens.length == 0) return <p>No balances on this chain.</p>;
-  else
-    return (
-      <ul className="flex h-full w-full flex-col gap-7">
-        {lTokens.map((lToken) => (
-          <LTokenBalance key={lToken} lTokenSymbol={lToken} />
-        ))}
-      </ul>
-    );
+  if (lTokens.length === 0) return <p>No balances on this chain.</p>;
+
+  return (
+    <ul className="flex h-full w-full flex-col gap-7">
+      {lTokens.map((lToken) => (
+        <LTokenBalance key={lToken} lTokenSymbol={lToken} />
+      ))}
+    </ul>
+  );
 };
+
+export default AppDashboardBalances;

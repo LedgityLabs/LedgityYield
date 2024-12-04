@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState, useMemo } from "react";
 import {
   Amount,
   AmountInput,
@@ -60,7 +60,6 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
       args: [],
     });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
-
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
   
@@ -90,13 +89,22 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
   });
   const requestWithdrawalPreparation = castPreparation(requestWithdrawalResult);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey, queryForWithdrawalFeeInEth];
+  // Memoize queryKeys array
+  const queryKeys = useMemo(() => 
+    [queryKey, queryForWithdrawalFeeInEth].filter(Boolean),
+    [queryKey, queryForWithdrawalFeeInEth]
+  );
+
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+
+  // Refresh data every 5 blocks
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
+    if (blockNumber && blockNumber % 5n === 0n && queryClient) {
+      queryKeys.forEach(k => {
+        if (k) queryClient.invalidateQueries({ queryKey: k });
+      });
+    }
   }, [blockNumber, queryClient, queryKeys]);
 
   // Fetch restriction status
@@ -164,7 +172,6 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       <br />
                       Note that you won&apos;t receive yield anymore.
                     </div>
-                    {/* If instant withdrawal is not possible actually, display info message */}
                     {instantWithdrawalPreparation.isError && (
                       <div className="flex items-stretch justify-stretch gap-2 rounded-2xl bg-fg/[7%] p-4 text-fg/80">
                         <div className="flex items-center justify-center border-r border-r-fg/20 pr-4">
@@ -187,7 +194,6 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       symbol={`L${underlyingSymbol}`}
                       onChange={handleAmountChange}
                     />
-                    {/* If instant withdrawal is possible */}
                     {(!instantWithdrawalPreparation.isError && (
                       <TxButton
                         size="medium"

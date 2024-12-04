@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FC, useRef, useState, useEffect } from "react";
+import { ChangeEvent, FC, useRef, useState, useEffect, useMemo } from "react";
 import {
   AmountInput,
   Dialog,
@@ -94,22 +94,29 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
 
   // Error handling
   useEffect(() => {
-    if (preparation.error) {
+    if (preparation?.error) {
       console.error("Deposit simulation error:", preparation.error);
       setError("Failed to simulate deposit. Please try again.");
     } else {
       setError(null);
     }
-  }, [preparation.error]);
+  }, [preparation?.error]);
 
-  // Refresh data every 5 blocks
-  const queryKeys = [balanceQueryKey, allowanceQueryKey];
+  // Memoize queryKeys array
+  const queryKeys = useMemo(() => 
+    [balanceQueryKey, allowanceQueryKey].filter(Boolean),
+    [balanceQueryKey, allowanceQueryKey]
+  );
+
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
   
+  // Refresh data every 5 blocks
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n) {
-      queryKeys.forEach((k) => k && queryClient.invalidateQueries({ queryKey: k }));
+    if (blockNumber && blockNumber % 5n === 0n && queryClient) {
+      queryKeys.forEach(k => {
+        if (k) queryClient.invalidateQueries({ queryKey: k });
+      });
     }
   }, [blockNumber, queryClient, queryKeys]);
 

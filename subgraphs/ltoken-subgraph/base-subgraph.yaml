@@ -20,9 +20,9 @@ dataSources:
         - LToken
       abis:
         - name: LTokenSignaler
-          file: ../contracts/abis/LTokenSignaler.json
+          file: ../../contracts/abis/LTokenSignaler.json
         - name: LToken
-          file: ../contracts/abis/LToken.json
+          file: ../../contracts/abis/LToken.json
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
@@ -44,7 +44,7 @@ dataSources:
         - NotifiedRewardAmount
       abis:
         - name: LDYStaking
-          file: ../contracts/abis/LDYStaking.json
+          file: ../../contracts/abis/LDYStaking.json
       eventHandlers:
         - event: Staked(indexed address,uint256,uint256)
           handler: handleStaked
@@ -55,12 +55,14 @@ dataSources:
         - event: NotifiedRewardAmount(uint256,uint256)
           handler: handleNotifiedRewardAmount
       file: ./mapping.ts
-templates:
+
   - kind: ethereum/contract
     name: LToken
     network: base
     source:
+      address: "0x9f4c18C13001E5578399B7B3ECd40E581d99cD79"
       abi: LToken
+      startBlock: 22692827
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -74,7 +76,7 @@ templates:
         - RewardsMint
       abis:
         - name: LToken
-          file: ../contracts/abis/LToken.json
+          file: ../../contracts/abis/LToken.json
       eventHandlers:
         - event: TVLChangeEvent(uint256)
           handler: handleTVLChangeEvent

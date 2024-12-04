@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useCallback, useMemo } from "react";
 import {
   Card,
   DateTime,
@@ -44,16 +44,14 @@ const SUPPORTED_NETWORKS = {
     endpoint: process.env.NEXT_PUBLIC_LINEA_SUBGRAPH_URL || '',
     prefix: ''
   },
-  8453: {  // Base Mainnet Chain ID
+  8453: {
     name: 'Base',
     endpoint: process.env.NEXT_PUBLIC_BASE_SUBGRAPH_URL || '',
     prefix: ''
   }
-  //ADD MORE NETWORKS HERE
 };
 
 export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card>> = ({ className }) => {
-
   const { address, chainId } = useAccount();
   const [sorting, setSorting] = useState<SortingState>([{ id: "timestamp", desc: true }]);
   const [activityData, setActivityData] = useState<Activity[]>([]);
@@ -62,17 +60,15 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
 
   const columnHelper = createColumnHelper<Activity>();
 
-  const getNetworkConfig = (chainId?: number) => {
+  const getNetworkConfig = useCallback((chainId?: number) => {
     if (!chainId) return null;
     return SUPPORTED_NETWORKS[chainId as keyof typeof SUPPORTED_NETWORKS];
-  };
+  }, []);
 
-  const querySubgraph = async (endpoint: string, query: string) => {
+  const querySubgraph = useCallback(async (endpoint: string, query: string) => {
     const response = await fetch(endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query }),
     });
 
@@ -81,9 +77,9 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
     }
 
     return response.json();
-  };
+  }, []);
 
-  const fetchActivityData = async () => {
+  const fetchActivityData = useCallback(async () => {
     if (!address) {
       setError("Please connect your wallet");
       setIsLoading(false);
@@ -104,73 +100,50 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
     }
 
     try {
-      console.log('Network:', network.name);
-      console.log('Endpoint:', network.endpoint);
-      console.log('Connected address:', address);
-
-      // Health check
       const healthQuery = `
-      {
-        _meta {
-          block {
-            number
+        {
+          _meta {
+            block {
+              number
+            }
+            deployment
+            hasIndexingErrors
           }
-          deployment
-          hasIndexingErrors
         }
-      }
-    `;
+      `;
 
       const healthResult = await querySubgraph(network.endpoint, healthQuery);
-      console.log('Health check result:', healthResult);
 
       if (!healthResult.data?._meta?.block) {
         throw new Error('Subgraph health check failed');
       }
 
-      console.log(`Subgraph is at block ${healthResult.data._meta.block.number}`);
-
-      // Test query to check if subgraph has any data
-      const testQuery = `
-      {
-        activities(first: 5) {
-          id
-        }
-      }
-    `;
-
-      const testResult = await querySubgraph(network.endpoint, testQuery);
-      console.log('Test query result:', testResult);
-
-      // Main activity query
       const query = `
-      {
-        activities(
-          where: { account: "${address.toLowerCase()}" }
-          orderBy: timestamp
-          orderDirection: desc
-          first: 1000
-        ) {
-          id
-          requestId
-          ltoken {
-            symbol
-            decimals
+        {
+          activities(
+            where: { account: "${address.toLowerCase()}" }
+            orderBy: timestamp
+            orderDirection: desc
+            first: 1000
+          ) {
+            id
+            requestId
+            ltoken {
+              symbol
+              decimals
+            }
+            timestamp
+            action
+            amount
+            amountAfterFees
+            status
           }
-          timestamp
-          action
-          amount
-          amountAfterFees
-          status
         }
-      }
-    `;
+      `;
 
       const result = await querySubgraph(network.endpoint, query);
-      console.log('Main query result:', result);
 
       if (result.errors) {
-        console.error('Subgraph query errors:', result.errors);
         throw new Error(result.errors[0].message);
       }
 
@@ -182,34 +155,29 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
             ...activity,
             chainId,
           }));
-          console.log('Processed activities:', enrichedActivities);
           setActivityData(enrichedActivities);
           setError(null);
         } else {
-          console.log('No activities found for address:', address);
           setActivityData([]);
           setError(`No activity found for your account on ${network.name}`);
         }
       } else {
-        console.error('Invalid activities data structure:', activities);
         throw new Error('Invalid response structure from subgraph');
       }
     } catch (err) {
-      console.error('Error in fetchActivityData:', err);
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      console.error('Detailed error:', errorMessage);
       setError(`Failed to load activity data: ${errorMessage}`);
       setActivityData([]);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [address, chainId, getNetworkConfig, querySubgraph]);
 
   useEffect(() => {
     fetchActivityData();
-  }, [address, chainId]);
+  }, [fetchActivityData]);
 
-  const columns = [
+  const columns = useMemo(() => [
     columnHelper.accessor("timestamp", {
       header: "Date",
       cell: (info) => (
@@ -283,7 +251,7 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
         );
       },
     }),
-  ];
+  ], [columnHelper]);
 
   const table = useReactTable({
     data: activityData,
@@ -296,8 +264,12 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
   });
 
   useEffect(() => {
-    table.setPageSize(10);
-  }, []);
+    if (table) {
+      table.setPageSize(10);
+    }
+  }, [table]);
+
+  const currentNetwork = useMemo(() => getNetworkConfig(chainId), [chainId, getNetworkConfig]);
 
   if (isLoading) {
     return (
@@ -308,13 +280,11 @@ export const AppDashboardActivity: FC<React.ComponentPropsWithoutRef<typeof Card
     );
   }
 
-  const network = getNetworkConfig(chainId);
-
   return (
     <div className={className}>
       <div className="mb-4 text-center text-sm">
         <div className="text-fg/60">
-          {network ? `Connected to ${network.name}` : 'Unsupported Network'}
+          {currentNetwork ? `Connected to ${currentNetwork.name}` : 'Unsupported Network'}
         </div>
         <div className="text-xs text-fg/40 mt-1">
           {address && `${address.slice(0, 6)}...${address.slice(-4)}`}

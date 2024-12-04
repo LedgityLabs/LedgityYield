@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+"use client";
+import { FC, useEffect, useMemo } from "react";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { useReadLTokenBalanceOf } from "@/generated";
 import { WithdrawDialog } from "../WithdrawDialog";
@@ -22,17 +23,26 @@ export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
   const decimals = 6;
   const underlyingSymbol = "USDC";
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  // Memoize queryKeys array
+  const queryKeys = useMemo(() => 
+    queryKey ? [queryKey] : [],
+    [queryKey]
+  );
+
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+
+  // Refresh data every 5 blocks
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n && queryClient && queryKeys.length > 0) {
+      queryKeys.forEach(k => {
+        if (k) queryClient.invalidateQueries({ queryKey: k });
+      });
+    }
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-5" {...props}>
       <div className="flex justify-center items-center gap-2 -mt-1">
         <Tooltip>
           <TooltipTrigger>
@@ -63,14 +73,23 @@ export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
 
       <div className="text-[1.92rem] text-fg font-heading font-bold -none inline-flex items-center justify-center align-bottom gap-2">
         <Amount
-          value={balance!}
+          value={balance ?? 0n}
           decimals={decimals}
           className="text-[1.92rem] text-fg font-heading font-bold"
           suffix="LUSDC"
           displaySymbol={false}
-        />{" "}
-        <Image src={lusdcIcon} alt="LUSDC icon" width={20} className="w-7 h-7 -mt-1" />
+        />
+        <Image 
+          src={lusdcIcon} 
+          alt="LUSDC icon" 
+          width={20} 
+          height={20} 
+          className="w-7 h-7 -mt-1"
+          priority
+        />
       </div>
     </div>
   );
 };
+
+export default AppDashboardLUSDCBalance;

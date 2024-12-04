@@ -15,7 +15,7 @@ import {
   SearchAffiliateActivityParams,
   SearchAffiliateActivityResponse,
 } from "@/services/api/searchAffiliateActivity";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useCallback, useState } from "react";
 import {
   SortingState,
   createColumnHelper,
@@ -121,7 +121,7 @@ export const AdminDashboard: FC = () => {
     }
   };
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     const searchParams: SearchAffiliateActivityParams = {
       searchYear,
       searchQuarter,
@@ -133,7 +133,7 @@ export const AdminDashboard: FC = () => {
     const result = await searchAffiliateActivity(searchParams);
     setSearchResult(result);
     setIsLoading(false);
-  };
+  }, [searchYear, searchQuarter, walletAddress, affiliateCode]);
 
   const columnHelper = createColumnHelper<AffiliateActivityResponse>();
   const requestsColumns = [
@@ -171,22 +171,28 @@ export const AdminDashboard: FC = () => {
   // Get only header group
   const headerGroup = table.getHeaderGroups()[0];
 
-  // Set page size
   useEffect(() => {
-    table.setPageSize(10);
-    const currentTimeStamp = new Date().getTime() / 1000;
-    if (authTokenInfo.token && authTokenInfo.exp && Number(authTokenInfo.exp) > currentTimeStamp) {
-      setIsSignedIn(true);
-    }
-    getLastCommissionPercent().then((res) => {
-      setCommissionPercent(res);
-    });
-  }, []);
+    const initializeDashboard = async () => {
+      table.setPageSize(10);
+      const currentTimeStamp = new Date().getTime() / 1000;
+      
+      if (authTokenInfo.token && 
+          authTokenInfo.exp && 
+          Number(authTokenInfo.exp) > currentTimeStamp) {
+        setIsSignedIn(true);
+      }
+      
+      const lastCommission = await getLastCommissionPercent();
+      setCommissionPercent(lastCommission);
+    };
+
+    initializeDashboard();
+  }, [table, authTokenInfo.token, authTokenInfo.exp]);
 
   useEffect(() => {
     const { rows } = table.getRowModel();
     setTableRows(rows);
-  }, [searchResult]);
+  }, [table, searchResult]);
 
   return (
     <Card className="lg:w-[1080px] flex flex-col gap-5 w-full h-full p-10">
@@ -347,22 +353,20 @@ export const AdminDashboard: FC = () => {
           </p>
         )}
         {tableRows.map((row, rowIndex) =>
-          row.getVisibleCells().map((cell: any, cellIndex: number) => {
-            return (
-              <div
-                key={cell.id}
-                style={{
-                  gridColumnStart: cellIndex + 1,
-                }}
-                className={clsx(
-                  "inline-flex items-center justify-center border-b border-b-fg/20 py-3 text-[0.9rem] text-lg font-medium text-fg/90",
-                  rowIndex == tableRows.length - 1 && "border-b-0",
-                )}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </div>
-            );
-          }),
+          row.getVisibleCells().map((cell: any, cellIndex: number) => (
+            <div
+              key={cell.id}
+              style={{
+                gridColumnStart: cellIndex + 1,
+              }}
+              className={clsx(
+                "inline-flex items-center justify-center border-b border-b-fg/20 py-3 text-[0.9rem] text-lg font-medium text-fg/90",
+                rowIndex == tableRows.length - 1 && "border-b-0",
+              )}
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </div>
+          )),
         )}
       </div>
     </Card>

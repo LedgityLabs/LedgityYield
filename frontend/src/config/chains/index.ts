@@ -1,7 +1,5 @@
 import {
-  hardhat,
   arbitrum,
-  arbitrumGoerli,
   lineaTestnet,
   linea,
   base,
@@ -16,13 +14,10 @@ export enum ChainId {
   ETHEREUM_SEPOLIA = sepolia.id,
   ARBITRUM_ONE = arbitrum.id,
   ARBITRUM_SEPOLIA = arbitrumSepolia.id,
-  ARBITRUM_GOERLI = arbitrumGoerli.id,
   LINEA = linea.id,
   LINEA_GOERLI = lineaTestnet.id,
   BASE = base.id,
   BASE_SEPOLIA = baseSepolia.id,
-  XLAYER_TESTNET = Number(195),
-  XLAYER = Number(196),
 }
 
 export const SUBGRAPH_CLIENT_URLS = {
@@ -30,9 +25,12 @@ export const SUBGRAPH_CLIENT_URLS = {
     "https://api.studio.thegraph.com/query/60646/ldystaking-subgraph/version/latest",
   [ChainId.ETHEREUM_SEPOLIA]:
     "https://api.studio.thegraph.com/query/60646/ledgity-sepolia/version/latest",
-  [ChainId.XLAYER]: "https://api.studio.thegraph.com/query/60646/ledgity-okxmain/version/latest",
   [ChainId.ETHEREUM]:
     "https://api.studio.thegraph.com/query/60646/ledgity-eth-mainnet/version/latest",
   [ChainId.ARBITRUM_ONE]:
     "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-arbi-main/api",
+  [ChainId.BASE]:
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-base/api",
+  [ChainId.LINEA]:
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-linea/api"
 } satisfies Record<ChainId, string>;

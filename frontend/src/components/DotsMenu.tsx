@@ -1,6 +1,6 @@
 "use client";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useCallback, useState } from "react";
 import { Button, Card } from "./ui";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
@@ -16,29 +16,29 @@ export const DotsMenu: FC<Props> = ({ className }) => {
   const [isAdminVisible, setIsAdminVisible] = useState(false);
   const isAppOrAdmin = pathname.startsWith("/app") || pathname.startsWith("/admin");
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (!isAdminVisible) {
       if (event.key === "Control" || event.key === "Meta") {
-        const newPressCount = adminKeyPressCount + 1;
-        if (newPressCount < 10) setAdminKeyPressCount(newPressCount);
-        else {
-          setAdminKeyPressCount(0);
+        setAdminKeyPressCount(prev => {
+          const newPressCount = prev + 1;
+          if (newPressCount < 10) return newPressCount;
+          
           setIsAdminVisible(true);
           setTimeout(() => {
             setIsAdminVisible(false);
           }, 3000);
-        }
+          return 0;
+        });
       }
     }
-  };
+  }, [isAdminVisible]);
 
-  // Listen to keydown events and increment the counter
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isAdminVisible, adminKeyPressCount]);
+  }, [handleKeyDown]);
 
   return (
     <Popover>
@@ -68,20 +68,6 @@ export const DotsMenu: FC<Props> = ({ className }) => {
                 <i className="ri-external-link-fill" />
               </Link>
             </li>
-            {/* <li>
-              <Link
-                href="/"
-                className="opacity-40 inline-flex items-center justify-center cursor-not-allowed"
-                aria-disabled
-              >
-                Documentation&nbsp;
-                <i className="ri-external-link-fill" />
-                <span className="inline-block bg-fg/80 text-bg ml-3 px-2 py-0.5 rounded-full text-xs">
-                  coming soon
-                </span>
-              </Link>
-            </li> */}
-
             <li>
               <Link
                 href="https://discord.gg/ledgityyield"

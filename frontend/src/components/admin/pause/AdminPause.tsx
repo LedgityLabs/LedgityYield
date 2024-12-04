@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 import {
@@ -14,19 +14,29 @@ export const AdminPause: FC = () => {
   const { data: paused, queryKey } = useReadGlobalPausePaused({});
   const pausePreparation = useSimulateGlobalPausePause();
   const unpausePreparation = useSimulateGlobalPauseUnpause();
-  useEffect(() => {
-    pausePreparation.refetch();
-    unpausePreparation.refetch();
-  }, [paused]);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  // Handle refetch when pause state changes
+  useEffect(() => {
+    if (pausePreparation && unpausePreparation) {
+      pausePreparation.refetch();
+      unpausePreparation.refetch();
+    }
+  }, [paused, pausePreparation, unpausePreparation]);
+
+  // Memoize queryKeys array
+  const queryKeys = useMemo(() => [queryKey], [queryKey]);
+
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+
+  // Handle block-based data refresh
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n && queryClient) {
+      queryKeys.forEach((k) => {
+        if (k) queryClient.invalidateQueries({ queryKey: k });
+      });
+    }
+  }, [blockNumber, queryClient, queryKeys]);
 
   return (
     <AdminMasonry className="!columns-1 w-[400px]">

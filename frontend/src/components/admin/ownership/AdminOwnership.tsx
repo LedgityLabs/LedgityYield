@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 import { AdminAddressSetter } from "../AdminAddressSetter";
@@ -12,14 +12,20 @@ export const AdminOwnership: FC = () => {
   const { data: pendingOwner, queryKey } = useReadGlobalOwnerPendingOwner({});
   const preparation = useSimulateGlobalOwnerAcceptOwnership();
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
+  // Memoize queryKeys array to prevent recreation on each render
+  const queryKeys = useMemo(() => [queryKey], [queryKey]);
+
   const { data: blockNumber } = useBlockNumber({ watch: true });
   const queryClient = useQueryClient();
+
   useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+    if (blockNumber && blockNumber % 5n === 0n && queryClient) {
+      queryKeys.forEach((k) => {
+        if (k) queryClient.invalidateQueries({ queryKey: k });
+      });
+    }
+  }, [blockNumber, queryClient, queryKeys]);
+
   return (
     <AdminMasonry className="!columns-2 w-[900px]">
       <AdminBrick title="Transfer global ownership">
