@@ -3,6 +3,11 @@
   "git": {
     "deploymentEnabled": {
       "main": false
-    }
+    },
+  "buildCommand": "yarn install --ignore-scripts && yarn build",
+  "installCommand": "yarn install --ignore-scripts",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
   }
+  
 }
