@@ -1,3 +1,32 @@
+## [2.2.0](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.6...v2.2.0) (2024-12-03)
+
+
+### Features
+
+* **base network:** added LUSDC, LDY staking on base and connected to front-end ([133a90c](https://github.com/LedgityLabs/LedgityYield/commit/133a90c7032782afaed55f8ca293e4aafde26956))
+* **disabled scorechain:** disabled scorechain temporarily ([45feb8a](https://github.com/LedgityLabs/LedgityYield/commit/45feb8a301758e54b8952c841f10a6d500cf30f3))
+
+
+### Fixes
+
+* **activity dashboard:** activity dashboard graph queries fixed for arbitrum ([0d15bd0](https://github.com/LedgityLabs/LedgityYield/commit/0d15bd063e96df8ed65b98d88877fc2ca79745f0))
+* **adminltoken fix:** adminLTokenAPR fix ([807f57f](https://github.com/LedgityLabs/LedgityYield/commit/807f57f477d370a7819671d0e9cba0ddf43a4e95))
+* **fixed ldy - verifications:** fixed LDY contract address & verified contracts on basescan ([b14ef1a](https://github.com/LedgityLabs/LedgityYield/commit/b14ef1a69ef7faa4df11f5eac5a277f5fb372661))
+* **fixing adminaddresssetter:** fixing the adminAddressSetter component with simulation issues ([0dab187](https://github.com/LedgityLabs/LedgityYield/commit/0dab1878c18c4568519ca7a831412bd9ee4a7ccc))
+* **fixing adminltokenapr:** fixing adminLTokenAPR types ([1a3f65c](https://github.com/LedgityLabs/LedgityYield/commit/1a3f65cf69f16a7fda514cf0c7bc59ae24fa3da8))
+* **fixing dependencies for thegraph:** fixing all missing or deprecated dependencies ([37f07d2](https://github.com/LedgityLabs/LedgityYield/commit/37f07d20ada015b6e988c9306badf203d84fe3c7))
+* **fixing graphql dependencies:** fixing the dependencies for theGraph ([611a99e](https://github.com/LedgityLabs/LedgityYield/commit/611a99e46e80c915bde3d164af3416f6158d9ffc))
+* **fixing the simulation and allowance:** fixing the simulation types error and the allowance button ([8605d7b](https://github.com/LedgityLabs/LedgityYield/commit/8605d7b7dc3c8369e3d93ffa301b28f7f7cb6316))
+* **naming:** renamed to fit components ([606bbcf](https://github.com/LedgityLabs/LedgityYield/commit/606bbcf0b06d6a0a6435076255464d0a66f2a846))
+* **new version of package.json:** new version without workspaces ([4a8c07e](https://github.com/LedgityLabs/LedgityYield/commit/4a8c07e1007efd60db122f381abcb8ba4427cf26))
+* **subgraphs:** fixed all subgraph calls ([5e5c59c](https://github.com/LedgityLabs/LedgityYield/commit/5e5c59cd676408f6e020a630c8c6215e18f5a8bb))
+* **xswap modal to widget:** moved from xswap deprecated modal to widget ([126bca6](https://github.com/LedgityLabs/LedgityYield/commit/126bca67312a97ab43baab6d7ce08bbff227d20a))
+
+
+### Others
+
+* **lifi widget addresse:** changed /app/lifi to /app/swap route ([38a7e58](https://github.com/LedgityLabs/LedgityYield/commit/38a7e5879380fb8b204a67e7c26b715562b384a8))
+
 ## [2.1.6](https://github.com/LedgityLabs/LedgityYield/compare/v2.1.5...v2.1.6) (2024-10-21)
 
 
