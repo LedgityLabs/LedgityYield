@@ -9,7 +9,10 @@ export async function POST(request: Request) {
 
   // If not session return error
   if (!session) {
-    return NextResponse.json({ success: false, error: "Twitter account not connected" });
+    return NextResponse.json({
+      success: false,
+      error: "Twitter account not connected",
+    });
   }
 
   // Retrieve body data
@@ -19,7 +22,10 @@ export async function POST(request: Request) {
 
   // Ensure the address is valid
   if (!walletAddress || !isAddress(walletAddress)) {
-    return NextResponse.json({ success: false, error: "Invalid wallet address" });
+    return NextResponse.json({
+      success: false,
+      error: "Invalid wallet address",
+    });
   }
 
   // Ensure this wallet is not already used
@@ -29,7 +35,10 @@ export async function POST(request: Request) {
     },
   });
   if (userExists) {
-    return NextResponse.json({ success: false, error: "Wallet address already used" });
+    return NextResponse.json({
+      success: false,
+      error: "Wallet address already used",
+    });
   }
 
   // Ensure there is a signature

@@ -1,5 +1,9 @@
 "use client";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import { FC, useEffect, useRef, useState } from "react";
 import { Button, Card } from "./ui";
 import { twMerge } from "tailwind-merge";
@@ -14,7 +18,8 @@ export const DotsMenu: FC<Props> = ({ className }) => {
   const pathname = usePathname();
   const [adminKeyPressCount, setAdminKeyPressCount] = useState(0);
   const [isAdminVisible, setIsAdminVisible] = useState(false);
-  const isAppOrAdmin = pathname.startsWith("/app") || pathname.startsWith("/admin");
+  const isAppOrAdmin =
+    pathname.startsWith("/app") || pathname.startsWith("/admin");
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (!isAdminVisible) {
@@ -44,7 +49,10 @@ export const DotsMenu: FC<Props> = ({ className }) => {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          className={twMerge("flex w-12 items-center justify-center font-bold", className)}
+          className={twMerge(
+            "flex w-12 items-center justify-center font-bold",
+            className,
+          )}
           variant="outline"
         >
           <i className="ri-more-2-fill text-2xl "></i>
@@ -54,7 +62,10 @@ export const DotsMenu: FC<Props> = ({ className }) => {
         <Card className="flex flex-col gap-14 sm:p-10 p-8 pb-8 drop-shadow-lg">
           <ul className="flex flex-col gap-3 text-lg font-semibold">
             <li className="sm:hidden">
-              <Link href="/app/invest" className="font-bold text-primary hover:opacity-80">
+              <Link
+                href="/app/invest"
+                className="font-bold text-primary hover:opacity-80"
+              >
                 Enter app
               </Link>
             </li>

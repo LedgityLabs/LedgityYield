@@ -27,11 +27,9 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>> = ({
-  className,
-  children,
-  ...props
-}) => (
+export const DialogContent: FC<
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+> = ({ className, children, ...props }) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
@@ -45,7 +43,10 @@ export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimi
         )}
       >
         <DialogPrimitive.Close
-          className={twMerge("absolute z-10 -right-2 -top-2", "max-sm:right-0 max-sm:top-0")}
+          className={twMerge(
+            "absolute z-10 -right-2 -top-2",
+            "max-sm:right-0 max-sm:top-0",
+          )}
         >
           <Card
             radius="full"
@@ -64,23 +65,37 @@ export const DialogContent: FC<React.ComponentPropsWithoutRef<typeof DialogPrimi
   </DialogPortal>
 );
 
-export const DialogHeader: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
-  <div className={twMerge("flex flex-col gap-6 text-center text-lg", className)} {...props} />
-);
-
-export const DialogFooter: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+export const DialogHeader: FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  className,
+  ...props
+}) => (
   <div
-    className={twMerge("flex flex-col justify-center items-center flex-wrap gap-6", className)}
+    className={twMerge("flex flex-col gap-6 text-center text-lg", className)}
     {...props}
   />
 );
 
-export const DialogTitle: FC<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>> = ({
+export const DialogFooter: FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => (
+  <div
+    className={twMerge(
+      "flex flex-col justify-center items-center flex-wrap gap-6",
+      className,
+    )}
+    {...props}
+  />
+);
+
+export const DialogTitle: FC<
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+> = ({ className, ...props }) => (
   <DialogPrimitive.Title
-    className={twMerge("text-2xl font-heading font-bold text-center text-fg/90", className)}
+    className={twMerge(
+      "text-2xl font-heading font-bold text-center text-fg/90",
+      className,
+    )}
     {...props}
   />
 );
@@ -89,7 +104,10 @@ export const DialogDescription: FC<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 > = ({ className, ...props }) => (
   <DialogPrimitive.Title
-    className={twMerge("flex flex-col items-center gap-4 text-center text-lg", className)}
+    className={twMerge(
+      "flex flex-col items-center gap-4 text-center text-lg",
+      className,
+    )}
     {...props}
   />
 );

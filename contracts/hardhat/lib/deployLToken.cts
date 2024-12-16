@@ -1,7 +1,10 @@
 import { type DeployFunction } from "hardhat-deploy/dist/types";
 import dependencies from "../../dependencies.json";
 
-export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => {
+export const deployLToken = (
+  lTokenSymbol: string,
+  underlyingSymbol: string,
+) => {
   return (async ({ getNamedAccounts, deployments, getChainId }) => {
     const { deployer } = await getNamedAccounts();
     const chainId = await getChainId();
@@ -34,11 +37,13 @@ export const deployLToken = (lTokenSymbol: string, underlyingSymbol: string) => 
         `${underlyingSymbol} address not available, ensure it is set in dependencies.json`,
       );
       // Check if the underlying token is set in dependencies.json
-      if (!Object.keys(dependencies).includes(underlyingSymbol)) throw missingAddressError;
+      if (!Object.keys(dependencies).includes(underlyingSymbol))
+        throw missingAddressError;
 
       // Check address of underlying token is available for the current chain in dependencies.json
       // @ts-ignore
-      if (!Object.keys(dependencies[underlyingSymbol]).includes(chainId)) throw missingAddressError;
+      if (!Object.keys(dependencies[underlyingSymbol]).includes(chainId))
+        throw missingAddressError;
 
       // Retrieve underlying token address from dependencies.json
       // @ts-ignore

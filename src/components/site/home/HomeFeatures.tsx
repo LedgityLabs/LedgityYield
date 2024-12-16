@@ -29,8 +29,8 @@ const HomeFeatures: FC = () => {
             }}
           ></div>
           <p className="absolute bottom-7 left-7 right-7 -mt-4 rounded-2xl bg-gradient-radial from-bg/50 to-transparent text-center text-[17px] font-medium text-fg/70">
-            Benefit from stability of an institutional set up and a protocol backed by Real World
-            Assets (RWA).
+            Benefit from stability of an institutional set up and a protocol
+            backed by Real World Assets (RWA).
           </p>
         </Card>
         <Card
@@ -51,8 +51,8 @@ const HomeFeatures: FC = () => {
             }}
           ></div>
           <p className="absolute bottom-7 left-7 right-7 -mt-4 rounded-2xl bg-gradient-radial from-bg/50 to-transparent text-center text-[17px] font-medium text-fg/70">
-            Our team of experts provide financial engineering to achieve the best risk-adjusted
-            return from RWA.
+            Our team of experts provide financial engineering to achieve the
+            best risk-adjusted return from RWA.
           </p>
         </Card>
         <Card
@@ -73,8 +73,8 @@ const HomeFeatures: FC = () => {
             }}
           ></div>
           <p className="absolute bottom-7 left-7 right-7 -mt-4 rounded-2xl bg-gradient-radial from-bg/50 to-transparent text-center text-[17px] font-medium text-fg/70">
-            The collateralized portoflio of RWA is allocated accross hundreds of yield
-            opportunities.
+            The collateralized portoflio of RWA is allocated accross hundreds of
+            yield opportunities.
           </p>
         </Card>
 
@@ -96,8 +96,8 @@ const HomeFeatures: FC = () => {
             }}
           ></div>
           <p className="absolute bottom-7 left-7 right-7 -mt-4 rounded-2xl bg-gradient-radial from-bg/50 to-transparent text-center text-[17px] font-medium text-fg/70">
-            The protocol aims to be available on most EVM chains to bring stable yield to every
-            stablecoin holders.
+            The protocol aims to be available on most EVM chains to bring stable
+            yield to every stablecoin holders.
           </p>
         </Card>
         <Card
@@ -118,7 +118,8 @@ const HomeFeatures: FC = () => {
             }}
           ></div>{" "}
           <p className="absolute bottom-7 left-7 right-7 -mt-4 rounded-2xl bg-gradient-radial from-bg/50 to-transparent text-center text-[17px] font-medium text-fg/70">
-            Our protocol does not implement any liquidation mechanism and fees at borrowing time.
+            Our protocol does not implement any liquidation mechanism and fees
+            at borrowing time.
           </p>
         </Card>
         <Card
@@ -139,14 +140,17 @@ const HomeFeatures: FC = () => {
             }}
           ></div>
           <p className="absolute bottom-7 left-7 right-7 -mt-4 rounded-2xl bg-gradient-radial from-bg/50 to-transparent text-center text-[17px] font-medium text-fg/70">
-            The app provides you with detailed charts and statistics about your investment and the
-            protocol itself.
+            The app provides you with detailed charts and statistics about your
+            investment and the protocol itself.
           </p>
         </Card>
       </div>
 
       <Link href="/app/invest">
-        <Button size="large" className="relative hidden sm:block mt-12 overflow-visible">
+        <Button
+          size="large"
+          className="relative hidden sm:block mt-12 overflow-visible"
+        >
           Browse available yields
           <span className="absolute px-1 py-1 text-[0.71rem] leading-none rounded-md text-bg -top-0.5 -right-0.5 bg-orange-700">
             Beta

@@ -15,17 +15,17 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = {
-    dashboard: "Dashboard",
-    invest: "Invest",
-    airdrop: "Multi-Airdrop",
+    "dashboard": "Dashboard",
+    "invest": "Invest",
+    "airdrop": "Multi-Airdrop",
     "get-usdc": "Get USDC",
     // "pre-mining": "Pre-Mining",
-    staking: "Staking",
-    affiliate: "Affiliate Program",
+    "staking": "Staking",
+    "affiliate": "Affiliate Program",
   }[params.tab];
 
   const description = {
-    airdrop:
+    "airdrop":
       "16% of 1-year $LDY supply and tokens from 5+ projects are airdropepd to our early community members. Complete tasks and check your eligibility.",
     "pre-mining":
       "Contribute in bootstraping initial protocol liquidity and receive very first $LDY tokens.",

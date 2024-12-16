@@ -36,7 +36,11 @@ export const ConnectButton = () => {
         value={chain?.id.toString()}
       >
         <SelectTrigger isLoading={isPending}>
-          {wrongNetwork ? placeholder : <SelectValue placeholder={placeholder} />}
+          {wrongNetwork ? (
+            placeholder
+          ) : (
+            <SelectValue placeholder={placeholder} />
+          )}
         </SelectTrigger>
         <SelectContent>
           {chains.map((_chain) => (
@@ -83,7 +87,11 @@ export const ConnectButton = () => {
           )) || <p>Wrong network</p>}
         </Button>
       )) || (
-        <Button disabled={wrongNetwork || isPending} size="large" onClick={openConnectModal}>
+        <Button
+          disabled={wrongNetwork || isPending}
+          size="large"
+          onClick={openConnectModal}
+        >
           Connect Wallet
         </Button>
       )}

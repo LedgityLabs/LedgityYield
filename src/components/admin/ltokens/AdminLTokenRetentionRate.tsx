@@ -1,6 +1,9 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useReadLTokenRetentionRateUd7x3, useSimulateLTokenSetRetentionRate } from "@/generated";
+import {
+  useReadLTokenRetentionRateUd7x3,
+  useSimulateLTokenSetRetentionRate,
+} from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { parseUnits } from "viem";
@@ -12,7 +15,10 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
 }
 
-export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol }) => {
+export const AdminLTokenRetentionRate: FC<Props> = ({
+  className,
+  lTokenSymbol,
+}) => {
   const underlyingTokenName = lTokenSymbol.slice(1);
   const lTokenAddress = useContractAddress(lTokenSymbol);
   const { data: retentionRate, queryKey } = useReadLTokenRetentionRateUd7x3({
@@ -37,8 +43,8 @@ export const AdminLTokenRetentionRate: FC<Props> = ({ className, lTokenSymbol })
   return (
     <AdminBrick title="Retention rate">
       <p>
-        This rate corresponds to the target and maximal amount of {underlyingTokenName} to retain on
-        the contract.
+        This rate corresponds to the target and maximal amount of{" "}
+        {underlyingTokenName} to retain on the contract.
       </p>
       <p>
         Current value: <Rate value={retentionRate} className="font-bold" />

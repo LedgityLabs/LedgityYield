@@ -25,7 +25,7 @@ dataSources:
           file: ../contracts/abis/LToken.json
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
-          handler: handleSignaledLToken   
+          handler: handleSignaledLToken
   - kind: ethereum
     name: LdyStaking
     network: base-sepolia

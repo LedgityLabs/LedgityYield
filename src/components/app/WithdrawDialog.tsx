@@ -20,7 +20,11 @@ import {
 import { formatUnits, parseEther, parseUnits, zeroAddress } from "viem";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { TxButton } from "../ui/TxButton";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { SimulateContractReturnType } from "@wagmi/core";
 import useRestricted from "@/hooks/useRestricted";
@@ -30,7 +34,11 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Dialog> {
   onOpenChange?: React.ComponentPropsWithoutRef<typeof Dialog>["onOpenChange"];
 }
 
-export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
+export const WithdrawDialog: FC<Props> = ({
+  children,
+  underlyingSymbol,
+  onOpenChange,
+}) => {
   const account = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
@@ -90,8 +98,12 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                 </span>
                 <span className="text-base">
                   This may be due to your location or on-chain activity. <br />
-                  If you think this is an error, please contact our support team at{" "}
-                  <a href="mailto:contact@ledgity.com" className="text-primary underline">
+                  If you think this is an error, please contact our support team
+                  at{" "}
+                  <a
+                    href="mailto:contact@ledgity.com"
+                    className="text-primary underline"
+                  >
                     contact@ledgity.com
                   </a>
                 </span>
@@ -117,8 +129,13 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                           <i className="ri-information-line text-2xl" />
                         </div>
                         <div className="pl-4 text-left">
-                          Your request will be <span className="font-semibold">queued</span> and
-                          auto-processed in <span className="font-semibold">1-2 working days</span>.
+                          Your request will be{" "}
+                          <span className="font-semibold">queued</span> and
+                          auto-processed in{" "}
+                          <span className="font-semibold">
+                            1-2 working days
+                          </span>
+                          .
                         </div>
                       </div>
                     )}
@@ -132,17 +149,22 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                       decimals={decimals}
                       symbol={`L${underlyingSymbol}`}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setWithdrawnAmount(parseUnits(e.target.value, decimals!));
+                        setWithdrawnAmount(
+                          parseUnits(e.target.value, decimals!),
+                        );
                         if (hasUserInteracted === true && e.target.value === "")
                           setHasUserInteracted(false);
-                        else if (hasUserInteracted === false) setHasUserInteracted(true);
+                        else if (hasUserInteracted === false)
+                          setHasUserInteracted(true);
                       }}
                     />
                     {/* If instant withdrawal is possible actually */}
                     {(!instantWithdrawalPreparation.isError && (
                       <TxButton
                         size="medium"
-                        preparation={instantWithdrawalPreparation as UseSimulateContractReturnType}
+                        preparation={
+                          instantWithdrawalPreparation as UseSimulateContractReturnType
+                        }
                         className="relative -top-[1.5px]"
                         disabled={withdrawnAmount === 0n}
                         hasUserInteracted={hasUserInteracted}
@@ -172,7 +194,9 @@ export const WithdrawDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCh
                     )) || (
                       <TxButton
                         size="medium"
-                        preparation={requestWithdrawalPreparation as UseSimulateContractReturnType}
+                        preparation={
+                          requestWithdrawalPreparation as UseSimulateContractReturnType
+                        }
                         className="relative -top-[1.5px]"
                         disabled={withdrawnAmount === 0n}
                         hasUserInteracted={hasUserInteracted}

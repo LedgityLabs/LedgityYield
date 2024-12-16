@@ -9,7 +9,12 @@ export interface CubeProps extends React.HTMLAttributes<HTMLDivElement> {
   size: CubeSize;
 }
 
-export const Cube: FC<CubeProps> = ({ className, children, size = "medium", ...props }) => {
+export const Cube: FC<CubeProps> = ({
+  className,
+  children,
+  size = "medium",
+  ...props
+}) => {
   // Randomly figure out if it's a reversed cube
   const reverse = Math.random() < 0.5;
 

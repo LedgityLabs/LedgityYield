@@ -14,14 +14,22 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   size: number;
 }
 
-export const WalletAvatar: FC<Props> = ({ className, address, size, ...props }) => {
+export const WalletAvatar: FC<Props> = ({
+  className,
+  address,
+  size,
+  ...props
+}) => {
   const { data: ensName } = useEnsName({ address: address, chainId: 1 });
   const { data: ensAvatar } = useEnsAvatar({
     name: ensName as string | undefined,
     chainId: 1,
   });
   return (
-    <div className={twMerge("overflow-hidden w-full h-full", className)} {...props}>
+    <div
+      className={twMerge("overflow-hidden w-full h-full", className)}
+      {...props}
+    >
       {ensAvatar ? (
         <Image
           className="h-full aspect-square w-auto"

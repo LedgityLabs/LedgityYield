@@ -96,7 +96,10 @@ export const AllowanceTxButton: FC<Props> = ({
   return (
     <div>
       <TxButton
-        className={twMerge(!hasEnoughAllowance && "pointer-events-none hidden", className)}
+        className={twMerge(
+          !hasEnoughAllowance && "pointer-events-none hidden",
+          className,
+        )}
         hideTooltips={!hasEnoughAllowance}
         hasUserInteracted={hasUserInteracted}
         preparation={preparation}
@@ -108,7 +111,10 @@ export const AllowanceTxButton: FC<Props> = ({
         {...props}
       />
       <TxButton
-        className={twMerge(hasEnoughAllowance && "pointer-events-none hidden", className)}
+        className={twMerge(
+          hasEnoughAllowance && "pointer-events-none hidden",
+          className,
+        )}
         hideTooltips={hasEnoughAllowance}
         preparation={allowancePreparation as UseSimulateContractReturnType}
         disabled={(amount === 0n && !allowZeroAmount) || disabled}

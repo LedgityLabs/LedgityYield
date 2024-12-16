@@ -14,9 +14,9 @@ const availableChains = [42161, 59144];
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppInvestTVL: FC<Props> = (props) => {
-  const [readsConfig, setReadsConfig] = useState<Parameters<typeof readContracts>[1]["contracts"]>(
-    [],
-  );
+  const [readsConfig, setReadsConfig] = useState<
+    Parameters<typeof readContracts>[1]["contracts"]
+  >([]);
   const [tvlUsd, setTvlUsd] = useState(0n);
   const lTokens = useAvailableLTokens();
   const [isLoading, setIsLoading] = useState(false);
@@ -84,8 +84,8 @@ export const AppInvestTVL: FC<Props> = (props) => {
               if (!lTokenTotalSupply || !lTokenDecimals) continue;
 
               // Retrieve underlying token USD rate
-              const usdRate = await getTokenUSDRate(underlyingSymbol).then((rate) =>
-                rate.toString(),
+              const usdRate = await getTokenUSDRate(underlyingSymbol).then(
+                (rate) => rate.toString(),
               );
 
               newTvlUsd +=
@@ -93,7 +93,8 @@ export const AppInvestTVL: FC<Props> = (props) => {
                 parseUnits("1", lTokenDecimals);
             }
 
-            if (tvlUsd.toString() !== newTvlUsd.toString()) setTvlUsd(newTvlUsd);
+            if (tvlUsd.toString() !== newTvlUsd.toString())
+              setTvlUsd(newTvlUsd);
           }
           setIsLoading(false);
         },
@@ -104,7 +105,8 @@ export const AppInvestTVL: FC<Props> = (props) => {
   return (
     <div {...props}>
       {/* {(isLoading && <Spinner />) || <Amount prefix="$" value={tvlUsd} decimals={6} />} */}
-      {(isLoading && <Spinner />) || "$" + Number(formatUnits(tvlUsd, 6)).toLocaleString()}
+      {(isLoading && <Spinner />) ||
+        "$" + Number(formatUnits(tvlUsd, 6)).toLocaleString()}
     </div>
   );
 };

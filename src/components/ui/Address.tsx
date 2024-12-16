@@ -63,7 +63,9 @@ export const Address: FC<Props> = ({
           formattedAddress
         ) : (
           <Tooltip>
-            <TooltipTrigger className="cursor-help">{formattedAddress}</TooltipTrigger>
+            <TooltipTrigger className="cursor-help">
+              {formattedAddress}
+            </TooltipTrigger>
             <TooltipContent>{address}</TooltipContent>
           </Tooltip>
         )}

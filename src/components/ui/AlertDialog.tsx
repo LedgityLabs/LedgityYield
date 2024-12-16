@@ -21,7 +21,7 @@ const AlertDialogOverlay = React.forwardRef<
     ref={ref}
     className={twMerge(
       "fixed inset-0 z-[10000] bg-fg/50 backdrop-blur-md data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut",
-      className
+      className,
     )}
     {...props}
   />
@@ -40,7 +40,7 @@ export const AlertDialogContent: FC<
       <Card
         className={twMerge(
           "grid w-[calc(100%-2rem)] max-w-lg  gap-6 p-8 pointer-events-auto",
-          className
+          className,
         )}
         {...props}
       >
@@ -50,21 +50,35 @@ export const AlertDialogContent: FC<
   </AlertDialogPortal>
 );
 
-export const AlertDialogHeader: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
-  <div className={twMerge("flex flex-col gap-4 text-center sm:text-left", className)} {...props} />
-);
-
-export const AlertDialogFooter: FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
+export const AlertDialogHeader: FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  className,
+  ...props
+}) => (
   <div
-    className={twMerge("flex sm:justify-end justify-center items-center flex-wrap gap-4", className)}
+    className={twMerge(
+      "flex flex-col gap-4 text-center sm:text-left",
+      className,
+    )}
     {...props}
   />
 );
 
-export const AlertDialogTitle: FC<React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>> = ({
+export const AlertDialogFooter: FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => (
+  <div
+    className={twMerge(
+      "flex sm:justify-end justify-center items-center flex-wrap gap-4",
+      className,
+    )}
+    {...props}
+  />
+);
+
+export const AlertDialogTitle: FC<
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
+> = ({ className, ...props }) => (
   <AlertDialogPrimitive.Title
     className={twMerge("text-2xl font-heading font-bold", className)}
     {...props}
@@ -78,12 +92,9 @@ interface AlertDialogActionProps
   variant?: "primary" | "destructive";
 }
 
-export const AlertDialogAction: FC<AlertDialogActionProps & { customButton?: boolean }> = ({
-  children,
-  variant = "primary",
-  customButton = false,
-  ...props
-}) => (
+export const AlertDialogAction: FC<
+  AlertDialogActionProps & { customButton?: boolean }
+> = ({ children, variant = "primary", customButton = false, ...props }) => (
   <AlertDialogPrimitive.Action asChild>
     {(!customButton && (
       <Button variant={variant} size="small" {...props}>

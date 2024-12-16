@@ -18,7 +18,10 @@ export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
     address: lTokenAddress,
   });
   const [newApr, setNewApr] = useState(0);
-  const preparation = useSimulateLTokenSetApr({ address: lTokenAddress, args: [newApr] });
+  const preparation = useSimulateLTokenSetApr({
+    address: lTokenAddress,
+    args: [newApr],
+  });
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   // Refresh some data every 5 blocks

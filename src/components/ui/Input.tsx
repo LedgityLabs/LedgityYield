@@ -1,12 +1,16 @@
 import React, { ForwardedRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   disableDefaultCss?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ disableDefaultCss = false, className, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
+  (
+    { disableDefaultCss = false, className, ...props },
+    ref: ForwardedRef<HTMLInputElement>,
+  ) => {
     return (
       <input
         ref={ref}

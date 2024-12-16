@@ -44,7 +44,12 @@ export const AmountInputWithLogo = forwardRef<HTMLInputElement, Props>(
           maxToBottom && "flex-col-reverse",
         )}
       >
-        <p className={clsx("mb-1.5 mr-1.5 text-sm text-fg/80", maxToBottom && "mb-0 mt-1.5")}>
+        <p
+          className={clsx(
+            "mb-1.5 mr-1.5 text-sm text-fg/80",
+            maxToBottom && "mb-0 mt-1.5",
+          )}
+        >
           <span>{maxName}:</span>{" "}
           <button onClick={setMaxValue}>
             <Amount

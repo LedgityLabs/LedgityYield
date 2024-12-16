@@ -2,8 +2,15 @@ import { FC, useEffect } from "react";
 import { AdminMasonry } from "../AdminMasonry";
 import { AdminBrick } from "../AdminBrick";
 import { AdminAddressSetter } from "../AdminAddressSetter";
-import { useReadGlobalOwnerPendingOwner, useSimulateGlobalOwnerAcceptOwnership } from "@/generated";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import {
+  useReadGlobalOwnerPendingOwner,
+  useSimulateGlobalOwnerAcceptOwnership,
+} from "@/generated";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+} from "wagmi";
 import { TxButton } from "@/components/ui";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -36,13 +43,17 @@ export const AdminOwnership: FC = () => {
             <p className="text-center">
               The connected wallet is the recipient of a pending transfer
             </p>
-            <TxButton preparation={preparation as UseSimulateContractReturnType} size="medium">
+            <TxButton
+              preparation={preparation as UseSimulateContractReturnType}
+              size="medium"
+            >
               Accept
             </TxButton>
           </>
         ) : (
           <p className="text-center">
-            It seems that no transfer is pending or that the connected wallet is not the recipient.
+            It seems that no transfer is pending or that the connected wallet is
+            not the recipient.
           </p>
         )}
       </AdminBrick>

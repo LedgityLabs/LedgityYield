@@ -1,4 +1,8 @@
-import { OneMonth, StakeDurationMultipliers, MULTIPLIER_BASIS } from "@/constants/staking";
+import {
+  OneMonth,
+  StakeDurationMultipliers,
+  MULTIPLIER_BASIS,
+} from "@/constants/staking";
 import { parseUnits } from "viem";
 
 export const getAPRCalculation = (

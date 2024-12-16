@@ -1,6 +1,10 @@
 import { FC } from "react";
 import * as d3 from "d3-format";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 import { twMerge } from "tailwind-merge";
 import { formatUnits } from "viem";
 
@@ -16,7 +20,9 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 
 function getFloatValue(value: bigint | number | undefined, decimals?: number) {
   value = value || 0n;
-  return typeof value === "number" ? value : Number(formatUnits(value, decimals || 0));
+  return typeof value === "number"
+    ? value
+    : Number(formatUnits(value, decimals || 0));
 }
 
 function removeLeadingZeroes(value: string) {
@@ -31,7 +37,10 @@ function removeLeadingZeroes(value: string) {
   return value;
 }
 
-export function formatAmount(value: bigint | number | undefined, decimals?: number) {
+export function formatAmount(
+  value: bigint | number | undefined,
+  decimals?: number,
+) {
   const floatValue = getFloatValue(value, decimals);
 
   let formattedAmount = "";
@@ -50,7 +59,10 @@ export function formatAmount(value: bigint | number | undefined, decimals?: numb
   return formattedAmount;
 }
 
-function longFormatAmount(value: bigint | number | undefined, decimals?: number) {
+function longFormatAmount(
+  value: bigint | number | undefined,
+  decimals?: number,
+) {
   const floatValue = getFloatValue(value, decimals);
   let longFormattedAmount = "";
   if (floatValue === 0) longFormattedAmount = "0";

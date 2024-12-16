@@ -4,10 +4,9 @@ import { twMerge } from "tailwind-merge";
 
 export const ToastProvider = ToastPrimitives.Provider;
 
-export const ToastViewport: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>> = ({
-  className,
-  ...props
-}) => (
+export const ToastViewport: FC<
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
+> = ({ className, ...props }) => (
   <ToastPrimitives.Viewport
     className={twMerge(
       "fixed top-0 z-[100000000000000000000000000] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[350px]",
@@ -17,11 +16,16 @@ export const ToastViewport: FC<React.ComponentPropsWithoutRef<typeof ToastPrimit
   />
 );
 
-export interface ToastProps extends React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> {
+export interface ToastProps
+  extends React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> {
   variant?: "default" | "destructive";
 }
 
-export const Toast: FC<ToastProps> = ({ className, variant = "default", ...props }) => {
+export const Toast: FC<ToastProps> = ({
+  className,
+  variant = "default",
+  ...props
+}) => {
   return (
     <ToastPrimitives.Root
       className={twMerge(
@@ -37,10 +41,9 @@ export const Toast: FC<ToastProps> = ({ className, variant = "default", ...props
   );
 };
 
-export const ToastAction: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>> = ({
-  className,
-  ...props
-}) => (
+export const ToastAction: FC<
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
+> = ({ className, ...props }) => (
   <ToastPrimitives.Action
     className={twMerge(
       "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-opacity hover:bg-opacity-70",
@@ -50,10 +53,9 @@ export const ToastAction: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitiv
   />
 );
 
-export const ToastClose: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>> = ({
-  className,
-  ...props
-}) => (
+export const ToastClose: FC<
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
+> = ({ className, ...props }) => (
   <ToastPrimitives.Close
     className={twMerge(
       "absolute right-2 top-2 p-1 transition-opacity  hover:opacity-70",
@@ -66,10 +68,9 @@ export const ToastClose: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitive
   </ToastPrimitives.Close>
 );
 
-export const ToastTitle: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>> = ({
-  className,
-  ...props
-}) => (
+export const ToastTitle: FC<
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
+> = ({ className, ...props }) => (
   <ToastPrimitives.Title
     className={twMerge("text-lg font-heading font-bold", className)}
     {...props}
@@ -79,7 +80,10 @@ export const ToastTitle: FC<React.ComponentPropsWithoutRef<typeof ToastPrimitive
 export const ToastDescription: FC<
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
 > = ({ className, children, ...props }) => (
-  <ToastPrimitives.Description className={twMerge("text-sm font-medium", className)} {...props}>
+  <ToastPrimitives.Description
+    className={twMerge("text-sm font-medium", className)}
+    {...props}
+  >
     <i className="ri-arrow-right-s-line text-lg" /> {children}
   </ToastPrimitives.Description>
 );

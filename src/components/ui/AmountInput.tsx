@@ -43,7 +43,12 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
           maxToBottom && "flex-col-reverse",
         )}
       >
-        <p className={clsx("mb-1.5 mr-1.5 text-sm text-fg/80", maxToBottom && "mb-0 mt-1.5")}>
+        <p
+          className={clsx(
+            "mb-1.5 mr-1.5 text-sm text-fg/80",
+            maxToBottom && "mb-0 mt-1.5",
+          )}
+        >
           <span>{maxName}:</span>{" "}
           <button onClick={setMaxValue}>
             <Amount
@@ -71,7 +76,9 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
             onClick={setMaxValue}
           >
             <span className="inline align-baseline">
-              <span className="inline align-text-top text-xs leading-[0.85rem]">max</span>
+              <span className="inline align-text-top text-xs leading-[0.85rem]">
+                max
+              </span>
             </span>
           </Button>
           {children}

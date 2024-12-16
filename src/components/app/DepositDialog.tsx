@@ -20,7 +20,12 @@ import {
 } from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { erc20Abi, parseUnits, zeroAddress } from "viem";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+  useReadContract,
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import useRestricted from "@/hooks/useRestricted";
 
@@ -29,11 +34,17 @@ interface Props extends React.ComponentPropsWithoutRef<typeof DialogContent> {
   onOpenChange?: React.ComponentPropsWithoutRef<typeof Dialog>["onOpenChange"];
 }
 
-export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenChange }) => {
+export const DepositDialog: FC<Props> = ({
+  children,
+  underlyingSymbol,
+  onOpenChange,
+}) => {
   const account = useAccount();
   const lTokenAddress = useContractAddress(`L${underlyingSymbol}`);
   const { data: decimals } = useReadLTokenDecimals({ address: lTokenAddress! });
-  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({
+    address: lTokenAddress!,
+  });
   const { data: underlyingBalance, queryKey } = useReadContract({
     abi: erc20Abi,
     functionName: "balanceOf",
@@ -87,8 +98,12 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                 </span>
                 <span className="text-base">
                   This may be due to your location or on-chain activity. <br />
-                  If you think this is an error, please contact our support team at{" "}
-                  <a href="mailto:contact@ledgity.com" className="text-primary underline">
+                  If you think this is an error, please contact our support team
+                  at{" "}
+                  <a
+                    href="mailto:contact@ledgity.com"
+                    className="text-primary underline"
+                  >
                     contact@ledgity.com
                   </a>
                 </span>
@@ -108,9 +123,10 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                         <i className="ri-information-line text-2xl" />
                       </div>
                       <div className="pl-4 text-left">
-                        <span className="font-bold">How to get the yield?</span> Your L
-                        {underlyingSymbol} balance will automatically grow through time to reflect
-                        your rewards. There is no need to stake, lock or claim anything.
+                        <span className="font-bold">How to get the yield?</span>{" "}
+                        Your L{underlyingSymbol} balance will automatically grow
+                        through time to reflect your rewards. There is no need
+                        to stake, lock or claim anything.
                       </div>
                     </div>
                   </DialogDescription>
@@ -123,8 +139,11 @@ export const DepositDialog: FC<Props> = ({ children, underlyingSymbol, onOpenCha
                       decimals={decimals}
                       symbol={underlyingSymbol}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setDepositedAmount(parseUnits(e.target.value, decimals!));
-                        if (hasUserInteracted === false) setHasUserInteracted(true);
+                        setDepositedAmount(
+                          parseUnits(e.target.value, decimals!),
+                        );
+                        if (hasUserInteracted === false)
+                          setHasUserInteracted(true);
                         if (e.target.value === "") setHasUserInteracted(false);
                       }}
                     />

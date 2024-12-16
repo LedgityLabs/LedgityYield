@@ -19,12 +19,14 @@ export const createAffiliateCode = (params: RequestParams) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   };
-  return fetch(AFFILIATE_URL + "/affiliate/create", option).then(async (res) => {
-    const data: any = await res.json();
-    return {
-      isSuccess: res.ok,
-      message: data.message,
-      referralUrl: data.referralUrl,
-    };
-  });
+  return fetch(AFFILIATE_URL + "/affiliate/create", option).then(
+    async (res) => {
+      const data: any = await res.json();
+      return {
+        isSuccess: res.ok,
+        message: data.message,
+        referralUrl: data.referralUrl,
+      };
+    },
+  );
 };

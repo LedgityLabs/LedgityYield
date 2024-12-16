@@ -35,7 +35,11 @@
       rgb(var(--bg)),
       theme("colors.indigo.400")
     ),
-    conic-gradient(from 270deg at 30% 60%, theme("colors.indigo.400"), rgb(var(--bg)));
+    conic-gradient(
+      from 270deg at 30% 60%,
+      theme("colors.indigo.400"),
+      rgb(var(--bg))
+    );
   background-attachment: scroll, scroll;
   background-origin: padding-box, padding-box;
   background-clip: border-box, border-box;

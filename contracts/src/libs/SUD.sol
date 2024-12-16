@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
+import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 
 /**
  * @title SUD
@@ -74,96 +74,116 @@ import {IERC20MetadataUpgradeable} from "@openzeppelin/contracts-upgradeable/tok
  * @custom:security-contact security@ledgity.com
  */
 library SUD {
-    /**
-     * @notice Retrieves decimals number of the given ERC20 contract address.
-     * @param tokenAddress The address to retrieve decimals number from.
-     * @return decimals The decimals number of the given ERC20 contract address.
-     */
-    function decimalsOf(address tokenAddress) internal view returns (uint256 decimals) {
-        return IERC20MetadataUpgradeable(tokenAddress).decimals();
-    }
+  /**
+   * @notice Retrieves decimals number of the given ERC20 contract address.
+   * @param tokenAddress The address to retrieve decimals number from.
+   * @return decimals The decimals number of the given ERC20 contract address.
+   */
+  function decimalsOf(
+    address tokenAddress
+  ) internal view returns (uint256 decimals) {
+    return IERC20MetadataUpgradeable(tokenAddress).decimals();
+  }
 
-    /**
-     * @notice Convert a given token amount into SUD format.
-     * @param nAmount The token amount to convert.
-     * @param decimals The decimals number of the involved ERC20 token.
-     * @return nSUD The amount in SUD format
-     */
-    function fromAmount(uint256 nAmount, uint256 decimals) internal pure returns (uint256 nSUD) {
-        // If token decimals < 3, return a UD71x6 number
-        if (decimals < 3) return nAmount * 10 ** (6 - decimals);
+  /**
+   * @notice Convert a given token amount into SUD format.
+   * @param nAmount The token amount to convert.
+   * @param decimals The decimals number of the involved ERC20 token.
+   * @return nSUD The amount in SUD format
+   */
+  function fromAmount(
+    uint256 nAmount,
+    uint256 decimals
+  ) internal pure returns (uint256 nSUD) {
+    // If token decimals < 3, return a UD71x6 number
+    if (decimals < 3) return nAmount * 10 ** (6 - decimals);
 
-        // Else return a number with decimals+3 fractional digits
-        return nAmount * 10 ** 3;
-    }
+    // Else return a number with decimals+3 fractional digits
+    return nAmount * 10 ** 3;
+  }
 
-    /**
-     * @notice Convert a given SUD number into token amount format.
-     * @param nSUD The SUD number to convert.
-     * @param decimals The decimals number of the involved ERC20 token.
-     * @return nAmount The number in amount format
-     */
-    function toAmount(uint256 nSUD, uint256 decimals) internal pure returns (uint256 nAmount) {
-        // If token decimals < 3, convert from a UD71x6 number
-        if (decimals < 3) return nSUD / 10 ** (6 - decimals);
+  /**
+   * @notice Convert a given SUD number into token amount format.
+   * @param nSUD The SUD number to convert.
+   * @param decimals The decimals number of the involved ERC20 token.
+   * @return nAmount The number in amount format
+   */
+  function toAmount(
+    uint256 nSUD,
+    uint256 decimals
+  ) internal pure returns (uint256 nAmount) {
+    // If token decimals < 3, convert from a UD71x6 number
+    if (decimals < 3) return nSUD / 10 ** (6 - decimals);
 
-        // Else, convert from a number with decimals+3 fractional digits
-        return nSUD / 10 ** 3;
-    }
+    // Else, convert from a number with decimals+3 fractional digits
+    return nSUD / 10 ** 3;
+  }
 
-    /**
-     * @notice Converts a given UD7x3 rate into SUD format.
-     * @param nUD7x3 The UD7x3 rate to convert.
-     * @param decimals The decimals number of the involved ERC20 token.
-     * @return nSUD The rate in SUD format.
-     */
-    function fromRate(uint256 nUD7x3, uint256 decimals) internal pure returns (uint256 nSUD) {
-        // If token decimals < 3, return a UD71x6 number
-        if (decimals < 3) return nUD7x3 * 10 ** 3;
+  /**
+   * @notice Converts a given UD7x3 rate into SUD format.
+   * @param nUD7x3 The UD7x3 rate to convert.
+   * @param decimals The decimals number of the involved ERC20 token.
+   * @return nSUD The rate in SUD format.
+   */
+  function fromRate(
+    uint256 nUD7x3,
+    uint256 decimals
+  ) internal pure returns (uint256 nSUD) {
+    // If token decimals < 3, return a UD71x6 number
+    if (decimals < 3) return nUD7x3 * 10 ** 3;
 
-        // Else, return a number with decimals+3 fractional digits
-        return nUD7x3 * 10 ** decimals;
-    }
+    // Else, return a number with decimals+3 fractional digits
+    return nUD7x3 * 10 ** decimals;
+  }
 
-    /**
-     * @notice Converts a given SUD number into a UD7x3 rate.
-     * @param nSUD The SUD number to convert.
-     * @param decimals The decimals number of the involved ERC20 token.
-     * @return nUD7x3 The number in UD7x3 rate format.
-     */
-    function toRate(uint256 nSUD, uint256 decimals) internal pure returns (uint256 nUD7x3) {
-        // If token decimals < 3, convert from a UD71x6 number
-        if (decimals < 3) return nSUD / 10 ** 3;
+  /**
+   * @notice Converts a given SUD number into a UD7x3 rate.
+   * @param nSUD The SUD number to convert.
+   * @param decimals The decimals number of the involved ERC20 token.
+   * @return nUD7x3 The number in UD7x3 rate format.
+   */
+  function toRate(
+    uint256 nSUD,
+    uint256 decimals
+  ) internal pure returns (uint256 nUD7x3) {
+    // If token decimals < 3, convert from a UD71x6 number
+    if (decimals < 3) return nSUD / 10 ** 3;
 
-        // Else, convert from a number with decimals+3 fractional digits
-        return nSUD / 10 ** decimals;
-    }
+    // Else, convert from a number with decimals+3 fractional digits
+    return nSUD / 10 ** decimals;
+  }
 
-    /**
-     * @notice Converts a given integer into SUD format.
-     * @param n The integer to convert.
-     * @param decimals The decimals number of the involved ERC20 token.
-     * @return nSUD The integer in SUD format.
-     */
-    function fromInt(uint256 n, uint256 decimals) internal pure returns (uint256 nSUD) {
-        // If token decimals < 3, return a UD71x6 number
-        if (decimals < 3) return n * 10 ** 6;
+  /**
+   * @notice Converts a given integer into SUD format.
+   * @param n The integer to convert.
+   * @param decimals The decimals number of the involved ERC20 token.
+   * @return nSUD The integer in SUD format.
+   */
+  function fromInt(
+    uint256 n,
+    uint256 decimals
+  ) internal pure returns (uint256 nSUD) {
+    // If token decimals < 3, return a UD71x6 number
+    if (decimals < 3) return n * 10 ** 6;
 
-        // Else, return a number with decimals+3 fractional digits
-        return n * 10 ** (decimals + 3);
-    }
+    // Else, return a number with decimals+3 fractional digits
+    return n * 10 ** (decimals + 3);
+  }
 
-    /**
-     * @notice Converts a given SUD number as an integer (all decimals shrinked).
-     * @param nSUD The SUD number to convert.
-     * @param decimals The decimals number of the involved ERC20 token.
-     * @return n The SUD number as an integer.
-     */
-    function toInt(uint256 nSUD, uint256 decimals) internal pure returns (uint256 n) {
-        // If token decimals < 3, convert from a UD71x6 number
-        if (decimals < 3) return nSUD / 10 ** 6;
+  /**
+   * @notice Converts a given SUD number as an integer (all decimals shrinked).
+   * @param nSUD The SUD number to convert.
+   * @param decimals The decimals number of the involved ERC20 token.
+   * @return n The SUD number as an integer.
+   */
+  function toInt(
+    uint256 nSUD,
+    uint256 decimals
+  ) internal pure returns (uint256 n) {
+    // If token decimals < 3, convert from a UD71x6 number
+    if (decimals < 3) return nSUD / 10 ** 6;
 
-        // Else, convert from a number with decimals+3 fractional digits
-        return nSUD / 10 ** (decimals + 3);
-    }
+    // Else, convert from a number with decimals+3 fractional digits
+    return nSUD / 10 ** (decimals + 3);
+  }
 }

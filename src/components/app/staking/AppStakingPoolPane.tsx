@@ -3,7 +3,10 @@ import { FC } from "react";
 import { CarouselItem } from "@/components/ui/Carousel";
 import { TxButton } from "@/components/ui";
 import { formatUnits } from "viem";
-import { useSimulateLdyStakingGetReward, useSimulateLdyStakingUnstake } from "@/generated";
+import {
+  useSimulateLdyStakingGetReward,
+  useSimulateLdyStakingUnstake,
+} from "@/generated";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -62,12 +65,16 @@ export const AppStakingPoolPane: FC<{
           </div>
           <div className="flex text-sm justify-between">
             <span>Duration</span>
-            <span className="font-semibold">{Number(poolInfo.duration) / OneMonth} Months</span>
+            <span className="font-semibold">
+              {Number(poolInfo.duration) / OneMonth} Months
+            </span>
           </div>
           <div className="flex text-sm justify-between">
             <span>Unlock Timestamp</span>
             <span className="font-semibold">
-              {dayjs.utc(Number(poolInfo.unStakeAt) * 1000).format("DD/MM/YYYY")}
+              {dayjs
+                .utc(Number(poolInfo.unStakeAt) * 1000)
+                .format("DD/MM/YYYY")}
             </span>
           </div>
           <div className="flex text-sm justify-between">
@@ -75,7 +82,10 @@ export const AppStakingPoolPane: FC<{
             <span className="font-semibold">
               {userStakingInfo
                 ? Number(
-                    formatUnits(BigInt(userStakingInfo.earnedAmount), ldyTokenDecimals!),
+                    formatUnits(
+                      BigInt(userStakingInfo.earnedAmount),
+                      ldyTokenDecimals!,
+                    ),
                   ).toFixed(4)
                 : 0}{" "}
               Token
@@ -109,7 +119,11 @@ export const AppStakingPoolPane: FC<{
               size="tiny"
               disabled={dayjs().isBefore(Number(poolInfo.unStakeAt) * 1000)}
               className="w-full"
-              queryKeys={[ldyTokenBalanceQuery, getUserStakesQuery, rewardsArrayQuery]}
+              queryKeys={[
+                ldyTokenBalanceQuery,
+                getUserStakesQuery,
+                rewardsArrayQuery,
+              ]}
             >
               UNSTAKE
             </TxButton>
@@ -134,7 +148,10 @@ export const AppStakingPoolPane: FC<{
             >
               CLAIM{" "}
               {Number(
-                formatUnits(BigInt(rewardsArray ? rewardsArray[poolIndex] : 0), ldyTokenDecimals!),
+                formatUnits(
+                  BigInt(rewardsArray ? rewardsArray[poolIndex] : 0),
+                  ldyTokenDecimals!,
+                ),
               ).toFixed(4)}{" "}
               Token
             </TxButton>

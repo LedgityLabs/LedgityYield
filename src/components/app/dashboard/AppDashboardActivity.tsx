@@ -39,13 +39,18 @@ import {
   useReadLTokenWithdrawalQueue,
   useSimulateLTokenCancelWithdrawalRequest,
 } from "@/generated";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 
-const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint }> = ({
-  lTokenSymbol,
-  requestId,
-}) => {
+const CancelButton: FC<{
+  lTokenSymbol: string;
+  requestId: bigint;
+  amount: bigint;
+}> = ({ lTokenSymbol, requestId }) => {
   const ltokenAddress = useContractAddress(lTokenSymbol);
   const { data: decimals } = useReadLTokenDecimals({
     address: ltokenAddress,
@@ -86,21 +91,28 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
             </Button>
           </AlertDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent className="font-semibold">Cancel withdrawal request</TooltipContent>
+        <TooltipContent className="font-semibold">
+          Cancel withdrawal request
+        </TooltipContent>
       </Tooltip>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone and{" "}
-            <span className="font-semibold">you will loose your current position</span> in the
-            withdrawal queue.
+            <span className="font-semibold">
+              you will loose your current position
+            </span>{" "}
+            in the withdrawal queue.
             <br />
             <br />
             By cancelling this request{" "}
             <span className="font-semibold">
               you will receive your{" "}
-              <Amount value={requestData ? requestData[1] : 0n} decimals={decimals} />{" "}
+              <Amount
+                value={requestData ? requestData[1] : 0n}
+                decimals={decimals}
+              />{" "}
               {lTokenSymbol}{" "}
             </span>
             tokens back to your wallet.
@@ -123,7 +135,9 @@ const CancelButton: FC<{ lTokenSymbol: string; requestId: bigint; amount: bigint
   );
 };
 
-export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ className }) => {
+export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({
+  className,
+}) => {
   const account = useAccount();
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -139,8 +153,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
     if (!isLoading) {
       setIsLoading(true);
       if (account && account.address) {
-          await execute(
-            `
+        await execute(
+          `
             {
               c${account.chainId}_activities(where: { account: "${account.address}" }) {
                 id
@@ -157,23 +171,23 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
               }
             }
             `,
-            {},
-          )
-            .then(
-              // @ts-ignore
-              (result: {
-                data: {
-                  [key: string]: Activity[];
-                };
-              }) => {
-                setActivityData(result.data[`c${account.chainId}_activities`]);
-                setIsLoading(false);
-              },
-            )
-            .catch((e: Error) => {
-              setActivityData([]);
+          {},
+        )
+          .then(
+            // @ts-ignore
+            (result: {
+              data: {
+                [key: string]: Activity[];
+              };
+            }) => {
+              setActivityData(result.data[`c${account.chainId}_activities`]);
               setIsLoading(false);
-            });
+            },
+          )
+          .catch((e: Error) => {
+            setActivityData([]);
+            setIsLoading(false);
+          });
       }
       setIsLoading(false);
     }
@@ -208,7 +222,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
       header: "Amount",
       cell: (info) => {
         const amount = info.getValue() as string;
-        const amountAfterFees = activityData[info.row.index].amountAfterFees as string;
+        const amountAfterFees = activityData[info.row.index]
+          .amountAfterFees as string;
         const ltoken = info.row.getValue("ltoken") as LToken;
         return (
           <Amount
@@ -219,7 +234,9 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             tooltipChildren={
               amount !== amountAfterFees && (
                 <span>
-                  <span className="font-medium opacity-80">Received after fees: </span>
+                  <span className="font-medium opacity-80">
+                    Received after fees:{" "}
+                  </span>
                   <Amount
                     tooltip={false}
                     value={BigInt(amountAfterFees)}
@@ -246,7 +263,8 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             <div
               className={clsx(
                 "block aspect-square h-3 w-3 rounded-full border-2",
-                ["Fulfilled", "Success"].includes(status) && "border-emerald-500 bg-emerald-200",
+                ["Fulfilled", "Success"].includes(status) &&
+                  "border-emerald-500 bg-emerald-200",
                 status === "Queued" && "border-amber-500 bg-amber-200",
                 status === "Cancelled" && "border-red-500 bg-red-200",
               )}
@@ -301,7 +319,10 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
         )}
       >
         {headerGroup.headers.map((header, index) => {
-          const content = flexRender(header.column.columnDef.header, header.getContext());
+          const content = flexRender(
+            header.column.columnDef.header,
+            header.getContext(),
+          );
           return (
             <div
               key={header.column.id}
@@ -312,7 +333,11 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({ class
             >
               {(sortableColumns.includes(header.column.id) && (
                 <button
-                  onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
+                  onClick={() =>
+                    header.column.toggleSorting(
+                      header.column.getIsSorted() === "asc",
+                    )
+                  }
                   className="flex items-center gap-1"
                 >
                   {content}

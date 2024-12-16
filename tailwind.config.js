@@ -130,7 +130,7 @@ export const theme = {
       "2/5": "40%",
       "3/5": "60%",
       "4/5": "80%",
-    }
+    },
   },
 };
 export const plugins = [

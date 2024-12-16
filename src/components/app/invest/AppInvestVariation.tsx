@@ -47,16 +47,21 @@ export const AppInvestVariation: FC<Props> = (props) => {
             ];
           };
         }) => {
-          const aprUpdateData = result.data[`c${publicClient!.chain.id}_ltokens`];
+          const aprUpdateData =
+            result.data[`c${publicClient!.chain.id}_ltokens`];
           let newVariation = 0;
           for (const lToken of aprUpdateData) {
             if (!lToken.latestAprUpdate[0]) continue;
             const latestAprUpdate = Number(lToken.latestAprUpdate[0].apr);
-            const aprUpdateOneYearAgo = Number(lToken.aprUpdateOneYearAgo[0].apr);
+            const aprUpdateOneYearAgo = Number(
+              lToken.aprUpdateOneYearAgo[0].apr,
+            );
             if (latestAprUpdate > aprUpdateOneYearAgo)
-              newVariation += (latestAprUpdate - aprUpdateOneYearAgo) / latestAprUpdate;
+              newVariation +=
+                (latestAprUpdate - aprUpdateOneYearAgo) / latestAprUpdate;
             else if (latestAprUpdate < aprUpdateOneYearAgo)
-              newVariation += (aprUpdateOneYearAgo - latestAprUpdate) / aprUpdateOneYearAgo;
+              newVariation +=
+                (aprUpdateOneYearAgo - latestAprUpdate) / aprUpdateOneYearAgo;
           }
           newVariation = newVariation / aprUpdateData.length;
 
@@ -82,7 +87,11 @@ export const AppInvestVariation: FC<Props> = (props) => {
   return (
     <div {...props}>
       {(isLoading && <Spinner />) ||
-        (typeof variation === "number" ? <Rate value={variation} prefix={"±"} /> : "N/A")}
+        (typeof variation === "number" ? (
+          <Rate value={variation} prefix={"±"} />
+        ) : (
+          "N/A"
+        ))}
     </div>
   );
 };

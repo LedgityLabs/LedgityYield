@@ -13,7 +13,10 @@ const useRestricted = () => {
       cache: "force-cache",
       next: { revalidate: 60 },
     });
-    if (!response.ok) console.error(`Error while fetching AML endpoint (${response.statusText})`);
+    if (!response.ok)
+      console.error(
+        `Error while fetching AML endpoint (${response.statusText})`,
+      );
     else {
       const data = await response.json();
       setIsRestricted(data.restricted);

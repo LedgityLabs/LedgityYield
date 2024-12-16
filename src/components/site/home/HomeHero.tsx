@@ -37,7 +37,10 @@ const HomeHero: FC<Props> = ({ className }) => {
         <Cube size="small" className="-bottom-4 left-[30%] hidden 2xl:block" />
 
         <section className="flex flex-col items-center justify-center gap-[5vh]">
-          <Link href="https://www.coingecko.com/en/coins/ledgity-token" target="_blank">
+          <Link
+            href="https://www.coingecko.com/en/coins/ledgity-token"
+            target="_blank"
+          >
             <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl text-white opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
               <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-[#20456c]/50 to-[purple] px-4 py-2 text-lg font-bold text-white">
                 <i className="ri-fire-fill text-x animate-pulse" />
@@ -69,7 +72,9 @@ const HomeHero: FC<Props> = ({ className }) => {
               >
                 7%
               </span>
-              <h3 className="font-heading text-xl font-bold text-primary opacity-70">APR</h3>
+              <h3 className="font-heading text-xl font-bold text-primary opacity-70">
+                APR
+              </h3>
             </li>
             <li className="hidden text-right sm:block">
               <span className="font-heading text-7xl font-extrabold text-slate-50/[60%] lg:text-7xl">

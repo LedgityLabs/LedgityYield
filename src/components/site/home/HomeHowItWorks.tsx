@@ -1,6 +1,13 @@
 "use client";
 import { FC, useLayoutEffect, useRef } from "react";
-import { Button, Card, Cube, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
+import {
+  Button,
+  Card,
+  Cube,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 import Link from "next/link";
 
 const HomeHowItWorks: FC = () => {
@@ -23,7 +30,9 @@ const HomeHowItWorks: FC = () => {
                 <span className="font-bold text-primary-fg">1</span>
               </Card>
             </div>
-            <p className="w-full text-center text-xl font-medium text-fg/90">Deposit stablecoins</p>
+            <p className="w-full text-center text-xl font-medium text-fg/90">
+              Deposit stablecoins
+            </p>
           </Card>
           <p className="-ml-2 inline-flex h-full items-center justify-center pt-4 text-[1rem] font-medium tracking-wide text-fg/50">
             USDC, EUROC, and more!
@@ -39,7 +48,9 @@ const HomeHowItWorks: FC = () => {
                 <span className="font-bold text-primary-fg">2</span>
               </Card>
             </div>
-            <p className="w-full text-center text-xl font-medium text-fg/90">Receive L-Tokens</p>
+            <p className="w-full text-center text-xl font-medium text-fg/90">
+              Receive L-Tokens
+            </p>
           </Card>
           <p className="-ml-2 inline-flex h-full items-center justify-center pt-4 text-[1rem] font-medium tracking-wide text-fg/50">
             Example: LUSDC for USDC

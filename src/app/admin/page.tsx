@@ -16,7 +16,9 @@ const Page: NextPage = () => {
   const isLocalnet = currentChain.id === 31337;
   return (
     <>
-      <h2 className="text-center font-heading text-4xl font-bold text-fg/90">Admin</h2>
+      <h2 className="text-center font-heading text-4xl font-bold text-fg/90">
+        Admin
+      </h2>
       <Tabs
         defaultValue="dashboard"
         className="flex w-screen flex-col items-center justify-center gap-10"

@@ -35,7 +35,9 @@ export const AppPreMining: FC = () => {
                     height={24}
                     className="-mt-[0.28rem] inline aspect-square opacity-90"
                   />
-                  <span className="pl-[0.3rem] align-baseline font-extrabold">USDC</span>
+                  <span className="pl-[0.3rem] align-baseline font-extrabold">
+                    USDC
+                  </span>
                 </span>{" "}
                 <br />
                 Receive{" "}
@@ -70,13 +72,18 @@ export const AppPreMining: FC = () => {
             <div className="flex flex-col gap-1 pb-12">
               <ol className="list-decimal sm:pl-10 pl-6 font-medium text-indigo-950/70 max-w-[470px]">
                 <li className="py-1">
-                  You get <span className="font-bold text-indigo-950/80">USDC 100% back</span> after
-                  the lock period.
+                  You get{" "}
+                  <span className="font-bold text-indigo-950/80">
+                    USDC 100% back
+                  </span>{" "}
+                  after the lock period.
                 </li>
                 <li className="py-1">
                   It&apos;s{" "}
-                  <span className="font-bold text-indigo-950/80">first-come-first-served</span>, so
-                  don&apos;t miss your chance!
+                  <span className="font-bold text-indigo-950/80">
+                    first-come-first-served
+                  </span>
+                  , so don&apos;t miss your chance!
                 </li>
                 <li className="py-1">
                   This pool distributes{" "}

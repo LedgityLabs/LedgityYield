@@ -23,7 +23,10 @@ import { useAccount, useBlockNumber } from "wagmi";
 import { zeroAddress } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 
-const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props }) => {
+const LTokenBalance: FC<{ lTokenSymbol: string }> = ({
+  lTokenSymbol,
+  ...props
+}) => {
   const account = useAccount();
   const address = useContractAddress(lTokenSymbol);
   const { data: balance, queryKey } = useReadLTokenBalanceOf({
@@ -85,7 +88,9 @@ const LTokenBalance: FC<{ lTokenSymbol: string }> = ({ lTokenSymbol, ...props })
     </li>
   );
 };
-export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({ className }) => {
+export const AppDashboardBalances: React.PropsWithoutRef<typeof Card> = ({
+  className,
+}) => {
   const lTokens = useAvailableLTokens();
 
   if (lTokens.length == 0) return <p>No balances on this chain.</p>;

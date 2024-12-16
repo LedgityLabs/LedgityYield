@@ -1,6 +1,9 @@
 import { Card, Rate, TxButton } from "@/components/ui";
 import { RateInput } from "@/components/ui/RateInput";
-import { useReadLTokenFeesRateUd7x3, useSimulateLTokenSetFeesRate } from "@/generated";
+import {
+  useReadLTokenFeesRateUd7x3,
+  useSimulateLTokenSetFeesRate,
+} from "@/generated";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { parseUnits } from "viem";
@@ -37,8 +40,8 @@ export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
   return (
     <AdminBrick title="Fees rate">
       <p>
-        This rate corresponds to the % of fees charged to eligible {underlyingTokenName} withdrawal
-        requests.
+        This rate corresponds to the % of fees charged to eligible{" "}
+        {underlyingTokenName} withdrawal requests.
       </p>
       <p>
         Current value: <Rate value={feesRate} className="font-bold" />
@@ -51,8 +54,12 @@ export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
             if (e.target.value === "") setHasUserInteracted(false);
           }}
         />
-        
-        <TxButton preparation={preparation as UseSimulateContractReturnType} hasUserInteracted={hasUserInteracted} size="medium">
+
+        <TxButton
+          preparation={preparation as UseSimulateContractReturnType}
+          hasUserInteracted={hasUserInteracted}
+          size="medium"
+        >
           Set
         </TxButton>
       </div>

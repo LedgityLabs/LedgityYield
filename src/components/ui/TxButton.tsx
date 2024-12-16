@@ -1,7 +1,13 @@
 "use client";
 import { FC, type ReactNode, useEffect, useState } from "react";
 import { Button, ButtonSize, ButtonVariant } from "./Button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./Dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./Dialog";
 import { Spinner } from "./Spinner";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./Tooltip";
 import {
@@ -84,7 +90,8 @@ export const TxButton: FC<Props> = ({
     }
   }, [txIsSuccess, waitIsSuccess, txIsError, waitIsError]);
 
-  const isLoading = preparation.isFetching || preparation.isLoading || txIsLoading;
+  const isLoading =
+    preparation.isFetching || preparation.isLoading || txIsLoading;
 
   // Build tooltip message and error state
   let tooltipMessage = "";
@@ -109,14 +116,18 @@ export const TxButton: FC<Props> = ({
         <Dialog>
           <Tooltip
             open={
-              hasUserInteracted && tooltipIsError && !isLoading && !isPending ? true : undefined
+              hasUserInteracted && tooltipIsError && !isLoading && !isPending
+                ? true
+                : undefined
             }
           >
             <TooltipTrigger>
               <DialogTrigger asChild>
                 <Button
                   {...props}
-                  disabled={disabled || tooltipIsError || !writeContract || isPending}
+                  disabled={
+                    disabled || tooltipIsError || !writeContract || isPending
+                  }
                   isLoading={isLoading}
                   onClick={() => writeContract(preparation.data?.request!)}
                 />
@@ -148,7 +159,9 @@ export const TxButton: FC<Props> = ({
                     "before:-z-1 before:absolute before:bottom-10 before:left-[calc(1.25rem-1.5px)] before:top-10 before:border-l-[3px] before:border-slate-300",
                   )}
                 >
-                  <li className={twMerge("flex items-center justify-start gap-2")}>
+                  <li
+                    className={twMerge("flex items-center justify-start gap-2")}
+                  >
                     <Card
                       radius="full"
                       className={twMerge(
@@ -173,13 +186,18 @@ export const TxButton: FC<Props> = ({
                       )}
                     >
                       {(() => {
-                        if (txIsLoading) return "Sign transaction from your wallet";
-                        else if (txIsError) return "Wallet rejected the request";
-                        else if (txIsSuccess) return "Wallet signature successful";
+                        if (txIsLoading)
+                          return "Sign transaction from your wallet";
+                        else if (txIsError)
+                          return "Wallet rejected the request";
+                        else if (txIsSuccess)
+                          return "Wallet signature successful";
                       })()}
                     </p>
                   </li>
-                  <li className={twMerge("flex items-center justify-start gap-2")}>
+                  <li
+                    className={twMerge("flex items-center justify-start gap-2")}
+                  >
                     <Card
                       radius="full"
                       className={twMerge(
@@ -192,7 +210,9 @@ export const TxButton: FC<Props> = ({
                       <span className="font-bold text-primary-fg">
                         {waitIsLoading && <Spinner />}
                         {waitIsError && <i className="ri-close-fill text-xl" />}
-                        {waitIsSuccess && <i className="ri-check-fill text-xl" />}
+                        {waitIsSuccess && (
+                          <i className="ri-check-fill text-xl" />
+                        )}
                       </span>
                     </Card>
                     <p
@@ -211,9 +231,15 @@ export const TxButton: FC<Props> = ({
                     </p>
                   </li>
                 </ul>
-                {((txIsSuccess && waitIsSuccess && !txIsError && !waitIsError) ||
-                  ((!txIsSuccess || !waitIsSuccess) && (txIsError || waitIsError))) && (
-                  <p className="font-semibold ">You can now safely close this modal</p>
+                {((txIsSuccess &&
+                  waitIsSuccess &&
+                  !txIsError &&
+                  !waitIsError) ||
+                  ((!txIsSuccess || !waitIsSuccess) &&
+                    (txIsError || waitIsError))) && (
+                  <p className="font-semibold ">
+                    You can now safely close this modal
+                  </p>
                 )}
               </DialogDescription>
             </DialogHeader>

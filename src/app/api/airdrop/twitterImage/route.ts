@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
     const imageData = await response.arrayBuffer();
     const contentType = response.headers.get("Content-Type");
 
-    return new NextResponse(imageData, { headers: { "Content-Type": contentType! } });
+    return new NextResponse(imageData, {
+      headers: { "Content-Type": contentType! },
+    });
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });

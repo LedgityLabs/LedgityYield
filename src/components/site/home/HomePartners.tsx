@@ -23,7 +23,9 @@ const HomePartners: FC = () => {
     <section className="relative flex flex-col items-center pb-56">
       <Cube size="medium" className="bottom-2 left-16" />
 
-      <h3 className="pb-16 text-center font-heading text-4xl font-bold text-fg/90">Our partners</h3>
+      <h3 className="pb-16 text-center font-heading text-4xl font-bold text-fg/90">
+        Our partners
+      </h3>
       <ul className="flex flex-wrap justify-center items-center gap-16 px-16 lg:[max-width:80vw] xl:[max-width:50vw]">
         <li>
           <Link
@@ -94,7 +96,11 @@ const HomePartners: FC = () => {
             target="_blank"
             className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
           >
-            <Image src={offchainLabsLogo} alt="Offchain Labs Logo" height={45} />
+            <Image
+              src={offchainLabsLogo}
+              alt="Offchain Labs Logo"
+              height={45}
+            />
           </Link>
         </li>
 
@@ -104,7 +110,11 @@ const HomePartners: FC = () => {
             target="_blank"
             className="inline-flex min-h-[60px] items-center justify-center rounded-2xl bg-gradient-radial from-bg/50 to-transparent opacity-80 backdrop-blur-md transition hover:opacity-100"
           >
-            <Image src={risepartnersLogo} alt="Rise Partners Logo" height={40} />
+            <Image
+              src={risepartnersLogo}
+              alt="Rise Partners Logo"
+              height={40}
+            />
           </Link>
         </li>
         <li>

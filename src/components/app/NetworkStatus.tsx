@@ -3,7 +3,13 @@ import { twMerge } from "tailwind-merge";
 import { useBlockNumber } from "wagmi";
 
 export const NetworkStatus: FC = () => {
-  const { data: blockNumber, isLoading, isPaused, isError, isSuccess } = useBlockNumber();
+  const {
+    data: blockNumber,
+    isLoading,
+    isPaused,
+    isError,
+    isSuccess,
+  } = useBlockNumber();
   return (
     <p className="text-center text-sm">
       <span className="text-fg/70 text-center">Block n°</span>&nbsp;

@@ -7,7 +7,10 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
   lTokenSymbol: string;
 }
 
-export const AdminLTokenAddresses: FC<Props> = ({ className, lTokenSymbol }) => {
+export const AdminLTokenAddresses: FC<Props> = ({
+  className,
+  lTokenSymbol,
+}) => {
   const addressesAccesses = [
     ["Withdrawer wallet", "withdrawer", "setWithdrawer"],
     ["Fund wallet", "fund", "setFund"],

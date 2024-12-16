@@ -5,7 +5,9 @@ interface ISwitchAppTabContext {
   switchTab: (slug: string) => void;
 }
 
-export const SwitchAppTabContext = createContext<ISwitchAppTabContext | undefined>(undefined);
+export const SwitchAppTabContext = createContext<
+  ISwitchAppTabContext | undefined
+>(undefined);
 
 interface Props {
   children?: React.ReactNode;
@@ -13,7 +15,9 @@ interface Props {
 }
 
 export const SwitchAppTabProvider: FC<Props> = ({ children, defaultTab }) => {
-  const [currentTab, setCurrentTab] = useState(defaultTab !== "" ? defaultTab : "invest");
+  const [currentTab, setCurrentTab] = useState(
+    defaultTab !== "" ? defaultTab : "invest",
+  );
 
   const switchTab = (slug: string) => {
     history.pushState({}, slug, `/app/${slug}`);

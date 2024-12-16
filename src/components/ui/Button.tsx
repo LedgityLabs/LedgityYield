@@ -43,12 +43,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {
             primary: "bg-primary text-primary-fg border-indigo-200 border-2",
             destructive: "bg-destructive text-destructive-fg ",
-            outline: clsx("bg-accent text-fg/80 border-2 border-border rounded-[0.85rem]"),
+            outline: clsx(
+              "bg-accent text-fg/80 border-2 border-border rounded-[0.85rem]",
+            ),
           }[variant],
 
           // Sizes
           {
-            tiny: clsx("px-3 text-sm", variant === "outline" ? "h-[calc(2.25rem+3px)]" : "h-9"),
+            tiny: clsx(
+              "px-3 text-sm",
+              variant === "outline" ? "h-[calc(2.25rem+3px)]" : "h-9",
+            ),
             small: clsx("h-11 py-2 px-4 text-base"),
             medium: clsx("px-4 text-lg h-12"),
             large: clsx("px-7 text-lg h-12"),

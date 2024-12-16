@@ -33,7 +33,8 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
   const lockEnd = hasLocked ? new Date(Number(lockData[4]) * 1000) : new Date();
   const lockStart = subtractMonths(lockEnd, lockDuration);
   const lockProgression =
-    (Date.now() - lockStart.getTime()) / (lockEnd.getTime() - lockStart.getTime());
+    (Date.now() - lockStart.getTime()) /
+    (lockEnd.getTime() - lockStart.getTime());
 
   // Prepare unlock
   const instantPreparation = useSimulatePreMiningInstantUnlock();
@@ -46,7 +47,8 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
 
   // Compute account's eligible airdrop entries
   const eligibleEntries =
-    Number(formatUnits(lockAmount, 6)) * ({ 3: 1, 6: 5, 12: 25 }[lockDuration] || 0);
+    Number(formatUnits(lockAmount, 6)) *
+    ({ 3: 1, 6: 5, 12: 25 }[lockDuration] || 0);
 
   return (
     <div className={twMerge("flex flex-col", className)} {...props}>
@@ -66,7 +68,9 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
           <div className="flex flex-col items-center gap-16 p-10 bg-accent rounded-b-3xl">
             <div className="flex flex-col gap-1 w-full">
               <div className="flex flex-col gap-2">
-                <h3 className="font-bold text-3xl font-heading text-indigo-950/[75%]">Your lock</h3>
+                <h3 className="font-bold text-3xl font-heading text-indigo-950/[75%]">
+                  Your lock
+                </h3>
                 <ul className="list-disc pl-6 leading-7">
                   <li>
                     Amount:{" "}
@@ -79,13 +83,20 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                     />
                   </li>
                   <li>
-                    Duration: <span className="font-bold">{lockDuration} months</span>
+                    Duration:{" "}
+                    <span className="font-bold">{lockDuration} months</span>
                   </li>
                   <li>
-                    Start: <span className="font-bold">{lockStart.toLocaleDateString()}</span>
+                    Start:{" "}
+                    <span className="font-bold">
+                      {lockStart.toLocaleDateString()}
+                    </span>
                   </li>
                   <li>
-                    End: <span className="font-bold">{lockEnd.toLocaleDateString()}</span>
+                    End:{" "}
+                    <span className="font-bold">
+                      {lockEnd.toLocaleDateString()}
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -103,7 +114,9 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                   className=""
                   transactionSummary={
                     <span>
-                      {instantPreparation.isError ? "Request to unlock" : "Unlock"}{" "}
+                      {instantPreparation.isError
+                        ? "Request to unlock"
+                        : "Unlock"}{" "}
                       <Amount
                         value={lockAmount}
                         decimals={6}
@@ -111,7 +124,8 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                         displaySymbol={true}
                         className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
                       />{" "}
-                      {instantPreparation.isError && "(usually takes 3-5 business days)"}
+                      {instantPreparation.isError &&
+                        "(usually takes 3-5 business days)"}
                     </span>
                   }
                 >
@@ -138,13 +152,15 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                   <li>
                     Airdrop entries:{" "}
                     <span className="font-bold">
-                      {eligibleEntries.toLocaleString()} <i className="ri-coupon-2-fill" />
+                      {eligibleEntries.toLocaleString()}{" "}
+                      <i className="ri-coupon-2-fill" />
                     </span>
                   </li>
                 </ul>
               </div>
               <div className="bg-slate-300 text-lg font-medium p-4 rounded-xl text-center">
-                $LDY rewards will be distributed simultaneously with the airdrop.
+                $LDY rewards will be distributed simultaneously with the
+                airdrop.
               </div>
             </div>
           </div>

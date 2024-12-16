@@ -23,7 +23,8 @@ export const DateTime: FC<Props> = ({
       </span>
     );
   else {
-    const visibleContent = output === "date" ? date.toLocaleDateString() : date.toLocaleTimeString();
+    const visibleContent =
+      output === "date" ? date.toLocaleDateString() : date.toLocaleTimeString();
     if (!tooltip)
       return (
         <span className={className} {...props}>
@@ -31,7 +32,10 @@ export const DateTime: FC<Props> = ({
         </span>
       );
     else {
-      const tooltipContent = output === "date" ? date.toLocaleTimeString() : date.toLocaleDateString();
+      const tooltipContent =
+        output === "date"
+          ? date.toLocaleTimeString()
+          : date.toLocaleDateString();
       return (
         <Tooltip>
           <TooltipTrigger asChild>

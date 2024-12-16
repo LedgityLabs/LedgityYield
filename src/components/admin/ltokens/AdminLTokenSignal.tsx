@@ -11,12 +11,17 @@ interface Props extends React.ComponentPropsWithRef<typeof Card> {
 
 export const AdminLTokenSignal: FC<Props> = ({ lTokenSymbol }) => {
   const lTokenAddress = useContractAddress(lTokenSymbol);
-  const preparation = useSimulateLTokenSignalerSignalLToken({ args: [lTokenAddress!] });
+  const preparation = useSimulateLTokenSignalerSignalLToken({
+    args: [lTokenAddress!],
+  });
 
   return (
     <AdminBrick title="Data indexing">
       <div className="flex justify-center items-center">
-        <TxButton preparation={preparation as UseSimulateContractReturnType} size="medium">
+        <TxButton
+          preparation={preparation as UseSimulateContractReturnType}
+          size="medium"
+        >
           Signal
         </TxButton>
       </div>

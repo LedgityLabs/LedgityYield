@@ -73,7 +73,10 @@ interface Props {
 
 const RootLayout: NextPage<Props> = ({ children }) => {
   // Force DApp to be loaded dynamically without SSR
-  const DApp = dynamic(() => import("@/components/DApp"), { loading: Loader, ssr: false });
+  const DApp = dynamic(() => import("@/components/DApp"), {
+    loading: Loader,
+    ssr: false,
+  });
 
   return (
     <html lang="en">

@@ -9,16 +9,20 @@ export const useAvailableLTokens = () => {
   if (!currentChain) return [];
 
   // Return empty results if no contracts have been deployed on the current chain
-  if (!Object.keys(deployements).includes(currentChain.id.toString())) return [];
+  if (!Object.keys(deployements).includes(currentChain.id.toString()))
+    return [];
 
   // Else, get contracts deployed on the current chain
   const contracts =
-    deployements[currentChain.id.toString() as keyof typeof deployements][0].contracts;
+    deployements[currentChain.id.toString() as keyof typeof deployements][0]
+      .contracts;
 
   // Retrieve L-Tokens contracts (ones that are prefixed with "L" + the name of a dependency)
   let lTokensNames: string[] = [];
   Object.keys(contracts).forEach((contractName: string) => {
-    if (Object.keys(dependencies).some((suffix) => contractName === "L" + suffix)) {
+    if (
+      Object.keys(dependencies).some((suffix) => contractName === "L" + suffix)
+    ) {
       lTokensNames.push(contractName);
     }
   });

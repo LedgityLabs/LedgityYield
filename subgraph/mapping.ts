@@ -11,7 +11,12 @@ import {
   RewardPaid as RewardPaidEvent,
   NotifiedRewardAmount as NotififiedRewardAmountEvent,
 } from "./generated/LdyStaking/LdyStaking";
-import { AffiliateUser, AffiliateInfo, StakingUser, AffiliateActivity } from "./generated/schema";
+import {
+  AffiliateUser,
+  AffiliateInfo,
+  StakingUser,
+  AffiliateActivity,
+} from "./generated/schema";
 import { Lock } from "./generated/PreMining/PreMining";
 import { LToken as LTokenTemplate } from "./generated/templates";
 import {
@@ -202,7 +207,9 @@ export function handleActivityEvent(event: ActivityEvent): void {
     // Check AffiliateInfo(Only check successful activities)
     if (event.params.newStatus == 2 && affiliateUser !== null) {
       const affiliateInfoId =
-        affiliateUser.walletAddress.toHexString() + "-" + affiliateUser.affiliateCode;
+        affiliateUser.walletAddress.toHexString() +
+        "-" +
+        affiliateUser.affiliateCode;
       let userAffiliateInfo = AffiliateInfo.load(affiliateInfoId);
       if (userAffiliateInfo == null) {
         userAffiliateInfo = new AffiliateInfo(affiliateInfoId);
@@ -214,22 +221,32 @@ export function handleActivityEvent(event: ActivityEvent): void {
       }
 
       if (action == ActivityAction.Deposit) {
-        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.plus(event.params.amount);
-        userAffiliateInfo.totalAmountAfterFees = userAffiliateInfo.totalAmountAfterFees.plus(
-          event.params.amountAfterFees,
+        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.plus(
+          event.params.amount,
         );
+        userAffiliateInfo.totalAmountAfterFees =
+          userAffiliateInfo.totalAmountAfterFees.plus(
+            event.params.amountAfterFees,
+          );
       } else {
-        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.minus(event.params.amount);
-        userAffiliateInfo.totalAmountAfterFees = userAffiliateInfo.totalAmountAfterFees.minus(
-          event.params.amountAfterFees,
+        userAffiliateInfo.totalAmount = userAffiliateInfo.totalAmount.minus(
+          event.params.amount,
         );
+        userAffiliateInfo.totalAmountAfterFees =
+          userAffiliateInfo.totalAmountAfterFees.minus(
+            event.params.amountAfterFees,
+          );
       }
       userAffiliateInfo.lastTimestamp = event.block.timestamp;
       userAffiliateInfo.save();
 
       // Check AffiliateActivity
       const affiliateActivityId =
-        userAffiliateInfo.id + "-" + action + "-" + event.block.timestamp.toString();
+        userAffiliateInfo.id +
+        "-" +
+        action +
+        "-" +
+        event.block.timestamp.toString();
       const affiliateActivity = new AffiliateActivity(affiliateActivityId);
       affiliateActivity.affiliateInfo = userAffiliateInfo.id;
       affiliateActivity.action = action;
@@ -284,7 +301,10 @@ export function handleMintedRewardsEvent(event: MintedRewardsEvent): void {
 // }
 
 export function handleStaked(event: StakedEvent): void {
-  const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
+  const id = event.params.user
+    .toHexString()
+    .concat("-")
+    .concat(event.params.stakeIndex.toString());
 
   let entity = new StakingUser(id);
   entity.user = event.params.user;
@@ -296,13 +316,18 @@ export function handleStaked(event: StakedEvent): void {
 
   // update StakingAPRInfo
   const stakingAPRInfo = getOrCreateStakingAPRInfo();
-  stakingAPRInfo.totalStaked = stakingAPRInfo.totalStaked.plus(event.params.amount);
+  stakingAPRInfo.totalStaked = stakingAPRInfo.totalStaked.plus(
+    event.params.amount,
+  );
   stakingAPRInfo.save();
   updateStakingAPRInfo();
 }
 
 export function handleUnstaked(event: UnstakedEvent): void {
-  const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
+  const id = event.params.user
+    .toHexString()
+    .concat("-")
+    .concat(event.params.stakeIndex.toString());
   let entity = StakingUser.load(id);
 
   if (entity) {
@@ -315,14 +340,19 @@ export function handleUnstaked(event: UnstakedEvent): void {
 
     // update StakingAPRInfo
     const stakingAPRInfo = getOrCreateStakingAPRInfo();
-    stakingAPRInfo.totalStaked = stakingAPRInfo.totalStaked.minus(event.params.amount);
+    stakingAPRInfo.totalStaked = stakingAPRInfo.totalStaked.minus(
+      event.params.amount,
+    );
     stakingAPRInfo.save();
     updateStakingAPRInfo();
   }
 }
 
 export function handleRewardPaid(event: RewardPaidEvent): void {
-  const id = event.params.user.toHexString().concat("-").concat(event.params.stakeIndex.toString());
+  const id = event.params.user
+    .toHexString()
+    .concat("-")
+    .concat(event.params.stakeIndex.toString());
   let entity = StakingUser.load(id);
 
   if (entity) {
@@ -331,7 +361,9 @@ export function handleRewardPaid(event: RewardPaidEvent): void {
   }
 }
 
-export function handleNotifiedRewardAmount(event: NotififiedRewardAmountEvent): void {
+export function handleNotifiedRewardAmount(
+  event: NotififiedRewardAmountEvent,
+): void {
   const stakingAPRInfo = getOrCreateStakingAPRInfo();
   stakingAPRInfo.rewardPerSec = event.params.rewardPerSec;
   stakingAPRInfo.save();

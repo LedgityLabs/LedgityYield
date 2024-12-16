@@ -9,7 +9,10 @@ import {
 import { useGetUserStakingsByAddress } from "@/services/graph";
 import { useAccount, usePublicClient } from "wagmi";
 import { formatUnits, zeroAddress } from "viem";
-import { useReadLdyStakingGetEarnedUser, useReadLdyStakingGetUserStakes } from "@/generated";
+import {
+  useReadLdyStakingGetEarnedUser,
+  useReadLdyStakingGetUserStakes,
+} from "@/generated";
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { USER_STAKING_QUERY } from "@/services/graph/queries";
@@ -40,14 +43,16 @@ export const AppStakingPools: FC<{
   } = useGetUserStakingsByAddress(account.address || zeroAddress);
 
   // Fetch user staking info from ldyStaking contract
-  const { data: stakingPools, queryKey: getUserStakesQuery } = useReadLdyStakingGetUserStakes({
-    args: [account.address || zeroAddress],
-  });
+  const { data: stakingPools, queryKey: getUserStakesQuery } =
+    useReadLdyStakingGetUserStakes({
+      args: [account.address || zeroAddress],
+    });
 
   // Fetch claimable rewards array from ldyStaking Contract
-  const { data: rewardsArray, queryKey: rewardsArrayQuery } = useReadLdyStakingGetEarnedUser({
-    args: [account.address || zeroAddress],
-  });
+  const { data: rewardsArray, queryKey: rewardsArrayQuery } =
+    useReadLdyStakingGetEarnedUser({
+      args: [account.address || zeroAddress],
+    });
 
   // Refetch staking info, earned array from contracts on wallet, network change
   const queryKeys = [rewardsArrayQuery, getUserStakesQuery];
@@ -66,7 +71,9 @@ export const AppStakingPools: FC<{
 
   return (
     <div className="flex flex-col justify-start gap-y-2 p-4 h-full">
-      <div className="font-heading font-bold text-xl text-white">MY $LDY POOLS</div>
+      <div className="font-heading font-bold text-xl text-white">
+        MY $LDY POOLS
+      </div>
       <Carousel
         className={twMerge(
           "w-full justify-center",

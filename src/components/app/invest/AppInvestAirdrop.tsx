@@ -17,9 +17,15 @@ const Project = ({
     <div className="flex flex-col items-start justify-center gap-2">
       <div className="flex w-full items-center justify-center gap-2">
         <div className={twMerge("h-20 w-20 overflow-hidden rounded-2xl")}>
-          {(logo && <Image src={logo} alt={name} height={150} width={150} className="" />) || (
-            <div className="h-full w-full bg-fg/10"></div>
-          )}
+          {(logo && (
+            <Image
+              src={logo}
+              alt={name}
+              height={150}
+              width={150}
+              className=""
+            />
+          )) || <div className="h-full w-full bg-fg/10"></div>}
         </div>
         <Rate
           value={percentage}
@@ -74,9 +80,13 @@ export const AppInvestAirdrop: FC<Props> = ({ className }) => {
         </div>
       </div>
 
-      <h3 className="mt-10 text-center font-heading text-2xl font-bold text-white">Eligibility</h3>
+      <h3 className="mt-10 text-center font-heading text-2xl font-bold text-white">
+        Eligibility
+      </h3>
       <div>
-        <p className="text-lg font-semibold text-white">The wallet must have:</p>
+        <p className="text-lg font-semibold text-white">
+          The wallet must have:
+        </p>
         <ol className="list-decimal pl-6 text-lg font-semibold text-white">
           <li>Deposited in Ledgity Yield USDC pool for at least 1 month</li>
           <li>Interacted with at least 1 partner DApp</li>

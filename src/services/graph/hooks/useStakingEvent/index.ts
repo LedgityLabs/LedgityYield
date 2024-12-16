@@ -1,6 +1,9 @@
 import { Address } from "viem";
 import useGraphEvent from "../useGraphEvent";
-import { STAKING_APR_INFO_QUERY, USER_STAKING_QUERY } from "@/services/graph/queries";
+import {
+  STAKING_APR_INFO_QUERY,
+  USER_STAKING_QUERY,
+} from "@/services/graph/queries";
 
 export interface IUserStakingInfo {
   id: string;

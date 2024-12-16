@@ -3,7 +3,19 @@ import { env } from "../../../../env.mjs";
 import { arbitrum } from "viem/chains";
 import chainalysisScreenerAbi from "./chainalysisScreenerAbi.json";
 
-const restrictedCountriesCodes = ["US", "IR", "KP", "SY", "CU", "SD", "SO", "YE", "IQ", "LY", "VE"];
+const restrictedCountriesCodes = [
+  "US",
+  "IR",
+  "KP",
+  "SY",
+  "CU",
+  "SD",
+  "SO",
+  "YE",
+  "IQ",
+  "LY",
+  "VE",
+];
 const chainName: Record<string, string> = {
   "42161": "Arbitrum",
   "59144": "Linea",
@@ -28,9 +40,12 @@ export async function sendSlackAlert(context: string, message: string) {
 
 export async function isIPRestricted(ip: string) {
   // Check whether the IP location is restricted
-  const ipInfoReq = await fetch(`https://ipinfo.io/${ip}/country?token=${env.IPINFO_TOKEN}`, {
-    next: { revalidate: 3600 * 24 * 7 },
-  });
+  const ipInfoReq = await fetch(
+    `https://ipinfo.io/${ip}/country?token=${env.IPINFO_TOKEN}`,
+    {
+      next: { revalidate: 3600 * 24 * 7 },
+    },
+  );
 
   // Properly exit if the IP location request fails and that's not a local IP
   if (!ipInfoReq.ok && ip !== "::1") {
@@ -80,22 +95,25 @@ export async function isAccountHighRisk(
   alertContext?: AlertContext,
 ) {
   // Retrieve wallet's ScoreChain analysis
-  const scoreChainReq = await fetch("https://api.scorechain.com/v1/scoringAnalysis", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      accept: "application/json",
-      "X-API-KEY": env.SCORECHAIN_API_KEY,
+  const scoreChainReq = await fetch(
+    "https://api.scorechain.com/v1/scoringAnalysis",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "X-API-KEY": env.SCORECHAIN_API_KEY,
+      },
+      body: JSON.stringify({
+        analysisType: "FULL",
+        objectType: "WALLET",
+        objectId: address,
+        blockchain: "Ethereum",
+        coin: "ALL",
+      }),
+      next: { revalidate: 3600 * 24 },
     },
-    body: JSON.stringify({
-      analysisType: "FULL",
-      objectType: "WALLET",
-      objectId: address,
-      blockchain: "Ethereum",
-      coin: "ALL",
-    }),
-    next: { revalidate: 3600 * 24 },
-  });
+  );
   const scoreChainRes = await scoreChainReq.json();
 
   // If the wallet address check fails, and the error is not a 404 or 422

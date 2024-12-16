@@ -34,7 +34,10 @@ const _AppTabs: FC = () => {
       className="flex w-screen max-w-[100vw] flex-col items-center justify-center sm:gap-10 gap-5"
       onValueChange={(v) => switchTab(v)}
     >
-      <Link href="https://www.coingecko.com/en/coins/ledgity-token" target="_blank">
+      <Link
+        href="https://www.coingecko.com/en/coins/ledgity-token"
+        target="_blank"
+      >
         <div className="overflow flex scale-90 flex-col flex-wrap overflow-hidden rounded-3xl text-white opacity-100 drop-shadow-md backdrop-blur-md hover:opacity-80 sm:flex-row sm:flex-nowrap">
           <div className="flex items-center justify-center gap-1 whitespace-nowrap bg-gradient-to-bl from-[#20456c]/50 to-[purple] px-4 py-2 text-lg font-bold text-white">
             <i className="ri-fire-fill text-x animate-pulse" />

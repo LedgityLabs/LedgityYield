@@ -1,4 +1,11 @@
-import { AllowanceTxButton, Amount, AmountInput, Card, Input, TxButton } from "@/components/ui";
+import {
+  AllowanceTxButton,
+  Amount,
+  AmountInput,
+  Card,
+  Input,
+  TxButton,
+} from "@/components/ui";
 import {
   useReadLTokenDecimals,
   useReadLTokenUnderlying,
@@ -8,7 +15,12 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import { AdminBrick } from "../AdminBrick";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { erc20Abi, parseUnits, zeroAddress } from "viem";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber, useReadContract } from "wagmi";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+  useReadContract,
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface Props extends React.ComponentPropsWithRef<typeof Card> {
@@ -22,7 +34,9 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
     address: lTokenAddress,
   });
 
-  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress! });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({
+    address: lTokenAddress!,
+  });
   const { data: underlyingBalance, queryKey } = useReadContract({
     abi: erc20Abi,
     functionName: "balanceOf",
@@ -53,8 +67,9 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
   return (
     <AdminBrick title="Repatriate funds">
       <p>
-        This utility can only be called by the fund wallet and will safely transfer a given amount
-        of {lTokenSymbol.slice(1)} from fund to {lTokenSymbol} contract.
+        This utility can only be called by the fund wallet and will safely
+        transfer a given amount of {lTokenSymbol.slice(1)} from fund to{" "}
+        {lTokenSymbol} contract.
       </p>
       <div className="flex justify-center items-end gap-3">
         <AmountInput

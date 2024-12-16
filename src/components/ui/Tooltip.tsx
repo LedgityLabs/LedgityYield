@@ -40,7 +40,7 @@ export const TooltipContent: FC<TooltipContentProps> = ({
         primary: "bg-fg",
         destructive: "bg-red-500 font-semibold",
       }[variant],
-      className
+      className,
     )}
     sideOffset={12}
     collisionPadding={16}
@@ -52,7 +52,7 @@ export const TooltipContent: FC<TooltipContentProps> = ({
         {
           primary: "fill-fg",
           destructive: "fill-red-500",
-        }[variant]
+        }[variant],
       )}
     ></TooltipPrimitive.Arrow>
     {children}

@@ -36,7 +36,11 @@ import {
   writeLTokenProcessBigQueuedRequest,
 } from "@/generated";
 import clsx from "clsx";
-import { UseSimulateContractReturnType, useAccount, useBlockNumber } from "wagmi";
+import {
+  UseSimulateContractReturnType,
+  useAccount,
+  useBlockNumber,
+} from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { config } from "@/lib/dapp/config";
 
@@ -55,7 +59,9 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
   //   args: [requestId],
   // });
   const account = useAccount();
-  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({
+    address: lTokenAddress,
+  });
   const { data: requestData } = useReadLTokenWithdrawalQueue({
     address: lTokenAddress,
     args: [requestId],
@@ -70,7 +76,10 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
       <Button
         size="tiny"
         isLoading={allowance === undefined}
-        disabled={allowance === undefined || allowance >= (requestData ? requestData[1] : 0n)}
+        disabled={
+          allowance === undefined ||
+          allowance >= (requestData ? requestData[1] : 0n)
+        }
         onClick={() => {
           writeGenericErc20Approve(config, {
             address: underlyingAddress!,
@@ -83,7 +92,10 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
       <Button
         size="tiny"
         isLoading={allowance === undefined}
-        disabled={allowance === undefined || allowance < (requestData ? requestData[1] : 0n)}
+        disabled={
+          allowance === undefined ||
+          allowance < (requestData ? requestData[1] : 0n)
+        }
         onClick={() => {
           writeLTokenProcessBigQueuedRequest(config, {
             address: lTokenAddress,
@@ -149,7 +161,9 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
     address: lTokenAddress,
     args: [repatriationAmount],
   });
-  const { data: underlyingAddress } = useReadLTokenUnderlying({ address: lTokenAddress });
+  const { data: underlyingAddress } = useReadLTokenUnderlying({
+    address: lTokenAddress,
+  });
 
   const computeRequestsData = async () => {
     // setIsLoading(true);
@@ -226,7 +240,11 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
     columnHelper.accessor("account", {
       header: "Account",
       cell: (info) => (
-        <Address address={info.getValue() as `0x${string}`} copyable={true} tooltip={true} />
+        <Address
+          address={info.getValue() as `0x${string}`}
+          copyable={true}
+          tooltip={true}
+        />
       ),
     }),
     columnHelper.accessor("isBig", {
@@ -235,7 +253,12 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
         if (!info.getValue()) return "No";
         else {
           const requestId = requestsData[info.row.index].id;
-          return <ProcessBigRequestButton requestId={requestId} lTokenAddress={lTokenAddress!} />;
+          return (
+            <ProcessBigRequestButton
+              requestId={requestId}
+              lTokenAddress={lTokenAddress!}
+            />
+          );
         }
       },
     }),
@@ -306,19 +329,23 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                 {nonBigRequestsCount > 0 ? (
                   <>
                     <p className="text-lg">
-                      <span className="font-bold">{nonBigRequestsCount}</span> non-big requests to
-                      process:
+                      <span className="font-bold">{nonBigRequestsCount}</span>{" "}
+                      non-big requests to process:
                     </p>
                     <TxButton
                       size="tiny"
-                      preparation={processNonBigPreparation as UseSimulateContractReturnType}
+                      preparation={
+                        processNonBigPreparation as UseSimulateContractReturnType
+                      }
                       transactionSummary="Process as much as possible non-big requests"
                     >
                       Process
                     </TxButton>
                   </>
                 ) : (
-                  <span className="text-fg/50">No non-big requests to process.</span>
+                  <span className="text-fg/50">
+                    No non-big requests to process.
+                  </span>
                 )}
               </div>
             </li>
@@ -340,7 +367,9 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                       amount={repatriationAmount}
                       token={underlyingAddress!}
                       spender={lTokenAddress!}
-                      preparation={repatriationPreparation as UseSimulateContractReturnType}
+                      preparation={
+                        repatriationPreparation as UseSimulateContractReturnType
+                      }
                       transactionSummary={
                         <>
                           Repatriate{" "}
@@ -366,7 +395,9 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
               <div className="inline-flex items-center gap-3 text-lg">
                 {requestsData.length - nonBigRequestsCount > 0 ? (
                   <p>
-                    <span className="font-bold">{requestsData.length - nonBigRequestsCount}</span>{" "}
+                    <span className="font-bold">
+                      {requestsData.length - nonBigRequestsCount}
+                    </span>{" "}
                     big requests to process.
                   </p>
                 ) : (
@@ -376,10 +407,15 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
             </li>
           </ul>
         )}
-        <h4 className="font-heading text-xl font-bold">Requests queue ({requestsData.length})</h4>
+        <h4 className="font-heading text-xl font-bold">
+          Requests queue ({requestsData.length})
+        </h4>
         <div className="grid grid-cols-[repeat(4,minmax(0,200px))] border-b border-b-fg/20 ">
           {headerGroup.headers.map((header, index) => {
-            const content = flexRender(header.column.columnDef.header, header.getContext());
+            const content = flexRender(
+              header.column.columnDef.header,
+              header.getContext(),
+            );
             return (
               <div
                 key={header.column.id}
@@ -391,7 +427,9 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                 {(sortableColumns.includes(header.column.id) && (
                   <button
                     onClick={() =>
-                      header.column.toggleSorting(header.column.getIsSorted() === "asc")
+                      header.column.toggleSorting(
+                        header.column.getIsSorted() === "asc",
+                      )
                     }
                     className="flex items-center gap-1"
                   >

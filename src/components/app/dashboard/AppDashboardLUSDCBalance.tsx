@@ -3,7 +3,13 @@ import { useContractAddress } from "@/hooks/useContractAddress";
 import { useReadLTokenBalanceOf } from "@/generated";
 import { WithdrawDialog } from "../WithdrawDialog";
 import { DepositDialog } from "../DepositDialog";
-import { Amount, Button, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
+import {
+  Amount,
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui";
 import Image from "next/image";
 import lusdcIcon from "~/assets/tokens/lusdc.png";
 import { useAccount, useBlockNumber } from "wagmi";
@@ -69,7 +75,12 @@ export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
           suffix="LUSDC"
           displaySymbol={false}
         />{" "}
-        <Image src={lusdcIcon} alt="LUSDC icon" width={20} className="w-7 h-7 -mt-1" />
+        <Image
+          src={lusdcIcon}
+          alt="LUSDC icon"
+          width={20}
+          className="w-7 h-7 -mt-1"
+        />
       </div>
     </div>
   );

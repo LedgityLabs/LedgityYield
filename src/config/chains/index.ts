@@ -30,7 +30,8 @@ export const SUBGRAPH_CLIENT_URLS = {
     "https://api.studio.thegraph.com/query/60646/ldystaking-subgraph/version/latest",
   [ChainId.ETHEREUM_SEPOLIA]:
     "https://api.studio.thegraph.com/query/60646/ledgity-sepolia/version/latest",
-  [ChainId.XLAYER]: "https://api.studio.thegraph.com/query/60646/ledgity-okxmain/version/latest",
+  [ChainId.XLAYER]:
+    "https://api.studio.thegraph.com/query/60646/ledgity-okxmain/version/latest",
   [ChainId.ETHEREUM]:
     "https://api.studio.thegraph.com/query/60646/ledgity-eth-mainnet/version/latest",
   [ChainId.ARBITRUM_ONE]:

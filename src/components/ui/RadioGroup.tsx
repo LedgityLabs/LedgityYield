@@ -4,11 +4,15 @@ import React, { FC } from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { twMerge } from "tailwind-merge";
 
-export const RadioGroup: FC<React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>> = ({
-  className,
-  ...props
-}) => {
-  return <RadioGroupPrimitive.Root className={twMerge("grid gap-2", className)} {...props} />;
+export const RadioGroup: FC<
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+> = ({ className, ...props }) => {
+  return (
+    <RadioGroupPrimitive.Root
+      className={twMerge("grid gap-2", className)}
+      {...props}
+    />
+  );
 };
 
 export const RadioGroupItem: FC<

@@ -21,7 +21,9 @@ export const AppAffiliate: FC = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [copiedText, copy] = useCopyToClipboard();
-  const [affiliateUrl, setAffiliateUrl] = useState<string>("https://ledgity.finance/example");
+  const [affiliateUrl, setAffiliateUrl] = useState<string>(
+    "https://ledgity.finance/example",
+  );
   const [errorMsg, setErrorMsg] = useState<string>();
   const [isError, setIsError] = useState<boolean>(false);
   const [affiliateData, setAffiliateData] = useState<AffiliateResponse>();
@@ -67,14 +69,18 @@ export const AppAffiliate: FC = () => {
           defaultGradient={true}
           className="w-full flex flex-col items-center col-span-12 xl:col-span-6 gap-2 p-8"
         >
-          <div className="">Paste your wallet to participate in the affiliate program!</div>
+          <div className="">
+            Paste your wallet to participate in the affiliate program!
+          </div>
           <div className="flex justify-start w-full gap-x-2">
             <Tooltip open={affiliateData && !affiliateData.isSuccess}>
               <TooltipTrigger className="w-full h-full content-center">
                 <Input
                   placeholder="Input Wallet Address"
                   value={walletAddress}
-                  onChange={(e) => (setWalletAddress ? setWalletAddress(e.target.value) : null)}
+                  onChange={(e) =>
+                    setWalletAddress ? setWalletAddress(e.target.value) : null
+                  }
                   disableDefaultCss={true}
                   className="bg-gray-300 w-full p-2 rounded-lg text-sm"
                 />
@@ -107,13 +113,15 @@ export const AppAffiliate: FC = () => {
           className="w-full flex flex-col items-center col-span-12 xl:col-span-6 gap-2 p-8"
         >
           <div className="text-center">
-            Copy your referral link and share it to earn up to 50% of Ledgity's commission and help
-            your friends get stable yield.
+            Copy your referral link and share it to earn up to 50% of Ledgity's
+            commission and help your friends get stable yield.
           </div>
           <div className="relative flex bg-gray-300 w-full rounded-lg">
             <i
               className="ri-link rounded-full px-1 text-2xl font-bold absolute z-20 h-8 top-1/2 transform -translate-y-1/2 left-3 bg-none hover:cursor-pointer hover:bg-gray-100"
-              onClick={() => affiliateData && handleCopy(affiliateData.referralUrl)}
+              onClick={() =>
+                affiliateData && handleCopy(affiliateData.referralUrl)
+              }
             ></i>
             <input
               type="text"

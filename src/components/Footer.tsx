@@ -15,7 +15,10 @@ const LegalLinks = () => {
   return (
     <ul className="flex flex-col gap-2">
       {links.map(({ name, url }) => (
-        <li key={name} className="font-semibold text-bg/70 underline transition hover:text-bg/90">
+        <li
+          key={name}
+          className="font-semibold text-bg/70 underline transition hover:text-bg/90"
+        >
           <Link href={url} className="whitespace-nowrap">
             {name}
           </Link>
@@ -27,19 +30,48 @@ const LegalLinks = () => {
 
 const SocialLinks = () => {
   const socialData = [
-    { name: "Twitter", icon: "twitter-x-fill", link: "https://twitter.com/LedgityYield" },
-    { name: "Discord", icon: "discord-fill", link: "https://discord.gg/ledgityyield" },
-    { name: "Telegram", icon: "telegram-fill", link: "https://t.me/ledgityapp" },
-    { name: "Github", icon: "github-fill", link: "https://github.com/LedgityLabs/LedgityYield" },
-    { name: "Email", icon: "mail-fill", link: "mailto:contact@ledgity.finance" },
-    { name: "Gitbook", icon: "book-2-fill", link: "https://docs.ledgity.finance/" },
+    {
+      name: "Twitter",
+      icon: "twitter-x-fill",
+      link: "https://twitter.com/LedgityYield",
+    },
+    {
+      name: "Discord",
+      icon: "discord-fill",
+      link: "https://discord.gg/ledgityyield",
+    },
+    {
+      name: "Telegram",
+      icon: "telegram-fill",
+      link: "https://t.me/ledgityapp",
+    },
+    {
+      name: "Github",
+      icon: "github-fill",
+      link: "https://github.com/LedgityLabs/LedgityYield",
+    },
+    {
+      name: "Email",
+      icon: "mail-fill",
+      link: "mailto:contact@ledgity.finance",
+    },
+    {
+      name: "Gitbook",
+      icon: "book-2-fill",
+      link: "https://docs.ledgity.finance/",
+    },
   ];
 
   return (
     <ul className="flex items-center justify-center gap-7">
       {socialData.map(({ name, icon, link }) => (
         <li key={name} className="flex items-center justify-center">
-          <Link aria-label={name} href={link} target="_blank" className="inline-block w-8">
+          <Link
+            aria-label={name}
+            href={link}
+            target="_blank"
+            className="inline-block w-8"
+          >
             <i
               className={`ri-${icon} inline-block text-4xl text-bg transition-[transform,fill] hover:scale-110 hover:text-accent`}
             ></i>

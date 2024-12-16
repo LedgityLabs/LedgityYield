@@ -9,7 +9,10 @@ const useGraphEvent = (query: string, variables: any): any => {
   return useQuery({
     queryKey: [query, chain?.id],
     queryFn: () => {
-      return graphClientWithChain(chain?.id as ChainId).request(query, variables);
+      return graphClientWithChain(chain?.id as ChainId).request(
+        query,
+        variables,
+      );
     },
   });
 };

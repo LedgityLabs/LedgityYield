@@ -6,10 +6,12 @@ import deployments from "./contracts/deployments.json";
 // See: https://wagmi.sh/cli/plugins/hardhat#deployments-optional
 let hhPluginDeployments = {};
 for (let chainId in deployments) {
-  let contractList = deployments[chainId as keyof typeof deployments][0].contracts;
+  let contractList =
+    deployments[chainId as keyof typeof deployments][0].contracts;
   for (const [contractName, contractData] of Object.entries(contractList)) {
     if (contractName.includes("_")) continue; // Exclude proxies' implementation contracts
-    if (!hhPluginDeployments[contractName]) hhPluginDeployments[contractName] = {};
+    if (!hhPluginDeployments[contractName])
+      hhPluginDeployments[contractName] = {};
     hhPluginDeployments[contractName][chainId] = contractData.address;
   }
 }

@@ -21,11 +21,13 @@ const Page: NextPage<Props> = ({ error, reset }) => {
           </h1>
           <div className="flex flex-col justify-center items-center gap-3">
             <p className="text-lg font-medium text-center sm:whitespace-nowrap">
-              Oops! An error occured while rendering <br className="sm:inline hidden" />
+              Oops! An error occured while rendering{" "}
+              <br className="sm:inline hidden" />
               this page, with the following reason:
             </p>
             <code className="p-8 bg-fg text-bg font-['monospace'] rounded-3xl ">
-              {error.name ? error.name + ":" : ""} {error.message || "Unknown error"}
+              {error.name ? error.name + ":" : ""}{" "}
+              {error.message || "Unknown error"}
             </code>
           </div>
           <div className="flex gap-6 justify-center items-center">

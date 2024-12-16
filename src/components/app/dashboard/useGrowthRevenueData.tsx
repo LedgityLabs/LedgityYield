@@ -5,12 +5,7 @@ import { readLToken } from "@/generated";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { useEffect, useState } from "react";
-import {
-  Activity,
-  LToken,
-  RewardsMint,
-  execute,
-} from "graphclient";
+import { Activity, LToken, RewardsMint, execute } from "graphclient";
 import { config } from "@/lib/dapp/config";
 import { useCurrentChain } from "@/hooks/useCurrentChain";
 
@@ -52,7 +47,10 @@ export const useGrowthRevenueData = () => {
 
     // If data cache doesn't exist or isn't valid anymore
     const cacheEntry = dataCache[account.chainId];
-    if (!cacheEntry || Date.now() / 1000 - cacheEntry.timestamp > dataCacheDuration) {
+    if (
+      !cacheEntry ||
+      Date.now() / 1000 - cacheEntry.timestamp > dataCacheDuration
+    ) {
       // Get new data
       const newData = await _computeData();
 
@@ -111,7 +109,8 @@ export const useGrowthRevenueData = () => {
 
     // Return empty data if there is no investment start
     if (!investmentStartRequest.data) return null;
-    const investmentStartData = investmentStartRequest.data[`c${account.chainId}_ltokens`];
+    const investmentStartData =
+      investmentStartRequest.data[`c${account.chainId}_ltokens`];
     if (!investmentStartData) return null;
 
     // Push investment start as first data point
@@ -158,17 +157,23 @@ export const useGrowthRevenueData = () => {
     );
 
     // Push each reward mint as data point
-    const mintsEventsData = mintsEventsRequest.data[`c${account.chainId}_rewardsMints`];
+    const mintsEventsData =
+      mintsEventsRequest.data[`c${account.chainId}_rewardsMints`];
     for (const rewardsMint of mintsEventsData) {
       const usdRate = await getTokenUSDRate(rewardsMint.ltoken.symbol.slice(1));
 
       // Convert revenue to decimals and then to USD
-      let revenue = Number(formatUnits(BigInt(rewardsMint.revenue), rewardsMint.ltoken.decimals));
+      let revenue = Number(
+        formatUnits(BigInt(rewardsMint.revenue), rewardsMint.ltoken.decimals),
+      );
       revenue = revenue * usdRate;
 
       // Convert balance before to decimals and then to USD
       let balanceBefore = Number(
-        formatUnits(BigInt(rewardsMint.balanceBefore), rewardsMint.ltoken.decimals),
+        formatUnits(
+          BigInt(rewardsMint.balanceBefore),
+          rewardsMint.ltoken.decimals,
+        ),
       );
       balanceBefore = balanceBefore * usdRate;
 
@@ -199,15 +204,15 @@ export const useGrowthRevenueData = () => {
           args: [account.address || zeroAddress],
         });
         const usdRate = await getTokenUSDRate(lToken.slice(1));
-  
+
         // Convert revenue to decimals and then to USD
         let revenue = Number(formatUnits(unclaimedRewards, decimals));
         revenue = revenue * usdRate;
-  
+
         // Convert balance before to decimals and then to USD
         let balanceBefore = Number(formatUnits(_balanceBefore, decimals));
         balanceBefore = balanceBefore * usdRate;
-  
+
         newData[lToken].push({
           timestamp: Math.floor(Date.now() / 1000),
           revenue: revenue,

@@ -1,9 +1,22 @@
-import { Address, Amount, AmountInput, Button, Card, Input } from "@/components/ui";
+import {
+  Address,
+  Amount,
+  AmountInput,
+  Button,
+  Card,
+  Input,
+} from "@/components/ui";
 import { useContractAddress } from "@/hooks/useContractAddress";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { TxButton } from "@/components/ui/TxButton";
-import { createTestClient, erc20Abi, http, parseUnits, zeroAddress } from "viem";
+import {
+  createTestClient,
+  erc20Abi,
+  http,
+  parseUnits,
+  zeroAddress,
+} from "viem";
 import {
   UseSimulateContractReturnType,
   useAccount,
@@ -17,7 +30,10 @@ import { hardhat } from "wagmi/chains";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSimulateGenericErc20Mint } from "@/generated";
 
-const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props }) => {
+const MintFakeToken: FC<{ contractName: string }> = ({
+  contractName,
+  ...props
+}) => {
   const account = useAccount();
   const address = useContractAddress(contractName);
   const { data: tokenSymbol } = useReadContract({
@@ -62,7 +78,12 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
       <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Address</h5>
-          <Address address={address} copyable={true} addToWallet={true} tooltip={true} />
+          <Address
+            address={address}
+            copyable={true}
+            addToWallet={true}
+            tooltip={true}
+          />
         </li>
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Symbol</h5>
@@ -93,7 +114,10 @@ const MintFakeToken: FC<{ contractName: string }> = ({ contractName, ...props })
                 setMintedAmount(parseUnits(e.target.value, tokenDecimals!))
               }
             />
-            <TxButton size="medium" preparation={preparation as UseSimulateContractReturnType}>
+            <TxButton
+              size="medium"
+              preparation={preparation as UseSimulateContractReturnType}
+            >
               Mint
             </TxButton>
           </div>
@@ -116,8 +140,8 @@ export const AdminTesting: FC = () => {
     <AdminMasonry>
       <AdminBrick title="Underlying tokens">
         <p>
-          When Ledgity Yield is deployed locally, fake stablecoins contracts are also automatically
-          deployed to mimic mainnets&apos; ones.
+          When Ledgity Yield is deployed locally, fake stablecoins contracts are
+          also automatically deployed to mimic mainnets&apos; ones.
           <br />
           <br />
           Here are those for the current local network:
@@ -128,8 +152,8 @@ export const AdminTesting: FC = () => {
       </AdminBrick>
       <AdminBrick title="LDY token">
         <p>
-          When Ledgity Yield is deployed locally, a fake $LDY token contract is also automatically
-          deployed to mimic the mainnets&apos; ones.
+          When Ledgity Yield is deployed locally, a fake $LDY token contract is
+          also automatically deployed to mimic the mainnets&apos; ones.
           <br />
           <br />
           Here is the one for the local test network:
@@ -139,16 +163,23 @@ export const AdminTesting: FC = () => {
       <AdminBrick title="Increase block time">
         <div className="flex flex-col justify-center items-center gap-3">
           <p>
-            Warning: When local chain timestamp is moved forward, the JS `Date.now()` is still at
-            current timestamp. This may produce unwanted results if on-chain timestamps are for
-            example compared to JS ones.
+            Warning: When local chain timestamp is moved forward, the JS
+            `Date.now()` is still at current timestamp. This may produce
+            unwanted results if on-chain timestamps are for example compared to
+            JS ones.
           </p>
           <Input
             type="number"
             placeholder="Number of days"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setDayForwards(Number(e.target.value))}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setDayForwards(Number(e.target.value))
+            }
           />
-          <Button onClick={() => testClient.increaseTime({ seconds: dayForwards * 24 * 60 * 60 })}>
+          <Button
+            onClick={() =>
+              testClient.increaseTime({ seconds: dayForwards * 24 * 60 * 60 })
+            }
+          >
             Increase time
           </Button>
         </div>

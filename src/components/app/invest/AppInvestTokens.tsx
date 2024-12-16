@@ -52,9 +52,9 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
   const lTokens = useAvailableLTokens();
-  const [readsConfig, setReadsConfig] = useState<Parameters<typeof readContracts>[1]["contracts"]>(
-    [],
-  );
+  const [readsConfig, setReadsConfig] = useState<
+    Parameters<typeof readContracts>[1]["contracts"]
+  >([]);
   const [tableData, setTableData] = useState<Pool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const currentChain = useCurrentChain();
@@ -68,8 +68,14 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
         const tokenSymbol = info.getValue();
         return (
           <div className="inline-flex items-center gap-2.5">
-            <TokenLogo symbol={tokenSymbol} size={35} className="border border-bg/80" />
-            <p className="text-xl font-bold text-fg/80 min-[480px]:inline hidden">{tokenSymbol}</p>
+            <TokenLogo
+              symbol={tokenSymbol}
+              size={35}
+              className="border border-bg/80"
+            />
+            <p className="text-xl font-bold text-fg/80 min-[480px]:inline hidden">
+              {tokenSymbol}
+            </p>
           </div>
         );
       },
@@ -77,7 +83,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
     columnHelper.accessor("apr", {
       cell: (info) => (
         <div className="inline-flex items-center gap-2">
-          <Rate value={info.getValue()} className="text-lg font-bold text-primary" />
+          <Rate
+            value={info.getValue()}
+            className="text-lg font-bold text-primary"
+          />
         </div>
       ),
       header: "APR",
@@ -205,13 +214,15 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
       if (!lTokenAddress) continue;
 
       // Populate required reads requests
-      ["symbol", "decimals", "totalSupply", "getAPR"].forEach((functionName) => {
-        newReadsConfig.push({
-          address: lTokenAddress,
-          abi: lTokenAbi,
-          functionName: functionName,
-        });
-      });
+      ["symbol", "decimals", "totalSupply", "getAPR"].forEach(
+        (functionName) => {
+          newReadsConfig.push({
+            address: lTokenAddress,
+            abi: lTokenAbi,
+            functionName: functionName,
+          });
+        },
+      );
       newReadsConfig.push({
         address: lTokenAddress,
         abi: lTokenAbi,
@@ -288,7 +299,10 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
                 if (chainId === currentChain.id) continue;
 
                 // Retrieve L-Token address on other chain
-                const chainLTokenAddress = getContractAddress(lTokenSymbol, chainId);
+                const chainLTokenAddress = getContractAddress(
+                  lTokenSymbol,
+                  chainId,
+                );
 
                 // If L-Token is not available on the other chain, skip
                 if (!chainLTokenAddress) continue;
@@ -338,17 +352,23 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
             key={header.id}
             className={twMerge(
               "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
-              header.column.id === "tokenSymbol" && "justify-start sm:pl-10 pl-5",
+              header.column.id === "tokenSymbol" &&
+                "justify-start sm:pl-10 pl-5",
               header.column.id === "invested" && "md:inline-flex hidden",
             )}
           >
             {(() => {
-              const content = flexRender(header.column.columnDef.header, header.getContext());
+              const content = flexRender(
+                header.column.columnDef.header,
+                header.getContext(),
+              );
               if (sortableColumns.includes(header.column.id))
                 return (
                   <button
                     onClick={() =>
-                      header.column.toggleSorting(header.column.getIsSorted() === "asc")
+                      header.column.toggleSorting(
+                        header.column.getIsSorted() === "asc",
+                      )
                     }
                     className="flex items-center gap-1"
                   >

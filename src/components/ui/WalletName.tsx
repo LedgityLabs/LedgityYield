@@ -9,7 +9,8 @@ interface Props {
 export const WalletName: FC<Props> = ({ address }) => {
   const { data: ensName } = useEnsName({ address: address, chainId: 1 });
   if (ensName) {
-    const formattedName = ensName.length > 20 ? ensName.slice(0, 20) + "..." : ensName;
+    const formattedName =
+      ensName.length > 20 ? ensName.slice(0, 20) + "..." : ensName;
     return <span>{formattedName}</span>;
   } else return <Address address={address} />;
 };

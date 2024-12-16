@@ -5,14 +5,17 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 // For cross-platform compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const sourceDirectory = path.join(__dirname, "../contracts/hardhat/artifacts/contracts/src");
+const sourceDirectory = path.join(
+  __dirname,
+  "../contracts/hardhat/artifacts/contracts/src",
+);
 const destinationDirectory = path.join(__dirname, "../contracts/abis");
 
 // Ensure 'contracts/abis/' directory exists or create it.
@@ -46,5 +49,3 @@ const extractABIsFromDirectory = async (directory: string) => {
 
 await extractABIsFromDirectory(sourceDirectory);
 console.log("ABIs extracted successfully!");
-
-

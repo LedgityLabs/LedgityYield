@@ -29,13 +29,18 @@ export const Card: FC<CardProps> = ({
   const [circleSize, setCircleSize] = useState(100);
   useEffect(() => {
     if (card.current) {
-      setCircleSize((card.current.offsetHeight + card.current.offsetWidth) / 2.2);
+      setCircleSize(
+        (card.current.offsetHeight + card.current.offsetWidth) / 2.2,
+      );
     }
   }, [card]);
   useEffect(() => {
     if (card.current) {
       card.current.style.setProperty("--circle-size", `${circleSize}px`);
-      card.current.style.setProperty("--circle-intensity", circleIntensity.toString());
+      card.current.style.setProperty(
+        "--circle-intensity",
+        circleIntensity.toString(),
+      );
     }
   }, [circleSize, circleIntensity]);
   return (
@@ -47,7 +52,9 @@ export const Card: FC<CardProps> = ({
         defaultGradient ? "bg-card-border-default" : "bg-card-border",
         "relative drop-shadow-sm p-[2px]",
         "before:absolute before:inset-[2px] before:-z-1",
-        defaultGradient ? "before:bg-card-content-default" : "before:bg-card-content",
+        defaultGradient
+          ? "before:bg-card-content-default"
+          : "before:bg-card-content",
         // drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))
         // Radiuses
         {

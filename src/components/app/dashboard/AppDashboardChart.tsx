@@ -35,10 +35,13 @@ Chart.register(
 
 const secondsPerDay = 60 * 60 * 24;
 
-export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ className }) => {
+export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({
+  className,
+}) => {
   const [period, setPeriod] = useState("90");
   const [type, setType] = useState<"revenue" | "growth">("revenue");
-  const { data, isDataLoading, isDataError, dataErrorMessage } = useGrowthRevenueData();
+  const { data, isDataLoading, isDataError, dataErrorMessage } =
+    useGrowthRevenueData();
   const [labels, setLabels] = useState<Date[]>([]);
   const [revenueData, setRevenueData] = useState<number[]>([]);
   const [growthData, setGrowthData] = useState<number[]>([]);
@@ -67,7 +70,8 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           : 365;
     }
 
-    const startTimestamp = Math.floor(Date.now() / 1000) - numberOfDays * secondsPerDay;
+    const startTimestamp =
+      Math.floor(Date.now() / 1000) - numberOfDays * secondsPerDay;
 
     let chunksNumber;
     if (numberOfDays === 7) chunksNumber = 7;
@@ -111,8 +115,12 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
     const reversedLabels = [..._labels].reverse();
 
     const emptyGrowthData: Record<string, [number, number]> = {};
-    Object.keys(reversedData).forEach((lToken) => (emptyGrowthData[lToken] = [0, 0]));
-    const perLabelGrowthData: Record<string, [number, number]>[] = new Array(_labels.length)
+    Object.keys(reversedData).forEach(
+      (lToken) => (emptyGrowthData[lToken] = [0, 0]),
+    );
+    const perLabelGrowthData: Record<string, [number, number]>[] = new Array(
+      _labels.length,
+    )
       .fill(null)
       .map(() => JSON.parse(JSON.stringify(emptyGrowthData)));
 
@@ -131,7 +139,8 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           perLabelGrowthData[currentLabelIndex][lToken] = [0, 0];
         else
           perLabelGrowthData[currentLabelIndex][lToken] = [
-            currentLabelGrowthData.cumulatedBalanceBefore / currentLabelGrowthData.count,
+            currentLabelGrowthData.cumulatedBalanceBefore /
+              currentLabelGrowthData.count,
             currentLabelGrowthData.cumulatedGrowth,
           ];
 
@@ -159,7 +168,8 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
         if (!nextDataPoint) {
           _revenueData[currentLabelIndex] += dataPoint.revenue;
           currentLabelGrowthData.cumulatedGrowth += dataPoint.growth;
-          currentLabelGrowthData.cumulatedBalanceBefore += dataPoint.balanceBefore;
+          currentLabelGrowthData.cumulatedBalanceBefore +=
+            dataPoint.balanceBefore;
           currentLabelGrowthData.count++;
           break;
         }
@@ -168,20 +178,25 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
         else if (nextDataPoint.timestamp > currentLabel.getTime() / 1000) {
           _revenueData[currentLabelIndex] += dataPoint.revenue;
           currentLabelGrowthData.cumulatedGrowth += dataPoint.growth;
-          currentLabelGrowthData.cumulatedBalanceBefore += dataPoint.balanceBefore;
+          currentLabelGrowthData.cumulatedBalanceBefore +=
+            dataPoint.balanceBefore;
           currentLabelGrowthData.count++;
         }
 
         // Or if there is no next label
         else if (!nextLabel) {
           //
-          const timeUntilEndOfLabel = dataPoint.timestamp - currentLabel.getTime() / 1000;
+          const timeUntilEndOfLabel =
+            dataPoint.timestamp - currentLabel.getTime() / 1000;
           // Retrieve the time span between current data point and the next one
-          const timeUntilNextDataPoint = dataPoint.timestamp - nextDataPoint.timestamp;
+          const timeUntilNextDataPoint =
+            dataPoint.timestamp - nextDataPoint.timestamp;
           const proportion = timeUntilEndOfLabel / timeUntilNextDataPoint;
           _revenueData[currentLabelIndex] += dataPoint.revenue;
-          currentLabelGrowthData.cumulatedGrowth += dataPoint.growth * proportion;
-          currentLabelGrowthData.cumulatedBalanceBefore += dataPoint.balanceBefore;
+          currentLabelGrowthData.cumulatedGrowth +=
+            dataPoint.growth * proportion;
+          currentLabelGrowthData.cumulatedBalanceBefore +=
+            dataPoint.balanceBefore;
           currentLabelGrowthData.count++;
 
           break;
@@ -190,14 +205,18 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
         // Else
         else {
           // Retrieve the time span between current data point and the next one
-          const timeUntilNextDataPoint = dataPoint.timestamp - nextDataPoint.timestamp;
+          const timeUntilNextDataPoint =
+            dataPoint.timestamp - nextDataPoint.timestamp;
 
           // Handle "dataPoint to current label end" distance
           const proportion1 =
-            (dataPoint.timestamp - currentLabel.getTime() / 1000) / timeUntilNextDataPoint;
+            (dataPoint.timestamp - currentLabel.getTime() / 1000) /
+            timeUntilNextDataPoint;
           _revenueData[currentLabelIndex] += dataPoint.revenue * proportion1;
-          currentLabelGrowthData.cumulatedGrowth += dataPoint.growth * proportion1;
-          currentLabelGrowthData.cumulatedBalanceBefore += dataPoint.balanceBefore;
+          currentLabelGrowthData.cumulatedGrowth +=
+            dataPoint.growth * proportion1;
+          currentLabelGrowthData.cumulatedBalanceBefore +=
+            dataPoint.balanceBefore;
           currentLabelGrowthData.count++;
 
           incrementLabel();
@@ -207,9 +226,12 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
 
           // Update next label index and new start label
           while (currentLabel.getTime() / 1000 > nextDataPoint.timestamp) {
-            _revenueData[currentLabelIndex] += dataPoint.revenue * entireChunkProportion;
-            currentLabelGrowthData.cumulatedGrowth += dataPoint.growth * entireChunkProportion;
-            currentLabelGrowthData.cumulatedBalanceBefore += dataPoint.balanceBefore;
+            _revenueData[currentLabelIndex] +=
+              dataPoint.revenue * entireChunkProportion;
+            currentLabelGrowthData.cumulatedGrowth +=
+              dataPoint.growth * entireChunkProportion;
+            currentLabelGrowthData.cumulatedBalanceBefore +=
+              dataPoint.balanceBefore;
             currentLabelGrowthData.count++;
             if (!nextLabel) break;
             incrementLabel();
@@ -217,11 +239,14 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
 
           // Handle "last label start to next data point" distance
           const proportion2 =
-            (chunkTime - (nextDataPoint.timestamp - currentLabel.getTime() / 1000)) /
+            (chunkTime -
+              (nextDataPoint.timestamp - currentLabel.getTime() / 1000)) /
             timeUntilNextDataPoint;
           _revenueData[currentLabelIndex] += dataPoint.revenue * proportion2;
-          currentLabelGrowthData.cumulatedGrowth += dataPoint.growth * proportion2;
-          currentLabelGrowthData.cumulatedBalanceBefore += dataPoint.balanceBefore;
+          currentLabelGrowthData.cumulatedGrowth +=
+            dataPoint.growth * proportion2;
+          currentLabelGrowthData.cumulatedBalanceBefore +=
+            dataPoint.balanceBefore;
           currentLabelGrowthData.count++;
         }
       }
@@ -231,10 +256,16 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
     for (let i = 0; i < _labels.length; i++) {
       const combinedData: [number, number][] = [];
       for (const lToken of Object.keys(perLabelGrowthData[i])) {
-        combinedData.push([perLabelGrowthData[i][lToken][0], perLabelGrowthData[i][lToken][1]]);
+        combinedData.push([
+          perLabelGrowthData[i][lToken][0],
+          perLabelGrowthData[i][lToken][1],
+        ]);
       }
       let total_weight = combinedData.reduce((acc, val) => acc + val[0], 0);
-      let weighted_sum = combinedData.reduce((acc, val) => acc + val[0] * val[1], 0);
+      let weighted_sum = combinedData.reduce(
+        (acc, val) => acc + val[0] * val[1],
+        0,
+      );
       let weighted_avg = total_weight !== 0 ? weighted_sum / total_weight : 0;
       _growthData[i] += weighted_avg;
     }
@@ -250,7 +281,12 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
   }, [data, isDataLoading, period]);
 
   return (
-    <article className={twMerge("flex flex-col items-center justify-center p-8 pr-5", className)}>
+    <article
+      className={twMerge(
+        "flex flex-col items-center justify-center p-8 pr-5",
+        className,
+      )}
+    >
       <div className="flex h-full w-full items-end justify-center rounded-3xl bg-primary/10">
         <div className="h-full w-full p-4 ">
           {(() => {
@@ -309,10 +345,12 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
                             footer(tooltipItems) {
                               const dataIndex = tooltipItems[0].dataIndex;
 
-                              let from = labels![dataIndex].toLocaleDateString();
+                              let from =
+                                labels![dataIndex].toLocaleDateString();
                               let to = "now";
                               if (labels![dataIndex + 1])
-                                to = labels![dataIndex + 1].toLocaleDateString();
+                                to =
+                                  labels![dataIndex + 1].toLocaleDateString();
 
                               // Return the appropriate label here
                               return `From:  ${from}\nTo:       ${to}`;
@@ -327,7 +365,11 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
                         },
                         delay: (context) => {
                           let delay = 0;
-                          if (context.type === "data" && context.mode === "default" && !delayed) {
+                          if (
+                            context.type === "data" &&
+                            context.mode === "default" &&
+                            !delayed
+                          ) {
                             delay = context.dataIndex * 25;
                           }
                           return delay;
@@ -385,7 +427,9 @@ export const AppDashboardChart: React.PropsWithoutRef<typeof Card> = ({ classNam
           <p>Revenue ($)</p>
           <Switch
             disabled={isDataLoading || isDataError}
-            onCheckedChange={(checked) => setType(checked ? "growth" : "revenue")}
+            onCheckedChange={(checked) =>
+              setType(checked ? "growth" : "revenue")
+            }
           />
           <p>Growth (%)</p>
         </div>

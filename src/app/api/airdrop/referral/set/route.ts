@@ -22,7 +22,10 @@ export async function POST(request: Request) {
 
   // Ensure the referrer is not the user
   if (referrerId === session.user.id) {
-    return NextResponse.json({ success: false, error: "You can't refer yourself" });
+    return NextResponse.json({
+      success: false,
+      error: "You can't refer yourself",
+    });
   }
 
   // Ensure the referrer exists
@@ -32,7 +35,10 @@ export async function POST(request: Request) {
     },
   });
   if (!referrerExists) {
-    return NextResponse.json({ success: false, error: "Referrer doesn't exist" });
+    return NextResponse.json({
+      success: false,
+      error: "Referrer doesn't exist",
+    });
   }
 
   // Update the user referrer if not already set

@@ -1,5 +1,11 @@
 import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from "react";
-import { AllowanceTxButton, Amount, AmountInputWithLogo, Button, Spinner } from "@/components/ui";
+import {
+  AllowanceTxButton,
+  Amount,
+  AmountInputWithLogo,
+  Button,
+  Spinner,
+} from "@/components/ui";
 import { Address, formatUnits, parseUnits } from "viem";
 import { UseSimulateContractReturnType } from "wagmi";
 import { useContractAddress } from "@/hooks/useContractAddress";
@@ -42,7 +48,9 @@ export const AppStakingPane: FC<{
 
   // Calculate APR based on stakeIndex and stakingAprInfo.
   const APR = useMemo(() => {
-    return getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%";
+    return (
+      getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%"
+    );
   }, [stakeOptionIndex, rewardRate, totalWeightedStake]);
 
   const preparation = useSimulateLdyStakingStake({
@@ -50,7 +58,9 @@ export const AppStakingPane: FC<{
   });
   return (
     <div className="flex flex-col w-full p-4 gap-y-2 h-full">
-      <div className="font-heading font-bold text-xl">STAKE LDY TO GET REWARDS AND BENEFITS</div>
+      <div className="font-heading font-bold text-xl">
+        STAKE LDY TO GET REWARDS AND BENEFITS
+      </div>
       <AmountInputWithLogo
         ref={inputEl}
         maxValue={ldyTokenBalance}
@@ -115,7 +125,10 @@ export const AppStakingPane: FC<{
           onClick={() => {
             setDepositedAmount(ldyTokenBalance!);
             if (inputEl.current)
-              inputEl.current.value = formatUnits(ldyTokenBalance!, ldyTokenDecimals!);
+              inputEl.current.value = formatUnits(
+                ldyTokenBalance!,
+                ldyTokenDecimals!,
+              );
           }}
         >
           MAX

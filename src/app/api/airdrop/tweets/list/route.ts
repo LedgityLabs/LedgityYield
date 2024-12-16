@@ -11,7 +11,10 @@ export async function GET(request: Request) {
 
   // If not session return error
   if (!session) {
-    return NextResponse.json({ success: false, error: "Twitter account not connected" });
+    return NextResponse.json({
+      success: false,
+      error: "Twitter account not connected",
+    });
   }
 
   // Retrieve user tweets

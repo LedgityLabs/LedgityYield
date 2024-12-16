@@ -32,7 +32,8 @@ export const AppStaking: FC = () => {
     functionName: "decimals",
   });
 
-  const { data: rewardRate, queryKey: rewardRateQuery } = useReadLdyStakingRewardRatePerSec();
+  const { data: rewardRate, queryKey: rewardRateQuery } =
+    useReadLdyStakingRewardRatePerSec();
   const { data: totalWeightedStake, queryKey: totalWeightedStakeQuery } =
     useReadLdyStakingTotalWeightedStake();
   const apyQueryKeys = [rewardRateQuery, totalWeightedStakeQuery];

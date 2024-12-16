@@ -56,7 +56,8 @@ export const AdminAddressSetter: FC<Props> = ({
     <div className="flex flex-col gap-5">
       {displayName && <h4 className="text-lg font-semibold">{displayName}</h4>}
       <p>
-        Current address: <Address address={currentAddress as `0x${string}`} copyable={true} />
+        Current address:{" "}
+        <Address address={currentAddress as `0x${string}`} copyable={true} />
       </p>
       <div className="flex justify-center items-end gap-3">
         <Input

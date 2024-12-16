@@ -11,14 +11,22 @@ interface Props extends React.HTMLAttributes<HTMLAnchorElement> {
   theme?: "light" | "dark";
   noText?: boolean;
 }
-export const Logo: FC<Props> = ({ className, theme = "light", noText = false, ...props }) => {
+export const Logo: FC<Props> = ({
+  className,
+  theme = "light",
+  noText = false,
+  ...props
+}) => {
   let logo: any;
   if (noText) logo = theme === "light" ? iconLight : iconDark;
   else logo = theme === "light" ? logoLight : logoDark;
   return (
     <Link
       href="/"
-      className={twMerge("flex items-center pt-1 hover:opacity-70 transition-opacity", className)}
+      className={twMerge(
+        "flex items-center pt-1 hover:opacity-70 transition-opacity",
+        className,
+      )}
       {...props}
     >
       <Image

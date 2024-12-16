@@ -48,9 +48,15 @@ export const AppInvestHoldersCount: FC<Props> = (props) => {
         // Retrieve all current and past holders
         const holders = new Set<string>();
         logs.forEach((log) => {
-          if (log.args.from && ![lTokenAddress, zeroAddress].includes(log.args.from))
+          if (
+            log.args.from &&
+            ![lTokenAddress, zeroAddress].includes(log.args.from)
+          )
             holders.add(log.args.from);
-          if (log.args.to && ![lTokenAddress, zeroAddress].includes(log.args.to))
+          if (
+            log.args.to &&
+            ![lTokenAddress, zeroAddress].includes(log.args.to)
+          )
             holders.add(log.args.to);
         });
 

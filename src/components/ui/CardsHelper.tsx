@@ -12,19 +12,27 @@ export const CardsHelper: FC = () => {
         const rect = card.getBoundingClientRect();
         let left = e.clientX - rect.left;
         let top = e.clientY - rect.top;
-        const isInCard = left > 0 && top > 0 && left < card.offsetWidth && top < card.offsetHeight;
+        const isInCard =
+          left > 0 &&
+          top > 0 &&
+          left < card.offsetWidth &&
+          top < card.offsetHeight;
         if (isInCard) {
           let sDistance = 0;
           // If mouse is in:
           if (top <= card.offsetHeight / 2) {
             // * Top-left zone
-            if (left <= card.offsetWidth / 2) sDistance = left < top ? left : top;
+            if (left <= card.offsetWidth / 2)
+              sDistance = left < top ? left : top;
             // * Top-right zone
-            else sDistance = card.offsetWidth - left < top ? card.offsetWidth - left : top;
+            else
+              sDistance =
+                card.offsetWidth - left < top ? card.offsetWidth - left : top;
           } else {
             // * Bottom-left zone
             if (left <= card.offsetWidth / 2)
-              sDistance = left < card.offsetHeight - top ? left : card.offsetHeight - top;
+              sDistance =
+                left < card.offsetHeight - top ? left : card.offsetHeight - top;
             // * Bottom-right zone
             else
               sDistance =

@@ -2,14 +2,14 @@
 pragma solidity 0.8.18;
 
 // Conracts
-import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import {GlobalOwnableUpgradeable} from "./GlobalOwnableUpgradeable.sol";
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { GlobalOwnableUpgradeable } from "./GlobalOwnableUpgradeable.sol";
 
 // Libraries
-import {SafeERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import { SafeERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 
 // Interfaces
-import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 /**
  * @title RecoverableUpgradeable
@@ -27,46 +27,54 @@ import {IERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20
  * @dev For further details, see "RecoverableUpgradeable" section of whitepaper.
  * @custom:security-contact security@ledgity.com
  */
-abstract contract RecoverableUpgradeable is Initializable, GlobalOwnableUpgradeable {
-    using SafeERC20Upgradeable for IERC20Upgradeable;
+abstract contract RecoverableUpgradeable is
+  Initializable,
+  GlobalOwnableUpgradeable
+{
+  using SafeERC20Upgradeable for IERC20Upgradeable;
 
-    /**
-     * @notice Initializer functions of the contract. They replace the constructor()
-     * function in the context of upgradeable contracts.
-     * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
-     * @param globalOwner_ The address of the GlobalOwner contract.
-     */
-    function __Recoverable_init(address globalOwner_) internal onlyInitializing {
-        __GlobalOwnable_init(globalOwner_);
-        __Recoverable_init_unchained();
-    }
+  /**
+   * @notice Initializer functions of the contract. They replace the constructor()
+   * function in the context of upgradeable contracts.
+   * @dev See: https://docs.openzeppelin.com/contracts/4.x/upgradeable
+   * @param globalOwner_ The address of the GlobalOwner contract.
+   */
+  function __Recoverable_init(
+    address globalOwner_
+  ) internal onlyInitializing {
+    __GlobalOwnable_init(globalOwner_);
+    __Recoverable_init_unchained();
+  }
 
-    function __Recoverable_init_unchained() internal onlyInitializing {}
+  function __Recoverable_init_unchained() internal onlyInitializing {}
 
-    /**
-     * @notice Recovers a specified amount of a given token address. Will fail if the
-     * contract doesn't hold enough tokens.
-     * @param tokenAddress The address of the token to recover.
-     * @param amount The amount of token to recover.
-     */
-    function recoverERC20(address tokenAddress, uint256 amount) public virtual onlyOwner {
-        // Ensure the specified amount is not zero
-        require(amount > 0, "L10");
+  /**
+   * @notice Recovers a specified amount of a given token address. Will fail if the
+   * contract doesn't hold enough tokens.
+   * @param tokenAddress The address of the token to recover.
+   * @param amount The amount of token to recover.
+   */
+  function recoverERC20(
+    address tokenAddress,
+    uint256 amount
+  ) public virtual onlyOwner {
+    // Ensure the specified amount is not zero
+    require(amount > 0, "L10");
 
-        // Create a reference to token's contract
-        IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
+    // Create a reference to token's contract
+    IERC20Upgradeable tokenContract = IERC20Upgradeable(tokenAddress);
 
-        // Ensure there is enough token to recover
-        require(tokenContract.balanceOf(address(this)) >= amount, "L11");
+    // Ensure there is enough token to recover
+    require(tokenContract.balanceOf(address(this)) >= amount, "L11");
 
-        // Transfer the recovered token amount to the sender
-        tokenContract.safeTransfer(_msgSender(), amount);
-    }
+    // Transfer the recovered token amount to the sender
+    tokenContract.safeTransfer(_msgSender(), amount);
+  }
 
-    /**
-     * @dev This empty reserved space is put in place to allow future versions to add
-     * new variables without shifting down storage in the inheritance chain.
-     * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
-     */
-    uint256[50] private __gap;
+  /**
+   * @dev This empty reserved space is put in place to allow future versions to add
+   * new variables without shifting down storage in the inheritance chain.
+   * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
+   */
+  uint256[50] private __gap;
 }

@@ -1,5 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
-import { AlertContext, isAccountHighRisk, isAccountSanctioned } from "../common";
+import {
+  AlertContext,
+  isAccountHighRisk,
+  isAccountSanctioned,
+} from "../common";
 import { parseEventLogs } from "viem";
 import { lTokenAbi } from "@/generated";
 
