@@ -1,0 +1,24 @@
+{
+  "trailingComma": "all",
+  "semi": true,
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "quoteProps": "consistent",
+  "bracketSpacing": true,
+  "singleQuote": false,
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "printWidth": 80
+      }
+    },
+    {
+      "files": "*.sol",
+      "options": {
+        "printWidth": 70,
+        "semi": true
+      }
+    }
+  ]
+}

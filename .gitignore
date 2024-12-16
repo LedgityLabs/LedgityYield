@@ -34,7 +34,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
 # Hardhat
 coverage
 coverage.json
@@ -63,7 +62,8 @@ contracts/foundry/out/
 # Dotenv file
 .env
 
-
 secrets.json
 
 yarn.lock
+
+.bw
