@@ -3,77 +3,223 @@
 // See: https://hardhat.org/hardhat-runner/docs/advanced/using-esm
 // And: https://github.com/NomicFoundation/hardhat/issues/3385
 
-import { type HardhatUserConfig } from "hardhat/config";
+import { parseEther } from "ethers/lib/utils";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "@nomicfoundation/hardhat-verify";
 import "@okxweb3/hardhat-explorer-verify";
 
-// Retrieve deployer private key from secrets.json (if available)
-let deployerPrivateKey: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  deployerPrivateKey = secrets.CONTRACT_DEPLOYER_PRIVATE_KEY;
-} catch (e) {}
+import { type HardhatUserConfig } from "hardhat/config";
+import { HardhatNetworkUserConfig } from "hardhat/types";
+import secrets from "./secrets.json";
 
-// Retrieve Lineascan API key from secrets.json (if available)
-let lineascanApiKey: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  lineascanApiKey = secrets.LINEASCAN_API_KEY;
-} catch (e) {}
+const {
+  DEPLOYER_PK,
+  MAINNET_RPC_URL,
+  MAINNET_FORKING_BLOCK,
+  MAINNET_VERIFY_API_KEY,
+  BASE_RPC_URL,
+  BASE_FORKING_BLOCK,
+  BASE_VERIFY_API_KEY,
+  HARDHAT_FORK_TARGET,
+  LINEASCAN_API_KEY,
+  ARBISCAN_API_KEY,
+  ETHERSCAN_API_KEY,
+  OKXSCAN_API_KEY,
+} = secrets;
 
-// Retrive Arbiscan API key from secrets.json (if available)
-let arbiscanApiKey: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  arbiscanApiKey = secrets.ARBISCAN_API_KEY;
-} catch (e) {}
+// Validation
+if (!DEPLOYER_PK) throw Error("Deployer private key not found in secrets.json");
+if (!MAINNET_RPC_URL || !MAINNET_VERIFY_API_KEY)
+  throw Error("Mainnet config not found in secrets.json");
+if (!BASE_RPC_URL || !BASE_VERIFY_API_KEY)
+  throw Error("Base config not found in secrets.json");
 
-// Retrive Mainnet API key from secrets.json (if available)
-let mainnetApiKey: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  mainnetApiKey = secrets.ETHERSCAN_API_KEY;
-} catch (e) {}
+// Centralized network configuration
+interface NetworkConfig {
+  chainId: number;
+  name: string;
+  rpcUrl: string;
+  forkingBlock?: string;
+  verifyApiKey: string;
+  apiURL: string;
+  browserURL: string;
+  deploy?: string[];
+  isTestnet?: boolean;
+}
 
-// Retrive BaseScan API key from secrets.json (if available)
-let basescanApiKey: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  basescanApiKey = secrets.BASESCAN_API_KEY;
-} catch (e) {}
+const networkConfigs: { [key: string]: NetworkConfig } = {
+  mainnet: {
+    name: "mainnet",
+    chainId: 1,
+    rpcUrl: MAINNET_RPC_URL,
+    forkingBlock: MAINNET_FORKING_BLOCK,
+    verifyApiKey: ETHERSCAN_API_KEY,
+    apiURL: "https://api.etherscan.io/api",
+    browserURL: "https://etherscan.io",
+    deploy: ["./contracts/hardhat/mainnet-deploy"],
+  },
+  sepolia: {
+    name: "sepolia",
+    chainId: 11155111,
+    rpcUrl:
+      "https://eth-sepolia.g.alchemy.com/v2/-papiHFcZc0tr4XSPsnwE0bhdTKLetjg",
+    verifyApiKey: ETHERSCAN_API_KEY,
+    apiURL: "https://api-sepolia.etherscan.io",
+    browserURL: "https://sepolia.etherscan.io",
+    isTestnet: true,
+  },
+  base: {
+    name: "base",
+    chainId: 8453,
+    rpcUrl: BASE_RPC_URL,
+    forkingBlock: BASE_FORKING_BLOCK,
+    verifyApiKey: BASE_VERIFY_API_KEY,
+    apiURL: "https://api.basescan.org/api",
+    browserURL: "https://basescan.org",
+    deploy: ["./contracts/hardhat/base-deploy"],
+  },
+  baseSepolia: {
+    name: "baseSepolia",
+    chainId: 84532,
+    rpcUrl:
+      "https://base-sepolia.g.alchemy.com/v2/spQc9SK_L-lIL2tJpYXuhLk2YJNwbuEr",
+    verifyApiKey: BASE_VERIFY_API_KEY,
+    apiURL: "https://api-sepolia.basescan.org/api",
+    browserURL: "https://sepolia.basescan.org",
+    isTestnet: true,
+  },
+  arbitrum: {
+    name: "arbitrumOne",
+    chainId: 42161,
+    rpcUrl:
+      "https://arbitrum-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
+    verifyApiKey: ARBISCAN_API_KEY,
+    apiURL: "https://api.arbiscan.io",
+    browserURL: "https://arbiscan.io",
+    deploy: ["./contracts/hardhat/arbi-mainnet-deploy"],
+  },
+  arbitrumGoerli: {
+    name: "arbitrumGoerli",
+    chainId: 421613,
+    rpcUrl:
+      "https://arbitrum-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
+    verifyApiKey: ARBISCAN_API_KEY,
+    apiURL: "https://api-goerli.arbiscan.io",
+    browserURL: "https://goerli.arbiscan.io",
+    isTestnet: true,
+  },
+  linea: {
+    name: "linea",
+    chainId: 59144,
+    rpcUrl:
+      "https://linea-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
+    verifyApiKey: LINEASCAN_API_KEY,
+    apiURL: "https://api.lineascan.build/api",
+    browserURL: "https://lineascan.build",
+  },
+  xlayer: {
+    name: "xlayer",
+    chainId: 196,
+    rpcUrl: "https://rpc.xlayer.tech",
+    verifyApiKey: OKXSCAN_API_KEY,
+    apiURL:
+      "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
+    browserURL: "https://www.oklink.com/xlayer",
+  },
+  xlayer_testnet: {
+    name: "xlayer_testnet",
+    chainId: 195,
+    rpcUrl: "https://testrpc.xlayer.tech",
+    verifyApiKey: OKXSCAN_API_KEY,
+    apiURL:
+      "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER_TESTNET",
+    browserURL: "https://www.oklink.com/xlayer-test",
+    isTestnet: true,
+  },
+};
 
-// Retrive BaseScan API key from secrets.json (if available)
-let okxscanApiKey: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  okxscanApiKey = secrets.OKXSCAN_API_KEY;
-} catch (e) {}
+// Fork configuration
+const forkTarget = HARDHAT_FORK_TARGET?.toLowerCase();
+if (!HARDHAT_FORK_TARGET || !networkConfigs[forkTarget]) {
+  throw Error("Missing or erroneous fork target");
+}
 
-// Retrive Mainnet RPC URL from secrets.json (if available)
-let MAINNET_RPC_URL: string | undefined;
-try {
-  const secrets = require("./secrets.json");
-  MAINNET_RPC_URL = secrets.MAINNET_RPC_URL;
-} catch (e) {}
+function makeForkConfig(): HardhatNetworkUserConfig {
+  const config = networkConfigs[forkTarget];
+
+  return {
+    chainId: 31337,
+    deploy: config.deploy,
+    saveDeployments: true,
+    allowUnlimitedContractSize: true,
+    forking: {
+      url: config.rpcUrl,
+      blockNumber:
+        config.forkingBlock === "latest"
+          ? undefined
+          : Number(config.forkingBlock),
+    },
+    mining: {
+      auto: true,
+      mempool: {
+        order: "fifo",
+      },
+    },
+    accounts: [
+      {
+        privateKey: DEPLOYER_PK,
+        balance: parseEther("100000").toString(),
+      },
+    ],
+  };
+}
+
+// Generate networks config from networkConfigs
+const networks = Object.entries(networkConfigs).reduce(
+  (acc, [key, network]) => {
+    acc[key] = {
+      chainId: network.chainId,
+      url: network.rpcUrl,
+      accounts: DEPLOYER_PK ? [DEPLOYER_PK] : [],
+      saveDeployments: true,
+      deploy: network.deploy,
+      verify: {
+        etherscan: {
+          apiKey: network.verifyApiKey,
+          apiUrl: network.apiURL,
+        },
+      },
+    };
+    return acc;
+  },
+  {},
+);
+
+// Generate etherscan config from networkConfigs
+const etherscan = {
+  apiKey: Object.entries(networkConfigs).reduce((acc, [_, network]) => {
+    acc[network.name] = network.verifyApiKey;
+    return acc;
+  }, {}),
+  customChains: Object.values(networkConfigs)
+    .filter((network) => network.name !== "mainnet")
+    .map((network) => ({
+      network: network.name,
+      chainId: network.chainId,
+      urls: {
+        apiURL: network.apiURL,
+        browserURL: network.browserURL,
+      },
+    })),
+};
 
 const config: HardhatUserConfig = {
   solidity: {
     compilers: [
-      // {
-      //   version: "0.8.10",
-      //   settings: {
-      //     optimizer: {
-      //       enabled: true,
-      //       runs: 200,
-      //     },
-      //   },
-      // },
       {
         version: "0.8.18",
         settings: {
-          evmVersion: "london",
           optimizer: {
             enabled: true,
             runs: 100,
@@ -95,185 +241,12 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    hardhat: {
-      // Is used to fix gas estimation error
-      // See: https://github.com/NomicFoundation/hardhat/issues/3089#issuecomment-1366428941
-      chainId: 31337,
-      initialBaseFeePerGas: 0,
-      deploy: ["./contracts/hardhat/mainnet-deploy"],
-      saveDeployments: true,
-    },
-    mainnet: {
-      chainId: 1,
-      url: MAINNET_RPC_URL,
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      deploy: ["./contracts/hardhat/mainnet-deploy"],
-      verify: {
-        etherscan: {
-          apiKey: mainnetApiKey,
-          apiUrl: "https://api.etherscan.io",
-        },
-      },
-    },
-    linea: {
-      chainId: 59144,
-      url: "https://linea-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: lineascanApiKey,
-          apiUrl: "https://api.lineascan.build",
-        },
-      },
-    },
-    sepolia: {
-      chainId: 11155111,
-      url: "https://eth-sepolia.g.alchemy.com/v2/-papiHFcZc0tr4XSPsnwE0bhdTKLetjg",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: mainnetApiKey,
-          apiUrl: "https://api-sepolia.etherscan.io",
-        },
-      },
-    },
-    lineaGoerli: {
-      chainId: 59140,
-      url: "https://linea-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-    },
-    arbitrum: {
-      chainId: 42161,
-      url: "https://arbitrum-mainnet.infura.io/v3/05368c74554249babb6f126ccf325401",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      deploy: ["./contracts/hardhat/arbi-mainnet-deploy"],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: arbiscanApiKey,
-          apiUrl: "https://api.arbiscan.io/",
-        },
-      },
-    },
-    arbitrumGoerli: {
-      chainId: 421613,
-      url: "https://arbitrum-goerli.infura.io/v3/05368c74554249babb6f126ccf325401",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-    },
-    base: {
-      chainId: 8453,
-      url: "https://base-mainnet.g.alchemy.com/v2/XH9V8IOVLgFCIP-EAflB27MR0Bc5oVoO",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: basescanApiKey,
-          apiUrl: "https://api.basescan.org",
-        },
-      },
-    },
-    baseSepolia: {
-      chainId: 84532,
-      url: "https://base-sepolia.g.alchemy.com/v2/spQc9SK_L-lIL2tJpYXuhLk2YJNwbuEr",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: basescanApiKey,
-          apiUrl: "https://api-sepolia.basescan.org",
-        },
-      },
-    },
-    xlayer: {
-      chainId: 196,
-      url: "https://rpc.xlayer.tech",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: okxscanApiKey,
-          apiUrl:
-            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
-        },
-      },
-    },
-    xlayer_testnet: {
-      chainId: 195,
-      url: "https://testrpc.xlayer.tech",
-      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
-      saveDeployments: true,
-      verify: {
-        etherscan: {
-          apiKey: okxscanApiKey,
-          apiUrl:
-            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER_TESTNET",
-        },
-      },
-    },
+    hardhat: makeForkConfig(),
+    ...networks,
   },
-  etherscan: {
-    apiKey: {
-      mainnet: mainnetApiKey!,
-      sepolia: mainnetApiKey!,
-      linea: lineascanApiKey!,
-      arbitrumOne: arbiscanApiKey!,
-      base: basescanApiKey!,
-      baseSepolia: basescanApiKey!,
-      xlayer: okxscanApiKey!,
-      xlayer_testnet: okxscanApiKey!,
-    },
-    customChains: [
-      {
-        network: "xlayer_testnet",
-        chainId: 195,
-        urls: {
-          apiURL:
-            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER_TESTNET",
-          browserURL: "https://www.oklink.com/xlayer-test",
-        },
-      },
-      {
-        network: "xlayer",
-        chainId: 196,
-        urls: {
-          apiURL:
-            "https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER",
-          browserURL: "https://www.oklink.com/xlayer",
-        },
-      },
-      {
-        network: "linea",
-        chainId: 59144,
-        urls: {
-          apiURL: "https://api.lineascan.build/api",
-          browserURL: "https://lineascan.build",
-        },
-      },
-      {
-        network: "base",
-        chainId: 8453,
-        urls: {
-          apiURL: "https://api.basescan.org/api",
-          browserURL: "https://basescan.org",
-        },
-      },
-      {
-        network: "baseSepolia",
-        chainId: 84532,
-        urls: {
-          apiURL: "https://api-sepolia.basescan.org/api",
-          browserURL: "https://sepolia.basescan.org",
-        },
-      },
-    ],
-  },
+  etherscan,
   okxweb3explorer: {
-    apiKey: okxscanApiKey,
+    apiKey: OKXSCAN_API_KEY,
   },
   defaultNetwork: "hardhat",
 };
