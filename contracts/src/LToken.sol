@@ -16,6 +16,38 @@ import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC
 import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import { ITransfersListener } from "./interfaces/ITransfersListener.sol";
 
+// Custom Errors
+error OnlyWithdrawer(); // "L39"
+error OnlyFund(); // "L40"
+error ExceedsRetentionRate(); // "L41"
+error ListenerNotFound(); // "L42"
+error CantRecoverUnderlying(); // "L43"
+error NothingToRecover(); // "L44"
+error NotImplemented(); // "L45"
+error UseDeposit(); // "L46"
+error InsufficientBalance(); // "L47"
+error InsufficientLTokens(); // "L48"
+error InsufficientLiquidity(); // "L49"
+error RequestorBlacklisted(); // "L50"
+error NotBigRequest(); // "L51"
+error InsufficientCoverage(); // "L52"
+error AmountTooLarge(); // "L53"
+error AmountExceedsUint96(); // "L54"
+error IncorrectETHValue(); // "L55"
+error ETHTransferFailed(); // "L56"
+error NotRequestOwner(); // "L57"
+error InsufficientFundBalance(); // "L58"
+error ExceedsRetention(); // "L59"
+error NoFeesToClaim(); // "L60"
+error InsufficientForFees(); // "L61"
+
+error WithdrawerZeroAddress(); // "L63"
+error FundZeroAddress(); // "L64"
+error InvalidRequestId(); // "L66"
+
+error ExceedsMaxFeesRate(); // "L88"
+error OnlyHighTierAllowed();
+
 /**
  * @title LToken
  * @author Lila Rest (https://lila.rest)
@@ -102,7 +134,7 @@ contract LToken is
   address payable public withdrawer;
 
   /// @notice Holds address of fund wallet (managed by Ledgity financial team).
-  address public fund;
+  address payable public fund;
 
   /// @notice Holds the withdrawal fees rate in UD7x3 format (e.g., 350 = 0.350%).
   uint32 public feesRateUD7x3;
@@ -190,13 +222,13 @@ contract LToken is
 
   /// @notice Reverts if the function caller is not the withdrawer wallet.
   modifier onlyWithdrawer() {
-    require(_msgSender() == withdrawer, "L39");
+    if (_msgSender() != withdrawer) revert OnlyWithdrawer();
     _;
   }
 
   /// @notice Reverts if the function caller is not the fund wallet.
   modifier onlyFund() {
-    require(_msgSender() == fund, "L40");
+    if (_msgSender() != fund) revert OnlyFund();
     _;
   }
 
@@ -292,7 +324,8 @@ contract LToken is
    * @param feesRateUD7x3_ The new withdrawal fee rate in UD7x3 format.
    */
   function setFeesRate(uint32 feesRateUD7x3_) public onlyOwner {
-    require(feesRateUD7x3_ <= MAX_FEES_RATE_UD7x3, "L88");
+    if (feesRateUD7x3_ > MAX_FEES_RATE_UD7x3)
+      revert ExceedsMaxFeesRate();
     feesRateUD7x3 = feesRateUD7x3_;
   }
 
@@ -315,7 +348,8 @@ contract LToken is
   function setRetentionRate(
     uint32 retentionRateUD7x3_
   ) public onlyOwner {
-    require(retentionRateUD7x3_ <= MAX_RETENTION_RATE_UD7x3, "L41");
+    if (retentionRateUD7x3_ > MAX_RETENTION_RATE_UD7x3)
+      revert ExceedsRetentionRate();
     retentionRateUD7x3 = retentionRateUD7x3_;
   }
 
@@ -331,26 +365,24 @@ contract LToken is
    * @notice Updates the address of the withdrawer wallet.
    * @param withdrawer_ The address of the new withdrawer wallet.
    */
-  function setWithdrawer(
-    address payable withdrawer_
-  ) public onlyOwner {
+  function setWithdrawer(address withdrawer_) public onlyOwner {
     // Ensure address is not the zero address (pre-processing fees would be lost else)
-    require(withdrawer_ != address(0), "L63");
+    if (withdrawer_ == address(0)) revert WithdrawerZeroAddress();
 
     // Set new withdrawer wallet's address
-    withdrawer = withdrawer_;
+    withdrawer = payable(withdrawer_);
   }
 
   /**
    * @notice Updates the address of the fund wallet.
    * @param fund_ The address of the new fund wallet.
    */
-  function setFund(address payable fund_) public onlyOwner {
+  function setFund(address fund_) public onlyOwner {
     // Ensure address is not the zero address (deposited tokens would be lost else)
-    require(fund_ != address(0), "L64");
+    if (fund_ == address(0)) revert FundZeroAddress();
 
     // Set new fund wallet's address
-    fund = fund_;
+    fund = payable(fund_);
   }
 
   /**
@@ -387,7 +419,7 @@ contract LToken is
     }
 
     // Revert if given contract wasn't listening to transfers
-    require(index > -1, "L42");
+    if (index <= -1) revert ListenerNotFound();
 
     // Else, remove transfers listener contract from listeners array
     transfersListeners[uint256(index)] = transfersListeners[
@@ -466,7 +498,8 @@ contract LToken is
     uint256 amount
   ) public override onlyOwner {
     // Ensure the token is not the underlying token
-    require(tokenAddress != address(underlying()), "L43");
+    if (tokenAddress == address(underlying()))
+      revert CantRecoverUnderlying();
 
     // Proceed to recovery
     super.recoverERC20(tokenAddress, amount);
@@ -486,7 +519,7 @@ contract LToken is
     ) - usableUnderlyings;
 
     // Revert if there is nothing to recover
-    require(recoverableAmount > 0, "L44");
+    if (recoverableAmount == 0) revert NothingToRecover();
 
     // Else, proceed to underlying tokens recovery
     super.recoverERC20(address(underlying()), recoverableAmount);
@@ -617,12 +650,10 @@ contract LToken is
    * @inheritdoc ERC20WrapperUpgradeable
    */
   function withdrawTo(
-    address account,
-    uint256 amount
+    address /*account*/,
+    uint256 /*amount*/
   ) public pure override returns (bool) {
-    account; // Silence unused variable compiler warning
-    amount;
-    revert("L45");
+    revert NotImplemented();
   }
 
   /**
@@ -631,12 +662,10 @@ contract LToken is
    * @inheritdoc ERC20WrapperUpgradeable
    */
   function depositFor(
-    address account,
-    uint256 amount
+    address /*account*/,
+    uint256 /*amount*/
   ) public pure override returns (bool) {
-    account; // Silence unused variable compiler warning
-    amount;
-    revert("L46");
+    revert NotImplemented();
   }
 
   /**
@@ -649,7 +678,8 @@ contract LToken is
     string memory refCode
   ) public whenNotPaused notBlacklisted(_msgSender()) {
     // Ensure the account has enough underlying tokens to deposit
-    require(underlying().balanceOf(_msgSender()) >= amount, "L47");
+    if (underlying().balanceOf(_msgSender()) < amount)
+      revert InsufficientBalance();
 
     // Update usable underlyings balance accordingly
     usableUnderlyings += amount;
@@ -712,13 +742,13 @@ contract LToken is
     uint256 amount
   ) external whenNotPaused notBlacklisted(_msgSender()) {
     // Ensure the account has enough L-Tokens to withdraw
-    require(amount <= balanceOf(_msgSender()), "L48");
+    if (amount > balanceOf(_msgSender()))
+      revert InsufficientLTokens();
 
     // 1. Check tier-based permissions
     bool isHighTier = ldyStaking.tierOf(_msgSender()) >= 2;
-    if (onlyHighTierInstantWithdrawal && !isHighTier) {
-      revert("Only high-tier users");
-    }
+    if (onlyHighTierInstantWithdrawal && !isHighTier)
+      revert OnlyHighTierAllowed();
 
     // 2. Check liquidity conditions
     bool hasLiquidityForQueue = totalQueued + amount <=
@@ -731,9 +761,7 @@ contract LToken is
     if (
       !(hasLiquidityForQueue ||
         (isHighTier && hasLiquidityForInstant))
-    ) {
-      revert("L49");
-    }
+    ) revert InsufficientLiquidity();
 
     // Else, retrieve withdrawal fees and net withdrawn amount
     (
@@ -777,13 +805,14 @@ contract LToken is
     uint256 amount
   ) public payable whenNotPaused notBlacklisted(_msgSender()) {
     // Ensure the account has enough L-Tokens to withdraw
-    require(amount <= balanceOf(_msgSender()), "L53");
+    if (amount > balanceOf(_msgSender()))
+      revert InsufficientLTokens();
 
     // Ensure the requested amount doesn't overflow uint96
-    require(amount <= type(uint96).max, "L54");
+    if (amount > type(uint96).max) revert AmountExceedsUint96();
 
     // Ensure the sender attached the pre-paid processing gas fees
-    require(msg.value == withdrawalFeeInEth, "L55");
+    if (msg.value < withdrawalFeeInEth) revert IncorrectETHValue();
 
     // Create withdrawal request data
     WithdrawalRequest memory request = WithdrawalRequest({
@@ -829,8 +858,8 @@ contract LToken is
     _burn(_msgSender(), amount);
 
     // Forward pre-paid processing gas fees to the withdrawer wallet
-    (bool sent, ) = withdrawer.call{ value: msg.value }("");
-    require(sent, "L56");
+    (bool success, ) = withdrawer.call{ value: msg.value }("");
+    if (!success) revert ETHTransferFailed();
   }
 
   /**
@@ -980,13 +1009,14 @@ contract LToken is
     WithdrawalRequest memory request = withdrawalQueue[requestId];
 
     // Ensure the request is active
-    require(request.account != address(0), "L66");
+    if (request.account == address(0)) revert InvalidRequestId();
 
     // Ensure the request emitter has not been blacklisted since request emission
-    require(!isBlacklisted(request.account), "L50");
+    if (isBlacklisted(request.account)) revert RequestorBlacklisted();
 
     // Ensure this is indeed a big request
-    require(request.amount > getExpectedRetained() / 2, "L51");
+    if (request.amount <= getExpectedRetained() / 2)
+      revert NotBigRequest();
 
     // Retrieve withdrawal fees and net withdrawn amount
     (
@@ -996,10 +1026,8 @@ contract LToken is
 
     // Ensure withdrawn amount can be covered by contract + fund wallet balances
     uint256 fundBalance = underlying().balanceOf(fund);
-    require(
-      withdrawnAmount <= usableUnderlyings + fundBalance,
-      "L52"
-    );
+    if (withdrawnAmount > usableUnderlyings + fundBalance)
+      revert InsufficientCoverage();
 
     // Increase amount of unclaimed fees accordingly
     unclaimedFees += fees;
@@ -1068,7 +1096,7 @@ contract LToken is
     WithdrawalRequest memory request = withdrawalQueue[requestId];
 
     // Ensure request belongs to caller
-    require(_msgSender() == request.account, "L57");
+    if (_msgSender() != request.account) revert NotRequestOwner();
 
     // Decrease total amount queued accordingly
     totalQueued -= request.amount;
@@ -1103,13 +1131,14 @@ contract LToken is
     uint256 amount
   ) external onlyFund whenNotPaused {
     // Ensure the fund wallet has enough funds to repatriate
-    require(amount <= underlying().balanceOf(fund), "L58");
+    if (amount > underlying().balanceOf(fund))
+      revert InsufficientFundBalance();
 
     // Calculate new contract usable balance
     uint256 newBalance = usableUnderlyings + amount;
 
     // Ensure the new balance doesn't exceed the retention rate
-    require(newBalance <= getExpectedRetained(), "L59");
+    if (newBalance > getExpectedRetained()) revert ExceedsRetention();
 
     // Increase usable underlyings amount by repatriated amount
     usableUnderlyings += amount;
@@ -1125,10 +1154,11 @@ contract LToken is
   /// @notice Used by owner to claim fees generated from successful withdrawals.
   function claimFees() external onlyOwner {
     // Ensure there are some fees to claim
-    require(unclaimedFees > 0, "L60");
+    if (unclaimedFees == 0) revert NoFeesToClaim();
 
     // Ensure the contract holds enough underlying tokens to cover fees
-    require(usableUnderlyings >= unclaimedFees, "L61");
+    if (usableUnderlyings < unclaimedFees)
+      revert InsufficientForFees();
 
     // Decrease usable underlyings amount accordingly
     usableUnderlyings -= unclaimedFees;
