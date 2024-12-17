@@ -14,7 +14,7 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
  * governance scenarios, and compatibility with 3rd party DApps.
  *
  * It is non-upgradeable, non-ownable, non-pausable, non-mintable, and non-restrictable.
- * It implements nothing more than what is provided by its OpenZepellin ancestors.
+ * It implements nothing more than what is provided by its OpenZeppelin ancestors.
  *
  * Moreover, to eliminate the need for ownership and complex vesting functions, the
  * entire supply is minted at deployment-time. Vesting of allocated tokens is then

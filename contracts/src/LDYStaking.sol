@@ -405,8 +405,8 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /**
-     * @dev tierOf() function that always return that the given account is not
-     * elligible to any LDY staking tier, except if the account is in the
+     * @dev tierOf() function that always returns that the given account is not
+     * eligible to any LDY staking tier, except if the account is in the
      * highTierAccounts mapping.
      * @param account The account to check the tier of.
      */
