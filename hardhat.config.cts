@@ -3,13 +3,16 @@
 // See: https://hardhat.org/hardhat-runner/docs/advanced/using-esm
 // And: https://github.com/NomicFoundation/hardhat/issues/3385
 
-import { parseEther } from "ethers/lib/utils";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "@nomicfoundation/hardhat-verify";
 import "@okxweb3/hardhat-explorer-verify";
 import "colors";
 
+// Tasks
+import "./contracts/hardhat/tasks/verify.cts";
+
+import { parseEther } from "ethers/lib/utils";
 import { type HardhatUserConfig } from "hardhat/config";
 import { HardhatNetworkUserConfig } from "hardhat/types";
 import secrets from "./secrets.json";

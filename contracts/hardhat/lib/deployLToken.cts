@@ -20,35 +20,22 @@ export const deployLToken = (
     // Retrieve APRHistory library
     const aprHistory = await deployments.get("APRHistory");
 
-    // Deploy fake underlying token if running on localnet
-    let underlyingAddress: string;
-    if (chainId === "31337") {
-      const fakeUnderlying = await deployments.deploy(underlyingSymbol, {
-        contract: "GenericERC20",
-        from: deployer,
-        log: true,
-        args: [`Fake ${underlyingSymbol}`, underlyingSymbol, 6],
-      });
-      underlyingAddress = fakeUnderlying.address;
-    }
     // Else use network implementation of the underlying token
-    else {
-      const missingAddressError = new Error(
-        `${underlyingSymbol} address not available, ensure it is set in dependencies.json`,
-      );
-      // Check if the underlying token is set in dependencies.json
-      if (!Object.keys(dependencies).includes(underlyingSymbol))
-        throw missingAddressError;
+    const missingAddressError = new Error(
+      `${underlyingSymbol} address not available, ensure it is set in dependencies.json`,
+    );
+    // Check if the underlying token is set in dependencies.json
+    if (!Object.keys(dependencies).includes(underlyingSymbol))
+      throw missingAddressError;
 
-      // Check address of underlying token is available for the current chain in dependencies.json
-      // @ts-ignore
-      if (!Object.keys(dependencies[underlyingSymbol]).includes(chainId))
-        throw missingAddressError;
+    // Check address of underlying token is available for the current chain in dependencies.json
+    // @ts-ignore
+    if (!Object.keys(dependencies[underlyingSymbol]).includes(chainId))
+      throw missingAddressError;
 
-      // Retrieve underlying token address from dependencies.json
-      // @ts-ignore
-      underlyingAddress = dependencies[underlyingSymbol][chainId];
-    }
+    // Retrieve underlying token address from dependencies.json
+    // @ts-ignore
+    const underlyingAddress = dependencies[underlyingSymbol][chainId];
 
     // Deploy the LToken
     await deployments.deploy(lTokenSymbol, {
