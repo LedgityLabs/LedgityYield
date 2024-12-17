@@ -146,6 +146,9 @@ contract LToken is
    */
   uint256 public withdrawalFeeInEth;
 
+  /// @notice Whether only high tier accounts may use instant withdrawals
+  bool public onlyHighTierInstantWithdrawal;
+
   /**
    * @notice Emitted to inform listeners about a change in the contract's TVL.
    * @dev TVL = realTotalSupply()
@@ -711,15 +714,26 @@ contract LToken is
     // Ensure the account has enough L-Tokens to withdraw
     require(amount <= balanceOf(_msgSender()), "L48");
 
-    // Can the contract cover this withdrawal plus all already queued requests?
-    bool cond1 = totalQueued + amount <= usableUnderlyings;
+    // 1. Check tier-based permissions
+    bool isHighTier = ldyStaking.tierOf(_msgSender()) >= 2;
+    if (onlyHighTierInstantWithdrawal && !isHighTier) {
+      revert("Only high-tier users");
+    }
 
-    // Is caller eligible to staking tier 2 and the contract can cover this withdrawal?
-    bool cond2 = ldyStaking.tierOf(_msgSender()) >= 2 &&
-      amount <= usableUnderlyings;
+    // 2. Check liquidity conditions
+    bool hasLiquidityForQueue = totalQueued + amount <=
+      usableUnderlyings;
+    bool hasLiquidityForInstant = amount <= usableUnderlyings;
 
-    // Revert if conditions are not met for the withdrawal to be processed instantaneously
-    if (!(cond1 || cond2)) revert("L49");
+    // 3. Validate withdrawal conditions:
+    // - Either: Contract has enough liquidity for all queued withdrawals + this one
+    // - Or: User is high tier AND contract has enough liquidity for this withdrawal
+    if (
+      !(hasLiquidityForQueue ||
+        (isHighTier && hasLiquidityForInstant))
+    ) {
+      revert("L49");
+    }
 
     // Else, retrieve withdrawal fees and net withdrawn amount
     (
@@ -1125,5 +1139,12 @@ contract LToken is
 
     // Transfer unclaimed fees to owner
     underlying().safeTransfer(owner(), fees);
+  }
+
+  /// @notice Enables or disables the restriction to high-tier users for instant withdrawals.
+  function switchOnlyHighTierInstantWithdrawal(
+    bool status_
+  ) external onlyOwner {
+    onlyHighTierInstantWithdrawal = status_;
   }
 }

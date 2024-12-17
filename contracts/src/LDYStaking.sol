@@ -138,11 +138,12 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
   );
 
   /**
-   * @notice Holds a mapping of addresses that default to the highest staking tier.
+   * @notice Holds a mapping an addresse's number of highest staking tier positions.
    * @dev This is notably used to allow PreMining contracts to benefit from 0%
    * withdrawal fees in L-Tokens contracts, when accounts unlock their funds.
    */
-  mapping(address => bool) public highTierAccounts;
+  mapping(address account_ => uint256 nbPositions_)
+    public nbHighTierPositions;
 
   /// @custom:oz-upgrades-unsafe-allow constructor
   constructor() {
@@ -216,7 +217,7 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
       stakeDurationInfo.duration >= stakeDurationForPerks &&
       amount >= stakeAmountForPerks
     ) {
-      highTierAccounts[_msgSender()] = true;
+      nbHighTierPositions[_msgSender()]++;
     }
 
     userStakingInfo[_msgSender()].push(stakingInfo);
@@ -277,13 +278,15 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
     userStakingInfo[_msgSender()][stakeIndex].stakedAmount -= amount;
 
     // check whether account is eligible for benefit from the protocol
+    /// @dev Add check for number of high tier positions in case of qualifying parameter change
     if (
       userStakingInfo[_msgSender()][stakeIndex].duration >=
       stakeDurationForPerks &&
       userStakingInfo[_msgSender()][stakeIndex].stakedAmount <
-      stakeAmountForPerks
+      stakeAmountForPerks &&
+      0 < nbHighTierPositions[_msgSender()]
     ) {
-      highTierAccounts[_msgSender()] = false;
+      nbHighTierPositions[_msgSender()]--;
     }
 
     // remove staking info from array on full withdrawal
@@ -414,6 +417,16 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
   // --------------------
 
   /**
+   * @notice Checks if the given account is of high tier.
+   * @return Whether the account has at least one high tier staking position.
+   */
+  function highTierAccounts(
+    address account_
+  ) external view returns (bool) {
+    return 0 < nbHighTierPositions[account_];
+  }
+
+  /**
    * @notice Get the last time when rewards were applicable for the specified reward token.
    * @return Timestamp of the most recent rewards calculation.
    */
@@ -476,14 +489,14 @@ contract LDYStaking is BaseUpgradeable, ReentrancyGuardUpgradeable {
 
   /**
    * @dev tierOf() function that always return that the given account is not
-   * elligible to any LDY staking tier, except if the account is in the
-   * highTierAccounts mapping.
+   * elligible to any LDY staking tier, except if the account has at least one
+   * high tier staking position.
    * @param account The account to check the tier of.
    */
   function tierOf(
     address account
   ) public view returns (uint256 tier) {
-    if (highTierAccounts[account]) return 3;
+    if (0 < nbHighTierPositions[account]) return 3;
     return 0;
   }
 
