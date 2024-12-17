@@ -61,7 +61,7 @@ export const deployLToken = (
       libraries: {
         APRHistory: aprHistory.address,
       },
-      waitConfirmations: chainId == "31337" ? 1 : 1,
+      waitConfirmations: 1,
     });
   }) as DeployFunction;
 };

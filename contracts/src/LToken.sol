@@ -252,6 +252,7 @@ contract LToken is
     string memory underlyingSymbol = IERC20MetadataUpgradeable(
       underlyingToken
     ).symbol();
+
     __ERC20Base_init(
       globalOwner_,
       globalPause_,

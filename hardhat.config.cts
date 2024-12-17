@@ -158,7 +158,7 @@ function makeForkConfig(): HardhatNetworkUserConfig {
   );
 
   return {
-    chainId: 31337,
+    chainId: config.chainId,
     deploy: config.deploy,
     saveDeployments: true,
     allowUnlimitedContractSize: true,
