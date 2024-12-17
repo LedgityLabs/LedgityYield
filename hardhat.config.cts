@@ -8,6 +8,7 @@ import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "@nomicfoundation/hardhat-verify";
 import "@okxweb3/hardhat-explorer-verify";
+import "colors";
 
 import { type HardhatUserConfig } from "hardhat/config";
 import { HardhatNetworkUserConfig } from "hardhat/types";
@@ -147,6 +148,11 @@ if (!HARDHAT_FORK_TARGET || !networkConfigs[forkTarget]) {
 
 function makeForkConfig(): HardhatNetworkUserConfig {
   const config = networkConfigs[forkTarget];
+
+  console.log(
+    `=> Hardhat forking ${forkTarget.toUpperCase()}${config.forkingBlock ? ` at block ${config.forkingBlock}` : ""}\n`
+      .magenta,
+  );
 
   return {
     chainId: 31337,
