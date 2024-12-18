@@ -33,9 +33,9 @@ export const SUBGRAPH_CLIENT_URLS = {
     "https://api.studio.thegraph.com/query/60646/ledgity-sepolia/version/latest",
   [ChainId.XLAYER]:
     "https://api.studio.thegraph.com/query/60646/ledgity-okxmain/version/latest",
-  [ChainId.ETHEREUM]:
-    "https://api.studio.thegraph.com/query/60646/ledgity-eth-mainnet/version/latest",
   //
+  [ChainId.ETHEREUM]:
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/eth-vault-subgraph/api",
   [ChainId.ARBITRUM_ONE]:
     "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-subgraph/api",
   [ChainId.BASE]:
