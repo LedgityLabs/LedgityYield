@@ -19,6 +19,7 @@ export interface IStakingAPRInfo {
   interestRate: string;
 }
 
+// @bw graph hooks
 export const useGetUserStakingsByAddress = (
   user: Address,
 ): {

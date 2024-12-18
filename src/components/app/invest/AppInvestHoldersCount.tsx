@@ -3,7 +3,7 @@ import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { FC, useEffect, useState } from "react";
 import { createPublicClient, erc20Abi, http, zeroAddress } from "viem";
 import { getContractEvents } from "viem/actions";
-import { arbitrum, linea } from "viem/chains";
+import { arbitrum, linea, mainnet, base } from "viem/chains";
 import { getContractAddress } from "@/lib/getContractAddress";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
@@ -19,8 +19,19 @@ const availableChains = [
     startBlock: 211050n,
     viemObj: linea,
   },
+  {
+    id: "1",
+    startBlock: 20008643n,
+    viemObj: mainnet,
+  },
+  {
+    id: "8453",
+    startBlock: 23833900n,
+    viemObj: base,
+  },
 ];
 
+// @bw @dev not optimal at all, requesting logs at each page refresh
 export const AppInvestHoldersCount: FC<Props> = (props) => {
   const [holdersCount, setHoldersCount] = useState<number | "N/A">("N/A");
   const [isLoading, setIsLoading] = useState(false);

@@ -35,6 +35,7 @@ export const AppStakingPools: FC<{
   const account = useAccount();
   const publicClient = usePublicClient();
 
+  // @bw graph implementation
   // Fetch user staking info including earnedAmount from subgraph
   const {
     data: userStakingInfo,

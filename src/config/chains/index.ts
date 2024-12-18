@@ -25,6 +25,7 @@ export enum ChainId {
   XLAYER = Number(196),
 }
 
+// @bw graph endpoints
 export const SUBGRAPH_CLIENT_URLS = {
   [ChainId.BASE_SEPOLIA]:
     "https://api.studio.thegraph.com/query/60646/ldystaking-subgraph/version/latest",
@@ -34,6 +35,11 @@ export const SUBGRAPH_CLIENT_URLS = {
     "https://api.studio.thegraph.com/query/60646/ledgity-okxmain/version/latest",
   [ChainId.ETHEREUM]:
     "https://api.studio.thegraph.com/query/60646/ledgity-eth-mainnet/version/latest",
+  //
   [ChainId.ARBITRUM_ONE]:
-    "https://api.studio.thegraph.com/query/60646/ledgity-arbi-main/version/latest",
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-subgraph/api",
+  [ChainId.BASE]:
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-yield-base/api",
+  [ChainId.LINEA]:
+    "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-linea/api",
 } satisfies Record<ChainId, string>;
