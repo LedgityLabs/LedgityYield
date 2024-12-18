@@ -42,9 +42,10 @@ export const ConnectButton = () => {
             <SelectValue placeholder={placeholder} />
           )}
         </SelectTrigger>
+
         <SelectContent>
-          {chains.map((_chain) => (
-            <SelectItem value={_chain.id.toString()} key={_chain.id}>
+          {chains.map((_chain, i) => (
+            <SelectItem value={_chain.id.toString()} key={i}>
               <div className="flex justify-center items-center gap-[0.6rem]">
                 <Image
                   alt={_chain.name ?? "Chain icon"}
