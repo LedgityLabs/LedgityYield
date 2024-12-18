@@ -42,7 +42,7 @@ import {
   useBlockNumber,
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
-import { config } from "@/lib/dapp/config";
+import { wagmiConfig } from "@/lib/dapp/wagmi";
 
 interface ProcessBigRequestButtonProps {
   lTokenAddress: `0x${string}`;
@@ -81,7 +81,7 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
           allowance >= (requestData ? requestData[1] : 0n)
         }
         onClick={() => {
-          writeGenericErc20Approve(config, {
+          writeGenericErc20Approve(wagmiConfig, {
             address: underlyingAddress!,
             args: [lTokenAddress, requestData ? requestData[1] : 0n],
           });
@@ -97,7 +97,7 @@ const ProcessBigRequestButton: FC<ProcessBigRequestButtonProps> = ({
           allowance < (requestData ? requestData[1] : 0n)
         }
         onClick={() => {
-          writeLTokenProcessBigQueuedRequest(config, {
+          writeLTokenProcessBigQueuedRequest(wagmiConfig, {
             address: lTokenAddress,
             args: [requestId],
           });
@@ -178,7 +178,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
         // Retrieve batch of 50 queued requests data
         for (let i = readQueueCursor; i < readQueueCursor + 50n; i++) {
           proms.push(
-            readLToken(config, {
+            readLToken(wagmiConfig, {
               address: lTokenAddress!,
               functionName: "withdrawalQueue",
               args: [i],

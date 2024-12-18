@@ -26,6 +26,7 @@ export const wallets = [
     groupName: "Popular",
     wallets: [
       metaMaskWallet,
+      rabbyWallet,
       rainbowWallet,
       safeWallet,
       ledgerWallet,
@@ -46,7 +47,6 @@ export const wallets = [
       dawnWallet,
       imTokenWallet,
       omniWallet,
-      rabbyWallet,
       tahoWallet,
       xdefiWallet,
       zerionWallet,

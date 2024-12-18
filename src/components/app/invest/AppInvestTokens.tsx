@@ -18,7 +18,7 @@ import { getContractAddress } from "@/lib/getContractAddress";
 import { Spinner } from "@/components/ui/Spinner";
 import { zeroAddress } from "viem";
 import { watchBlockNumber, readContracts } from "@wagmi/core";
-import { config } from "@/lib/dapp/config";
+import { wagmiConfig } from "@/lib/dapp/wagmi";
 import { useAccount } from "wagmi";
 import { JSONStringify } from "@/lib/jsonStringify";
 import { useSwitchAppTab } from "@/hooks/useSwitchAppTab";
@@ -260,11 +260,11 @@ export const AppInvestTokens: FC<Props> = ({ className }) => {
 
   useEffect(
     () =>
-      watchBlockNumber(config, {
+      watchBlockNumber(wagmiConfig, {
         async onBlockNumber() {
           if (!currentChain) return;
 
-          const data = await readContracts(config, {
+          const data = await readContracts(wagmiConfig, {
             contracts: readsConfig,
           });
 

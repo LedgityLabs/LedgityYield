@@ -6,7 +6,7 @@ import { useAvailableLTokens } from "@/hooks/useAvailableLTokens";
 import { getContractAddress } from "@/lib/getContractAddress";
 import { useEffect, useState } from "react";
 import { Activity, LToken, RewardsMint, execute } from "graphclient";
-import { config } from "@/lib/dapp/config";
+import { wagmiConfig } from "@/lib/dapp/wagmi";
 import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 type Data = Record<
@@ -189,16 +189,16 @@ export const useGrowthRevenueData = () => {
     if (currentChain) {
       for (const lToken of lTokens) {
         const lTokenAddress = getContractAddress(lToken, currentChain.id)!;
-        const decimals = await readLToken(config, {
+        const decimals = await readLToken(wagmiConfig, {
           address: lTokenAddress,
           functionName: "decimals",
         });
-        const _balanceBefore = await readLToken(config, {
+        const _balanceBefore = await readLToken(wagmiConfig, {
           address: lTokenAddress,
           functionName: "realBalanceOf",
           args: [account.address || zeroAddress],
         });
-        const unclaimedRewards = await readLToken(config, {
+        const unclaimedRewards = await readLToken(wagmiConfig, {
           address: lTokenAddress,
           functionName: "unmintedRewardsOf",
           args: [account.address || zeroAddress],

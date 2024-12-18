@@ -6,7 +6,7 @@ import { getContractAddress } from "@/lib/getContractAddress";
 import { lTokenAbi } from "@/generated";
 import { formatUnits, parseUnits } from "viem";
 import { watchBlockNumber, readContracts } from "@wagmi/core";
-import { config } from "@/lib/dapp/config";
+import { wagmiConfig } from "@/lib/dapp/wagmi";
 import { useCurrentChain } from "@/hooks/useCurrentChain";
 
 const availableChains = [42161, 59144];
@@ -63,11 +63,11 @@ export const AppInvestTVL: FC<Props> = (props) => {
 
   useEffect(
     () =>
-      watchBlockNumber(config, {
+      watchBlockNumber(wagmiConfig, {
         async onBlockNumber() {
           if (!currentChain) return;
 
-          const data = await readContracts(config, {
+          const data = await readContracts(wagmiConfig, {
             contracts: readsConfig,
           });
 

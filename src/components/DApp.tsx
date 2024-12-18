@@ -4,7 +4,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { FC } from "react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { config } from "../lib/dapp/config";
+import { wagmiConfig } from "../lib/dapp/wagmi";
 import RainbowKitProvider from "./RainbowKitProvider";
 import { MainContextProvider } from "@/contexts";
 
@@ -17,7 +17,7 @@ interface Props {
 const DApp: FC<Props> = ({ children }) => {
   return (
     <MainContextProvider>
-      <WagmiProvider config={config}>
+      <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>{children}</RainbowKitProvider>
         </QueryClientProvider>
