@@ -1,16 +1,16 @@
-specVersion: 1.0.0
-indexerHints:
-  prune: auto
+specVersion: 0.0.6
+description: A subgraph of Ledgity Yield data
+repository: https://github.com/LedgityLabs/LedgityYield
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: LTokenSignaler
-    network: base-sepolia
+    network: base
     source:
-      address: "0x7A02c93681450241e97C87a2Decb511b42BB16f5"
+      address: "0x4EeC09DB589C882fbA7C5D03065dfD20912FE877"
       abi: LTokenSignaler
-      startBlock: 12320814
+      startBlock: 23870350
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -26,17 +26,18 @@ dataSources:
       eventHandlers:
         - event: LTokenSignalEvent(indexed address)
           handler: handleSignaledLToken
-  - kind: ethereum
+  - kind: ethereum/contract
     name: LdyStaking
-    network: base-sepolia
+    network: base
     source:
-      address: "0xB5C69197e5D6A52c776384479B529D2d76f9e2De"
+      address: "0x891611398B53BBAaA3db04c158218c319c87d554"
       abi: LdyStaking
-      startBlock: 12320814
+      startBlock: 23833900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
+      file: ./mapping.ts
       entities:
         - Staked
         - Unstaked
@@ -54,11 +55,10 @@ dataSources:
           handler: handleRewardPaid
         - event: NotifiedRewardAmount(uint256,uint256)
           handler: handleNotifiedRewardAmount
-      file: ./mapping.ts
 templates:
   - kind: ethereum/contract
     name: LToken
-    network: base-sepolia
+    network: base
     source:
       abi: LToken
     mapping:
