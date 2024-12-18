@@ -80,7 +80,9 @@ export const AppInvestHoldersCount: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    computeHoldersCount();
+    computeHoldersCount().catch((e) => {
+      setIsLoading(false);
+    });
   }, []);
 
   return <div {...props}>{(isLoading && <Spinner />) || holdersCount}</div>;

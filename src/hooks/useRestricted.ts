@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 
 const useRestricted = () => {
+  // @bw @dev disable aml for now
+  return { isRestricted: false, isLoading: false };
+
   const [isRestricted, setIsRestricted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const account = useAccount();

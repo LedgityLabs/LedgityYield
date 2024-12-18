@@ -123,7 +123,9 @@ const CancelButton: FC<{
             <TxButton
               variant="destructive"
               size="small"
-              preparation={preparation as UseSimulateContractReturnType}
+              preparation={
+                preparation as unknown as UseSimulateContractReturnType
+              }
             >
               Cancel this request
             </TxButton>
@@ -147,49 +149,43 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({
   ]);
   const columnHelper = createColumnHelper<Activity>();
   const [activityData, setActivityData] = useState<Activity[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const computeActivityData = async () => {
     if (!isLoading) {
       setIsLoading(true);
-      if (account && account.address) {
-        await execute(
-          `
-            {
-              c${account.chainId}_activities(where: { account: "${account.address}" }) {
-                id
-                requestId
-                ltoken {
-                  symbol
-                  decimals
-                }
-                timestamp
-                action
-                amount
-                amountAfterFees
-                status
+      try {
+        if (account && account.address) {
+          const result = await execute(
+            `
+          {
+            c${account.chainId}_activities(where: { account: "${account.address}" }) {
+              id
+              requestId
+              ltoken {
+                symbol
+                decimals
               }
+              timestamp
+              action
+              amount
+              amountAfterFees
+              status
             }
-            `,
-          {},
-        )
-          .then(
-            // @ts-ignore
-            (result: {
-              data: {
-                [key: string]: Activity[];
-              };
-            }) => {
-              setActivityData(result.data[`c${account.chainId}_activities`]);
-              setIsLoading(false);
-            },
-          )
-          .catch((e: Error) => {
-            setActivityData([]);
-            setIsLoading(false);
-          });
+          }
+          `,
+            {},
+          );
+          setActivityData(result.data[`c${account.chainId}_activities`] ?? []);
+        } else {
+          setActivityData([]);
+        }
+      } catch (e) {
+        console.error(e);
+        setActivityData([]);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
   };
 
@@ -294,7 +290,7 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({
   const sortableColumns = ["timestamp", "action", "amount", "ltoken", "status"];
 
   const table = useReactTable({
-    data: activityData,
+    data: activityData ?? [], // Ensure we always have at least an empty array
     columns: activityColumns,
     state: {
       sorting,
@@ -360,38 +356,40 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({
           );
         })}
         {(() => {
-          const tableRows = table.getRowModel().rows;
-
-          if (isLoading)
+          if (isLoading) {
             return (
               <div className="my-10 flex col-span-5 w-full items-center justify-center">
                 <Spinner />
               </div>
             );
-          else if (tableRows.length === 0)
+          }
+
+          const tableRows = table.getRowModel().rows;
+
+          if (!tableRows?.length) {
             return (
               <p className="my-10 col-span-5 w-full block text-center text-lg font-semibold text-fg/60">
                 No activity yet.
               </p>
             );
-          else {
-            return tableRows.map((row, rowIndex) =>
-              row.getVisibleCells().map((cell, cellIndex) => (
-                <div
-                  key={cell.id}
-                  style={{
-                    gridColumnStart: cellIndex + 1,
-                  }}
-                  className={clsx(
-                    "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
-                    rowIndex == tableRows.length - 1 && "border-b-0",
-                  )}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </div>
-              )),
-            );
           }
+
+          return tableRows.map((row, rowIndex) =>
+            row.getVisibleCells().map((cell, cellIndex) => (
+              <div
+                key={cell.id}
+                style={{
+                  gridColumnStart: cellIndex + 1,
+                }}
+                className={clsx(
+                  "inline-flex items-center justify-center py-3 border-b border-b-fg/20 font-medium text-fg/90 text-[0.9rem]",
+                  rowIndex == tableRows.length - 1 && "border-b-0",
+                )}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </div>
+            )),
+          );
         })()}
       </div>
       <div className="flex justify-center items-center gap-3 py-4">

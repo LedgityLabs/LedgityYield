@@ -6,7 +6,6 @@ import {
   lineaTestnet,
   linea,
   Chain,
-  base,
   baseSepolia,
   sepolia,
 } from "@wagmi/core/chains";
@@ -64,6 +63,25 @@ const xlayerMainnet: Chain = {
   testnet: false,
 };
 
+const base: Chain = {
+  id: 8453,
+  name: "Base",
+  nativeCurrency: {
+    name: "Ether",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://base-rpc.publicnode.com"],
+    },
+  },
+  blockExplorers: {
+    default: { name: "BaseScan", url: "https://basescan.org/" },
+  },
+  testnet: false,
+};
+
 /// Figure whether we're in dev or prod environment
 const chainsEnv =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "prod" ? "prod" : "dev";
@@ -82,7 +100,7 @@ const devChains: readonly [Chain, ...Chain[]] = [
   hardhat,
   xlayerTestnet,
   lineaTestnet,
-  baseSepolia,
+  // baseSepolia,
 ];
 export const chains: readonly [Chain, ...Chain[]] =
   chainsEnv === "prod" ? prodChains : devChains;
