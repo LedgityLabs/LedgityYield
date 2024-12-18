@@ -65,19 +65,18 @@ const xlayerMainnet: Chain = {
 };
 
 /// Figure whether we're in dev or prod environment
-let chainsEnv: "prod" | "dev" = "prod";
-if (process.env.VERCEL_ENV === "preview") chainsEnv = "dev";
-if (process.env.NODE_ENV !== "production") chainsEnv = "dev";
+const chainsEnv =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "prod" ? "prod" : "dev";
 
 // Build chain lists for each environment, and export chains for the current one
-const prodChains: readonly Chain[] = [
+const prodChains: readonly [Chain, ...Chain[]] = [
   mainnet,
   arbitrum,
   base,
   linea,
   // xlayerMainnet,
 ];
-const devChains: readonly Chain[] = [
+const devChains: readonly [Chain, ...Chain[]] = [
   ...prodChains,
   sepolia,
   hardhat,
@@ -85,5 +84,5 @@ const devChains: readonly Chain[] = [
   lineaTestnet,
   baseSepolia,
 ];
-export const chains: readonly Chain[] =
+export const chains: readonly [Chain, ...Chain[]] =
   chainsEnv === "prod" ? prodChains : devChains;

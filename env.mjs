@@ -11,6 +11,7 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),
+    NEXT_PUBLIC_VERCEL_ENV: z.string().optional(),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID:
