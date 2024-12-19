@@ -116,7 +116,9 @@ export const AllowanceTxButton: FC<Props> = ({
           className,
         )}
         hideTooltips={hasEnoughAllowance}
-        preparation={allowancePreparation as UseSimulateContractReturnType}
+        preparation={
+          allowancePreparation as unknown as UseSimulateContractReturnType
+        }
         disabled={(amount === 0n && !allowZeroAmount) || disabled}
         hasUserInteracted={hasUserInteracted}
         parentIsError={parentIsError || isError}

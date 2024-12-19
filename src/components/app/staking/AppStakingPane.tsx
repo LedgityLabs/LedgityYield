@@ -186,7 +186,9 @@ export const AppStakingPane: FC<{
         <div className="flex flex-col items-center">
           <AllowanceTxButton
             size="medium"
-            preparation={preparation as UseSimulateContractReturnType}
+            preparation={
+              preparation as unknown as UseSimulateContractReturnType
+            }
             token={ldyTokenAddress!}
             spender={ldyStakingAddress!}
             amount={depositedAmount}

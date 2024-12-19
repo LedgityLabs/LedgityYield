@@ -163,7 +163,7 @@ export const WithdrawDialog: FC<Props> = ({
                       <TxButton
                         size="medium"
                         preparation={
-                          instantWithdrawalPreparation as UseSimulateContractReturnType
+                          instantWithdrawalPreparation as unknown as UseSimulateContractReturnType
                         }
                         className="relative -top-[1.5px]"
                         disabled={withdrawnAmount === 0n}
@@ -195,7 +195,7 @@ export const WithdrawDialog: FC<Props> = ({
                       <TxButton
                         size="medium"
                         preparation={
-                          requestWithdrawalPreparation as UseSimulateContractReturnType
+                          requestWithdrawalPreparation as unknown as UseSimulateContractReturnType
                         }
                         className="relative -top-[1.5px]"
                         disabled={withdrawnAmount === 0n}

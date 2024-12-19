@@ -47,7 +47,7 @@ export const AdminLTokenAPR: FC<Props> = ({ className, lTokenSymbol }) => {
           }}
         />
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation as unknown as UseSimulateContractReturnType}
           hasUserInteracted={hasUserInteracted}
           size="medium"
         >

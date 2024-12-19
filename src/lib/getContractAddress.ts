@@ -19,11 +19,13 @@ export const getContractAddress = (
 
   // If not found yet, search it in deployed contracts
   if (!contractAddress) {
-    // @ts-ignore
     if (
+      // @ts-ignore
       deployments[chainId] &&
+      // @ts-ignore
       deployments[chainId][0].contracts[contractName]
     ) {
+      // @bw these are bad
       // @ts-ignore
       contractAddress = deployments[chainId][0].contracts[contractName].address;
     }

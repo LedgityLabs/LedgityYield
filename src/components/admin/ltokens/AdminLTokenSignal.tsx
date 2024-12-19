@@ -19,7 +19,7 @@ export const AdminLTokenSignal: FC<Props> = ({ lTokenSymbol }) => {
     <AdminBrick title="Data indexing">
       <div className="flex justify-center items-center">
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation as unknown as UseSimulateContractReturnType}
           size="medium"
         >
           Signal

@@ -70,7 +70,7 @@ export const AdminAddressSetter: FC<Props> = ({
         />
         <TxButton
           size="medium"
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation as unknown as UseSimulateContractReturnType}
           disabled={newAddress === zeroAddress}
           hasUserInteracted={hasUserInteracted}
         >

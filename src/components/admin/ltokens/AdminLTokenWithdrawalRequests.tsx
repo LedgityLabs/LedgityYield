@@ -368,7 +368,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
                       token={underlyingAddress!}
                       spender={lTokenAddress!}
                       preparation={
-                        repatriationPreparation as UseSimulateContractReturnType
+                        repatriationPreparation as unknown as UseSimulateContractReturnType
                       }
                       transactionSummary={
                         <>

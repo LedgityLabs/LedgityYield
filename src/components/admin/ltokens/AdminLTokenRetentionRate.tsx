@@ -58,7 +58,7 @@ export const AdminLTokenRetentionRate: FC<Props> = ({
           }}
         />
         <TxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation as unknown as UseSimulateContractReturnType}
           hasUserInteracted={hasUserInteracted}
           size="medium"
         >

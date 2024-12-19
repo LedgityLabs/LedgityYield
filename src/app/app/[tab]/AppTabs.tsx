@@ -18,15 +18,15 @@ interface Props {
   defaultTab: string;
 }
 
-const AppTabs: FC<Props> = ({ defaultTab }) => {
+const AppTabsSwitch: FC<Props> = ({ defaultTab }) => {
   return (
     <SwitchAppTabProvider defaultTab={defaultTab}>
-      <_AppTabs />
+      <AppTabs />
     </SwitchAppTabProvider>
   );
 };
 
-const _AppTabs: FC = () => {
+const AppTabs: FC = () => {
   const { currentTab, switchTab } = useSwitchAppTab();
   return (
     <Tabs
@@ -104,4 +104,4 @@ const _AppTabs: FC = () => {
   );
 };
 
-export default AppTabs;
+export default AppTabsSwitch;

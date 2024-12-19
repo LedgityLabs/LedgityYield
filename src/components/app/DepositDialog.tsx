@@ -57,7 +57,7 @@ export const DepositDialog: FC<Props> = ({
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const preparation = useSimulateLTokenDeposit({
     address: lTokenAddress!,
-    args: [depositedAmount],
+    args: [depositedAmount, ""],
   });
 
   // Refresh some data every 5 blocks
@@ -149,7 +149,9 @@ export const DepositDialog: FC<Props> = ({
                     />
                     <AllowanceTxButton
                       size="medium"
-                      preparation={preparation as UseSimulateContractReturnType}
+                      preparation={
+                        preparation as unknown as UseSimulateContractReturnType
+                      }
                       token={underlyingAddress!}
                       spender={lTokenAddress}
                       amount={depositedAmount}

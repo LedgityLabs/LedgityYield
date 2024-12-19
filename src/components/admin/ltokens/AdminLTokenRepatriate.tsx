@@ -84,7 +84,7 @@ export const AdminLTokenRepatriate: FC<Props> = ({ lTokenSymbol }) => {
         />
         <AllowanceTxButton
           size="medium"
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation as unknown as UseSimulateContractReturnType}
           token={underlyingAddress!}
           spender={lTokenAddress!}
           amount={repatriatedAmount}

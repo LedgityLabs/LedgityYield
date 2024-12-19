@@ -11,9 +11,10 @@ export const getContractAbi = (
 
   // If not found yet, search it in deployed contracts
   if (!contractAbi) {
-    // @ts-ignore
     if (
+      // @ts-ignore
       deployments[chainId] &&
+      // @ts-ignore
       deployments[chainId][0].contracts[contractName]
     ) {
       // @ts-ignore

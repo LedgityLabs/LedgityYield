@@ -49,7 +49,7 @@ export const AdminLTokenProcessBigQueued: FC<Props> = ({ lTokenSymbol }) => {
           step={1}
         />
         <AllowanceTxButton
-          preparation={preparation as UseSimulateContractReturnType}
+          preparation={preparation as unknown as UseSimulateContractReturnType}
           hasUserInteracted={hasUserInteracted}
           token={underlyingAddress!}
           spender={lTokenAddress!}

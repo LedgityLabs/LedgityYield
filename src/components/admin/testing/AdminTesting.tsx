@@ -116,7 +116,9 @@ const MintFakeToken: FC<{ contractName: string }> = ({
             />
             <TxButton
               size="medium"
-              preparation={preparation as UseSimulateContractReturnType}
+              preparation={
+                preparation as unknown as UseSimulateContractReturnType
+              }
             >
               Mint
             </TxButton>

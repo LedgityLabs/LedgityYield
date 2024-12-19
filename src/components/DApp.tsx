@@ -16,7 +16,7 @@ interface Props {
 
 const DApp: FC<Props> = ({ children }) => {
   return (
-    <MainContextProvider>
+    <MainContextProvider defaultTab="">
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>{children}</RainbowKitProvider>
