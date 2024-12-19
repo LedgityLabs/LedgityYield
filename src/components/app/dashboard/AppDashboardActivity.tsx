@@ -19,7 +19,7 @@ import {
   Spinner,
   TxButton,
 } from "@/components/ui";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   SortingState,
@@ -151,47 +151,52 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({
   const [activityData, setActivityData] = useState<Activity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const computeActivityData = async () => {
-    if (!isLoading) {
-      setIsLoading(true);
-      try {
-        if (account && account.address) {
-          const result = await execute(
-            `
-          {
-            c${account.chainId}_activities(where: { account: "${account.address}" }) {
-              id
-              requestId
-              ltoken {
-                symbol
-                decimals
-              }
-              timestamp
-              action
-              amount
-              amountAfterFees
-              status
-            }
-          }
-          `,
-            {},
-          );
-          setActivityData(result.data[`c${account.chainId}_activities`] ?? []);
-        } else {
-          setActivityData([]);
-        }
-      } catch (e) {
-        console.error(e);
-        setActivityData([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
+  const computeActivityData = useCallback(async () => {
+    setIsLoading(true);
 
+    try {
+      if (!account?.address) {
+        setActivityData([]);
+        return;
+      }
+
+      const query = `{
+        c${account.chainId}_activities(where: { account: "${account.address}" }) {
+          id
+          requestId
+          ltoken {
+            symbol
+            decimals
+          }
+          timestamp
+          action
+          amount
+          amountAfterFees
+          status
+        }
+      }`;
+
+      const result = await execute(query, {});
+      const activities = result.data?.[`c${account.chainId}_activities`];
+
+      if (!activities) {
+        throw new Error("No activities data returned from subgraph");
+      }
+
+      setActivityData(activities);
+    } catch (e) {
+      console.error("Failed to fetch activity data:", e);
+
+      setActivityData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [account?.address, account?.chainId]);
+
+  // Fetch data on mount and when account changes
   useEffect(() => {
     computeActivityData();
-  }, [account.address]);
+  }, [computeActivityData]);
 
   const activityColumns = [
     columnHelper.accessor("timestamp", {
@@ -246,7 +251,6 @@ export const AppDashboardActivity: React.PropsWithoutRef<typeof Card> = ({
         );
       },
     }),
-
     columnHelper.accessor("status", {
       header: "Status",
       cell: (info) => {
