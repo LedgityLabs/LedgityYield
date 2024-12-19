@@ -14,6 +14,9 @@ import { AppStaking } from "@/components/app/staking/AppStaking";
 import Link from "next/link";
 import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
 
+import { SwapWidget } from "../../../components/app/widget/SwapWidget";
+import { BridgeWidget } from "../../../components/app/widget/BridgeWidget";
+
 interface Props {
   defaultTab: string;
 }
@@ -77,6 +80,8 @@ const AppTabs: FC = () => {
         </TabsTrigger>
         <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
         <TabsTrigger value="affiliate">Affiliate Program</TabsTrigger>
+        <TabsTrigger value="swap">Swap</TabsTrigger>
+        <TabsTrigger value="bridge">Bridge</TabsTrigger>
       </TabsList>
       <div className="[&_>_*]:animate-fadeAndMoveIn [&_>_*]:[animation-duration:300ms] sm:px-5 max-w-[100vw]">
         <SessionProvider>
@@ -97,6 +102,12 @@ const AppTabs: FC = () => {
           </TabsContent>
           <TabsContent value="affiliate">
             <AppAffiliate />
+          </TabsContent>
+          <TabsContent value="swap">
+            <SwapWidget />
+          </TabsContent>
+          <TabsContent value="bridge">
+            <BridgeWidget />
           </TabsContent>
         </SessionProvider>
       </div>
