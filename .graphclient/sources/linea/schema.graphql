@@ -65,15 +65,19 @@ input APRChange_filter {
   apr_lte: BigDecimal
   apr_in: [BigDecimal!]
   apr_not_in: [BigDecimal!]
-  """
-  Filter for the block changed event.
-  """
+  """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [APRChange_filter]
+  or: [APRChange_filter]
 }
 
 enum APRChange_orderBy {
   id
   ltoken
+  ltoken__id
+  ltoken__symbol
+  ltoken__decimals
+  ltoken__totalMintedRewards
   timestamp
   apr
 }
@@ -150,6 +154,10 @@ input Activity_filter {
   timestamp_not_in: [BigInt!]
   account: Bytes
   account_not: Bytes
+  account_gt: Bytes
+  account_lt: Bytes
+  account_gte: Bytes
+  account_lte: Bytes
   account_in: [Bytes!]
   account_not_in: [Bytes!]
   account_contains: Bytes
@@ -178,22 +186,232 @@ input Activity_filter {
   status_not: ActivityStatus
   status_in: [ActivityStatus!]
   status_not_in: [ActivityStatus!]
-  """
-  Filter for the block changed event.
-  """
+  """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Activity_filter]
+  or: [Activity_filter]
 }
 
 enum Activity_orderBy {
   id
   requestId
   ltoken
+  ltoken__id
+  ltoken__symbol
+  ltoken__decimals
+  ltoken__totalMintedRewards
   timestamp
   account
   action
   amount
   amountAfterFees
   status
+}
+
+type AffiliateActivity {
+  id: Bytes!
+  affiliateCode: String!
+  ltoken: LToken!
+  action: ActivityAction!
+  account: Bytes!
+  amount: BigInt!
+  amountAfterFees: BigInt!
+  txHash: Bytes!
+  logIndex: BigInt!
+  timestamp: BigInt!
+}
+
+input AffiliateActivity_filter {
+  id: Bytes
+  id_not: Bytes
+  id_gt: Bytes
+  id_lt: Bytes
+  id_gte: Bytes
+  id_lte: Bytes
+  id_in: [Bytes!]
+  id_not_in: [Bytes!]
+  id_contains: Bytes
+  id_not_contains: Bytes
+  affiliateCode: String
+  affiliateCode_not: String
+  affiliateCode_gt: String
+  affiliateCode_lt: String
+  affiliateCode_gte: String
+  affiliateCode_lte: String
+  affiliateCode_in: [String!]
+  affiliateCode_not_in: [String!]
+  affiliateCode_contains: String
+  affiliateCode_contains_nocase: String
+  affiliateCode_not_contains: String
+  affiliateCode_not_contains_nocase: String
+  affiliateCode_starts_with: String
+  affiliateCode_starts_with_nocase: String
+  affiliateCode_not_starts_with: String
+  affiliateCode_not_starts_with_nocase: String
+  affiliateCode_ends_with: String
+  affiliateCode_ends_with_nocase: String
+  affiliateCode_not_ends_with: String
+  affiliateCode_not_ends_with_nocase: String
+  ltoken: String
+  ltoken_not: String
+  ltoken_gt: String
+  ltoken_lt: String
+  ltoken_gte: String
+  ltoken_lte: String
+  ltoken_in: [String!]
+  ltoken_not_in: [String!]
+  ltoken_contains: String
+  ltoken_contains_nocase: String
+  ltoken_not_contains: String
+  ltoken_not_contains_nocase: String
+  ltoken_starts_with: String
+  ltoken_starts_with_nocase: String
+  ltoken_not_starts_with: String
+  ltoken_not_starts_with_nocase: String
+  ltoken_ends_with: String
+  ltoken_ends_with_nocase: String
+  ltoken_not_ends_with: String
+  ltoken_not_ends_with_nocase: String
+  ltoken_: LToken_filter
+  action: ActivityAction
+  action_not: ActivityAction
+  action_in: [ActivityAction!]
+  action_not_in: [ActivityAction!]
+  account: Bytes
+  account_not: Bytes
+  account_gt: Bytes
+  account_lt: Bytes
+  account_gte: Bytes
+  account_lte: Bytes
+  account_in: [Bytes!]
+  account_not_in: [Bytes!]
+  account_contains: Bytes
+  account_not_contains: Bytes
+  amount: BigInt
+  amount_not: BigInt
+  amount_gt: BigInt
+  amount_lt: BigInt
+  amount_gte: BigInt
+  amount_lte: BigInt
+  amount_in: [BigInt!]
+  amount_not_in: [BigInt!]
+  amountAfterFees: BigInt
+  amountAfterFees_not: BigInt
+  amountAfterFees_gt: BigInt
+  amountAfterFees_lt: BigInt
+  amountAfterFees_gte: BigInt
+  amountAfterFees_lte: BigInt
+  amountAfterFees_in: [BigInt!]
+  amountAfterFees_not_in: [BigInt!]
+  txHash: Bytes
+  txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
+  txHash_in: [Bytes!]
+  txHash_not_in: [Bytes!]
+  txHash_contains: Bytes
+  txHash_not_contains: Bytes
+  logIndex: BigInt
+  logIndex_not: BigInt
+  logIndex_gt: BigInt
+  logIndex_lt: BigInt
+  logIndex_gte: BigInt
+  logIndex_lte: BigInt
+  logIndex_in: [BigInt!]
+  logIndex_not_in: [BigInt!]
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  and: [AffiliateActivity_filter]
+  or: [AffiliateActivity_filter]
+}
+
+enum AffiliateActivity_orderBy {
+  id
+  affiliateCode
+  ltoken
+  ltoken__id
+  ltoken__symbol
+  ltoken__decimals
+  ltoken__totalMintedRewards
+  action
+  account
+  amount
+  amountAfterFees
+  txHash
+  logIndex
+  timestamp
+}
+
+type AffiliateUser {
+  id: ID!
+  walletAddress: Bytes!
+  affiliateCode: String!
+}
+
+input AffiliateUser_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  walletAddress: Bytes
+  walletAddress_not: Bytes
+  walletAddress_gt: Bytes
+  walletAddress_lt: Bytes
+  walletAddress_gte: Bytes
+  walletAddress_lte: Bytes
+  walletAddress_in: [Bytes!]
+  walletAddress_not_in: [Bytes!]
+  walletAddress_contains: Bytes
+  walletAddress_not_contains: Bytes
+  affiliateCode: String
+  affiliateCode_not: String
+  affiliateCode_gt: String
+  affiliateCode_lt: String
+  affiliateCode_gte: String
+  affiliateCode_lte: String
+  affiliateCode_in: [String!]
+  affiliateCode_not_in: [String!]
+  affiliateCode_contains: String
+  affiliateCode_contains_nocase: String
+  affiliateCode_not_contains: String
+  affiliateCode_not_contains_nocase: String
+  affiliateCode_starts_with: String
+  affiliateCode_starts_with_nocase: String
+  affiliateCode_not_starts_with: String
+  affiliateCode_not_starts_with_nocase: String
+  affiliateCode_ends_with: String
+  affiliateCode_ends_with_nocase: String
+  affiliateCode_not_ends_with: String
+  affiliateCode_not_ends_with_nocase: String
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  and: [AffiliateUser_filter]
+  or: [AffiliateUser_filter]
+}
+
+enum AffiliateUser_orderBy {
+  id
+  walletAddress
+  affiliateCode
+}
+
+enum Aggregation_interval {
+  hour
+  day
 }
 
 scalar BigDecimal
@@ -212,39 +430,21 @@ input Block_height {
 
 scalar Bytes
 
+"""
+8 bytes signed integer
+
+"""
+scalar Int8
+
 type LToken {
   id: ID!
   symbol: String!
   decimals: Int!
   totalMintedRewards: BigDecimal!
-  tvlUpdates(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: TVLChange_orderBy
-    orderDirection: OrderDirection
-    where: TVLChange_filter
-  ): [TVLChange!]
-  aprUpdates(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: APRChange_orderBy
-    orderDirection: OrderDirection
-    where: APRChange_filter
-  ): [APRChange!]
-  activities(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: Activity_orderBy
-    orderDirection: OrderDirection
-    where: Activity_filter
-  ): [Activity!]
-  rewardsMints(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: RewardsMint_orderBy
-    orderDirection: OrderDirection
-    where: RewardsMint_filter
-  ): [RewardsMint!]
+  tvlUpdates(skip: Int = 0, first: Int = 100, orderBy: TVLChange_orderBy, orderDirection: OrderDirection, where: TVLChange_filter): [TVLChange!]
+  aprUpdates(skip: Int = 0, first: Int = 100, orderBy: APRChange_orderBy, orderDirection: OrderDirection, where: APRChange_filter): [APRChange!]
+  activities(skip: Int = 0, first: Int = 100, orderBy: Activity_orderBy, orderDirection: OrderDirection, where: Activity_filter): [Activity!]
+  rewardsMints(skip: Int = 0, first: Int = 100, orderBy: RewardsMint_orderBy, orderDirection: OrderDirection, where: RewardsMint_filter): [RewardsMint!]
 }
 
 input LToken_filter {
@@ -296,10 +496,10 @@ input LToken_filter {
   aprUpdates_: APRChange_filter
   activities_: Activity_filter
   rewardsMints_: RewardsMint_filter
-  """
-  Filter for the block changed event.
-  """
+  """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [LToken_filter]
+  or: [LToken_filter]
 }
 
 enum LToken_orderBy {
@@ -313,9 +513,7 @@ enum LToken_orderBy {
   rewardsMints
 }
 
-"""
-Defines the order direction, either ascending or descending
-"""
+"""Defines the order direction, either ascending or descending"""
 enum OrderDirection {
   asc
   desc
@@ -352,10 +550,10 @@ input PreMiningLock_filter {
   duration_lte: Int
   duration_in: [Int!]
   duration_not_in: [Int!]
-  """
-  Filter for the block changed event.
-  """
+  """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [PreMiningLock_filter]
+  or: [PreMiningLock_filter]
 }
 
 enum PreMiningLock_orderBy {
@@ -521,9 +719,111 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [PreMiningLock!]!
-  """
-  Access to subgraph metadata
-  """
+  c59144_stakingUser(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): StakingUser
+  c59144_stakingUsers(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: StakingUser_orderBy
+    orderDirection: OrderDirection
+    where: StakingUser_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [StakingUser!]!
+  c59144_stakingAPRInfo(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): StakingAPRInfo
+  c59144_stakingAPRInfos(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: StakingAPRInfo_orderBy
+    orderDirection: OrderDirection
+    where: StakingAPRInfo_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [StakingAPRInfo!]!
+  c59144_affiliateUser(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AffiliateUser
+  c59144_affiliateUsers(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AffiliateUser_orderBy
+    orderDirection: OrderDirection
+    where: AffiliateUser_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AffiliateUser!]!
+  c59144_affiliateActivity(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AffiliateActivity
+  c59144_affiliateActivities(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AffiliateActivity_orderBy
+    orderDirection: OrderDirection
+    where: AffiliateActivity_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AffiliateActivity!]!
+  """Access to subgraph metadata"""
   c59144__meta(block: Block_height): _Meta_
 }
 
@@ -577,6 +877,10 @@ input RewardsMint_filter {
   timestamp_not_in: [BigInt!]
   account: Bytes
   account_not: Bytes
+  account_gt: Bytes
+  account_lt: Bytes
+  account_gte: Bytes
+  account_lte: Bytes
   account_in: [Bytes!]
   account_not_in: [Bytes!]
   account_contains: Bytes
@@ -605,20 +909,142 @@ input RewardsMint_filter {
   growth_lte: BigDecimal
   growth_in: [BigDecimal!]
   growth_not_in: [BigDecimal!]
-  """
-  Filter for the block changed event.
-  """
+  """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [RewardsMint_filter]
+  or: [RewardsMint_filter]
 }
 
 enum RewardsMint_orderBy {
   id
   ltoken
+  ltoken__id
+  ltoken__symbol
+  ltoken__decimals
+  ltoken__totalMintedRewards
   timestamp
   account
   balanceBefore
   revenue
   growth
+}
+
+type StakingAPRInfo {
+  id: ID!
+  rewardPerSec: BigInt!
+  totalStaked: BigInt!
+  interestRate: BigDecimal!
+}
+
+input StakingAPRInfo_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  rewardPerSec: BigInt
+  rewardPerSec_not: BigInt
+  rewardPerSec_gt: BigInt
+  rewardPerSec_lt: BigInt
+  rewardPerSec_gte: BigInt
+  rewardPerSec_lte: BigInt
+  rewardPerSec_in: [BigInt!]
+  rewardPerSec_not_in: [BigInt!]
+  totalStaked: BigInt
+  totalStaked_not: BigInt
+  totalStaked_gt: BigInt
+  totalStaked_lt: BigInt
+  totalStaked_gte: BigInt
+  totalStaked_lte: BigInt
+  totalStaked_in: [BigInt!]
+  totalStaked_not_in: [BigInt!]
+  interestRate: BigDecimal
+  interestRate_not: BigDecimal
+  interestRate_gt: BigDecimal
+  interestRate_lt: BigDecimal
+  interestRate_gte: BigDecimal
+  interestRate_lte: BigDecimal
+  interestRate_in: [BigDecimal!]
+  interestRate_not_in: [BigDecimal!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  and: [StakingAPRInfo_filter]
+  or: [StakingAPRInfo_filter]
+}
+
+enum StakingAPRInfo_orderBy {
+  id
+  rewardPerSec
+  totalStaked
+  interestRate
+}
+
+type StakingUser {
+  id: ID!
+  user: Bytes!
+  stakeIndex: BigInt!
+  stakedAmount: BigInt!
+  earnedAmount: BigInt!
+}
+
+input StakingUser_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  user: Bytes
+  user_not: Bytes
+  user_gt: Bytes
+  user_lt: Bytes
+  user_gte: Bytes
+  user_lte: Bytes
+  user_in: [Bytes!]
+  user_not_in: [Bytes!]
+  user_contains: Bytes
+  user_not_contains: Bytes
+  stakeIndex: BigInt
+  stakeIndex_not: BigInt
+  stakeIndex_gt: BigInt
+  stakeIndex_lt: BigInt
+  stakeIndex_gte: BigInt
+  stakeIndex_lte: BigInt
+  stakeIndex_in: [BigInt!]
+  stakeIndex_not_in: [BigInt!]
+  stakedAmount: BigInt
+  stakedAmount_not: BigInt
+  stakedAmount_gt: BigInt
+  stakedAmount_lt: BigInt
+  stakedAmount_gte: BigInt
+  stakedAmount_lte: BigInt
+  stakedAmount_in: [BigInt!]
+  stakedAmount_not_in: [BigInt!]
+  earnedAmount: BigInt
+  earnedAmount_not: BigInt
+  earnedAmount_gt: BigInt
+  earnedAmount_lt: BigInt
+  earnedAmount_gte: BigInt
+  earnedAmount_lte: BigInt
+  earnedAmount_in: [BigInt!]
+  earnedAmount_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  and: [StakingUser_filter]
+  or: [StakingUser_filter]
+}
+
+enum StakingUser_orderBy {
+  id
+  user
+  stakeIndex
+  stakedAmount
+  earnedAmount
 }
 
 type Subscription {
@@ -778,9 +1204,111 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [PreMiningLock!]!
-  """
-  Access to subgraph metadata
-  """
+  c59144_stakingUser(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): StakingUser
+  c59144_stakingUsers(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: StakingUser_orderBy
+    orderDirection: OrderDirection
+    where: StakingUser_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [StakingUser!]!
+  c59144_stakingAPRInfo(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): StakingAPRInfo
+  c59144_stakingAPRInfos(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: StakingAPRInfo_orderBy
+    orderDirection: OrderDirection
+    where: StakingAPRInfo_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [StakingAPRInfo!]!
+  c59144_affiliateUser(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AffiliateUser
+  c59144_affiliateUsers(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AffiliateUser_orderBy
+    orderDirection: OrderDirection
+    where: AffiliateUser_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AffiliateUser!]!
+  c59144_affiliateActivity(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): AffiliateActivity
+  c59144_affiliateActivities(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: AffiliateActivity_orderBy
+    orderDirection: OrderDirection
+    where: AffiliateActivity_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [AffiliateActivity!]!
+  """Access to subgraph metadata"""
   c59144__meta(block: Block_height): _Meta_
 }
 
@@ -837,59 +1365,58 @@ input TVLChange_filter {
   amount_lte: BigDecimal
   amount_in: [BigDecimal!]
   amount_not_in: [BigDecimal!]
-  """
-  Filter for the block changed event.
-  """
+  """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [TVLChange_filter]
+  or: [TVLChange_filter]
 }
 
 enum TVLChange_orderBy {
   id
   ltoken
+  ltoken__id
+  ltoken__symbol
+  ltoken__decimals
+  ltoken__totalMintedRewards
   timestamp
   amount
 }
 
-type _Block_ {
-  """
-  The hash of the block
-  """
-  hash: Bytes
-  """
-  The block number
-  """
-  number: Int!
-  """
-  Integer representation of the timestamp stored in blocks for the chain
-  """
-  timestamp: Int
-}
+"""
+A string representation of microseconds UNIX timestamp (16 digits)
 
 """
-The type for the top-level _meta field
-"""
+scalar Timestamp
+
+type _Block_ {
+  """The hash of the block"""
+  hash: Bytes
+  """The block number"""
+  number: Int!
+  """Integer representation of the timestamp stored in blocks for the chain"""
+  timestamp: Int
+  """The hash of the parent block"""
+  parentHash: Bytes
+}
+
+"""The type for the top-level _meta field"""
 type _Meta_ {
   """
   Information about a specific subgraph block. The hash of the block
   will be null if the _meta field has a block constraint that asks for
   a block number. It will be filled if the _meta field has no block constraint
   and therefore asks for the latest  block
+  
   """
   block: _Block_!
-  """
-  The deployment ID
-  """
+  """The deployment ID"""
   deployment: String!
-  """
-  If `true`, the subgraph encountered indexing errors at some past block
-  """
+  """If `true`, the subgraph encountered indexing errors at some past block"""
   hasIndexingErrors: Boolean!
 }
 
 enum _SubgraphErrorPolicy_ {
-  """
-  Data will be returned even if the subgraph has indexing errors
-  """
+  """Data will be returned even if the subgraph has indexing errors"""
   allow
   """
   If the subgraph has indexing errors, data will be omitted. The default.
