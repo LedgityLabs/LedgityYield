@@ -31,10 +31,12 @@ import { path as pathModule } from "@graphql-mesh/cross-helpers";
 import { ImportFn } from "@graphql-mesh/types";
 import type { LineaTypes } from "./sources/linea/types";
 import type { ArbitrumTypes } from "./sources/arbitrum/types";
+import type { BaseTypes } from "./sources/base/types";
 import type { OkxX1TestnetTypes } from "./sources/OKX_X1_Testnet/types";
 import * as importedModule$0 from "./sources/OKX_X1_Testnet/introspectionSchema";
 import * as importedModule$1 from "./sources/linea/introspectionSchema";
 import * as importedModule$2 from "./sources/arbitrum/introspectionSchema";
+import * as importedModule$3 from "./sources/base/introspectionSchema";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -90,6 +92,20 @@ export type Query = {
   c59144_rewardsMints: Array<RewardsMint>;
   c59144_preMiningLock?: Maybe<PreMiningLock>;
   c59144_preMiningLocks: Array<PreMiningLock>;
+  /** Access to subgraph metadata */
+  c8453__meta?: Maybe<_Meta_>;
+  c8453_ltoken?: Maybe<LToken>;
+  c8453_ltokens: Array<LToken>;
+  c8453_tvlchange?: Maybe<TVLChange>;
+  c8453_tvlchanges: Array<TVLChange>;
+  c8453_aprchange?: Maybe<APRChange>;
+  c8453_aprchanges: Array<APRChange>;
+  c8453_activity?: Maybe<Activity>;
+  c8453_activities: Array<Activity>;
+  c8453_rewardsMint?: Maybe<RewardsMint>;
+  c8453_rewardsMints: Array<RewardsMint>;
+  c8453_preMiningLock?: Maybe<PreMiningLock>;
+  c8453_preMiningLocks: Array<PreMiningLock>;
   /** Access to subgraph metadata */
   c59144__meta?: Maybe<_Meta_>;
   c42161_ltoken?: Maybe<LToken>;
@@ -2323,6 +2339,7 @@ export type DirectiveResolvers<ContextType = MeshContext> = ResolversObject<{
 export type MeshContext = OkxX1TestnetTypes.Context &
   LineaTypes.Context &
   ArbitrumTypes.Context &
+  BaseTypes.Context &
   BaseMeshContext;
 
 import { fileURLToPath } from "@graphql-mesh/utils";
@@ -2349,6 +2366,9 @@ const importFn: ImportFn = <T>(moduleId: string) => {
 
     case ".graphclient/sources/arbitrum/introspectionSchema":
       return Promise.resolve(importedModule$2) as T;
+
+    case ".graphclient/sources/base/introspectionSchema":
+      return Promise.resolve(importedModule$3) as T;
 
     default:
       return Promise.reject(
@@ -2386,10 +2406,8 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
   const sources: MeshResolvedSource[] = [];
   const transforms: MeshTransform[] = [];
   const additionalEnvelopPlugins: MeshPlugin<any>[] = [];
-  const arbitrumTransforms = [];
-  const lineaTransforms = [];
-  const okxX1TestnetTransforms = [];
   const additionalTypeDefs = [] as any[];
+
   const arbitrumHandler = new GraphqlHandler({
     name: "arbitrum",
     config: {
@@ -2429,6 +2447,25 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
     logger: logger.child("OKX_X1_Testnet"),
     importFn,
   });
+  const baseHandler = new GraphqlHandler({
+    name: "base",
+    config: {
+      introspection: true,
+      endpoint:
+        "https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-yield-base/api",
+    },
+    baseDir,
+    cache,
+    pubsub,
+    store: sourcesStore.child("base"),
+    logger: logger.child("base"),
+    importFn,
+  });
+
+  const arbitrumTransforms = [];
+  const lineaTransforms = [];
+  const okxX1TestnetTransforms = [];
+
   arbitrumTransforms[0] = new PrefixTransform({
     apiName: "arbitrum",
     config: {
@@ -2471,6 +2508,22 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
     importFn,
     logger,
   });
+  const baseTransforms = [
+    new PrefixTransform({
+      apiName: "base",
+      config: {
+        mode: "wrap",
+        value: "c8453_", // Base chain ID is 8453
+        includeRootOperations: true,
+        includeTypes: false,
+      },
+      baseDir,
+      cache,
+      pubsub,
+      importFn,
+      logger,
+    }),
+  ];
   sources[0] = {
     name: "arbitrum",
     handler: arbitrumHandler,
@@ -2486,6 +2539,12 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
     handler: okxX1TestnetHandler,
     transforms: okxX1TestnetTransforms,
   };
+  sources.push({
+    name: "base",
+    handler: baseHandler,
+    transforms: baseTransforms,
+  });
+
   const additionalResolvers = [] as any[];
   const merger = new (StitchingMerger as any)({
     cache,
