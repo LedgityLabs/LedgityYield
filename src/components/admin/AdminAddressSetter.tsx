@@ -7,7 +7,6 @@ import {
   useReadContract,
   useSimulateContract,
 } from "wagmi";
-import { getContractAbi } from "@/lib/getContractAbi";
 import { zeroAddress } from "viem";
 import { useContractAbi } from "@/hooks/useContractAbi";
 import { useQueryClient } from "@tanstack/react-query";

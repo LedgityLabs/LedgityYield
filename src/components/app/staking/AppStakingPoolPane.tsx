@@ -1,25 +1,28 @@
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 
-import { CarouselItem } from "@/components/ui/Carousel";
 import { TxButton } from "@/components/ui";
-import { formatUnits } from "viem";
+import { CarouselItem } from "@/components/ui/Carousel";
+import { OneMonth, StakeDurations } from "@/data/oldConstants";
+import { getAPRCalculation } from "@/functions/getAPRCalculation";
 import {
   useSimulateLdyStakingGetReward,
   useSimulateLdyStakingUnstake,
 } from "@/types";
+import { QueryKey } from "@tanstack/react-query";
+//
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-import { OneMonth, StakeDurations } from "@/data/oldConstants";
-import { getAPRCalculation } from "@/lib/getAPRCalculation";
-import { QueryKey } from "@tanstack/react-query";
-import { getTimeLeftString } from "@/lib/utils";
+//
+import { formatUnits } from "viem";
 import { UseSimulateContractReturnType } from "wagmi";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
+dayjs.extend(duration);
 
 export type PoolInfo = {
   stakedAmount: bigint;
@@ -28,6 +31,19 @@ export type PoolInfo = {
   rewardPerTokenPaid: bigint;
   rewards: bigint;
 };
+
+function getTimeLeftString(futureDateInMilSeconds: number) {
+  const futureDate = dayjs(futureDateInMilSeconds);
+  const now = dayjs();
+  const diff = dayjs(futureDate).diff(now);
+
+  if (diff <= 0) {
+    return "Passed";
+  } else {
+    const duration = dayjs.duration(diff);
+    return duration.humanize(true);
+  }
+}
 
 export function AppStakingPoolPane({
   stakingInfo,

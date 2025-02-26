@@ -1,7 +1,7 @@
 import TwitterProvider from "next-auth/providers/twitter";
 import { env } from "../../../../../env.mjs";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/functions/db";
 import { DefaultSession } from "next-auth";
 import { isAddress } from "viem";
 import NextAuth, { NextAuthOptions } from "next-auth";

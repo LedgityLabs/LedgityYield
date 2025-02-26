@@ -12,7 +12,7 @@ import { getContractAddress } from "@/functions/getContractAddress";
 import { useSimulateLdyStakingStake } from "@/types";
 import * as Slider from "@radix-ui/react-slider";
 import { StakeDurations } from "@/data/oldConstants";
-import { getAPRCalculation } from "@/lib/getAPRCalculation";
+import { getAPRCalculation } from "@/functions/getAPRCalculation";
 
 export const AppStakingPane: FC<{
   ldyTokenSymbol: string;

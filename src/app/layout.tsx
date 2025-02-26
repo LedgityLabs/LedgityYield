@@ -4,7 +4,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import { type NextPage } from "next";
 import { CardsHelper, TooltipProvider } from "@/components/ui";
-import { fonts } from "@/lib/fonts";
+import { fonts } from "@/assets/fonts";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { LoadingPage } from "@/app/loading";
