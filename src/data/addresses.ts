@@ -6,6 +6,7 @@ import {
   globalPauseAddress,
   ldyStakingAddress,
   lTokenSignalerAddress,
+  preMiningAddress,
 } from "@/types";
 import { dependencies } from "../../contracts/dependencies";
 
@@ -19,6 +20,7 @@ export type ContractName =
   | "LDY"
   | "LDYStaking"
   | "LTokenSignaler"
+  | "PreMining"
   // Tokens
   | "EURC"
   | "USDC"
@@ -68,6 +70,7 @@ function fetchChainAddresses(
     GlobalPause: globalPauseAddress[chainId] || zeroAddress,
     LDYStaking: ldyStakingAddress[chainId] || zeroAddress,
     LTokenSignaler: (lTokenSignalerAddress as any)[chainId] || zeroAddress,
+    PreMining: (preMiningAddress as any)[chainId] || zeroAddress,
     // Tokens
     LEURC: lTokenAddresses[chainId]?.LEURC || zeroAddress,
     LUSDC: lTokenAddresses[chainId]?.LUSDC || zeroAddress,
