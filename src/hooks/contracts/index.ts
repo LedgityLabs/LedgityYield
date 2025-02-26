@@ -15,7 +15,6 @@ export * from "./read/lToken/useUnclaimedFees";
 export * from "./read/lToken/useFeesRateUd7x3";
 export * from "./read/lToken/useRetentionRateUd7x3";
 export * from "./read/lToken/useWithdrawalQueue";
-export * from "./read/lToken/useDecimals";
 export * from "./read/lToken/useWithdrawalQueueCursor";
 export * from "./read/lToken/useGetExpectedRetained";
 export * from "./read/lToken/useUsableUnderlyings";
