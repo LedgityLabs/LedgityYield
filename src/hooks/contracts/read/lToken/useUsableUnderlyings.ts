@@ -9,7 +9,7 @@ export function useLTokenUsableUnderlyings(): bigint {
     chainId: appChainId as any,
     args: [],
     query: {
-      // refetchInterval: 60 * 1000,
+      refetchInterval: 15 * 1000,
     },
   });
 

@@ -12,7 +12,7 @@ export function useLTokenWithdrawalQueue(
     chainId: appChainId as any,
     args: [index],
     query: {
-      // refetchInterval: 60 * 1000,
+      refetchInterval: 15 * 1000,
     },
   });
 
