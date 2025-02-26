@@ -1,4 +1,10 @@
-import { Address, Amount, AmountInput, Button, Input } from "@/components/ui";
+import {
+  AddressElement,
+  Amount,
+  AmountInput,
+  Button,
+  Input,
+} from "@/components/ui";
 import { TxButton } from "@/components/ui/TxButton";
 import { getContractAddress } from "@/functions/getContractAddress";
 import { useSimulateGenericErc20Mint } from "@/types";
@@ -73,7 +79,7 @@ const MintFakeToken: FC<{ contractName: string }> = ({
       <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
         <li className="flex gap-3 items-center">
           <h5 className="font-bold text-fg/60">Address</h5>
-          <Address
+          <AddressElement
             address={address}
             copyable={true}
             addToWallet={true}

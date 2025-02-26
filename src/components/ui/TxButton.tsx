@@ -18,7 +18,7 @@ import {
   UseSimulateContractReturnType,
   useAccount,
 } from "wagmi";
-import { prettyErrorMessage } from "@/lib/prettyErrorMessage";
+import { prettyErrorMessage } from "@/functions/prettyErrorMessage";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { BaseError } from "viem";
 import { Card } from "./Card";

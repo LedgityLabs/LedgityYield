@@ -1,5 +1,5 @@
 import {
-  Address,
+  AddressElement,
   AllowanceTxButton,
   Amount,
   Button,
@@ -238,7 +238,7 @@ export const AdminLTokenWithdrawalRequests: FC<Props> = ({ lTokenSymbol }) => {
     columnHelper.accessor("account", {
       header: "Account",
       cell: (info) => (
-        <Address
+        <AddressElement
           address={info.getValue() as `0x${string}`}
           copyable={true}
           tooltip={true}

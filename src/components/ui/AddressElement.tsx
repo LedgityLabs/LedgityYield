@@ -48,7 +48,7 @@ interface Props {
   tooltip?: boolean;
 }
 
-export const Address: FC<Props> = ({
+export const AddressElement: FC<Props> = ({
   address,
   copyable = false,
   addToWallet = false,
