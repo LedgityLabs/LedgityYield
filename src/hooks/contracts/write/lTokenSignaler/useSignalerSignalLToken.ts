@@ -2,21 +2,21 @@ import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
   ExecuteReturn,
   TransactionStatus,
-  useWriteLTokenSetFeesRate,
+  useWriteLTokenSignalerSignalLToken,
 } from "@/types";
-import { Address, Hash, parseUnits } from "viem";
+import { Address, Hash, zeroAddress } from "viem";
 
-export type ParamsSetFeesRate = {
-  newRate: number; // base 100
+export type ParamsSignalLToken = {
+  lTokenAddress: Address;
 };
 
 type FormattedParams = {
-  newRate: number;
+  lTokenAddress: Address;
 };
 
 type Instance = {
   writeContract: ReturnType<
-    typeof useWriteLTokenSetFeesRate
+    typeof useWriteLTokenSignalerSignalLToken
   >["writeContractAsync"];
   hash: Hash | undefined;
   error: Error | null;
@@ -25,18 +25,17 @@ type Instance = {
   status: TransactionStatus;
 };
 
-function formatParams(params: ParamsSetFeesRate): FormattedParams {
+function formatParams(params: ParamsSignalLToken): FormattedParams {
   return {
-    newRate: Number(parseUnits(params.newRate.toFixed(3), 3)),
+    lTokenAddress: params.lTokenAddress,
   };
 }
 
-function checkParams(params: ParamsSetFeesRate): string | undefined {
-  const { newRate } = formatParams(params);
+function checkParams(params: ParamsSignalLToken): string | undefined {
+  const { lTokenAddress } = formatParams(params);
 
-  // Max 10%
-  if (newRate < 0 || 20_000 < newRate) {
-    return "Invalid rate";
+  if (lTokenAddress === zeroAddress) {
+    return "Invalid lToken address";
   }
 
   return;
@@ -56,7 +55,7 @@ function makeInstance(address: Address): Instance {
     error,
     writeContractAsync,
     status,
-  } = useWriteLTokenSetFeesRate();
+  } = useWriteLTokenSignalerSignalLToken();
 
   return {
     writeContract: writeContractAsync,
@@ -70,19 +69,18 @@ function makeInstance(address: Address): Instance {
 
 async function execute(
   instance: Instance,
-  params: ParamsSetFeesRate,
+  params: ParamsSignalLToken,
 ): Promise<ExecuteReturn> {
   try {
     if (!instance.address) throw Error("Contract address not found");
 
     // Format parameters for execution
-    const { newRate } = formatParams(params);
+    const { lTokenAddress } = formatParams(params);
     // Execute the transaction
     const hash = await instance.writeContract({
       // @dev Chain ID typesafety doing its job but getting in the way here
       chainId: instance.chainId as any,
-      address: instance.address,
-      args: [newRate],
+      args: [lTokenAddress],
     });
 
     return {
@@ -97,7 +95,7 @@ async function execute(
   }
 }
 
-export const configSetFeesRate = {
+export const configSignalerSignalLToken = {
   makeInstance,
   checkParams,
   execute,

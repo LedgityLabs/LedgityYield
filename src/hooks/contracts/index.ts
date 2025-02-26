@@ -33,12 +33,14 @@ export * from "./read/globalPause/usePaused";
 export * from "./write/erc20/useApprove";
 export * from "./write/erc20/useMint";
 
+// LTokenSignaler write hooks
+export * from "./write/lTokenSignaler/useSignalerSignalLToken";
+
 // LToken write hooks
 export * from "./write/lToken/useSetApr";
 export * from "./write/lToken/useClaimFees";
 export * from "./write/lToken/useSetFeesRate";
 export * from "./write/lToken/useSetRetentionRate";
-export * from "./write/lToken/useSignalerSignalLToken";
 export * from "./write/lToken/useProcessBigQueuedRequest";
 export * from "./write/lToken/useProcessQueuedRequests";
 export * from "./write/lToken/useRepatriate";

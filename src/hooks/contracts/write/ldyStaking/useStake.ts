@@ -1,5 +1,5 @@
 import { wagmiConfig } from "@/config/wagmi";
-import { getContractAddress } from "@/functions/getContractAddress";
+import { getTypedContractAddress } from "@/functions/getContractAddress";
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
   simulateLdyStakingStake,
@@ -54,7 +54,7 @@ function checkParams(params: ParamsStake): string | undefined {
 
 function makeInstance(): Instance {
   const { appChainId } = useWeb3Context();
-  const address = getContractAddress("LDYStaking");
+  const address = getTypedContractAddress("LDYStaking");
 
   if (!address)
     console.error(
@@ -114,6 +114,8 @@ async function execute(
     const { amount, stakeDurationIndex } = formatParams(params);
     // Execute the transaction
     const hash = await instance.writeContract({
+      // @dev Chain ID typesafety doing its job but getting in the way here
+      chainId: instance.chainId as any,
       args: [amount, stakeDurationIndex],
     });
 
