@@ -10,8 +10,7 @@ import { useWeb3Context } from "./Web3ContextProvider";
 // Hooks
 import { useSearchParams } from "next/navigation";
 import { useLocalStorage } from "../utils/useLocalStorage";
-import { useTokenInfos } from "@/hooks/contracts/read/useTokenInfos";
-import { useLTokenInfos } from "@/hooks/contracts/read/useLTokenInfos";
+import { useTokenInfos, useLTokenInfos } from "@/hooks/contracts";
 import { useTokenPricesUsd } from "@/hooks/api/useTokenPricesUsd";
 // Functions
 import { computeTvlMetrics, TvlMetrics } from "@/functions/helpers";

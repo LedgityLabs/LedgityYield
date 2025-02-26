@@ -1,0 +1,1 @@
+// GlobalPause read hook 

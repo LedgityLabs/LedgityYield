@@ -1,0 +1,1 @@
+// GlobalOwner read hook 
