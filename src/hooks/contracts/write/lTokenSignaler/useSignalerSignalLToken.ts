@@ -5,6 +5,7 @@ import {
   useWriteLTokenSignalerSignalLToken,
 } from "@/types";
 import { Address, Hash, zeroAddress } from "viem";
+import { getTypedContractAddress } from "@/functions/getContractAddress";
 
 export type ParamsSignalLToken = {
   lTokenAddress: Address;
@@ -41,12 +42,13 @@ function checkParams(params: ParamsSignalLToken): string | undefined {
   return;
 }
 
-function makeInstance(address: Address): Instance {
+function makeInstance(): Instance {
   const { appChainId } = useWeb3Context();
+  const address = getTypedContractAddress("LTokenSignaler");
 
   if (!address)
     console.error(
-      `Contract address of token not found for chainId ${appChainId}`,
+      `Contract address of ${"LTokenSignaler"} not found for chainId ${appChainId}`,
     );
 
   // Hook for transaction execution only
@@ -95,7 +97,7 @@ async function execute(
   }
 }
 
-export const configSignalerSignalLToken = {
+export const configSignalLToken = {
   makeInstance,
   checkParams,
   execute,
