@@ -3,11 +3,11 @@ import { useReadContracts } from "wagmi";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/utils/useLocalStorage";
 // Datas
-import { zeroAddress } from "viem";
+import { zeroAddress, Address } from "viem";
 // Types
 import { lTokenAbi, LTokenInfo } from "@/types";
 
-const NB_DATA_POINTS = 6;
+const NB_DATA_POINTS = 7;
 
 export function useLTokenInfos(
   tokenTargets: { address: `0x${string}` | undefined; chainId: number }[],
@@ -68,6 +68,12 @@ export function useLTokenInfos(
         address,
         chainId,
         abi: lTokenAbi,
+        functionName: "underlying",
+      },
+      {
+        address,
+        chainId,
+        abi: lTokenAbi,
         functionName: "balanceOf",
         args: [userAddress ?? zeroAddress],
       },
@@ -113,7 +119,8 @@ export function useLTokenInfos(
         decimals: data[i + 2].result as number,
         apr: data[i + 3].result as number,
         totalSupply: data[i + 4].result as bigint,
-        balance: userAddress ? (data[i + 5].result as bigint) : 0n,
+        underlying: data[i + 5].result as Address,
+        balance: userAddress ? (data[i + 6].result as bigint) : 0n,
       });
     }
 

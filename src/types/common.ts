@@ -11,6 +11,7 @@ export type LTokenInfo = TokenInfo & {
   chainId: number;
   apr: number;
   totalSupply: bigint;
+  underlying: Address;
   balance: bigint;
 };
 

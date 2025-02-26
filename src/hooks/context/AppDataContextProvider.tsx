@@ -67,6 +67,7 @@ export function AppDataContextProvider({
   const lTokenInfosCurrentChain = lTokenInfos.filter(
     (lToken) => lToken.chainId === appChainId,
   );
+  // @bw @dev could improve resilience here by getting underlying addresses from lTokenInfos
   const tokenInfos = useTokenInfos(
     Object.values(dependenciesAddresses[appChainId]),
   );
