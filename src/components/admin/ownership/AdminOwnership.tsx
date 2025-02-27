@@ -1,56 +1,53 @@
-import { FC, useEffect, useMemo } from "react";
-import { AdminMasonry } from "../AdminMasonry";
-import { AdminBrick } from "../AdminBrick";
-import { AdminAddressSetter } from "../AdminAddressSetter";
+import { ChangeEvent, useState } from "react";
+import { Address } from "viem";
+// Components
+import { AdminBrick } from "@/components/admin/AdminBrick";
+import { AdminMasonry } from "@/components/admin/AdminMasonry";
+import { AcceptOwnershipTx, TransferOwnershipTx } from "@/components/contracts";
+import { AddressElement, Input } from "@/components/ui";
+// Hooks
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
-  useReadGlobalOwnerPendingOwner,
-  useSimulateGlobalOwnerAcceptOwnership,
-} from "@/types";
-import {
-  UseSimulateContractReturnType,
-  useAccount,
-  useBlockNumber,
-} from "wagmi";
-import { TxButton } from "@/components/ui";
-import { useQueryClient } from "@tanstack/react-query";
+  useGlobalOwnerOwner,
+  useGlobalOwnerPendingOwner,
+} from "@/hooks/contracts";
 
-export const AdminOwnership: FC = () => {
-  const account = useAccount();
-  const { data: pendingOwner, queryKey } = useReadGlobalOwnerPendingOwner({});
-  const preparation = useSimulateGlobalOwnerAcceptOwnership();
+export function AdminOwnership() {
+  const { currentAccount } = useWeb3Context();
+  const currentOwner = useGlobalOwnerOwner();
+  const pendingOwner = useGlobalOwnerPendingOwner();
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
-
-  const memoizedPreparation = useMemo(() => {
-    return preparation as unknown as UseSimulateContractReturnType;
-  }, [preparation.data?.request, preparation.error, preparation.isLoading]);
+  const [newOwnerAddress, setNewOwnerAddress] = useState("");
 
   return (
     <AdminMasonry className="!columns-2 w-[900px]">
       <AdminBrick title="Transfer global ownership">
-        <AdminAddressSetter
-          contractName="GlobalOwner"
-          getterFunctionName="owner"
-          setterFunctionName="transferOwnership"
-          txButtonName="Transfer"
-        />
+        <div className="flex flex-col gap-5">
+          <p>
+            Current address:{" "}
+            <AddressElement address={currentOwner} copyable={true} />
+          </p>
+          <div className="flex justify-center items-end gap-3">
+            <Input
+              type="text"
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setNewOwnerAddress(e.target.value)
+              }
+            />
+            <TransferOwnershipTx
+              params={{ newOwner: newOwnerAddress as Address }}
+              buttonText="Transfer"
+            />
+          </div>
+        </div>
       </AdminBrick>
       <AdminBrick title="Receive global ownership" className="items-center">
-        {pendingOwner && account.address === pendingOwner ? (
+        {currentAccount === pendingOwner ? (
           <>
             <p className="text-center">
               The connected wallet is the recipient of a pending transfer
             </p>
-            <TxButton preparation={memoizedPreparation} size="medium">
-              Accept
-            </TxButton>
+            <AcceptOwnershipTx buttonText="Accept" />
           </>
         ) : (
           <p className="text-center">
@@ -61,4 +58,4 @@ export const AdminOwnership: FC = () => {
       </AdminBrick>
     </AdminMasonry>
   );
-};
+}
