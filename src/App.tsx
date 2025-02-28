@@ -10,9 +10,14 @@ import { WagmiProvider } from "wagmi";
 // Types
 import { ReactElement } from "react";
 import "@/types/bigIntString";
+// Hooks
+import { useGlowCardEffect } from "@/hooks/utils/useGlowCardEffect";
 
 function App({ children }: { children: ReactElement }) {
   const queryClient = new QueryClient();
+
+  // Apply visual glow effect to cards
+  useGlowCardEffect();
 
   return (
     <WagmiProvider config={wagmiConfig}>

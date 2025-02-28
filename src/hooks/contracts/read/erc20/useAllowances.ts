@@ -64,8 +64,6 @@ export function useAllowances(
         JSON.stringify(allowances) !== JSON.stringify(currentValue.allowances)
       ) {
         setCurrentValue({ allowances, lastUpdate: now });
-      } else if (now !== currentValue.lastUpdate) {
-        setCurrentValue({ ...currentValue, lastUpdate: now });
       }
     }, [data, error, currentValue, tokensFiltered, owner, spender]);
 
