@@ -1,9 +1,9 @@
-import "@/styles/globals.css";
+import "@/assets/css/globals.css";
 import "remixicon/fonts/remixicon.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { type NextPage } from "next";
-import { CardsHelper, TooltipProvider } from "@/components/ui";
+import { TooltipProvider } from "@/components/ui";
 import { fonts } from "@/assets/fonts";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
@@ -87,7 +87,6 @@ const RootLayout: NextPage<Props> = ({ children }) => {
           "before:absolute before:inset-0 before:bg-[url('/assets/textures/other-glow.webp')] before:bg-cover before:opacity-50",
         )}
       >
-        <CardsHelper />
         <TooltipProvider delayDuration={400}>
           <App>
             <div className="max-w-screen relative overflow-x-hidden overflow-y-hidden">
