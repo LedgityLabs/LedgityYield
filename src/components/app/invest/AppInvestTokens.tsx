@@ -49,6 +49,11 @@ export function AppInvestTokens({ className }: { className?: string }) {
   let futureTableData = useRef<Pool[]>([]);
 
   useEffect(() => {
+    if (lTokenInfosCurrentChain.length === 0) {
+      setIsLoading(false);
+      return;
+    }
+
     const newTableData = lTokenInfosCurrentChain.map((data) => {
       const { symbol, apr, balance, decimals } = data;
       const tokenTvl = tvlMetrics.byToken[symbol] || 0;
@@ -89,6 +94,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
       },
     }),
     columnHelper.accessor("apr", {
+      header: "APR",
       cell: (info) => (
         <div className="inline-flex items-center gap-2">
           <Rate
@@ -97,9 +103,9 @@ export function AppInvestTokens({ className }: { className?: string }) {
           />
         </div>
       ),
-      header: "APR",
     }),
     columnHelper.accessor("tvl", {
+      header: "TVL",
       cell: (info) => {
         const amount = info.getValue();
         return (
@@ -112,9 +118,9 @@ export function AppInvestTokens({ className }: { className?: string }) {
           />
         );
       },
-      header: "TVL",
     }),
     columnHelper.accessor("invested", {
+      header: "Invested",
       cell: (info) => {
         const amount = info.getValue();
         const decimals = info.row.original.decimals;
@@ -129,7 +135,6 @@ export function AppInvestTokens({ className }: { className?: string }) {
           />
         );
       },
-      header: "Invested",
     }),
     columnHelper.display({
       id: "actions",
@@ -200,6 +205,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
   });
 
   const headerGroup = table.getHeaderGroups()[0];
+  const tableRows = table.getRowModel().rows;
 
   return (
     <article
@@ -216,101 +222,68 @@ export function AppInvestTokens({ className }: { className?: string }) {
               header.column.id === "invested" && "md:inline-flex hidden",
             )}
           >
-            {(() => {
-              const content = flexRender(
-                header.column.columnDef.header,
-                header.getContext(),
-              );
-              if (sortableColumns.includes(header.column.id))
-                return (
-                  <button
-                    onClick={() =>
-                      header.column.toggleSorting(
-                        header.column.getIsSorted() === "asc",
-                      )
+            {sortableColumns.includes(header.column.id) ? (
+              <button
+                onClick={() =>
+                  header.column.toggleSorting(
+                    header.column.getIsSorted() === "asc",
+                  )
+                }
+                className="flex items-center gap-1"
+              >
+                {flexRender(
+                  header.column.columnDef.header,
+                  header.getContext(),
+                )}
+                <span>
+                  {(() => {
+                    switch (header.column.getIsSorted()) {
+                      case "asc":
+                        return <i className="ri-sort-desc"></i>;
+                      case "desc":
+                        return <i className="ri-sort-asc"></i>;
+                      default:
+                        return <i className="ri-expand-up-down-fill"></i>;
                     }
-                    className="flex items-center gap-1"
-                  >
-                    {content}
-                    <span>
-                      {(() => {
-                        switch (header.column.getIsSorted()) {
-                          case "asc":
-                            return <i className="ri-sort-desc"></i>;
-                          case "desc":
-                            return <i className="ri-sort-asc"></i>;
-                          default:
-                            return <i className="ri-expand-up-down-fill"></i>;
-                        }
-                      })()}
-                    </span>
-                  </button>
-                );
-              else return content;
-            })()}
+                  })()}
+                </span>
+              </button>
+            ) : (
+              flexRender(header.column.columnDef.header, header.getContext())
+            )}
           </div>
         );
       })}
-      {/* <a 
-        className="cursor-pointer py-6 flex md:col-span-5 col-span-4 w-full items-center justify-between sm:px-10 px-5 bg-gradient-to-bl from-primary/40 to-bg  hover:opacity-80 transition-opacity border-b border-b-fg/10"
-      >
-        <div className="inline-flex items-center gap-2.5 relative -left-[8.5px]">
-          <div className="relative w-[52px] h-[35px]">
-            <TokenLogo
-              symbol="USDC"
-              size={35}
-              className="border border-bg/80 rounded-full absolute"
-            />
-            <TokenLogo
-              symbol="LDY"
-              size={35}
-              className="absolute left-[17px] border border-bg/80 rounded-full"
-            />
-          </div>
-          <p className="text-xl font-bold text-fg/90 whitespace-nowrap">Pre-Mining</p>
+
+      {isLoading && (
+        <div className="my-10 flex col-span-5 w-full items-center justify-center">
+          <Spinner />
         </div>
-        <p className="font-semibold text-fg/90 text-lg sm:inline hidden">
-          Bootstrap initial liquidity{" "}
-          <span className="md:inline hidden">→ receive $LDY tokens</span>
+      )}
+
+      {!isLoading && !tableRows.length && (
+        <p className="my-10 block col-span-5 w-full text-center text-lg font-semibold text-fg/60">
+          No pools on this chain yet.
         </p>
-        <Button
-          size="small"
-          className="text-lg inline-flex gap-1 justify-center items-center text-bg/90"
-        >
-          See <i className="ri-arrow-right-line" />
-        </Button>
-      </a> */}
-      {(() => {
-        const tableRows = table.getRowModel().rows;
-        if (isLoading)
-          return (
-            <div className="my-10 flex col-span-5 w-full items-center justify-center">
-              <Spinner />
+      )}
+
+      {!isLoading &&
+        tableRows.length &&
+        tableRows.map((row, i) =>
+          row.getVisibleCells().map((cell, j) => (
+            <div
+              key={cell.id}
+              className={twMerge(
+                "inline-flex items-center justify-center py-6",
+                j === 0 && "justify-start sm:pl-10 pl-5",
+                i == tableRows.length - 1 && "border-b border-b-fg/20",
+                cell.column.id === "invested" && "md:inline-flex hidden",
+              )}
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </div>
-          );
-        else if (tableRows.length === 0)
-          return (
-            <p className="my-10 block col-span-5 w-full text-center text-lg font-semibold text-fg/60">
-              No pools on this chain yet.
-            </p>
-          );
-        else
-          return tableRows.map((row, i) =>
-            row.getVisibleCells().map((cell, cellIndex) => (
-              <div
-                key={cell.id}
-                className={twMerge(
-                  "inline-flex items-center justify-center py-6",
-                  cellIndex === 0 && "justify-start sm:pl-10 pl-5",
-                  i == tableRows.length - 1 && "border-b border-b-fg/20",
-                  cell.column.id === "invested" && "md:inline-flex hidden",
-                )}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </div>
-            )),
-          );
-      })()}
+          )),
+        )}
     </article>
   );
 }

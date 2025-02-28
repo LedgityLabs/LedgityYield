@@ -48,7 +48,7 @@ export const Card: FC<CardProps> = ({
       //@ts-ignore
       ref={card}
       className={twMerge(
-        animated && "card", // Used by <CardsHelper />
+        animated && "card-glow", // @dev Used by useGlowCardEffect
         defaultGradient ? "bg-card-border-default" : "bg-card-border",
         "relative drop-shadow-sm p-[2px]",
         "before:absolute before:inset-[2px] before:-z-1",
