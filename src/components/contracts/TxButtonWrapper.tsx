@@ -46,6 +46,7 @@ type TransactionState = {
   error: string | undefined;
   pendingApprove: boolean;
   pendingAllowanceUpdate: boolean;
+  modalContentType: "approve" | "main"; // New field to track modal content type
 };
 
 export type ERC20ApproveCheck = {
@@ -103,6 +104,7 @@ export function TxButtonWrapper<T>({
       error: undefined,
       pendingApprove: false,
       pendingAllowanceUpdate: false,
+      modalContentType: "main",
     },
   );
 
@@ -111,6 +113,11 @@ export function TxButtonWrapper<T>({
     currentAccount,
     approveChecks[0]?.spender,
   );
+
+  // Store the current approval operation
+  const [currentApproveAction, setCurrentApproveAction] = useState<
+    ApprovalOperation | undefined
+  >();
 
   /**
    * Checks if the user needs to approve a token before executing the transaction
@@ -163,7 +170,7 @@ export function TxButtonWrapper<T>({
   const approveAction = getApprovalERC20();
   const baseInstance = buttonConfig.makeInstance();
   const currentInstance = txState.pendingApprove
-    ? approveAction?.instance
+    ? currentApproveAction?.instance || approveAction?.instance
     : baseInstance;
 
   // Update the allowances when the user approves a token
@@ -192,12 +199,21 @@ export function TxButtonWrapper<T>({
     }
   }, [currentInstance?.status, txState.pendingApprove, onSuccess]);
 
-  // Update the state when the approve action changes
+  // Update the state when the approve action changes, but don't change modal content type
   useEffect(() => {
     if (!!approveAction !== txState.pendingApprove) {
       dispatchTxState({ pendingApprove: !!approveAction });
     }
   }, [approveAction]);
+
+  // Close dialog handler that will reset modal content type
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    // Only reset the modal content type when the dialog is closed
+    if (txState.modalContentType === "approve" && !txState.pendingApprove) {
+      dispatchTxState({ modalContentType: "main" });
+    }
+  };
 
   /**
    * Handles the transaction execution
@@ -205,9 +221,18 @@ export function TxButtonWrapper<T>({
   const handleTransaction = useCallback(async () => {
     if (!currentInstance || !currentAccount) return;
 
+    const isApprove = txState.pendingApprove && !!approveAction;
+
+    // Store the current approve action to maintain reference
+    if (isApprove) {
+      setCurrentApproveAction(approveAction);
+      dispatchTxState({ modalContentType: "approve" });
+    } else {
+      dispatchTxState({ modalContentType: "main" });
+    }
+
     setIsDialogOpen(true);
 
-    const isApprove = txState.pendingApprove && !!approveAction;
     if (!isApprove && onSubmit) onSubmit();
 
     dispatchTxState({
@@ -283,6 +308,26 @@ export function TxButtonWrapper<T>({
   const isPendingApprove = txState.pendingApprove && !!approveAction;
   const isLoading = txState.isLoading || txState.pendingAllowanceUpdate;
   const isDisabled = disabled || isLoading;
+
+  // Determine the modal content based on modal content type, not the current state
+  const modalContent =
+    txState.modalContentType === "approve" && currentApproveAction ? (
+      <span>
+        Allow Ledgity Yield to use{" "}
+        <Amount
+          value={parseUnits(
+            currentApproveAction.parameters.amount,
+            currentApproveAction.parameters.tokenDecimals,
+          )}
+          decimals={currentApproveAction.parameters.tokenDecimals}
+          suffix={currentApproveAction.symbol}
+          displaySymbol={true}
+          className="text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4 whitespace-nowrap"
+        />
+      </span>
+    ) : (
+      makeDescription(params)
+    );
 
   return (
     <>
@@ -377,26 +422,8 @@ export function TxButtonWrapper<T>({
 
       <TxModal
         isOpen={!!isDialogOpen}
-        setIsOpen={setIsDialogOpen}
-        txContent={
-          txState.pendingApprove && approveAction ? (
-            <span>
-              Allow Ledgity Yield to use{" "}
-              <Amount
-                value={parseUnits(
-                  approveAction.parameters.amount,
-                  approveAction.parameters.tokenDecimals,
-                )}
-                decimals={approveAction.parameters.tokenDecimals}
-                suffix={approveAction.symbol}
-                displaySymbol={true}
-                className="text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4 whitespace-nowrap"
-              />
-            </span>
-          ) : (
-            makeDescription(params)
-          )
-        }
+        setIsOpen={handleCloseDialog}
+        txContent={modalContent}
         txStates={{
           isWriteError: !!txState.error && !txState.hash,
           isWriteSuccess: !!txState.hash,
