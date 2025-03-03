@@ -65,32 +65,47 @@ import {
   ParamsGetReward,
   configGetReward,
 } from "@/hooks/contracts";
+import { txModalDescriptions } from "@/functions/txDescriptions";
 
 // When the tx interacts with a contract without token dependencies
-type TxButtonProps<T> = Omit<TxButtonWrapperProps, "buttonConfig"> & {
-  params: T;
-};
+type TxButtonProps<T> = Omit<
+  TxButtonWrapperProps<T>,
+  "buttonConfig" | "makeDescription"
+> &
+  (T extends Record<string, never> ? { params?: T } : { params: T });
 
 // When the tx interacts with a contract without token dependencies
-type TxButtonSetProps<T> = Omit<TxButtonWrapperProps, "buttonConfig"> & {
+type TxButtonSetProps<T> = Omit<
+  TxButtonWrapperProps<T>,
+  "buttonConfig" | "makeDescription"
+> & {
   params: T;
   contractAddress: Address;
 };
 
 // When the tx interacts directly with a token
-type TxTokenButtonProps<T> = Omit<TxButtonWrapperProps, "buttonConfig"> & {
+type TxTokenButtonProps<T> = Omit<
+  TxButtonWrapperProps<T>,
+  "buttonConfig" | "makeDescription"
+> & {
   params: T;
   tokenAddress: Address;
 };
 
 // When the tx depends on a token and might require approval
-type TxButtonApproveProps<T> = Omit<TxButtonWrapperProps, "buttonConfig"> & {
+type TxButtonApproveProps<T> = Omit<
+  TxButtonWrapperProps<T>,
+  "buttonConfig" | "makeDescription"
+> & {
   params: T;
   approveChecks: ERC20ApproveCheck[];
 };
 
 // When the tx depends on a token and might require approval for a set of contracts
-type TxButtonSetApproveProps<T> = Omit<TxButtonWrapperProps, "buttonConfig"> & {
+type TxButtonSetApproveProps<T> = Omit<
+  TxButtonWrapperProps<T>,
+  "buttonConfig" | "makeDescription"
+> & {
   contractAddress: Address;
   params: T;
   approveChecks: ERC20ApproveCheck[];
@@ -103,7 +118,7 @@ export const {
   ApproveTx,
   MintTx,
   // ====== LTokenSignaler ====== //
-  SignalerSignalLTokenTx,
+  SignalLTokenTx,
   // ====== LToken ====== //
   SetAprTx,
   ClaimFeesTx,
@@ -136,6 +151,7 @@ export const {
   StakeTx: (props: TxButtonApproveProps<ParamsStake>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.Stake}
       buttonConfig={{
         ...configStake,
         makeInstance: () => configStake.makeInstance(),
@@ -147,6 +163,7 @@ export const {
   ApproveTx: (props: TxTokenButtonProps<ParamsApprove>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.Approve}
       buttonConfig={{
         ...configApprove,
         makeInstance: () => configApprove.makeInstance(props.tokenAddress),
@@ -157,6 +174,7 @@ export const {
   MintTx: (props: TxTokenButtonProps<ParamsMint>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.Mint}
       buttonConfig={{
         ...configMint,
         makeInstance: () => configMint.makeInstance(props.tokenAddress),
@@ -165,14 +183,19 @@ export const {
   ),
 
   // ====== LTokenSignaler ====== //
-  SignalerSignalLTokenTx: (props: TxButtonProps<ParamsSignalLToken>) => (
-    <TxButtonWrapper {...props} buttonConfig={configSignalLToken} />
+  SignalLTokenTx: (props: TxButtonProps<ParamsSignalLToken>) => (
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.SignalLToken}
+      buttonConfig={configSignalLToken}
+    />
   ),
 
   // ====== LToken ====== //
   SetAprTx: (props: TxButtonSetApproveProps<ParamsSetApr>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.SetApr}
       buttonConfig={{
         ...configSetApr,
         makeInstance: () => configSetApr.makeInstance(props.contractAddress),
@@ -183,6 +206,7 @@ export const {
   ClaimFeesTx: (props: TxButtonSetProps<ParamsClaimFees>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.ClaimFees}
       buttonConfig={{
         ...configClaimFees,
         makeInstance: () => configClaimFees.makeInstance(props.contractAddress),
@@ -193,6 +217,7 @@ export const {
   SetFeesRateTx: (props: TxButtonSetProps<ParamsSetFeesRate>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.SetFeesRate}
       buttonConfig={{
         ...configSetFeesRate,
         makeInstance: () =>
@@ -204,6 +229,7 @@ export const {
   SetRetentionRateTx: (props: TxButtonSetProps<ParamsSetRetentionRate>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.SetRetentionRate}
       buttonConfig={{
         ...configSetRetentionRate,
         makeInstance: () =>
@@ -217,6 +243,7 @@ export const {
   ) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.ProcessBigQueuedRequest}
       buttonConfig={{
         ...configProcessBigQueuedRequest,
         makeInstance: () =>
@@ -230,6 +257,7 @@ export const {
   ) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.ProcessQueuedRequests}
       buttonConfig={{
         ...configProcessQueuedRequests,
         makeInstance: () =>
@@ -241,6 +269,7 @@ export const {
   RepatriateTx: (props: TxButtonSetApproveProps<ParamsRepatriate>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.Repatriate}
       buttonConfig={{
         ...configRepatriate,
         makeInstance: () =>
@@ -254,6 +283,7 @@ export const {
   ) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.CancelWithdrawalRequest}
       buttonConfig={{
         ...configCancelWithdrawalRequest,
         makeInstance: () =>
@@ -265,6 +295,7 @@ export const {
   DepositTx: (props: TxButtonSetApproveProps<ParamsDeposit>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.Deposit}
       buttonConfig={{
         ...configDeposit,
         makeInstance: () => configDeposit.makeInstance(props.contractAddress),
@@ -275,6 +306,7 @@ export const {
   InstantWithdrawalTx: (props: TxButtonSetProps<ParamsInstantWithdrawal>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.InstantWithdrawal}
       buttonConfig={{
         ...configInstantWithdrawal,
         makeInstance: () =>
@@ -286,6 +318,7 @@ export const {
   RequestWithdrawalTx: (props: TxButtonSetProps<ParamsRequestWithdrawal>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.RequestWithdrawal}
       buttonConfig={{
         ...configRequestWithdrawal,
         makeInstance: () =>
@@ -297,6 +330,7 @@ export const {
   SetFundTx: (props: TxButtonSetProps<ParamsSetFund>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.SetFund}
       buttonConfig={{
         ...configSetFund,
         makeInstance: () => configSetFund.makeInstance(props.contractAddress),
@@ -307,6 +341,7 @@ export const {
   SetLdyStakingTx: (props: TxButtonSetProps<ParamsSetLdyStaking>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.SetLdyStaking}
       buttonConfig={{
         ...configSetLdyStaking,
         makeInstance: () =>
@@ -318,6 +353,7 @@ export const {
   SetWithdrawerTx: (props: TxButtonSetProps<ParamsSetWithdrawer>) => (
     <TxButtonWrapper
       {...props}
+      makeDescription={txModalDescriptions.SetWithdrawer}
       buttonConfig={{
         ...configSetWithdrawer,
         makeInstance: () =>
@@ -328,37 +364,69 @@ export const {
 
   // ====== GlobalOwner ====== //
   AcceptOwnershipTx: (props: TxButtonProps<ParamsAcceptOwnership>) => (
-    <TxButtonWrapper {...props} buttonConfig={configAcceptOwnership} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.AcceptOwnership}
+      buttonConfig={configAcceptOwnership}
+    />
   ),
 
   TransferOwnershipTx: (props: TxButtonProps<ParamsTransferOwnership>) => (
-    <TxButtonWrapper {...props} buttonConfig={configTransferOwnership} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.TransferOwnership}
+      buttonConfig={configTransferOwnership}
+    />
   ),
 
   // ====== GlobalPause ====== //
   PauseTx: (props: TxButtonProps<ParamsPause>) => (
-    <TxButtonWrapper {...props} buttonConfig={configPause} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.Pause}
+      buttonConfig={configPause}
+    />
   ),
 
   UnpauseTx: (props: TxButtonProps<ParamsUnpause>) => (
-    <TxButtonWrapper {...props} buttonConfig={configUnpause} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.Unpause}
+      buttonConfig={configUnpause}
+    />
   ),
 
   // ====== PreMining ====== //
   InstantUnlockTx: (props: TxButtonProps<ParamsInstantUnlock>) => (
-    <TxButtonWrapper {...props} buttonConfig={configInstantUnlock} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.InstantUnlock}
+      buttonConfig={configInstantUnlock}
+    />
   ),
 
   RequestUnlockTx: (props: TxButtonProps<ParamsRequestUnlock>) => (
-    <TxButtonWrapper {...props} buttonConfig={configRequestUnlock} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.RequestUnlock}
+      buttonConfig={configRequestUnlock}
+    />
   ),
 
   // ====== LdyStaking ====== //
   UnstakeTx: (props: TxButtonProps<ParamsUnstake>) => (
-    <TxButtonWrapper {...props} buttonConfig={configUnstake} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.Unstake}
+      buttonConfig={configUnstake}
+    />
   ),
 
   GetRewardTx: (props: TxButtonProps<ParamsGetReward>) => (
-    <TxButtonWrapper {...props} buttonConfig={configGetReward} />
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.GetReward}
+      buttonConfig={configGetReward}
+    />
   ),
 } as const;
