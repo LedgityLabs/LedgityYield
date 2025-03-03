@@ -231,7 +231,17 @@ export function TxButtonWrapper<T>({
         const userRejected =
           sent.error?.includes("User rejected") ||
           sent.error?.includes("User denied");
-        if (!userRejected) throw Error("Failed to create transaction");
+
+        // User rejected the transaction
+        if (userRejected) {
+          dispatchTxState({
+            isLoading: false,
+            pendingAllowanceUpdate: isApprove,
+          });
+          return;
+        }
+
+        throw Error("Failed to create transaction");
       }
 
       if (!sent.hash) throw Error("Transaction hash not found");
