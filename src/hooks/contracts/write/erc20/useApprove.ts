@@ -9,6 +9,7 @@ import {
 import { Address, Hash, parseUnits, zeroAddress } from "viem";
 
 export type ParamsApprove = {
+  symbol: string;
   amount: string;
   tokenDecimals: number;
   spender: Address | undefined;

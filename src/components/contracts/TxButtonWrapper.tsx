@@ -141,6 +141,7 @@ export function TxButtonWrapper<T>({
       if (!instance) continue;
 
       const approvalParameters = {
+        symbol: check.symbol,
         spender: check.spender,
         amount: check.amount,
         tokenDecimals: check.tokenDecimals,
@@ -369,16 +370,16 @@ export function TxButtonWrapper<T>({
         setIsOpen={setIsDialogOpen}
         txContent={
           txState.pendingApprove && approveAction ? (
-            <>
-              Deposit{" "}
+            <span>
+              Allow Ledgity Yield to use{" "}
               <Amount
                 value={BigInt(approveAction.parameters.amount)}
                 decimals={approveAction.parameters.tokenDecimals}
                 suffix={approveAction.symbol}
                 displaySymbol={true}
-                className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+                className="text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4 whitespace-nowrap"
               />
-            </>
+            </span>
           ) : (
             makeDescription(params)
           )

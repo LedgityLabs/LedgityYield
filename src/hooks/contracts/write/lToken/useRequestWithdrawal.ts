@@ -7,6 +7,7 @@ import {
 import { Address, Hash, parseUnits } from "viem";
 
 export type ParamsRequestWithdrawal = {
+  symbol: string;
   amount: bigint;
   tokenDecimals: number;
 };
