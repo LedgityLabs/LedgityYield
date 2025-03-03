@@ -33,6 +33,8 @@ import {
   // LdyStaking
   ParamsUnstake,
 } from "@/hooks/contracts";
+// Functions
+import { parseUnits } from "viem";
 // Components
 import { Amount, AddressElement } from "@/components/ui";
 
@@ -42,7 +44,7 @@ export const txModalDescriptions = {
     <span>
       Allow Ledgity Yield to use{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount, params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={params.symbol}
         displaySymbol={true}
@@ -80,7 +82,7 @@ export const txModalDescriptions = {
     <span>
       Repatriate{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount.toString(), params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={params.symbol}
         displaySymbol={true}
@@ -96,7 +98,7 @@ export const txModalDescriptions = {
     <span>
       Deposit{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount.toString(), params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={params.symbol}
         displaySymbol={true}
@@ -108,7 +110,7 @@ export const txModalDescriptions = {
     <span>
       Withdraw{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount.toString(), params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={params.symbol}
         displaySymbol={true}
@@ -120,7 +122,7 @@ export const txModalDescriptions = {
     <span>
       Request withdrawal of{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount.toString(), params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={params.symbol}
         displaySymbol={true}
@@ -164,9 +166,9 @@ export const txModalDescriptions = {
   // ====== LdyStaking ====== //
   Stake: (params: ParamsStake) => (
     <span>
-      Deposit{" "}
+      Stake{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount, params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={"LDY"}
         displaySymbol={true}
@@ -176,9 +178,9 @@ export const txModalDescriptions = {
   ),
   Unstake: (params: ParamsUnstake) => (
     <span>
-      Withdraw{" "}
+      Unstake{" "}
       <Amount
-        value={BigInt(params.amount)}
+        value={parseUnits(params.amount, params.tokenDecimals)}
         decimals={params.tokenDecimals}
         suffix={"LDY"}
         displaySymbol={true}

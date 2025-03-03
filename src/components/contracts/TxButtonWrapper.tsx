@@ -90,7 +90,7 @@ export function TxButtonWrapper<T>({
 }: TxButtonWrapperProps<T>) {
   const { openConnectModal } = useConnectModal();
   const { currentNetworkConfig, currentAccount } = useWeb3Context();
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [txState, dispatchTxState] = useReducer(
     (prev: TransactionState, next: Partial<TransactionState>) => ({
       ...prev,
@@ -373,7 +373,10 @@ export function TxButtonWrapper<T>({
             <span>
               Allow Ledgity Yield to use{" "}
               <Amount
-                value={BigInt(approveAction.parameters.amount)}
+                value={parseUnits(
+                  approveAction.parameters.amount,
+                  approveAction.parameters.tokenDecimals,
+                )}
                 decimals={approveAction.parameters.tokenDecimals}
                 suffix={approveAction.symbol}
                 displaySymbol={true}

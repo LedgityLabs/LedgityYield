@@ -44,26 +44,7 @@ export function TxModal({
             <DialogTitle>Ongoing transaction</DialogTitle>
             <DialogDescription className="flex flex-col items-center justify-center gap-3 px-3">
               <div className="mb-2 w-[calc(100%-4px)] whitespace-normal bg-fg/90 px-10 py-10 text-center text-lg font-semibold text-bg">
-                {txContent}
-
-                <span>
-                  Deposit{" "}
-                  <Amount
-                    value={1}
-                    decimals={18}
-                    suffix={"AAAA"}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
-                  />{" "}
-                  against{" "}
-                  <Amount
-                    value={1}
-                    decimals={18}
-                    suffix={"L" + "AAAA"}
-                    displaySymbol={true}
-                    className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
-                  />
-                </span>
+                {txContent || "Transaction in progress"}
               </div>
 
               <ul className="relative my-5 flex flex-col gap-8 before:-z-1 before:absolute before:bottom-10 before:left-[calc(1.25rem-1.5px)] before:top-10 before:border-l-[3px] before:border-slate-300">
