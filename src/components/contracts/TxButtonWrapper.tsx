@@ -1,25 +1,30 @@
-import { useEffect, useCallback, useReducer } from "react";
+import { waitForTransactionReceipt } from "@wagmi/core";
 import { parseUnits, Address, Hash } from "viem";
+import { wagmiConfig } from "@/config/wagmi";
+// Hooks
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useEffect, useCallback, useReducer, useState } from "react";
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
+import { useAllowances, configApprove } from "@/hooks/contracts";
+// Components
 import { WalletIcon } from "@/components/icons/WalletIcon";
 import { ArrowTopRightIcon } from "@/components/icons/ArrowTopRightIcon";
 import { Spinner } from "@/components/ui";
-import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
-import { useAllowances, configApprove } from "@/hooks/contracts";
-import { waitForTransactionReceipt } from "@wagmi/core";
-import { wagmiConfig } from "@/config/wagmi";
+import { TxModal } from "@/components/contracts/TxModal";
+import { Amount } from "@/components/ui";
 // Types
 import { UseCallInstance, ExecuteReturn } from "@/types";
 
 // @dev the typing of params is purposefully abstracted from the wrapper
 // the config of each button manages adequate typing
-type ButtonConfig = {
-  checkParams: (params: any) => string | undefined;
+type ButtonConfig<T> = {
+  checkParams: (params: T) => string | undefined;
   makeInstance: () => UseCallInstance;
   simulate?: (
     instance: UseCallInstance,
-    params: any,
+    params: T,
   ) => Promise<string | undefined>;
-  execute: (instance: UseCallInstance, params: any) => Promise<ExecuteReturn>;
+  execute: (instance: UseCallInstance, params: T) => Promise<ExecuteReturn>;
 };
 
 type ApprovalOperation = {
@@ -27,6 +32,11 @@ type ApprovalOperation = {
   symbol: string;
   simulate?: () => Promise<string | undefined>;
   execute: () => Promise<ExecuteReturn>;
+  parameters: {
+    spender: Address;
+    amount: string;
+    tokenDecimals: number;
+  };
 };
 
 type TransactionState = {
@@ -46,9 +56,10 @@ export type ERC20ApproveCheck = {
   amount: string;
 };
 
-export type TxButtonWrapperProps = {
-  buttonConfig: ButtonConfig;
-  params: any;
+export type TxButtonWrapperProps<T> = {
+  buttonConfig: ButtonConfig<T>;
+  makeDescription: (params: T) => string | React.ReactNode;
+  params?: any;
   buttonText: string;
   approveChecks?: ERC20ApproveCheck[];
   className?: string;
@@ -62,8 +73,9 @@ export type TxButtonWrapperProps = {
   splitApprove?: boolean;
 };
 
-export function TxButtonWrapper({
+export function TxButtonWrapper<T>({
   buttonConfig,
+  makeDescription,
   params,
   buttonText,
   approveChecks = [],
@@ -75,9 +87,10 @@ export function TxButtonWrapper({
   onSuccess,
   showLink,
   splitApprove = false,
-}: TxButtonWrapperProps) {
-  const { currentNetworkConfig, currentAccount, setIsOpenConnectModal } =
-    useWeb3Context();
+}: TxButtonWrapperProps<T>) {
+  const { openConnectModal } = useConnectModal();
+  const { currentNetworkConfig, currentAccount } = useWeb3Context();
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
   const [txState, dispatchTxState] = useReducer(
     (prev: TransactionState, next: Partial<TransactionState>) => ({
       ...prev,
@@ -99,6 +112,9 @@ export function TxButtonWrapper({
     approveChecks[0]?.spender,
   );
 
+  /**
+   * Checks if the user needs to approve a token before executing the transaction
+   */
   const getApprovalERC20 = useCallback((): ApprovalOperation | undefined => {
     const approveInstances = approveChecks.map((check) => ({
       token: check.token,
@@ -112,7 +128,7 @@ export function TxButtonWrapper({
         (allowance) => allowance.address === check.token,
       );
 
-      if (!allowance) continue;
+      if (!allowance || !check.spender) continue;
 
       const requiredAllowance = parseUnits(check.amount, check.tokenDecimals);
 
@@ -135,29 +151,35 @@ export function TxButtonWrapper({
         symbol: check.symbol,
         simulate: () => configApprove.simulate(instance, approvalParameters),
         execute: () => configApprove.execute(instance, approvalParameters),
+        parameters: approvalParameters,
       };
     }
   }, [approveChecks, allowances, lastAllowanceUpdate]);
 
+  /**
+   * These are transaction hook instances for approval or the main transaction
+   */
   const approveAction = getApprovalERC20();
-
   const baseInstance = buttonConfig.makeInstance();
   const currentInstance = txState.pendingApprove
     ? approveAction?.instance
     : baseInstance;
 
+  // Update the allowances when the user approves a token
   useEffect(() => {
     if (txState.pendingAllowanceUpdate) {
       dispatchTxState({ pendingAllowanceUpdate: false });
     }
   }, [allowances, lastAllowanceUpdate]);
 
+  // Update the error state
   useEffect(() => {
     if (errorOverride !== txState.error) {
       dispatchTxState({ error: errorOverride });
     }
   }, [errorOverride]);
 
+  // Check if the transaction was successful
   useEffect(() => {
     if (
       !txState.executedOnSuccess &&
@@ -169,36 +191,22 @@ export function TxButtonWrapper({
     }
   }, [currentInstance?.status, txState.pendingApprove, onSuccess]);
 
+  // Update the state when the approve action changes
   useEffect(() => {
     if (!!approveAction !== txState.pendingApprove) {
       dispatchTxState({ pendingApprove: !!approveAction });
     }
   }, [approveAction]);
 
-  // useEffect(() => {
-  //   async function simulateTx() {
-  //     if (!currentInstance) return;
-
-  //     const simulationPromise = txState.pendingApprove
-  //       ? approveAction?.simulate()
-  //       : buttonConfig.simulate(currentInstance, params);
-
-  //     const error = await simulationPromise;
-  //     if (error) dispatchTxState({ error });
-  //   }
-
-  //   simulateTx();
-  // }, [
-  //   params,
-  //   txState.pendingApprove,
-  //   currentInstance,
-  // ]);
-
+  /**
+   * Handles the transaction execution
+   */
   const handleTransaction = useCallback(async () => {
     if (!currentInstance || !currentAccount) return;
 
-    const isApprove = txState.pendingApprove && !!approveAction;
+    setIsDialogOpen(true);
 
+    const isApprove = txState.pendingApprove && !!approveAction;
     if (!isApprove && onSubmit) onSubmit();
 
     dispatchTxState({
@@ -266,93 +274,124 @@ export function TxButtonWrapper({
   const isDisabled = disabled || isLoading;
 
   return (
-    <div className="w-full flex flex-col items-center">
-      {/* User is not connected */}
-      {!currentAccount && (
-        <button
-          className={`font-bold flex items-center justify-center ${className} theme-highlight theme-highlight-border`}
-          onClick={() => setIsOpenConnectModal(true)}
-        >
-          <WalletIcon className="mr-2" />
-          <span className="theme-gradient">Connect</span>
-        </button>
-      )}
-
-      {/* Transaction is being processed */}
-      {currentAccount && isLoading && (
-        <button
-          className={`font-bold flex items-center justify-center theme-disabled-bg-dark disabled:brightness-100 ${className}`}
-          disabled
-        >
-          <Spinner className="mr-2" />
-          <span className="theme-gradient">Sending</span>
-        </button>
-      )}
-
-      {/* Approve button */}
-      {currentAccount &&
-        hasApproveChecks &&
-        ((!isLoading && isPendingApprove) || splitApprove) && (
+    <>
+      <div className="w-full flex flex-col items-center">
+        {/* User is not connected */}
+        {!currentAccount && (
           <button
-            className={`font-bold flex items-center justify-center ${className} ${
-              isDisabled || !isPendingApprove
-                ? "theme-disabled-bg-dark disabled:brightness-100"
-                : ""
-            }`}
-            disabled={isDisabled || !isPendingApprove}
-            onClick={handleTransaction}
+            className={`font-bold flex items-center justify-center ${className} theme-highlight theme-highlight-border`}
+            onClick={openConnectModal}
           >
-            <span className="theme-gradient">
-              {`Approve ${approvedTokenName}`}
-            </span>
+            <WalletIcon className="mr-2" />
+            <span className="theme-gradient">Connect</span>
           </button>
         )}
 
-      {currentAccount && splitApprove && (
-        <div
-          className={`h-8 w-2 my-2 bg-gradient-to-b from-transparent via-slate-100 to-slate-100 ${
-            isPendingApprove ? "animate-pulse" : ""
-          }`}
-        />
-      )}
-
-      {/* Transaction button */}
-      {currentAccount &&
-        ((!isLoading && !isPendingApprove) || splitApprove) && (
+        {/* Transaction is being processed */}
+        {currentAccount && isLoading && (
           <button
-            className={`font-bold flex items-center justify-center ${className} ${
-              isDisabled || isPendingApprove
-                ? "theme-disabled-bg-dark disabled:brightness-100"
-                : ""
-            }`}
-            disabled={isDisabled || isPendingApprove}
-            onClick={handleTransaction}
+            className={`font-bold flex items-center justify-center theme-disabled-bg-dark disabled:brightness-100 ${className}`}
+            disabled
           >
-            <span className={`${isDisabled ? "" : "theme-gradient"}`}>
-              {buttonText}
-            </span>
+            <Spinner className="mr-2" />
+            <span className="theme-gradient">Sending</span>
           </button>
         )}
 
-      {/* Error and chain explorer link */}
-      <div className="mt-2 min-h-5">
-        {txState.error && (
-          <div className="text-center text-sm theme-error-light">
-            {txState.error}
-          </div>
-        )}
-
-        {showLink && explorerLink && !txState.error && !isLoading && (
-          <a href={explorerLink} target="_blank" rel="noreferrer">
-            <button className="group min-h-5 flex flex-1 justify-center items-center theme-highlight space-x-1 whitespace-nowrap underline-offset-2 text-sm">
-              <span className="theme-highlight group-hover:text-slate-100">
-                View transaction
+        {/* Approve button */}
+        {currentAccount &&
+          hasApproveChecks &&
+          ((!isLoading && isPendingApprove) || splitApprove) && (
+            <button
+              className={`font-bold flex items-center justify-center ${className} ${
+                isDisabled || !isPendingApprove
+                  ? "theme-disabled-bg-dark disabled:brightness-100"
+                  : ""
+              }`}
+              disabled={isDisabled || !isPendingApprove}
+              onClick={handleTransaction}
+            >
+              <span className="theme-gradient">
+                {`Approve ${approvedTokenName}`}
               </span>
-              <ArrowTopRightIcon className="theme-highlight group-hover:text-slate-100 h-4 w-4" />
             </button>
-          </a>
+          )}
+
+        {currentAccount && splitApprove && (
+          <div
+            className={`h-8 w-2 my-2 bg-gradient-to-b from-transparent via-slate-100 to-slate-100 ${
+              isPendingApprove ? "animate-pulse" : ""
+            }`}
+          />
         )}
+
+        {/* Transaction button */}
+        {currentAccount &&
+          ((!isLoading && !isPendingApprove) || splitApprove) && (
+            <button
+              className={`font-bold flex items-center justify-center ${className} ${
+                isDisabled || isPendingApprove
+                  ? "theme-disabled-bg-dark disabled:brightness-100"
+                  : ""
+              }`}
+              disabled={isDisabled || isPendingApprove}
+              onClick={handleTransaction}
+            >
+              <span className={`${isDisabled ? "" : "theme-gradient"}`}>
+                {buttonText}
+              </span>
+            </button>
+          )}
+
+        {/* Error and chain explorer link */}
+        <div className="mt-2 min-h-5">
+          {txState.error && (
+            <div className="text-center text-sm theme-error-light">
+              {txState.error}
+            </div>
+          )}
+
+          {showLink && explorerLink && !txState.error && !isLoading && (
+            <a href={explorerLink} target="_blank" rel="noreferrer">
+              <button className="group min-h-5 flex flex-1 justify-center items-center theme-highlight space-x-1 whitespace-nowrap underline-offset-2 text-sm">
+                <span className="theme-highlight group-hover:text-slate-100">
+                  View transaction
+                </span>
+                <ArrowTopRightIcon className="theme-highlight group-hover:text-slate-100 h-4 w-4" />
+              </button>
+            </a>
+          )}
+        </div>
       </div>
-    </div>
+
+      <TxModal
+        isOpen={!!isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        txContent={
+          txState.pendingApprove && approveAction ? (
+            <>
+              Deposit{" "}
+              <Amount
+                value={BigInt(approveAction.parameters.amount)}
+                decimals={approveAction.parameters.tokenDecimals}
+                suffix={approveAction.symbol}
+                displaySymbol={true}
+                className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+              />
+            </>
+          ) : (
+            makeDescription(params)
+          )
+        }
+        txStates={{
+          isWriteError: !!txState.error && !txState.hash,
+          isWriteSuccess: !!txState.hash,
+          isConfirming: txState.isLoading && !!txState.hash,
+          isConfirmError: !!txState.error && !!txState.hash,
+          isConfirmSuccess:
+            !!txState.hash && !txState.isLoading && !txState.error,
+        }}
+      />
+    </>
   );
 }
