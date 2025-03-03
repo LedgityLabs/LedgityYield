@@ -67,49 +67,37 @@ import {
 } from "@/hooks/contracts";
 import { txModalDescriptions } from "@/functions/txDescriptions";
 
-// When the tx interacts with a contract without token dependencies
-type TxButtonProps<T> = Omit<
+// Create a utility type just for the params property
+type OptionalParams<T> =
+  T extends Record<string, never> ? { params?: T } : { params: T };
+
+// Create a utility for external button props exposed in the implementations
+type ExternalButtonProps<T> = Omit<
   TxButtonWrapperProps<T>,
   "buttonConfig" | "makeDescription"
-> &
-  (T extends Record<string, never> ? { params?: T } : { params: T });
+>;
 
 // When the tx interacts with a contract without token dependencies
-type TxButtonSetProps<T> = Omit<
-  TxButtonWrapperProps<T>,
-  "buttonConfig" | "makeDescription"
-> & {
-  params: T;
-  contractAddress: Address;
-};
+type TxButtonProps<T> = ExternalButtonProps<T> & OptionalParams<T>;
+
+// When the tx interacts with a contract without token dependencies
+type TxButtonSetProps<T> = ExternalButtonProps<T> &
+  OptionalParams<T> & { contractAddress: Address };
 
 // When the tx interacts directly with a token
-type TxTokenButtonProps<T> = Omit<
-  TxButtonWrapperProps<T>,
-  "buttonConfig" | "makeDescription"
-> & {
-  params: T;
-  tokenAddress: Address;
-};
+type TxTokenButtonProps<T> = ExternalButtonProps<T> &
+  OptionalParams<T> & { tokenAddress: Address };
 
 // When the tx depends on a token and might require approval
-type TxButtonApproveProps<T> = Omit<
-  TxButtonWrapperProps<T>,
-  "buttonConfig" | "makeDescription"
-> & {
-  params: T;
-  approveChecks: ERC20ApproveCheck[];
-};
+type TxButtonApproveProps<T> = ExternalButtonProps<T> &
+  OptionalParams<T> & { approveChecks: ERC20ApproveCheck[] };
 
 // When the tx depends on a token and might require approval for a set of contracts
-type TxButtonSetApproveProps<T> = Omit<
-  TxButtonWrapperProps<T>,
-  "buttonConfig" | "makeDescription"
-> & {
-  contractAddress: Address;
-  params: T;
-  approveChecks: ERC20ApproveCheck[];
-};
+type TxButtonSetApproveProps<T> = ExternalButtonProps<T> &
+  OptionalParams<T> & {
+    contractAddress: Address;
+    approveChecks: ERC20ApproveCheck[];
+  };
 
 export const {
   // ====== Tokens ====== //
