@@ -34,7 +34,7 @@ export * from "./write/erc20/useApprove";
 export * from "./write/erc20/useMint";
 
 // LTokenSignaler write hooks
-export * from "./write/lTokenSignaler/useSignalerSignalLToken";
+export * from "./write/lTokenSignaler/useSignalLToken";
 
 // LToken write hooks
 export * from "./write/lToken/useSetApr";
