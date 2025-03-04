@@ -20,7 +20,6 @@ declare module "next-auth" {
 }
 
 export const nextAuthOptions: NextAuthOptions = {
-  // @ts-ignore
   adapter: PrismaAdapter(prisma),
   providers: [
     TwitterProvider({

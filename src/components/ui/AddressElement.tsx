@@ -9,11 +9,9 @@ const AddToWallet = ({ address }: { address: `0x${string}` }) => {
     <button
       className="hover:opacity-70 transition-opacity"
       onClick={() => {
-        // @ts-ignore
         if (window.ethereum) {
           window.ethereum.request({
             method: "wallet_watchAsset",
-            // @ts-ignore
             params: {
               type: "ERC20", // Initially only supports ERC20, but eventually more!
               options: tokenData,

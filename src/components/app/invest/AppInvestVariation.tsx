@@ -7,6 +7,17 @@ const secondsInOneYear = 60 * 60 * 24 * 365;
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
+type SubgraphAprData = {
+  data?: {
+    [key: string]: [
+      {
+        latestAprUpdate: APRChange[];
+        aprUpdateOneYearAgo: APRChange[];
+      },
+    ];
+  };
+};
+
 export const AppInvestVariation: FC<Props> = (props) => {
   const publicClient = usePublicClient();
   const [variation, setVariation] = useState<number | "N/A">(0);
@@ -35,42 +46,29 @@ export const AppInvestVariation: FC<Props> = (props) => {
       `,
       {},
     )
-      .then(
-        // @ts-ignore
-        async (result: {
-          data: {
-            [key: string]: [
-              {
-                latestAprUpdate: APRChange[];
-                aprUpdateOneYearAgo: APRChange[];
-              },
-            ];
-          };
-        }) => {
-          const aprUpdateData =
-            result.data[`c${publicClient!.chain.id}_ltokens`];
-          let newVariation = 0;
-          for (const lToken of aprUpdateData) {
-            if (!lToken.latestAprUpdate[0]) continue;
-            const latestAprUpdate = Number(lToken.latestAprUpdate[0].apr);
-            const aprUpdateOneYearAgo = Number(
-              lToken.aprUpdateOneYearAgo[0].apr,
-            );
-            if (latestAprUpdate > aprUpdateOneYearAgo)
-              newVariation +=
-                (latestAprUpdate - aprUpdateOneYearAgo) / latestAprUpdate;
-            else if (latestAprUpdate < aprUpdateOneYearAgo)
-              newVariation +=
-                (aprUpdateOneYearAgo - latestAprUpdate) / aprUpdateOneYearAgo;
-          }
-          newVariation = newVariation / aprUpdateData.length;
+      .then((result: SubgraphAprData) => {
+        if (!result.data) throw Error("Missing data from subgraph");
 
-          // Format variation as UD7x3 as required by <Rate /> component
-          newVariation = Math.round(newVariation * 100 * 1000);
-          setVariation(newVariation);
-          setIsLoading(false);
-        },
-      )
+        const aprUpdateData = result.data[`c${publicClient!.chain.id}_ltokens`];
+        let newVariation = 0;
+        for (const lToken of aprUpdateData) {
+          if (!lToken.latestAprUpdate[0]) continue;
+          const latestAprUpdate = Number(lToken.latestAprUpdate[0].apr);
+          const aprUpdateOneYearAgo = Number(lToken.aprUpdateOneYearAgo[0].apr);
+          if (latestAprUpdate > aprUpdateOneYearAgo)
+            newVariation +=
+              (latestAprUpdate - aprUpdateOneYearAgo) / latestAprUpdate;
+          else if (latestAprUpdate < aprUpdateOneYearAgo)
+            newVariation +=
+              (aprUpdateOneYearAgo - latestAprUpdate) / aprUpdateOneYearAgo;
+        }
+        newVariation = newVariation / aprUpdateData.length;
+
+        // Format variation as UD7x3 as required by <Rate /> component
+        newVariation = Math.round(newVariation * 100 * 1000);
+        setVariation(newVariation);
+        setIsLoading(false);
+      })
       .catch((e: Error) => {
         setVariation("N/A");
         setIsLoading(false);
