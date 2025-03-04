@@ -18,6 +18,7 @@ import { computeTvlMetrics, TvlMetrics } from "@/functions/helpers";
 import { lTokenAddresses, dependenciesAddresses } from "@/data/addresses";
 // Types
 import { TokenInfo, LTokenInfo } from "@/types";
+import { Address } from "viem";
 
 type AppDataContext = {
   referralCode: string;
@@ -67,10 +68,13 @@ export function AppDataContextProvider({
   const lTokenInfosCurrentChain = lTokenInfos.filter(
     (lToken) => lToken.chainId === appChainId,
   );
-  // @bw @dev could improve resilience here by getting underlying addresses from lTokenInfos
-  const tokenInfos = useTokenInfos(
-    Object.values(dependenciesAddresses[appChainId]),
-  );
+  const tokens = [
+    ...new Set(
+      ...lTokenInfos.map((lToken) => lToken.underlying),
+      ...Object.values(dependenciesAddresses[appChainId]),
+    ),
+  ] as Address[]; // @dev Safe since strings in the Set are Address typed
+  const tokenInfos = useTokenInfos(tokens);
 
   // ==== Prices ==== //
 
