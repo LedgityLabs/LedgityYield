@@ -22,6 +22,15 @@ export type ERC20TokenType = {
   image?: string;
 };
 
+export type UserStakeData = {
+  stakeIndex: bigint;
+  stakedAmount: bigint;
+  unStakeAt: bigint;
+  duration: bigint;
+  rewardPerTokenPaid: bigint;
+  rewards: bigint;
+};
+
 // ================= WRITE TX ================= //
 
 export type TransactionStatus = "error" | "idle" | "pending" | "success";

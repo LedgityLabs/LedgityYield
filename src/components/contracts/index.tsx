@@ -100,8 +100,6 @@ type TxButtonSetApproveProps<T> = ExternalButtonProps<T> &
   };
 
 export const {
-  // ====== Tokens ====== //
-  StakeTx,
   // ====== ERC-20 ====== //
   ApproveTx,
   MintTx,
@@ -132,21 +130,10 @@ export const {
   InstantUnlockTx,
   RequestUnlockTx,
   // ====== LdyStaking ====== //
+  StakeTx,
   UnstakeTx,
   GetRewardTx,
 } = {
-  // ====== Tokens ====== //
-  StakeTx: (props: TxButtonApproveProps<ParamsStake>) => (
-    <TxButtonWrapper
-      {...props}
-      makeDescription={txModalDescriptions.Stake}
-      buttonConfig={{
-        ...configStake,
-        makeInstance: () => configStake.makeInstance(),
-      }}
-    />
-  ),
-
   // ====== ERC-20 ====== //
   ApproveTx: (props: TxTokenButtonProps<ParamsApprove>) => (
     <TxButtonWrapper
@@ -402,6 +389,14 @@ export const {
   ),
 
   // ====== LdyStaking ====== //
+  StakeTx: (props: TxButtonApproveProps<ParamsStake>) => (
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.Stake}
+      buttonConfig={configStake}
+    />
+  ),
+
   UnstakeTx: (props: TxButtonProps<ParamsUnstake>) => (
     <TxButtonWrapper
       {...props}

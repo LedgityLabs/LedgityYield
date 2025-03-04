@@ -1,14 +1,7 @@
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import { useReadLdyStakingGetUserStakes } from "@/types";
 import { Address, zeroAddress } from "viem";
-
-type UserStakeData = {
-  stakedAmount: bigint;
-  unStakeAt: bigint;
-  duration: bigint;
-  rewardPerTokenPaid: bigint;
-  rewards: bigint;
-};
+import { UserStakeData } from "@/types";
 
 export function useGetUserStakes(
   account: Address | undefined,
@@ -24,5 +17,10 @@ export function useGetUserStakes(
     },
   });
 
-  return data || [];
+  return (
+    data?.map((el, i) => ({
+      ...el,
+      stakeIndex: BigInt(i),
+    })) || []
+  );
 }
