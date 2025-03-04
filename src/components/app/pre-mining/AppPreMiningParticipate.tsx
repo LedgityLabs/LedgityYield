@@ -1,111 +1,62 @@
 "use client";
-import { FC, useEffect, useMemo, useState } from "react";
-import { Amount, TxButton } from "@/components/ui";
-import {
-  useReadPreMiningAccountsLocks,
-  useReadLTokenWithdrawalFeeInEth,
-  useSimulatePreMiningInstantUnlock,
-  useSimulatePreMiningRequestUnlock,
-} from "@/types";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { UseSimulateContractReturnType, useAccount } from "wagmi";
-import { formatUnits, parseUnits, zeroAddress } from "viem";
-import { twMerge } from "tailwind-merge";
+
+// Components
+import { Amount } from "@/components/ui";
 import { Progress } from "@/components/ui/Progress";
+import { InstantUnlockTx, RequestUnlockTx } from "@/components/contracts";
+// Hooks
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
+import {
+  useCanInstantWithdraw,
+  useLTokenWithdrawalFeeInEth,
+  usePreminingAccountsLocks,
+} from "@/hooks/contracts";
+// Functions
+import { formatUnits, parseUnits } from "viem";
+import { getContractAddress } from "@/functions/getContractAddress";
 
-function subtractMonths(date: Date, months: number) {
-  const result = new Date(date); // Clone the date to avoid mutating the original
-  result.setDate(result.getDate() - 30 * months); // Subtract the days
-  return result;
-}
-
-interface Props extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
-  const account = useAccount();
+export function AppPreMiningParticipate({ className }: { className?: string }) {
+  const { currentAccount } = useWeb3Context();
   const lTokenAddress = getContractAddress(`LUSDC`);
 
-  // Retrieve lock data
-  const { data: lockData } = useReadPreMiningAccountsLocks({
-    args: [account.address || zeroAddress],
-  });
-  const hasLocked = lockData && lockData[0] !== 0n;
-  const lockAmount = hasLocked ? lockData[0] : 0n;
-  const lockDuration = hasLocked ? lockData[1] : 0;
-  const lockUnlocked = hasLocked ? lockData[2] : false;
-  const lockEnd = hasLocked ? new Date(Number(lockData[4]) * 1000) : new Date();
-  const lockStart = subtractMonths(lockEnd, lockDuration);
+  const withdrawalFeeInEth = useLTokenWithdrawalFeeInEth(lTokenAddress);
+  const { lockAmount, lockDuration, lockStart, lockEnd, lockUnlocked } =
+    usePreminingAccountsLocks(currentAccount);
+  const canInstantWithdraw = useCanInstantWithdraw(
+    lTokenAddress,
+    currentAccount,
+    lockAmount,
+  );
+
+  const hasLocked = lockAmount > 0n;
+
   const lockProgression =
     (Date.now() - lockStart.getTime()) /
     (lockEnd.getTime() - lockStart.getTime());
-
-  const { data: withdrawalFeeInEth } = useReadLTokenWithdrawalFeeInEth({
-    address: lTokenAddress,
-  });
-
-  // Prepare unlock
-  const instantPreparation = useSimulatePreMiningInstantUnlock();
-  const requestPreparation = useSimulatePreMiningRequestUnlock({
-    args: [],
-    value: withdrawalFeeInEth,
-  });
 
   // Compute account's eligible LDY amount
   const maxWeight = parseUnits((4_000_000 * 12).toString(), 6);
   const accountWeight = lockAmount * BigInt(lockDuration);
   const eligibleLDY = (parseUnits("1125000", 18) * accountWeight) / maxWeight;
-
   // Compute account's eligible airdrop entries
   const eligibleEntries =
     Number(formatUnits(lockAmount, 6)) *
     ({ 3: 1, 6: 5, 12: 25 }[lockDuration] || 0);
 
-  const memoizedInstantPreparation = useMemo(() => {
-    return instantPreparation as unknown as UseSimulateContractReturnType;
-  }, [
-    instantPreparation.data?.request,
-    instantPreparation.error,
-    instantPreparation.isLoading,
-  ]);
-
-  const memoizedRequestPreparation = useMemo(() => {
-    return requestPreparation as unknown as UseSimulateContractReturnType;
-  }, [
-    requestPreparation.data?.request,
-    requestPreparation.error,
-    requestPreparation.isLoading,
-  ]);
-
-  const [memoizedPreparation, setMemoizedPreparation] =
-    useState<UseSimulateContractReturnType>();
-
-  useEffect(() => {
-    if (instantPreparation.isLoading || requestPreparation.isLoading) return;
-
-    if (instantPreparation.isError) {
-      setMemoizedPreparation(memoizedRequestPreparation);
-    } else {
-      setMemoizedPreparation(memoizedInstantPreparation);
-    }
-  }, [
-    instantPreparation.isError,
-    instantPreparation.isLoading,
-    requestPreparation.isLoading,
-  ]);
-
   return (
-    <div className={twMerge("flex flex-col", className)} {...props}>
-      {(hasLocked && (
+    <div className={`flex flex-col ${className}`}>
+      {hasLocked ? (
         <div className="bg-green-500 text-slate-50 p-5 text-center text-lg font-semibold">
           <i className="ri-checkbox-circle-line text-xl" />
           &nbsp; You participated
         </div>
-      )) || (
+      ) : (
         <div className="bg-red-500 text-slate-50 p-5 text-center text-lg font-semibold">
           <i className="ri-close-circle-line text-xl" />
           &nbsp; You didn&apos;t participated
         </div>
       )}
+
       {hasLocked && (
         <div className="bg-indigo-950/10 p-2">
           <div className="flex flex-col items-center gap-16 p-10 bg-accent rounded-b-3xl">
@@ -143,35 +94,26 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
                   </li>
                 </ul>
               </div>
+
               <div className="flex items-center justify-center gap-5 w-full">
-                {" "}
                 <Progress value={lockProgression * 100} />
-                <TxButton
-                  size="medium"
-                  preparation={memoizedPreparation}
-                  disabled={!hasLocked || lockUnlocked || !memoizedPreparation}
-                  className=""
-                  transactionSummary={
-                    <span>
-                      {instantPreparation.isError
-                        ? "Request to unlock"
-                        : "Unlock"}{" "}
-                      <Amount
-                        value={lockAmount}
-                        decimals={6}
-                        suffix="USDC"
-                        displaySymbol={true}
-                        className="whitespace-nowrap text-indigo-300 underline decoration-indigo-300 decoration-2 underline-offset-4"
-                      />{" "}
-                      {instantPreparation.isError &&
-                        "(usually takes 3-5 business days)"}
-                    </span>
-                  }
-                >
-                  Unlock
-                </TxButton>
+                {canInstantWithdraw ? (
+                  <InstantUnlockTx
+                    disabled={!hasLocked || lockUnlocked}
+                    buttonText="Unlock now"
+                  />
+                ) : (
+                  <RequestUnlockTx
+                    disabled={!hasLocked || lockUnlocked}
+                    params={{
+                      msgValue: withdrawalFeeInEth,
+                    }}
+                    buttonText="Request Unlock"
+                  />
+                )}
               </div>
             </div>
+
             <div className="flex flex-col  gap-10 w-full">
               <div className="flex flex-col gap-2">
                 <h3 className="font-bold text-3xl font-heading text-indigo-950/[75%]">
@@ -207,4 +149,4 @@ export const AppPreMiningParticipate: FC<Props> = ({ className, ...props }) => {
       )}
     </div>
   );
-};
+}

@@ -1,8 +1,4 @@
-import { FC, useEffect } from "react";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { useReadLTokenBalanceOf } from "@/types";
-import { WithdrawDialog } from "../WithdrawDialog";
-import { DepositDialog } from "../DepositDialog";
+// Components
 import {
   Amount,
   Button,
@@ -12,30 +8,20 @@ import {
 } from "@/components/ui";
 import Image from "next/image";
 import lusdcIcon from "~/assets/tokens/lusdc.png";
-import { useAccount, useBlockNumber } from "wagmi";
-import { zeroAddress } from "viem";
-import { useQueryClient } from "@tanstack/react-query";
+import { DepositDialog } from "@/components/app/DepositDialog";
+import { WithdrawDialog } from "@/components/app/WithdrawDialog";
+// Hooks
+import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+export function AppDashboardLUSDCBalance({}) {
+  const { lTokenInfosCurrentChain } = useAppDataContext();
 
-export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
-  const account = useAccount();
-  const address = getContractAddress("LUSDC");
-  const { data: balance, queryKey } = useReadLTokenBalanceOf({
-    address: address!,
-    args: [account.address || zeroAddress],
-  });
-  const decimals = 6;
+  const tokenData = lTokenInfosCurrentChain.find(
+    (token) => token.symbol === "LUSDC",
+  );
   const underlyingSymbol = "USDC";
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  if (!tokenData) return <></>;
 
   return (
     <div className="flex items-center gap-5">
@@ -69,8 +55,8 @@ export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
 
       <div className="text-[1.92rem] text-fg font-heading font-bold -none inline-flex items-center justify-center align-bottom gap-2">
         <Amount
-          value={balance!}
-          decimals={decimals}
+          value={tokenData.balance}
+          decimals={tokenData.decimals}
           className="text-[1.92rem] text-fg font-heading font-bold"
           suffix="LUSDC"
           displaySymbol={false}
@@ -84,4 +70,4 @@ export const AppDashboardLUSDCBalance: FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+}

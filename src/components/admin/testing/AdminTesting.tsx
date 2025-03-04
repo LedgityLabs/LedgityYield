@@ -1,3 +1,8 @@
+import { hardhat } from "wagmi/chains";
+// Components
+import { AdminBrick } from "@/components/admin/AdminBrick";
+import { AdminMasonry } from "@/components/admin/AdminMasonry";
+import { MintTx } from "@/components/contracts";
 import {
   AddressElement,
   Amount,
@@ -5,133 +10,38 @@ import {
   Button,
   Input,
 } from "@/components/ui";
-import { TxButton } from "@/components/ui/TxButton";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { useSimulateGenericErc20Mint } from "@/types";
-import { useQueryClient } from "@tanstack/react-query";
-import { ChangeEvent, FC, useEffect, useMemo, useState } from "react";
-import {
-  createTestClient,
-  erc20Abi,
-  http,
-  parseUnits,
-  zeroAddress,
-} from "viem";
-import {
-  UseSimulateContractReturnType,
-  useAccount,
-  useBlockNumber,
-  useReadContract,
-} from "wagmi";
-import { hardhat } from "wagmi/chains";
-import { AdminBrick } from "../AdminBrick";
-import { AdminMasonry } from "../AdminMasonry";
+// Hooks
+import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
+import { useBalanceOf } from "@/hooks/contracts";
+import { useState } from "react";
+// Functions
+import { createTestClient, http, parseUnits } from "viem";
 
-const MintFakeToken: FC<{ contractName: string }> = ({
-  contractName,
-  ...props
-}) => {
-  const account = useAccount();
-  const address = getContractAddress(contractName);
-  const { data: tokenSymbol } = useReadContract({
-    abi: erc20Abi,
-    functionName: "symbol",
-    address: address,
-  });
-  const { data: tokenName } = useReadContract({
-    abi: erc20Abi,
-    functionName: "name",
-    address: address,
-  });
-  const { data: tokenDecimals } = useReadContract({
-    abi: erc20Abi,
-    functionName: "decimals",
-    address: address,
-  });
-  const { data: tokenBalance, queryKey } = useReadContract({
-    abi: erc20Abi,
-    functionName: "balanceOf",
-    address: address,
-    args: [account.address || zeroAddress],
-  });
-  const [mintedAmount, setMintedAmount] = useState(0n);
-  const preparation = useSimulateGenericErc20Mint({
-    address: address,
-    args: [mintedAmount],
-  });
+export function AdminTestin() {
+  const { currentAccount } = useWeb3Context();
+  const { tokenInfos } = useAppDataContext();
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
+  const tokenData = tokenInfos.find((token) => token.symbol === "LDY");
 
-  const memoizedPreparation = useMemo(() => {
-    return preparation as unknown as UseSimulateContractReturnType;
-  }, [preparation.data?.request, preparation.error, preparation.isLoading]);
-
-  return (
-    <div {...props} className="mt-8">
-      <h4 className="text-lg font-semibold">{tokenName}</h4>
-      <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
-        <li className="flex gap-3 items-center">
-          <h5 className="font-bold text-fg/60">Address</h5>
-          <AddressElement
-            address={address}
-            copyable={true}
-            addToWallet={true}
-            tooltip={true}
-          />
-        </li>
-        <li className="flex gap-3 items-center">
-          <h5 className="font-bold text-fg/60">Symbol</h5>
-          <span>{tokenSymbol}</span>
-        </li>
-        <li className="flex gap-3 items-center">
-          <h5 className="font-bold text-fg/60">Decimals</h5>
-          <span>{tokenDecimals}</span>
-        </li>
-        <li className="flex gap-3 items-center">
-          <h5 className="font-bold text-fg/60">Your balance</h5>
-          <span>
-            {tokenBalance && tokenDecimals ? (
-              <Amount value={tokenBalance} decimals={tokenDecimals} />
-            ) : (
-              0
-            )}
-          </span>
-        </li>
-        <li className="flex flex-col">
-          <h5 className="font-bold text-fg/60">Mint</h5>
-          <div className="flex justify-end items-end gap-4">
-            <AmountInput
-              maxName="Max"
-              maxValue={parseUnits("9999999", tokenDecimals!)}
-              decimals={tokenDecimals}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setMintedAmount(parseUnits(e.target.value, tokenDecimals!))
-              }
-            />
-            <TxButton size="medium" preparation={memoizedPreparation}>
-              Mint
-            </TxButton>
-          </div>
-        </li>
-      </ul>
-    </div>
-  );
-};
-export const AdminTesting: FC = () => {
   const [dayForwards, setDayForwards] = useState(0);
+  const [mintedAmount, setMintedAmount] = useState("");
 
   const testClient = createTestClient({
     chain: hardhat,
     mode: "hardhat",
     transport: http(),
   });
+
+  const ldyBalance = useBalanceOf(tokenData?.address, currentAccount);
+
+  function handleSetMintAmount(e: React.ChangeEvent<HTMLInputElement>) {
+    setMintedAmount(e.target.value);
+  }
+
+  function handleSetDaysForward(e: React.ChangeEvent<HTMLInputElement>) {
+    setDayForwards(Number(e.target.value));
+  }
 
   return (
     <AdminMasonry>
@@ -143,10 +53,8 @@ export const AdminTesting: FC = () => {
           <br />
           Here are those for the current local network:
         </p>
-        {/* {lTokens.map((lToken) => (
-          <MintFakeToken key={lToken} contractName={lToken.slice(1)} />
-        ))} */}
       </AdminBrick>
+
       <AdminBrick title="LDY token">
         <p>
           When Ledgity Yield is deployed locally, a fake $LDY token contract is
@@ -155,8 +63,59 @@ export const AdminTesting: FC = () => {
           <br />
           Here is the one for the local test network:
         </p>
-        <MintFakeToken contractName="LDY" />
+
+        <div className="mt-8">
+          <h4 className="text-lg font-semibold">{tokenData?.name}</h4>
+          <ul className="pl-4 flex flex-col gap-2 py-2 list-disc">
+            <li className="flex gap-3 items-center">
+              <h5 className="font-bold text-fg/60">Address</h5>
+              <AddressElement
+                address={tokenData?.address}
+                copyable={true}
+                addToWallet={true}
+                tooltip={true}
+              />
+            </li>
+            <li className="flex gap-3 items-center">
+              <h5 className="font-bold text-fg/60">Symbol</h5>
+              <span>{tokenData?.symbol}</span>
+            </li>
+            <li className="flex gap-3 items-center">
+              <h5 className="font-bold text-fg/60">Decimals</h5>
+              <span>{tokenData?.decimals}</span>
+            </li>
+            <li className="flex gap-3 items-center">
+              <h5 className="font-bold text-fg/60">Your balance</h5>
+              <span>
+                <Amount
+                  value={ldyBalance}
+                  decimals={tokenData?.decimals || 0}
+                />
+              </span>
+            </li>
+            <li className="flex flex-col">
+              <h5 className="font-bold text-fg/60">Mint</h5>
+              <div className="flex justify-end items-end gap-4">
+                <AmountInput
+                  maxName="Max"
+                  maxValue={parseUnits("9999999", tokenData?.decimals!)}
+                  decimals={tokenData?.decimals}
+                  onChange={handleSetMintAmount}
+                />
+                <MintTx
+                  buttonText="Mint"
+                  tokenAddress={tokenData?.address}
+                  params={{
+                    amount: mintedAmount,
+                    tokenDecimals: tokenData?.decimals || 0,
+                  }}
+                />
+              </div>
+            </li>
+          </ul>
+        </div>
       </AdminBrick>
+
       <AdminBrick title="Increase block time">
         <div className="flex flex-col justify-center items-center gap-3">
           <p>
@@ -168,9 +127,7 @@ export const AdminTesting: FC = () => {
           <Input
             type="number"
             placeholder="Number of days"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setDayForwards(Number(e.target.value))
-            }
+            onChange={handleSetDaysForward}
           />
           <Button
             onClick={() =>
@@ -181,6 +138,7 @@ export const AdminTesting: FC = () => {
           </Button>
         </div>
       </AdminBrick>
+
       <AdminBrick title="Mint block">
         <Button
           onClick={() =>
@@ -194,4 +152,4 @@ export const AdminTesting: FC = () => {
       </AdminBrick>
     </AdminMasonry>
   );
-};
+}
