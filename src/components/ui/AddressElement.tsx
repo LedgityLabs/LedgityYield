@@ -1,19 +1,9 @@
-import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
-import { useReadContract } from "wagmi";
-import { erc20Abi } from "viem";
+import { useTokenInfos } from "@/hooks/contracts";
+import { FC } from "react";
 
 const AddToWallet = ({ address }: { address: `0x${string}` }) => {
-  const { data: tokenSymbol } = useReadContract({
-    abi: erc20Abi,
-    functionName: "symbol",
-    address: address,
-  });
-  const { data: tokenDecimals } = useReadContract({
-    abi: erc20Abi,
-
-    address: address,
-  });
+  const tokenData = useTokenInfos([address]);
 
   return (
     <button
@@ -26,11 +16,7 @@ const AddToWallet = ({ address }: { address: `0x${string}` }) => {
             // @ts-ignore
             params: {
               type: "ERC20", // Initially only supports ERC20, but eventually more!
-              options: {
-                address: address, // The address that the token is at.
-                symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
-                decimals: tokenDecimals, // The number of decimals in the token
-              },
+              options: tokenData,
             },
           });
         }
