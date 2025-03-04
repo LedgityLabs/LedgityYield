@@ -21,7 +21,7 @@ import { AdminLTokenWithdrawalRequests } from "./AdminLTokenWithdrawalRequests";
 import { AdminLTokenFeesRate } from "./AdminLTokenFeesRate";
 
 export function AdminLTokens() {
-  const { lTokenInfosCurrentChain } = useAppDataContext();
+  const { lTokenInfosCurrentChain, tokenInfos } = useAppDataContext();
   const [lTokenSymbol, setLTokenSymbol] = useState(
     lTokenInfosCurrentChain[0]?.symbol,
   );
@@ -32,46 +32,59 @@ export function AdminLTokens() {
     }
   }, [lTokenInfosCurrentChain]);
 
-  const lTokenAddress = lTokenInfosCurrentChain.find(
+  const lTokenData = lTokenInfosCurrentChain.find(
     (token) => token.symbol === lTokenSymbol,
-  )?.address;
+  );
+  const underlyingTokenData = tokenInfos.find(
+    (token) => token.address === lTokenData?.underlying,
+  );
 
   return (
     <section className="flex flex-col gap-6 justify-center items-center">
-      {lTokenInfosCurrentChain.length ? (
-        <>
-          <Select
-            onValueChange={(value: string) => setLTokenSymbol(value)}
-            value={lTokenSymbol}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="No L-Tokens available" />
-            </SelectTrigger>
-            <SelectContent>
-              {lTokenInfosCurrentChain.map((token) => (
-                <SelectItem key={token.symbol} value={token.symbol}>
-                  <div className="flex justify-center items-center gap-[0.6rem]">
-                    <TokenLogo symbol={token.symbol} size={28} />
-                    <p className="font-semibold">{token.symbol}</p>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <Select
+        onValueChange={(value: string) => setLTokenSymbol(value)}
+        value={lTokenSymbol}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="No L-Tokens available" />
+        </SelectTrigger>
+        <SelectContent>
+          {lTokenInfosCurrentChain.map((token) => (
+            <SelectItem key={token.symbol} value={token.symbol}>
+              <div className="flex justify-center items-center gap-[0.6rem]">
+                <TokenLogo symbol={token.symbol} size={28} />
+                <p className="font-semibold">{token.symbol}</p>
+              </div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-          <AdminMasonry>
-            <AdminLTokenWithdrawalRequests lTokenSymbol={lTokenSymbol} />
-            <AdminLTokenAddresses lTokenAddress={lTokenAddress} />
-            <AdminLTokenAPR lTokenSymbol={lTokenSymbol} />
-            <AdminLTokenRepatriate lTokenSymbol={lTokenSymbol} />
-            <AdminLTokenRetentionRate lTokenSymbol={lTokenSymbol} />
-            <AdminLTokenFeesRate lTokenSymbol={lTokenSymbol} />
-            <AdminLTokenClaimFees lTokenSymbol={lTokenSymbol} />
-            <AdminLTokenSignal lTokenSymbol={lTokenSymbol} />
-          </AdminMasonry>
-        </>
-      ) : (
+      {!lTokenData || !underlyingTokenData ? (
         <p>No L-Tokens available</p>
+      ) : (
+        <AdminMasonry>
+          <AdminLTokenWithdrawalRequests
+            tokenData={lTokenData}
+            underlyingTokenData={underlyingTokenData}
+          />
+          <AdminLTokenAddresses tokenData={lTokenData} />
+          <AdminLTokenAPR tokenData={lTokenData} />
+          <AdminLTokenRepatriate
+            tokenData={lTokenData}
+            underlyingTokenData={underlyingTokenData}
+          />
+          <AdminLTokenRetentionRate
+            tokenData={lTokenData}
+            underlyingTokenData={underlyingTokenData}
+          />
+          <AdminLTokenFeesRate
+            tokenData={lTokenData}
+            underlyingTokenData={underlyingTokenData}
+          />
+          <AdminLTokenClaimFees tokenData={lTokenData} />
+          <AdminLTokenSignal tokenData={lTokenData} />
+        </AdminMasonry>
       )}
     </section>
   );

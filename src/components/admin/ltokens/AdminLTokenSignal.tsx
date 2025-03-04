@@ -1,31 +1,20 @@
-import { Card, TxButton } from "@/components/ui";
-import { useSimulateLTokenSignalerSignalLToken } from "@/types";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { FC, useMemo } from "react";
+// Components
 import { AdminBrick } from "../AdminBrick";
-import { UseSimulateContractReturnType } from "wagmi";
+import { SignalLTokenTx } from "@/components/contracts";
+// Types
+import { LTokenInfo } from "@/types";
 
-interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenSymbol: string;
-}
-
-export const AdminLTokenSignal: FC<Props> = ({ lTokenSymbol }) => {
-  const lTokenAddress = getContractAddress(lTokenSymbol);
-  const preparation = useSimulateLTokenSignalerSignalLToken({
-    args: [lTokenAddress!],
-  });
-
-  const memoizedPreparation = useMemo(() => {
-    return preparation as unknown as UseSimulateContractReturnType;
-  }, [preparation.data?.request, preparation.error, preparation.isLoading]);
-
+export function AdminLTokenSignal({ tokenData }: { tokenData: LTokenInfo }) {
   return (
     <AdminBrick title="Data indexing">
       <div className="flex justify-center items-center">
-        <TxButton preparation={memoizedPreparation} size="medium">
-          Signal
-        </TxButton>
+        <SignalLTokenTx
+          buttonText="Signal LToken"
+          params={{
+            lTokenAddress: tokenData.address,
+          }}
+        />
       </div>
     </AdminBrick>
   );
-};
+}

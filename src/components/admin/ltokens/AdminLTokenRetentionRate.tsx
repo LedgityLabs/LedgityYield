@@ -1,74 +1,46 @@
-import { Card, Rate, TxButton } from "@/components/ui";
-import { RateInput } from "@/components/ui/RateInput";
-import {
-  useReadLTokenRetentionRateUd7x3,
-  useSimulateLTokenSetRetentionRate,
-} from "@/types";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { ChangeEvent, FC, useEffect, useState, useMemo } from "react";
+// Components
+import { AdminBrick } from "@/components/admin/AdminBrick";
+import { SetRetentionRateTx } from "@/components/contracts";
+import { Rate, RateInput } from "@/components/ui";
+// Hooks
+import { useLTokenRetentionRateUd7x3 } from "@/hooks/contracts";
+import { useState } from "react";
+// Functions
 import { parseUnits } from "viem";
-import { AdminBrick } from "../AdminBrick";
-import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
-import { useQueryClient } from "@tanstack/react-query";
+// Types
+import { LTokenInfo, TokenInfo } from "@/types";
 
-interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenSymbol: string;
-}
-
-export const AdminLTokenRetentionRate: FC<Props> = ({
-  className,
-  lTokenSymbol,
-}) => {
-  const underlyingTokenName = lTokenSymbol.slice(1);
-  const lTokenAddress = getContractAddress(lTokenSymbol);
-  const { data: retentionRate, queryKey } = useReadLTokenRetentionRateUd7x3({
-    address: lTokenAddress,
-  });
+export function AdminLTokenRetentionRate({
+  tokenData,
+  underlyingTokenData,
+}: {
+  tokenData: LTokenInfo;
+  underlyingTokenData: TokenInfo;
+}) {
+  const retentionRate = useLTokenRetentionRateUd7x3(tokenData.address);
   const [newRetentionRate, setNewRetentionRate] = useState(0);
-  const preparation = useSimulateLTokenSetRetentionRate({
-    address: lTokenAddress,
-    args: [newRetentionRate],
-  });
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
-
-  const memoizedPreparation = useMemo(() => {
-    return preparation as unknown as UseSimulateContractReturnType;
-  }, [preparation.data?.request, preparation.error, preparation.isLoading]);
+  function handleSetNewRetentionRate(e: React.ChangeEvent<HTMLInputElement>) {
+    setNewRetentionRate(Number(parseUnits(e.target.value, 3)));
+  }
 
   return (
     <AdminBrick title="Retention rate">
       <p>
         This rate corresponds to the target and maximal amount of{" "}
-        {underlyingTokenName} to retain on the contract.
+        {underlyingTokenData.symbol} to retain on the contract.
       </p>
       <p>
         Current value: <Rate value={retentionRate} className="font-bold" />
       </p>
       <div className="flex justify-center items-end gap-3">
-        <RateInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setNewRetentionRate(Number(parseUnits(e.target.value, 3)));
-            if (hasUserInteracted === false) setHasUserInteracted(true);
-            if (e.target.value === "") setHasUserInteracted(false);
-          }}
+        <RateInput onChange={handleSetNewRetentionRate} />
+        <SetRetentionRateTx
+          contractAddress={tokenData.address}
+          buttonText="Set Retention Rate"
+          params={{ newRate: newRetentionRate }}
         />
-        <TxButton
-          preparation={memoizedPreparation}
-          hasUserInteracted={hasUserInteracted}
-          size="medium"
-        >
-          Set
-        </TxButton>
       </div>
     </AdminBrick>
   );
-};
+}

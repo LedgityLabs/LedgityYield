@@ -1,72 +1,46 @@
-import { Card, Rate, TxButton } from "@/components/ui";
-import { RateInput } from "@/components/ui/RateInput";
-import {
-  useReadLTokenFeesRateUd7x3,
-  useSimulateLTokenSetFeesRate,
-} from "@/types";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { ChangeEvent, FC, useEffect, useState, useMemo } from "react";
+// Components
+import { AdminBrick } from "@/components/admin/AdminBrick";
+import { SetFeesRateTx } from "@/components/contracts";
+import { Rate, RateInput } from "@/components/ui";
+// Hooks
+import { useLTokenFeesRateUd7x3 } from "@/hooks/contracts";
+import { useState } from "react";
+// Functions
 import { parseUnits } from "viem";
-import { AdminBrick } from "../AdminBrick";
-import { useQueryClient } from "@tanstack/react-query";
-import { UseSimulateContractReturnType, useBlockNumber } from "wagmi";
+// Types
+import { LTokenInfo, TokenInfo } from "@/types";
 
-interface Props extends React.ComponentPropsWithRef<typeof Card> {
-  lTokenSymbol: string;
-}
+export function AdminLTokenFeesRate({
+  tokenData,
+  underlyingTokenData,
+}: {
+  tokenData: LTokenInfo;
+  underlyingTokenData: TokenInfo;
+}) {
+  const feeRate = useLTokenFeesRateUd7x3(tokenData.address);
+  const [newFeeRate, setNewFeeRate] = useState(0);
 
-export const AdminLTokenFeesRate: FC<Props> = ({ className, lTokenSymbol }) => {
-  const underlyingTokenName = lTokenSymbol.slice(1);
-  const lTokenAddress = getContractAddress(lTokenSymbol);
-  const { data: feesRate, queryKey } = useReadLTokenFeesRateUd7x3({
-    address: lTokenAddress,
-  });
-  const [newFeesRate, setNewFeesRate] = useState(0);
-  const preparation = useSimulateLTokenSetFeesRate({
-    address: lTokenAddress,
-    args: [newFeesRate],
-  });
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
-
-  // Refresh some data every 5 blocks
-  const queryKeys = [queryKey];
-  const { data: blockNumber } = useBlockNumber({ watch: true });
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (blockNumber && blockNumber % 5n === 0n)
-      queryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [blockNumber, ...queryKeys]);
-
-  const memoizedPreparation = useMemo(() => {
-    return preparation as unknown as UseSimulateContractReturnType;
-  }, [preparation.data?.request, preparation.error, preparation.isLoading]);
+  function handleSetFeeRate(e: React.ChangeEvent<HTMLInputElement>) {
+    setNewFeeRate(Number(parseUnits(e.target.value, 3)));
+  }
 
   return (
-    <AdminBrick title="Fees rate">
+    <AdminBrick title="Fee rate">
       <p>
         This rate corresponds to the % of fees charged to eligible{" "}
-        {underlyingTokenName} withdrawal requests.
+        {underlyingTokenData.symbol} withdrawal requests.
       </p>
       <p>
-        Current value: <Rate value={feesRate} className="font-bold" />
+        Current value: <Rate value={feeRate} className="font-bold" />
       </p>
       <div className="flex justify-center items-end gap-3">
-        <RateInput
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setNewFeesRate(Number(parseUnits(e.target.value, 3)));
-            if (hasUserInteracted === false) setHasUserInteracted(true);
-            if (e.target.value === "") setHasUserInteracted(false);
-          }}
+        <RateInput onChange={handleSetFeeRate} />
+        <SetFeesRateTx
+          buttonText="Set Fee Rate"
+          contractAddress={tokenData.address}
+          params={{ newRate: newFeeRate }}
         />
-
-        <TxButton
-          preparation={memoizedPreparation}
-          hasUserInteracted={hasUserInteracted}
-          size="medium"
-        >
-          Set
-        </TxButton>
       </div>
     </AdminBrick>
   );
-};
+}

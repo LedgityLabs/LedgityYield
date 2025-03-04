@@ -1,5 +1,3 @@
-import { ChangeEvent, useState } from "react";
-import { Address } from "viem";
 // Components
 import { AdminBrick } from "@/components/admin/AdminBrick";
 import {
@@ -14,21 +12,19 @@ import {
   useLTokenLdyStaking,
   useLTokenWithdrawer,
 } from "@/hooks/contracts";
+import { useState } from "react";
+// Types
+import { LTokenInfo } from "@/types";
+import { Address } from "viem";
 
-export function AdminLTokenAddresses({
-  lTokenAddress,
-}: {
-  lTokenAddress: Address | undefined;
-}) {
-  const currentWithdrawer = useLTokenWithdrawer();
-  const currentFund = useLTokenFund();
-  const currentLdyStaking = useLTokenLdyStaking();
+export function AdminLTokenAddresses({ tokenData }: { tokenData: LTokenInfo }) {
+  const currentWithdrawer = useLTokenWithdrawer(tokenData.address);
+  const currentFund = useLTokenFund(tokenData.address);
+  const currentLdyStaking = useLTokenLdyStaking(tokenData.address);
 
   const [newWithdrawerAddress, setNewWithdrawerAddress] = useState("");
   const [newFundAddress, setNewFundAddress] = useState("");
   const [newLdyStakingAddress, setNewLdyStakingAddress] = useState("");
-
-  if (!lTokenAddress) return <></>;
 
   const actionConfigs = [
     {
@@ -37,7 +33,7 @@ export function AdminLTokenAddresses({
       setter: setNewWithdrawerAddress,
       button: (
         <SetWithdrawerTx
-          contractAddress={lTokenAddress}
+          contractAddress={tokenData.address}
           params={{ withdrawerAddress: newWithdrawerAddress as Address }}
           buttonText="Set Withdrawer"
         />
@@ -49,7 +45,7 @@ export function AdminLTokenAddresses({
       setter: setNewFundAddress,
       button: (
         <SetFundTx
-          contractAddress={lTokenAddress}
+          contractAddress={tokenData.address}
           params={{ fundAddress: newFundAddress as Address }}
           buttonText="Set Fund"
         />
@@ -61,7 +57,7 @@ export function AdminLTokenAddresses({
       setter: setNewLdyStakingAddress,
       button: (
         <SetLdyStakingTx
-          contractAddress={lTokenAddress}
+          contractAddress={tokenData.address}
           params={{ ldyStakingAddress: newLdyStakingAddress as Address }}
           buttonText="Set LDY Staking"
         />
@@ -81,7 +77,7 @@ export function AdminLTokenAddresses({
           <div className="flex justify-center items-end gap-3">
             <Input
               type="text"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setter(e.target.value)
               }
             />
