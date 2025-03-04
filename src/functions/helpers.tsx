@@ -37,3 +37,20 @@ export function computeTvlMetrics(
     },
   );
 }
+
+export function getSortIcon(sortOrder: "asc" | "desc" | false): JSX.Element {
+  switch (sortOrder) {
+    case "asc":
+      return <i className="ri-sort-desc"></i>;
+    case "desc":
+      return <i className="ri-sort-asc"></i>;
+    default:
+      return <i className="ri-expand-up-down-fill"></i>;
+  }
+}
+
+export function subtractMonths(date: Date, months: number) {
+  const result = new Date(date); // Clone the date to avoid mutating the original
+  result.setDate(result.getDate() - 30 * months); // Subtract the days
+  return result;
+}

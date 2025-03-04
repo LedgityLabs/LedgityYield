@@ -10,9 +10,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { TokenLogo } from "../../ui/TokenLogo";
-import { DepositDialog } from "../DepositDialog";
-import { WithdrawDialog } from "../WithdrawDialog";
+import { TokenLogo } from "@/components/ui/TokenLogo";
+import { DepositDialog } from "@/components/app/DepositDialog";
+import { WithdrawDialog } from "@/components/app/WithdrawDialog";
+import { getSortIcon } from "@/functions/helpers";
 // Hooks
 import { useEffect, useRef, useState } from "react";
 // Context
@@ -211,49 +212,33 @@ export function AppInvestTokens({ className }: { className?: string }) {
     <article
       className={`grid w-full md:grid-cols-[repeat(5,auto)] grid-cols-[repeat(4,auto)] border-b border-b-fg/20 ${className}`}
     >
-      {headerGroup.headers.map((header, index) => {
-        return (
-          <div
-            key={header.id}
-            className={twMerge(
-              "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
-              header.column.id === "underlyingSymbol" &&
-                "justify-start sm:pl-10 pl-5",
-              header.column.id === "invested" && "md:inline-flex hidden",
-            )}
-          >
-            {sortableColumns.includes(header.column.id) ? (
-              <button
-                onClick={() =>
-                  header.column.toggleSorting(
-                    header.column.getIsSorted() === "asc",
-                  )
-                }
-                className="flex items-center gap-1"
-              >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-                <span>
-                  {(() => {
-                    switch (header.column.getIsSorted()) {
-                      case "asc":
-                        return <i className="ri-sort-desc"></i>;
-                      case "desc":
-                        return <i className="ri-sort-asc"></i>;
-                      default:
-                        return <i className="ri-expand-up-down-fill"></i>;
-                    }
-                  })()}
-                </span>
-              </button>
-            ) : (
-              flexRender(header.column.columnDef.header, header.getContext())
-            )}
-          </div>
-        );
-      })}
+      {headerGroup.headers.map((header, index) => (
+        <div
+          key={header.id}
+          className={twMerge(
+            "inline-flex items-center justify-center py-3 bg-fg/5 border-y border-y-fg/10 font-semibold text-fg/50",
+            header.column.id === "underlyingSymbol" &&
+              "justify-start sm:pl-10 pl-5",
+            header.column.id === "invested" && "md:inline-flex hidden",
+          )}
+        >
+          {sortableColumns.includes(header.column.id) ? (
+            <button
+              onClick={() =>
+                header.column.toggleSorting(
+                  header.column.getIsSorted() === "asc",
+                )
+              }
+              className="flex items-center gap-1"
+            >
+              {flexRender(header.column.columnDef.header, header.getContext())}
+              <span>{getSortIcon(header.column.getIsSorted())}</span>
+            </button>
+          ) : (
+            flexRender(header.column.columnDef.header, header.getContext())
+          )}
+        </div>
+      ))}
 
       {isLoading && (
         <div className="my-10 flex col-span-5 w-full items-center justify-center">

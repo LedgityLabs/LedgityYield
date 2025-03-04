@@ -15,6 +15,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { getSortIcon } from "@/functions/helpers";
 // Hooks
 import {
   useBatchedWithdrawalRequests,
@@ -34,17 +35,6 @@ type WithdrawalRequest = {
   account: string;
   isBig: boolean;
 };
-
-function getSortIcon(sortOrder: "asc" | "desc" | false): JSX.Element {
-  switch (sortOrder) {
-    case "asc":
-      return <i className="ri-sort-desc"></i>;
-    case "desc":
-      return <i className="ri-sort-asc"></i>;
-    default:
-      return <i className="ri-expand-up-down-fill"></i>;
-  }
-}
 
 export function AdminLTokenWithdrawalRequests({
   tokenData,
