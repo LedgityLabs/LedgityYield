@@ -7,9 +7,13 @@ import {
 } from "@/types";
 import { Address, Hash } from "viem";
 
-export type ParamsRequestUnlock = {};
+export type ParamsRequestUnlock = {
+  msgValue: bigint;
+};
 
-type FormattedParams = {};
+type FormattedParams = {
+  msgValue: bigint;
+};
 
 type Instance = {
   writeContract: ReturnType<
@@ -23,7 +27,9 @@ type Instance = {
 };
 
 function formatParams(params: ParamsRequestUnlock): FormattedParams {
-  return {};
+  return {
+    msgValue: params.msgValue,
+  };
 }
 
 function checkParams(params: ParamsRequestUnlock): string | undefined {
@@ -65,12 +71,13 @@ async function execute(
 ): Promise<ExecuteReturn> {
   try {
     // Format parameters for execution
-    const {} = formatParams(params);
+    const { msgValue } = formatParams(params);
     // Execute the transaction
     const hash = await instance.writeContract({
       // @dev Chain ID typesafety doing its job but getting in the way here
       chainId: instance.chainId as any,
       args: [],
+      value: msgValue,
     });
 
     return {

@@ -10,10 +10,12 @@ export type ParamsRequestWithdrawal = {
   symbol: string;
   amount: bigint;
   tokenDecimals: number;
+  msgValue: bigint;
 };
 
 type FormattedParams = {
   amount: bigint;
+  msgValue: bigint;
 };
 
 type Instance = {
@@ -30,6 +32,7 @@ type Instance = {
 function formatParams(params: ParamsRequestWithdrawal): FormattedParams {
   return {
     amount: parseUnits(params.amount.toString(), params.tokenDecimals),
+    msgValue: params.msgValue,
   };
 }
 
@@ -77,13 +80,14 @@ async function execute(
     if (!instance.address) throw Error("Contract address not found");
 
     // Format parameters for execution
-    const { amount } = formatParams(params);
+    const { amount, msgValue } = formatParams(params);
     // Execute the transaction
     const hash = await instance.writeContract({
       // @dev Chain ID typesafety doing its job but getting in the way here
       chainId: instance.chainId as any,
       address: instance.address,
       args: [amount],
+      value: msgValue,
     });
 
     return {
