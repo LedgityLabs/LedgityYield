@@ -8,14 +8,14 @@ import { Address, Hash, parseUnits } from "viem";
 
 export type ParamsRequestWithdrawal = {
   symbol: string;
-  amount: bigint;
+  amount: string;
   tokenDecimals: number;
-  msgValue: bigint;
+  msgValue: bigint | undefined;
 };
 
 type FormattedParams = {
   amount: bigint;
-  msgValue: bigint;
+  msgValue: bigint | undefined;
 };
 
 type Instance = {
@@ -37,10 +37,14 @@ function formatParams(params: ParamsRequestWithdrawal): FormattedParams {
 }
 
 function checkParams(params: ParamsRequestWithdrawal): string | undefined {
-  const { amount } = formatParams(params);
+  const { amount, msgValue } = formatParams(params);
 
   if (amount < 0n) {
     return "Invalid amount";
+  }
+
+  if (msgValue === undefined) {
+    return "Invalid msgValue";
   }
 
   return;

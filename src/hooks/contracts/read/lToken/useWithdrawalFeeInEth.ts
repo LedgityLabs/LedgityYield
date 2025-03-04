@@ -4,7 +4,7 @@ import { Address } from "viem";
 
 export function useLTokenWithdrawalFeeInEth(
   lTokenAddress: Address | undefined,
-): bigint {
+): bigint | undefined {
   const { appChainId } = useWeb3Context();
 
   const { data } = useReadLTokenWithdrawalFeeInEth({
@@ -17,5 +17,5 @@ export function useLTokenWithdrawalFeeInEth(
     },
   });
 
-  return data || 0n;
+  return data;
 }

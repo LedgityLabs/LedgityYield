@@ -8,11 +8,11 @@ import {
 import { Address, Hash } from "viem";
 
 export type ParamsRequestUnlock = {
-  msgValue: bigint;
+  msgValue: bigint | undefined;
 };
 
 type FormattedParams = {
-  msgValue: bigint;
+  msgValue: bigint | undefined;
 };
 
 type Instance = {
@@ -33,7 +33,11 @@ function formatParams(params: ParamsRequestUnlock): FormattedParams {
 }
 
 function checkParams(params: ParamsRequestUnlock): string | undefined {
-  const {} = formatParams(params);
+  const { msgValue } = formatParams(params);
+
+  if (msgValue === undefined) {
+    return "Invalid msgValue";
+  }
 
   return;
 }

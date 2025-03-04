@@ -8,7 +8,7 @@ import { Address, Hash, parseUnits } from "viem";
 
 export type ParamsInstantWithdrawal = {
   symbol: string;
-  amount: bigint;
+  amount: string;
   tokenDecimals: number;
 };
 
