@@ -34,6 +34,12 @@ export * from "./read/globalPause/usePaused";
 // PreMining read hooks
 export * from "./read/preMining/useAccountsLocks";
 
+// LDY Staking read hooks
+export * from "./read/ldyStaking/useGetEarnedUser";
+export * from "./read/ldyStaking/useGetUserStakes";
+export * from "./read/ldyStaking/useTotalWeightedStake";
+export * from "./read/ldyStaking/useRewardRatePerSec";
+
 // ============ Write ============ //
 
 // ERC-20 write hooks
