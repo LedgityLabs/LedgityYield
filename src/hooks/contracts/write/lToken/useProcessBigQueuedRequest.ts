@@ -31,7 +31,9 @@ function formatParams(params: ParamsProcessBigQueuedRequest): FormattedParams {
   };
 }
 
-function checkParams(params: ParamsProcessBigQueuedRequest): string | undefined {
+function checkParams(
+  params: ParamsProcessBigQueuedRequest,
+): string | undefined {
   const { requestId } = formatParams(params);
 
   if (requestId < 0) {
@@ -41,7 +43,7 @@ function checkParams(params: ParamsProcessBigQueuedRequest): string | undefined 
   return;
 }
 
-function makeInstance(address: Address): Instance {
+function makeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address)

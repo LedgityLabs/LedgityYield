@@ -8,7 +8,7 @@ import { Address, Hash, parseUnits } from "viem";
 
 export type ParamsRepatriate = {
   symbol: string;
-  amount: bigint;
+  amount: string;
   tokenDecimals: number;
 };
 
@@ -29,7 +29,7 @@ type Instance = {
 
 function formatParams(params: ParamsRepatriate): FormattedParams {
   return {
-    amount: parseUnits(params.amount.toString(), params.tokenDecimals),
+    amount: parseUnits(params.amount, params.tokenDecimals),
   };
 }
 
@@ -43,7 +43,7 @@ function checkParams(params: ParamsRepatriate): string | undefined {
   return;
 }
 
-function makeInstance(address: Address): Instance {
+function makeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address)

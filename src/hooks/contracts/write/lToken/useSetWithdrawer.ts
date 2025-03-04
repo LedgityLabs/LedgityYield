@@ -41,7 +41,7 @@ function checkParams(params: ParamsSetWithdrawer): string | undefined {
   return;
 }
 
-function makeInstance(address: Address): Instance {
+function makeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address)
