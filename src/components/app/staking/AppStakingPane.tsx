@@ -1,66 +1,48 @@
-import { ChangeEvent, FC, useEffect, useMemo, useRef, useState } from "react";
-import {
-  AllowanceTxButton,
-  Amount,
-  AmountInputWithLogo,
-  Button,
-  Spinner,
-} from "@/components/ui";
-import { Address, formatUnits, parseUnits } from "viem";
-import { UseSimulateContractReturnType } from "wagmi";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { useSimulateLdyStakingStake } from "@/types";
-import * as Slider from "@radix-ui/react-slider";
 import { StakeDurations } from "@/data/oldConstants";
+// Components
+import { StakeTx } from "@/components/contracts";
+import { AmountInputWithLogo, Button } from "@/components/ui";
+import * as Slider from "@radix-ui/react-slider";
+// Hooks
+import { useMemo, useRef, useState } from "react";
+// Functions
 import { getAPRCalculation } from "@/functions/getAPRCalculation";
+import { getTypedContractAddress } from "@/functions/getContractAddress";
+import { formatUnits, parseUnits } from "viem";
+// Types
+import { TokenInfo } from "@/types";
 
-export const AppStakingPane: FC<{
-  ldyTokenSymbol: string;
-  ldyTokenAddress: Address;
-  ldyTokenBalance: bigint;
-  ldyTokenDecimals: number;
-  rewardRate: number;
-  totalWeightedStake: number;
-}> = ({
-  ldyTokenSymbol = "LDY",
-  ldyTokenAddress,
+export function AppStakingPane({
+  ldyTokenData,
   ldyTokenBalance,
-  ldyTokenDecimals,
   rewardRate,
   totalWeightedStake,
-}) => {
-  const ldyStakingAddress = getContractAddress("LDYStaking");
-
+}: {
+  ldyTokenData: TokenInfo;
+  ldyTokenBalance: bigint;
+  rewardRate: number;
+  totalWeightedStake: number;
+}) {
   const inputEl = useRef<HTMLInputElement>(null);
+
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [stakeOptionIndex, setStakeOptionIndex] = useState(0);
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const safeLdyTokenBalance = ldyTokenBalance || 0n;
 
-  // Reset everything on ldyBalance change.
-  useEffect(() => {
-    // Reset input field
-    setDepositedAmount(0n);
-    setHasUserInteracted(false);
-    if (inputEl && inputEl.current) {
-      inputEl.current.value = "0";
-    }
-  }, [safeLdyTokenBalance]);
+  function handleSetPercent(percent: bigint) {
+    setDepositedAmount((safeLdyTokenBalance! * percent) / 100n);
+    if (inputEl.current)
+      inputEl.current.value = formatUnits(
+        (safeLdyTokenBalance! * percent) / 100n,
+        ldyTokenData.decimals,
+      );
+  }
 
   // Calculate APR based on stakeIndex and stakingAprInfo.
-  const APR = useMemo(() => {
-    return (
-      getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex) + "%"
-    );
-  }, [stakeOptionIndex, rewardRate, totalWeightedStake]);
-
-  const preparation = useSimulateLdyStakingStake({
-    args: [depositedAmount, stakeOptionIndex],
-  });
-
-  const memoizedPreparation = useMemo(() => {
-    return preparation as unknown as UseSimulateContractReturnType;
-  }, [preparation.data?.request, preparation.error, preparation.isLoading]);
+  const APR = useMemo(
+    () => getAPRCalculation(rewardRate, totalWeightedStake, stakeOptionIndex),
+    [stakeOptionIndex, rewardRate, totalWeightedStake],
+  );
 
   return (
     <div className="flex flex-col w-full p-4 gap-y-2 h-full">
@@ -70,12 +52,10 @@ export const AppStakingPane: FC<{
       <AmountInputWithLogo
         ref={inputEl}
         maxValue={safeLdyTokenBalance}
-        decimals={ldyTokenDecimals}
-        symbol={ldyTokenSymbol}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setDepositedAmount(parseUnits(e.target.value, ldyTokenDecimals!));
-          if (hasUserInteracted === false) setHasUserInteracted(true);
-          if (e.target.value === "") setHasUserInteracted(false);
+        decimals={ldyTokenData.decimals}
+        symbol={ldyTokenData.symbol}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setDepositedAmount(parseUnits(e.target.value, ldyTokenData.decimals));
         }}
       />
       <div className="grid gap-4 grid-cols-4">
@@ -83,14 +63,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount((safeLdyTokenBalance! * 25n) / 100n);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                (safeLdyTokenBalance! * 25n) / 100n,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handleSetPercent(25n)}
         >
           25%
         </Button>
@@ -98,14 +71,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount((safeLdyTokenBalance! * 50n) / 100n);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                (safeLdyTokenBalance! * 50n) / 100n,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handleSetPercent(50n)}
         >
           50%
         </Button>
@@ -113,14 +79,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount((safeLdyTokenBalance! * 75n) / 100n);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                (safeLdyTokenBalance! * 75n) / 100n,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handleSetPercent(75n)}
         >
           75%
         </Button>
@@ -128,14 +87,7 @@ export const AppStakingPane: FC<{
           size="small"
           variant="outline"
           className="hover:bg-primary-fg"
-          onClick={() => {
-            setDepositedAmount(safeLdyTokenBalance!);
-            if (inputEl.current)
-              inputEl.current.value = formatUnits(
-                safeLdyTokenBalance!,
-                ldyTokenDecimals!,
-              );
-          }}
+          onClick={() => handleSetPercent(100n)}
         >
           MAX
         </Button>
@@ -172,7 +124,6 @@ export const AppStakingPane: FC<{
                 {StakeDurations[3]}
               </span>
             </span>
-            {/* <Slider.Range className="absolute rounded-full h-full w-full" /> */}
           </Slider.Track>
           <Slider.Thumb
             className="block px-1 rounded-lg bg-primary text-sm text-primary-fg border-indigo-200 border-2 focus:ring-2 hover:cursor-pointer"
@@ -185,36 +136,30 @@ export const AppStakingPane: FC<{
 
       <div className="grid gap-4 grid-cols-2 h-full content-center">
         <div className="flex flex-col items-center">
-          {/* <div className="text-4xl font-bold">{(isFetchingAPR && <Spinner />) || APR}</div> */}
-          <div className="text-4xl font-bold">{APR}</div>
+          <div className="text-4xl font-bold">{`${APR} %`}</div>
           <div className="text-xl text-gray">APR</div>
         </div>
         <div className="flex flex-col items-center">
-          <AllowanceTxButton
-            size="medium"
-            preparation={memoizedPreparation}
-            token={ldyTokenAddress!}
-            spender={ldyStakingAddress!}
-            amount={depositedAmount}
-            disabled={depositedAmount === 0n}
-            hasUserInteracted={hasUserInteracted}
-            transactionSummary={
-              <span>
-                Deposit{" "}
-                <Amount
-                  value={depositedAmount}
-                  decimals={ldyTokenDecimals}
-                  suffix={ldyTokenSymbol}
-                  displaySymbol={true}
-                  className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
-                />{" "}
-              </span>
-            }
-          >
-            STAKE LDY
-          </AllowanceTxButton>
+          <StakeTx
+            buttonText="STAKE LDY"
+            disabled={!depositedAmount}
+            params={{
+              amount: formatUnits(depositedAmount, ldyTokenData.decimals),
+              tokenDecimals: ldyTokenData.decimals,
+              stakeDurationIndex: stakeOptionIndex,
+            }}
+            approveChecks={[
+              {
+                symbol: ldyTokenData.symbol,
+                token: ldyTokenData.address,
+                tokenDecimals: ldyTokenData.decimals,
+                spender: getTypedContractAddress("LDYStaking"),
+                amount: formatUnits(depositedAmount, ldyTokenData.decimals),
+              },
+            ]}
+          />
         </div>
       </div>
     </div>
   );
-};
+}

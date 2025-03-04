@@ -1,39 +1,28 @@
+// Components
 import { Card } from "@/components/ui";
-import { FC, useEffect } from "react";
-import { AppStakingPane } from "./AppStakingPane";
 import { AppStakingDescription } from "./AppStakingDescription";
+import { AppStakingPane } from "./AppStakingPane";
 import { AppStakingPools } from "./AppStakingPools";
-import { getContractAddress } from "@/functions/getContractAddress";
-import { usePublicClient, useReadContract } from "wagmi";
-import { erc20Abi, zeroAddress } from "viem";
-import {
-  useReadLdyStakingRewardRatePerSec,
-  useReadLdyStakingTotalWeightedStake,
-} from "@/types";
 // Hooks
-import { useBalanceOf } from "@/hooks/contracts";
-import { useQueryClient } from "@tanstack/react-query";
-// Context
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
+import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
+import {
+  useBalanceOf,
+  useRewardRatePerSec,
+  useTotalWeightedStake,
+} from "@/hooks/contracts";
 
-export const AppStaking: FC = () => {
+export function AppStaking() {
   const { currentAccount } = useWeb3Context();
-  const queryClient = useQueryClient();
-  const publicClient = usePublicClient();
-  const ldySymbol = "LDY";
-  const ldyTokenAddress = getContractAddress(ldySymbol);
+  const { tokenInfos } = useAppDataContext();
 
-  const ldyBalance = useBalanceOf(ldyTokenAddress, currentAccount);
+  const rewardRate = useRewardRatePerSec();
+  const totalWeightedStake = useTotalWeightedStake();
 
-  const { data: rewardRate, queryKey: rewardRateQuery } =
-    useReadLdyStakingRewardRatePerSec();
-  const { data: totalWeightedStake, queryKey: totalWeightedStakeQuery } =
-    useReadLdyStakingTotalWeightedStake();
-  const apyQueryKeys = [rewardRateQuery, totalWeightedStakeQuery];
+  const ldyTokenData = tokenInfos.find((token) => token.symbol === "LDY");
+  const ldyBalance = useBalanceOf(ldyTokenData?.address, currentAccount);
 
-  useEffect(() => {
-    apyQueryKeys.forEach((k) => queryClient.invalidateQueries({ queryKey: k }));
-  }, [currentAccount, publicClient, ldyBalance]);
+  if (!ldyTokenData) return <></>;
 
   return (
     <section className="lg:w-[1080px] grid grid-cols-12 gap-5 pb-10 w-full h-full px-2">
@@ -43,14 +32,13 @@ export const AppStaking: FC = () => {
         className="w-full flex flex-col col-span-12 xl:col-span-6 gap-2 p-2"
       >
         <AppStakingPane
-          ldyTokenSymbol={ldySymbol}
-          ldyTokenAddress={ldyTokenAddress || zeroAddress}
-          ldyTokenBalance={ldyBalance || 0n}
-          ldyTokenDecimals={18}
-          rewardRate={Number(rewardRate) || 0}
-          totalWeightedStake={Number(totalWeightedStake) || 0}
+          ldyTokenData={ldyTokenData}
+          ldyTokenBalance={ldyBalance}
+          rewardRate={Number(rewardRate)}
+          totalWeightedStake={Number(totalWeightedStake)}
         />
       </Card>
+
       <Card
         circleIntensity={0.07}
         defaultGradient={true}
@@ -58,19 +46,19 @@ export const AppStaking: FC = () => {
       >
         <AppStakingDescription />
       </Card>
+
       <Card
         circleIntensity={0.07}
         defaultGradient={false}
         className="w-full flex flex-col gap-8 col-span-12 before:bg-primary p-2"
       >
         <AppStakingPools
-          ldyTokenDecimals={18}
-          ldyTokenBalance={ldyBalance || 0n}
-          ldyTokenBalanceQuery={[]}
-          rewardRate={Number(rewardRate) || 0}
-          totalWeightedStake={Number(totalWeightedStake) || 0}
+          ldyTokenData={ldyTokenData}
+          ldyTokenBalance={ldyBalance}
+          rewardRate={Number(rewardRate)}
+          totalWeightedStake={Number(totalWeightedStake)}
         />
       </Card>
     </section>
   );
-};
+}

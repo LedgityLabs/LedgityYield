@@ -1,36 +1,22 @@
-import { useMemo } from "react";
-
-import { TxButton } from "@/components/ui";
-import { CarouselItem } from "@/components/ui/Carousel";
 import { OneMonth, StakeDurations } from "@/data/oldConstants";
+// Components
+import { CarouselItem } from "@/components/ui/Carousel";
+import { UnstakeTx, GetRewardTx } from "@/components/contracts";
+// Function
 import { getAPRCalculation } from "@/functions/getAPRCalculation";
-import {
-  useSimulateLdyStakingGetReward,
-  useSimulateLdyStakingUnstake,
-} from "@/types";
-import { QueryKey } from "@tanstack/react-query";
-//
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-//
-import { formatUnits } from "viem";
-import { UseSimulateContractReturnType } from "wagmi";
+import { formatUnits, parseUnits } from "viem";
+// Types
+import { TokenInfo, UserStakeData } from "@/types";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(duration);
-
-export type PoolInfo = {
-  stakedAmount: bigint;
-  unStakeAt: bigint;
-  duration: bigint;
-  rewardPerTokenPaid: bigint;
-  rewards: bigint;
-};
 
 function getTimeLeftString(futureDateInMilSeconds: number) {
   const futureDate = dayjs(futureDateInMilSeconds);
@@ -47,63 +33,40 @@ function getTimeLeftString(futureDateInMilSeconds: number) {
 
 export function AppStakingPoolPane({
   stakingInfo,
-  poolIndex,
-  ldyTokenDecimals,
-  rewardsArray,
+  ldyTokenData,
+  rewards,
   rewardRate,
   totalWeightedStake,
-  getUserStakesQuery,
-  ldyTokenBalanceQuery,
-  rewardsArrayQuery,
-  ...props
 }: {
-  stakingInfo: PoolInfo;
-  poolIndex: number;
-  ldyTokenDecimals: number;
-  rewardsArray: readonly bigint[] | undefined;
+  stakingInfo: UserStakeData;
+  ldyTokenData: TokenInfo;
+  rewards: bigint;
   rewardRate: number;
   totalWeightedStake: number;
-  getUserStakesQuery?: QueryKey;
-  ldyTokenBalanceQuery?: QueryKey;
-  rewardsArrayQuery?: QueryKey;
 }) {
-  const unstakePreparation = useSimulateLdyStakingUnstake({
-    args: [stakingInfo.stakedAmount, BigInt(poolIndex)],
-  });
-
-  const getRewardsPreparation = useSimulateLdyStakingGetReward({
-    args: [BigInt(poolIndex)],
-  });
-
-  const memoizedUnstakePreparation = useMemo(() => {
-    return unstakePreparation as unknown as UseSimulateContractReturnType;
-  }, [
-    unstakePreparation.data?.request,
-    unstakePreparation.error,
-    unstakePreparation.isLoading,
-  ]);
-
-  const memoizedGetRewardsPreparation = useMemo(() => {
-    return getRewardsPreparation as unknown as UseSimulateContractReturnType;
-  }, [
-    getRewardsPreparation.data?.request,
-    getRewardsPreparation.error,
-    getRewardsPreparation.isLoading,
-  ]);
-
   const formattedAmountRewards = Number(
-    formatUnits(BigInt(stakingInfo.rewards), ldyTokenDecimals),
+    formatUnits(BigInt(stakingInfo.rewards), ldyTokenData.decimals),
   ).toFixed(4);
+
+  const stakingApr = getAPRCalculation(
+    rewardRate,
+    totalWeightedStake,
+    StakeDurations.findIndex((duration) => {
+      return duration == Number(stakingInfo.duration) / OneMonth;
+    }),
+  );
 
   return (
     <CarouselItem className="px-2 md:basis-1/2 lg:basis-1/3">
       <div className="p-3 lg:p-4 rounded-lg bg-card-content-default">
         <div className="flex flex-col justify-start">
-          <span className="font-semibold text-lg">Pool #{poolIndex + 1}</span>
+          <span className="font-semibold text-lg">
+            Pool #{stakingInfo.stakeIndex + 1n}
+          </span>
           <div className="flex text-sm justify-between">
             <span>Staked Amount</span>
             <span className="font-semibold">
-              {formatUnits(stakingInfo.stakedAmount, ldyTokenDecimals!)}
+              {formatUnits(stakingInfo.stakedAmount, ldyTokenData.decimals)}
             </span>
           </div>
           <div className="flex text-sm justify-between">
@@ -128,16 +91,7 @@ export function AppStakingPoolPane({
           </div>
           <div className="flex text-sm justify-between">
             <span>APY</span>
-            <span className="font-semibold">
-              {getAPRCalculation(
-                rewardRate,
-                totalWeightedStake,
-                StakeDurations.findIndex((duration) => {
-                  return duration == Number(stakingInfo.duration) / OneMonth;
-                }),
-              )}
-              %
-            </span>
+            <span className="font-semibold">{`${stakingApr} %`}</span>
           </div>
           <div className="flex text-sm justify-between">
             <span>Time Left</span>
@@ -146,46 +100,29 @@ export function AppStakingPoolPane({
             </span>
           </div>
           <div className="flex py-1 w-full">
-            <TxButton
-              preparation={memoizedUnstakePreparation}
-              variant="primary"
-              size="tiny"
+            <UnstakeTx
+              buttonText="Unstake LDY"
               disabled={dayjs().isBefore(Number(stakingInfo.unStakeAt) * 1000)}
+              params={{
+                stakeIndex: stakingInfo.stakeIndex,
+                amount: formatUnits(
+                  stakingInfo.stakedAmount,
+                  ldyTokenData.decimals,
+                ),
+                tokenDecimals: ldyTokenData.decimals,
+              }}
               className="w-full"
-              queryKeys={[
-                ldyTokenBalanceQuery,
-                getUserStakesQuery,
-                rewardsArrayQuery,
-              ]}
-            >
-              UNSTAKE
-            </TxButton>
+            />
           </div>
           <div className="flex py-1 w-full">
-            <TxButton
-              preparation={memoizedGetRewardsPreparation}
-              variant="outline"
-              size="tiny"
-              disabled={
-                Number(
-                  formatUnits(
-                    BigInt(rewardsArray?.[poolIndex] || 0),
-                    ldyTokenDecimals!,
-                  ),
-                ) < 0.0001
-              }
+            <GetRewardTx
+              buttonText="Claim Rewards"
+              disabled={rewards < parseUnits("0.0001", ldyTokenData.decimals)}
+              params={{
+                stakeIndex: stakingInfo.stakeIndex,
+              }}
               className="w-full"
-              queryKeys={[rewardsArrayQuery, ldyTokenBalanceQuery]}
-            >
-              CLAIM{" "}
-              {Number(
-                formatUnits(
-                  BigInt(rewardsArray?.[poolIndex] || 0),
-                  ldyTokenDecimals!,
-                ),
-              ).toFixed(4)}{" "}
-              Token
-            </TxButton>
+            />
           </div>
         </div>
       </div>
