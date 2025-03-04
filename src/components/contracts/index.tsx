@@ -82,11 +82,11 @@ type TxButtonProps<T> = ExternalButtonProps<T> & OptionalParams<T>;
 
 // When the tx interacts with a contract without token dependencies
 type TxButtonSetProps<T> = ExternalButtonProps<T> &
-  OptionalParams<T> & { contractAddress: Address };
+  OptionalParams<T> & { contractAddress: Address | undefined };
 
 // When the tx interacts directly with a token
 type TxTokenButtonProps<T> = ExternalButtonProps<T> &
-  OptionalParams<T> & { tokenAddress: Address };
+  OptionalParams<T> & { tokenAddress: Address | undefined };
 
 // When the tx depends on a token and might require approval
 type TxButtonApproveProps<T> = ExternalButtonProps<T> &
@@ -95,7 +95,7 @@ type TxButtonApproveProps<T> = ExternalButtonProps<T> &
 // When the tx depends on a token and might require approval for a set of contracts
 type TxButtonSetApproveProps<T> = ExternalButtonProps<T> &
   OptionalParams<T> & {
-    contractAddress: Address;
+    contractAddress: Address | undefined;
     approveChecks: ERC20ApproveCheck[];
   };
 
@@ -180,7 +180,7 @@ export const {
   ),
 
   // ====== LToken ====== //
-  SetAprTx: (props: TxButtonSetApproveProps<ParamsSetApr>) => (
+  SetAprTx: (props: TxButtonSetProps<ParamsSetApr>) => (
     <TxButtonWrapper
       {...props}
       makeDescription={txModalDescriptions.SetApr}
