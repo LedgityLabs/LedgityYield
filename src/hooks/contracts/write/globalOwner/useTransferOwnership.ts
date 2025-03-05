@@ -43,7 +43,7 @@ function makeInstance(): Instance {
   const address = getTypedContractAddress("GlobalOwner");
 
   if (!address)
-    console.error(
+    console.warn(
       `Contract address of ${"GlobalOwner"} not found for chainId ${appChainId}`,
     );
 

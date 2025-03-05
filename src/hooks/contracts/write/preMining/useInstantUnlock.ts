@@ -37,7 +37,7 @@ function makeInstance(): Instance {
   const address = getTypedContractAddress("PreMining");
 
   if (!address)
-    console.error(
+    console.warn(
       `Contract address of ${"PreMining"} not found for chainId ${appChainId}`,
     );
 

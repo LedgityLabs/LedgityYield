@@ -47,7 +47,7 @@ function makeInstance(): Instance {
   const address = getTypedContractAddress("LTokenSignaler");
 
   if (!address)
-    console.error(
+    console.warn(
       `Contract address of ${"LTokenSignaler"} not found for chainId ${appChainId}`,
     );
 

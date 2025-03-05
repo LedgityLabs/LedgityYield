@@ -55,7 +55,7 @@ function checkParams(params: ParamsApprove): string | undefined {
 function makeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
-  if (!address) console.error(`Contract address of the token is missing`);
+  if (!address) console.warn(`Contract address of the token is missing`);
 
   // Hook for transaction execution only
   const {

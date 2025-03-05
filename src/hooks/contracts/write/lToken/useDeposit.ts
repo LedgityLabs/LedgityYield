@@ -48,7 +48,7 @@ function makeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address)
-    console.error(
+    console.warn(
       `Contract address of token not found for chainId ${appChainId}`,
     );
 

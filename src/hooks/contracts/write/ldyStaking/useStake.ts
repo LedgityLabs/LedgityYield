@@ -57,7 +57,7 @@ function makeInstance(): Instance {
   const address = getTypedContractAddress("LDYStaking");
 
   if (!address)
-    console.error(
+    console.warn(
       `Contract address of ${"LdyStaking"} not found for chainId ${appChainId}`,
     );
 

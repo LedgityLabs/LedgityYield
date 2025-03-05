@@ -37,7 +37,7 @@ function makeInstance(): Instance {
   const address = getTypedContractAddress("GlobalPause");
 
   if (!address)
-    console.error(
+    console.warn(
       `Contract address of ${"GlobalPause"} not found for chainId ${appChainId}`,
     );
 
