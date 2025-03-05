@@ -18,7 +18,7 @@ import { useState } from "react";
 // Functions
 import { createTestClient, http, parseUnits } from "viem";
 
-export function AdminTestin() {
+export function AdminTesting() {
   const { currentAccount } = useWeb3Context();
   const { tokenInfos } = useAppDataContext();
 

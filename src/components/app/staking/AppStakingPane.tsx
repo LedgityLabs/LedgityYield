@@ -7,7 +7,7 @@ import * as Slider from "@radix-ui/react-slider";
 import { useMemo, useRef, useState } from "react";
 // Functions
 import { getAPRCalculation } from "@/functions/getAPRCalculation";
-import { getTypedContractAddress } from "@/functions/getContractAddress";
+import { useGetContractAddress } from "@/hooks/useGetContractAddress";
 import { formatUnits, parseUnits } from "viem";
 // Types
 import { TokenInfo } from "@/types";
@@ -23,6 +23,7 @@ export function AppStakingPane({
   rewardRate: number;
   totalWeightedStake: number;
 }) {
+  const ldyStakingAddress = useGetContractAddress("LDYStaking");
   const inputEl = useRef<HTMLInputElement>(null);
 
   const [depositedAmount, setDepositedAmount] = useState(0n);
@@ -153,7 +154,7 @@ export function AppStakingPane({
                 symbol: ldyTokenData.symbol,
                 token: ldyTokenData.address,
                 tokenDecimals: ldyTokenData.decimals,
-                spender: getTypedContractAddress("LDYStaking"),
+                spender: ldyStakingAddress,
                 amount: formatUnits(depositedAmount, ldyTokenData.decimals),
               },
             ]}

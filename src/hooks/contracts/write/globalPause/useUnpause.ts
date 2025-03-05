@@ -1,4 +1,4 @@
-import { getTypedContractAddress } from "@/functions/getContractAddress";
+import { useGetContractAddress } from "@/hooks/useGetContractAddress";
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
   useWriteGlobalPauseUnpause,
@@ -34,7 +34,7 @@ function checkParams(params: ParamsUnpause): string | undefined {
 
 function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
-  const address = getTypedContractAddress("GlobalPause");
+  const address = useGetContractAddress("GlobalPause");
 
   if (!address)
     console.warn(

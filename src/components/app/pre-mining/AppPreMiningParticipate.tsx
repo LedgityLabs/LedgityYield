@@ -13,11 +13,11 @@ import {
 } from "@/hooks/contracts";
 // Functions
 import { formatUnits, parseUnits } from "viem";
-import { getContractAddress } from "@/functions/getContractAddress";
+import { useGetContractAddress } from "@/hooks/useGetContractAddress";
 
 export function AppPreMiningParticipate({ className }: { className?: string }) {
   const { currentAccount } = useWeb3Context();
-  const lTokenAddress = getContractAddress(`LUSDC`);
+  const lTokenAddress = useGetContractAddress(`LUSDC`);
 
   const withdrawalFeeInEth = useLTokenWithdrawalFeeInEth(lTokenAddress);
   const { lockAmount, lockDuration, lockStart, lockEnd, lockUnlocked } =

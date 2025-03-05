@@ -1,4 +1,4 @@
-import { getTypedContractAddress } from "@/functions/getContractAddress";
+import { useGetContractAddress } from "@/hooks/useGetContractAddress";
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
   useWriteLdyStakingUnstake,
@@ -52,7 +52,7 @@ function checkParams(params: ParamsUnstake): string | undefined {
 
 function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
-  const address = getTypedContractAddress("LDYStaking");
+  const address = useGetContractAddress("LDYStaking");
 
   if (!address)
     console.warn(

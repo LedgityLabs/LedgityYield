@@ -5,7 +5,7 @@ import {
   useWriteLTokenSignalerSignalLToken,
 } from "@/types";
 import { Address, Hash, zeroAddress } from "viem";
-import { getTypedContractAddress } from "@/functions/getContractAddress";
+import { useGetContractAddress } from "@/hooks/useGetContractAddress";
 
 export type ParamsSignalLToken = {
   lTokenAddress: Address;
@@ -44,7 +44,7 @@ function checkParams(params: ParamsSignalLToken): string | undefined {
 
 function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
-  const address = getTypedContractAddress("LTokenSignaler");
+  const address = useGetContractAddress("LTokenSignaler");
 
   if (!address)
     console.warn(

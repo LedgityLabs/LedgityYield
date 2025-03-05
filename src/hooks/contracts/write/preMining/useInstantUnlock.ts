@@ -1,4 +1,4 @@
-import { getTypedContractAddress } from "@/functions/getContractAddress";
+import { useGetContractAddress } from "@/hooks/useGetContractAddress";
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
   useWritePreMiningInstantUnlock,
@@ -34,7 +34,7 @@ function checkParams(params: ParamsInstantUnlock): string | undefined {
 
 function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
-  const address = getTypedContractAddress("PreMining");
+  const address = useGetContractAddress("PreMining");
 
   if (!address)
     console.warn(
