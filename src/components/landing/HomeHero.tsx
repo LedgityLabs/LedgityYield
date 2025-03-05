@@ -7,10 +7,8 @@ import Link from "next/link";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const HomeHero: FC<Props> = ({ className }) => {
-  const heroSection = useRef<HTMLDivElement>(null);
   return (
     <section
-      ref={heroSection}
       className={twMerge(
         "-mt-[97px] ",
         "before:absolute before:inset-0 before:bg-[url('/assets/textures/glow-light.webp')] before:bg-cover before:bg-[left_30%_bottom_0%] md:before:bg-center before:opacity-90",

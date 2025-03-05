@@ -44,7 +44,6 @@ export function DepositDialog({
     currentAccount,
   );
 
-  const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
 
   // Fetch restriction status
@@ -109,7 +108,6 @@ export function DepositDialog({
             <DialogFooter>
               <div className="mt-6 flex items-end justify-between gap-4 mb-3 w-full">
                 <AmountInput
-                  ref={inputEl}
                   maxValue={underlyingBalance}
                   decimals={underlyingTokenData.decimals}
                   symbol={underlyingTokenData.symbol}

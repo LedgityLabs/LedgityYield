@@ -38,12 +38,10 @@ export const nextAuthOptions: NextAuthOptions = {
     brandColor: "#6366f1",
   },
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, user }: any) {
       if (session.user) {
         session.user.id = user.id;
-        //@ts-ignore
         session.user.twitterId = user.twitterId;
-        //@ts-ignore
         session.user.walletAddress = user.walletAddress;
       }
       return session;
