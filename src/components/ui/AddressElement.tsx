@@ -1,3 +1,5 @@
+"use client";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { useTokenInfos } from "@/hooks/contracts";
 import { FC } from "react";

@@ -7,6 +7,7 @@ import { useLocalStorage } from "@/hooks/utils/useLocalStorage";
 import { zeroAddress } from "viem";
 // Types
 import { TokenInfo, genericErc20Abi } from "@/types";
+import { Address } from "viem";
 
 const NB_DATA_POINTS = 3;
 
@@ -30,7 +31,9 @@ export function useTokenInfos(
     setCurrentValue([]);
   }, [appChainId]);
 
-  const tokensFiltered = [...new Set(tokenAddresses)].filter(
+  const tokensFiltered = [
+    ...new Set(tokenAddresses.map((el) => el?.toLowerCase() as Address)),
+  ].filter(
     (address) =>
       address !== "0x0000000000000000000000000000000000000000" &&
       address !== undefined,
@@ -49,7 +52,7 @@ export function useTokenInfos(
         address,
         abi: genericErc20Abi,
         chainId: appChainId,
-        functionName: "symbdol",
+        functionName: "symbol",
       },
       {
         address,
@@ -68,7 +71,10 @@ export function useTokenInfos(
   });
 
   useEffect(() => {
-    if (error || !data) {
+    if (!data) return;
+
+    if (error || data.some((data) => data.error !== undefined)) {
+      console.error("Some token info calls have failed");
       return;
     }
 

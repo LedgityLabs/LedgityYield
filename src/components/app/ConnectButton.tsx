@@ -68,7 +68,7 @@ export function ConnectButton() {
         </SelectTrigger>
         <SelectContent>
           {networkConfigs.map((config, i) => (
-            <SelectItem value={config.chainId.toString()} key={i}>
+            <SelectItem key={i} value={config.chainId.toString()}>
               <div className="flex justify-center items-center gap-[0.6rem]">
                 <NetworkIcon chainName={config.name} chainId={config.chainId} />
                 <span className="font-semibold sm:inline hidden">

@@ -1,7 +1,11 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { twMerge } from "tailwind-merge";
 // Components
+import { DepositDialog } from "@/components/app/DepositDialog";
+import { WithdrawDialog } from "@/components/app/WithdrawDialog";
 import { Amount, Button, Rate } from "@/components/ui";
+import { TokenLogo } from "@/components/ui/TokenLogo";
+import { getSortIcon } from "@/functions/helpers";
 import {
   SortingState,
   createColumnHelper,
@@ -10,14 +14,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { TokenLogo } from "@/components/ui/TokenLogo";
-import { DepositDialog } from "@/components/app/DepositDialog";
-import { WithdrawDialog } from "@/components/app/WithdrawDialog";
-import { getSortIcon } from "@/functions/helpers";
 // Hooks
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 // Context
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
+// Types
+import { LTokenInfo, TokenInfo } from "@/types";
 
 type Pool = {
   underlyingSymbol: string;
@@ -25,6 +27,8 @@ type Pool = {
   tvl: number;
   invested: bigint;
   decimals: number;
+  lTokenData: LTokenInfo;
+  underlyingTokenData: TokenInfo | undefined;
 };
 
 /**
@@ -40,14 +44,12 @@ type Pool = {
  *    with most up to date data.
  */
 export function AppInvestTokens({ className }: { className?: string }) {
-  const { lTokenInfosCurrentChain, tvlMetrics } = useAppDataContext();
+  const { lTokenInfosCurrentChain, tokenInfos, tvlMetrics } =
+    useAppDataContext();
   const [sorting, setSorting] = useState<SortingState>([]);
   const columnHelper = createColumnHelper<Pool>();
   const [isLoading, setIsLoading] = useState(true);
   const [tableData, setTableData] = useState<Pool[]>([]);
-
-  let isActionsDialogOpen = useRef(false);
-  let futureTableData = useRef<Pool[]>([]);
 
   useEffect(() => {
     if (lTokenInfosCurrentChain.length === 0) {
@@ -55,9 +57,15 @@ export function AppInvestTokens({ className }: { className?: string }) {
       return;
     }
 
-    const newTableData = lTokenInfosCurrentChain.map((data) => {
-      const { symbol, apr, balance, decimals } = data;
+    const newTableData = lTokenInfosCurrentChain.map((lTokenData) => {
+      const { symbol, apr, balance, decimals } = lTokenData;
       const tokenTvl = tvlMetrics.byToken[symbol] || 0;
+
+      const underlyingTokenData = tokenInfos.find(
+        (tokenInfo) =>
+          tokenInfo.address.toLowerCase() ===
+          lTokenData.underlying.toLowerCase(),
+      );
 
       return {
         underlyingSymbol: symbol.slice(1),
@@ -65,6 +73,9 @@ export function AppInvestTokens({ className }: { className?: string }) {
         tvl: tokenTvl,
         decimals,
         apr: apr,
+        //
+        lTokenData: lTokenData,
+        underlyingTokenData,
       };
     });
 
@@ -73,7 +84,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
       setTableData(newTableData);
       setIsLoading(false);
     }
-  }, [lTokenInfosCurrentChain]);
+  }, [lTokenInfosCurrentChain, tokenInfos]);
 
   const columns = [
     columnHelper.accessor("underlyingSymbol", {
@@ -140,19 +151,15 @@ export function AppInvestTokens({ className }: { className?: string }) {
     columnHelper.display({
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => {
-        const underlyingSymbol = row.getValue("underlyingSymbol") as string;
+      cell: (info) => {
+        const lTokenData = info.row.original.lTokenData;
+        const underlyingTokenData = info.row.original.underlyingTokenData;
+
         return (
           <div className="flex items-center sm:gap-4 gap-2">
             <DepositDialog
-              underlyingSymbol={underlyingSymbol}
-              onOpenChange={(o) => {
-                isActionsDialogOpen.current = o;
-                if (o === false && futureTableData.current.length > 0) {
-                  setTableData(futureTableData.current);
-                  futureTableData.current = [];
-                }
-              }}
+              lTokenData={lTokenData}
+              underlyingTokenData={underlyingTokenData}
             >
               <Button
                 size="small"
@@ -165,14 +172,8 @@ export function AppInvestTokens({ className }: { className?: string }) {
               </Button>
             </DepositDialog>
             <WithdrawDialog
-              underlyingSymbol={underlyingSymbol}
-              onOpenChange={(o) => {
-                isActionsDialogOpen.current = o;
-                if (o === false && futureTableData.current.length > 0) {
-                  setTableData(futureTableData.current);
-                  futureTableData.current = [];
-                }
-              }}
+              lTokenData={lTokenData}
+              underlyingTokenData={underlyingTokenData}
             >
               <Button
                 size="small"

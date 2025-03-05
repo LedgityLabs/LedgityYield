@@ -49,8 +49,8 @@ export function AdminLTokens() {
           <SelectValue placeholder="No L-Tokens available" />
         </SelectTrigger>
         <SelectContent>
-          {lTokenInfosCurrentChain.map((token) => (
-            <SelectItem key={token.symbol} value={token.symbol}>
+          {lTokenInfosCurrentChain.map((token, i) => (
+            <SelectItem key={i} value={token.symbol}>
               <div className="flex justify-center items-center gap-[0.6rem]">
                 <TokenLogo symbol={token.symbol} size={28} />
                 <p className="font-semibold">{token.symbol}</p>

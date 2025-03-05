@@ -16,6 +16,7 @@ import {
   DialogTrigger,
   Spinner,
 } from "@/components/ui";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 // Hooks
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import {
@@ -36,19 +37,19 @@ export function WithdrawDialog({
   underlyingTokenData,
 }: {
   children: React.ReactNode;
-  lTokenData: LTokenInfo;
-  underlyingTokenData: TokenInfo;
+  lTokenData: LTokenInfo | undefined;
+  underlyingTokenData: TokenInfo | undefined;
 }) {
   const { currentAccount } = useWeb3Context();
-  const lTokenBalance = useBalanceOf(lTokenData.address, currentAccount);
+  const lTokenBalance = useBalanceOf(lTokenData?.address, currentAccount);
 
-  const withdrawalFeeInEth = useLTokenWithdrawalFeeInEth(lTokenData.address);
+  const withdrawalFeeInEth = useLTokenWithdrawalFeeInEth(lTokenData?.address);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
 
   const canInstantWithdraw = useCanInstantWithdraw(
-    lTokenData.address,
+    lTokenData?.address,
     currentAccount,
     withdrawnAmount,
   );
@@ -56,22 +57,28 @@ export function WithdrawDialog({
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();
 
+  const isLoading = isRestrictionLoading || !lTokenData || !underlyingTokenData;
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
+      <VisuallyHidden id="withdraw modal">
+        <DialogTitle></DialogTitle>
+      </VisuallyHidden>
       <DialogContent
+        aria-describedby={"withdraw modal"}
         onOpenAutoFocus={(e) => {
           e.preventDefault();
           inputEl.current?.focus();
         }}
       >
-        {isRestrictionLoading && (
+        {isLoading && (
           <div className="py-8 px-16 text-2xl">
             <Spinner />
           </div>
         )}
 
-        {!isRestrictionLoading && isRestricted && (
+        {!isLoading && isRestricted && (
           <div className="flex flex-col gap-5 text-lg justify-center items-center">
             <span className="text-[5rem] leading-[5rem]">🤷</span>
             <span className="text-center font-semibold">
@@ -90,7 +97,7 @@ export function WithdrawDialog({
           </div>
         )}
 
-        {!isRestrictionLoading && !isRestricted && (
+        {!isLoading && !isRestricted && (
           <>
             <DialogHeader>
               <DialogTitle>Withdraw {underlyingTokenData.symbol}</DialogTitle>

@@ -54,7 +54,7 @@ export function AppDataContextProvider({
 
       setReferralCode(referralCode);
     }
-  }, [searchParams]);
+  }, []);
 
   // ==== Token Datas ==== //
 
@@ -68,13 +68,14 @@ export function AppDataContextProvider({
   const lTokenInfosCurrentChain = lTokenInfos.filter(
     (lToken) => lToken.chainId === appChainId,
   );
+
+  // @dev Safe to cast since strings in the Set are Address typed
   const tokens = [
-    ...new Set(
-      ...lTokenInfos.map((lToken) => lToken.underlying),
-      ...Object.values(dependenciesAddresses[appChainId]),
-    ),
-  ] as Address[]; // @dev Safe since strings in the Set are Address typed
+    ...lTokenInfos.map((lToken) => lToken.underlying),
+    ...Object.values(dependenciesAddresses[appChainId]),
+  ] as Address[];
   const tokenInfos = useTokenInfos(tokens);
+
 
   // ==== Prices ==== //
 

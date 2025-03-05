@@ -20,7 +20,10 @@ export function AppDashboardBalances({ className }: { className?: string }) {
 
   const underlyingTokenInfos = lTokenInfosCurrentChain
     .map((lTokenInfo) =>
-      tokenInfos.find((tokenInfo) => tokenInfo.symbol === lTokenInfo.symbol),
+      tokenInfos.find(
+        (tokenInfo) =>
+          tokenInfo.address.toLowerCase() === lTokenInfo.address.toLowerCase(),
+      ),
     )
     .filter((el) => !!el);
 

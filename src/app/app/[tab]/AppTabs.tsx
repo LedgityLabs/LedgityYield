@@ -97,10 +97,9 @@ export function AppTabs({ tabParams }: { tabParams: TabParam[] }) {
       </Link>
 
       <TabsList className="mb-6 mt-12 sm:w-fit w-[250px]">
-        {tabParams.map((tab, i) =>
-          tab.isHidden ? (
-            <></>
-          ) : (
+        {tabParams
+          .filter((tab) => !tab.isHidden)
+          .map((tab, i) => (
             <TabsTrigger key={i} value={tab.tab}>
               {tab.title}
               {tab.tab === "staking" && (
@@ -116,8 +115,7 @@ export function AppTabs({ tabParams }: { tabParams: TabParam[] }) {
                 </div>
               )}
             </TabsTrigger>
-          ),
-        )}
+          ))}
       </TabsList>
 
       <div className="sm:px-5 max-w-[100vw]">

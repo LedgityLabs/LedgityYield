@@ -13,6 +13,7 @@ import {
   DialogTrigger,
   Spinner,
 } from "@/components/ui";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 // Hooks
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
@@ -30,13 +31,13 @@ export function DepositDialog({
   underlyingTokenData,
 }: {
   children: React.ReactNode;
-  lTokenData: LTokenInfo;
-  underlyingTokenData: TokenInfo;
+  lTokenData: LTokenInfo | undefined;
+  underlyingTokenData: TokenInfo | undefined;
 }) {
   const { referralCode } = useAppDataContext();
   const { currentAccount } = useWeb3Context();
   const underlyingBalance = useBalanceOf(
-    underlyingTokenData.address,
+    underlyingTokenData?.address,
     currentAccount,
   );
 
@@ -46,22 +47,22 @@ export function DepositDialog({
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();
 
+  const isLoading = isRestrictionLoading || !lTokenData || !underlyingTokenData;
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent
-        onOpenAutoFocus={(e) => {
-          e.preventDefault();
-          inputEl.current?.focus();
-        }}
-      >
-        {isRestrictionLoading && (
+      <VisuallyHidden id="deposit modal">
+        <DialogTitle> </DialogTitle>
+      </VisuallyHidden>
+      <DialogContent aria-describedby={"deposit modal"}>
+        {isLoading && (
           <div className="py-8 px-16 text-2xl">
             <Spinner />
           </div>
         )}
 
-        {!isRestrictionLoading && isRestricted && (
+        {!isLoading && isRestricted && (
           <div className="flex flex-col gap-5 text-lg justify-center items-center">
             <span className="text-[5rem] leading-[5rem]">🤷</span>
             <span className="text-center font-semibold">
@@ -80,7 +81,7 @@ export function DepositDialog({
           </div>
         )}
 
-        {!isRestrictionLoading && !isRestricted && (
+        {!isLoading && !isRestricted && (
           <>
             <DialogHeader>
               <DialogTitle>Deposit {underlyingTokenData.symbol}</DialogTitle>

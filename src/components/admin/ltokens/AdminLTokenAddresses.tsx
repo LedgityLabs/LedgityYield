@@ -67,8 +67,8 @@ export function AdminLTokenAddresses({ tokenData }: { tokenData: LTokenInfo }) {
 
   return (
     <AdminBrick title="Addresses" className="gap-10">
-      {actionConfigs.map(({ title, current, setter, button }) => (
-        <div className="flex flex-col gap-5">
+      {actionConfigs.map(({ title, current, setter, button }, i) => (
+        <div key={i} className="flex flex-col gap-5">
           <h4 className="text-lg font-semibold">{title}</h4>
           <p>
             Current address:{" "}
