@@ -43,7 +43,7 @@ function checkParams(params: ParamsInstantWithdrawal): string | undefined {
   return;
 }
 
-function makeInstance(address: Address | undefined): Instance {
+function useMakeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address)
@@ -99,7 +99,7 @@ async function execute(
 }
 
 export const configInstantWithdrawal = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

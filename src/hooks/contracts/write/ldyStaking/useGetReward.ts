@@ -42,7 +42,7 @@ function checkParams(params: ParamsGetReward): string | undefined {
   return;
 }
 
-function makeInstance(): Instance {
+function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
   const address = getTypedContractAddress("LDYStaking");
 
@@ -96,7 +96,7 @@ async function execute(
 }
 
 export const configGetReward = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

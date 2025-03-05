@@ -50,7 +50,7 @@ function checkParams(params: ParamsUnstake): string | undefined {
   return;
 }
 
-function makeInstance(): Instance {
+function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
   const address = getTypedContractAddress("LDYStaking");
 
@@ -104,7 +104,7 @@ async function execute(
 }
 
 export const configUnstake = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

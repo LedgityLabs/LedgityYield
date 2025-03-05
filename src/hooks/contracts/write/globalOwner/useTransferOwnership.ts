@@ -38,7 +38,7 @@ function checkParams(params: ParamsTransferOwnership): string | undefined {
   return;
 }
 
-function makeInstance(): Instance {
+function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
   const address = getTypedContractAddress("GlobalOwner");
 
@@ -92,7 +92,7 @@ async function execute(
 }
 
 export const configTransferOwnership = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

@@ -19,7 +19,7 @@ import { UseCallInstance, ExecuteReturn } from "@/types";
 // the config of each button manages adequate typing
 type ButtonConfig<T> = {
   checkParams: (params: T) => string | undefined;
-  makeInstance: () => UseCallInstance;
+  useMakeInstance: () => UseCallInstance;
   simulate?: (
     instance: UseCallInstance,
     params: T,
@@ -125,7 +125,7 @@ export function TxButtonWrapper<T>({
   const getApprovalERC20 = useCallback((): ApprovalOperation | undefined => {
     const approveInstances = approveChecks.map((check) => ({
       token: check.token,
-      instance: configApprove.makeInstance(check.token),
+      instance: configApprove.useMakeInstance(check.token),
     }));
 
     if (!approveChecks.length || !allowances?.length) return;
@@ -168,7 +168,7 @@ export function TxButtonWrapper<T>({
    * These are transaction hook instances for approval or the main transaction
    */
   const approveAction = getApprovalERC20();
-  const baseInstance = buttonConfig.makeInstance();
+  const baseInstance = buttonConfig.useMakeInstance();
   const currentInstance = txState.pendingApprove
     ? currentApproveAction?.instance || approveAction?.instance
     : baseInstance;

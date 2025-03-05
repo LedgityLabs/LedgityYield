@@ -42,7 +42,7 @@ function checkParams(params: ParamsSignalLToken): string | undefined {
   return;
 }
 
-function makeInstance(): Instance {
+function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
   const address = getTypedContractAddress("LTokenSignaler");
 
@@ -98,7 +98,7 @@ async function execute(
 }
 
 export const configSignalLToken = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

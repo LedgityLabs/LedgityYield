@@ -39,7 +39,7 @@ function checkParams(params: ParamsSetApr): string | undefined {
   return;
 }
 
-function makeInstance(address: Address | undefined): Instance {
+function useMakeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address)
@@ -95,7 +95,7 @@ async function execute(
 }
 
 export const configSetApr = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

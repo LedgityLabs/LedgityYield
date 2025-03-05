@@ -32,7 +32,7 @@ function checkParams(params: ParamsUnpause): string | undefined {
   return;
 }
 
-function makeInstance(): Instance {
+function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
   const address = getTypedContractAddress("GlobalPause");
 
@@ -86,7 +86,7 @@ async function execute(
 }
 
 export const configUnpause = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };

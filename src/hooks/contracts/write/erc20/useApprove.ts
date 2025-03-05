@@ -52,7 +52,7 @@ function checkParams(params: ParamsApprove): string | undefined {
   return;
 }
 
-function makeInstance(address: Address | undefined): Instance {
+function useMakeInstance(address: Address | undefined): Instance {
   const { appChainId } = useWeb3Context();
 
   if (!address) console.warn(`Contract address of the token is missing`);
@@ -133,7 +133,7 @@ async function execute(
 }
 
 export const configApprove = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   simulate,
   execute,

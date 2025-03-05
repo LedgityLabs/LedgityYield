@@ -141,7 +141,8 @@ export const {
       makeDescription={txModalDescriptions.Approve}
       buttonConfig={{
         ...configApprove,
-        makeInstance: () => configApprove.makeInstance(props.tokenAddress),
+        useMakeInstance: () =>
+          configApprove.useMakeInstance(props.tokenAddress),
       }}
     />
   ),
@@ -152,7 +153,7 @@ export const {
       makeDescription={txModalDescriptions.Mint}
       buttonConfig={{
         ...configMint,
-        makeInstance: () => configMint.makeInstance(props.tokenAddress),
+        useMakeInstance: () => configMint.useMakeInstance(props.tokenAddress),
       }}
     />
   ),
@@ -173,7 +174,8 @@ export const {
       makeDescription={txModalDescriptions.SetApr}
       buttonConfig={{
         ...configSetApr,
-        makeInstance: () => configSetApr.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configSetApr.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -184,7 +186,8 @@ export const {
       makeDescription={txModalDescriptions.ClaimFees}
       buttonConfig={{
         ...configClaimFees,
-        makeInstance: () => configClaimFees.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configClaimFees.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -195,8 +198,8 @@ export const {
       makeDescription={txModalDescriptions.SetFeesRate}
       buttonConfig={{
         ...configSetFeesRate,
-        makeInstance: () =>
-          configSetFeesRate.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configSetFeesRate.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -207,8 +210,8 @@ export const {
       makeDescription={txModalDescriptions.SetRetentionRate}
       buttonConfig={{
         ...configSetRetentionRate,
-        makeInstance: () =>
-          configSetRetentionRate.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configSetRetentionRate.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -221,8 +224,8 @@ export const {
       makeDescription={txModalDescriptions.ProcessBigQueuedRequest}
       buttonConfig={{
         ...configProcessBigQueuedRequest,
-        makeInstance: () =>
-          configProcessBigQueuedRequest.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configProcessBigQueuedRequest.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -235,8 +238,8 @@ export const {
       makeDescription={txModalDescriptions.ProcessQueuedRequests}
       buttonConfig={{
         ...configProcessQueuedRequests,
-        makeInstance: () =>
-          configProcessQueuedRequests.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configProcessQueuedRequests.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -247,8 +250,8 @@ export const {
       makeDescription={txModalDescriptions.Repatriate}
       buttonConfig={{
         ...configRepatriate,
-        makeInstance: () =>
-          configRepatriate.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configRepatriate.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -261,8 +264,8 @@ export const {
       makeDescription={txModalDescriptions.CancelWithdrawalRequest}
       buttonConfig={{
         ...configCancelWithdrawalRequest,
-        makeInstance: () =>
-          configCancelWithdrawalRequest.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configCancelWithdrawalRequest.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -273,7 +276,8 @@ export const {
       makeDescription={txModalDescriptions.Deposit}
       buttonConfig={{
         ...configDeposit,
-        makeInstance: () => configDeposit.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configDeposit.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -284,8 +288,8 @@ export const {
       makeDescription={txModalDescriptions.InstantWithdrawal}
       buttonConfig={{
         ...configInstantWithdrawal,
-        makeInstance: () =>
-          configInstantWithdrawal.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configInstantWithdrawal.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -296,8 +300,8 @@ export const {
       makeDescription={txModalDescriptions.RequestWithdrawal}
       buttonConfig={{
         ...configRequestWithdrawal,
-        makeInstance: () =>
-          configRequestWithdrawal.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configRequestWithdrawal.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -308,7 +312,8 @@ export const {
       makeDescription={txModalDescriptions.SetFund}
       buttonConfig={{
         ...configSetFund,
-        makeInstance: () => configSetFund.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configSetFund.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -319,8 +324,8 @@ export const {
       makeDescription={txModalDescriptions.SetLdyStaking}
       buttonConfig={{
         ...configSetLdyStaking,
-        makeInstance: () =>
-          configSetLdyStaking.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configSetLdyStaking.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -331,8 +336,8 @@ export const {
       makeDescription={txModalDescriptions.SetWithdrawer}
       buttonConfig={{
         ...configSetWithdrawer,
-        makeInstance: () =>
-          configSetWithdrawer.makeInstance(props.contractAddress),
+        useMakeInstance: () =>
+          configSetWithdrawer.useMakeInstance(props.contractAddress),
       }}
     />
   ),

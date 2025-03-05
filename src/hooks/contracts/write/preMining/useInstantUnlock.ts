@@ -32,7 +32,7 @@ function checkParams(params: ParamsInstantUnlock): string | undefined {
   return;
 }
 
-function makeInstance(): Instance {
+function useMakeInstance(): Instance {
   const { appChainId } = useWeb3Context();
   const address = getTypedContractAddress("PreMining");
 
@@ -86,7 +86,7 @@ async function execute(
 }
 
 export const configInstantUnlock = {
-  makeInstance,
+  useMakeInstance,
   checkParams,
   execute,
 };
