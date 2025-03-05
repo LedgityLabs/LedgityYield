@@ -257,16 +257,11 @@ export function TxButtonWrapper<T>({
           sent.error?.includes("User rejected") ||
           sent.error?.includes("User denied");
 
-        // User rejected the transaction
-        if (userRejected) {
-          dispatchTxState({
-            isLoading: false,
-            pendingAllowanceUpdate: isApprove,
-          });
-          return;
-        }
+        const error = userRejected
+          ? "User rejected the transaction"
+          : "Failed to create transaction";
 
-        throw Error("Failed to create transaction");
+        throw Error(error);
       }
 
       if (!sent.hash) throw Error("Transaction hash not found");
@@ -306,8 +301,9 @@ export function TxButtonWrapper<T>({
       : "";
 
   const isPendingApprove = txState.pendingApprove && !!approveAction;
-  const isLoading = txState.isLoading || txState.pendingAllowanceUpdate;
-  const isDisabled = disabled || isLoading;
+  const hasPendingOperation =
+    txState.isLoading || txState.pendingAllowanceUpdate;
+  const isDisabled = disabled || hasPendingOperation;
 
   // Determine the modal content based on modal content type, not the current state
   const modalContent =
@@ -344,7 +340,7 @@ export function TxButtonWrapper<T>({
         )}
 
         {/* Transaction is being processed */}
-        {currentAccount && isLoading && (
+        {currentAccount && hasPendingOperation && (
           <button
             className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-primary text-primary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md opacity-70 cursor-not-allowed ${className}`}
             disabled
@@ -357,7 +353,7 @@ export function TxButtonWrapper<T>({
         {/* Approve button */}
         {currentAccount &&
           hasApproveChecks &&
-          ((!isLoading && isPendingApprove) || splitApprove) && (
+          ((!hasPendingOperation && isPendingApprove) || splitApprove) && (
             <button
               className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-primary text-primary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md ${isDisabled || !isPendingApprove ? "opacity-70 cursor-not-allowed" : "hover:bg-opacity-80"} ${className}`}
               disabled={isDisabled || !isPendingApprove}
@@ -377,7 +373,7 @@ export function TxButtonWrapper<T>({
 
         {/* Transaction button */}
         {currentAccount &&
-          ((!isLoading && !isPendingApprove) || splitApprove) && (
+          ((!hasPendingOperation && !isPendingApprove) || splitApprove) && (
             <button
               className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-primary text-primary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md ${isDisabled ? "opacity-70 cursor-not-allowed" : "hover:bg-opacity-80"} ${className}`}
               disabled={isDisabled || isPendingApprove}
@@ -396,7 +392,7 @@ export function TxButtonWrapper<T>({
             </div>
           )}
 
-          {showLink && explorerLink && !txState.error && !isLoading && (
+          {showLink && explorerLink && !txState.error && !hasPendingOperation && (
             <a href={explorerLink} target="_blank" rel="noreferrer">
               <button className="group min-h-5 flex flex-1 justify-center items-center theme-highlight space-x-1 whitespace-nowrap underline-offset-2 text-sm">
                 <span className="theme-highlight group-hover:text-slate-100">
