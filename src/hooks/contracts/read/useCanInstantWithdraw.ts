@@ -57,11 +57,16 @@ export function useCanInstantWithdraw(
   });
 
   // If only high tier can use instant withdrawals and user isn't high tier
-  if (onlyHighTier && !isHighTier) {
+  if (onlyHighTier && isHighTier === false) {
     return false;
   }
 
-  if (!usableUnderlyings || !totalQueued || !isHighTier) return undefined;
+  if (
+    usableUnderlyings === undefined ||
+    totalQueued === undefined ||
+    isHighTier === undefined
+  )
+    return undefined;
 
   // Check liquidity conditions
   const hasLiquidityForQueue = totalQueued + amount <= usableUnderlyings;

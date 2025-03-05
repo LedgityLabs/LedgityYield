@@ -43,7 +43,7 @@ export function useAllowances(
     const { data, error } = useReadContracts({
       contracts: conditionsOk ? calls : [],
       query: {
-        refetchInterval: 5 * 1000,
+        refetchInterval: 12 * 1000,
       },
     });
 
