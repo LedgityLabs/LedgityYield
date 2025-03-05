@@ -32,11 +32,14 @@ import { formatUnits, parseUnits } from "viem";
 import { LTokenInfo, TokenInfo } from "@/types";
 
 export function WithdrawDialog({
-  children,
+  isOpen,
+  setIsOpen,
   lTokenData,
   underlyingTokenData,
 }: {
-  children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  children?: React.ReactNode;
   lTokenData: LTokenInfo | undefined;
   underlyingTokenData: TokenInfo | undefined;
 }) {
@@ -60,8 +63,7 @@ export function WithdrawDialog({
   const isLoading = isRestrictionLoading || !lTokenData || !underlyingTokenData;
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <VisuallyHidden id="withdraw modal">
         <DialogTitle></DialogTitle>
       </VisuallyHidden>
@@ -128,7 +130,7 @@ export function WithdrawDialog({
             </DialogHeader>
 
             <DialogFooter>
-              <div className="mt-6 flex flex-nowrap items-end justify-center gap-4 mb-3 mr-3 ml-3">
+              <div className="mt-6 flex items-end justify-between gap-4 mb-3 w-full">
                 <AmountInput
                   ref={inputEl}
                   maxValue={lTokenBalance}
@@ -143,7 +145,7 @@ export function WithdrawDialog({
 
                 {canInstantWithdraw ? (
                   <InstantWithdrawalTx
-                    buttonText="Withdraw now"
+                    buttonText="Withdraw"
                     contractAddress={lTokenData.address}
                     disabled={!withdrawnAmount}
                     params={{
@@ -153,6 +155,7 @@ export function WithdrawDialog({
                     }}
                     approveChecks={[
                       {
+                        token: lTokenData.address,
                         symbol: lTokenData.symbol,
                         tokenDecimals: lTokenData.decimals,
                         spender: lTokenData.address,
@@ -176,6 +179,7 @@ export function WithdrawDialog({
                     }}
                     approveChecks={[
                       {
+                        token: lTokenData.address,
                         symbol: lTokenData.symbol,
                         tokenDecimals: lTokenData.decimals,
                         spender: lTokenData.address,

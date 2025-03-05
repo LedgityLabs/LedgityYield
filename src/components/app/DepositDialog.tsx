@@ -26,11 +26,14 @@ import { formatUnits, parseUnits } from "viem";
 import { LTokenInfo, TokenInfo } from "@/types";
 
 export function DepositDialog({
-  children,
+  isOpen,
+  setIsOpen,
   lTokenData,
   underlyingTokenData,
 }: {
-  children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  children?: React.ReactNode;
   lTokenData: LTokenInfo | undefined;
   underlyingTokenData: TokenInfo | undefined;
 }) {
@@ -50,11 +53,11 @@ export function DepositDialog({
   const isLoading = isRestrictionLoading || !lTokenData || !underlyingTokenData;
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <VisuallyHidden id="deposit modal">
         <DialogTitle> </DialogTitle>
       </VisuallyHidden>
+
       <DialogContent aria-describedby={"deposit modal"}>
         {isLoading && (
           <div className="py-8 px-16 text-2xl">
@@ -102,8 +105,9 @@ export function DepositDialog({
                 </div>
               </DialogDescription>
             </DialogHeader>
+
             <DialogFooter>
-              <div className="flex gap-4 flex-nowrap items-end justify-center mt-6 mb-3 mr-3 ml-3">
+              <div className="mt-6 flex items-end justify-between gap-4 mb-3 w-full">
                 <AmountInput
                   ref={inputEl}
                   maxValue={underlyingBalance}
@@ -115,6 +119,7 @@ export function DepositDialog({
                     )
                   }
                 />
+
                 <DepositTx
                   buttonText="Deposit"
                   contractAddress={lTokenData.address}
@@ -130,6 +135,7 @@ export function DepositDialog({
                   }}
                   approveChecks={[
                     {
+                      token: underlyingTokenData.address,
                       symbol: underlyingTokenData.symbol,
                       tokenDecimals: underlyingTokenData.decimals,
                       spender: lTokenData.address,

@@ -19,7 +19,8 @@ import { useEffect, useState } from "react";
 // Context
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
 // Types
-import { LTokenInfo, TokenInfo } from "@/types";
+import { LTokenInfo } from "@/types";
+import { Address } from "viem";
 
 type Pool = {
   underlyingSymbol: string;
@@ -28,7 +29,6 @@ type Pool = {
   invested: bigint;
   decimals: number;
   lTokenData: LTokenInfo;
-  underlyingTokenData: TokenInfo | undefined;
 };
 
 /**
@@ -46,10 +46,39 @@ type Pool = {
 export function AppInvestTokens({ className }: { className?: string }) {
   const { lTokenInfosCurrentChain, tokenInfos, tvlMetrics } =
     useAppDataContext();
+
   const [sorting, setSorting] = useState<SortingState>([]);
-  const columnHelper = createColumnHelper<Pool>();
   const [isLoading, setIsLoading] = useState(true);
   const [tableData, setTableData] = useState<Pool[]>([]);
+  const [openModal, setOpenModal] = useState<"deposit" | "withdraw">();
+  const [modalToken, setModalToken] = useState<Address>();
+
+  const lTokenData = lTokenInfosCurrentChain.find(
+    (token) => token.address === modalToken,
+  );
+  const underlyingTokenData = tokenInfos.find(
+    (token) =>
+      token.address.toLowerCase() === lTokenData?.underlying.toLowerCase(),
+  );
+
+  function handleSetOpenModal(
+    modal: "deposit" | "withdraw",
+    token: Address | undefined,
+    isOpen: boolean,
+  ) {
+    if (openModal === modal && !isOpen) {
+      setOpenModal(undefined);
+      setModalToken(undefined);
+      return;
+    }
+
+    if (openModal !== modal) {
+      setOpenModal(modal);
+    }
+    if (modalToken !== token) {
+      setModalToken(token);
+    }
+  }
 
   useEffect(() => {
     if (lTokenInfosCurrentChain.length === 0) {
@@ -57,15 +86,9 @@ export function AppInvestTokens({ className }: { className?: string }) {
       return;
     }
 
-    const newTableData = lTokenInfosCurrentChain.map((lTokenData) => {
-      const { symbol, apr, balance, decimals } = lTokenData;
+    const newTableData = lTokenInfosCurrentChain.map((tokenData) => {
+      const { symbol, apr, balance, decimals } = tokenData;
       const tokenTvl = tvlMetrics.byToken[symbol] || 0;
-
-      const underlyingTokenData = tokenInfos.find(
-        (tokenInfo) =>
-          tokenInfo.address.toLowerCase() ===
-          lTokenData.underlying.toLowerCase(),
-      );
 
       return {
         underlyingSymbol: symbol.slice(1),
@@ -74,8 +97,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
         decimals,
         apr: apr,
         //
-        lTokenData: lTokenData,
-        underlyingTokenData,
+        lTokenData: tokenData,
       };
     });
 
@@ -85,6 +107,14 @@ export function AppInvestTokens({ className }: { className?: string }) {
       setIsLoading(false);
     }
   }, [lTokenInfosCurrentChain, tokenInfos]);
+
+  /**
+   * =============
+   * Table Configs
+   * =============
+   */
+
+  const columnHelper = createColumnHelper<Pool>();
 
   const columns = [
     columnHelper.accessor("underlyingSymbol", {
@@ -153,39 +183,35 @@ export function AppInvestTokens({ className }: { className?: string }) {
       header: "Actions",
       cell: (info) => {
         const lTokenData = info.row.original.lTokenData;
-        const underlyingTokenData = info.row.original.underlyingTokenData;
 
         return (
           <div className="flex items-center sm:gap-4 gap-2">
-            <DepositDialog
-              lTokenData={lTokenData}
-              underlyingTokenData={underlyingTokenData}
+            <Button
+              size="small"
+              onClick={() =>
+                handleSetOpenModal("deposit", lTokenData.address, true)
+              }
+              className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
             >
-              <Button
-                size="small"
-                className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
-              >
-                <span className="rotate-90 text-bg/90">
-                  <i className="ri-login-circle-line" />
-                </span>
-                <span className="sm:inline-block hidden">Deposit</span>
-              </Button>
-            </DepositDialog>
-            <WithdrawDialog
-              lTokenData={lTokenData}
-              underlyingTokenData={underlyingTokenData}
+              <span className="rotate-90 text-bg/90">
+                <i className="ri-login-circle-line" />
+              </span>
+              <span className="sm:inline-block hidden">Deposit</span>
+            </Button>
+
+            <Button
+              size="small"
+              variant="outline"
+              onClick={() =>
+                handleSetOpenModal("withdraw", lTokenData.address, true)
+              }
+              className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
             >
-              <Button
-                size="small"
-                variant="outline"
-                className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
-              >
-                <span className="rotate-[270deg] text-fg/70">
-                  <i className="ri-logout-circle-r-line" />
-                </span>
-                <span className="sm:inline-block hidden">Withdraw</span>
-              </Button>
-            </WithdrawDialog>
+              <span className="rotate-[270deg] text-fg/70">
+                <i className="ri-logout-circle-r-line" />
+              </span>
+              <span className="sm:inline-block hidden">Withdraw</span>
+            </Button>
           </div>
         );
       },
@@ -270,6 +296,23 @@ export function AppInvestTokens({ className }: { className?: string }) {
             </div>
           )),
         )}
+
+      <DepositDialog
+        isOpen={openModal === "deposit"}
+        setIsOpen={(isOpen) =>
+          handleSetOpenModal("deposit", lTokenData?.address, isOpen)
+        }
+        lTokenData={lTokenData}
+        underlyingTokenData={underlyingTokenData}
+      />
+      <WithdrawDialog
+        isOpen={openModal === "withdraw"}
+        setIsOpen={(isOpen) =>
+          handleSetOpenModal("withdraw", lTokenData?.address, isOpen)
+        }
+        lTokenData={lTokenData}
+        underlyingTokenData={underlyingTokenData}
+      />
     </article>
   );
 }

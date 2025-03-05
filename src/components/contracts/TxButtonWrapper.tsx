@@ -51,8 +51,8 @@ type TransactionState = {
 
 export type ERC20ApproveCheck = {
   symbol: string;
-  token?: Address;
-  spender?: Address;
+  token: Address | undefined;
+  spender: Address | undefined;
   tokenDecimals: number;
   amount: string;
 };
