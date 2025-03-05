@@ -335,22 +335,22 @@ export function TxButtonWrapper<T>({
         {/* User is not connected */}
         {!currentAccount && (
           <button
-            className={`font-bold flex items-center justify-center ${className} theme-highlight theme-highlight-border`}
+            className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-secondary text-secondary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md ${className}`}
             onClick={openConnectModal}
           >
             <WalletIcon className="mr-2" />
-            <span className="theme-gradient">Connect</span>
+            <span>Connect</span>
           </button>
         )}
 
         {/* Transaction is being processed */}
         {currentAccount && isLoading && (
           <button
-            className={`font-bold flex items-center justify-center theme-disabled-bg-dark disabled:brightness-100 ${className}`}
+            className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-primary text-primary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md opacity-70 cursor-not-allowed ${className}`}
             disabled
           >
             <Spinner className="mr-2" />
-            <span className="theme-gradient">Sending</span>
+            <span>Sending</span>
           </button>
         )}
 
@@ -359,17 +359,11 @@ export function TxButtonWrapper<T>({
           hasApproveChecks &&
           ((!isLoading && isPendingApprove) || splitApprove) && (
             <button
-              className={`font-bold flex items-center justify-center ${className} ${
-                isDisabled || !isPendingApprove
-                  ? "theme-disabled-bg-dark disabled:brightness-100"
-                  : ""
-              }`}
+              className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-primary text-primary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md ${isDisabled || !isPendingApprove ? "opacity-70 cursor-not-allowed" : "hover:bg-opacity-80"} ${className}`}
               disabled={isDisabled || !isPendingApprove}
               onClick={handleTransaction}
             >
-              <span className="theme-gradient">
-                {`Approve ${approvedTokenName}`}
-              </span>
+              <span>{`Approve ${approvedTokenName}`}</span>
             </button>
           )}
 
@@ -385,22 +379,17 @@ export function TxButtonWrapper<T>({
         {currentAccount &&
           ((!isLoading && !isPendingApprove) || splitApprove) && (
             <button
-              className={`font-bold flex items-center justify-center ${className} ${
-                isDisabled || isPendingApprove
-                  ? "theme-disabled-bg-dark disabled:brightness-100"
-                  : ""
-              }`}
+              className={`inline-flex items-center justify-center rounded-lg font-semibold transition-colors overflow-hidden whitespace-nowrap bg-primary text-primary-fg border-indigo-200 border-2 px-4 text-lg h-12 shadow-md ${isDisabled ? "opacity-70 cursor-not-allowed" : "hover:bg-opacity-80"} ${className}`}
               disabled={isDisabled || isPendingApprove}
               onClick={handleTransaction}
             >
-              <span className={`${isDisabled ? "" : "theme-gradient"}`}>
-                {buttonText}
-              </span>
+              <span>{buttonText}</span>
             </button>
           )}
 
         {/* Error and chain explorer link */}
-        <div className="mt-2 min-h-5">
+        {/* @dev disabled feature for now, messes with ui in current state */}
+        {/* <div className="mt-2 min-h-5">
           {txState.error && (
             <div className="text-center text-sm theme-error-light">
               {txState.error}
@@ -417,7 +406,7 @@ export function TxButtonWrapper<T>({
               </button>
             </a>
           )}
-        </div>
+        </div> */}
       </div>
 
       <TxModal

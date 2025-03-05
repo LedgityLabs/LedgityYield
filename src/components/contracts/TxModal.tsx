@@ -36,9 +36,11 @@ export function TxModal({
     isConfirmSuccess,
   } = txStates;
 
+  if (!isOpen) return <></>;
+
   return (
-    <div className="relative flex flex-col w-full">
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <div className="relative flex flex-col w-full">
         <DialogContent className="px-0 sm:px-0">
           <DialogHeader>
             <DialogTitle>Ongoing transaction</DialogTitle>
@@ -164,7 +166,7 @@ export function TxModal({
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
-      </Dialog>
-    </div>
+      </div>
+    </Dialog>
   );
 }

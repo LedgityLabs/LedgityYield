@@ -35,18 +35,18 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
       }
     };
     useImperativeHandle(ref, () => inputEl.current!);
-
     return (
       <div
         className={clsx(
-          "flex flex-col items-end justify-center",
-          maxToBottom && "flex-col-reverse",
+          "flex flex-col w-full min-w-[150px]",
+          maxToBottom ? "flex-col-reverse" : "",
+          "items-start",
         )}
       >
         <p
           className={clsx(
-            "mb-1.5 mr-1.5 text-sm text-fg/80",
-            maxToBottom && "mb-0 mt-1.5",
+            "text-sm text-fg/80 w-full",
+            maxToBottom ? "mb-0 mt-1.5" : "mb-1.5",
           )}
         >
           <span>{maxName}:</span>{" "}
@@ -60,7 +60,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
             />
           </button>
         </p>
-        <div className="relative">
+        <div className="relative w-full">
           <Input
             ref={inputEl}
             placeholder={`${symbol} amount`}
@@ -87,4 +87,5 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
     );
   },
 );
+
 AmountInput.displayName = "AmountInput";

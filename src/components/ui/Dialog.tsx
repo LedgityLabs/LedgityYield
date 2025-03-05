@@ -1,17 +1,25 @@
 "use client";
-
-import React, { FC } from "react";
+import React, { FC, useId } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { twMerge } from "tailwind-merge";
 import { Card } from "./Card";
 
 export const Dialog = DialogPrimitive.Root;
 
-export const DialogTrigger = DialogPrimitive.Trigger;
+// Modified DialogTrigger to prevent re-renders
+export const DialogTrigger = React.memo(
+  ({
+    children,
+    ...props
+  }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>) => (
+    <DialogPrimitive.Trigger {...props}>{children}</DialogPrimitive.Trigger>
+  ),
+);
+DialogTrigger.displayName = "DialogTrigger";
 
 export const DialogPortal = DialogPrimitive.Portal;
 
-// Forward ref is required here, else overlay will note fade out
+// Forward ref is required here, else overlay will not fade out
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -29,41 +37,47 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 export const DialogContent: FC<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
-> = ({ className, children, ...props }) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      {...props}
-      className="fixed inset-0 z-[10000] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
-    >
-      <Card
-        className={twMerge(
-          "grid max-w-lg max-h-screen gap-6 sm:p-8 p-4 pointer-events-auto",
-          className,
-        )}
+> = ({ className, children, ...props }) => {
+  // Use a stable ID for the DialogContent
+  const id = useId();
+
+  return (
+    <DialogPortal>
+      <DialogOverlay />
+      <DialogPrimitive.Content
+        {...props}
+        id={id}
+        className="fixed inset-0 z-[10000] flex justify-center items-center data-[state=open]:animate-fadeAndMoveIn data-[state=closed]:animate-fadeAndMoveOut !pointer-events-none"
       >
-        <DialogPrimitive.Close
+        <Card
           className={twMerge(
-            "absolute z-10 -right-2 -top-2",
-            "max-sm:right-0 max-sm:top-0",
+            "grid max-w-lg max-h-screen gap-6 sm:p-8 p-4 pointer-events-auto",
+            className,
           )}
         >
-          <Card
-            radius="full"
-            defaultGradient={true}
-            className="w-10 h-10 flex justify-center items-center opacity-[85%] transition-opacity hover:opacity-100"
+          <DialogPrimitive.Close
+            className={twMerge(
+              "absolute z-10 -right-2 -top-2",
+              "max-sm:right-0 max-sm:top-0",
+            )}
           >
-            <i className="ri-close-fill text-2xl text-fg"></i>
-            <span className="sr-only">Close</span>
-          </Card>
-        </DialogPrimitive.Close>
-        <div className=" max-h-[calc(100vh-2rem)] scrollbar-thumb-slate-600 max-w-[calc(100vw)]">
-          {children}
-        </div>
-      </Card>
-    </DialogPrimitive.Content>
-  </DialogPortal>
-);
+            <Card
+              radius="full"
+              defaultGradient={true}
+              className="w-10 h-10 flex justify-center items-center opacity-[85%] transition-opacity hover:opacity-100"
+            >
+              <i className="ri-close-fill text-2xl text-fg"></i>
+              <span className="sr-only">Close</span>
+            </Card>
+          </DialogPrimitive.Close>
+          <div className="max-h-[calc(100vh-2rem)] scrollbar-thumb-slate-600 max-w-[calc(100vw)]">
+            {children}
+          </div>
+        </Card>
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  );
+};
 
 export const DialogHeader: FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
