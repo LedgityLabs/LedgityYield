@@ -15,7 +15,6 @@ import {
   AlertDialogTrigger,
   Amount,
   Button,
-  Card,
   DateTime,
   Spinner,
   Tooltip,
@@ -52,6 +51,7 @@ function CancelButton({
   const lTokenAddress = lTokenSchema.id as Address;
   const requestData = useLTokenWithdrawalQueue(lTokenAddress, requestId);
   const withdrawalAmount = requestData[1];
+
   return (
     <AlertDialog>
       <Tooltip>
@@ -123,12 +123,6 @@ export function AppDashboardActivity({ className }: { className?: string }) {
    * ==============
    */
 
-  const [sorting, setSorting] = useState<SortingState>([
-    {
-      id: "timestamp",
-      desc: true,
-    },
-  ]);
   const columnHelper = createColumnHelper<Activity>();
 
   const activityColumns = [
@@ -155,9 +149,9 @@ export function AppDashboardActivity({ className }: { className?: string }) {
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => {
-        const amount = info.getValue() as string;
-        const amountAfterFees = info.row.original.amountAfterFees as string;
-        const ltoken = info.row.getValue("ltoken") as LToken;
+        const amount = info.getValue();
+        const amountAfterFees = info.row.original.amountAfterFees;
+        const ltoken = info.row.original.ltoken;
         return (
           <Amount
             value={BigInt(amount)}
@@ -225,10 +219,17 @@ export function AppDashboardActivity({ className }: { className?: string }) {
       },
     }),
   ];
+
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "timestamp",
+      desc: true,
+    },
+  ]);
   const sortableColumns = ["timestamp", "action", "amount", "ltoken", "status"];
 
   const table = useReactTable({
-    data: activityData ?? [], // Ensure we always have at least an empty array
+    data: activityData,
     columns: activityColumns,
     state: {
       sorting,

@@ -76,7 +76,6 @@ export function AppDataContextProvider({
   ] as Address[];
   const tokenInfos = useTokenInfos(tokens);
 
-
   // ==== Prices ==== //
 
   const underlyingSymbols = [

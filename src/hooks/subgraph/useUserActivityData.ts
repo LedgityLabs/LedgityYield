@@ -3,9 +3,7 @@ import { Activity, execute } from "graphclient";
 import { useCallback, useEffect, useState } from "react";
 
 type UserActivityData = {
-  data: {
-    [key: string]: Activity[];
-  };
+  [key: string]: Activity[];
 };
 
 const CACHE_EXPIRY = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -14,26 +12,29 @@ const CACHE_EXPIRY = 5 * 60 * 1000; // 5 minutes in milliseconds
  * Hook for fetching and caching user activity data
  */
 export function useUserActivityData(
-  chainId: number,
-  userAddress: string | undefined,
+  appChainId: number,
+  currentAccount: string | undefined,
 ) {
-  const cacheKey = `user-activity-${chainId}-${userAddress}`;
+  const cacheKey = `user-activity-${appChainId}-${currentAccount}`;
   const {
     localData: cachedData,
     lastUpdate,
     setLocalData: setCachedData,
   } = useLocalStorage<{
-    data: UserActivityData | null;
+    data: UserActivityData;
     timestamp: number;
-  }>(`${cacheKey}`, { data: null, timestamp: 0 });
+  }>(`${cacheKey}`, { data: {}, timestamp: 0 });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [currentChainActivityData, setCurrentChainActivityData] = useState<
+    Activity[]
+  >([]);
 
-  const fetchActivityData = useCallback(
+  const fetchData = useCallback(
     async (force = false) => {
       // Don't fetch if no address or chain ID
-      if (!userAddress || !chainId) {
+      if (!currentAccount || !appChainId) {
         return null;
       }
 
@@ -51,7 +52,7 @@ export function useUserActivityData(
 
       try {
         const query = `{
-          c${chainId}_activities(where: { account: "${userAddress}" }) {
+          c${appChainId}_activities(where: { account: "${currentAccount}" }) {
             id
             requestId
             ltoken {
@@ -67,23 +68,26 @@ export function useUserActivityData(
         }`;
 
         const result = await execute(query, {});
-        const activities = result.data?.[`c${chainId}_activities`];
 
-        // Create structured response
-        const activityData: UserActivityData = {
-          data: {
-            [`c${chainId}_activities`]: activities || [],
-          },
-        };
+        const activities = result.data?.[`c${appChainId}_activities`];
 
         // Update cache
         setCachedData({
-          data: activityData,
+          data: {
+            ...cachedData.data,
+            [`c${appChainId}_activities`]: activities || [],
+          },
           timestamp: now,
         });
 
+        if (
+          JSON.stringify(currentChainActivityData) !==
+          JSON.stringify(activities)
+        )
+          setCurrentChainActivityData(activities);
+
         setIsLoading(false);
-        return activityData;
+        return activities;
       } catch (e) {
         const errorMessage = "Failed to fetch user activity data";
         setError(errorMessage);
@@ -92,28 +96,36 @@ export function useUserActivityData(
         return null;
       }
     },
-    [chainId, userAddress, cachedData, isLoading, setCachedData],
+    [appChainId, currentAccount, isLoading],
   );
+
+  useEffect(() => {
+    if (
+      !cachedData.data?.[`c${appChainId}_activities`] ||
+      JSON.stringify(currentChainActivityData) ===
+        JSON.stringify(cachedData.data?.[`c${appChainId}_activities`])
+    )
+      return;
+
+    setCurrentChainActivityData(cachedData.data?.[`c${appChainId}_activities`]);
+  }, [cachedData, appChainId, currentChainActivityData]);
 
   // Initial fetch on mount or when dependencies change
   useEffect(() => {
-    if (userAddress && chainId) {
-      // Only fetch if we don't have data or if cache is expired
-      const now = Date.now();
-      if (!cachedData.data || now - cachedData.timestamp >= CACHE_EXPIRY) {
-        fetchActivityData();
-      }
+    if (!currentAccount || !appChainId) return;
+    // Only fetch if we don't have data or if cache is expired
+    const now = Date.now();
+    if (!cachedData.data || now - cachedData.timestamp >= CACHE_EXPIRY) {
+      fetchData();
     }
-  }, [chainId, userAddress, fetchActivityData, cachedData]);
+  }, [appChainId, currentAccount, fetchData]);
 
   // Process the raw data for easier consumption
-  const activityData = cachedData.data?.data?.[`c${chainId}_activities`] || [];
 
   return {
-    activityData,
+    activityData: currentChainActivityData,
     isLoading,
     error,
-    refetch: fetchActivityData,
     lastUpdate: cachedData.timestamp,
   };
 }

@@ -36,6 +36,7 @@ export function AppDashboardChart({ className }: { className?: string }) {
 
   const { growthData, isDataLoading, isDataError, dataErrorMessage } =
     useGrowthRevenueData();
+
   const [labels, setLabels] = useState<Date[]>([]);
   const [revenueData, setRevenueData] = useState<number[]>([]);
   const [formattedGrowthData, setFormattedGrowthData] = useState<number[]>([]);

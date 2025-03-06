@@ -10,21 +10,16 @@ export function useLocalStorage<T>(
 } {
   // State to store our value
   const [lastUpdate, setLastUpdate] = useState<number>(0);
-  const [localData, setLocalData] = useState<T>(initialValue);
+  const [localData, setLocalData] = useState<T>();
 
   // Initialize on client-side only
   useEffect(() => {
-    try {
-      const item = window.localStorage.getItem(key);
+    const item = window.localStorage.getItem(key);
 
-      if (item !== JSON.stringify(localData)) {
-        setLocalData(item ? JSON.parse(item) : initialValue);
-      }
-    } catch (error) {
-      console.error(error);
-      setLocalData(initialValue);
+    if (item !== JSON.stringify(localData)) {
+      setLocalData(item ? JSON.parse(item) : initialValue);
     }
-  }, [initialValue]);
+  }, []);
 
   // Return a wrapped version of useState's setter function that
   // persists the new value to localStorage

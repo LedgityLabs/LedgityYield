@@ -55,8 +55,7 @@ export function useGrowthRevenueData(): {
 
       setIsProcessing(true);
 
-      try {
-        const newData: TokenData = {};
+    const newData: GraphTokenData = {};
 
         // Process investment start data
         if (investmentStartData?.data) {
@@ -158,15 +157,10 @@ export function useGrowthRevenueData(): {
           });
         }
 
+    if (JSON.stringify(newData) !== JSON.stringify(processedData))
         setProcessedData(newData);
-      } catch (e) {
-        console.error("Error processing data:", e);
-      }
 
       setIsProcessing(false);
-    };
-
-    processData();
   }, [
     investmentStartData,
     rewardsMintsData,

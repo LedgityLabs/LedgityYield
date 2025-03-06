@@ -74,7 +74,7 @@ export function useTokenInfos(
     if (!data) return;
 
     if (error || data.some((data) => data.error !== undefined)) {
-      console.warn("Some token info calls have failed");
+      // console.warn("Some token info calls have failed");
       return;
     }
 
