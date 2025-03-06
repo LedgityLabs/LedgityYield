@@ -3,6 +3,7 @@
 export * from "./read/useBatchedWithdrawalRequests";
 export * from "./read/useLTokenInfos";
 export * from "./read/useCanInstantWithdraw";
+export * from "./read/useLTokenBalancesAndRewards";
 
 // ERC-20 read hooks
 export * from "./read/erc20/useTokenInfos";
@@ -22,7 +23,8 @@ export * from "./read/lToken/useWithdrawalQueue";
 export * from "./read/lToken/useWithdrawalQueueCursor";
 export * from "./read/lToken/useGetExpectedRetained";
 export * from "./read/lToken/useUsableUnderlyings";
-export * from "./read/lToken/useUnderlying";
+export * from "./read/lToken/useRealBalanceOf";
+export * from "./read/lToken/useUnmintedRewardsOf";
 
 // GlobalOwner read hooks
 export * from "./read/globalOwner/usePendingOwner";
