@@ -1,28 +1,33 @@
-// Hooks
 import { useReadContracts } from "wagmi";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/utils/useLocalStorage";
-// Datas
 import { zeroAddress, Address } from "viem";
-// Types
-import { lTokenAbi, LTokenInfo } from "@/types";
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
+import { lTokenAbi } from "@/types";
 
-const NB_DATA_POINTS = 7;
+export type LTokenBalanceAndReward = {
+  address: Address;
+  chainId: number;
+  realBalance: bigint;
+  unclaimedRewards: bigint;
+};
 
-export function useLTokenInfos(
+export function useLTokenBalancesAndRewards(
   tokenTargets: { address: `0x${string}` | undefined; chainId: number }[],
   userAddress?: `0x${string}`,
-): LTokenInfo[] {
-  const [currentValue, setCurrentValue] = useState<LTokenInfo[]>([]);
-
-  const { localData, setLocalData } = useLocalStorage<LTokenInfo[]>(
-    "ltokenInfo",
+): LTokenBalanceAndReward[] {
+  const [currentValue, setCurrentValue] = useState<LTokenBalanceAndReward[]>(
     [],
   );
+  const { localData, setLocalData } = useLocalStorage<LTokenBalanceAndReward[]>(
+    "ltokenBalancesAndRewards",
+    [],
+  );
+  const { appChainId } = useWeb3Context();
 
   useEffect(() => {
     if (!currentValue.length && localData.length) setCurrentValue(localData);
-  }, [currentValue]);
+  }, [currentValue, localData]);
 
   const tokensFiltered = [...new Set(tokenTargets)].filter(
     ({ address }) =>
@@ -33,56 +38,22 @@ export function useLTokenInfos(
   const calls = tokensFiltered?.flatMap((token) => {
     const address = token.address ?? zeroAddress;
     const chainId = token.chainId;
-    const tokenCalls = [
+    return [
       {
         address,
         chainId,
         abi: lTokenAbi,
-        functionName: "name",
+        functionName: "realBalanceOf",
+        args: [userAddress ?? zeroAddress],
       },
       {
         address,
         chainId,
         abi: lTokenAbi,
-        functionName: "symbol",
-      },
-      {
-        address,
-        chainId,
-        abi: lTokenAbi,
-        functionName: "decimals",
-      },
-      {
-        address,
-        chainId,
-        abi: lTokenAbi,
-        functionName: "getAPR",
-      },
-      {
-        address,
-        chainId,
-        abi: lTokenAbi,
-        functionName: "totalSupply",
-      },
-      {
-        address,
-        chainId,
-        abi: lTokenAbi,
-        functionName: "underlying",
-      },
-      {
-        address,
-        chainId,
-        abi: lTokenAbi,
-        functionName: "balanceOf",
+        functionName: "unmintedRewardsOf",
         args: [userAddress ?? zeroAddress],
       },
     ] as const;
-
-    if (tokenCalls.length !== NB_DATA_POINTS)
-      throw Error("Invalid number of data points");
-
-    return tokenCalls;
   });
 
   const { data, error, refetch } = useReadContracts({
@@ -97,11 +68,13 @@ export function useLTokenInfos(
       return;
     }
 
-    const formattedData: LTokenInfo[] = [];
+    const formattedData: LTokenBalanceAndReward[] = [];
+    const NB_DATA_POINTS = 2; // realBalanceOf and unmintedRewardsOf
 
     for (let i = 0; i < data.length; i += NB_DATA_POINTS) {
       const addressIndex = Math.floor(i / NB_DATA_POINTS);
-      const address = tokenTargets?.[addressIndex].address ?? zeroAddress;
+      const address =
+        (tokenTargets?.[addressIndex].address as Address) ?? zeroAddress;
       const chainId = tokenTargets?.[addressIndex].chainId ?? 0;
 
       if (
@@ -119,13 +92,8 @@ export function useLTokenInfos(
       formattedData.push({
         address,
         chainId,
-        name: data[i].result as string,
-        symbol: data[i + 1].result as string,
-        decimals: data[i + 2].result as number,
-        apr: data[i + 3].result as number,
-        totalSupply: data[i + 4].result as bigint,
-        underlying: data[i + 5].result as Address,
-        balance: userAddress ? (data[i + 6].result as bigint) : 0n,
+        realBalance: userAddress ? (data[i].result as bigint) : 0n,
+        unclaimedRewards: userAddress ? (data[i + 1].result as bigint) : 0n,
       });
     }
 
@@ -133,7 +101,7 @@ export function useLTokenInfos(
       setCurrentValue(formattedData);
       setLocalData(formattedData);
     }
-  }, [data, error, userAddress, currentValue]);
+  }, [data, error, userAddress, currentValue, tokenTargets, setLocalData]);
 
   return currentValue;
 }

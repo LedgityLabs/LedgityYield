@@ -1,5 +1,5 @@
 // Components
-import { Card } from "@/components/ui";
+import { Card, Spinner } from "@/components/ui";
 import { AppStakingDescription } from "./AppStakingDescription";
 import { AppStakingPane } from "./AppStakingPane";
 import { AppStakingPools } from "./AppStakingPools";
@@ -13,16 +13,30 @@ import {
 } from "@/hooks/contracts";
 
 export function AppStaking() {
-  const { currentAccount } = useWeb3Context();
+  const { currentAccount, appChainId } = useWeb3Context();
   const { tokenInfos } = useAppDataContext();
 
   const rewardRate = useRewardRatePerSec();
   const totalWeightedStake = useTotalWeightedStake();
 
-  const ldyTokenData = tokenInfos.find((token) => token.symbol === "LDY");
+  const ldyTokenData = tokenInfos.find(
+    (token) => token.symbol === "LDY" && token.chainId === appChainId,
+  );
   const ldyBalance = useBalanceOf(ldyTokenData?.address, currentAccount);
 
-  if (!ldyTokenData) return <></>;
+  if (!tokenInfos.length)
+    return (
+      <section className="w-full h-full flex items-center justify-center">
+        <Spinner />
+      </section>
+    );
+
+  if (!ldyTokenData)
+    return (
+      <section className="w-full h-full flex items-center justify-center text-2xl font-bold">
+        <div> Staking is not available on this chain.</div>
+      </section>
+    );
 
   return (
     <section className="lg:w-[1080px] grid grid-cols-12 gap-5 pb-10 w-full h-full px-2">

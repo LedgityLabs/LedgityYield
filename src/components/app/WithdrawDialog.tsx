@@ -71,7 +71,6 @@ export function WithdrawDialog({
         aria-describedby={"withdraw modal"}
         onOpenAutoFocus={(e) => {
           e.preventDefault();
-          inputEl.current?.focus();
         }}
       >
         {isLoading && (

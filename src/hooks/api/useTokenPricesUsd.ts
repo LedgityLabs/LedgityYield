@@ -31,7 +31,11 @@ type PriceMap = { [symbol: string]: number };
 export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
   const [prices, setPrices] = useState<PriceMap>({});
 
-  const lowercaseSymbols = tokenSymbols.map((symbol) => symbol.toLowerCase());
+  const lowercaseSymbols = [
+    ...new Set(tokenSymbols.map((symbol) => symbol.toLowerCase())),
+  ]
+    .filter((symbol) => symbol !== undefined)
+    .sort((a, b) => a.localeCompare(b));
 
   useEffect(() => {
     const fetchPrices = async () => {
@@ -107,14 +111,16 @@ export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
               `token_price_${symbol}`,
               JSON.stringify(cacheData),
             );
-            result[symbol] = price;
+            result[symbol.toUpperCase()] = price;
           });
         } catch (err) {
           console.error("Failed to fetch prices:", err);
           // Fall back to cached values for failed fetches
           symbolsToFetch.forEach((symbol) => {
             const cached = localStorage.getItem(`token_price_${symbol}`);
-            result[symbol] = cached ? JSON.parse(cached).price : 0;
+            result[symbol.toUpperCase()] = cached
+              ? JSON.parse(cached).price
+              : 0;
           });
         }
       }
@@ -123,7 +129,7 @@ export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
     };
 
     fetchPrices();
-  }, [tokenSymbols.join(",")]); // Only refetch if the token list changes
+  }, [JSON.stringify(lowercaseSymbols)]);
 
   return prices;
 }

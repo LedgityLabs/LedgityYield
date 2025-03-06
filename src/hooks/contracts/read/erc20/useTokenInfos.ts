@@ -7,12 +7,11 @@ import { useLocalStorage } from "@/hooks/utils/useLocalStorage";
 import { zeroAddress } from "viem";
 // Types
 import { TokenInfo, genericErc20Abi } from "@/types";
-import { Address } from "viem";
 
 const NB_DATA_POINTS = 3;
 
 export function useTokenInfos(
-  tokenAddresses: (`0x${string}` | undefined)[],
+  tokenTargets: { address: `0x${string}` | undefined; chainId?: number }[],
 ): TokenInfo[] {
   const { appChainId } = useWeb3Context();
   const [currentValue, setCurrentValue] = useState<TokenInfo[]>([]);
@@ -26,41 +25,40 @@ export function useTokenInfos(
     if (!currentValue.length && localData.length) setCurrentValue(localData);
   }, [currentValue]);
 
-  useEffect(() => {
-    setLocalData([]);
-    setCurrentValue([]);
-  }, [appChainId]);
-
-  const tokensFiltered = [
-    ...new Set(tokenAddresses.map((el) => el?.toLowerCase() as Address)),
-  ].filter(
-    (address) =>
+  const tokensFiltered = [...new Set(tokenTargets)].filter(
+    ({ address }) =>
       address !== "0x0000000000000000000000000000000000000000" &&
       address !== undefined,
   );
 
-  const calls = tokensFiltered?.flatMap((tokenAddress) => {
-    const address = tokenAddress ?? zeroAddress;
-    return [
+  const calls = tokensFiltered?.flatMap((token) => {
+    const address = token.address ?? zeroAddress;
+    const chainId = token.chainId ?? appChainId;
+    const tokenCalls = [
       {
         address,
+        chainId,
         abi: genericErc20Abi,
-        chainId: appChainId,
         functionName: "name",
       },
       {
         address,
+        chainId,
         abi: genericErc20Abi,
-        chainId: appChainId,
         functionName: "symbol",
       },
       {
         address,
+        chainId,
         abi: genericErc20Abi,
-        chainId: appChainId,
         functionName: "decimals",
       },
     ] as const;
+
+    if (tokenCalls.length !== NB_DATA_POINTS)
+      throw Error("Invalid number of data points");
+
+    return tokenCalls;
   });
 
   const { data, error } = useReadContracts({
@@ -73,16 +71,16 @@ export function useTokenInfos(
   useEffect(() => {
     if (!data) return;
 
-    if (error || data.some((data) => data.error !== undefined)) {
-      console.warn("Some token info calls have failed");
+    if (error) {
+      // console.warn("Some token info calls have failed");
       return;
     }
 
     const formattedData: TokenInfo[] = [];
 
     for (let i = 0; i < data.length; i += NB_DATA_POINTS) {
-      const addressIndex = Math.floor(i / NB_DATA_POINTS);
-      const address = tokenAddresses?.[addressIndex] ?? zeroAddress;
+      const index = Math.floor(i / NB_DATA_POINTS);
+      const { address, chainId } = tokenTargets?.[index] ?? zeroAddress;
 
       if (
         !address ||
@@ -98,6 +96,7 @@ export function useTokenInfos(
 
       formattedData.push({
         address,
+        chainId: chainId ?? appChainId,
         name: data[i].result as string,
         symbol: data[i + 1].result as string,
         decimals: data[i + 2].result as number,

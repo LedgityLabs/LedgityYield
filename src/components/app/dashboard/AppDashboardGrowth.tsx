@@ -1,40 +1,39 @@
-import { Amount, Card, Rate, Spinner } from "@/components/ui";
+import { Card, Rate, Spinner } from "@/components/ui";
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
+import {
+  GraphTokenEntry,
+  useGrowthRevenueData,
+} from "@/hooks/subgraph/useGrowthRevenueData";
 import React, { useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import { useGrowthRevenueData } from "@/hooks/subgraph/useGrowthRevenueData";
 
 export const AppDashboardGrowth: React.PropsWithoutRef<typeof Card> = ({
   className,
 }) => {
+  const { currentAccount } = useWeb3Context();
   const [totalGrowth, setTotalGrowth] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const { growthData, isDataLoading } = useGrowthRevenueData();
 
   const computeTotalProfits = () => {
-    let _totalRevenue = 0;
-    const combination: [number, number][] = [];
+    let cumulatedRevenue = 0;
 
-    // Loop over all keys in the object
-    for (const lTokenSymbol in growthData) {
-      // Compute cumulative revenue for this L-Token
-      const lTokenTotalRevenue = growthData[lTokenSymbol].reduce(
-        (acc, value) => acc + value.revenue,
-        0,
-      );
-      _totalRevenue += lTokenTotalRevenue;
-
-      //  Compute cumulative growth and average balance before for this L-Token
-      const cumulativeGrowth = growthData[lTokenSymbol].reduce(
-        (acc, val) => acc + val.growth,
-        0,
-      );
-      const averageBalanceBefore =
-        growthData[lTokenSymbol].reduce(
-          (acc, val) => acc + val.balanceBefore,
+    const combination: [number, number][] = Object.values(growthData).map(
+      (data: GraphTokenEntry[]) => {
+        // Compute cumulative revenue for this L-Token
+        const lTokenTotalRevenue = data.reduce(
+          (acc, value) => acc + value.revenue,
           0,
-        ) / growthData[lTokenSymbol].length;
-      combination.push([averageBalanceBefore, cumulativeGrowth]);
-    }
+        );
+        cumulatedRevenue += lTokenTotalRevenue;
+
+        //  Compute cumulative growth and average balance before for this L-Token
+        const cumulativeGrowth = data.reduce((acc, val) => acc + val.growth, 0);
+        const averageBalanceBefore =
+          data.reduce((acc, val) => acc + val.balanceBefore, 0) / data.length;
+
+        return [averageBalanceBefore, cumulativeGrowth];
+      },
+    );
 
     // Compute total growth
     let total_weight = combination.reduce((acc, val) => acc + val[0], 0);
@@ -43,21 +42,25 @@ export const AppDashboardGrowth: React.PropsWithoutRef<typeof Card> = ({
       0,
     );
     let weighted_avg = total_weight !== 0 ? weighted_sum / total_weight : 0;
+
     setTotalGrowth(weighted_avg);
   };
 
   useEffect(() => {
-    if (!isDataLoading) computeTotalProfits();
-  }, [growthData, isDataLoading]);
+    if (isDataLoading || !currentAccount || !Object.keys(growthData).length)
+      return;
 
-  if (isDataLoading) return <Spinner />;
-  else
-    return (
-      <Rate
-        value={totalGrowth * 100}
-        prefix="+"
-        isUD7x3={false}
-        className={className}
-      />
-    );
+    computeTotalProfits();
+  }, [growthData, isDataLoading, currentAccount]);
+
+  return isDataLoading ? (
+    <Spinner />
+  ) : (
+    <Rate
+      value={totalGrowth * 100}
+      prefix="+"
+      isUD7x3={false}
+      className={className}
+    />
+  );
 };

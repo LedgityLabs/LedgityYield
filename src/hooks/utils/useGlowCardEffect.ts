@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 export function useGlowCardEffect() {
   const path = usePathname();
   let cards = useRef<NodeListOf<HTMLDivElement> | null>();
-
   useEffect(() => {
     if (window.innerWidth >= 640) {
       cards.current = document.querySelectorAll<HTMLDivElement>(".card-glow");
@@ -12,14 +11,12 @@ export function useGlowCardEffect() {
         cards.current = document.querySelectorAll<HTMLDivElement>(".card-glow");
       }, 1000);
       document.body.addEventListener("mousemove", handleMouseMove);
-
       return () => {
         document.body.removeEventListener("mousemove", handleMouseMove);
         clearInterval(tim);
       };
     }
   }, [path]);
-
   function handleMouseMove(e: MouseEvent) {
     if (cards.current) {
       cards.current.forEach((card) => {

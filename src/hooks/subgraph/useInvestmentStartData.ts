@@ -34,7 +34,7 @@ export function useInvestmentStartData(
   const [error, setError] = useState<string | undefined>(undefined);
 
   const fetchData = useCallback(
-    async (force = false) => {
+    async (force = false) => { 
       // Don't fetch if no account or chain ID
       if (!currentAccount || !appChainId) {
         return null;
@@ -82,19 +82,19 @@ export function useInvestmentStartData(
         return null;
       }
     },
-    [appChainId, currentAccount, cachedData, isLoading, setCachedData],
+    [appChainId, currentAccount, isLoading],
   );
 
   // Initial fetch on mount or when dependencies change
   useEffect(() => {
-    if (currentAccount && appChainId) {
-      // Only fetch if we don't have data or if cache is expired
-      const now = Date.now();
-      if (!cachedData.data || now - cachedData.timestamp >= CACHE_EXPIRY) {
-        fetchData();
-      }
+    if (!currentAccount || !appChainId) return;
+
+    // Only fetch if we don't have data or if cache is expired
+    const now = Date.now();
+    if (!cachedData.data || now - cachedData.timestamp >= CACHE_EXPIRY) {
+      fetchData();
     }
-  }, [appChainId, currentAccount, fetchData, cachedData]);
+  }, [appChainId, currentAccount, fetchData]);
 
   return {
     data: cachedData.data,

@@ -55,7 +55,7 @@ export function useRewardsMintsData(
       setError(undefined);
 
       try {
-        const mintsEventsRequest = (await execute(
+        const data = (await execute(
           `
         {
           c${appChainId}_rewardsMints(where: { account: "${currentAccount}" }, orderBy: timestamp, orderDirection: asc) {
@@ -76,12 +76,12 @@ export function useRewardsMintsData(
 
         // Update cache
         setCachedData({
-          data: mintsEventsRequest,
+          data,
           timestamp: now,
         });
 
         setIsLoading(false);
-        return mintsEventsRequest;
+        return data;
       } catch (e) {
         setError("Failed to fetch rewards mints data");
         console.error(e);
@@ -89,19 +89,19 @@ export function useRewardsMintsData(
         return null;
       }
     },
-    [appChainId, currentAccount, cachedData, isLoading, setCachedData],
+    [appChainId, currentAccount, isLoading],
   );
 
   // Initial fetch on mount or when dependencies change
   useEffect(() => {
-    if (currentAccount && appChainId) {
-      // Only fetch if we don't have data or if cache is expired
-      const now = Date.now();
-      if (!cachedData.data || now - cachedData.timestamp >= CACHE_EXPIRY) {
-        fetchData();
-      }
+    if (!currentAccount || !appChainId) return;
+
+    // Only fetch if we don't have data or if cache is expired
+    const now = Date.now();
+    if (!cachedData.data || now - cachedData.timestamp >= CACHE_EXPIRY) {
+      fetchData();
     }
-  }, [appChainId, currentAccount, fetchData, cachedData]);
+  }, [appChainId, currentAccount, fetchData]);
 
   return {
     data: cachedData.data,

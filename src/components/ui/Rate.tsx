@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { twMerge } from "tailwind-merge";
 import { formatUnits } from "viem";
-import * as d3 from "d3-format";
+import { format } from "d3-format";
 
 interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   value: number | undefined;
@@ -28,7 +28,7 @@ export function formatRate(
   if (highPrecision) {
     if (floatValue === 0) formattedRate = "0";
     else if (floatValue < 0.001) formattedRate = "<0.001";
-    else if (floatValue < 0.01) formattedRate = d3.format(",.3f")(floatValue);
+    else if (floatValue < 0.01) formattedRate = format(",.3f")(floatValue);
     else if (floatValue < 1) formattedRate = floatValue.toFixed(2);
     else if (floatValue < 100) formattedRate = floatValue.toFixed(1);
     else if (floatValue < 1000) formattedRate = floatValue.toFixed(0);
@@ -49,8 +49,8 @@ function longFormatRate(value: number, isUD7x3: boolean = false) {
   let longFormattedRate = "";
   if (floatValue === 0) longFormattedRate = "0";
   else if (floatValue < 0.001) longFormattedRate = "<0.001";
-  if (floatValue < 1) longFormattedRate = d3.format(",.3f")(floatValue);
-  else longFormattedRate = d3.format(",.3f")(floatValue);
+  if (floatValue < 1) longFormattedRate = format(",.3f")(floatValue);
+  else longFormattedRate = format(",.3f")(floatValue);
   return longFormattedRate;
 }
 
@@ -65,24 +65,10 @@ export const Rate: FC<Props> = ({
 }) => {
   const formattedValue = formatRate(value || 0, isUD7x3, highPrecision);
 
-  if (!tooltip)
-    return (
-      <span className={className} {...props}>
-        {prefix}
-        {formattedValue}%
-      </span>
-    );
-  else
-    return (
-      <Tooltip>
-        <TooltipTrigger className={twMerge("cursor-help", className)}>
-          {prefix}
-          {formattedValue}%
-        </TooltipTrigger>
-        <TooltipContent className="font-heading font-bold">
-          {prefix}
-          {longFormatRate(value || 0, isUD7x3)}%
-        </TooltipContent>
-      </Tooltip>
-    );
+  return (
+    <span className={className} {...props}>
+      {prefix}
+      {formattedValue}%
+    </span>
+  );
 };

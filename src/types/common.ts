@@ -5,6 +5,7 @@ export type TokenInfo = {
   symbol: string;
   decimals: number;
   address: Address;
+  chainId?: number;
 };
 
 export type LTokenInfo = TokenInfo & {
