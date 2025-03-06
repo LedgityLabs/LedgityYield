@@ -23,12 +23,19 @@ export function AppStakingPane({
   rewardRate: number;
   totalWeightedStake: number;
 }) {
+  const inputEl = useRef<HTMLInputElement>(null);
+
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [stakeOptionIndex, setStakeOptionIndex] = useState(0);
   const safeLdyTokenBalance = ldyTokenBalance || 0n;
 
   function handleSetPercent(percent: bigint) {
     setDepositedAmount((safeLdyTokenBalance! * percent) / 100n);
+    if (inputEl.current)
+      inputEl.current.value = formatUnits(
+        (safeLdyTokenBalance! * percent) / 100n,
+        ldyTokenData.decimals,
+      );
   }
 
   // Calculate APR based on stakeIndex and stakingAprInfo.
@@ -43,6 +50,7 @@ export function AppStakingPane({
         STAKE LDY TO GET REWARDS AND BENEFITS
       </div>
       <AmountInputWithLogo
+        ref={inputEl}
         maxValue={safeLdyTokenBalance}
         decimals={ldyTokenData.decimals}
         symbol={ldyTokenData.symbol}

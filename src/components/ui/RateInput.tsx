@@ -16,10 +16,13 @@ interface Props extends React.ComponentPropsWithoutRef<typeof Input> {}
 
 export const RateInput = forwardRef<HTMLInputElement, Props>(
   ({ ...props }, ref) => {
+    const inputEl = useRef<HTMLInputElement>(null);
+
     return (
       <div className="flex flex-col justify-center items-end">
         <div className="relative">
           <Input
+            ref={inputEl}
             placeholder="Rate"
             onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
               if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();

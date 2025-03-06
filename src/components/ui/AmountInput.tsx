@@ -27,6 +27,14 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
     },
     ref,
   ) => {
+    const inputEl = useRef<HTMLInputElement>(null);
+    const setMaxValue = () => {
+      if (inputEl && inputEl.current) {
+        inputEl.current.value = formatUnits(maxValue, decimals);
+        if (props.onChange) props.onChange({ target: inputEl.current } as any);
+      }
+    };
+    useImperativeHandle(ref, () => inputEl.current!);
     return (
       <div
         className={clsx(
@@ -42,7 +50,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
           )}
         >
           <span>{maxName}:</span>{" "}
-          <button>
+          <button onClick={setMaxValue}>
             <Amount
               value={maxValue}
               decimals={decimals}
@@ -54,6 +62,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
         </p>
         <div className="relative w-full">
           <Input
+            ref={inputEl}
             placeholder={`${symbol} amount`}
             onKeyPress={(e: KeyboardEvent<HTMLInputElement>) => {
               if (!e.key.match(/^[0-9.]+$/)) e.preventDefault();
@@ -64,6 +73,7 @@ export const AmountInput = forwardRef<HTMLInputElement, Props>(
           <Button
             size="tiny"
             className="absolute bottom-[calc(50%-1.25rem/2+1px)] right-3 inline-flex h-5 w-min items-center rounded-md bg-fg px-1.5 py-0.5 text-[0.8rem]"
+            onClick={setMaxValue}
           >
             <span className="inline align-baseline">
               <span className="inline align-text-top text-xs leading-[0.85rem]">

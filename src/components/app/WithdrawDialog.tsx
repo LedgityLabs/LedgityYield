@@ -48,6 +48,7 @@ export function WithdrawDialog({
 
   const withdrawalFeeInEth = useLTokenWithdrawalFeeInEth(lTokenData?.address);
 
+  const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
 
   const canInstantWithdraw = useCanInstantWithdraw(
@@ -130,6 +131,7 @@ export function WithdrawDialog({
             <DialogFooter>
               <div className="mt-6 flex items-end justify-between gap-4 mb-3 w-full">
                 <AmountInput
+                  ref={inputEl}
                   maxValue={lTokenBalance}
                   decimals={lTokenData.decimals}
                   symbol={lTokenData.symbol}

@@ -25,11 +25,28 @@ export const Card: FC<CardProps> = ({
   ...props
 }) => {
   const Comp = asChild ? Slot : "article";
-
+  const card = useRef<HTMLElement>();
   const [circleSize, setCircleSize] = useState(100);
-
+  useEffect(() => {
+    if (card.current) {
+      setCircleSize(
+        (card.current.offsetHeight + card.current.offsetWidth) / 2.2,
+      );
+    }
+  }, [card]);
+  useEffect(() => {
+    if (card.current) {
+      card.current.style.setProperty("--circle-size", `${circleSize}px`);
+      card.current.style.setProperty(
+        "--circle-intensity",
+        circleIntensity.toString(),
+      );
+    }
+  }, [circleSize, circleIntensity]);
   return (
     <Comp
+      //@ts-ignore
+      ref={card}
       className={twMerge(
         animated && "card-glow", // @dev Used by useGlowCardEffect
         defaultGradient ? "bg-card-border-default" : "bg-card-border",
