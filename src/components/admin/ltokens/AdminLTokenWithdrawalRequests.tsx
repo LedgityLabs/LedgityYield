@@ -298,7 +298,7 @@ export function AdminLTokenWithdrawalRequests({
           )}
 
           {!isLoading &&
-            tableRows.length &&
+            !!tableRows.length &&
             tableRows.map((row, i) =>
               row.getVisibleCells().map((cell, j) => (
                 <div
