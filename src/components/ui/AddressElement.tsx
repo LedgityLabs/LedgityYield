@@ -5,7 +5,7 @@ import { useTokenInfos } from "@/hooks/contracts";
 import { FC } from "react";
 
 const AddToWallet = ({ address }: { address: `0x${string}` }) => {
-  const tokenData = useTokenInfos([address]);
+  const tokenData = useTokenInfos([{ address }]);
 
   return (
     <button

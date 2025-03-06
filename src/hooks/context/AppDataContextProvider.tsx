@@ -71,9 +71,15 @@ export function AppDataContextProvider({
 
   // @dev Safe to cast since strings in the Set are Address typed
   const tokens = [
-    ...lTokenInfos.map((lToken) => lToken.underlying),
-    ...Object.values(dependenciesAddresses[appChainId]),
-  ] as Address[];
+    ...lTokenInfos.map((lToken) => ({
+      address: lToken.underlying,
+      chainId: lToken.chainId,
+    })),
+    ...Object.values(dependenciesAddresses[appChainId]).map((address) => ({
+      address,
+      chainId: appChainId,
+    })),
+  ] as { address: Address; chainId?: number }[];
   const tokenInfos = useTokenInfos(tokens);
 
   // ==== Prices ==== //

@@ -33,7 +33,7 @@ export function useLTokenInfos(
   const calls = tokensFiltered?.flatMap((token) => {
     const address = token.address ?? zeroAddress;
     const chainId = token.chainId;
-    return [
+    const tokenCalls = [
       {
         address,
         chainId,
@@ -78,6 +78,11 @@ export function useLTokenInfos(
         args: [userAddress ?? zeroAddress],
       },
     ] as const;
+
+    if (tokenCalls.length !== NB_DATA_POINTS)
+      throw Error("Invalid number of data points");
+
+    return tokenCalls;
   });
 
   const { data, error, refetch } = useReadContracts({
