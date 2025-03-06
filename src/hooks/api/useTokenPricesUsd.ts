@@ -47,9 +47,10 @@ export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
 
       // First check stablecoins and cached values
       for (const lowercaseSymbol of lowercaseSymbols) {
+        const symbol = lowercaseSymbol.toUpperCase();
         // Handle stablecoins
         if (lowercaseSymbol === "usdt" || lowercaseSymbol === "usdc") {
-          result[lowercaseSymbol] = 1;
+          result[symbol] = 1;
           continue;
         }
 
@@ -60,7 +61,7 @@ export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
         if (cached) {
           const cachedData: CachedPrice = JSON.parse(cached);
           if (now - cachedData.timestamp < thirtyMinutes) {
-            result[lowercaseSymbol] = cachedData.price;
+            result[symbol] = cachedData.price;
             continue;
           }
         }
@@ -74,7 +75,7 @@ export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
           idsToFetch.push(id);
         } else {
           console.error(`Failed to find id for symbol: ${lowercaseSymbol}`);
-          result[lowercaseSymbol] = cached ? JSON.parse(cached).price : 0;
+          result[symbol] = cached ? JSON.parse(cached).price : 0;
         }
       }
 

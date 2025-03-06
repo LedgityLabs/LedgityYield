@@ -17,7 +17,7 @@ export function computeTvlMetrics(
       acc.byToken[lToken.symbol] ??= 0;
       acc.byChain[lToken.chainId] ??= 0;
 
-      const underlyingSymbol = lToken.symbol.slice(1).toLowerCase();
+      const underlyingSymbol = lToken.symbol.slice(1);
       const price = tokenPrices[underlyingSymbol] || 0;
       const tokenAmount = Number(
         formatUnits(lToken.totalSupply, lToken.decimals),

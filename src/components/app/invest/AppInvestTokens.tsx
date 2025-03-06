@@ -81,11 +81,6 @@ export function AppInvestTokens({ className }: { className?: string }) {
   }
 
   useEffect(() => {
-    if (lTokenInfosCurrentChain.length === 0) {
-      setIsLoading(false);
-      return;
-    }
-
     const newTableData = lTokenInfosCurrentChain.map((tokenData) => {
       const { symbol, apr, balance, decimals } = tokenData;
       const tokenTvl = tvlMetrics.byToken[symbol] || 0;
