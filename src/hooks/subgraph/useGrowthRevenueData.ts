@@ -69,7 +69,7 @@ export function useGrowthRevenueData(): {
   useEffect(() => {
     if (!currentAccount || !appChainId || isProcessing) return;
     if (!investmentStartData?.data && !rewardsMintsData?.data) return;
-    if (!tokenPriceUsd.length || !rewardData.length) return;
+    if (!Object.keys(tokenPriceUsd).length || !rewardData.length) return;
 
     setIsProcessing(true);
 
