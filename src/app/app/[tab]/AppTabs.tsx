@@ -67,8 +67,8 @@ export function AppTabs({ tabParams }: { tabParams: TabParam[] }) {
         return <AppGetUSDC />;
       case "pre-mining":
         return <AppPreMining />;
-      case "affiliate":
-        return <AppAffiliate />;
+      // case "affiliate":
+      //   return <AppAffiliate />;
       default:
         return <AppInvest />;
     }
