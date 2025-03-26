@@ -44,9 +44,10 @@ export function AppStakingPoolPane({
   rewardRate: number;
   totalWeightedStake: number;
 }) {
-  const formattedAmountRewards = Number(
-    formatUnits(BigInt(stakingInfo.rewards), ldyTokenData.decimals),
+  const amountRewards = Number(
+    formatUnits(BigInt(rewards), ldyTokenData.decimals),
   ).toFixed(4);
+  const formattedAmountRewards = amountRewards === "0.0000" ? 0 : amountRewards;
 
   const stakingApr = getAPRCalculation(
     rewardRate,
