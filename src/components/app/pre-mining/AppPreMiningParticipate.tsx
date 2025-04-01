@@ -99,12 +99,12 @@ export function AppPreMiningParticipate({ className }: { className?: string }) {
                 <Progress value={lockProgression * 100} />
                 {canInstantWithdraw ? (
                   <InstantUnlockTx
-                    disabled={!hasLocked || !lockUnlocked}
+                    disabled={!hasLocked || lockUnlocked}
                     buttonText="Unlock now"
                   />
                 ) : (
                   <RequestUnlockTx
-                    disabled={!hasLocked || !lockUnlocked}
+                    disabled={!hasLocked || lockUnlocked}
                     params={{
                       msgValue: withdrawalFeeInEth,
                     }}
