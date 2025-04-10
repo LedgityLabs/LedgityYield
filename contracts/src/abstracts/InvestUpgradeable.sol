@@ -240,16 +240,13 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
    * @dev Implementations must return true to indicate a successful distribution, and
    * false otherwise. If it returns false, the rewards will be added to the account's
    * virtual balance, in order to be claimed later.
-   * @param account The account to claim the rewards of.
-   * @param amount The amount of rewards to claim.
    * @return Whether the rewards distribution was successfull.
    */
   function _distributeRewards(
-    address account,
-    uint256 amount
+    address /* account */,
+    uint256 /* amount */
   ) internal virtual returns (bool) {
-    account; // Silence unused variables warning
-    amount;
+    require(false, "Must override function");
     return false;
   }
 
@@ -481,7 +478,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
 
       // If rewards have not been distributed, accumulate them in account's virtual balance
       if (!distributed)
-        accountsDetails[account].virtualBalance = rewards;
+        accountsDetails[account].virtualBalance += rewards;
     }
 
     // Finally, deeply reset investment period of the account
