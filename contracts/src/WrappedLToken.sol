@@ -158,6 +158,64 @@ contract WrappedLToken is
   }
 
   /**
+   * @notice Deposits underlying tokens into LToken and wraps the received LTokens
+   * @param underlyingAmount The amount of underlying tokens to deposit
+   */
+  function depositAndWrap(uint256 underlyingAmount) external {
+    if (underlyingAmount == 0) revert WrapZeroAmount();
+
+    // Get the underlying token from the LToken contract
+    IERC20 underlying = IERC20(lToken.underlying());
+
+    // Transfer underlying tokens from user to this contract
+    underlying.safeTransferFrom(
+      msg.sender,
+      address(this),
+      underlyingAmount
+    );
+
+    // Approve LToken to spend the underlying tokens
+    underlying.safeApprove(address(lToken), underlyingAmount);
+
+    // Deposit underlying tokens into LToken to get LTokens
+    lToken.deposit(underlyingAmount);
+
+    // Now wrap the received LTokens
+    _wrap(underlyingAmount, msg.sender);
+  }
+
+  /**
+   * @notice Deposits underlying tokens into LToken and wraps the received LTokens, sending them to a specified address
+   * @param underlyingAmount The amount of underlying tokens to deposit
+   * @param to The recipient of the wrapped tokens
+   */
+  function depositAndWrap(
+    uint256 underlyingAmount,
+    address to
+  ) external {
+    if (underlyingAmount == 0) revert WrapZeroAmount();
+
+    // Get the underlying token from the LToken contract
+    IERC20 underlying = IERC20(lToken.underlying());
+
+    // Transfer underlying tokens from user to this contract
+    underlying.safeTransferFrom(
+      msg.sender,
+      address(this),
+      underlyingAmount
+    );
+
+    // Approve LToken to spend the underlying tokens
+    underlying.safeApprove(address(lToken), underlyingAmount);
+
+    // Deposit underlying tokens into LToken to get LTokens
+    lToken.deposit(underlyingAmount);
+
+    // Now wrap the received LTokens and send them to the specified address
+    _wrap(underlyingAmount, to);
+  }
+
+  /**
    * @notice Internal function to handle wrapping LTokens
    * @param lTokenAmount The amount of LTokens to wrap
    * @param to The recipient of the wrapped tokens
