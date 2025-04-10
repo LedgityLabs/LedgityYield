@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import { IERC20PermitUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-IERC20PermitUpgradeable.sol";
-import { LToken } from "../LToken.sol";
+// Interfaces
+import { ILToken } from "./ILToken.sol";
 
 /**
  * @title IWrappedLToken Interface
  * @notice Interface for the Wrapped LToken that provides a non-rebasing representation
  */
-interface IWrappedLToken is
-  IERC20MetadataUpgradeable,
-  IERC20PermitUpgradeable
-{
+interface IWrappedLToken {
   error InsufficientBalance(uint256 requested);
   error WrapZeroAmount();
 
@@ -32,7 +28,7 @@ interface IWrappedLToken is
   /**
    * @notice Returns the address of the underlying LToken
    */
-  function lToken() external view returns (LToken);
+  function lToken() external view returns (ILToken);
 
   /**
    * @notice Wraps LTokens into wrapped tokens

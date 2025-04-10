@@ -2,22 +2,22 @@
 pragma solidity 0.8.18;
 
 // Contracts
-import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import { ERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import { CCIPToken } from "./external/CCIPToken.sol";
 import { GlobalOwnableUpgradeable } from "./abstracts/GlobalOwnableUpgradeable.sol";
 import { GlobalPausableUpgradeable } from "./abstracts/GlobalPausableUpgradeable.sol";
 import { GlobalRestrictableUpgradeable } from "./abstracts/GlobalRestrictableUpgradeable.sol";
 import { RecoverableUpgradeable } from "./abstracts/RecoverableUpgradeable.sol";
+//
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { ERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 // Interfaces
 import { ILToken } from "./interfaces/ILToken.sol";
 import { IWrappedLToken } from "./interfaces/IWrappedLToken.sol";
-import { IGetCCIPAdmin } from "./external/interfaces/IGetCCIPAdmin.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
-// Errors
+// ======== ERRORS ======== //
 error WrapZeroAmount();
 error InsufficientBalance(uint256 amount);
 
@@ -33,15 +33,21 @@ contract WrappedLToken is
   GlobalOwnableUpgradeable,
   GlobalPausableUpgradeable,
   GlobalRestrictableUpgradeable,
-  RecoverableUpgradeable
+  RecoverableUpgradeable,
+  CCIPToken
 {
+  // ======== LIBS ======== //
   using SafeERC20 for IERC20;
+
+  // ======== STORAGE ======== //
 
   // The underlying LToken being wrapped
   ILToken public lToken;
 
   // Total amount of underlying LTokens held by this contract
   uint256 private _totalUnderlyingHeld;
+
+  // ======== INITIALIZE ======== //
 
   /**
    * @notice Initializes the WrappedLToken contract
@@ -69,6 +75,8 @@ contract WrappedLToken is
     lToken = ILToken(lTokenAddr_);
   }
 
+  // ======== VIEW ======== //
+
   /**
    * @notice Get the current exchange rate between wrapped tokens and LTokens
    * @return The exchange rate in ray (27 decimals)
@@ -84,6 +92,32 @@ contract WrappedLToken is
   function totalLTokenBalance() external view returns (uint256) {
     return _totalUnderlyingHeld;
   }
+
+  /**
+   * @notice Preview the amount of wrapped tokens that would be received for a given amount of LTokens
+   * @param lTokenAmount The amount of LTokens to wrap
+   * @return wrappedAmount_ The amount of wrapped tokens that would be received
+   */
+  function previewWrap(
+    uint256 lTokenAmount
+  ) external view returns (uint256 wrappedAmount_) {
+    if (lTokenAmount == 0) return 0;
+    wrappedAmount_ = (lTokenAmount * 1e27) / exchangeRate();
+  }
+
+  /**
+   * @notice Preview the amount of LTokens that would be received for a given amount of wrapped tokens
+   * @param wrappedAmount The amount of wrapped tokens to unwrap
+   * @return lTokenAmount_ The amount of LTokens that would be received
+   */
+  function previewUnwrap(
+    uint256 wrappedAmount
+  ) external view returns (uint256 lTokenAmount_) {
+    if (wrappedAmount == 0) return 0;
+    lTokenAmount_ = (wrappedAmount * exchangeRate()) / 1e27;
+  }
+
+  // ======== WRAP ======== //
 
   /**
    * @notice Wraps LTokens and receives wrapped tokens
@@ -110,6 +144,16 @@ contract WrappedLToken is
   }
 
   /**
+   * @notice Checks if the sender is the owner
+   * @return bool True if the sender is the owner
+   */
+  function isOwner() internal view virtual override returns (bool) {
+    return msg.sender == globalOwner();
+  }
+
+  // ======== UNWRAP ======== //
+
+  /**
    * @notice Unwraps tokens back to LTokens
    * @param wrappedAmount The amount of wrapped tokens to unwrap
    * @return lTokenAmount_ The amount of LTokens received
@@ -133,29 +177,7 @@ contract WrappedLToken is
     return _unwrap(wrappedAmount, to);
   }
 
-  /**
-   * @notice Preview the amount of wrapped tokens that would be received for a given amount of LTokens
-   * @param lTokenAmount The amount of LTokens to wrap
-   * @return wrappedAmount_ The amount of wrapped tokens that would be received
-   */
-  function previewWrap(
-    uint256 lTokenAmount
-  ) external view returns (uint256 wrappedAmount_) {
-    if (lTokenAmount == 0) return 0;
-    wrappedAmount_ = (lTokenAmount * 1e27) / exchangeRate();
-  }
-
-  /**
-   * @notice Preview the amount of LTokens that would be received for a given amount of wrapped tokens
-   * @param wrappedAmount The amount of wrapped tokens to unwrap
-   * @return lTokenAmount_ The amount of LTokens that would be received
-   */
-  function previewUnwrap(
-    uint256 wrappedAmount
-  ) external view returns (uint256 lTokenAmount_) {
-    if (wrappedAmount == 0) return 0;
-    lTokenAmount_ = (wrappedAmount * exchangeRate()) / 1e27;
-  }
+  // ======== DEPOSIT AND WRAP ======== //
 
   /**
    * @notice Deposits underlying tokens into LToken and wraps the received LTokens
@@ -214,6 +236,8 @@ contract WrappedLToken is
     // Now wrap the received LTokens and send them to the specified address
     _wrap(underlyingAmount, to);
   }
+
+  // ======== INTERNAL ======== //
 
   /**
    * @notice Internal function to handle wrapping LTokens

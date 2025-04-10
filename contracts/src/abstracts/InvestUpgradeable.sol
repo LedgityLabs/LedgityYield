@@ -246,6 +246,7 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
     address /* account */,
     uint256 /* amount */
   ) internal virtual returns (bool) {
+    /// @dev Revert for safety here
     require(false, "Must override function");
     return false;
   }
