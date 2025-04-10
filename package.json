@@ -18,7 +18,7 @@
     "deploy:fork-base": "cross-env HARDHAT_DEPLOY_FORK=base hardhat deploy --network hardhat",
     "deploy:base": "hardhat deploy --network base",
     "verify:base": "hardhat verify-deploys --chain base --network base",
-    "cc:test": "forge test -vvv --use 0.8.18",
+    "cc:test": "forge test --use 0.8.18",
     "cc:coverage": "bash scripts/coverage.sh",
     "cc:size": "hardhat size-contracts",
     "cc:slither:report": "slither . --compile-force-framework hardhat --hardhat-artifacts-directory ./contracts/hardhat/artifacts/ --checklist > report.md ",
