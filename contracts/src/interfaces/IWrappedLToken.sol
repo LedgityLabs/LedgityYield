@@ -71,20 +71,20 @@ interface IWrappedLToken {
   ) external returns (uint256 lTokenAmount_);
 
   /**
-   * @notice Previews the amount of wrapped tokens that would be received for a given amount of LTokens
+   * @notice Returns the amount of wrapped tokens that would be received for a given amount of LTokens
    * @param lTokenAmount The amount of LTokens to wrap
-   * @return wrappedAmount_ The estimated amount of wrapped tokens that would be received
+   * @return wrappedAmount_ The amount of wrapped tokens that would be received
    */
-  function previewWrap(
+  function toWrappedAmount(
     uint256 lTokenAmount
   ) external view returns (uint256 wrappedAmount_);
 
   /**
-   * @notice Previews the amount of LTokens that would be received for a given amount of wrapped tokens
+   * @notice Returns the amount of LTokens that would be received for a given amount of wrapped tokens
    * @param wrappedAmount The amount of wrapped tokens to unwrap
-   * @return lTokenAmount_ The estimated amount of LTokens that would be received
+   * @return lTokenAmount_ The amount of LTokens that would be received
    */
-  function previewUnwrap(
+  function toRebasingAmount(
     uint256 wrappedAmount
   ) external view returns (uint256 lTokenAmount_);
 
@@ -98,4 +98,22 @@ interface IWrappedLToken {
    * @notice Returns the total amount of underlying LTokens held by the contract
    */
   function totalLTokenBalance() external view returns (uint256);
+
+  /**
+   * @notice Initializes the WrappedLToken contract
+   * @param globalOwner_ The address of the global owner
+   * @param globalPause_ The address of the global pause controller
+   * @param globalBlacklist_ The address of the global blacklist controller
+   * @param lTokenAddr_ Address of the LToken to wrap
+   * @param name_ Name for the wrapped token
+   * @param symbol_ Symbol for the wrapped token
+   */
+  function initialize(
+    address globalOwner_,
+    address globalPause_,
+    address globalBlacklist_,
+    address lTokenAddr_,
+    string memory name_,
+    string memory symbol_
+  ) external;
 }

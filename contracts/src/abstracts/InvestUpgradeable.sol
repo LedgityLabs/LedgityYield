@@ -478,8 +478,9 @@ abstract contract InvestUpgradeable is BaseUpgradeable {
       _isClaiming = false;
 
       // If rewards have not been distributed, accumulate them in account's virtual balance
+      /// @dev The previous virtualBalance of the account have already been included in the rewards
       if (!distributed)
-        accountsDetails[account].virtualBalance += rewards;
+        accountsDetails[account].virtualBalance = rewards;
     }
 
     // Finally, deeply reset investment period of the account

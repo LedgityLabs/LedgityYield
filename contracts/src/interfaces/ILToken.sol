@@ -124,6 +124,12 @@ interface ILToken is IERC20MetadataUpgradeable {
     returns (bool);
 
   /**
+   * @notice Returns the current APR in UD7x3 format
+   * @return The current APR in UD7x3 format
+   */
+  function getAPR() external view returns (uint16);
+
+  /**
    * @notice Returns a withdrawal request by its ID
    */
   function withdrawalQueue(
