@@ -20,6 +20,7 @@ import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // ======== ERRORS ======== //
 error WrapZeroAmount();
 error InsufficientBalance(uint256 amount);
+error BaseRateCannotBeLessThanOne();
 
 /**
  * @title WrappedLToken
@@ -44,8 +45,25 @@ contract WrappedLToken is
   // The underlying LToken being wrapped
   ILToken public lToken;
 
-  // The initial exchange rate of the wrapped token
-  uint256 public initialRate;
+  // The initial exchange rate of the wrapped token in Ray (27 decimals)
+  uint256 public baseRate = 1e27;
+
+  // Checkpoint for rate calculations
+  struct LastRateCheckpoint {
+    uint256 timestamp; // When this checkpoint was created
+    uint256 apr; // The exchange rate at this checkpoint
+  }
+
+  // Last recorded checkpoint
+  LastRateCheckpoint public lastCheckpoint;
+
+  // ======== EVENTS ======== //
+
+  event RateCheckpointUpdated(uint256 newRate, uint16 newAPRUD7x3);
+
+  // ======== CONSTRUCTOR ======== //
+
+  constructor() {}
 
   // ======== INITIALIZE ======== //
 
@@ -63,7 +81,6 @@ contract WrappedLToken is
     address globalPause_,
     address globalBlacklist_,
     address lTokenAddr_,
-    uint256 initialRate_,
     string memory name_,
     string memory symbol_
   ) public initializer {
@@ -74,19 +91,50 @@ contract WrappedLToken is
     __Recoverable_init(address(this));
 
     lToken = ILToken(lTokenAddr_);
-    initialRate = initialRate_;
+
+    // Initialize the first checkpoint
+    updateRateCheckpoint();
   }
 
   // ======== VIEW ======== //
 
   /**
    * @notice Get the current exchange rate between wrapped tokens and LTokens
-   * @return The exchange rate in ray (27 decimals)
+   * @return compoundedRate The exchange rate in ray (27 decimals)
    */
-  function exchangeRate() public view returns (uint256) {
-    uint256 balance = lToken.balanceOf(address(this));
-    if (balance == 0 || totalSupply() == 0) return initialRate;
-    return (balance * 1e27) / totalSupply();
+  function exchangeRate()
+    public
+    view
+    returns (uint256 compoundedRate)
+  {
+    compoundedRate = baseRate;
+
+    // Time elapsed since last checkpoint
+    uint256 timeElapsed = block.timestamp - lastCheckpoint.timestamp;
+
+    // Calculate number of full days elapsed
+    uint256 fullDays = timeElapsed / 1 days;
+    uint256 remainingTime = timeElapsed % 1 days;
+
+    // Daily rate = APR / 365
+    uint256 dailyRatio = lastCheckpoint.apr / 365;
+
+    // Apply daily compounding for full days
+    for (uint256 i = 0; i < fullDays; i++) {
+      compoundedRate = (compoundedRate * (1e27 + dailyRatio)) / 1e27;
+    }
+
+    // Add remaining time linearly without compounding
+    if (remainingTime > 0) {
+      // Calculate the partial day ratio: (APR * remainingTime) / (365 days)
+      uint256 remainingRatio = (lastCheckpoint.apr * remainingTime) /
+        (365 days);
+      compoundedRate =
+        (compoundedRate * (1e27 + remainingRatio)) /
+        1e27;
+    }
+
+    return compoundedRate;
   }
 
   /**
@@ -251,12 +299,14 @@ contract WrappedLToken is
     address to
   ) internal returns (uint256 wrappedAmount_) {
     if (lTokenAmount == 0) revert WrapZeroAmount();
-
-    uint256 balance = lToken.balanceOf(msg.sender);
-    if (lTokenAmount > balance) {
+    if (lToken.balanceOf(msg.sender) < lTokenAmount) {
       revert InsufficientBalance(lTokenAmount);
     }
 
+    // Update rate checkpoint before any operation that changes balances
+    updateRateCheckpoint();
+
+    // Calculate wrapped amount using updated rate
     wrappedAmount_ = toWrappedAmount(lTokenAmount);
 
     _mint(to, wrappedAmount_);
@@ -280,6 +330,10 @@ contract WrappedLToken is
     if (wrappedAmount > balanceOf(msg.sender))
       revert InsufficientBalance(wrappedAmount);
 
+    // Update rate checkpoint before any operation that changes balances
+    updateRateCheckpoint();
+
+    // Calculate LToken amount using updated rate
     lTokenAmount_ = toRebasingAmount(wrappedAmount);
 
     _burn(msg.sender, wrappedAmount);
@@ -289,7 +343,35 @@ contract WrappedLToken is
     emit Unwrap(msg.sender, to, wrappedAmount, lTokenAmount_);
   }
 
-  // ======== ADMIN ======== //
+  /**
+   * @notice Updates the rate checkpoint with current APR and rate
+   * @dev This should be called whenever the APR changes
+   */
+  function updateRateCheckpoint() public {
+    uint16 lTokenApr = lToken.getAPR();
+
+    // Only update if APR changed
+    if (lTokenApr != lastCheckpoint.apr) {
+      // Calculate the new base rate including all accumulated rewards
+      baseRate = exchangeRate();
+
+      lastCheckpoint = LastRateCheckpoint({
+        timestamp: block.timestamp,
+        apr: (lTokenApr * 1e27) / 1000
+      });
+
+      emit RateCheckpointUpdated(baseRate, lTokenApr);
+    }
+  }
+
+  /**
+   * @notice Updates the base rate
+   * @param newRate The new base rate in ray (27 decimals)
+   */
+  function updateBaseRate(uint256 newRate) public onlyOwner {
+    if (newRate < 1e27) revert BaseRateCannotBeLessThanOne();
+    baseRate = newRate;
+  }
 
   /**
    * @notice Recovers a specified amount of a given token address.
