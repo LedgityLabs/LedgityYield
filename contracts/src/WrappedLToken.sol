@@ -44,8 +44,8 @@ contract WrappedLToken is
   // The underlying LToken being wrapped
   ILToken public lToken;
 
-  // Total amount of underlying LTokens held by this contract
-  uint256 private _totalUnderlyingHeld;
+  // The initial exchange rate of the wrapped token
+  uint256 public initialRate;
 
   // ======== INITIALIZE ======== //
 
@@ -63,6 +63,7 @@ contract WrappedLToken is
     address globalPause_,
     address globalBlacklist_,
     address lTokenAddr_,
+    uint256 initialRate_,
     string memory name_,
     string memory symbol_
   ) public initializer {
@@ -73,6 +74,7 @@ contract WrappedLToken is
     __Recoverable_init(address(this));
 
     lToken = ILToken(lTokenAddr_);
+    initialRate = initialRate_;
   }
 
   // ======== VIEW ======== //
@@ -82,39 +84,38 @@ contract WrappedLToken is
    * @return The exchange rate in ray (27 decimals)
    */
   function exchangeRate() public view returns (uint256) {
-    if (_totalUnderlyingHeld == 0 || totalSupply() == 0) return 1e27; // 1.0 in ray
-    return ((_totalUnderlyingHeld * 1e27) / totalSupply());
+    uint256 balance = lToken.balanceOf(address(this));
+    if (balance == 0 || totalSupply() == 0) return initialRate;
+    return (balance * 1e27) / totalSupply();
+  }
+
+  /**
+   * @notice Convert wrapped token amount to LToken amount
+   * @param wrappedAmount The amount of wrapped tokens to convert
+   * @return lTokenAmount_ The amount of LTokens that would be received
+   */
+  function toRebasingAmount(
+    uint256 wrappedAmount
+  ) public view returns (uint256) {
+    return (wrappedAmount * exchangeRate()) / 1e27;
+  }
+
+  /**
+   * @notice Convert LToken amount to wrapped token amount
+   * @param lTokenAmount The amount of LTokens to wrap
+   * @return wrappedAmount_ The amount of wrapped tokens that would be received
+   */
+  function toWrappedAmount(
+    uint256 lTokenAmount
+  ) public view returns (uint256) {
+    return (lTokenAmount * 1e27) / exchangeRate();
   }
 
   /**
    * @notice Returns the total amount of LTokens held by this contract
    */
   function totalLTokenBalance() external view returns (uint256) {
-    return _totalUnderlyingHeld;
-  }
-
-  /**
-   * @notice Preview the amount of wrapped tokens that would be received for a given amount of LTokens
-   * @param lTokenAmount The amount of LTokens to wrap
-   * @return wrappedAmount_ The amount of wrapped tokens that would be received
-   */
-  function previewWrap(
-    uint256 lTokenAmount
-  ) external view returns (uint256 wrappedAmount_) {
-    if (lTokenAmount == 0) return 0;
-    wrappedAmount_ = (lTokenAmount * 1e27) / exchangeRate();
-  }
-
-  /**
-   * @notice Preview the amount of LTokens that would be received for a given amount of wrapped tokens
-   * @param wrappedAmount The amount of wrapped tokens to unwrap
-   * @return lTokenAmount_ The amount of LTokens that would be received
-   */
-  function previewUnwrap(
-    uint256 wrappedAmount
-  ) external view returns (uint256 lTokenAmount_) {
-    if (wrappedAmount == 0) return 0;
-    lTokenAmount_ = (wrappedAmount * exchangeRate()) / 1e27;
+    return lToken.balanceOf(address(this));
   }
 
   // ======== WRAP ======== //
@@ -256,9 +257,8 @@ contract WrappedLToken is
       revert InsufficientBalance(lTokenAmount);
     }
 
-    wrappedAmount_ = (lTokenAmount * 1e27) / exchangeRate();
+    wrappedAmount_ = toWrappedAmount(lTokenAmount);
 
-    _totalUnderlyingHeld += lTokenAmount;
     _mint(to, wrappedAmount_);
 
     lToken.transferFrom(msg.sender, address(this), lTokenAmount);
@@ -280,13 +280,31 @@ contract WrappedLToken is
     if (wrappedAmount > balanceOf(msg.sender))
       revert InsufficientBalance(wrappedAmount);
 
-    lTokenAmount_ = (wrappedAmount * exchangeRate()) / 1e27;
+    lTokenAmount_ = toRebasingAmount(wrappedAmount);
 
     _burn(msg.sender, wrappedAmount);
-    _totalUnderlyingHeld -= lTokenAmount_;
 
     lToken.transfer(to, lTokenAmount_);
 
     emit Unwrap(msg.sender, to, wrappedAmount, lTokenAmount_);
+  }
+
+  // ======== ADMIN ======== //
+
+  /**
+   * @notice Recovers a specified amount of a given token address.
+   * @dev This override of RecoverableUpgradeable.recoverERC20() prevents the recovered
+   * token from being the underlying token.
+   * @inheritdoc RecoverableUpgradeable
+   */
+  function recoverERC20(
+    address tokenAddress,
+    uint256 amount
+  ) public override onlyOwner {
+    if (tokenAddress == address(0)) {
+      payable(msg.sender).transfer(amount);
+    } else {
+      super.recoverERC20(tokenAddress, amount);
+    }
   }
 }
