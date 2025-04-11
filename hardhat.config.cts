@@ -67,7 +67,7 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     verifyApiKey: ETHERSCAN_API_KEY,
     apiURL: "https://api.etherscan.io/api",
     browserURL: "https://etherscan.io",
-    deploy: ["./contracts/hardhat/mainnet-deploy"],
+    deploy: ["./contracts/hardhat/deploy-mainnet"],
   },
   sepolia: {
     name: "sepolia",
@@ -77,6 +77,7 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     verifyApiKey: ETHERSCAN_API_KEY,
     apiURL: "https://api-sepolia.etherscan.io",
     browserURL: "https://sepolia.etherscan.io",
+    deploy: ["./contracts/hardhat/deploy-sepolia"],
     isTestnet: true,
   },
   base: {
@@ -87,7 +88,7 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     verifyApiKey: BASE_VERIFY_API_KEY,
     apiURL: "https://api.basescan.org/api",
     browserURL: "https://basescan.org",
-    deploy: ["./contracts/hardhat/base-deploy"],
+    deploy: ["./contracts/hardhat/deploy-base"],
   },
   baseSepolia: {
     name: "baseSepolia",
@@ -107,7 +108,7 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     verifyApiKey: ARBISCAN_API_KEY,
     apiURL: "https://api.arbiscan.io",
     browserURL: "https://arbiscan.io",
-    deploy: ["./contracts/hardhat/arbi-mainnet-deploy"],
+    deploy: ["./contracts/hardhat/deploy-arbitrum"],
   },
   arbitrumGoerli: {
     name: "arbitrumGoerli",
