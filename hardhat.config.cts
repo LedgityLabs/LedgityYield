@@ -5,6 +5,7 @@
 
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
+import "@nomiclabs/hardhat-ethers";
 import "@nomicfoundation/hardhat-verify";
 import "@okxweb3/hardhat-explorer-verify";
 import "colors";

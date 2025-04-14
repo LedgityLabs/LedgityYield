@@ -65,6 +65,7 @@
     "@graphql-mesh/transform-prefix": "0.93.1",
     "@graphql-tools/utils": "9.2.1",
     "@lifi/widget": "^3.13.2",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@okxweb3/hardhat-explorer-verify": "^1.6.4",
     "@prisma/client": "^5.7.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
