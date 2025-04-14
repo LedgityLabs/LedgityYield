@@ -13,6 +13,370 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CCIPToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ccipTokenAbi = [
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotBurner',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotMinter',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotOwnerOrCCIPAdmin',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'burner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BurnAccessGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'burner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BurnAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'CCIPAdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'minter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'MintAccessGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'minter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'MintAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      { name: 'data', internalType: 'bytes', type: 'bytes', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burnFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCCIPAdmin',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
+    name: 'grantBurnRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'grantMintAndBurnRoles',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'minter', internalType: 'address', type: 'address' }],
+    name: 'grantMintRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isBurner',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isMinter',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
+    name: 'revokeBurnRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'minter', internalType: 'address', type: 'address' }],
+    name: 'revokeMintRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newAdmin', internalType: 'address', type: 'address' }],
+    name: 'setCCIPAdmin',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'transferAndCall',
+    outputs: [{ name: 'success', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // DummyLDYStaking
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1021,6 +1385,488 @@ export const globalPauseConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IGlobalBlacklist
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iGlobalBlacklistAbi = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Blacklisted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unblacklisted',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'blacklist',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isBlacklisted',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'unBlacklist',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ILToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ilTokenAbi = [
+  { type: 'error', inputs: [], name: 'AmountExceedsUint96' },
+  { type: 'error', inputs: [], name: 'AmountTooLarge' },
+  { type: 'error', inputs: [], name: 'CantRecoverUnderlying' },
+  { type: 'error', inputs: [], name: 'ETHTransferFailed' },
+  { type: 'error', inputs: [], name: 'ExceedsMaxFeesRate' },
+  { type: 'error', inputs: [], name: 'ExceedsRetention' },
+  { type: 'error', inputs: [], name: 'ExceedsRetentionRate' },
+  { type: 'error', inputs: [], name: 'FundZeroAddress' },
+  { type: 'error', inputs: [], name: 'IncorrectETHValue' },
+  { type: 'error', inputs: [], name: 'InsufficientBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientCoverage' },
+  { type: 'error', inputs: [], name: 'InsufficientForFees' },
+  { type: 'error', inputs: [], name: 'InsufficientFundBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientLTokens' },
+  { type: 'error', inputs: [], name: 'InsufficientLiquidity' },
+  { type: 'error', inputs: [], name: 'InvalidRequestId' },
+  { type: 'error', inputs: [], name: 'ListenerNotFound' },
+  { type: 'error', inputs: [], name: 'NoFeesToClaim' },
+  { type: 'error', inputs: [], name: 'NotBigRequest' },
+  { type: 'error', inputs: [], name: 'NotImplemented' },
+  { type: 'error', inputs: [], name: 'NotRequestOwner' },
+  { type: 'error', inputs: [], name: 'NothingToRecover' },
+  { type: 'error', inputs: [], name: 'OnlyFund' },
+  { type: 'error', inputs: [], name: 'OnlyHighTierAllowed' },
+  { type: 'error', inputs: [], name: 'OnlyWithdrawer' },
+  { type: 'error', inputs: [], name: 'RequestorBlacklisted' },
+  { type: 'error', inputs: [], name: 'UseDeposit' },
+  { type: 'error', inputs: [], name: 'WithdrawerZeroAddress' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'id', internalType: 'int256', type: 'int256', indexed: true },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'action',
+        internalType: 'enum ILToken.Action',
+        type: 'uint8',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'processedAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'status',
+        internalType: 'enum ILToken.Status',
+        type: 'uint8',
+        indexed: false,
+      },
+      {
+        name: 'relatedId',
+        internalType: 'int256',
+        type: 'int256',
+        indexed: false,
+      },
+      { name: 'data', internalType: 'string', type: 'string', indexed: false },
+    ],
+    name: 'ActivityEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'balanceBefore',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'rewards',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MintedRewardsEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'newTVL',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'TVLChangeEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
+    name: 'cancelWithdrawalRequest',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'claimFees',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'deposit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'feesRateUD7x3',
+    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'fund',
+    outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAPR',
+    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'listenerContract', internalType: 'address', type: 'address' },
+    ],
+    name: 'listenToTransfers',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'onlyHighTierInstantWithdrawal',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'repatriate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'requestWithdrawal',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'retentionRateUD7x3',
+    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'feesRateUD7x3_', internalType: 'uint32', type: 'uint32' },
+    ],
+    name: 'setFeesRate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'fund_', internalType: 'address', type: 'address' }],
+    name: 'setFund',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'withdrawalFeeInEth_', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setWithdrawalFeeInEth',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'withdrawer_', internalType: 'address', type: 'address' }],
+    name: 'setWithdrawer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'status_', internalType: 'bool', type: 'bool' }],
+    name: 'switchOnlyHighTierInstantWithdrawal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'transfersListeners',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract ITransfersListener',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unclaimedFees',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'underlying',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'listenerContract', internalType: 'address', type: 'address' },
+    ],
+    name: 'unlistenToTransfers',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'withdraw',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'withdrawalFeeInEth',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'withdrawalQueue',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct ILToken.WithdrawalRequest',
+        type: 'tuple',
+        components: [
+          { name: 'account', internalType: 'address', type: 'address' },
+          { name: 'amount', internalType: 'uint96', type: 'uint96' },
+          { name: 'timestamp', internalType: 'uint40', type: 'uint40' },
+          { name: 'isBig', internalType: 'bool', type: 'bool' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'withdrawer',
+    outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+    stateMutability: 'view',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ITransfersListener
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1034,6 +1880,164 @@ export const iTransfersListenerAbi = [
     ],
     name: 'onLTokenTransfer',
     outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IWrappedLToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iWrappedLTokenAbi = [
+  {
+    type: 'error',
+    inputs: [{ name: 'requested', internalType: 'uint256', type: 'uint256' }],
+    name: 'InsufficientBalance',
+  },
+  { type: 'error', inputs: [], name: 'WrapZeroAmount' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'wrappedAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'lTokenAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Unwrap',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'lTokenAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'wrappedAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Wrap',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'exchangeRate',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+      { name: 'globalPause_', internalType: 'address', type: 'address' },
+      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
+      { name: 'lTokenAddr_', internalType: 'address', type: 'address' },
+      { name: 'name_', internalType: 'string', type: 'string' },
+      { name: 'symbol_', internalType: 'string', type: 'string' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lToken',
+    outputs: [{ name: '', internalType: 'contract ILToken', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'wrappedAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'toRebasingAmount',
+    outputs: [
+      { name: 'lTokenAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'toWrappedAmount',
+    outputs: [
+      { name: 'wrappedAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalLTokenBalance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'wrappedAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'unwrap',
+    outputs: [
+      { name: 'lTokenAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'wrappedAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'unwrap',
+    outputs: [
+      { name: 'lTokenAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'wrap',
+    outputs: [
+      { name: 'wrappedAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'wrap',
+    outputs: [
+      { name: 'wrappedAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
     stateMutability: 'nonpayable',
   },
 ] as const
@@ -3343,8 +4347,1128 @@ export const preMiningConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// WrappedLToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const wrappedLTokenAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  { type: 'error', inputs: [], name: 'BaseRateCannotBeLessThanOne' },
+  {
+    type: 'error',
+    inputs: [{ name: 'requested', internalType: 'uint256', type: 'uint256' }],
+    name: 'InsufficientBalance',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotBurner',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotMinter',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotOwnerOrCCIPAdmin',
+  },
+  { type: 'error', inputs: [], name: 'WrapZeroAmount' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'burner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BurnAccessGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'burner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BurnAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'CCIPAdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'minter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'MintAccessGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'minter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'MintAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Paused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'newRate',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newAPRUD7x3',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: false,
+      },
+    ],
+    name: 'RateCheckpointUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      { name: 'data', internalType: 'bytes', type: 'bytes', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unpaused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'wrappedAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'lTokenAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Unwrap',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'lTokenAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'wrappedAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Wrap',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'baseRate',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burnFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'underlyingAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'depositAndWrap',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'underlyingAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'depositAndWrap',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'exchangeRate',
+    outputs: [
+      { name: 'compoundedRate', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCCIPAdmin',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalBlacklist',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalPause',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
+    name: 'grantBurnRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'grantMintAndBurnRoles',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'minter', internalType: 'address', type: 'address' }],
+    name: 'grantMintRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+      { name: 'globalPause_', internalType: 'address', type: 'address' },
+      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
+      { name: 'lTokenAddr_', internalType: 'address', type: 'address' },
+      { name: 'name_', internalType: 'string', type: 'string' },
+      { name: 'symbol_', internalType: 'string', type: 'string' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isBurner',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isMinter',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lToken',
+    outputs: [{ name: '', internalType: 'contract ILToken', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'lastCheckpoint',
+    outputs: [
+      { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+      { name: 'apr', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenAddress', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'recoverERC20',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
+    name: 'revokeBurnRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'minter', internalType: 'address', type: 'address' }],
+    name: 'revokeMintRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newAdmin', internalType: 'address', type: 'address' }],
+    name: 'setCCIPAdmin',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'wrappedAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'toRebasingAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'toWrappedAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalLTokenBalance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'transferAndCall',
+    outputs: [{ name: 'success', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'wrappedAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'unwrap',
+    outputs: [
+      { name: 'lTokenAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'wrappedAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'unwrap',
+    outputs: [
+      { name: 'lTokenAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newRate', internalType: 'uint256', type: 'uint256' }],
+    name: 'updateBaseRate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'updateRateCheckpoint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'wrap',
+    outputs: [
+      { name: 'wrappedAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'wrap',
+    outputs: [
+      { name: 'wrappedAmount_', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const useReadCcipToken = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadCcipTokenAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadCcipTokenBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadCcipTokenDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"getCCIPAdmin"`
+ */
+export const useReadCcipTokenGetCcipAdmin = /*#__PURE__*/ createUseReadContract(
+  { abi: ccipTokenAbi, functionName: 'getCCIPAdmin' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"isBurner"`
+ */
+export const useReadCcipTokenIsBurner = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'isBurner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"isMinter"`
+ */
+export const useReadCcipTokenIsMinter = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'isMinter',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadCcipTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadCcipTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadCcipTokenTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const useWriteCcipToken = /*#__PURE__*/ createUseWriteContract({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteCcipTokenApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const useWriteCcipTokenBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const useWriteCcipTokenBurnFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'burnFrom',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useWriteCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const useWriteCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const useWriteCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const useWriteCcipTokenGrantMintRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useWriteCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteCcipTokenMint = /*#__PURE__*/ createUseWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const useWriteCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const useWriteCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const useWriteCcipTokenSetCcipAdmin =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteCcipTokenTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const useWriteCcipTokenTransferAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteCcipTokenTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const useSimulateCcipToken = /*#__PURE__*/ createUseSimulateContract({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateCcipTokenApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const useSimulateCcipTokenBurn = /*#__PURE__*/ createUseSimulateContract(
+  { abi: ccipTokenAbi, functionName: 'burn' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const useSimulateCcipTokenBurnFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useSimulateCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const useSimulateCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const useSimulateCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const useSimulateCcipTokenGrantMintRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useSimulateCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateCcipTokenMint = /*#__PURE__*/ createUseSimulateContract(
+  { abi: ccipTokenAbi, functionName: 'mint' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const useSimulateCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const useSimulateCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const useSimulateCcipTokenSetCcipAdmin =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateCcipTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const useSimulateCcipTokenTransferAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateCcipTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const useWatchCcipTokenEvent = /*#__PURE__*/ createUseWatchContractEvent(
+  { abi: ccipTokenAbi },
+)
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchCcipTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"BurnAccessGranted"`
+ */
+export const useWatchCcipTokenBurnAccessGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'BurnAccessGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"BurnAccessRevoked"`
+ */
+export const useWatchCcipTokenBurnAccessRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'BurnAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"CCIPAdminChanged"`
+ */
+export const useWatchCcipTokenCcipAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchCcipTokenInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"MintAccessGranted"`
+ */
+export const useWatchCcipTokenMintAccessGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'MintAccessGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"MintAccessRevoked"`
+ */
+export const useWatchCcipTokenMintAccessRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchCcipTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'Transfer',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link dummyLdyStakingAbi}__
@@ -5458,6 +7582,587 @@ export const useWatchGlobalPauseUpgradedEvent =
   })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const useReadIGlobalBlacklist = /*#__PURE__*/ createUseReadContract({
+  abi: iGlobalBlacklistAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"isBlacklisted"`
+ */
+export const useReadIGlobalBlacklistIsBlacklisted =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'isBlacklisted',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const useWriteIGlobalBlacklist = /*#__PURE__*/ createUseWriteContract({
+  abi: iGlobalBlacklistAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"blacklist"`
+ */
+export const useWriteIGlobalBlacklistBlacklist =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'blacklist',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
+ */
+export const useWriteIGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'unBlacklist',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const useSimulateIGlobalBlacklist =
+  /*#__PURE__*/ createUseSimulateContract({ abi: iGlobalBlacklistAbi })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"blacklist"`
+ */
+export const useSimulateIGlobalBlacklistBlacklist =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'blacklist',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
+ */
+export const useSimulateIGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'unBlacklist',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const useWatchIGlobalBlacklistEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: iGlobalBlacklistAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `eventName` set to `"Blacklisted"`
+ */
+export const useWatchIGlobalBlacklistBlacklistedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: iGlobalBlacklistAbi,
+    eventName: 'Blacklisted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `eventName` set to `"Unblacklisted"`
+ */
+export const useWatchIGlobalBlacklistUnblacklistedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: iGlobalBlacklistAbi,
+    eventName: 'Unblacklisted',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const useReadIlToken = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadIlTokenAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadIlTokenBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadIlTokenDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"feesRateUD7x3"`
+ */
+export const useReadIlTokenFeesRateUd7x3 = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'feesRateUD7x3',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"fund"`
+ */
+export const useReadIlTokenFund = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'fund',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"getAPR"`
+ */
+export const useReadIlTokenGetApr = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'getAPR',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadIlTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"onlyHighTierInstantWithdrawal"`
+ */
+export const useReadIlTokenOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ilTokenAbi,
+    functionName: 'onlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"retentionRateUD7x3"`
+ */
+export const useReadIlTokenRetentionRateUd7x3 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ilTokenAbi,
+    functionName: 'retentionRateUD7x3',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadIlTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadIlTokenTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfersListeners"`
+ */
+export const useReadIlTokenTransfersListeners =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ilTokenAbi,
+    functionName: 'transfersListeners',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unclaimedFees"`
+ */
+export const useReadIlTokenUnclaimedFees = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'unclaimedFees',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"underlying"`
+ */
+export const useReadIlTokenUnderlying = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'underlying',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdrawalFeeInEth"`
+ */
+export const useReadIlTokenWithdrawalFeeInEth =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ilTokenAbi,
+    functionName: 'withdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdrawalQueue"`
+ */
+export const useReadIlTokenWithdrawalQueue =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ilTokenAbi,
+    functionName: 'withdrawalQueue',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdrawer"`
+ */
+export const useReadIlTokenWithdrawer = /*#__PURE__*/ createUseReadContract({
+  abi: ilTokenAbi,
+  functionName: 'withdrawer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const useWriteIlToken = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteIlTokenApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const useWriteIlTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const useWriteIlTokenClaimFees = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'claimFees',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteIlTokenDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const useWriteIlTokenListenToTransfers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const useWriteIlTokenRepatriate = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'repatriate',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const useWriteIlTokenRequestWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const useWriteIlTokenSetFeesRate = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'setFeesRate',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const useWriteIlTokenSetFund = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const useWriteIlTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const useWriteIlTokenSetWithdrawer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const useWriteIlTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteIlTokenTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteIlTokenTransferFrom = /*#__PURE__*/ createUseWriteContract(
+  { abi: ilTokenAbi, functionName: 'transferFrom' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const useWriteIlTokenUnlistenToTransfers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useWriteIlTokenWithdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const useSimulateIlToken = /*#__PURE__*/ createUseSimulateContract({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateIlTokenApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const useSimulateIlTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const useSimulateIlTokenClaimFees =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'claimFees',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateIlTokenDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const useSimulateIlTokenListenToTransfers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const useSimulateIlTokenRepatriate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'repatriate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const useSimulateIlTokenRequestWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const useSimulateIlTokenSetFeesRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'setFeesRate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const useSimulateIlTokenSetFund =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'setFund',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const useSimulateIlTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const useSimulateIlTokenSetWithdrawer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const useSimulateIlTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateIlTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateIlTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const useSimulateIlTokenUnlistenToTransfers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useSimulateIlTokenWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const useWatchIlTokenEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"ActivityEvent"`
+ */
+export const useWatchIlTokenActivityEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'ActivityEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchIlTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"MintedRewardsEvent"`
+ */
+export const useWatchIlTokenMintedRewardsEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'MintedRewardsEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"TVLChangeEvent"`
+ */
+export const useWatchIlTokenTvlChangeEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'TVLChangeEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchIlTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iTransfersListenerAbi}__
  */
 export const useWriteITransfersListener = /*#__PURE__*/ createUseWriteContract({
@@ -5486,6 +8191,147 @@ export const useSimulateITransfersListenerOnLTokenTransfer =
   /*#__PURE__*/ createUseSimulateContract({
     abi: iTransfersListenerAbi,
     functionName: 'onLTokenTransfer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const useReadIWrappedLToken = /*#__PURE__*/ createUseReadContract({
+  abi: iWrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"exchangeRate"`
+ */
+export const useReadIWrappedLTokenExchangeRate =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'exchangeRate',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"lToken"`
+ */
+export const useReadIWrappedLTokenLToken = /*#__PURE__*/ createUseReadContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'lToken',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"toRebasingAmount"`
+ */
+export const useReadIWrappedLTokenToRebasingAmount =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'toRebasingAmount',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"toWrappedAmount"`
+ */
+export const useReadIWrappedLTokenToWrappedAmount =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'toWrappedAmount',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"totalLTokenBalance"`
+ */
+export const useReadIWrappedLTokenTotalLTokenBalance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'totalLTokenBalance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const useWriteIWrappedLToken = /*#__PURE__*/ createUseWriteContract({
+  abi: iWrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteIWrappedLTokenInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const useWriteIWrappedLTokenUnwrap =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'unwrap',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const useWriteIWrappedLTokenWrap = /*#__PURE__*/ createUseWriteContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const useSimulateIWrappedLToken =
+  /*#__PURE__*/ createUseSimulateContract({ abi: iWrappedLTokenAbi })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateIWrappedLTokenInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const useSimulateIWrappedLTokenUnwrap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'unwrap',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const useSimulateIWrappedLTokenWrap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'wrap',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const useWatchIWrappedLTokenEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: iWrappedLTokenAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `eventName` set to `"Unwrap"`
+ */
+export const useWatchIWrappedLTokenUnwrapEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: iWrappedLTokenAbi,
+    eventName: 'Unwrap',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `eventName` set to `"Wrap"`
+ */
+export const useWatchIWrappedLTokenWrapEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: iWrappedLTokenAbi,
+    eventName: 'Wrap',
   })
 
 /**
@@ -9619,9 +12465,1172 @@ export const useWatchPreMiningUnpausedEvent =
     eventName: 'Unpaused',
   })
 
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const useReadWrappedLToken = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadWrappedLTokenAllowance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'allowance',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadWrappedLTokenBalanceOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'balanceOf',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"baseRate"`
+ */
+export const useReadWrappedLTokenBaseRate = /*#__PURE__*/ createUseReadContract(
+  { abi: wrappedLTokenAbi, functionName: 'baseRate' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadWrappedLTokenDecimals = /*#__PURE__*/ createUseReadContract(
+  { abi: wrappedLTokenAbi, functionName: 'decimals' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"exchangeRate"`
+ */
+export const useReadWrappedLTokenExchangeRate =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'exchangeRate',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"getCCIPAdmin"`
+ */
+export const useReadWrappedLTokenGetCcipAdmin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'getCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const useReadWrappedLTokenGlobalBlacklist =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'globalBlacklist',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const useReadWrappedLTokenGlobalOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'globalOwner',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const useReadWrappedLTokenGlobalPause =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'globalPause',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"isBurner"`
+ */
+export const useReadWrappedLTokenIsBurner = /*#__PURE__*/ createUseReadContract(
+  { abi: wrappedLTokenAbi, functionName: 'isBurner' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"isMinter"`
+ */
+export const useReadWrappedLTokenIsMinter = /*#__PURE__*/ createUseReadContract(
+  { abi: wrappedLTokenAbi, functionName: 'isMinter' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"lToken"`
+ */
+export const useReadWrappedLTokenLToken = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'lToken',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"lastCheckpoint"`
+ */
+export const useReadWrappedLTokenLastCheckpoint =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'lastCheckpoint',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadWrappedLTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadWrappedLTokenOwner = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadWrappedLTokenPaused = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useReadWrappedLTokenRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadWrappedLTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"toRebasingAmount"`
+ */
+export const useReadWrappedLTokenToRebasingAmount =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'toRebasingAmount',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"toWrappedAmount"`
+ */
+export const useReadWrappedLTokenToWrappedAmount =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'toWrappedAmount',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalLTokenBalance"`
+ */
+export const useReadWrappedLTokenTotalLTokenBalance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'totalLTokenBalance',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadWrappedLTokenTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'totalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useReadWrappedLTokenTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const useWriteWrappedLToken = /*#__PURE__*/ createUseWriteContract({
+  abi: wrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteWrappedLTokenApprove =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const useWriteWrappedLTokenBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const useWriteWrappedLTokenBurnFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useWriteWrappedLTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"depositAndWrap"`
+ */
+export const useWriteWrappedLTokenDepositAndWrap =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'depositAndWrap',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const useWriteWrappedLTokenGrantBurnRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const useWriteWrappedLTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const useWriteWrappedLTokenGrantMintRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useWriteWrappedLTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteWrappedLTokenInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteWrappedLTokenMint = /*#__PURE__*/ createUseWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const useWriteWrappedLTokenRecoverErc20 =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const useWriteWrappedLTokenRevokeBurnRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const useWriteWrappedLTokenRevokeMintRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const useWriteWrappedLTokenSetCcipAdmin =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteWrappedLTokenTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const useWriteWrappedLTokenTransferAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteWrappedLTokenTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const useWriteWrappedLTokenUnwrap = /*#__PURE__*/ createUseWriteContract(
+  { abi: wrappedLTokenAbi, functionName: 'unwrap' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateBaseRate"`
+ */
+export const useWriteWrappedLTokenUpdateBaseRate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateBaseRate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateRateCheckpoint"`
+ */
+export const useWriteWrappedLTokenUpdateRateCheckpoint =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateRateCheckpoint',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const useWriteWrappedLTokenWrap = /*#__PURE__*/ createUseWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const useSimulateWrappedLToken = /*#__PURE__*/ createUseSimulateContract(
+  { abi: wrappedLTokenAbi },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateWrappedLTokenApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const useSimulateWrappedLTokenBurn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'burn',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const useSimulateWrappedLTokenBurnFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useSimulateWrappedLTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"depositAndWrap"`
+ */
+export const useSimulateWrappedLTokenDepositAndWrap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'depositAndWrap',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const useSimulateWrappedLTokenGrantBurnRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const useSimulateWrappedLTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const useSimulateWrappedLTokenGrantMintRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useSimulateWrappedLTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateWrappedLTokenInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateWrappedLTokenMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'mint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const useSimulateWrappedLTokenRecoverErc20 =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const useSimulateWrappedLTokenRevokeBurnRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const useSimulateWrappedLTokenRevokeMintRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const useSimulateWrappedLTokenSetCcipAdmin =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateWrappedLTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const useSimulateWrappedLTokenTransferAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateWrappedLTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const useSimulateWrappedLTokenUnwrap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'unwrap',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateBaseRate"`
+ */
+export const useSimulateWrappedLTokenUpdateBaseRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateBaseRate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateRateCheckpoint"`
+ */
+export const useSimulateWrappedLTokenUpdateRateCheckpoint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateRateCheckpoint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const useSimulateWrappedLTokenWrap =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'wrap',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const useWatchWrappedLTokenEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: wrappedLTokenAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchWrappedLTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"BurnAccessGranted"`
+ */
+export const useWatchWrappedLTokenBurnAccessGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'BurnAccessGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"BurnAccessRevoked"`
+ */
+export const useWatchWrappedLTokenBurnAccessRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'BurnAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"CCIPAdminChanged"`
+ */
+export const useWatchWrappedLTokenCcipAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchWrappedLTokenInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"MintAccessGranted"`
+ */
+export const useWatchWrappedLTokenMintAccessGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'MintAccessGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"MintAccessRevoked"`
+ */
+export const useWatchWrappedLTokenMintAccessRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchWrappedLTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchWrappedLTokenPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"RateCheckpointUpdated"`
+ */
+export const useWatchWrappedLTokenRateCheckpointUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'RateCheckpointUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchWrappedLTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchWrappedLTokenUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Unwrap"`
+ */
+export const useWatchWrappedLTokenUnwrapEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Unwrap',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Wrap"`
+ */
+export const useWatchWrappedLTokenWrapEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Wrap',
+  })
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Action
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const readCcipToken = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readCcipTokenAllowance = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readCcipTokenBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readCcipTokenDecimals = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"getCCIPAdmin"`
+ */
+export const readCcipTokenGetCcipAdmin = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'getCCIPAdmin',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"isBurner"`
+ */
+export const readCcipTokenIsBurner = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'isBurner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"isMinter"`
+ */
+export const readCcipTokenIsMinter = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'isMinter',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const readCcipTokenName = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readCcipTokenSymbol = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readCcipTokenTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const writeCcipToken = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeCcipTokenApprove = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const writeCcipTokenBurn = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const writeCcipTokenBurnFrom = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'burnFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const writeCcipTokenGrantBurnRole = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'grantBurnRole',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const writeCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const writeCcipTokenGrantMintRole = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'grantMintRole',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: ccipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const writeCcipTokenMint = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const writeCcipTokenRevokeBurnRole = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'revokeBurnRole',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const writeCcipTokenRevokeMintRole = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'revokeMintRole',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const writeCcipTokenSetCcipAdmin = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'setCCIPAdmin',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeCcipTokenTransfer = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const writeCcipTokenTransferAndCall = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'transferAndCall',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeCcipTokenTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: ccipTokenAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const simulateCcipToken = /*#__PURE__*/ createSimulateContract({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateCcipTokenApprove = /*#__PURE__*/ createSimulateContract({
+  abi: ccipTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const simulateCcipTokenBurn = /*#__PURE__*/ createSimulateContract({
+  abi: ccipTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const simulateCcipTokenBurnFrom = /*#__PURE__*/ createSimulateContract({
+  abi: ccipTokenAbi,
+  functionName: 'burnFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const simulateCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const simulateCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const simulateCcipTokenGrantMintRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const simulateCcipTokenMint = /*#__PURE__*/ createSimulateContract({
+  abi: ccipTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const simulateCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const simulateCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const simulateCcipTokenSetCcipAdmin =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateCcipTokenTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: ccipTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const simulateCcipTokenTransferAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateCcipTokenTransferFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__
+ */
+export const watchCcipTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ccipTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchCcipTokenApprovalEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"BurnAccessGranted"`
+ */
+export const watchCcipTokenBurnAccessGrantedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'BurnAccessGranted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"BurnAccessRevoked"`
+ */
+export const watchCcipTokenBurnAccessRevokedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'BurnAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"CCIPAdminChanged"`
+ */
+export const watchCcipTokenCcipAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const watchCcipTokenInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"MintAccessGranted"`
+ */
+export const watchCcipTokenMintAccessGrantedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'MintAccessGranted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"MintAccessRevoked"`
+ */
+export const watchCcipTokenMintAccessRevokedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchCcipTokenTransferEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'Transfer',
+  })
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link dummyLdyStakingAbi}__
@@ -11714,6 +15723,564 @@ export const watchGlobalPauseUpgradedEvent =
   })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const readIGlobalBlacklist = /*#__PURE__*/ createReadContract({
+  abi: iGlobalBlacklistAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"isBlacklisted"`
+ */
+export const readIGlobalBlacklistIsBlacklisted =
+  /*#__PURE__*/ createReadContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'isBlacklisted',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const writeIGlobalBlacklist = /*#__PURE__*/ createWriteContract({
+  abi: iGlobalBlacklistAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"blacklist"`
+ */
+export const writeIGlobalBlacklistBlacklist = /*#__PURE__*/ createWriteContract(
+  { abi: iGlobalBlacklistAbi, functionName: 'blacklist' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
+ */
+export const writeIGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createWriteContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'unBlacklist',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const simulateIGlobalBlacklist = /*#__PURE__*/ createSimulateContract({
+  abi: iGlobalBlacklistAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"blacklist"`
+ */
+export const simulateIGlobalBlacklistBlacklist =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'blacklist',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
+ */
+export const simulateIGlobalBlacklistUnBlacklist =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iGlobalBlacklistAbi,
+    functionName: 'unBlacklist',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iGlobalBlacklistAbi}__
+ */
+export const watchIGlobalBlacklistEvent =
+  /*#__PURE__*/ createWatchContractEvent({ abi: iGlobalBlacklistAbi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `eventName` set to `"Blacklisted"`
+ */
+export const watchIGlobalBlacklistBlacklistedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: iGlobalBlacklistAbi,
+    eventName: 'Blacklisted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iGlobalBlacklistAbi}__ and `eventName` set to `"Unblacklisted"`
+ */
+export const watchIGlobalBlacklistUnblacklistedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: iGlobalBlacklistAbi,
+    eventName: 'Unblacklisted',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const readIlToken = /*#__PURE__*/ createReadContract({ abi: ilTokenAbi })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readIlTokenAllowance = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readIlTokenBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readIlTokenDecimals = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"feesRateUD7x3"`
+ */
+export const readIlTokenFeesRateUd7x3 = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'feesRateUD7x3',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"fund"`
+ */
+export const readIlTokenFund = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'fund',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"getAPR"`
+ */
+export const readIlTokenGetApr = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'getAPR',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const readIlTokenName = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"onlyHighTierInstantWithdrawal"`
+ */
+export const readIlTokenOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createReadContract({
+    abi: ilTokenAbi,
+    functionName: 'onlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"retentionRateUD7x3"`
+ */
+export const readIlTokenRetentionRateUd7x3 = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'retentionRateUD7x3',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readIlTokenSymbol = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readIlTokenTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfersListeners"`
+ */
+export const readIlTokenTransfersListeners = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'transfersListeners',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unclaimedFees"`
+ */
+export const readIlTokenUnclaimedFees = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'unclaimedFees',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"underlying"`
+ */
+export const readIlTokenUnderlying = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'underlying',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdrawalFeeInEth"`
+ */
+export const readIlTokenWithdrawalFeeInEth = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'withdrawalFeeInEth',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdrawalQueue"`
+ */
+export const readIlTokenWithdrawalQueue = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'withdrawalQueue',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdrawer"`
+ */
+export const readIlTokenWithdrawer = /*#__PURE__*/ createReadContract({
+  abi: ilTokenAbi,
+  functionName: 'withdrawer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const writeIlToken = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeIlTokenApprove = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const writeIlTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const writeIlTokenClaimFees = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'claimFees',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const writeIlTokenDeposit = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const writeIlTokenListenToTransfers = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'listenToTransfers',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const writeIlTokenRepatriate = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'repatriate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const writeIlTokenRequestWithdrawal = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'requestWithdrawal',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const writeIlTokenSetFeesRate = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'setFeesRate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const writeIlTokenSetFund = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const writeIlTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const writeIlTokenSetWithdrawer = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'setWithdrawer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const writeIlTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeIlTokenTransfer = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeIlTokenTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const writeIlTokenUnlistenToTransfers =
+  /*#__PURE__*/ createWriteContract({
+    abi: ilTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const writeIlTokenWithdraw = /*#__PURE__*/ createWriteContract({
+  abi: ilTokenAbi,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const simulateIlToken = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateIlTokenApprove = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const simulateIlTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const simulateIlTokenClaimFees = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'claimFees',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const simulateIlTokenDeposit = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const simulateIlTokenListenToTransfers =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const simulateIlTokenRepatriate = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'repatriate',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const simulateIlTokenRequestWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const simulateIlTokenSetFeesRate = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'setFeesRate',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const simulateIlTokenSetFund = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const simulateIlTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const simulateIlTokenSetWithdrawer =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const simulateIlTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateIlTokenTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateIlTokenTransferFrom = /*#__PURE__*/ createSimulateContract(
+  { abi: ilTokenAbi, functionName: 'transferFrom' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const simulateIlTokenUnlistenToTransfers =
+  /*#__PURE__*/ createSimulateContract({
+    abi: ilTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const simulateIlTokenWithdraw = /*#__PURE__*/ createSimulateContract({
+  abi: ilTokenAbi,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__
+ */
+export const watchIlTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: ilTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"ActivityEvent"`
+ */
+export const watchIlTokenActivityEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'ActivityEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchIlTokenApprovalEvent = /*#__PURE__*/ createWatchContractEvent(
+  { abi: ilTokenAbi, eventName: 'Approval' },
+)
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"MintedRewardsEvent"`
+ */
+export const watchIlTokenMintedRewardsEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'MintedRewardsEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"TVLChangeEvent"`
+ */
+export const watchIlTokenTvlChangeEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ilTokenAbi,
+    eventName: 'TVLChangeEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ilTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchIlTokenTransferEvent = /*#__PURE__*/ createWatchContractEvent(
+  { abi: ilTokenAbi, eventName: 'Transfer' },
+)
+
+/**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link iTransfersListenerAbi}__
  */
 export const writeITransfersListener = /*#__PURE__*/ createWriteContract({
@@ -11743,6 +16310,145 @@ export const simulateITransfersListenerOnLTokenTransfer =
   /*#__PURE__*/ createSimulateContract({
     abi: iTransfersListenerAbi,
     functionName: 'onLTokenTransfer',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const readIWrappedLToken = /*#__PURE__*/ createReadContract({
+  abi: iWrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"exchangeRate"`
+ */
+export const readIWrappedLTokenExchangeRate = /*#__PURE__*/ createReadContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'exchangeRate',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"lToken"`
+ */
+export const readIWrappedLTokenLToken = /*#__PURE__*/ createReadContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'lToken',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"toRebasingAmount"`
+ */
+export const readIWrappedLTokenToRebasingAmount =
+  /*#__PURE__*/ createReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'toRebasingAmount',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"toWrappedAmount"`
+ */
+export const readIWrappedLTokenToWrappedAmount =
+  /*#__PURE__*/ createReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'toWrappedAmount',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"totalLTokenBalance"`
+ */
+export const readIWrappedLTokenTotalLTokenBalance =
+  /*#__PURE__*/ createReadContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'totalLTokenBalance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const writeIWrappedLToken = /*#__PURE__*/ createWriteContract({
+  abi: iWrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const writeIWrappedLTokenInitialize = /*#__PURE__*/ createWriteContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const writeIWrappedLTokenUnwrap = /*#__PURE__*/ createWriteContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'unwrap',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const writeIWrappedLTokenWrap = /*#__PURE__*/ createWriteContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const simulateIWrappedLToken = /*#__PURE__*/ createSimulateContract({
+  abi: iWrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const simulateIWrappedLTokenInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const simulateIWrappedLTokenUnwrap =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iWrappedLTokenAbi,
+    functionName: 'unwrap',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const simulateIWrappedLTokenWrap = /*#__PURE__*/ createSimulateContract({
+  abi: iWrappedLTokenAbi,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iWrappedLTokenAbi}__
+ */
+export const watchIWrappedLTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: iWrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `eventName` set to `"Unwrap"`
+ */
+export const watchIWrappedLTokenUnwrapEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: iWrappedLTokenAbi,
+    eventName: 'Unwrap',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link iWrappedLTokenAbi}__ and `eventName` set to `"Wrap"`
+ */
+export const watchIWrappedLTokenWrapEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: iWrappedLTokenAbi,
+    eventName: 'Wrap',
   })
 
 /**
@@ -15785,4 +20491,724 @@ export const watchPreMiningUnpausedEvent =
     abi: preMiningAbi,
     address: preMiningAddress,
     eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const readWrappedLToken = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readWrappedLTokenAllowance = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readWrappedLTokenBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"baseRate"`
+ */
+export const readWrappedLTokenBaseRate = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'baseRate',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readWrappedLTokenDecimals = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"exchangeRate"`
+ */
+export const readWrappedLTokenExchangeRate = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'exchangeRate',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"getCCIPAdmin"`
+ */
+export const readWrappedLTokenGetCcipAdmin = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'getCCIPAdmin',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const readWrappedLTokenGlobalBlacklist =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'globalBlacklist',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const readWrappedLTokenGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'globalOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const readWrappedLTokenGlobalPause = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'globalPause',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"isBurner"`
+ */
+export const readWrappedLTokenIsBurner = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'isBurner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"isMinter"`
+ */
+export const readWrappedLTokenIsMinter = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'isMinter',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"lToken"`
+ */
+export const readWrappedLTokenLToken = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'lToken',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"lastCheckpoint"`
+ */
+export const readWrappedLTokenLastCheckpoint = /*#__PURE__*/ createReadContract(
+  { abi: wrappedLTokenAbi, functionName: 'lastCheckpoint' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const readWrappedLTokenName = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const readWrappedLTokenOwner = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const readWrappedLTokenPaused = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const readWrappedLTokenRenounceOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readWrappedLTokenSymbol = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"toRebasingAmount"`
+ */
+export const readWrappedLTokenToRebasingAmount =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'toRebasingAmount',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"toWrappedAmount"`
+ */
+export const readWrappedLTokenToWrappedAmount =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'toWrappedAmount',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalLTokenBalance"`
+ */
+export const readWrappedLTokenTotalLTokenBalance =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'totalLTokenBalance',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readWrappedLTokenTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const readWrappedLTokenTransferOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const writeWrappedLToken = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeWrappedLTokenApprove = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const writeWrappedLTokenBurn = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const writeWrappedLTokenBurnFrom = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'burnFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeWrappedLTokenDecreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"depositAndWrap"`
+ */
+export const writeWrappedLTokenDepositAndWrap =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'depositAndWrap',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const writeWrappedLTokenGrantBurnRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const writeWrappedLTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const writeWrappedLTokenGrantMintRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeWrappedLTokenIncreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const writeWrappedLTokenInitialize = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const writeWrappedLTokenMint = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const writeWrappedLTokenRecoverErc20 = /*#__PURE__*/ createWriteContract(
+  { abi: wrappedLTokenAbi, functionName: 'recoverERC20' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const writeWrappedLTokenRevokeBurnRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const writeWrappedLTokenRevokeMintRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const writeWrappedLTokenSetCcipAdmin = /*#__PURE__*/ createWriteContract(
+  { abi: wrappedLTokenAbi, functionName: 'setCCIPAdmin' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeWrappedLTokenTransfer = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const writeWrappedLTokenTransferAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeWrappedLTokenTransferFrom = /*#__PURE__*/ createWriteContract(
+  { abi: wrappedLTokenAbi, functionName: 'transferFrom' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const writeWrappedLTokenUnwrap = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'unwrap',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateBaseRate"`
+ */
+export const writeWrappedLTokenUpdateBaseRate =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateBaseRate',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateRateCheckpoint"`
+ */
+export const writeWrappedLTokenUpdateRateCheckpoint =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateRateCheckpoint',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const writeWrappedLTokenWrap = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const simulateWrappedLToken = /*#__PURE__*/ createSimulateContract({
+  abi: wrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateWrappedLTokenApprove =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const simulateWrappedLTokenBurn = /*#__PURE__*/ createSimulateContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const simulateWrappedLTokenBurnFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateWrappedLTokenDecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"depositAndWrap"`
+ */
+export const simulateWrappedLTokenDepositAndWrap =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'depositAndWrap',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const simulateWrappedLTokenGrantBurnRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const simulateWrappedLTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const simulateWrappedLTokenGrantMintRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateWrappedLTokenIncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const simulateWrappedLTokenInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const simulateWrappedLTokenMint = /*#__PURE__*/ createSimulateContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const simulateWrappedLTokenRecoverErc20 =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const simulateWrappedLTokenRevokeBurnRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const simulateWrappedLTokenRevokeMintRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const simulateWrappedLTokenSetCcipAdmin =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateWrappedLTokenTransfer =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const simulateWrappedLTokenTransferAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateWrappedLTokenTransferFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"unwrap"`
+ */
+export const simulateWrappedLTokenUnwrap = /*#__PURE__*/ createSimulateContract(
+  { abi: wrappedLTokenAbi, functionName: 'unwrap' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateBaseRate"`
+ */
+export const simulateWrappedLTokenUpdateBaseRate =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateBaseRate',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"updateRateCheckpoint"`
+ */
+export const simulateWrappedLTokenUpdateRateCheckpoint =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'updateRateCheckpoint',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
+ */
+export const simulateWrappedLTokenWrap = /*#__PURE__*/ createSimulateContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'wrap',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__
+ */
+export const watchWrappedLTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: wrappedLTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchWrappedLTokenApprovalEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"BurnAccessGranted"`
+ */
+export const watchWrappedLTokenBurnAccessGrantedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'BurnAccessGranted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"BurnAccessRevoked"`
+ */
+export const watchWrappedLTokenBurnAccessRevokedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'BurnAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"CCIPAdminChanged"`
+ */
+export const watchWrappedLTokenCcipAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const watchWrappedLTokenInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"MintAccessGranted"`
+ */
+export const watchWrappedLTokenMintAccessGrantedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'MintAccessGranted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"MintAccessRevoked"`
+ */
+export const watchWrappedLTokenMintAccessRevokedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const watchWrappedLTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const watchWrappedLTokenPausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"RateCheckpointUpdated"`
+ */
+export const watchWrappedLTokenRateCheckpointUpdatedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'RateCheckpointUpdated',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchWrappedLTokenTransferEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const watchWrappedLTokenUnpausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Unwrap"`
+ */
+export const watchWrappedLTokenUnwrapEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Unwrap',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Wrap"`
+ */
+export const watchWrappedLTokenWrapEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Wrap',
   })

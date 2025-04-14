@@ -10,7 +10,7 @@
     "build:analyze": "npx cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
-    "compile": "npx hardhat compile",
+    "compile": "hardhat compile && cross-env HARDHAT_DEPLOY_FORK=base wagmi generate --config wagmi.config.ts",
     "deploy-reset:fork": "hardhat deploy --reset --network hardhat",
     "deploy-reset:fork-base": "cross-env HARDHAT_DEPLOY_FORK=base hardhat deploy --reset --network hardhat",
     "deploy-reset:base": "hardhat deploy --reset --network base",
