@@ -61,10 +61,6 @@ contract WrappedLToken is
 
   event RateCheckpointUpdated(uint256 newRate, uint16 newAPRUD7x3);
 
-  // ======== CONSTRUCTOR ======== //
-
-  constructor() {}
-
   // ======== INITIALIZE ======== //
 
   /**
@@ -166,32 +162,6 @@ contract WrappedLToken is
     return lToken.balanceOf(address(this));
   }
 
-  // ======== WRAP ======== //
-
-  /**
-   * @notice Wraps LTokens and receives wrapped tokens
-   * @param lTokenAmount The amount of LTokens to wrap
-   * @return wrappedAmount_ The amount of wrapped tokens received
-   */
-  function wrap(
-    uint256 lTokenAmount
-  ) external returns (uint256 wrappedAmount_) {
-    return _wrap(lTokenAmount, msg.sender);
-  }
-
-  /**
-   * @notice Wraps LTokens and sends wrapped tokens to a specified address
-   * @param lTokenAmount The amount of LTokens to wrap
-   * @param to The recipient of the wrapped tokens
-   * @return wrappedAmount_ The amount of wrapped tokens received
-   */
-  function wrap(
-    uint256 lTokenAmount,
-    address to
-  ) external returns (uint256 wrappedAmount_) {
-    return _wrap(lTokenAmount, to);
-  }
-
   /**
    * @notice Checks if the sender is the owner
    * @return bool True if the sender is the owner
@@ -200,30 +170,27 @@ contract WrappedLToken is
     return msg.sender == globalOwner();
   }
 
-  // ======== UNWRAP ======== //
+  // ======== HELPERS ======== //
 
   /**
-   * @notice Unwraps tokens back to LTokens
-   * @param wrappedAmount The amount of wrapped tokens to unwrap
-   * @return lTokenAmount_ The amount of LTokens received
+   * @notice Updates the rate checkpoint with current APR and rate
+   * @dev This should be called whenever the APR changes
    */
-  function unwrap(
-    uint256 wrappedAmount
-  ) external returns (uint256 lTokenAmount_) {
-    return _unwrap(wrappedAmount, msg.sender);
-  }
+  function updateRateCheckpoint() public {
+    uint16 lTokenApr = lToken.getAPR();
 
-  /**
-   * @notice Unwraps tokens and sends LTokens to a specified address
-   * @param wrappedAmount The amount of wrapped tokens to unwrap
-   * @param to The recipient of the LTokens
-   * @return lTokenAmount_ The amount of LTokens received
-   */
-  function unwrap(
-    uint256 wrappedAmount,
-    address to
-  ) external returns (uint256 lTokenAmount_) {
-    return _unwrap(wrappedAmount, to);
+    // Only update if APR changed
+    if (lTokenApr != lastCheckpoint.apr) {
+      // Calculate the new base rate including all accumulated rewards
+      baseRate = exchangeRate();
+
+      lastCheckpoint = LastRateCheckpoint({
+        timestamp: block.timestamp,
+        apr: (lTokenApr * 1e27) / 1000
+      });
+
+      emit RateCheckpointUpdated(baseRate, lTokenApr);
+    }
   }
 
   // ======== DEPOSIT AND WRAP ======== //
@@ -286,6 +253,58 @@ contract WrappedLToken is
     _wrap(underlyingAmount, to);
   }
 
+  // ======== WRAP ======== //
+
+  /**
+   * @notice Wraps LTokens and receives wrapped tokens
+   * @param lTokenAmount The amount of LTokens to wrap
+   * @return wrappedAmount_ The amount of wrapped tokens received
+   */
+  function wrap(
+    uint256 lTokenAmount
+  ) external returns (uint256 wrappedAmount_) {
+    return _wrap(lTokenAmount, msg.sender);
+  }
+
+  /**
+   * @notice Wraps LTokens and sends wrapped tokens to a specified address
+   * @param lTokenAmount The amount of LTokens to wrap
+   * @param to The recipient of the wrapped tokens
+   * @return wrappedAmount_ The amount of wrapped tokens received
+   */
+  function wrap(
+    uint256 lTokenAmount,
+    address to
+  ) external returns (uint256 wrappedAmount_) {
+    return _wrap(lTokenAmount, to);
+  }
+
+  // ======== UNWRAP ======== //
+
+  /**
+   * @notice Unwraps tokens back to LTokens
+   * @param wrappedAmount The amount of wrapped tokens to unwrap
+   * @return lTokenAmount_ The amount of LTokens received
+   */
+  function unwrap(
+    uint256 wrappedAmount
+  ) external returns (uint256 lTokenAmount_) {
+    return _unwrap(wrappedAmount, msg.sender);
+  }
+
+  /**
+   * @notice Unwraps tokens and sends LTokens to a specified address
+   * @param wrappedAmount The amount of wrapped tokens to unwrap
+   * @param to The recipient of the LTokens
+   * @return lTokenAmount_ The amount of LTokens received
+   */
+  function unwrap(
+    uint256 wrappedAmount,
+    address to
+  ) external returns (uint256 lTokenAmount_) {
+    return _unwrap(wrappedAmount, to);
+  }
+
   // ======== INTERNAL ======== //
 
   /**
@@ -343,26 +362,7 @@ contract WrappedLToken is
     emit Unwrap(msg.sender, to, wrappedAmount, lTokenAmount_);
   }
 
-  /**
-   * @notice Updates the rate checkpoint with current APR and rate
-   * @dev This should be called whenever the APR changes
-   */
-  function updateRateCheckpoint() public {
-    uint16 lTokenApr = lToken.getAPR();
-
-    // Only update if APR changed
-    if (lTokenApr != lastCheckpoint.apr) {
-      // Calculate the new base rate including all accumulated rewards
-      baseRate = exchangeRate();
-
-      lastCheckpoint = LastRateCheckpoint({
-        timestamp: block.timestamp,
-        apr: (lTokenApr * 1e27) / 1000
-      });
-
-      emit RateCheckpointUpdated(baseRate, lTokenApr);
-    }
-  }
+  // ======== ADMIN ======== //
 
   /**
    * @notice Updates the base rate
