@@ -42,6 +42,9 @@ export * from "./read/ldyStaking/useGetUserStakes";
 export * from "./read/ldyStaking/useTotalWeightedStake";
 export * from "./read/ldyStaking/useRewardRatePerSec";
 
+// Wrapped LToken
+export * from "./read/wrappedLToken/useExchangeRate";
+
 // ============ Write ============ //
 
 // ERC-20 write hooks
@@ -83,3 +86,8 @@ export * from "./write/preMining/useRequestUnlock";
 export * from "./write/ldyStaking/useStake";
 export * from "./write/ldyStaking/useUnstake";
 export * from "./write/ldyStaking/useGetReward";
+
+// Wrapped LToken
+export * from "./write/wrappedLToken/useWrap";
+export * from "./write/wrappedLToken/useUnwrap";
+export * from "./write/wrappedLToken/useDepositAndWrap";
