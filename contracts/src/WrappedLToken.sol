@@ -21,6 +21,7 @@ import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 error WrapZeroAmount();
 error InsufficientBalance(uint256 amount);
 error BaseRateCannotBeLessThanOne();
+error WrapUnwrapPaused();
 
 /**
  * @title WrappedLToken
@@ -57,9 +58,13 @@ contract WrappedLToken is
   // Last recorded checkpoint
   LastRateCheckpoint public lastCheckpoint;
 
+  // Whether wrap/unwrap actions are paused
+  bool public isPaused;
+
   // ======== EVENTS ======== //
 
   event RateCheckpointUpdated(uint256 newRate, uint16 newAPRUD7x3);
+  event WrapUnwrapPausedSet(bool isPaused);
 
   // ======== INITIALIZE ======== //
 
@@ -317,6 +322,7 @@ contract WrappedLToken is
     uint256 lTokenAmount,
     address to
   ) internal returns (uint256 wrappedAmount_) {
+    if (isPaused) revert WrapUnwrapPaused();
     if (lTokenAmount == 0) revert WrapZeroAmount();
     if (lToken.balanceOf(msg.sender) < lTokenAmount) {
       revert InsufficientBalance(lTokenAmount);
@@ -345,6 +351,7 @@ contract WrappedLToken is
     uint256 wrappedAmount,
     address to
   ) internal returns (uint256 lTokenAmount_) {
+    if (isPaused) revert WrapUnwrapPaused();
     if (wrappedAmount == 0) revert WrapZeroAmount();
     if (wrappedAmount > balanceOf(msg.sender))
       revert InsufficientBalance(wrappedAmount);
@@ -363,6 +370,15 @@ contract WrappedLToken is
   }
 
   // ======== ADMIN ======== //
+
+  /**
+   * @notice Sets whether wrap/unwrap actions are paused
+   * @param state True to pause wrap/unwrap actions, false to unpause
+   */
+  function setWrapUnwrapPaused(bool state) external onlyOwner {
+    isPaused = state;
+    emit WrapUnwrapPausedSet(state);
+  }
 
   /**
    * @notice Updates the base rate
