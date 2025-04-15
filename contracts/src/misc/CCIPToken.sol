@@ -3,7 +3,7 @@ pragma solidity 0.8.18;
 
 // Contracts
 import { ERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-
+import { GlobalOwnableUpgradeable } from "../abstracts/GlobalOwnableUpgradeable.sol";
 // Interfaces
 import { IGetCCIPAdmin } from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IGetCCIPAdmin.sol";
 import { IERC677Receiver } from "@chainlink/contracts-ccip/src/v0.8/shared/interfaces/IERC677Receiver.sol";
@@ -15,7 +15,11 @@ import { IBurnMintERC20 } from "@chainlink/contracts-ccip/src/v0.8/shared/token/
  * @notice A module that adds CCIP compatibility features to ERC20 tokens
  * @dev This contract is designed to be imported and used to extend your existing token
  */
-contract CCIPToken is IERC677, ERC20Upgradeable {
+contract CCIPToken is
+  IERC677,
+  ERC20Upgradeable,
+  GlobalOwnableUpgradeable
+{
   // Role management state
   mapping(address => bool) private _minters;
   mapping(address => bool) private _burners;
@@ -67,15 +71,10 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @dev The implementing contract should define isOwner()
    */
   modifier onlyOwnerOrCCIPAdmin() {
-    if (!isOwner() && msg.sender != _ccipAdmin)
+    if (msg.sender != owner() && msg.sender != _ccipAdmin)
       revert SenderNotOwnerOrCCIPAdmin(msg.sender);
     _;
   }
-
-  /**
-   * @notice Function to determine if caller is owner - must be implemented by the inheriting contract
-   */
-  function isOwner() internal view virtual returns (bool) {}
 
   /**
    * @notice Implementation of ERC677 transferAndCall
@@ -101,7 +100,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @notice Implementation of burns tokens from caller's account
    * @param amount Amount to burn
    */
-  function burn(uint256 amount) public virtual onlyBurner {
+  function burn(uint256 amount) public onlyBurner {
     _burn(msg.sender, amount);
   }
 
@@ -110,10 +109,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @param account Account to burn from
    * @param amount Amount to burn
    */
-  function burn(
-    address account,
-    uint256 amount
-  ) public virtual onlyBurner {
+  function burn(address account, uint256 amount) public onlyBurner {
     _burn(account, amount);
   }
 
@@ -125,7 +121,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
   function burnFrom(
     address account,
     uint256 amount
-  ) public virtual onlyBurner {
+  ) public onlyBurner {
     uint256 currentAllowance = allowance(account, msg.sender);
     require(
       currentAllowance >= amount,
@@ -142,10 +138,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @param account Account to mint to
    * @param amount Amount to mint
    */
-  function mint(
-    address account,
-    uint256 amount
-  ) external virtual onlyMinter {
+  function mint(address account, uint256 amount) external onlyMinter {
     _mint(account, amount);
   }
 
@@ -157,7 +150,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    */
   function grantMintRole(
     address minter
-  ) external virtual onlyOwnerOrCCIPAdmin {
+  ) external onlyOwnerOrCCIPAdmin {
     if (!_minters[minter]) {
       _minters[minter] = true;
       emit MintAccessGranted(minter);
@@ -170,7 +163,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    */
   function revokeMintRole(
     address minter
-  ) external virtual onlyOwnerOrCCIPAdmin {
+  ) external onlyOwnerOrCCIPAdmin {
     if (_minters[minter]) {
       _minters[minter] = false;
       emit MintAccessRevoked(minter);
@@ -183,7 +176,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    */
   function grantBurnRole(
     address burner
-  ) external virtual onlyOwnerOrCCIPAdmin {
+  ) external onlyOwnerOrCCIPAdmin {
     if (!_burners[burner]) {
       _burners[burner] = true;
       emit BurnAccessGranted(burner);
@@ -196,7 +189,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    */
   function revokeBurnRole(
     address burner
-  ) external virtual onlyOwnerOrCCIPAdmin {
+  ) external onlyOwnerOrCCIPAdmin {
     if (_burners[burner]) {
       _burners[burner] = false;
       emit BurnAccessRevoked(burner);
@@ -209,7 +202,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    */
   function grantMintAndBurnRoles(
     address account
-  ) external virtual onlyOwnerOrCCIPAdmin {
+  ) external onlyOwnerOrCCIPAdmin {
     if (!_minters[account]) {
       _minters[account] = true;
       emit MintAccessGranted(account);
@@ -227,7 +220,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    */
   function setCCIPAdmin(
     address newAdmin
-  ) external virtual onlyOwnerOrCCIPAdmin {
+  ) external onlyOwnerOrCCIPAdmin {
     address oldAdmin = _ccipAdmin;
     _ccipAdmin = newAdmin;
     emit CCIPAdminChanged(oldAdmin, newAdmin);
@@ -237,7 +230,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @notice Gets the CCIP admin address
    * @return The CCIP admin address
    */
-  function getCCIPAdmin() external view virtual returns (address) {
+  function getCCIPAdmin() external view returns (address) {
     return _ccipAdmin;
   }
 
@@ -246,9 +239,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @param account The account to check
    * @return True if the account has the role
    */
-  function isMinter(
-    address account
-  ) public view virtual returns (bool) {
+  function isMinter(address account) public view returns (bool) {
     return _minters[account];
   }
 
@@ -257,9 +248,7 @@ contract CCIPToken is IERC677, ERC20Upgradeable {
    * @param account The account to check
    * @return True if the account has the role
    */
-  function isBurner(
-    address account
-  ) public view virtual returns (bool) {
+  function isBurner(address account) public view returns (bool) {
     return _burners[account];
   }
 

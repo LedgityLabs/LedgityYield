@@ -2,7 +2,7 @@
 pragma solidity 0.8.18;
 
 // Contracts
-import { CCIPToken } from "./external/CCIPToken.sol";
+import { CCIPToken } from "./misc/CCIPToken.sol";
 import { GlobalOwnableUpgradeable } from "./abstracts/GlobalOwnableUpgradeable.sol";
 import { GlobalPausableUpgradeable } from "./abstracts/GlobalPausableUpgradeable.sol";
 import { GlobalRestrictableUpgradeable } from "./abstracts/GlobalRestrictableUpgradeable.sol";
@@ -165,14 +165,6 @@ contract WrappedLToken is
    */
   function totalLTokenBalance() external view returns (uint256) {
     return lToken.balanceOf(address(this));
-  }
-
-  /**
-   * @notice Checks if the sender is the owner
-   * @return bool True if the sender is the owner
-   */
-  function isOwner() internal view virtual override returns (bool) {
-    return msg.sender == globalOwner();
   }
 
   // ======== HELPERS ======== //
