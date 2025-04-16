@@ -12,6 +12,7 @@ import "colors";
 
 // Tasks
 import "./contracts/hardhat/tasks/verify.cts";
+import "./contracts/hardhat/tasks/deploy-mock-ccip-token.cts";
 
 import { parseEther } from "ethers/lib/utils";
 import { type HardhatUserConfig } from "hardhat/config";
