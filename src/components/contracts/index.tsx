@@ -64,6 +64,13 @@ import {
   configUnstake,
   ParamsGetReward,
   configGetReward,
+  // Wrapped
+  ParamsDepositAndWrap,
+  configDepositAndWrap,
+  ParamsWrap,
+  configWrap,
+  ParamsUnwrap,
+  configUnwrap,
 } from "@/hooks/contracts";
 import { txModalDescriptions } from "@/functions/txDescriptions";
 
@@ -72,32 +79,27 @@ type OptionalParams<T> =
   T extends Record<string, never> ? { params?: T } : { params: T };
 
 // Create a utility for external button props exposed in the implementations
-type ExternalButtonProps<T> = Omit<
-  TxButtonWrapperProps<T>,
-  "buttonConfig" | "makeDescription"
->;
+type ExternalButtonProps<T> = OptionalParams<T> &
+  Omit<TxButtonWrapperProps<T>, "buttonConfig" | "makeDescription">;
 
-// When the tx interacts with a contract without token dependencies
-type TxButtonProps<T> = ExternalButtonProps<T> & OptionalParams<T>;
+// When the tx interacts with a single known contract
+type TxButtonProps<T> = ExternalButtonProps<T>;
 
-// When the tx interacts with a contract without token dependencies
-type TxButtonSetProps<T> = ExternalButtonProps<T> &
-  OptionalParams<T> & { contractAddress: Address | undefined };
-
-// When the tx interacts directly with a token
-type TxTokenButtonProps<T> = ExternalButtonProps<T> &
-  OptionalParams<T> & { tokenAddress: Address | undefined };
+// When the tx interacts with a set of contracts
+type TxButtonSetProps<T> = ExternalButtonProps<T> & {
+  contractAddress: Address | undefined;
+};
 
 // When the tx depends on a token and might require approval
-type TxButtonApproveProps<T> = ExternalButtonProps<T> &
-  OptionalParams<T> & { approveChecks: ERC20ApproveCheck[] };
+type TxButtonApproveProps<T> = ExternalButtonProps<T> & {
+  approveChecks: ERC20ApproveCheck[];
+};
 
 // When the tx depends on a token and might require approval for a set of contracts
-type TxButtonSetApproveProps<T> = ExternalButtonProps<T> &
-  OptionalParams<T> & {
-    contractAddress: Address | undefined;
-    approveChecks: ERC20ApproveCheck[];
-  };
+type TxButtonSetApproveProps<T> = ExternalButtonProps<T> & {
+  contractAddress: Address | undefined;
+  approveChecks: ERC20ApproveCheck[];
+};
 
 export const {
   // ====== ERC-20 ====== //
@@ -133,27 +135,32 @@ export const {
   StakeTx,
   UnstakeTx,
   GetRewardTx,
+  // ====== Wrap ===== //
+  DepositAndWrapLTokenTx,
+  WrapLTokenTx,
+  UnwrapLTokenTx,
 } = {
   // ====== ERC-20 ====== //
-  ApproveTx: (props: TxTokenButtonProps<ParamsApprove>) => (
+  ApproveTx: (props: TxButtonSetProps<ParamsApprove>) => (
     <TxButtonWrapper
       {...props}
       makeDescription={txModalDescriptions.Approve}
       buttonConfig={{
         ...configApprove,
         useMakeInstance: () =>
-          configApprove.useMakeInstance(props.tokenAddress),
+          configApprove.useMakeInstance(props.contractAddress),
       }}
     />
   ),
 
-  MintTx: (props: TxTokenButtonProps<ParamsMint>) => (
+  MintTx: (props: TxButtonSetProps<ParamsMint>) => (
     <TxButtonWrapper
       {...props}
       makeDescription={txModalDescriptions.Mint}
       buttonConfig={{
         ...configMint,
-        useMakeInstance: () => configMint.useMakeInstance(props.tokenAddress),
+        useMakeInstance: () =>
+          configMint.useMakeInstance(props.contractAddress),
       }}
     />
   ),
@@ -415,6 +422,43 @@ export const {
       {...props}
       makeDescription={txModalDescriptions.GetReward}
       buttonConfig={configGetReward}
+    />
+  ),
+
+  // ====== Wrap ====== //
+  DepositAndWrapLTokenTx: (
+    props: TxButtonSetApproveProps<ParamsDepositAndWrap>,
+  ) => (
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.DepositAndWrap}
+      buttonConfig={{
+        ...configDepositAndWrap,
+        useMakeInstance: () =>
+          configDepositAndWrap.useMakeInstance(props.contractAddress),
+      }}
+    />
+  ),
+  WrapLTokenTx: (props: TxButtonSetApproveProps<ParamsWrap>) => (
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.WrapLToken}
+      buttonConfig={{
+        ...configWrap,
+        useMakeInstance: () =>
+          configWrap.useMakeInstance(props.contractAddress),
+      }}
+    />
+  ),
+  UnwrapLTokenTx: (props: TxButtonSetApproveProps<ParamsUnwrap>) => (
+    <TxButtonWrapper
+      {...props}
+      makeDescription={txModalDescriptions.UnwrapLToken}
+      buttonConfig={{
+        ...configUnwrap,
+        useMakeInstance: () =>
+          configUnwrap.useMakeInstance(props.contractAddress),
+      }}
     />
   ),
 } as const;

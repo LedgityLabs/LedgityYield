@@ -32,6 +32,10 @@ import {
   ParamsUnpause,
   // LdyStaking
   ParamsUnstake,
+  // Wrap
+  ParamsDepositAndWrap,
+  ParamsWrap,
+  ParamsUnwrap,
 } from "@/hooks/contracts";
 // Functions
 import { parseUnits } from "viem";
@@ -173,7 +177,7 @@ export const txModalDescriptions = {
         suffix={"LDY"}
         displaySymbol={true}
         className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
-      />{" "}
+      />
     </span>
   ),
   Unstake: (params: ParamsUnstake) => (
@@ -185,10 +189,25 @@ export const txModalDescriptions = {
         suffix={"LDY"}
         displaySymbol={true}
         className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
-      />{" "}
+      />
     </span>
   ),
   GetReward: (params: ParamsGetReward) => (
     <span>Claim accumulated LDY rewards from staking</span>
   ),
+  // ====== Wrap ====== //
+  DepositAndWrap: (params: ParamsDepositAndWrap) => (
+    <span>
+      Deposit and wrap{" "}
+      <Amount
+        value={parseUnits(params.amount.toString(), params.tokenDecimals)}
+        decimals={params.tokenDecimals}
+        suffix={params.symbol}
+        displaySymbol={true}
+        className="text-indigo-300 underline underline-offset-4 decoration-indigo-300 decoration-2 whitespace-nowrap"
+      />
+    </span>
+  ),
+  WrapLToken: (params: ParamsWrap) => <span>Wrap LTokens</span>,
+  UnwrapLToken: (params: ParamsUnwrap) => <span>Unwrap LTokens</span>,
 };
