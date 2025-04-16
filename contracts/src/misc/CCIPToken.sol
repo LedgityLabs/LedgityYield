@@ -10,6 +10,13 @@ import { IERC677Receiver } from "@chainlink/contracts-ccip/src/v0.8/shared/inter
 import { IERC677 } from "@chainlink/contracts-ccip/src/v0.8/shared/token/ERC677/IERC677.sol";
 import { IBurnMintERC20 } from "@chainlink/contracts-ccip/src/v0.8/shared/token/ERC20/IBurnMintERC20.sol";
 
+// ======== ERRORS ======== //
+
+error SenderNotMinter(address sender);
+error SenderNotBurner(address sender);
+error SenderNotCCIPAdmin(address sender);
+error InsufficientAllowance();
+
 /**
  * @title CCIPToken
  * @notice A module that adds CCIP compatibility features to ERC20 tokens
@@ -17,15 +24,19 @@ import { IBurnMintERC20 } from "@chainlink/contracts-ccip/src/v0.8/shared/token/
  */
 contract CCIPToken is
   IERC677,
+  IGetCCIPAdmin,
   ERC20Upgradeable,
   GlobalOwnableUpgradeable
 {
+  // ======== STORAGE ======== //
   // Role management state
   mapping(address => bool) private _minters;
   mapping(address => bool) private _burners;
 
-  // CCIP admin (optional, can be different from the contract owner)
+  // CCIP admin
   address private _ccipAdmin;
+
+  // ======== EVENTS ======== //
 
   // Events for role management
   event MintAccessGranted(address indexed minter);
@@ -37,10 +48,7 @@ contract CCIPToken is
     address indexed newAdmin
   );
 
-  // Errors
-  error SenderNotMinter(address sender);
-  error SenderNotBurner(address sender);
-  error SenderNotOwnerOrCCIPAdmin(address sender);
+  // ======== INITIALIZE ======== //
 
   /**
    * @notice Initializes the CCIP token
@@ -49,6 +57,8 @@ contract CCIPToken is
   function __CCIPCompatible_init(address initialCCIPAdmin) internal {
     _ccipAdmin = initialCCIPAdmin;
   }
+
+  // ======== MODIFIERS ======== //
 
   /**
    * @notice Checks if the sender is authorized as a minter
@@ -67,14 +77,43 @@ contract CCIPToken is
   }
 
   /**
-   * @notice Checks if the sender is the owner or CCIP admin
-   * @dev The implementing contract should define isOwner()
+   * @notice Checks if the sender is the CCIP admin
    */
-  modifier onlyOwnerOrCCIPAdmin() {
-    if (msg.sender != owner() && msg.sender != _ccipAdmin)
-      revert SenderNotOwnerOrCCIPAdmin(msg.sender);
+  modifier onlyCCIPAdmin() {
+    if (msg.sender != _ccipAdmin)
+      revert SenderNotCCIPAdmin(msg.sender);
     _;
   }
+
+  // ======== VIEWS ======== //
+
+  /**
+   * @notice Gets the CCIP admin address
+   * @return The CCIP admin address
+   */
+  function getCCIPAdmin() external view returns (address) {
+    return _ccipAdmin;
+  }
+
+  /**
+   * @notice Checks if an account has the minter role
+   * @param account The account to check
+   * @return True if the account has the role
+   */
+  function isMinter(address account) public view returns (bool) {
+    return _minters[account];
+  }
+
+  /**
+   * @notice Checks if an account has the burner role
+   * @param account The account to check
+   * @return True if the account has the role
+   */
+  function isBurner(address account) public view returns (bool) {
+    return _burners[account];
+  }
+
+  // ======== TRANSFER & CALL ======== //
 
   /**
    * @notice Implementation of ERC677 transferAndCall
@@ -94,6 +133,17 @@ contract CCIPToken is
       IERC677Receiver(to).onTokenTransfer(msg.sender, amount, data);
     }
     return true;
+  }
+
+  // ======== BURN & MINT ======== //
+
+  /**
+   * @notice Implementation of mints tokens to a specified account
+   * @param account Account to mint to
+   * @param amount Amount to mint
+   */
+  function mint(address account, uint256 amount) external onlyMinter {
+    _mint(account, amount);
   }
 
   /**
@@ -123,77 +173,59 @@ contract CCIPToken is
     uint256 amount
   ) public onlyBurner {
     uint256 currentAllowance = allowance(account, msg.sender);
-    require(
-      currentAllowance >= amount,
-      "ERC20: burn amount exceeds allowance"
-    );
+    if (currentAllowance < amount) revert InsufficientAllowance();
 
     // Reduce allowance before burning
     _approve(account, msg.sender, currentAllowance - amount);
     _burn(account, amount);
   }
 
-  /**
-   * @notice Implementation of mints tokens to a specified account
-   * @param account Account to mint to
-   * @param amount Amount to mint
-   */
-  function mint(address account, uint256 amount) external onlyMinter {
-    _mint(account, amount);
-  }
+  // ======== ADMIN ======== //
 
-  // Role management functions
+  /**
+   * @notice Sets the CCIP admin address
+   * @param newAdmin The new CCIP admin address
+   */
+  function setCCIPAdmin(address newAdmin) external onlyCCIPAdmin {
+    address oldAdmin = _ccipAdmin;
+    _ccipAdmin = newAdmin;
+    emit CCIPAdminChanged(oldAdmin, newAdmin);
+  }
 
   /**
    * @notice Grants minter role to an account
    * @param minter The account to grant the role to
    */
-  function grantMintRole(
-    address minter
-  ) external onlyOwnerOrCCIPAdmin {
-    if (!_minters[minter]) {
-      _minters[minter] = true;
-      emit MintAccessGranted(minter);
-    }
+  function grantMintRole(address minter) external onlyCCIPAdmin {
+    _minters[minter] = true;
+    emit MintAccessGranted(minter);
   }
 
   /**
    * @notice Revokes minter role from an account
    * @param minter The account to revoke the role from
    */
-  function revokeMintRole(
-    address minter
-  ) external onlyOwnerOrCCIPAdmin {
-    if (_minters[minter]) {
-      _minters[minter] = false;
-      emit MintAccessRevoked(minter);
-    }
+  function revokeMintRole(address minter) external onlyCCIPAdmin {
+    _minters[minter] = false;
+    emit MintAccessRevoked(minter);
   }
 
   /**
    * @notice Grants burner role to an account
    * @param burner The account to grant the role to
    */
-  function grantBurnRole(
-    address burner
-  ) external onlyOwnerOrCCIPAdmin {
-    if (!_burners[burner]) {
-      _burners[burner] = true;
-      emit BurnAccessGranted(burner);
-    }
+  function grantBurnRole(address burner) external onlyCCIPAdmin {
+    _burners[burner] = true;
+    emit BurnAccessGranted(burner);
   }
 
   /**
    * @notice Revokes burner role from an account
    * @param burner The account to revoke the role from
    */
-  function revokeBurnRole(
-    address burner
-  ) external onlyOwnerOrCCIPAdmin {
-    if (_burners[burner]) {
-      _burners[burner] = false;
-      emit BurnAccessRevoked(burner);
-    }
+  function revokeBurnRole(address burner) external onlyCCIPAdmin {
+    _burners[burner] = false;
+    emit BurnAccessRevoked(burner);
   }
 
   /**
@@ -202,54 +234,12 @@ contract CCIPToken is
    */
   function grantMintAndBurnRoles(
     address account
-  ) external onlyOwnerOrCCIPAdmin {
-    if (!_minters[account]) {
-      _minters[account] = true;
-      emit MintAccessGranted(account);
-    }
+  ) public onlyCCIPAdmin {
+    _minters[account] = true;
+    _burners[account] = true;
 
-    if (!_burners[account]) {
-      _burners[account] = true;
-      emit BurnAccessGranted(account);
-    }
-  }
-
-  /**
-   * @notice Sets the CCIP admin address
-   * @param newAdmin The new CCIP admin address
-   */
-  function setCCIPAdmin(
-    address newAdmin
-  ) external onlyOwnerOrCCIPAdmin {
-    address oldAdmin = _ccipAdmin;
-    _ccipAdmin = newAdmin;
-    emit CCIPAdminChanged(oldAdmin, newAdmin);
-  }
-
-  /**
-   * @notice Gets the CCIP admin address
-   * @return The CCIP admin address
-   */
-  function getCCIPAdmin() external view returns (address) {
-    return _ccipAdmin;
-  }
-
-  /**
-   * @notice Checks if an account has the minter role
-   * @param account The account to check
-   * @return True if the account has the role
-   */
-  function isMinter(address account) public view returns (bool) {
-    return _minters[account];
-  }
-
-  /**
-   * @notice Checks if an account has the burner role
-   * @param account The account to check
-   * @return True if the account has the role
-   */
-  function isBurner(address account) public view returns (bool) {
-    return _burners[account];
+    emit MintAccessGranted(account);
+    emit BurnAccessGranted(account);
   }
 
   /**
