@@ -10,12 +10,10 @@ export type ParamsUnwrap = {
   symbol: string;
   amount: string;
   tokenDecimals: number;
-  to?: Address;
 };
 
 type FormattedParams = {
   amount: bigint;
-  to?: Address;
 };
 
 type Instance = {
@@ -32,7 +30,6 @@ type Instance = {
 function formatParams(params: ParamsUnwrap): FormattedParams {
   return {
     amount: parseUnits(params.amount.toString(), params.tokenDecimals),
-    to: params.to,
   };
 }
 
@@ -78,11 +75,12 @@ async function execute(
   try {
     if (!instance.address) throw Error("Contract address not found");
 
-    const { amount, to } = formatParams(params);
+    const { amount } = formatParams(params);
     const hash = await instance.writeContract({
+      // @dev Chain ID typesafety doing its job but getting in the way here
       chainId: instance.chainId as any,
       address: instance.address,
-      args: to ? [amount, to] : [amount],
+      args: [amount],
     });
 
     return {
