@@ -15,6 +15,7 @@ import { BridgeWidget } from "@/components/widget/BridgeWidget";
 import { AppGetUSDC } from "@/components/app/get-usdc/AppGetUSDC";
 import { AppPreMining } from "@/components/app/pre-mining/AppPreMining";
 import { AppAffiliate } from "@/components/app/affiliate/AppAffiliate";
+import { WrapPage } from "@/components/app/wrap/WrapPage";
 
 export type TabParam = {
   tab: string;
@@ -59,6 +60,8 @@ export function AppTabs({ tabParams }: { tabParams: TabParam[] }) {
         return <AppStaking />;
       case "dashboard":
         return <AppDashboard />;
+      case "wrap":
+        return <WrapPage />;
       case "swap":
         return <SwapWidget />;
       case "bridge":
