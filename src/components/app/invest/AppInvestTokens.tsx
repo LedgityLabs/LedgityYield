@@ -44,8 +44,12 @@ type Pool = {
  *    with most up to date data.
  */
 export function AppInvestTokens({ className }: { className?: string }) {
-  const { lTokenInfosCurrentChain, tokenInfos, tvlMetrics } =
-    useAppDataContext();
+  const {
+    lTokenInfosCurrentChain,
+    wLTokenInfosCurrentChain,
+    tokenInfos,
+    tvlMetrics,
+  } = useAppDataContext();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +59,10 @@ export function AppInvestTokens({ className }: { className?: string }) {
 
   const lTokenData = lTokenInfosCurrentChain.find(
     (token) => token.address === modalToken,
+  );
+  const wLTokenData = wLTokenInfosCurrentChain.find(
+    (token) =>
+      token.address.toLowerCase() === lTokenData?.address.toLowerCase(),
   );
   const underlyingTokenData = tokenInfos.find(
     (token) =>
@@ -298,6 +306,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
           handleSetOpenModal("deposit", lTokenData?.address, isOpen)
         }
         lTokenData={lTokenData}
+        wLTokenData={wLTokenData}
         underlyingTokenData={underlyingTokenData}
       />
       <WithdrawDialog

@@ -1,7 +1,7 @@
 "use client";
 
 // Components
-import { DepositTx } from "@/components/contracts";
+import { DepositTx, DepositAndWrapTx } from "@/components/contracts";
 import {
   AmountInput,
   Dialog,
@@ -10,8 +10,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  Button,
   Spinner,
+  TokenLogo,
 } from "@/components/ui";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 // Hooks
@@ -20,21 +21,24 @@ import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import { useBalanceOf } from "@/hooks/contracts";
 import useRestricted from "@/hooks/useRestricted";
 import { useRef, useState } from "react";
+import { ReactNode } from "react";
 // Function
 import { formatUnits, parseUnits } from "viem";
 // Types
-import { LTokenInfo, TokenInfo } from "@/types";
+import { LTokenInfo, WLTokenInfo, TokenInfo } from "@/types";
 
 export function DepositDialog({
   isOpen,
   setIsOpen,
   lTokenData,
+  wLTokenData,
   underlyingTokenData,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
   lTokenData: LTokenInfo | undefined;
+  wLTokenData: WLTokenInfo | undefined;
   underlyingTokenData: TokenInfo | undefined;
 }) {
   const { referralCode } = useAppDataContext();
@@ -46,6 +50,7 @@ export function DepositDialog({
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
+  const [toWrapped, setToWrapped] = useState(true);
 
   // Fetch restriction status
   const { isRestricted, isLoading: isRestrictionLoading } = useRestricted();
@@ -89,19 +94,66 @@ export function DepositDialog({
             <DialogHeader>
               <DialogTitle>Deposit {underlyingTokenData.symbol}</DialogTitle>
               <DialogDescription>
-                <span className="text-primary font-semibold text-xl">
-                  You will receive {lTokenData.symbol} in a 1:1 ratio.
-                </span>
+                <div className="text-sm">
+                  Choose what asset you want to receive:
+                </div>
+
+                <div className="flex items-center space-x-4 w-full">
+                  {wLTokenData && (
+                    <Button
+                      variant={toWrapped ? "primary" : "outline"}
+                      onClick={() => setToWrapped(true)}
+                      className={`flex-1 flex items-center justify-center`}
+                    >
+                      <TokenLogo
+                        symbol={wLTokenData.symbol}
+                        size={35}
+                        className="mx-1 p-1"
+                      />
+                      <span className="ml-1">{wLTokenData.symbol}</span>
+                    </Button>
+                  )}
+
+                  <Button
+                    variant={!toWrapped ? "primary" : "outline"}
+                    onClick={() => setToWrapped(false)}
+                    className={`flex-1 flex items-center justify-center`}
+                  >
+                    <TokenLogo
+                      symbol={lTokenData.symbol}
+                      size={35}
+                      className="mx-1 p-1"
+                    />
+                    <span className="ml-1">{lTokenData.symbol}</span>
+                  </Button>
+                </div>
+
                 <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">
                   <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
                     <i className="ri-information-line text-2xl" />
                   </div>
-                  <div className="pl-4 text-left">
-                    <span className="font-bold">How to get the yield?</span>{" "}
-                    Your {lTokenData.symbol} balance will automatically grow
-                    through time to reflect your rewards. There is no need to
-                    stake, lock or claim anything.
-                  </div>
+                  {wLTokenData && toWrapped ? (
+                    <div className="pl-4 text-left">
+                      <span className="font-bold">
+                        You will receive {wLTokenData.symbol}, the non rebasing
+                        Liquid Yield Token.
+                      </span>{" "}
+                      Your yield is reflected directly in the increasing value
+                      of
+                      {wLTokenData.symbol} over time. There’s no need to stake,
+                      lock, or claim — rewards are automatically accrued through
+                      the token's price appreciation.
+                    </div>
+                  ) : (
+                    <div className="pl-4 text-left">
+                      <span className="font-bold">
+                        You will receive {lTokenData.symbol} in a 1:1 ratio.
+                      </span>{" "}
+                      Your {lTokenData.symbol} balance will automatically grow
+                      through time to reflect your rewards. There is no need to
+                      stake, lock or claim anything.
+                    </div>
+                  )}
                 </div>
               </DialogDescription>
             </DialogHeader>
@@ -120,32 +172,60 @@ export function DepositDialog({
                   }
                 />
 
-                <DepositTx
-                  buttonText="Deposit"
-                  contractAddress={lTokenData.address}
-                  disabled={!depositedAmount}
-                  params={{
-                    symbol: underlyingTokenData.symbol,
-                    amount: formatUnits(
-                      depositedAmount,
-                      underlyingTokenData.decimals,
-                    ),
-                    tokenDecimals: underlyingTokenData.decimals,
-                    refCode: referralCode,
-                  }}
-                  approveChecks={[
-                    {
-                      token: underlyingTokenData.address,
+                {wLTokenData && toWrapped ? (
+                  <DepositAndWrapTx
+                    buttonText="Deposit"
+                    contractAddress={wLTokenData.address}
+                    disabled={!depositedAmount}
+                    params={{
                       symbol: underlyingTokenData.symbol,
-                      tokenDecimals: underlyingTokenData.decimals,
-                      spender: lTokenData.address,
                       amount: formatUnits(
                         depositedAmount,
                         underlyingTokenData.decimals,
                       ),
-                    },
-                  ]}
-                />
+                      tokenDecimals: underlyingTokenData.decimals,
+                    }}
+                    approveChecks={[
+                      {
+                        token: underlyingTokenData.address,
+                        symbol: underlyingTokenData.symbol,
+                        tokenDecimals: underlyingTokenData.decimals,
+                        spender: wLTokenData.address,
+                        amount: formatUnits(
+                          depositedAmount,
+                          underlyingTokenData.decimals,
+                        ),
+                      },
+                    ]}
+                  />
+                ) : (
+                  <DepositTx
+                    buttonText="Deposit"
+                    contractAddress={lTokenData.address}
+                    disabled={!depositedAmount}
+                    params={{
+                      symbol: underlyingTokenData.symbol,
+                      amount: formatUnits(
+                        depositedAmount,
+                        underlyingTokenData.decimals,
+                      ),
+                      tokenDecimals: underlyingTokenData.decimals,
+                      refCode: referralCode,
+                    }}
+                    approveChecks={[
+                      {
+                        token: underlyingTokenData.address,
+                        symbol: underlyingTokenData.symbol,
+                        tokenDecimals: underlyingTokenData.decimals,
+                        spender: lTokenData.address,
+                        amount: formatUnits(
+                          depositedAmount,
+                          underlyingTokenData.decimals,
+                        ),
+                      },
+                    ]}
+                  />
+                )}
               </div>
             </DialogFooter>
           </>
