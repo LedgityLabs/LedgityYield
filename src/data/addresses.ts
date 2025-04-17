@@ -25,7 +25,9 @@ export type ContractName =
   | "EURC"
   | "USDC"
   | "LEURC"
-  | "LUSDC";
+  | "LUSDC"
+  | "lyEUR"
+  | "lyUSD";
 
 // @dev New LTokens should be specified here to feed the wagmi hooks
 export const lTokenAddresses: {
@@ -45,6 +47,18 @@ export const lTokenAddresses: {
   [ChainId.linea]: {
     LUSDC: "0x4AF215DbE27fc030F37f73109B85F421FAB45B7a",
   },
+};
+
+export const wrappedLTokensAddresses: {
+  [chainId: number]: {
+    lyEUR?: Address;
+    lyUSD?: Address;
+  };
+} = {
+  [ChainId.mainnet]: {},
+  [ChainId.arbitrum_one]: {},
+  [ChainId.base]: {},
+  [ChainId.linea]: {},
 };
 
 function fetchChainAddresses(
@@ -72,11 +86,14 @@ function fetchChainAddresses(
     LTokenSignaler: (lTokenSignalerAddress as any)[chainId] || zeroAddress,
     PreMining: (preMiningAddress as any)[chainId] || zeroAddress,
     // Tokens
+    LDY: dependencies[chainId]?.LDY || zeroAddress,
     LEURC: lTokenAddresses[chainId]?.LEURC || zeroAddress,
     LUSDC: lTokenAddresses[chainId]?.LUSDC || zeroAddress,
-    LDY: dependencies[chainId]?.LDY || zeroAddress,
     EURC: dependencies[chainId]?.EURC || zeroAddress,
     USDC: dependencies[chainId]?.USDC || zeroAddress,
+    // Wrapped
+    lyEUR: wrappedLTokensAddresses[chainId]?.lyEUR || zeroAddress,
+    lyUSD: wrappedLTokensAddresses[chainId]?.lyUSD || zeroAddress,
   };
 }
 

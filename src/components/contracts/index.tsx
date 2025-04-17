@@ -136,7 +136,7 @@ export const {
   UnstakeTx,
   GetRewardTx,
   // ====== Wrap ===== //
-  DepositAndWrapLTokenTx,
+  DepositAndWrapTx,
   WrapLTokenTx,
   UnwrapLTokenTx,
 } = {
@@ -426,9 +426,7 @@ export const {
   ),
 
   // ====== Wrap ====== //
-  DepositAndWrapLTokenTx: (
-    props: TxButtonSetApproveProps<ParamsDepositAndWrap>,
-  ) => (
+  DepositAndWrapTx: (props: TxButtonSetApproveProps<ParamsDepositAndWrap>) => (
     <TxButtonWrapper
       {...props}
       makeDescription={txModalDescriptions.DepositAndWrap}

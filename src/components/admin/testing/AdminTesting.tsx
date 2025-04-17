@@ -104,7 +104,7 @@ export function AdminTesting() {
                 />
                 <MintTx
                   buttonText="Mint"
-                  tokenAddress={tokenData?.address}
+                  contractAddress={tokenData?.address}
                   params={{
                     amount: mintedAmount,
                     tokenDecimals: tokenData?.decimals || 0,
