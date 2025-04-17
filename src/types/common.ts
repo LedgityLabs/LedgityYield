@@ -16,6 +16,14 @@ export type LTokenInfo = TokenInfo & {
   balance: bigint;
 };
 
+export type WLTokenInfo = TokenInfo & {
+  chainId: number;
+  exchangeRate: number;
+  totalSupply: bigint;
+  lToken: Address;
+  balance: bigint;
+};
+
 export type ERC20TokenType = {
   address: Address;
   symbol: string;

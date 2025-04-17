@@ -10,20 +10,30 @@ import { useWeb3Context } from "./Web3ContextProvider";
 // Hooks
 import { useSearchParams } from "next/navigation";
 import { useLocalStorage } from "../utils/useLocalStorage";
-import { useTokenInfos, useLTokenInfos } from "@/hooks/contracts";
+import {
+  useTokenInfos,
+  useLTokenInfos,
+  useWLTokenInfos,
+} from "@/hooks/contracts";
 import { useTokenPricesUsd } from "@/hooks/api/useTokenPricesUsd";
 // Functions
 import { computeTvlMetrics, TvlMetrics } from "@/functions/helpers";
 // Data
-import { lTokenAddresses, dependenciesAddresses } from "@/data/addresses";
+import {
+  lTokenAddresses,
+  wrappedLTokensAddresses,
+  dependenciesAddresses,
+} from "@/data/addresses";
 // Types
-import { TokenInfo, LTokenInfo } from "@/types";
+import { TokenInfo, LTokenInfo, WLTokenInfo } from "@/types";
 import { Address } from "viem";
 
 type AppDataContext = {
   referralCode: string;
   lTokenInfos: LTokenInfo[];
   lTokenInfosCurrentChain: LTokenInfo[];
+  wLTokensInfos: WLTokenInfo[];
+  wLTokenInfosCurrentChain: WLTokenInfo[];
   tvlMetrics: TvlMetrics;
   isLoadingPrices: boolean;
   tokenInfos: TokenInfo[];
@@ -69,8 +79,20 @@ export function AppDataContextProvider({
     (lToken) => lToken.chainId === appChainId,
   );
 
+  const wLTokens = Object.keys(wrappedLTokensAddresses).flatMap((chainId) =>
+    Object.values(wrappedLTokensAddresses[Number(chainId)]).map((address) => ({
+      address,
+      chainId: Number(chainId),
+    })),
+  );
+  const wLTokensInfos = useWLTokenInfos(wLTokens, currentAccount);
+  const wLTokenInfosCurrentChain = wLTokensInfos.filter(
+    (wLToken) => wLToken.chainId === appChainId,
+  );
+
   // @dev Safe to cast since strings in the Set are Address typed
   const tokens = [
+    // Get data from ltoken underlying
     ...lTokenInfos.map((lToken) => ({
       address: lToken.underlying,
       chainId: lToken.chainId,
@@ -98,6 +120,8 @@ export function AppDataContextProvider({
         referralCode,
         lTokenInfos,
         lTokenInfosCurrentChain,
+        wLTokensInfos,
+        wLTokenInfosCurrentChain,
         tvlMetrics,
         isLoadingPrices,
         tokenInfos,

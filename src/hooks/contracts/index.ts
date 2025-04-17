@@ -2,6 +2,7 @@
 
 export * from "./read/useBatchedWithdrawalRequests";
 export * from "./read/useLTokenInfos";
+export * from "./read/useWLTokenInfos";
 export * from "./read/useCanInstantWithdraw";
 export * from "./read/useLTokenBalancesAndRewards";
 
