@@ -19,12 +19,17 @@ import { Address } from "viem";
 
 // @bw @dev was intended to replace AppDashboardLUSDCBalance I think
 export function AppDashboardBalances({ className }: { className?: string }) {
-  const { lTokenInfosCurrentChain, tokenInfos } = useAppDataContext();
+  const { lTokenInfosCurrentChain, wLTokenInfosCurrentChain, tokenInfos } =
+    useAppDataContext();
   const [openModal, setOpenModal] = useState<"deposit" | "withdraw">();
   const [modalToken, setModalToken] = useState<Address>();
 
   const lTokenData = lTokenInfosCurrentChain.find(
     (token) => token.address === modalToken,
+  );
+  const wLTokenData = wLTokenInfosCurrentChain.find(
+    (token) =>
+      token.address.toLowerCase() === lTokenData?.address.toLowerCase(),
   );
   const underlyingTokenData = tokenInfos.find(
     (token) =>
@@ -139,6 +144,7 @@ export function AppDashboardBalances({ className }: { className?: string }) {
           handleSetOpenModal("deposit", lTokenData?.address, isOpen)
         }
         lTokenData={lTokenData}
+        wLTokenData={wLTokenData}
         underlyingTokenData={underlyingTokenData}
       />
       <WithdrawDialog

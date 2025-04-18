@@ -6,7 +6,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && node --max-old-space-size=8192 node_modules/next/dist/bin/next build",
     "build:analyze": "npx cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
