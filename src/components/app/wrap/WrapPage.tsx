@@ -25,18 +25,13 @@ export function WrapPage() {
   const { lTokenInfosCurrentChain, wLTokenInfosCurrentChain } =
     useAppDataContext();
 
-  const [toWrapped, setToWrapped] = useState<boolean>(true);
-  const [depositedAmount, setDepositedAmount] = useState(0n);
-  const [receivedAmount, setReceivedAmount] = useState(0n);
   const [lTokenSymbol, setLTokenSymbol] = useState(
     lTokenInfosCurrentChain[0]?.symbol,
   );
-
-  useEffect(() => {
-    if (lTokenInfosCurrentChain.length) {
-      setLTokenSymbol(lTokenInfosCurrentChain[0].symbol);
-    }
-  }, [lTokenInfosCurrentChain]);
+  const [toWrapped, setToWrapped] = useState<boolean>(true);
+  const [depositedAmountText, setDepositedAmountText] = useState("");
+  const [receivedAmountText, setReceivedAmountText] = useState("");
+  const [depositedAmount, setDepositedAmount] = useState(0n);
 
   const lTokenData = lTokenInfosCurrentChain.find(
     (token) => token.symbol === lTokenSymbol,
@@ -61,17 +56,35 @@ export function WrapPage() {
     const parsedAmount = parseUnits(amount, decimals);
 
     if (isFrom) {
-      const parsedReceived = (parsedAmount * exchangeRate) / RAY;
-
       setDepositedAmount(parsedAmount);
-      setReceivedAmount(parsedReceived);
-    } else {
-      const parsedDeposit = (parsedAmount * RAY) / exchangeRate;
+      setDepositedAmountText(amount);
 
+      const parsedReceived = (parsedAmount * exchangeRate) / RAY;
+      setReceivedAmountText(formatUnits(parsedReceived, decimals));
+    } else {
+      setReceivedAmountText(amount);
+
+      const parsedDeposit = (parsedAmount * RAY) / exchangeRate;
       setDepositedAmount(parsedDeposit);
-      setReceivedAmount(parsedAmount);
+      setDepositedAmountText(formatUnits(parsedDeposit, decimals));
     }
   }
+
+  function handleSetMax() {
+    if (!tokenFrom) return;
+    handleSetAmount(formatUnits(tokenFrom?.balance, tokenFrom?.decimals), true);
+  }
+
+  useEffect(() => {
+    if (lTokenInfosCurrentChain.length) {
+      setLTokenSymbol(lTokenInfosCurrentChain[0].symbol);
+    }
+  }, [lTokenInfosCurrentChain]);
+
+  useEffect(() => {
+    if (!tokenFrom || !tokenTo) return;
+    handleSetAmount(formatUnits(depositedAmount, tokenFrom?.decimals), true);
+  }, [toWrapped]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full text-slate-700 gap-y-4 mb-16">
@@ -82,6 +95,7 @@ export function WrapPage() {
       <div className="text-sm">Select an L-Token:</div>
 
       <Select
+        disabled={!lTokenInfosCurrentChain.length}
         onValueChange={(value: string) => setLTokenSymbol(value)}
         value={lTokenSymbol}
       >
@@ -149,7 +163,10 @@ export function WrapPage() {
                     >
                       From
                     </label>
-                    <div className="flex min-w-0 items-center gap-1 text-xs">
+                    <button
+                      onClick={handleSetMax}
+                      className="flex min-w-0 items-center gap-1 text-xs"
+                    >
                       <div className="flex items-center gap-1 overflow-hidden text-gray-light">
                         Balance:
                         <span className="overflow-hidden text-ellipsis">
@@ -159,7 +176,7 @@ export function WrapPage() {
                       <button className="text-buy disabled:opacity-30">
                         MAX
                       </button>
-                    </div>
+                    </button>
                   </div>
                   <div className="w-full border-2 border-border rounded-xl p-3 flex items-center gap-2">
                     <div className="flex items-center gap-1.5">
@@ -175,14 +192,11 @@ export function WrapPage() {
 
                     <div className="relative w-full">
                       <input
-                        className="w-full bg-transparent text-right !outline-none !focus:outline-none"
+                        className="w-full bg-transparent text-right !focus-visible:box-shadow-none"
                         placeholder="0.00"
                         type="text"
-                        value={formatUnits(
-                          depositedAmount,
-                          tokenFrom?.decimals,
-                        )}
                         inputMode="numeric"
+                        value={depositedAmountText}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleSetAmount(e.target.value, true)
                         }
@@ -228,11 +242,11 @@ export function WrapPage() {
 
                     <div className="relative w-full">
                       <input
-                        className="w-full bg-transparent text-right outline-none focus:outline-none"
+                        className="w-full bg-transparent text-right !focus-visible:box-shadow-none"
                         placeholder="0.00"
                         type="text"
-                        value={formatUnits(receivedAmount, tokenTo?.decimals)}
                         inputMode="numeric"
+                        value={receivedAmountText}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleSetAmount(e.target.value, false)
                         }

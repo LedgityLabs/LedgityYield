@@ -54,3 +54,8 @@
   transform: translateY(-200px) rotate(180deg) translateZ(0px);
   transform-origin: center center 0px;
 }
+
+/* @dev Odd bug where it is impossible to get rid of a focused input shadow */
+.\!focus-visible\:box-shadow-none:focus-visible {
+  box-shadow: none !important;
+}
