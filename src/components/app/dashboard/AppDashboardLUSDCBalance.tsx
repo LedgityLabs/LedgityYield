@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui";
 import Image from "next/image";
-import lusdcIcon from "~/assets/tokens/lusdc.png";
+import lusdcIcon from "~/assets/tokens/lusdc.svg";
 import { DepositDialog } from "@/components/app/DepositDialog";
 import { WithdrawDialog } from "@/components/app/WithdrawDialog";
 // Hooks
@@ -15,11 +15,16 @@ import { useState } from "react";
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
 
 export function AppDashboardLUSDCBalance({}) {
-  const { lTokenInfosCurrentChain, tokenInfos } = useAppDataContext();
+  const { lTokenInfosCurrentChain, wLTokenInfosCurrentChain, tokenInfos } =
+    useAppDataContext();
   const [openModal, setOpenModal] = useState<"deposit" | "withdraw">();
 
   const lTokenData = lTokenInfosCurrentChain.find(
     (token) => token.symbol === "LUSDC",
+  );
+  const wLTokenData = wLTokenInfosCurrentChain.find(
+    (token) =>
+      token.address.toLowerCase() === lTokenData?.address.toLowerCase(),
   );
   const underlyingTokenInfo = tokenInfos.find(
     (tokenInfo) =>
@@ -95,6 +100,7 @@ export function AppDashboardLUSDCBalance({}) {
         isOpen={openModal === "deposit"}
         setIsOpen={(isOpen) => handleSetOpenModal("deposit", isOpen)}
         lTokenData={lTokenData}
+        wLTokenData={wLTokenData}
         underlyingTokenData={underlyingTokenInfo}
       />
       <WithdrawDialog
