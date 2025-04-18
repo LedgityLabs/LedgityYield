@@ -18,7 +18,7 @@ export type LTokenInfo = TokenInfo & {
 
 export type WLTokenInfo = TokenInfo & {
   chainId: number;
-  exchangeRate: number;
+  exchangeRate: bigint;
   totalSupply: bigint;
   lToken: Address;
   balance: bigint;

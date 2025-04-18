@@ -122,7 +122,7 @@ export function useWLTokenInfos(
         name: data[i].result as string,
         symbol: data[i + 1].result as string,
         decimals: data[i + 2].result as number,
-        exchangeRate: data[i + 3].result as number,
+        exchangeRate: data[i + 3].result as bigint,
         totalSupply: data[i + 4].result as bigint,
         lToken: data[i + 5].result as Address,
         balance: userAddress ? (data[i + 6].result as bigint) : 0n,
