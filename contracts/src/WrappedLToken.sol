@@ -58,9 +58,6 @@ contract WrappedLToken is
   // Last recorded checkpoint
   LastRateCheckpoint public lastCheckpoint;
 
-  // Whether wrap/unwrap actions are paused
-  bool public isPaused;
-
   // ======== EVENTS ======== //
 
   event RateCheckpointUpdated(uint256 newRate, uint16 newAPRUD7x3);
@@ -196,7 +193,9 @@ contract WrappedLToken is
    * @notice Deposits underlying tokens into LToken and wraps the received LTokens
    * @param underlyingAmount The amount of underlying tokens to deposit
    */
-  function depositAndWrap(uint256 underlyingAmount) external {
+  function depositAndWrap(
+    uint256 underlyingAmount
+  ) external whenNotPaused notBlacklisted(_msgSender()) {
     if (underlyingAmount == 0) revert WrapZeroAmount();
 
     // Get the underlying token from the LToken contract
@@ -227,7 +226,7 @@ contract WrappedLToken is
   function depositAndWrap(
     uint256 underlyingAmount,
     address to
-  ) external {
+  ) external whenNotPaused notBlacklisted(_msgSender()) {
     if (underlyingAmount == 0) revert WrapZeroAmount();
 
     // Get the underlying token from the LToken contract
@@ -259,7 +258,12 @@ contract WrappedLToken is
    */
   function wrap(
     uint256 lTokenAmount
-  ) external returns (uint256 wrappedAmount_) {
+  )
+    external
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 wrappedAmount_)
+  {
     return _wrap(lTokenAmount, msg.sender);
   }
 
@@ -272,7 +276,12 @@ contract WrappedLToken is
   function wrap(
     uint256 lTokenAmount,
     address to
-  ) external returns (uint256 wrappedAmount_) {
+  )
+    external
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 wrappedAmount_)
+  {
     return _wrap(lTokenAmount, to);
   }
 
@@ -285,7 +294,12 @@ contract WrappedLToken is
    */
   function unwrap(
     uint256 wrappedAmount
-  ) external returns (uint256 lTokenAmount_) {
+  )
+    external
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 lTokenAmount_)
+  {
     return _unwrap(wrappedAmount, msg.sender);
   }
 
@@ -298,7 +312,12 @@ contract WrappedLToken is
   function unwrap(
     uint256 wrappedAmount,
     address to
-  ) external returns (uint256 lTokenAmount_) {
+  )
+    external
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 lTokenAmount_)
+  {
     return _unwrap(wrappedAmount, to);
   }
 
@@ -314,7 +333,6 @@ contract WrappedLToken is
     uint256 lTokenAmount,
     address to
   ) internal returns (uint256 wrappedAmount_) {
-    if (isPaused) revert WrapUnwrapPaused();
     if (lTokenAmount == 0) revert WrapZeroAmount();
     if (lToken.balanceOf(msg.sender) < lTokenAmount) {
       revert InsufficientBalance(lTokenAmount);
@@ -343,7 +361,6 @@ contract WrappedLToken is
     uint256 wrappedAmount,
     address to
   ) internal returns (uint256 lTokenAmount_) {
-    if (isPaused) revert WrapUnwrapPaused();
     if (wrappedAmount == 0) revert WrapZeroAmount();
     if (wrappedAmount > balanceOf(msg.sender))
       revert InsufficientBalance(wrappedAmount);
@@ -362,15 +379,6 @@ contract WrappedLToken is
   }
 
   // ======== ADMIN ======== //
-
-  /**
-   * @notice Sets whether wrap/unwrap actions are paused
-   * @param state True to pause wrap/unwrap actions, false to unpause
-   */
-  function setWrapUnwrapPaused(bool state) external onlyOwner {
-    isPaused = state;
-    emit WrapUnwrapPausedSet(state);
-  }
 
   /**
    * @notice Updates the base rate
