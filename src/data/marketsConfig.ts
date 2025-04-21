@@ -30,6 +30,11 @@ export const marketConfigsIndex: {
     chainId: ChainId.linea,
     addresses: ADDRESSES[ChainId.linea],
   },
+  [ChainId.sonic]: {
+    marketTitle: "Sonic",
+    chainId: ChainId.sonic,
+    addresses: ADDRESSES[ChainId.sonic],
+  },
   // [ChainId.hardhat]: {
   //   marketTitle: "Hardhat",
   //   chainId: ChainId.hardhat,

@@ -37,6 +37,7 @@ export const lTokenAddresses: {
   };
 } = {
   [ChainId.mainnet]: {},
+  [ChainId.sonic]: {},
   [ChainId.arbitrum_one]: {
     LUSDC: "0xd54d564606611A3502FE8909bBD3075dbeb77813",
   },
@@ -56,6 +57,7 @@ export const wrappedLTokensAddresses: {
   };
 } = {
   [ChainId.mainnet]: {},
+  [ChainId.sonic]: {},
   [ChainId.arbitrum_one]: {},
   [ChainId.base]: {},
   [ChainId.linea]: {},

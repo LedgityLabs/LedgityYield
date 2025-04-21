@@ -27,6 +27,7 @@ export const ChainIdToNetwork: Record<number, string> = {
   1115: "core_testnet",
   134: "iexec",
   59144: "linea",
+  146: "sonic",
 };
 
 export enum ChainId {
@@ -58,4 +59,5 @@ export enum ChainId {
   core_testnet = 1115,
   iexec = 134,
   linea = 59144,
+  sonic = 146,
 }
