@@ -5,6 +5,7 @@ export const chainsIcons: { [key: number]: string } = {
   31337: "/assets/chains/hardhat.svg",
   421613: "/assets/chains/arbitrum-goerli.png",
   42161: "/assets/chains/arbitrum.svg",
+  146: "/assets/chains/sonic.svg",
   59140: "/assets/chains/linea-goerli.png",
   59144: "/assets/chains/linea.png",
   195: "/assets/chains/okxlogo.png",
