@@ -63,7 +63,7 @@ contract WrappedLToken is
 
   // ======== EVENTS ======== //
 
-  event RateCheckpointUpdated(uint256 newRate, uint16 newAPRUD7x3);
+  event RateCheckpointUpdated(uint256 newRate, uint256 newAPRUD7x3);
   event WrapUnwrapPausedSet(bool isPaused);
 
   // ======== INITIALIZE ======== //
@@ -174,7 +174,7 @@ contract WrappedLToken is
    * @dev This should be called whenever the APR changes
    */
   function updateRateCheckpoint() public {
-    uint16 lTokenApr = lToken.getAPR();
+    uint256 lTokenApr = uint256(lToken.getAPR());
 
     // Only update if APR changed
     if (lTokenApr != lastCheckpoint.apr) {
