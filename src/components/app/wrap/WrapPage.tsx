@@ -37,17 +37,9 @@ export function WrapPage() {
     (token) => token.symbol === lTokenSymbol,
   );
 
-  // const wLTokenData = wLTokenInfosCurrentChain.find(
-  //   (token) => token.lToken.toLowerCase() === lTokenData?.address.toLowerCase(),
-  // );
-  const wLTokenData = {
-    address: "0x0000000000000000000000000000000000000000" as Address,
-    decimals: 6,
-    symbol: "lyEUR",
-    name: "Wrapped LEURC",
-    exchangeRate: 1030000000000000000000000000n,
-    balance: 0n,
-  };
+  const wLTokenData = wLTokenInfosCurrentChain.find(
+    (token) => token.lToken.toLowerCase() === lTokenData?.address.toLowerCase(),
+  );
 
   const [tokenFrom, tokenTo] = toWrapped
     ? [lTokenData, wLTokenData]

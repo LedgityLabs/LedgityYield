@@ -48,18 +48,6 @@ export function DepositDialog({
     currentAccount,
   );
 
-  wLTokenData = {
-    chainId: 1,
-    totalSupply: 10000000000000n,
-    lToken: "0x0000000000000000000000000000000000000000" as any,
-    address: "0x0000000000000000000000000000000000000000" as any,
-    decimals: 6,
-    symbol: "lyUSD",
-    name: "Wrapped LUSDC",
-    exchangeRate: 1030000000000000000000000000n,
-    balance: 0n,
-  };
-
   const inputEl = useRef<HTMLInputElement>(null);
   const [depositedAmount, setDepositedAmount] = useState(0n);
   const [toWrapped, setToWrapped] = useState(true);
