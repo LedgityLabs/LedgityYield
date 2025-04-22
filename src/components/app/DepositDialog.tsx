@@ -151,10 +151,9 @@ export function DepositDialog({
                         Liquid Yield Token.
                       </span>{" "}
                       Your yield is reflected directly in the increasing value
-                      of
-                      {wLTokenData.symbol} over time. There’s no need to stake,
-                      lock, or claim — rewards are automatically accrued through
-                      the token's price appreciation.
+                      of {wLTokenData.symbol} over time. There’s no need to
+                      stake, lock, or claim — rewards are automatically accrued
+                      through the token's price appreciation.
                     </div>
                   ) : (
                     <div className="pl-4 text-left">
