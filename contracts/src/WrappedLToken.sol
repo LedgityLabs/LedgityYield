@@ -190,6 +190,74 @@ contract WrappedLToken is
     }
   }
 
+  // ======== INTERNAL ======== //
+
+  /**
+   * @notice Internal function to handle wrapping LTokens
+   * @param lTokenAmount The amount of LTokens to wrap
+   * @param from The owner of the LTokens
+   * @param to The recipient of the wrapped tokens
+   * @return wrappedAmount_ The amount of wrapped tokens received
+   */
+  function _wrap(
+    uint256 lTokenAmount,
+    address from,
+    address to
+  ) internal returns (uint256 wrappedAmount_) {
+    if (lTokenAmount == 0) revert WrapZeroAmount();
+    if (lToken.balanceOf(from) < lTokenAmount) {
+      revert InsufficientBalance(lTokenAmount);
+    }
+
+    // Update rate checkpoint before any operation that changes balances
+    updateRateCheckpoint();
+
+    // Calculate wrapped amount using updated rate
+    wrappedAmount_ = toWrappedAmount(lTokenAmount);
+
+    // We do avoid transfer for deposit & wrap functions
+    if (from != address(this)) {
+      lToken.transferFrom(from, address(this), lTokenAmount);
+    }
+
+    _mint(to, wrappedAmount_);
+
+    emit Deposit(from, to, lTokenAmount, wrappedAmount_);
+  }
+
+  /**
+   * @notice Internal function to handle unwrapping tokens
+   * @param wrappedAmount The amount of wrapped tokens to unwrap
+   * @param to The recipient of the LTokens
+   * @param from The owner of the wrapped tokens
+   * @return lTokenAmount_ The amount of LTokens received
+   */
+  function _unwrap(
+    uint256 wrappedAmount,
+    address from,
+    address to
+  ) internal returns (uint256 lTokenAmount_) {
+    if (wrappedAmount == 0) revert WrapZeroAmount();
+    if (wrappedAmount > balanceOf(from))
+      revert InsufficientBalance(wrappedAmount);
+
+    // Spend allowance if sender is not from
+    if (msg.sender != from) {
+      _spendAllowance(from, msg.sender, wrappedAmount);
+    }
+
+    // Update rate checkpoint before any operation that changes balances
+    updateRateCheckpoint();
+
+    // Calculate LToken amount using updated rate
+    lTokenAmount_ = toRebasingAmount(wrappedAmount);
+
+    _burn(from, wrappedAmount);
+    lToken.transfer(to, lTokenAmount_);
+
+    emit Withdraw(from, to, from, lTokenAmount_, wrappedAmount);
+  }
+
   // ======== DEPOSIT AND WRAP ======== //
 
   /**
@@ -218,7 +286,7 @@ contract WrappedLToken is
     lToken.deposit(underlyingAmount);
 
     // Now wrap the received LTokens
-    _wrap(underlyingAmount, msg.sender);
+    _wrap(underlyingAmount, address(this), msg.sender);
   }
 
   /**
@@ -249,7 +317,7 @@ contract WrappedLToken is
     lToken.deposit(underlyingAmount);
 
     // Now wrap the received LTokens and send them to the specified address
-    _wrap(underlyingAmount, to);
+    _wrap(underlyingAmount, address(this), to);
   }
 
   // ======== WRAP ======== //
@@ -267,7 +335,7 @@ contract WrappedLToken is
     notBlacklisted(_msgSender())
     returns (uint256 wrappedAmount_)
   {
-    return _wrap(lTokenAmount, msg.sender);
+    return _wrap(lTokenAmount, msg.sender, msg.sender);
   }
 
   /**
@@ -285,7 +353,7 @@ contract WrappedLToken is
     notBlacklisted(_msgSender())
     returns (uint256 wrappedAmount_)
   {
-    return _wrap(lTokenAmount, to);
+    return _wrap(lTokenAmount, msg.sender, to);
   }
 
   // ======== UNWRAP ======== //
@@ -303,7 +371,7 @@ contract WrappedLToken is
     notBlacklisted(_msgSender())
     returns (uint256 lTokenAmount_)
   {
-    return _unwrap(wrappedAmount, msg.sender);
+    return _unwrap(wrappedAmount, msg.sender, msg.sender);
   }
 
   /**
@@ -321,70 +389,7 @@ contract WrappedLToken is
     notBlacklisted(_msgSender())
     returns (uint256 lTokenAmount_)
   {
-    return _unwrap(wrappedAmount, to);
-  }
-
-  // ======== INTERNAL ======== //
-
-  /**
-   * @notice Internal function to handle wrapping LTokens
-   * @param lTokenAmount The amount of LTokens to wrap
-   * @param to The recipient of the wrapped tokens
-   * @return wrappedAmount_ The amount of wrapped tokens received
-   */
-  function _wrap(
-    uint256 lTokenAmount,
-    address to
-  ) internal returns (uint256 wrappedAmount_) {
-    if (lTokenAmount == 0) revert WrapZeroAmount();
-    if (lToken.balanceOf(msg.sender) < lTokenAmount) {
-      revert InsufficientBalance(lTokenAmount);
-    }
-
-    // Update rate checkpoint before any operation that changes balances
-    updateRateCheckpoint();
-
-    // Calculate wrapped amount using updated rate
-    wrappedAmount_ = toWrappedAmount(lTokenAmount);
-
-    _mint(to, wrappedAmount_);
-
-    lToken.transferFrom(msg.sender, address(this), lTokenAmount);
-
-    emit Deposit(msg.sender, to, lTokenAmount, wrappedAmount_);
-  }
-
-  /**
-   * @notice Internal function to handle unwrapping tokens
-   * @param wrappedAmount The amount of wrapped tokens to unwrap
-   * @param to The recipient of the LTokens
-   * @return lTokenAmount_ The amount of LTokens received
-   */
-  function _unwrap(
-    uint256 wrappedAmount,
-    address to
-  ) internal returns (uint256 lTokenAmount_) {
-    if (wrappedAmount == 0) revert WrapZeroAmount();
-    if (wrappedAmount > balanceOf(msg.sender))
-      revert InsufficientBalance(wrappedAmount);
-
-    // Update rate checkpoint before any operation that changes balances
-    updateRateCheckpoint();
-
-    // Calculate LToken amount using updated rate
-    lTokenAmount_ = toRebasingAmount(wrappedAmount);
-
-    _burn(msg.sender, wrappedAmount);
-
-    lToken.transfer(to, lTokenAmount_);
-
-    emit Withdraw(
-      msg.sender,
-      to,
-      msg.sender,
-      lTokenAmount_,
-      wrappedAmount
-    );
+    return _unwrap(wrappedAmount, msg.sender, to);
   }
 
   // ======== ERC-4626 ======== //
@@ -393,12 +398,7 @@ contract WrappedLToken is
    * @notice Returns the address of the underlying asset (ERC20) for the vault
    * @return assetTokenAddress The address of the underlying ERC20 asset
    */
-  function asset()
-    public
-    view
-    override
-    returns (address assetTokenAddress)
-  {
+  function asset() public view returns (address assetTokenAddress) {
     return address(lToken);
   }
 
@@ -409,7 +409,6 @@ contract WrappedLToken is
   function totalAssets()
     public
     view
-    override
     returns (uint256 totalManagedAssets)
   {
     return lToken.balanceOf(address(this));
@@ -422,7 +421,7 @@ contract WrappedLToken is
    */
   function convertToShares(
     uint256 assets
-  ) public view override returns (uint256 shares) {
+  ) public view returns (uint256 shares) {
     shares = toWrappedAmount(assets);
   }
 
@@ -433,7 +432,7 @@ contract WrappedLToken is
    */
   function convertToAssets(
     uint256 shares
-  ) public view override returns (uint256 assets) {
+  ) public view returns (uint256 assets) {
     assets = toRebasingAmount(shares);
   }
 
@@ -443,7 +442,7 @@ contract WrappedLToken is
    */
   function maxDeposit(
     address /* receiver */
-  ) public pure override returns (uint256 maxAssets) {
+  ) public pure returns (uint256 maxAssets) {
     maxAssets = type(uint256).max;
   }
 
@@ -453,7 +452,7 @@ contract WrappedLToken is
    */
   function maxMint(
     address /* receiver */
-  ) public pure override returns (uint256 maxShares) {
+  ) public pure returns (uint256 maxShares) {
     maxShares = type(uint256).max;
   }
 
@@ -464,7 +463,7 @@ contract WrappedLToken is
    */
   function maxWithdraw(
     address owner
-  ) public view override returns (uint256 maxAssets) {
+  ) public view returns (uint256 maxAssets) {
     maxAssets = convertToAssets(balanceOf(owner));
   }
 
@@ -475,7 +474,7 @@ contract WrappedLToken is
    */
   function maxRedeem(
     address owner
-  ) public view override returns (uint256 maxShares) {
+  ) public view returns (uint256 maxShares) {
     maxShares = balanceOf(owner);
   }
 
@@ -486,7 +485,7 @@ contract WrappedLToken is
    */
   function previewDeposit(
     uint256 assets
-  ) public view override returns (uint256 shares) {
+  ) public view returns (uint256 shares) {
     shares = convertToShares(assets);
   }
 
@@ -497,7 +496,7 @@ contract WrappedLToken is
    */
   function previewMint(
     uint256 shares
-  ) public view override returns (uint256 assets) {
+  ) public view returns (uint256 assets) {
     assets = convertToAssets(shares);
   }
 
@@ -508,7 +507,7 @@ contract WrappedLToken is
    */
   function previewWithdraw(
     uint256 assets
-  ) public view override returns (uint256 shares) {
+  ) public view returns (uint256 shares) {
     shares = convertToShares(assets);
   }
 
@@ -519,7 +518,7 @@ contract WrappedLToken is
    */
   function previewRedeem(
     uint256 shares
-  ) public view override returns (uint256 assets) {
+  ) public view returns (uint256 assets) {
     assets = convertToAssets(shares);
   }
 
@@ -534,12 +533,11 @@ contract WrappedLToken is
     address receiver
   )
     external
-    override
     whenNotPaused
     notBlacklisted(_msgSender())
     returns (uint256 shares)
   {
-    shares = _wrap(assets, receiver);
+    shares = _wrap(assets, msg.sender, receiver);
   }
 
   /**
@@ -553,19 +551,19 @@ contract WrappedLToken is
     address receiver
   )
     external
-    override
     whenNotPaused
     notBlacklisted(_msgSender())
     returns (uint256 assets)
   {
     assets = convertToAssets(shares);
-    _wrap(assets, receiver);
+    _wrap(assets, msg.sender, receiver);
   }
 
   /**
    * @notice Withdraw assets (underlying) by burning shares (wrapped tokens)
    * @param assets The amount of LTokens to withdraw
    * @param receiver The address to receive the withdrawn LTokens
+   * @param owner The address of the owner of the shares
    * @return shares The number of shares burned
    */
   function withdraw(
@@ -574,22 +572,19 @@ contract WrappedLToken is
     address owner
   )
     external
-    override
     whenNotPaused
-    notBlacklisted(_msgSender())
+    notBlacklisted(owner)
     returns (uint256 shares)
   {
-    if (owner != _msgSender())
-      revert CannotWithdrawFromAnotherOwner();
-
     shares = convertToShares(assets);
-    _unwrap(shares, receiver);
+    _unwrap(shares, owner, receiver);
   }
 
   /**
    * @notice Redeem shares (wrapped tokens) for assets (underlying)
    * @param shares The number of shares to redeem
    * @param receiver The address to receive the LTokens
+   * @param owner The address of the owner of the shares
    * @return assets The amount of LTokens received
    */
   function redeem(
@@ -598,15 +593,11 @@ contract WrappedLToken is
     address owner
   )
     external
-    override
     whenNotPaused
-    notBlacklisted(_msgSender())
+    notBlacklisted(owner)
     returns (uint256 assets)
   {
-    if (owner != _msgSender())
-      revert CannotWithdrawFromAnotherOwner();
-
-    assets = _unwrap(shares, receiver);
+    assets = _unwrap(shares, owner, receiver);
   }
 
   // ======== ADMIN ======== //
