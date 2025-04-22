@@ -13,6 +13,7 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 import { ERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 // Interfaces
+import { IERC4626 } from "./interfaces/IERC4626.sol";
 import { ILToken } from "./interfaces/ILToken.sol";
 import { IWrappedLToken } from "./interfaces/IWrappedLToken.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -22,6 +23,7 @@ error WrapZeroAmount();
 error InsufficientBalance(uint256 amount);
 error BaseRateCannotBeLessThanOne();
 error WrapUnwrapPaused();
+error CannotWithdrawFromAnotherOwner();
 
 /**
  * @title WrappedLToken
@@ -36,7 +38,8 @@ contract WrappedLToken is
   GlobalPausableUpgradeable,
   GlobalRestrictableUpgradeable,
   RecoverableUpgradeable,
-  CCIPToken
+  CCIPToken,
+  IERC4626
 {
   // ======== LIBS ======== //
   using SafeERC20 for IERC20;
@@ -348,7 +351,7 @@ contract WrappedLToken is
 
     lToken.transferFrom(msg.sender, address(this), lTokenAmount);
 
-    emit Wrap(msg.sender, to, lTokenAmount, wrappedAmount_);
+    emit Deposit(msg.sender, to, lTokenAmount, wrappedAmount_);
   }
 
   /**
@@ -375,7 +378,235 @@ contract WrappedLToken is
 
     lToken.transfer(to, lTokenAmount_);
 
-    emit Unwrap(msg.sender, to, wrappedAmount, lTokenAmount_);
+    emit Withdraw(
+      msg.sender,
+      to,
+      msg.sender,
+      lTokenAmount_,
+      wrappedAmount
+    );
+  }
+
+  // ======== ERC-4626 ======== //
+
+  /**
+   * @notice Returns the address of the underlying asset (ERC20) for the vault
+   * @return assetTokenAddress The address of the underlying ERC20 asset
+   */
+  function asset()
+    public
+    view
+    override
+    returns (address assetTokenAddress)
+  {
+    return address(lToken);
+  }
+
+  /**
+   * @notice Returns the total amount of the underlying asset managed by the vault
+   * @return totalManagedAssets The total amount of the underlying asset held by the vault
+   */
+  function totalAssets()
+    public
+    view
+    override
+    returns (uint256 totalManagedAssets)
+  {
+    return lToken.balanceOf(address(this));
+  }
+
+  /**
+   * @notice Converts an amount of assets (underlying) to shares (wrapped tokens)
+   * @param assets The amount of underlying assets to convert
+   * @return shares The amount of shares (wrapped tokens) equivalent to the given assets
+   */
+  function convertToShares(
+    uint256 assets
+  ) public view override returns (uint256 shares) {
+    shares = toWrappedAmount(assets);
+  }
+
+  /**
+   * @notice Converts an amount of shares (wrapped tokens) to assets (underlying)
+   * @param shares The amount of shares (wrapped tokens) to convert
+   * @return assets The amount of underlying assets equivalent to the given shares
+   */
+  function convertToAssets(
+    uint256 shares
+  ) public view override returns (uint256 assets) {
+    assets = toRebasingAmount(shares);
+  }
+
+  /**
+   * @notice Maximum amount of assets that can be deposited for receiver
+   * @return maxAssets The maximum assets that can be deposited for the receiver
+   */
+  function maxDeposit(
+    address /* receiver */
+  ) public pure override returns (uint256 maxAssets) {
+    maxAssets = type(uint256).max;
+  }
+
+  /**
+   * @notice Maximum number of shares that can be minted for receiver
+   * @return maxShares The maximum number of shares that can be minted for the receiver
+   */
+  function maxMint(
+    address /* receiver */
+  ) public pure override returns (uint256 maxShares) {
+    maxShares = type(uint256).max;
+  }
+
+  /**
+   * @notice Maximum amount of assets withdrawable by owner
+   * @param owner The address for which the withdrawal limit is queried
+   * @return maxAssets The maximum amount of assets withdrawable by the owner
+   */
+  function maxWithdraw(
+    address owner
+  ) public view override returns (uint256 maxAssets) {
+    maxAssets = convertToAssets(balanceOf(owner));
+  }
+
+  /**
+   * @notice Maximum number of shares redeemable by owner
+   * @param owner The address for which the redeem limit is queried
+   * @return maxShares The maximum number of shares redeemable by the owner
+   */
+  function maxRedeem(
+    address owner
+  ) public view override returns (uint256 maxShares) {
+    maxShares = balanceOf(owner);
+  }
+
+  /**
+   * @notice Preview the number of shares minted for a deposit of assets
+   * @param assets The amount of underlying assets to deposit
+   * @return shares The number of shares that would be minted
+   */
+  function previewDeposit(
+    uint256 assets
+  ) public view override returns (uint256 shares) {
+    shares = convertToShares(assets);
+  }
+
+  /**
+   * @notice Preview the number of assets needed to mint the given shares
+   * @param shares The number of shares to mint
+   * @return assets The amount of underlying assets required
+   */
+  function previewMint(
+    uint256 shares
+  ) public view override returns (uint256 assets) {
+    assets = convertToAssets(shares);
+  }
+
+  /**
+   * @notice Preview the number of shares burned for withdrawing assets
+   * @param assets The amount of underlying assets to withdraw
+   * @return shares The number of shares that would be burned
+   */
+  function previewWithdraw(
+    uint256 assets
+  ) public view override returns (uint256 shares) {
+    shares = convertToShares(assets);
+  }
+
+  /**
+   * @notice Preview the number of assets received for redeeming shares
+   * @param shares The number of shares to redeem
+   * @return assets The amount of underlying assets received
+   */
+  function previewRedeem(
+    uint256 shares
+  ) public view override returns (uint256 assets) {
+    assets = convertToAssets(shares);
+  }
+
+  /**
+   * @notice Deposit assets (underlying) and mint shares (wrapped tokens) to receiver
+   * @param assets The amount of LTokens to deposit
+   * @param receiver The address to receive the minted shares
+   * @return shares The number of shares minted
+   */
+  function deposit(
+    uint256 assets,
+    address receiver
+  )
+    external
+    override
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 shares)
+  {
+    shares = _wrap(assets, receiver);
+  }
+
+  /**
+   * @notice Mint shares (wrapped tokens) to receiver by depositing assets (underlying)
+   * @param shares The number of shares to mint
+   * @param receiver The address to receive the minted shares
+   * @return assets The amount of LTokens deposited
+   */
+  function mint(
+    uint256 shares,
+    address receiver
+  )
+    external
+    override
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 assets)
+  {
+    assets = convertToAssets(shares);
+    _wrap(assets, receiver);
+  }
+
+  /**
+   * @notice Withdraw assets (underlying) by burning shares (wrapped tokens)
+   * @param assets The amount of LTokens to withdraw
+   * @param receiver The address to receive the withdrawn LTokens
+   * @return shares The number of shares burned
+   */
+  function withdraw(
+    uint256 assets,
+    address receiver,
+    address owner
+  )
+    external
+    override
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 shares)
+  {
+    if (owner != _msgSender())
+      revert CannotWithdrawFromAnotherOwner();
+
+    shares = convertToShares(assets);
+    _unwrap(shares, receiver);
+  }
+
+  /**
+   * @notice Redeem shares (wrapped tokens) for assets (underlying)
+   * @param shares The number of shares to redeem
+   * @param receiver The address to receive the LTokens
+   * @return assets The amount of LTokens received
+   */
+  function redeem(
+    uint256 shares,
+    address receiver,
+    address owner
+  )
+    external
+    override
+    whenNotPaused
+    notBlacklisted(_msgSender())
+    returns (uint256 assets)
+  {
+    if (owner != _msgSender())
+      revert CannotWithdrawFromAnotherOwner();
+
+    assets = _unwrap(shares, receiver);
   }
 
   // ======== ADMIN ======== //
