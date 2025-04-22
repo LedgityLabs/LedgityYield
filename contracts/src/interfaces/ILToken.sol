@@ -137,13 +137,6 @@ interface ILToken is IERC20MetadataUpgradeable {
   ) external view returns (WithdrawalRequest memory);
 
   /**
-   * @notice Returns a transfers listener by its index
-   */
-  function transfersListeners(
-    uint256
-  ) external view returns (ITransfersListener);
-
-  /**
    * @notice Sets the fees rate
    * @param feesRateUD7x3_ The new fees rate in UD7x3 format
    */
