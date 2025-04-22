@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 
-// const TxWidget = dynamic(
-//   () => import("@xswap-link/sdk").then((mod) => mod.TxWidget),
-//   { ssr: false }, // Ensures it loads only in the browser
-// );
+const TxWidget = dynamic(
+  () => import("@xswap-link/sdk").then((mod) => mod.TxWidget),
+  { ssr: false }, // Ensures it loads only in the browser
+);
 
 const srcChain = "42161";
 const dstChain = "8453";
@@ -13,7 +13,7 @@ const dstToken = "0x055d20a70eFd45aB839Ae1A39603D0cFDBDd8a13";
 export function BridgeWidget() {
   return (
     <div className="pb-8">
-      {/* <TxWidget
+      <TxWidget
         integratorId={process.env.NEXT_PUBLIC_INTEGRATOR_ID || ""}
         srcChain={srcChain}
         srcToken={srcToken}
@@ -21,7 +21,7 @@ export function BridgeWidget() {
         dstToken={dstToken}
         lightTheme={true}
         defaultWalletPicker={true}
-      /> */}
+      />
     </div>
   );
 }
