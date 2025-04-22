@@ -12,6 +12,7 @@ import { IBurnMintERC20 } from "@chainlink/contracts-ccip/src/v0.8/shared/token/
 
 // ======== ERRORS ======== //
 
+error ZeroAddress();
 error SenderNotMinter(address sender);
 error SenderNotBurner(address sender);
 error SenderNotCCIPAdmin(address sender);
@@ -187,6 +188,8 @@ contract CCIPToken is
    * @param newAdmin The new CCIP admin address
    */
   function setCCIPAdmin(address newAdmin) external onlyCCIPAdmin {
+    if (newAdmin == address(0)) revert ZeroAddress();
+
     address oldAdmin = _ccipAdmin;
     _ccipAdmin = newAdmin;
     emit CCIPAdminChanged(oldAdmin, newAdmin);
