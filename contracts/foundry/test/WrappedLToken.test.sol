@@ -51,9 +51,9 @@ contract WrappedLTokenTest is Test {
 
   // Constants for testing
   uint256 constant INITIAL_BALANCE = 1_000_000 ether;
-  uint256 constant BASE_APR = 1000; // 1% APR in UD7x3 format
-  uint256 constant HIGH_APR = 10000; // 10% APR
-  uint256 constant VERY_HIGH_APR = 50000; // 50% APR
+  uint256 constant APR_1 = 1000; // 1% APR in UD7x3 format
+  uint256 constant APR_20 = 20000; // 20% APR
+  uint256 constant APR_50 = 50000; // 50% APR
   uint256 constant RAY = 1e27;
 
   // Events for testing
@@ -79,8 +79,8 @@ contract WrappedLTokenTest is Test {
     }
 
     // Deploy token
-    underlying = new MockERC20("Underlying", "UND", 18);
-    ldyToken = new GenericERC20("Ledgity Token", "LDY", 18);
+    underlying = new MockERC20("Underlying", "UND", 6);
+    ldyToken = new GenericERC20("Ledgity Token", "LDY", 6);
 
     GlobalOwner globalOwnerImpl = new GlobalOwner();
     GlobalPause globalPauseImpl = new GlobalPause();
@@ -296,7 +296,7 @@ contract WrappedLTokenTest is Test {
   function testWrappedTokensReceived() public {
     vm.skip(true);
 
-    lToken.setAPR(uint16(BASE_APR));
+    lToken.setAPR(uint16(APR_1));
     wLToken.updateRateCheckpoint();
     wLToken.wrap(100 ether);
 
@@ -310,43 +310,59 @@ contract WrappedLTokenTest is Test {
     assertGt(lTokensToReceive, 100 ether);
 
     // Calculate expected yield (1% APR = ~0.00273% daily)
-    uint256 expectedYield = (100 ether * BASE_APR * 1 days) /
+    uint256 expectedYield = (100 ether * APR_1 * 1 days) /
       (365 days * 1000);
     assertApproxEqRel(
       lTokensToReceive - 100 ether,
       expectedYield,
-      0.01e18
+      1e18 / 100
     ); // 1% tolerance
   }
 
   function testDynamicAPRChanges() public {
-    vm.skip(false);
+
+    lToken.mint(carol, 100 ether);
 
     // Start with base APR
-    lToken.setAPR(uint16(BASE_APR));
+    lToken.setAPR(uint16(APR_1));
     wLToken.updateRateCheckpoint();
     wLToken.wrap(100 ether);
 
     // Skip time and increase APR
-    skip(30 days);
-    lToken.setAPR(uint16(HIGH_APR));
+    vm.prank(carol);
+    for (uint256 i = 0; i < 30; i++) {
+      lToken.transfer(carol, 1);
+      skip(1 days);
+    }
+    vm.stopPrank();
+
+    lToken.setAPR(uint16(APR_20));
     wLToken.updateRateCheckpoint();
 
     // Skip more time
-    skip(30 days);
+    vm.prank(carol);
+    for (uint256 i = 0; i < 30; i++) {
+      lToken.transfer(carol, 1);
+      skip(1 days);
+    }
+    vm.stopPrank();
 
     // Calculate expected returns with compound interest
-    uint256 phase1Yield = (100 ether * BASE_APR * 30 days) /
-      (365 days * 1000);
+    uint256 phase1Yield = (100 ether * APR_1 * 1e27 * 30 days) /
+      (365 days * 1000 * 1e27 * 100);
     uint256 phase2Yield = ((100 ether + phase1Yield) *
-      HIGH_APR *
-      30 days) / (365 days * 1000);
-    uint256 expectedTotal = 100 ether + phase1Yield + phase2Yield;
+      APR_20 *
+      1e27 *
+      30 days) / (365 days * 1000 * 1e27 * 100);
 
+    uint256 rebaseAmount = lToken.balanceOf(carol);
+    uint256 expectedTotal = 100 ether + phase1Yield + phase2Yield;
     uint256 actualAmount = wLToken.toRebasingAmount(
       wLToken.balanceOf(address(this))
     );
-    assertApproxEqRel(actualAmount, expectedTotal, 0.01e18); // 1% tolerance
+
+    assertApproxEqRel(actualAmount, expectedTotal, 1e18 / 100); // 1% tolerance for compounding
+    assertApproxEqRel(actualAmount, rebaseAmount, 1e18 / 100_000_000); // 0.000001% tolerance
   }
 
   // ======== Multi-User Interaction Tests ======== //
@@ -354,7 +370,7 @@ contract WrappedLTokenTest is Test {
   function testMultiUserInteractions() public {
     vm.skip(true);
 
-    lToken.setAPR(uint16(BASE_APR));
+    lToken.setAPR(uint16(APR_1));
     wLToken.updateRateCheckpoint();
 
     // Alice and Bob wrap different amounts
@@ -368,7 +384,7 @@ contract WrappedLTokenTest is Test {
 
     // Skip time and change APR
     skip(30 days);
-    lToken.setAPR(uint16(HIGH_APR));
+    lToken.setAPR(uint16(APR_20));
     wLToken.updateRateCheckpoint();
 
     // Carol wraps after APR change
@@ -397,7 +413,7 @@ contract WrappedLTokenTest is Test {
     // Bob should have approximately 2x Alice's yield
     uint256 aliceYield = lToken.balanceOf(alice) - 100 ether;
     uint256 bobYield = lToken.balanceOf(bob) - 200 ether;
-    assertApproxEqRel(bobYield, aliceYield * 2, 0.01e18); // 1% tolerance
+    assertApproxEqRel(bobYield, aliceYield * 2, 1e18 / 100); // 1% tolerance
   }
 
   // ======== Conversion and Precision Tests ======== //
@@ -405,7 +421,7 @@ contract WrappedLTokenTest is Test {
   function testPrecisionAtExtremeValues() public {
     vm.skip(true);
 
-    lToken.setAPR(uint16(VERY_HIGH_APR));
+    lToken.setAPR(uint16(APR_50));
     wLToken.updateRateCheckpoint();
 
     // Test with very small amounts
@@ -442,7 +458,7 @@ contract WrappedLTokenTest is Test {
 
     // Ensure sufficient balance
     lToken.mint(address(this), amount);
-    lToken.setAPR(uint16(BASE_APR));
+    lToken.setAPR(uint16(APR_1));
     wLToken.updateRateCheckpoint();
 
     // Wrap
@@ -470,7 +486,7 @@ contract WrappedLTokenTest is Test {
     uint256 timePeriod = 90 days; // 3 months
 
     // Setup
-    lToken.setAPR(uint16(BASE_APR));
+    lToken.setAPR(uint16(APR_1));
     wLToken.updateRateCheckpoint();
 
     // Users wrap
@@ -509,12 +525,12 @@ contract WrappedLTokenTest is Test {
     assertApproxEqRel(
       (bobYield * amounts[0]) / amounts[1],
       aliceYield,
-      0.01e18
+      1e18 / 100
     );
     assertApproxEqRel(
       (carolYield * amounts[1]) / amounts[2],
       bobYield,
-      0.01e18
+      1e18 / 100
     );
   }
 
