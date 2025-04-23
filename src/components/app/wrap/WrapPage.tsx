@@ -89,7 +89,7 @@ export function WrapPage() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full text-slate-700 gap-y-4 mb-16">
       <span className="text-2xl lg:text-5xl font-extrabold text-nowrap leading-loose">
-        Wrap & Unwrap LTokens
+        Wrap & Unwrap L-Tokens
       </span>
 
       <div className="text-sm">Select an L-Token:</div>
