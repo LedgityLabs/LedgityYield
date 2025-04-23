@@ -7,6 +7,7 @@ import { GlobalOwnableUpgradeable } from "./abstracts/GlobalOwnableUpgradeable.s
 import { GlobalPausableUpgradeable } from "./abstracts/GlobalPausableUpgradeable.sol";
 import { GlobalRestrictableUpgradeable } from "./abstracts/GlobalRestrictableUpgradeable.sol";
 import { RecoverableUpgradeable } from "./abstracts/RecoverableUpgradeable.sol";
+import { BaseUpgradeable } from "./abstracts/base/BaseUpgradeable.sol";
 //
 import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -24,6 +25,7 @@ error InsufficientBalance(uint256 amount);
 error BaseRateCannotBeLessThanOne();
 error WrapUnwrapPaused();
 error CannotWithdrawFromAnotherOwner();
+error ZeroBaseRate();
 
 /**
  * @title WrappedLToken
@@ -38,6 +40,7 @@ contract WrappedLToken is
   GlobalPausableUpgradeable,
   GlobalRestrictableUpgradeable,
   RecoverableUpgradeable,
+  BaseUpgradeable,
   CCIPToken,
   IERC4626
 {
@@ -50,7 +53,7 @@ contract WrappedLToken is
   ILToken public lToken;
 
   // The initial exchange rate of the wrapped token in Ray (27 decimals)
-  uint256 public baseRate = 1e27;
+  uint256 public baseRate;
 
   // Checkpoint for rate calculations
   struct LastRateCheckpoint {
@@ -85,6 +88,8 @@ contract WrappedLToken is
     string memory name_,
     string memory symbol_
   ) public initializer {
+    baseRate = 1e27;
+
     __ERC20_init(name_, symbol_);
     __GlobalOwnable_init(globalOwner_);
     __GlobalPausable_init(globalPause_);
