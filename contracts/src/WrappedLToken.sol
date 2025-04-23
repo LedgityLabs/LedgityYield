@@ -48,6 +48,7 @@ contract WrappedLToken is
   using SafeERC20 for IERC20;
 
   // ======== STORAGE ======== //
+  uint256 public constant RAY = 1e27;
 
   // The underlying LToken being wrapped
   ILToken public lToken;
@@ -57,8 +58,8 @@ contract WrappedLToken is
 
   // Checkpoint for rate calculations
   struct LastRateCheckpoint {
-    uint256 timestamp; // When this checkpoint was created
-    uint256 apr; // The exchange rate at this checkpoint
+    uint256 timestamp; // When checkpoint was created
+    uint256 apr; // The APR at checkpoint in base 100 RAY (1% = 1 RAY)
   }
 
   // Last recorded checkpoint
@@ -66,7 +67,7 @@ contract WrappedLToken is
 
   // ======== EVENTS ======== //
 
-  event RateCheckpointUpdated(uint256 newRate, uint256 newAPRUD7x3);
+  event RateCheckpointUpdated(uint256 newRate, uint256 newAPR);
   event WrapUnwrapPausedSet(bool isPaused);
 
   // ======== INITIALIZE ======== //
@@ -88,7 +89,7 @@ contract WrappedLToken is
     string memory name_,
     string memory symbol_
   ) public initializer {
-    baseRate = 1e27;
+    baseRate = RAY;
 
     __ERC20_init(name_, symbol_);
     __GlobalOwnable_init(globalOwner_);
@@ -122,22 +123,24 @@ contract WrappedLToken is
     uint256 fullDays = timeElapsed / 1 days;
     uint256 remainingTime = timeElapsed % 1 days;
 
+    // We want an APR we can use as a coefficient (100% = 1 RAY)
+    uint256 aprBaseOneRay = lastCheckpoint.apr / 100;
     // Daily rate = APR / 365
-    uint256 dailyRatio = lastCheckpoint.apr / 365;
+    uint256 dailyRatio = aprBaseOneRay / 365;
 
     // Apply daily compounding for full days
     for (uint256 i = 0; i < fullDays; i++) {
-      compoundedRate = (compoundedRate * (1e27 + dailyRatio)) / 1e27;
+      compoundedRate = (compoundedRate * (RAY + dailyRatio)) / RAY;
     }
 
     // Add remaining time linearly without compounding
     if (remainingTime > 0) {
       // Calculate the partial day ratio: (APR * remainingTime) / (365 days)
-      uint256 remainingRatio = (lastCheckpoint.apr * remainingTime) /
+      uint256 remainingRatio = (aprBaseOneRay * remainingTime) /
         (365 days);
       compoundedRate =
-        (compoundedRate * (1e27 + remainingRatio)) /
-        1e27;
+        (compoundedRate * (RAY + remainingRatio)) /
+        RAY;
     }
 
     return compoundedRate;
@@ -151,7 +154,7 @@ contract WrappedLToken is
   function toRebasingAmount(
     uint256 wrappedAmount
   ) public view returns (uint256) {
-    return (wrappedAmount * exchangeRate()) / 1e27;
+    return (wrappedAmount * exchangeRate()) / RAY;
   }
 
   /**
@@ -162,7 +165,7 @@ contract WrappedLToken is
   function toWrappedAmount(
     uint256 lTokenAmount
   ) public view returns (uint256) {
-    return (lTokenAmount * 1e27) / exchangeRate();
+    return (lTokenAmount * RAY) / exchangeRate();
   }
 
   /**
@@ -186,12 +189,14 @@ contract WrappedLToken is
       // Calculate the new base rate including all accumulated rewards
       baseRate = exchangeRate();
 
+      uint256 apr = (lTokenApr * RAY) / 1000;
+
       lastCheckpoint = LastRateCheckpoint({
         timestamp: block.timestamp,
-        apr: (lTokenApr * 1e27) / 1000
+        apr: apr
       });
 
-      emit RateCheckpointUpdated(baseRate, lTokenApr);
+      emit RateCheckpointUpdated(baseRate, apr);
     }
   }
 
@@ -612,7 +617,7 @@ contract WrappedLToken is
    * @param newRate The new base rate in ray (27 decimals)
    */
   function updateBaseRate(uint256 newRate) public onlyOwner {
-    if (newRate < 1e27) revert BaseRateCannotBeLessThanOne();
+    if (newRate < RAY) revert BaseRateCannotBeLessThanOne();
     baseRate = newRate;
   }
 
