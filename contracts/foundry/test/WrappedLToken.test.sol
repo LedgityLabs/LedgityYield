@@ -556,4 +556,243 @@ contract WrappedLTokenTest is Test {
     // Even with max APR, balance shouldn't exceed reasonable bounds
     assertLt(finalBalance, 100 ether * 100); // 10000% maximum yearly return
   }
+
+  function testExchangeRatePrecisionAfterMultipleUpdates() public {
+    lToken.setAPR(1000); // 1%
+    wLToken.updateRateCheckpoint();
+
+    // Record initial state
+    uint256 initialRate = wLToken.exchangeRate();
+
+    // Perform multiple APR changes and updates
+    for (uint256 i = 0; i < 10; i++) {
+      skip(7 days);
+      lToken.setAPR(uint16(1000 + i * 100)); // Increase by 0.1% each time
+      wLToken.updateRateCheckpoint();
+    }
+
+    // Verify rate is still precise
+    uint256 finalRate = wLToken.exchangeRate();
+    assertGt(finalRate, initialRate, "Rate should increase");
+
+    // Test conversion roundtrip
+    uint256 testAmount = 100 ether;
+    uint256 wrapped = wLToken.toWrappedAmount(testAmount);
+    uint256 unwrapped = wLToken.toRebasingAmount(wrapped);
+    assertApproxEqAbs(
+      unwrapped,
+      testAmount,
+      1,
+      "Conversion roundtrip should preserve value"
+    );
+  }
+
+  // ======== ERC4626 Compliance Tests ======== //
+
+  function testERC4626Metadata() public view {
+    // Test asset address
+    assertEq(
+      wLToken.asset(),
+      address(lToken),
+      "Asset address should match LToken"
+    );
+
+    // Test decimals
+    assertEq(
+      wLToken.decimals(),
+      lToken.decimals(),
+      "Decimals should match underlying"
+    );
+  }
+
+  function testERC4626MaxLimits() public {
+    // Test max limits
+    assertEq(
+      wLToken.maxDeposit(address(this)),
+      type(uint256).max,
+      "Max deposit should be max uint256"
+    );
+    assertEq(
+      wLToken.maxMint(address(this)),
+      type(uint256).max,
+      "Max mint should be max uint256"
+    );
+
+    // Max withdraw and redeem should match user's balance
+    uint256 testAmount = 100 ether;
+    lToken.mint(address(this), testAmount);
+    uint256 shares = wLToken.deposit(testAmount, address(this));
+
+    assertEq(
+      wLToken.maxWithdraw(address(this)),
+      wLToken.convertToAssets(shares),
+      "Max withdraw should match convertToAssets of shares"
+    );
+    assertEq(
+      wLToken.maxRedeem(address(this)),
+      shares,
+      "Max redeem should match shares balance"
+    );
+  }
+
+  function testERC4626DepositMintConsistency() public {
+    uint256 testAmount = 100 ether;
+    lToken.mint(address(this), testAmount * 2);
+
+    // Test deposit preview consistency
+    uint256 previewShares = wLToken.previewDeposit(testAmount);
+    uint256 actualShares = wLToken.deposit(testAmount, address(this));
+    assertEq(
+      previewShares,
+      actualShares,
+      "Deposit preview should match actual shares"
+    );
+
+    // Test mint preview consistency
+    uint256 previewAssets = wLToken.previewMint(previewShares);
+    uint256 mintAssets = testAmount;
+    assertApproxEqAbs(
+      previewAssets,
+      mintAssets,
+      1,
+      "Mint preview should match deposit amount"
+    );
+  }
+
+  function testERC4626WithdrawRedeemConsistency() public {
+    uint256 testAmount = 100 ether;
+    lToken.mint(address(this), testAmount);
+    uint256 shares = wLToken.deposit(testAmount, address(this));
+
+    // Test withdraw preview consistency
+    uint256 previewShares = wLToken.previewWithdraw(testAmount);
+    uint256 previewAssets = wLToken.previewRedeem(shares);
+
+    // Withdraw assets
+    uint256 withdrawShares = wLToken.withdraw(
+      testAmount,
+      address(this),
+      address(this)
+    );
+
+    assertApproxEqAbs(
+      previewShares,
+      withdrawShares,
+      1,
+      "Withdraw preview shares should match actual shares"
+    );
+
+    // Re-deposit for redeem test
+    lToken.mint(address(this), testAmount);
+    shares = wLToken.deposit(testAmount, address(this));
+
+    // Redeem shares
+    uint256 redeemAssets = wLToken.redeem(
+      shares,
+      address(this),
+      address(this)
+    );
+
+    assertApproxEqAbs(
+      previewAssets,
+      redeemAssets,
+      1,
+      "Redeem preview assets should match actual assets"
+    );
+  }
+
+  function testERC4626ConversionConsistency() public {
+    uint256 testAmount = 100 ether;
+    lToken.mint(address(this), testAmount);
+
+    // Test conversion roundtrip
+    uint256 shares = wLToken.convertToShares(testAmount);
+    uint256 assets = wLToken.convertToAssets(shares);
+
+    assertApproxEqAbs(
+      assets,
+      testAmount,
+      1,
+      "Asset/share conversion should be consistent"
+    );
+  }
+
+  // ======== Access Control Tests ======== //
+
+  function testAllowanceHandling() public {
+    uint256 amount = 100 ether;
+    lToken.mint(alice, amount);
+
+    vm.startPrank(alice);
+    uint256 wrappedAmount = wLToken.wrap(amount);
+    wLToken.approve(bob, wrappedAmount);
+    vm.stopPrank();
+
+    vm.startPrank(bob);
+    // Should be able to unwrap using allowance
+    uint256 unwrappedAmount = wLToken.redeem(
+      wrappedAmount,
+      bob,
+      alice
+    );
+    vm.stopPrank();
+
+    assertEq(
+      lToken.balanceOf(bob),
+      unwrappedAmount,
+      "Bob should receive unwrapped tokens"
+    );
+  }
+
+  function testPausedStateHandling() public {
+    uint256 amount = 100 ether;
+    lToken.mint(address(this), amount);
+
+    // Pause the contract
+    globalPause.pause();
+
+    // All operations should revert when paused
+    vm.expectRevert("Pausable: paused");
+    wLToken.wrap(amount);
+
+    vm.expectRevert("Pausable: paused");
+    wLToken.unwrap(amount);
+
+    vm.expectRevert("Pausable: paused");
+    wLToken.depositAndWrap(amount);
+
+    // Unpause and verify operations work again
+    globalPause.unpause();
+    uint256 wrappedAmount = wLToken.wrap(amount);
+    assertGt(
+      wrappedAmount,
+      0,
+      "Should be able to wrap after unpause"
+    );
+  }
+
+  function testBlacklistHandling() public {
+    uint256 amount = 100 ether;
+    lToken.mint(alice, amount);
+
+    // Blacklist alice
+    globalBlacklist.blacklist(alice);
+
+    vm.startPrank(alice);
+    vm.expectRevert(bytes("L9"));
+    wLToken.wrap(amount);
+
+    // Unblacklist and verify operations work
+    vm.stopPrank();
+    globalBlacklist.unBlacklist(alice);
+
+    vm.startPrank(alice);
+    uint256 wrappedAmount = wLToken.wrap(amount);
+    assertGt(
+      wrappedAmount,
+      0,
+      "Should be able to wrap after unblacklist"
+    );
+    vm.stopPrank();
+  }
 }
