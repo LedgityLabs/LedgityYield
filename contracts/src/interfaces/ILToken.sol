@@ -177,8 +177,9 @@ interface ILToken is IERC20MetadataUpgradeable {
   /**
    * @notice Deposits underlying tokens to receive L-Tokens
    * @param amount The amount of underlying tokens to deposit
+   * @param refCode The Referral code
    */
-  function deposit(uint256 amount) external;
+  function deposit(uint256 amount, string memory refCode) external;
 
   /**
    * @notice Withdraws L-Tokens to receive underlying tokens

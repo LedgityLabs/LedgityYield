@@ -293,7 +293,7 @@ contract WrappedLToken is
     underlying.safeApprove(address(lToken), underlyingAmount);
 
     // Deposit underlying tokens into LToken to get LTokens
-    lToken.deposit(underlyingAmount);
+    lToken.deposit(underlyingAmount, "");
 
     // Now wrap the received LTokens
     _wrap(underlyingAmount, address(this), msg.sender);
@@ -324,7 +324,7 @@ contract WrappedLToken is
     underlying.safeApprove(address(lToken), underlyingAmount);
 
     // Deposit underlying tokens into LToken to get LTokens
-    lToken.deposit(underlyingAmount);
+    lToken.deposit(underlyingAmount, "");
 
     // Now wrap the received LTokens and send them to the specified address
     _wrap(underlyingAmount, address(this), to);
