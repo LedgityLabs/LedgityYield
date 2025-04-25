@@ -22,7 +22,7 @@ const deployerFunction: DeployFunction = async ({
   const aprHistory = await deployments.get("APRHistory");
 
   if (!fs.existsSync("temp/lTokenDeploys.json")) {
-    fs.mkdirSync("temp", { recursive: true });
+    fs.mkdirSync("temp");
     fs.writeFileSync("temp/lTokenDeploys.json", "{}", "utf8");
   }
 
@@ -37,13 +37,17 @@ const deployerFunction: DeployFunction = async ({
       `Missing ${UNDERLYING_TOKEN_SYMBOL} address for chain ${chainId}`,
     );
 
-  // Deploy the LToken
+  // Deploy the proxy
   const result = await deployments.deploy(LTOKEN_SYMBOL, {
     contract: "LToken",
     from: deployer,
     log: true,
+    libraries: {
+      APRHistory: aprHistory.address,
+    },
     proxy: {
       proxyContract: "UUPS",
+      implementationName: "LToken_Implementation",
       execute: {
         init: {
           methodName: "initialize",
@@ -56,10 +60,6 @@ const deployerFunction: DeployFunction = async ({
           ],
         },
       },
-    },
-    // gasLimit: 30000000, // Required as RPC node fails to estimate gas limit
-    libraries: {
-      APRHistory: aprHistory.address,
     },
     waitConfirmations: 1,
   });

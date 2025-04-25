@@ -2,9 +2,9 @@ import fs from "fs";
 import { type DeployFunction } from "hardhat-deploy/dist/types";
 import { isAddress, zeroAddress } from "viem";
 
-const LTOKEN_SYMBOL = "LEURC";
-const WLTOKEN_TOKEN_NAME = "Wrapped Ledgity EUR";
-const WLTOKEN_TOKEN_SYMBOL = "lyEUR";
+const LTOKEN_SYMBOL = "LUSDC";
+const WLTOKEN_TOKEN_NAME = "Wrapped Ledgity USD";
+const WLTOKEN_TOKEN_SYMBOL = "lyUSD";
 
 if (!fs.existsSync("temp/lTokenDeploys.json"))
   throw new Error("lTokenDeploys.json not found");
@@ -40,12 +40,13 @@ const deployerFunction: DeployFunction = async ({
     );
 
   // Deploy the LToken
-  await deployments.deploy(LTOKEN_SYMBOL, {
+  await deployments.deploy(WLTOKEN_TOKEN_SYMBOL, {
     contract: "WrappedLToken",
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
+      implementationName: "WrappedLToken_Implementation",
       execute: {
         init: {
           methodName: "initialize",
