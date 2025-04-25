@@ -8,7 +8,7 @@ import {
   lTokenSignalerAddress,
   preMiningAddress,
 } from "@/types";
-import { dependencies } from "../../contracts/dependencies";
+import { dependencies } from "../../contracts/dependencies.cts";
 
 // @dev Reexport to have all addresses in one place
 export { dependencies as dependenciesAddresses };

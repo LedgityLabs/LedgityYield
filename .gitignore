@@ -68,3 +68,4 @@ secrets.json
 yarn.lock
 
 .bw
+temp
