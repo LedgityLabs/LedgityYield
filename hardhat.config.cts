@@ -34,6 +34,9 @@ const {
   BASE_RPC_URL,
   BASE_FORKING_BLOCK,
   BASE_VERIFY_API_KEY,
+  SONIC_RPC_URL,
+  SONIC_FORKING_BLOCK,
+  SONIC_VERIFY_API_KEY,
   LINEASCAN_API_KEY,
   ARBISCAN_API_KEY,
   ETHERSCAN_API_KEY,
@@ -46,6 +49,8 @@ if (!MAINNET_RPC_URL || !MAINNET_VERIFY_API_KEY)
   throw Error("Mainnet config not found in secrets.json");
 if (!BASE_RPC_URL || !BASE_VERIFY_API_KEY)
   throw Error("Base config not found in secrets.json");
+if (!SONIC_RPC_URL || !SONIC_VERIFY_API_KEY)
+  throw Error("Sonic config not found in secrets.json");
 
 // Centralized network configuration
 interface NetworkConfig {
@@ -101,6 +106,16 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     apiURL: "https://api-sepolia.basescan.org/api",
     browserURL: "https://sepolia.basescan.org",
     isTestnet: true,
+  },
+  sonic: {
+    name: "sonic",
+    chainId: 146,
+    rpcUrl: SONIC_RPC_URL,
+    forkingBlock: SONIC_FORKING_BLOCK,
+    verifyApiKey: SONIC_VERIFY_API_KEY,
+    apiURL: "https://api.sonicscan.org/api",
+    browserURL: "https://sonicscan.org",
+    deploy: ["./contracts/hardhat/deploy-sonic"],
   },
   arbitrum: {
     name: "arbitrumOne",
