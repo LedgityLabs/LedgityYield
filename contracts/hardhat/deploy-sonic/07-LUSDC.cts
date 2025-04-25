@@ -1,17 +1,16 @@
 import fs from "fs";
-import { type DeployFunction } from "hardhat-deploy/dist/types";
+import type { DeployFunction } from "hardhat-deploy/dist/types";
 import { isAddress, zeroAddress } from "viem";
-import { dependencies } from "../../dependencies.ts";
+import { dependencies } from "../../dependencies.cts";
 
 const LTOKEN_SYMBOL = "LUSDC";
 const UNDERLYING_TOKEN_SYMBOL = "USDC";
 
-if (!fs.existsSync("../../temp/lTokenDeploys.json")) {
-  fs.mkdirSync("../../temp");
-  fs.writeFileSync("../../temp/lTokenDeploys.json", "{}", "utf8");
-}
-
-module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
+const deployerFunction: DeployFunction = async ({
+  getNamedAccounts,
+  deployments,
+  getChainId,
+}) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
@@ -21,6 +20,11 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   const globalBlacklist = await deployments.get("GlobalBlacklist");
   const ldyStaking = await deployments.get("LDYStaking");
   const aprHistory = await deployments.get("APRHistory");
+
+  if (!fs.existsSync("temp/lTokenDeploys.json")) {
+    fs.mkdirSync("temp");
+    fs.writeFileSync("temp/lTokenDeploys.json", "{}", "utf8");
+  }
 
   // Check if the underlying token is set in dependencies
   const underlyingAddress = dependencies[chainId][UNDERLYING_TOKEN_SYMBOL];
@@ -65,11 +69,16 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     [chainId: string]: {
       [symbol: string]: string;
     };
-  } = JSON.parse(fs.readFileSync("../../temp/lTokenDeploys.json", "utf8"));
+  } = JSON.parse(fs.readFileSync("temp/lTokenDeploys.json", "utf8"));
+
+  lTokenDeploys[chainId] ??= {};
   lTokenDeploys[chainId][LTOKEN_SYMBOL] = result.address;
+
   fs.writeFileSync(
-    "../../temp/lTokenDeploys.json",
+    "temp/lTokenDeploys.json",
     JSON.stringify(lTokenDeploys, null, 2),
     "utf8",
   );
-}) as DeployFunction;
+};
+
+export default deployerFunction;

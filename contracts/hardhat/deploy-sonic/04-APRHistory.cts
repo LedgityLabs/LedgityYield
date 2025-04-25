@@ -1,6 +1,9 @@
-import { type DeployFunction } from "hardhat-deploy/dist/types";
+import type { DeployFunction } from "hardhat-deploy/dist/types";
 
-module.exports = (async ({ getNamedAccounts, deployments }) => {
+const deployerFunction: DeployFunction = async ({
+  getNamedAccounts,
+  deployments,
+}) => {
   const { deployer } = await getNamedAccounts();
 
   await deployments.deploy("APRHistory", {
@@ -8,4 +11,6 @@ module.exports = (async ({ getNamedAccounts, deployments }) => {
     log: true,
     waitConfirmations: 1,
   });
-}) as DeployFunction;
+};
+
+export default deployerFunction;

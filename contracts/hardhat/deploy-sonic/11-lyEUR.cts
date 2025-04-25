@@ -6,10 +6,14 @@ const LTOKEN_SYMBOL = "LEURC";
 const WLTOKEN_TOKEN_NAME = "Wrapped Ledgity EUR";
 const WLTOKEN_TOKEN_SYMBOL = "lyEUR";
 
-if (!fs.existsSync("../../temp/lTokenDeploys.json"))
+if (!fs.existsSync("temp/lTokenDeploys.json"))
   throw new Error("lTokenDeploys.json not found");
 
-module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
+const deployerFunction: DeployFunction = async ({
+  getNamedAccounts,
+  deployments,
+  getChainId,
+}) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
@@ -22,7 +26,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     [chainId: string]: {
       [symbol: string]: string;
     };
-  } = JSON.parse(fs.readFileSync("../../temp/lTokenDeploys.json", "utf8"));
+  } = JSON.parse(fs.readFileSync("temp/lTokenDeploys.json", "utf8"));
 
   // Check if the underlying lToken is set in dependencies
   const lTokenAddress = lTokenDeploys?.[chainId]?.[LTOKEN_SYMBOL];
@@ -58,4 +62,6 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     },
     waitConfirmations: 1,
   });
-}) as DeployFunction;
+};
+
+export default deployerFunction;

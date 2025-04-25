@@ -1,5 +1,5 @@
 import { type DeployFunction } from "hardhat-deploy/dist/types";
-import { dependencies } from "../../dependencies.ts";
+import { dependencies } from "../../dependencies.cts";
 
 const LTOKEN_SYMBOL = "LEURC";
 const UNDERLYING_TOKEN_SYMBOL = "EURC";

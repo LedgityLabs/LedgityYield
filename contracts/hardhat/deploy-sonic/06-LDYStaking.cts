@@ -1,11 +1,15 @@
 import fs from "fs";
-import { type DeployFunction } from "hardhat-deploy/dist/types";
+import type { DeployFunction } from "hardhat-deploy/dist/types";
 import { isAddress, parseUnits, zeroAddress } from "viem";
 
-if (!fs.existsSync("../../temp/lTokenDeploys.json"))
+if (!fs.existsSync("temp/lTokenDeploys.json"))
   throw new Error("lTokenDeploys.json not found");
 
-module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
+const deployerFunction: DeployFunction = async ({
+  getNamedAccounts,
+  deployments,
+  getChainId,
+}) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
@@ -13,7 +17,7 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     [chainId: string]: {
       [symbol: string]: string;
     };
-  } = JSON.parse(fs.readFileSync("../../temp/lTokenDeploys.json", "utf8"));
+  } = JSON.parse(fs.readFileSync("temp/lTokenDeploys.json", "utf8"));
   const LDY_TOKEN = lTokenDeploys?.[chainId]?.["LDY"];
 
   // Check if LDY token address is set
@@ -59,4 +63,6 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     },
     waitConfirmations: 1,
   });
-}) as DeployFunction;
+};
+
+export default deployerFunction;

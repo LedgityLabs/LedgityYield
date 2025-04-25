@@ -4,7 +4,11 @@ import { ethers } from "hardhat";
 
 const LTOKEN_SYMBOLS = ["LUSDC", "LEURC"];
 
-module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
+const deployerFunction: DeployFunction = async ({
+  getNamedAccounts,
+  deployments,
+  getChainId,
+}) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
@@ -25,13 +29,13 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
     waitConfirmations: 1,
   });
 
-  if (!fs.existsSync("../../temp/lTokenDeploys.json")) return;
+  if (!fs.existsSync("temp/lTokenDeploys.json")) return;
 
   const lTokenDeploys: {
     [chainId: string]: {
       [symbol: string]: string;
     };
-  } = JSON.parse(fs.readFileSync("../../temp/lTokenDeploys.json", "utf8"));
+  } = JSON.parse(fs.readFileSync("temp/lTokenDeploys.json", "utf8"));
 
   const lTokenSignaler = await ethers.getContractAt(
     "LTokenSignaler",
@@ -39,11 +43,15 @@ module.exports = (async ({ getNamedAccounts, deployments, getChainId }) => {
   );
 
   for (const symbol of LTOKEN_SYMBOLS) {
-    const lTokenAddress = lTokenDeploys[chainId][symbol];
+    const lTokenAddress = lTokenDeploys?.[chainId]?.[symbol];
     if (!lTokenAddress) continue;
 
     await lTokenSignaler
       .signalLToken(lTokenAddress)
       .then((tx: any) => tx.wait(1));
+
+    console.log(`=> LToken ${symbol} signaled`);
   }
-}) as DeployFunction;
+};
+
+export default deployerFunction;
