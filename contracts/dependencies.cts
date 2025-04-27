@@ -29,8 +29,9 @@ export const dependencies: {
   },
   // Sonic
   "146": {
+    LDY: "0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE",
     USDC: "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
-    EURC: "0xe715cbA7B5cCb33790ceBFF1436809d36cb17E57"
+    EURC: "0xe715cbA7B5cCb33790ceBFF1436809d36cb17E57",
   },
   // Arbitrum Goerli
   "421613": {

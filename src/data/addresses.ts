@@ -37,7 +37,10 @@ export const lTokenAddresses: {
   };
 } = {
   [ChainId.mainnet]: {},
-  [ChainId.sonic]: {},
+  [ChainId.sonic]: {
+    LEURC: "0xc2503094BBcd67600319153f95C9b846BaC4a66B",
+    LUSDC: "0x6CdB485bEDd95C5460Eef6dFe1886d7a7Bc3B2cA",
+  },
   [ChainId.arbitrum_one]: {
     LUSDC: "0xd54d564606611A3502FE8909bBD3075dbeb77813",
   },
@@ -57,7 +60,10 @@ export const wrappedLTokensAddresses: {
   };
 } = {
   [ChainId.mainnet]: {},
-  [ChainId.sonic]: {},
+  [ChainId.sonic]: {
+    lyEUR: "0x5bAF90214294338838faD1AbdB7b928922660933",
+    lyUSD: "0x883108311b43871be1e590C1ab0979e1e72B1DF5",
+  },
   [ChainId.arbitrum_one]: {},
   [ChainId.base]: {},
   [ChainId.linea]: {},
