@@ -116,11 +116,15 @@ export function useLTokenInfos(
         continue;
       }
 
+      const symbol = (data[i + 1].result as string).includes(".e")
+        ? (data[i + 1].result as string).replace(".e", "")
+        : (data[i + 1].result as string);
+
       formattedData.push({
         address,
         chainId,
         name: data[i].result as string,
-        symbol: data[i + 1].result as string,
+        symbol,
         decimals: data[i + 2].result as number,
         apr: data[i + 3].result as number,
         totalSupply: data[i + 4].result as bigint,
