@@ -1,5 +1,5 @@
-import { FC } from "react";
 import Image, { type StaticImageData } from "next/image";
+//
 import ldyTokenLogo from "~/assets/tokens/ldy.svg";
 import lynxTokenLogo from "~/assets/tokens/lynx.svg";
 import usdcTokenLogo from "~/assets/tokens/usdc.png";
@@ -14,28 +14,35 @@ import unknownTokenLogo from "~/assets/tokens/unknown.svg";
 import eurcTokenLogo from "~/assets/tokens/eurc.png";
 
 export const tokensLogos: Record<string, StaticImageData> = {
-  EUROC: eurocTokenLogo,
-  LEUROC: leurocTokenLogo,
-  LYNX: lynxTokenLogo,
-  LVC: lvcTokenLogo,
-  HZN: hznTokenLogo,
-  AA: aaTokenLogo,
+  "EUROC": eurocTokenLogo,
+  "LEUROC": leurocTokenLogo,
+  "LYNX": lynxTokenLogo,
+  "LVC": lvcTokenLogo,
+  "HZN": hznTokenLogo,
+  "AA": aaTokenLogo,
   //
-  LDY: ldyTokenLogo,
-  USDC: usdcTokenLogo,
-  EURC: eurcTokenLogo,
-  LUSDC: lusdcTokenLogo,
-  LEURC: leurcTokenLogo,
-  lyUSD: lusdcTokenLogo,
-  lyEUR: leurcTokenLogo,
+  "LDY": ldyTokenLogo,
+  "USDC": usdcTokenLogo,
+  "EURC": eurcTokenLogo,
+  "USDC.e": usdcTokenLogo,
+  "EURC.e": eurcTokenLogo,
+  "LUSDC": lusdcTokenLogo,
+  "LEURC": leurcTokenLogo,
+  "LUSDC.e": lusdcTokenLogo,
+  "LEURC.e": leurcTokenLogo,
+  "lyUSD": lusdcTokenLogo,
+  "lyEUR": leurcTokenLogo,
 };
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+export function TokenLogo({
+  symbol,
+  size,
+  className,
+}: {
   symbol: string;
   size: number;
-}
-
-export const TokenLogo: FC<Props> = ({ symbol, size, className }) => {
+  className?: string;
+}) {
   // If this is a known token
   if (tokensLogos[symbol]) {
     return (
@@ -61,4 +68,4 @@ export const TokenLogo: FC<Props> = ({ symbol, size, className }) => {
       />
     );
   }
-};
+}
