@@ -22,7 +22,7 @@ import { computeTvlMetrics, TvlMetrics } from "@/functions/helpers";
 import {
   lTokenAddresses,
   wrappedLTokensAddresses,
-  dependenciesAddresses,
+  dependencies,
 } from "@/data/addresses";
 // Types
 import { TokenInfo, LTokenInfo, WLTokenInfo } from "@/types";
@@ -97,7 +97,7 @@ export function AppDataContextProvider({
       address: lToken.underlying,
       chainId: lToken.chainId,
     })),
-    ...Object.values(dependenciesAddresses[appChainId]).map((address) => ({
+    ...Object.values(dependencies[appChainId]).map((address) => ({
       address,
       chainId: appChainId,
     })),
