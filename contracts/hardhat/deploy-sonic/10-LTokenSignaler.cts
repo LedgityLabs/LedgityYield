@@ -29,6 +29,9 @@ const deployerFunction: DeployFunction = async ({
     waitConfirmations: 1,
   });
 
+  // Skip signaling tokens if this is the previous deployment
+  if (!result.newlyDeployed) return;
+
   if (!fs.existsSync("temp/lTokenDeploys.json")) return;
 
   const lTokenDeploys: {

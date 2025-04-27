@@ -11,12 +11,7 @@ task("verify-deploys", "Verifies all contracts from the latest deployment")
     console.log(`Verifying contracts on ${network}...`);
 
     // Get deployment directory for the current network
-    const deploymentsDir = path.join(
-      "contracts",
-      "hardhat",
-      "deployments",
-      network,
-    );
+    const deploymentsDir = `contracts/hardhat/deployments/${network}`;
 
     if (!fs.existsSync(deploymentsDir)) {
       throw new Error(`No deployments found for network ${network}`);
