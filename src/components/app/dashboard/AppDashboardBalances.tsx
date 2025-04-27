@@ -3,11 +3,11 @@
 import {
   Amount,
   Button,
-  TokenLogo,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 import { DepositDialog } from "../DepositDialog";
 import { WithdrawDialog } from "../WithdrawDialog";
 // Hooks

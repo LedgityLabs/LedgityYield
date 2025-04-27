@@ -1,4 +1,4 @@
-import { Card, TokenLogo } from "@/components/ui";
+import { Card } from "@/components/ui";
 import Image from "next/image";
 import { FC } from "react";
 import usdcIcon from "~/assets/tokens/usdc.png";

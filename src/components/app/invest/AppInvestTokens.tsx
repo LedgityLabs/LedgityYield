@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { DepositDialog } from "@/components/app/DepositDialog";
 import { WithdrawDialog } from "@/components/app/WithdrawDialog";
 import { Amount, Button, Rate } from "@/components/ui";
-import { TokenLogo } from "@/components/ui/TokenLogo";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 import { getSortIcon } from "@/functions/helpers";
 import {
   SortingState,

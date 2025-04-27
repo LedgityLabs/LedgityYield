@@ -5,7 +5,7 @@ import { Button } from "./Button";
 import { Amount } from "./Amount";
 import { formatUnits } from "viem";
 import clsx from "clsx";
-import { TokenLogo } from "./TokenLogo";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Input> {
   maxName?: string;

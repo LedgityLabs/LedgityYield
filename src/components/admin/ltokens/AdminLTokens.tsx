@@ -4,8 +4,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  TokenLogo,
 } from "@/components/ui";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 import { useState, useEffect } from "react";
 // Context
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";

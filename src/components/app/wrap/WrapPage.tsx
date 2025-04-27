@@ -7,8 +7,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  TokenLogo,
 } from "@/components/ui";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 import { WrapLTokenTx, UnwrapLTokenTx } from "@/components/contracts";
 // Hooks
 import { useEffect, useState } from "react";

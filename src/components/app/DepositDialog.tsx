@@ -12,8 +12,8 @@ import {
   DialogTitle,
   Button,
   Spinner,
-  TokenLogo,
 } from "@/components/ui";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 // Hooks
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
