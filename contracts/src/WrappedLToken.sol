@@ -106,6 +106,15 @@ contract WrappedLToken is
   // ======== VIEW ======== //
 
   /**
+   * @notice Returns the number of decimals used by the wrapped token
+   * @dev This is the same as the LToken decimals
+   * @return decimals_ The number of decimals
+   */
+  function decimals() public view override returns (uint8) {
+    return ILToken(lToken).decimals();
+  }
+
+  /**
    * @notice Get the current exchange rate between wrapped tokens and LTokens
    * @return compoundedRate The exchange rate in ray (27 decimals)
    */
