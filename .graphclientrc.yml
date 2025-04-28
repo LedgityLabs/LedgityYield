@@ -43,3 +43,14 @@ sources:
           value: "c8453_"
           includeRootOperations: true
           includeTypes: false
+
+  - name: sonic
+    handler:
+      graphql:
+        endpoint: https://subgraph.satsuma-prod.com/8a26f33a279b/ledgity--128781/ledgity-sonic/api
+    transforms:
+      - prefix:
+          mode: wrap
+          value: "c146_"
+          includeRootOperations: true
+          includeTypes: false
