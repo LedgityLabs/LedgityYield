@@ -36,10 +36,6 @@ error ZeroBaseRate();
 contract WrappedLToken is
   IWrappedLToken,
   ERC20Upgradeable,
-  GlobalOwnableUpgradeable,
-  GlobalPausableUpgradeable,
-  GlobalRestrictableUpgradeable,
-  RecoverableUpgradeable,
   BaseUpgradeable,
   CCIPToken,
   IERC4626
@@ -92,10 +88,7 @@ contract WrappedLToken is
     baseRate = RAY;
 
     __ERC20_init(name_, symbol_);
-    __GlobalOwnable_init(globalOwner_);
-    __GlobalPausable_init(globalPause_);
-    __GlobalRestrictable_init(globalBlacklist_);
-    __Recoverable_init(address(this));
+    __Base_init(globalOwner_, globalPause_, globalBlacklist_);
 
     lToken = ILToken(lTokenAddr_);
 
