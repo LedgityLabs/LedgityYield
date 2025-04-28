@@ -73,9 +73,9 @@ export function WrapPage() {
   }
 
   useEffect(() => {
-    if (lTokenInfosCurrentChain.length)
-      setLTokenSymbol(lTokenInfosCurrentChain[0].symbol);
-  }, [appChainId]);
+    if (!lTokenInfosCurrentChain.length) return;
+    setLTokenSymbol(lTokenInfosCurrentChain[0].symbol);
+  }, [appChainId, lTokenInfosCurrentChain.length]);
 
   useEffect(() => {
     if (!tokenFrom || !tokenTo) return;
