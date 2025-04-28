@@ -293,18 +293,6 @@ export function WrapPage() {
                       tokenDecimals: lTokenData.decimals,
                       symbol: wLTokenData.symbol,
                     }}
-                    approveChecks={[
-                      {
-                        symbol: lTokenData.symbol,
-                        token: lTokenData.address,
-                        tokenDecimals: lTokenData.decimals,
-                        spender: wLTokenData.address,
-                        amount: formatUnits(
-                          depositedAmount,
-                          lTokenData.decimals,
-                        ),
-                      },
-                    ]}
                   />
                 )}
               </div>

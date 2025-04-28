@@ -448,7 +448,7 @@ export const {
       }}
     />
   ),
-  UnwrapLTokenTx: (props: TxButtonSetApproveProps<ParamsUnwrap>) => (
+  UnwrapLTokenTx: (props: TxButtonSetProps<ParamsUnwrap>) => (
     <TxButtonWrapper
       {...props}
       makeDescription={txModalDescriptions.UnwrapLToken}
