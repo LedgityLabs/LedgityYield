@@ -88,8 +88,8 @@ export const wrappedLTokensAddresses: {
 } = {
   [ChainId.mainnet]: {},
   [ChainId.sonic]: {
-    lyEUR: "0x5bAF90214294338838faD1AbdB7b928922660933",
-    lyUSD: "0x883108311b43871be1e590C1ab0979e1e72B1DF5",
+    lyEUR: "0x058A726CCa0a6235370262A802Ea126A2ECdBDF1",
+    lyUSD: "0xA1f155E87F56f6F5dE912C831e56d7CB8c0D4870",
   },
   [ChainId.arbitrum_one]: {},
   [ChainId.base]: {},

@@ -1,7 +1,5 @@
 // Components
 import {
-  AmountInputWithLogo,
-  Button,
   Select,
   SelectContent,
   SelectItem,
@@ -13,15 +11,14 @@ import { WrapLTokenTx, UnwrapLTokenTx } from "@/components/contracts";
 // Hooks
 import { useEffect, useState } from "react";
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
+import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 // Function
 import { parseUnits, formatUnits } from "viem";
-// Types
-import { Address } from "viem";
-import { WLTokenInfo } from "@/types";
 
 const RAY = 1000000000000000000000000000n;
 
 export function WrapPage() {
+  const { appChainId } = useWeb3Context();
   const { lTokenInfosCurrentChain, wLTokenInfosCurrentChain } =
     useAppDataContext();
 
@@ -76,10 +73,9 @@ export function WrapPage() {
   }
 
   useEffect(() => {
-    if (lTokenInfosCurrentChain.length) {
+    if (lTokenInfosCurrentChain.length)
       setLTokenSymbol(lTokenInfosCurrentChain[0].symbol);
-    }
-  }, [lTokenInfosCurrentChain]);
+  }, [appChainId]);
 
   useEffect(() => {
     if (!tokenFrom || !tokenTo) return;
