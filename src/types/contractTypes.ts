@@ -17,6 +17,7 @@ import {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const ccipTokenAbi = [
+  { type: 'error', inputs: [], name: 'InsufficientAllowance' },
   {
     type: 'error',
     inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
@@ -25,13 +26,14 @@ export const ccipTokenAbi = [
   {
     type: 'error',
     inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'SenderNotMinter',
+    name: 'SenderNotCCIPAdmin',
   },
   {
     type: 'error',
     inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'SenderNotOwnerOrCCIPAdmin',
+    name: 'SenderNotMinter',
   },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
   {
     type: 'event',
     anonymous: false,
@@ -135,6 +137,25 @@ export const ccipTokenAbi = [
       },
     ],
     name: 'MintAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
   },
   {
     type: 'event',
@@ -247,6 +268,13 @@ export const ccipTokenAbi = [
   },
   {
     type: 'function',
+    inputs: [],
+    name: 'globalOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
     name: 'grantBurnRole',
     outputs: [],
@@ -305,6 +333,20 @@ export const ccipTokenAbi = [
     inputs: [],
     name: 'name',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
     stateMutability: 'view',
   },
   {
@@ -373,6 +415,13 @@ export const ccipTokenAbi = [
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'view',
   },
 ] as const
 
@@ -669,6 +718,7 @@ export const genericErc20Abi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -868,6 +918,7 @@ export const globalBlacklistAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -881,6 +932,7 @@ export const globalBlacklistAbi = [
  */
 export const globalBlacklistAddress = {
   1: '0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E',
+  146: '0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29',
   195: '0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6',
   196: '0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6',
   8453: '0x210482e0B5c29086F733e6Dd44e2C19f32ae1757',
@@ -895,6 +947,7 @@ export const globalBlacklistAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -917,6 +970,7 @@ export const globalBlacklistConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -1093,6 +1147,7 @@ export const globalOwnerAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -1106,6 +1161,7 @@ export const globalOwnerAbi = [
  */
 export const globalOwnerAddress = {
   1: '0x730C21c81F2baaDEB54daD63050D42474a824900',
+  146: '0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649',
   195: '0x4717bca6978f1BCAb59b7bc0B6849aba6062834c',
   196: '0x4717bca6978f1BCAb59b7bc0B6849aba6062834c',
   8453: '0x2Aff7737dd64390f18e76E39c977b6b0736B5A59',
@@ -1120,6 +1176,7 @@ export const globalOwnerAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -1142,6 +1199,7 @@ export const globalOwnerConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -1341,6 +1399,7 @@ export const globalPauseAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -1354,6 +1413,7 @@ export const globalPauseAbi = [
  */
 export const globalPauseAddress = {
   1: '0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E',
+  146: '0x7F989877003Be72F795c23889ab452ad58C59271',
   195: '0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078',
   196: '0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078',
   8453: '0x57791De9E18693834b37323D3c90190A8aB3b925',
@@ -1368,6 +1428,7 @@ export const globalPauseAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -1383,6 +1444,211 @@ export const globalPauseConfig = {
   address: globalPauseAddress,
   abi: globalPauseAbi,
 } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC4626
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc4626Abi = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Deposit',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Withdraw',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'asset',
+    outputs: [
+      { name: 'assetTokenAddress', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToAssets',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToShares',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'deposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'maxDeposit',
+    outputs: [{ name: 'maxAssets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'maxMint',
+    outputs: [{ name: 'maxShares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxRedeem',
+    outputs: [{ name: 'maxShares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxWithdraw',
+    outputs: [{ name: 'maxAssets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'mint',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewDeposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewMint',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewRedeem',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewWithdraw',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalAssets',
+    outputs: [
+      { name: 'totalManagedAssets', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IGlobalBlacklist
@@ -1644,7 +1910,10 @@ export const ilTokenAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    inputs: [
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'refCode', internalType: 'string', type: 'string' },
+    ],
     name: 'deposit',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -1787,19 +2056,6 @@ export const ilTokenAbi = [
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
     stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'transfersListeners',
-    outputs: [
-      {
-        name: '',
-        internalType: 'contract ITransfersListener',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -2047,6 +2303,7 @@ export const iWrappedLTokenAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -2210,12 +2467,14 @@ export const ldyAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xD57baAf94696F178804fBFB2345c977C40F20266)
  */
 export const ldyAddress = {
+  146: '0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE',
   195: '0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b',
   196: '0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b',
   84532: '0x8584BCd220A048104e654F842C56E33d37d6aEe3',
@@ -2223,6 +2482,7 @@ export const ldyAddress = {
 } as const
 
 /**
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -2236,6 +2496,7 @@ export const ldyConfig = { address: ldyAddress, abi: ldyAbi } as const
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -2837,6 +3098,7 @@ export const ldyStakingAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -2850,6 +3112,7 @@ export const ldyStakingAbi = [
  */
 export const ldyStakingAddress = {
   1: '0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e',
+  146: '0x53909d0db82c6b145c602fb64e9D3013e4430940',
   195: '0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895',
   196: '0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895',
   8453: '0x891611398B53BBAaA3db04c158218c319c87d554',
@@ -2864,6 +3127,7 @@ export const ldyStakingAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -3729,6 +3993,7 @@ export const lTokenAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -3902,6 +4167,7 @@ export const lTokenSignalerAbi = [
 ] as const
 
 /**
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -3914,6 +4180,7 @@ export const lTokenSignalerAbi = [
  * - [__View Contract on Sepolia Etherscan__](https://sepolia.etherscan.io/address/0xd4e65C7DC2c3b837ca8c91dc8541dE314b9188c3)
  */
 export const lTokenSignalerAddress = {
+  146: '0x283F35b6406a0e19a786ed119869eF2c0fE157Ee',
   195: '0x011C5B18aBC74A341209b12D1A6fD7B59E423428',
   196: '0x011C5B18aBC74A341209b12D1A6fD7B59E423428',
   8453: '0x4EeC09DB589C882fbA7C5D03065dfD20912FE877',
@@ -3927,6 +4194,7 @@ export const lTokenSignalerAddress = {
 } as const
 
 /**
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -3942,6 +4210,1506 @@ export const lTokenSignalerConfig = {
   address: lTokenSignalerAddress,
   abi: lTokenSignalerAbi,
 } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MockCCIPToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const mockCcipTokenAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  { type: 'error', inputs: [], name: 'InsufficientAllowance' },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotBurner',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotCCIPAdmin',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'SenderNotMinter',
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'burner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BurnAccessGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'burner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BurnAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'CCIPAdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'minter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'MintAccessGranted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'minter',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'MintAccessRevoked',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Paused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      { name: 'data', internalType: 'bytes', type: 'bytes', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unpaused',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burn',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burnFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCCIPAdmin',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalBlacklist',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalPause',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
+    name: 'grantBurnRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'grantMintAndBurnRoles',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'minter', internalType: 'address', type: 'address' }],
+    name: 'grantMintRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+      { name: 'globalPause_', internalType: 'address', type: 'address' },
+      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
+      { name: 'name_', internalType: 'string', type: 'string' },
+      { name: 'symbol_', internalType: 'string', type: 'string' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isBurner',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'isMinter',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenAddress', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'recoverERC20',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'burner', internalType: 'address', type: 'address' }],
+    name: 'revokeBurnRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'minter', internalType: 'address', type: 'address' }],
+    name: 'revokeMintRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newAdmin', internalType: 'address', type: 'address' }],
+    name: 'setCCIPAdmin',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'transferAndCall',
+    outputs: [{ name: 'success', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MockERC20
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const mockErc20Abi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: 'name_', internalType: 'string', type: 'string' },
+      { name: 'symbol_', internalType: 'string', type: 'string' },
+      { name: 'decimals_', internalType: 'uint8', type: 'uint8' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MockLToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const mockLTokenAbi = [
+  { type: 'error', inputs: [], name: 'AmountExceedsUint96' },
+  { type: 'error', inputs: [], name: 'CantRecoverUnderlying' },
+  { type: 'error', inputs: [], name: 'ETHTransferFailed' },
+  { type: 'error', inputs: [], name: 'ExceedsMaxFeesRate' },
+  { type: 'error', inputs: [], name: 'ExceedsRetention' },
+  { type: 'error', inputs: [], name: 'ExceedsRetentionRate' },
+  { type: 'error', inputs: [], name: 'FundZeroAddress' },
+  { type: 'error', inputs: [], name: 'IncorrectETHValue' },
+  { type: 'error', inputs: [], name: 'InsufficientBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientCoverage' },
+  { type: 'error', inputs: [], name: 'InsufficientForFees' },
+  { type: 'error', inputs: [], name: 'InsufficientFundBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientLTokens' },
+  { type: 'error', inputs: [], name: 'InsufficientLiquidity' },
+  { type: 'error', inputs: [], name: 'InvalidRequestId' },
+  { type: 'error', inputs: [], name: 'ListenerNotFound' },
+  { type: 'error', inputs: [], name: 'NoFeesToClaim' },
+  { type: 'error', inputs: [], name: 'NotBigRequest' },
+  { type: 'error', inputs: [], name: 'NotImplemented' },
+  { type: 'error', inputs: [], name: 'NotRequestOwner' },
+  { type: 'error', inputs: [], name: 'NothingToRecover' },
+  { type: 'error', inputs: [], name: 'OnlyFund' },
+  { type: 'error', inputs: [], name: 'OnlyHighTierAllowed' },
+  { type: 'error', inputs: [], name: 'OnlyWithdrawer' },
+  { type: 'error', inputs: [], name: 'RequestorBlacklisted' },
+  { type: 'error', inputs: [], name: 'WithdrawerZeroAddress' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'newAPRUD7x3',
+        internalType: 'uint16',
+        type: 'uint16',
+        indexed: false,
+      },
+    ],
+    name: 'APRChangeEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'id', internalType: 'int256', type: 'int256', indexed: true },
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'action',
+        internalType: 'enum LToken.Action',
+        type: 'uint8',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountAfterFees',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newStatus',
+        internalType: 'enum LToken.Status',
+        type: 'uint8',
+        indexed: false,
+      },
+      { name: 'newId', internalType: 'int256', type: 'int256', indexed: false },
+      {
+        name: 'referralCode',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+    ],
+    name: 'ActivityEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'AdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BeaconUpgraded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'balanceBefore',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'rewards',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MintedRewardsEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Paused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'newTVL',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'TVLChangeEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unpaused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'Upgraded',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
+    name: 'cancelWithdrawalRequest',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'claimFees',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'refCode', internalType: 'string', type: 'string' },
+    ],
+    name: 'deposit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'depositFor',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'feesRateUD7x3',
+    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'frozenRequests',
+    outputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint96', type: 'uint96' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'fund',
+    outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getAPR',
+    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getExpectedRetained',
+    outputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getWithdrawnAmountAndFees',
+    outputs: [
+      { name: 'withdrawnAmount', internalType: 'uint256', type: 'uint256' },
+      { name: 'fees', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalBlacklist',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'globalPause',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'globalOwner_', internalType: 'address', type: 'address' },
+      { name: 'globalPause_', internalType: 'address', type: 'address' },
+      { name: 'globalBlacklist_', internalType: 'address', type: 'address' },
+      { name: 'ldyStaking_', internalType: 'address', type: 'address' },
+      { name: 'underlyingToken', internalType: 'address', type: 'address' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'instantWithdrawal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'invested',
+    outputs: [
+      { name: '', internalType: 'contract IERC20Upgradeable', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'ldyStaking',
+    outputs: [
+      { name: '', internalType: 'contract LDYStaking', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'listenerContract', internalType: 'address', type: 'address' },
+    ],
+    name: 'listenToTransfers',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'onlyHighTierInstantWithdrawal',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'requestId', internalType: 'uint256', type: 'uint256' }],
+    name: 'processBigQueuedRequest',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'processQueuedRequests',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'realBalanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'realTotalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenAddress', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'recoverERC20',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'recoverUnderlying',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'repatriate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'requestWithdrawal',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'retentionRateUD7x3',
+    outputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'rewardsRedirectsFromTo',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'rewardsRedirectsToFrom',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'aprUD7x3', internalType: 'uint16', type: 'uint16' }],
+    name: 'setAPR',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'feesRateUD7x3_', internalType: 'uint32', type: 'uint32' },
+    ],
+    name: 'setFeesRate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'fund_', internalType: 'address', type: 'address' }],
+    name: 'setFund',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'ldyStakingAddress', internalType: 'address', type: 'address' },
+    ],
+    name: 'setLDYStaking',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'retentionRateUD7x3_', internalType: 'uint32', type: 'uint32' },
+    ],
+    name: 'setRetentionRate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'withdrawalFeeInEth_', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'setWithdrawalFeeInEth',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'withdrawer_', internalType: 'address', type: 'address' }],
+    name: 'setWithdrawer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'startRewardsRedirection',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+    ],
+    name: 'stopRewardsRedirection',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'status_', internalType: 'bool', type: 'bool' }],
+    name: 'switchOnlyHighTierInstantWithdrawal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalQueued',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'transfersListeners',
+    outputs: [
+      {
+        name: '',
+        internalType: 'contract ITransfersListener',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unclaimedFees',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'underlying',
+    outputs: [
+      { name: '', internalType: 'contract IERC20Upgradeable', type: 'address' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'listenerContract', internalType: 'address', type: 'address' },
+    ],
+    name: 'unlistenToTransfers',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'unmintedRewardsOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'upgradeTo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'usableUnderlyings',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'withdrawTo',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'withdrawalFeeInEth',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'withdrawalQueue',
+    outputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint96', type: 'uint96' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'withdrawalQueueCursor',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'withdrawer',
+    outputs: [{ name: '', internalType: 'address payable', type: 'address' }],
+    stateMutability: 'view',
+  },
+] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PreMining
@@ -4351,8 +6119,8 @@ export const preMiningConfig = {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const wrappedLTokenAbi = [
-  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   { type: 'error', inputs: [], name: 'BaseRateCannotBeLessThanOne' },
+  { type: 'error', inputs: [], name: 'InsufficientAllowance' },
   {
     type: 'error',
     inputs: [{ name: 'requested', internalType: 'uint256', type: 'uint256' }],
@@ -4366,14 +6134,34 @@ export const wrappedLTokenAbi = [
   {
     type: 'error',
     inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'SenderNotMinter',
+    name: 'SenderNotCCIPAdmin',
   },
   {
     type: 'error',
     inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
-    name: 'SenderNotOwnerOrCCIPAdmin',
+    name: 'SenderNotMinter',
   },
   { type: 'error', inputs: [], name: 'WrapZeroAmount' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'AdminChanged',
+  },
   {
     type: 'event',
     anonymous: false,
@@ -4398,6 +6186,19 @@ export const wrappedLTokenAbi = [
       },
     ],
     name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BeaconUpgraded',
   },
   {
     type: 'event',
@@ -4443,6 +6244,37 @@ export const wrappedLTokenAbi = [
       },
     ],
     name: 'CCIPAdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Deposit',
   },
   {
     type: 'event',
@@ -4521,9 +6353,9 @@ export const wrappedLTokenAbi = [
         indexed: false,
       },
       {
-        name: 'newAPRUD7x3',
-        internalType: 'uint16',
-        type: 'uint16',
+        name: 'newAPR',
+        internalType: 'uint256',
+        type: 'uint256',
         indexed: false,
       },
     ],
@@ -4598,6 +6430,56 @@ export const wrappedLTokenAbi = [
     type: 'event',
     anonymous: false,
     inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'Upgraded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'assets',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Withdraw',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
       { name: 'from', internalType: 'address', type: 'address', indexed: true },
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
       {
@@ -4614,6 +6496,21 @@ export const wrappedLTokenAbi = [
       },
     ],
     name: 'Wrap',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'isPaused', internalType: 'bool', type: 'bool', indexed: false },
+    ],
+    name: 'WrapUnwrapPausedSet',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'RAY',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -4634,6 +6531,15 @@ export const wrappedLTokenAbi = [
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'asset',
+    outputs: [
+      { name: 'assetTokenAddress', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -4678,6 +6584,20 @@ export const wrappedLTokenAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToAssets',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'convertToShares',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
@@ -4691,6 +6611,16 @@ export const wrappedLTokenAbi = [
     ],
     name: 'decreaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'deposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable',
   },
   {
@@ -4827,12 +6757,50 @@ export const wrappedLTokenAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxDeposit',
+    outputs: [{ name: 'maxAssets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'maxMint',
+    outputs: [{ name: 'maxShares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxRedeem',
+    outputs: [{ name: 'maxShares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'maxWithdraw',
+    outputs: [{ name: 'maxAssets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
       { name: 'amount', internalType: 'uint256', type: 'uint256' },
     ],
     name: 'mint',
     outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+    ],
+    name: 'mint',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable',
   },
   {
@@ -4858,12 +6826,58 @@ export const wrappedLTokenAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewDeposit',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewMint',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewRedeem',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
+    name: 'previewWithdraw',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'tokenAddress', internalType: 'address', type: 'address' },
       { name: 'amount', internalType: 'uint256', type: 'uint256' },
     ],
     name: 'recoverERC20',
     outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'shares', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'redeem',
+    outputs: [{ name: 'assets', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'nonpayable',
   },
   {
@@ -4917,6 +6931,15 @@ export const wrappedLTokenAbi = [
     ],
     name: 'toWrappedAmount',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalAssets',
+    outputs: [
+      { name: 'totalManagedAssets', internalType: 'uint256', type: 'uint256' },
+    ],
     stateMutability: 'view',
   },
   {
@@ -5012,6 +7035,36 @@ export const wrappedLTokenAbi = [
   {
     type: 'function',
     inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'upgradeTo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'assets', internalType: 'uint256', type: 'uint256' },
+      { name: 'receiver', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [{ name: 'shares', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
       { name: 'lTokenAmount', internalType: 'uint256', type: 'uint256' },
       { name: 'to', internalType: 'address', type: 'address' },
     ],
@@ -5077,6 +7130,14 @@ export const useReadCcipTokenGetCcipAdmin = /*#__PURE__*/ createUseReadContract(
 )
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const useReadCcipTokenGlobalOwner = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'globalOwner',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"isBurner"`
  */
 export const useReadCcipTokenIsBurner = /*#__PURE__*/ createUseReadContract({
@@ -5101,6 +7162,23 @@ export const useReadCcipTokenName = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadCcipTokenOwner = /*#__PURE__*/ createUseReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useReadCcipTokenRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ccipTokenAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"symbol"`
  */
 export const useReadCcipTokenSymbol = /*#__PURE__*/ createUseReadContract({
@@ -5115,6 +7193,15 @@ export const useReadCcipTokenTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: ccipTokenAbi,
   functionName: 'totalSupply',
 })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useReadCcipTokenTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ccipTokenAbi,
+    functionName: 'transferOwnership',
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ccipTokenAbi}__
@@ -5459,6 +7546,15 @@ export const useWatchCcipTokenMintAccessRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: ccipTokenAbi,
     eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchCcipTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'OwnershipTransferred',
   })
 
 /**
@@ -5873,6 +7969,7 @@ export const useWatchGenericErc20TransferEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -5893,6 +7990,7 @@ export const useReadGlobalBlacklist = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"globalOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -5915,6 +8013,7 @@ export const useReadGlobalBlacklistGlobalOwner =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"isBlacklisted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -5937,6 +8036,7 @@ export const useReadGlobalBlacklistIsBlacklisted =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -5958,6 +8058,7 @@ export const useReadGlobalBlacklistOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -5980,6 +8081,7 @@ export const useReadGlobalBlacklistProxiableUuid =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6002,6 +8104,7 @@ export const useReadGlobalBlacklistRenounceOwnership =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6024,6 +8127,7 @@ export const useReadGlobalBlacklistTransferOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6044,6 +8148,7 @@ export const useWriteGlobalBlacklist = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6066,6 +8171,7 @@ export const useWriteGlobalBlacklistBlacklist =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6088,6 +8194,7 @@ export const useWriteGlobalBlacklistInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6110,6 +8217,7 @@ export const useWriteGlobalBlacklistUnBlacklist =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6132,6 +8240,7 @@ export const useWriteGlobalBlacklistUpgradeTo =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6154,6 +8263,7 @@ export const useWriteGlobalBlacklistUpgradeToAndCall =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6175,6 +8285,7 @@ export const useSimulateGlobalBlacklist =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6197,6 +8308,7 @@ export const useSimulateGlobalBlacklistBlacklist =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6219,6 +8331,7 @@ export const useSimulateGlobalBlacklistInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6241,6 +8354,7 @@ export const useSimulateGlobalBlacklistUnBlacklist =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6263,6 +8377,7 @@ export const useSimulateGlobalBlacklistUpgradeTo =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6285,6 +8400,7 @@ export const useSimulateGlobalBlacklistUpgradeToAndCall =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6306,6 +8422,7 @@ export const useWatchGlobalBlacklistEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6328,6 +8445,7 @@ export const useWatchGlobalBlacklistAdminChangedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6350,6 +8468,7 @@ export const useWatchGlobalBlacklistBeaconUpgradedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Blacklisted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6372,6 +8491,7 @@ export const useWatchGlobalBlacklistBlacklistedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6394,6 +8514,7 @@ export const useWatchGlobalBlacklistInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6416,6 +8537,7 @@ export const useWatchGlobalBlacklistOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Unblacklisted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6438,6 +8560,7 @@ export const useWatchGlobalBlacklistUnblacklistedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -6460,6 +8583,7 @@ export const useWatchGlobalBlacklistUpgradedEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6480,6 +8604,7 @@ export const useReadGlobalOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6501,6 +8626,7 @@ export const useReadGlobalOwnerOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6523,6 +8649,7 @@ export const useReadGlobalOwnerPendingOwner =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6545,6 +8672,7 @@ export const useReadGlobalOwnerProxiableUuid =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6565,6 +8693,7 @@ export const useWriteGlobalOwner = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6587,6 +8716,7 @@ export const useWriteGlobalOwnerAcceptOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6609,6 +8739,7 @@ export const useWriteGlobalOwnerInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6631,6 +8762,7 @@ export const useWriteGlobalOwnerRenounceOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6653,6 +8785,7 @@ export const useWriteGlobalOwnerTransferOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6675,6 +8808,7 @@ export const useWriteGlobalOwnerUpgradeTo =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6697,6 +8831,7 @@ export const useWriteGlobalOwnerUpgradeToAndCall =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6717,6 +8852,7 @@ export const useSimulateGlobalOwner = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6739,6 +8875,7 @@ export const useSimulateGlobalOwnerAcceptOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6761,6 +8898,7 @@ export const useSimulateGlobalOwnerInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6783,6 +8921,7 @@ export const useSimulateGlobalOwnerRenounceOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6805,6 +8944,7 @@ export const useSimulateGlobalOwnerTransferOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6827,6 +8967,7 @@ export const useSimulateGlobalOwnerUpgradeTo =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6849,6 +8990,7 @@ export const useSimulateGlobalOwnerUpgradeToAndCall =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6870,6 +9012,7 @@ export const useWatchGlobalOwnerEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6892,6 +9035,7 @@ export const useWatchGlobalOwnerAdminChangedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6914,6 +9058,7 @@ export const useWatchGlobalOwnerBeaconUpgradedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6936,6 +9081,7 @@ export const useWatchGlobalOwnerInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6958,6 +9104,7 @@ export const useWatchGlobalOwnerOwnershipTransferStartedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -6980,6 +9127,7 @@ export const useWatchGlobalOwnerOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -7002,6 +9150,7 @@ export const useWatchGlobalOwnerUpgradedEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7022,6 +9171,7 @@ export const useReadGlobalPause = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"globalOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7044,6 +9194,7 @@ export const useReadGlobalPauseGlobalOwner =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7065,6 +9216,7 @@ export const useReadGlobalPauseOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7086,6 +9238,7 @@ export const useReadGlobalPausePaused = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7108,6 +9261,7 @@ export const useReadGlobalPauseProxiableUuid =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7130,6 +9284,7 @@ export const useReadGlobalPauseRenounceOwnership =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7152,6 +9307,7 @@ export const useReadGlobalPauseTransferOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7172,6 +9328,7 @@ export const useWriteGlobalPause = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7194,6 +9351,7 @@ export const useWriteGlobalPauseInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7215,6 +9373,7 @@ export const useWriteGlobalPausePause = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7236,6 +9395,7 @@ export const useWriteGlobalPauseUnpause = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7258,6 +9418,7 @@ export const useWriteGlobalPauseUpgradeTo =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7280,6 +9441,7 @@ export const useWriteGlobalPauseUpgradeToAndCall =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7300,6 +9462,7 @@ export const useSimulateGlobalPause = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7322,6 +9485,7 @@ export const useSimulateGlobalPauseInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7344,6 +9508,7 @@ export const useSimulateGlobalPausePause =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7366,6 +9531,7 @@ export const useSimulateGlobalPauseUnpause =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7388,6 +9554,7 @@ export const useSimulateGlobalPauseUpgradeTo =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7410,6 +9577,7 @@ export const useSimulateGlobalPauseUpgradeToAndCall =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7431,6 +9599,7 @@ export const useWatchGlobalPauseEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7453,6 +9622,7 @@ export const useWatchGlobalPauseAdminChangedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7475,6 +9645,7 @@ export const useWatchGlobalPauseBeaconUpgradedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7497,6 +9668,7 @@ export const useWatchGlobalPauseInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7519,6 +9691,7 @@ export const useWatchGlobalPauseOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7541,6 +9714,7 @@ export const useWatchGlobalPausePausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Unpaused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7563,6 +9737,7 @@ export const useWatchGlobalPauseUnpausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -7579,6 +9754,218 @@ export const useWatchGlobalPauseUpgradedEvent =
     abi: globalPauseAbi,
     address: globalPauseAddress,
     eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const useReadIerc4626 = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"asset"`
+ */
+export const useReadIerc4626Asset = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'asset',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"convertToAssets"`
+ */
+export const useReadIerc4626ConvertToAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ierc4626Abi,
+    functionName: 'convertToAssets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"convertToShares"`
+ */
+export const useReadIerc4626ConvertToShares =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ierc4626Abi,
+    functionName: 'convertToShares',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxDeposit"`
+ */
+export const useReadIerc4626MaxDeposit = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxDeposit',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxMint"`
+ */
+export const useReadIerc4626MaxMint = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxMint',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxRedeem"`
+ */
+export const useReadIerc4626MaxRedeem = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxRedeem',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxWithdraw"`
+ */
+export const useReadIerc4626MaxWithdraw = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxWithdraw',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewDeposit"`
+ */
+export const useReadIerc4626PreviewDeposit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ierc4626Abi,
+    functionName: 'previewDeposit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewMint"`
+ */
+export const useReadIerc4626PreviewMint = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'previewMint',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const useReadIerc4626PreviewRedeem = /*#__PURE__*/ createUseReadContract(
+  { abi: ierc4626Abi, functionName: 'previewRedeem' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewWithdraw"`
+ */
+export const useReadIerc4626PreviewWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: ierc4626Abi,
+    functionName: 'previewWithdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"totalAssets"`
+ */
+export const useReadIerc4626TotalAssets = /*#__PURE__*/ createUseReadContract({
+  abi: ierc4626Abi,
+  functionName: 'totalAssets',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const useWriteIerc4626 = /*#__PURE__*/ createUseWriteContract({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteIerc4626Deposit = /*#__PURE__*/ createUseWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteIerc4626Mint = /*#__PURE__*/ createUseWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"redeem"`
+ */
+export const useWriteIerc4626Redeem = /*#__PURE__*/ createUseWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"withdraw"`
+ */
+export const useWriteIerc4626Withdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const useSimulateIerc4626 = /*#__PURE__*/ createUseSimulateContract({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateIerc4626Deposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ierc4626Abi,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateIerc4626Mint = /*#__PURE__*/ createUseSimulateContract({
+  abi: ierc4626Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"redeem"`
+ */
+export const useSimulateIerc4626Redeem =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ierc4626Abi,
+    functionName: 'redeem',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"withdraw"`
+ */
+export const useSimulateIerc4626Withdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: ierc4626Abi,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const useWatchIerc4626Event = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ierc4626Abi}__ and `eventName` set to `"Deposit"`
+ */
+export const useWatchIerc4626DepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ierc4626Abi,
+    eventName: 'Deposit',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ierc4626Abi}__ and `eventName` set to `"Withdraw"`
+ */
+export const useWatchIerc4626WithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: ierc4626Abi,
+    eventName: 'Withdraw',
   })
 
 /**
@@ -7766,15 +10153,6 @@ export const useReadIlTokenTotalSupply = /*#__PURE__*/ createUseReadContract({
   abi: ilTokenAbi,
   functionName: 'totalSupply',
 })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfersListeners"`
- */
-export const useReadIlTokenTransfersListeners =
-  /*#__PURE__*/ createUseReadContract({
-    abi: ilTokenAbi,
-    functionName: 'transfersListeners',
-  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"unclaimedFees"`
@@ -8337,6 +10715,7 @@ export const useWatchIWrappedLTokenWrapEvent =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8350,6 +10729,7 @@ export const useReadLdy = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"allowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8364,6 +10744,7 @@ export const useReadLdyAllowance = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"balanceOf"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8378,6 +10759,7 @@ export const useReadLdyBalanceOf = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decimals"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8392,6 +10774,7 @@ export const useReadLdyDecimals = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"name"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8406,6 +10789,7 @@ export const useReadLdyName = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"symbol"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8420,6 +10804,7 @@ export const useReadLdySymbol = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"totalSupply"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8434,6 +10819,7 @@ export const useReadLdyTotalSupply = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8447,6 +10833,7 @@ export const useWriteLdy = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8461,6 +10848,7 @@ export const useWriteLdyApprove = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8475,6 +10863,7 @@ export const useWriteLdyBurn = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8489,6 +10878,7 @@ export const useWriteLdyBurnFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8504,6 +10894,7 @@ export const useWriteLdyDecreaseAllowance =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8519,6 +10910,7 @@ export const useWriteLdyIncreaseAllowance =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8533,6 +10925,7 @@ export const useWriteLdyTransfer = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8547,6 +10940,7 @@ export const useWriteLdyTransferFrom = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8560,6 +10954,7 @@ export const useSimulateLdy = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8574,6 +10969,7 @@ export const useSimulateLdyApprove = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8588,6 +10984,7 @@ export const useSimulateLdyBurn = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8602,6 +10999,7 @@ export const useSimulateLdyBurnFrom = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8617,6 +11015,7 @@ export const useSimulateLdyDecreaseAllowance =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8632,6 +11031,7 @@ export const useSimulateLdyIncreaseAllowance =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8646,6 +11046,7 @@ export const useSimulateLdyTransfer = /*#__PURE__*/ createUseSimulateContract({
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8661,6 +11062,7 @@ export const useSimulateLdyTransferFrom =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8674,6 +11076,7 @@ export const useWatchLdyEvent = /*#__PURE__*/ createUseWatchContractEvent({
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Approval"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8689,6 +11092,7 @@ export const useWatchLdyApprovalEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Transfer"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -8705,6 +11109,7 @@ export const useWatchLdyTransferEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8725,6 +11130,7 @@ export const useReadLdyStaking = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"MULTIPLIER_BASIS"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8747,6 +11153,7 @@ export const useReadLdyStakingMultiplierBasis =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"earned"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8768,6 +11175,7 @@ export const useReadLdyStakingEarned = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"finishAt"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8789,6 +11197,7 @@ export const useReadLdyStakingFinishAt = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getEarnedUser"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8811,6 +11220,7 @@ export const useReadLdyStakingGetEarnedUser =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getStakeDurationInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8833,6 +11243,7 @@ export const useReadLdyStakingGetStakeDurationInfo =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getUserStakes"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8855,6 +11266,7 @@ export const useReadLdyStakingGetUserStakes =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"globalBlacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8877,6 +11289,7 @@ export const useReadLdyStakingGlobalBlacklist =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"globalOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8900,6 +11313,7 @@ export const useReadLdyStakingGlobalOwner = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"globalPause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8923,6 +11337,7 @@ export const useReadLdyStakingGlobalPause = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"highTierAccounts"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8945,6 +11360,7 @@ export const useReadLdyStakingHighTierAccounts =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8967,6 +11383,7 @@ export const useReadLdyStakingLastTimeRewardApplicable =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"lastUpdateTime"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -8989,6 +11406,7 @@ export const useReadLdyStakingLastUpdateTime =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"nbHighTierPositions"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9011,6 +11429,7 @@ export const useReadLdyStakingNbHighTierPositions =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9032,6 +11451,7 @@ export const useReadLdyStakingOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9053,6 +11473,7 @@ export const useReadLdyStakingPaused = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9075,6 +11496,7 @@ export const useReadLdyStakingProxiableUuid =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9097,6 +11519,7 @@ export const useReadLdyStakingRenounceOwnership =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardPerToken"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9119,6 +11542,7 @@ export const useReadLdyStakingRewardPerToken =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardPerTokenStored"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9141,6 +11565,7 @@ export const useReadLdyStakingRewardPerTokenStored =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardRatePerSec"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9163,6 +11588,7 @@ export const useReadLdyStakingRewardRatePerSec =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardsDuration"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9185,6 +11611,7 @@ export const useReadLdyStakingRewardsDuration =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeAmountForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9207,6 +11634,7 @@ export const useReadLdyStakingStakeAmountForPerks =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeDurationForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9229,6 +11657,7 @@ export const useReadLdyStakingStakeDurationForPerks =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeDurationInfos"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9251,6 +11680,7 @@ export const useReadLdyStakingStakeDurationInfos =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeRewardToken"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9273,6 +11703,7 @@ export const useReadLdyStakingStakeRewardToken =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"tierOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9294,6 +11725,7 @@ export const useReadLdyStakingTierOf = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"totalRewards"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9316,6 +11748,7 @@ export const useReadLdyStakingTotalRewards =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"totalStaked"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9339,6 +11772,7 @@ export const useReadLdyStakingTotalStaked = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"totalWeightedStake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9361,6 +11795,7 @@ export const useReadLdyStakingTotalWeightedStake =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9383,6 +11818,7 @@ export const useReadLdyStakingTransferOwnership =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"userStakingInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9405,6 +11841,7 @@ export const useReadLdyStakingUserStakingInfo =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9425,6 +11862,7 @@ export const useWriteLdyStaking = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getReward"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9444,6 +11882,7 @@ export const useWriteLdyStakingGetReward = /*#__PURE__*/ createUseWriteContract(
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9466,6 +11905,7 @@ export const useWriteLdyStakingInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"notifyRewardAmount"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9488,6 +11928,7 @@ export const useWriteLdyStakingNotifyRewardAmount =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"pushStakeDurationInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9510,6 +11951,7 @@ export const useWriteLdyStakingPushStakeDurationInfo =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"recoverERC20"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9532,6 +11974,7 @@ export const useWriteLdyStakingRecoverErc20 =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setRewardsDuration"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9554,6 +11997,7 @@ export const useWriteLdyStakingSetRewardsDuration =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeAmountForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9576,6 +12020,7 @@ export const useWriteLdyStakingSetStakeAmountForPerks =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeDurationForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9598,6 +12043,7 @@ export const useWriteLdyStakingSetStakeDurationForPerks =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9619,6 +12065,7 @@ export const useWriteLdyStakingStake = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"unstake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9640,6 +12087,7 @@ export const useWriteLdyStakingUnstake = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9659,6 +12107,7 @@ export const useWriteLdyStakingUpgradeTo = /*#__PURE__*/ createUseWriteContract(
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9681,6 +12130,7 @@ export const useWriteLdyStakingUpgradeToAndCall =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9701,6 +12151,7 @@ export const useSimulateLdyStaking = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getReward"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9723,6 +12174,7 @@ export const useSimulateLdyStakingGetReward =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9745,6 +12197,7 @@ export const useSimulateLdyStakingInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"notifyRewardAmount"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9767,6 +12220,7 @@ export const useSimulateLdyStakingNotifyRewardAmount =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"pushStakeDurationInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9789,6 +12243,7 @@ export const useSimulateLdyStakingPushStakeDurationInfo =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"recoverERC20"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9811,6 +12266,7 @@ export const useSimulateLdyStakingRecoverErc20 =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setRewardsDuration"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9833,6 +12289,7 @@ export const useSimulateLdyStakingSetRewardsDuration =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeAmountForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9855,6 +12312,7 @@ export const useSimulateLdyStakingSetStakeAmountForPerks =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeDurationForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9877,6 +12335,7 @@ export const useSimulateLdyStakingSetStakeDurationForPerks =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9899,6 +12358,7 @@ export const useSimulateLdyStakingStake =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"unstake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9921,6 +12381,7 @@ export const useSimulateLdyStakingUnstake =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9943,6 +12404,7 @@ export const useSimulateLdyStakingUpgradeTo =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9965,6 +12427,7 @@ export const useSimulateLdyStakingUpgradeToAndCall =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -9986,6 +12449,7 @@ export const useWatchLdyStakingEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10008,6 +12472,7 @@ export const useWatchLdyStakingAdminChangedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10030,6 +12495,7 @@ export const useWatchLdyStakingBeaconUpgradedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10052,6 +12518,7 @@ export const useWatchLdyStakingInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"NotifiedRewardAmount"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10074,6 +12541,7 @@ export const useWatchLdyStakingNotifiedRewardAmountEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10096,6 +12564,7 @@ export const useWatchLdyStakingOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10118,6 +12587,7 @@ export const useWatchLdyStakingPausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"RewardPaid"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10140,6 +12610,7 @@ export const useWatchLdyStakingRewardPaidEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Staked"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10162,6 +12633,7 @@ export const useWatchLdyStakingStakedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Unpaused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10184,6 +12656,7 @@ export const useWatchLdyStakingUnpausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Unstaked"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -10206,6 +12679,7 @@ export const useWatchLdyStakingUnstakedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -11219,6 +13693,7 @@ export const useWatchLTokenUpgradedEvent =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11238,6 +13713,7 @@ export const useReadLTokenSignaler = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"globalOwner"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11259,6 +13735,7 @@ export const useReadLTokenSignalerGlobalOwner =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"owner"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11279,6 +13756,7 @@ export const useReadLTokenSignalerOwner = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11300,6 +13778,7 @@ export const useReadLTokenSignalerProxiableUuid =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11321,6 +13800,7 @@ export const useReadLTokenSignalerRenounceOwnership =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11342,6 +13822,7 @@ export const useReadLTokenSignalerTransferOwnership =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11361,6 +13842,7 @@ export const useWriteLTokenSignaler = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11382,6 +13864,7 @@ export const useWriteLTokenSignalerInitialize =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11403,6 +13886,7 @@ export const useWriteLTokenSignalerSignalLToken =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11424,6 +13908,7 @@ export const useWriteLTokenSignalerUpgradeTo =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11445,6 +13930,7 @@ export const useWriteLTokenSignalerUpgradeToAndCall =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11465,6 +13951,7 @@ export const useSimulateLTokenSignaler =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11486,6 +13973,7 @@ export const useSimulateLTokenSignalerInitialize =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11507,6 +13995,7 @@ export const useSimulateLTokenSignalerSignalLToken =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11528,6 +14017,7 @@ export const useSimulateLTokenSignalerUpgradeTo =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11549,6 +14039,7 @@ export const useSimulateLTokenSignalerUpgradeToAndCall =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11569,6 +14060,7 @@ export const useWatchLTokenSignalerEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"AdminChanged"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11590,6 +14082,7 @@ export const useWatchLTokenSignalerAdminChangedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11611,6 +14104,7 @@ export const useWatchLTokenSignalerBeaconUpgradedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Initialized"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11632,6 +14126,7 @@ export const useWatchLTokenSignalerInitializedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"LTokenSignalEvent"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11653,6 +14148,7 @@ export const useWatchLTokenSignalerLTokenSignalEventEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11674,6 +14170,7 @@ export const useWatchLTokenSignalerOwnershipTransferredEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Upgraded"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -11689,6 +14186,1796 @@ export const useWatchLTokenSignalerUpgradedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: lTokenSignalerAbi,
     address: lTokenSignalerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const useReadMockCcipToken = /*#__PURE__*/ createUseReadContract({
+  abi: mockCcipTokenAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadMockCcipTokenAllowance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'allowance',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadMockCcipTokenBalanceOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'balanceOf',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadMockCcipTokenDecimals = /*#__PURE__*/ createUseReadContract(
+  { abi: mockCcipTokenAbi, functionName: 'decimals' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"getCCIPAdmin"`
+ */
+export const useReadMockCcipTokenGetCcipAdmin =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'getCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const useReadMockCcipTokenGlobalBlacklist =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'globalBlacklist',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const useReadMockCcipTokenGlobalOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'globalOwner',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const useReadMockCcipTokenGlobalPause =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'globalPause',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"isBurner"`
+ */
+export const useReadMockCcipTokenIsBurner = /*#__PURE__*/ createUseReadContract(
+  { abi: mockCcipTokenAbi, functionName: 'isBurner' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"isMinter"`
+ */
+export const useReadMockCcipTokenIsMinter = /*#__PURE__*/ createUseReadContract(
+  { abi: mockCcipTokenAbi, functionName: 'isMinter' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadMockCcipTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadMockCcipTokenOwner = /*#__PURE__*/ createUseReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadMockCcipTokenPaused = /*#__PURE__*/ createUseReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useReadMockCcipTokenRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadMockCcipTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadMockCcipTokenTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'totalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useReadMockCcipTokenTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const useWriteMockCcipToken = /*#__PURE__*/ createUseWriteContract({
+  abi: mockCcipTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteMockCcipTokenApprove =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const useWriteMockCcipTokenBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const useWriteMockCcipTokenBurnFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useWriteMockCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const useWriteMockCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const useWriteMockCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const useWriteMockCcipTokenGrantMintRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useWriteMockCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteMockCcipTokenInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteMockCcipTokenMint = /*#__PURE__*/ createUseWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const useWriteMockCcipTokenRecoverErc20 =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const useWriteMockCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const useWriteMockCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const useWriteMockCcipTokenSetCcipAdmin =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteMockCcipTokenTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const useWriteMockCcipTokenTransferAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteMockCcipTokenTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const useSimulateMockCcipToken = /*#__PURE__*/ createUseSimulateContract(
+  { abi: mockCcipTokenAbi },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateMockCcipTokenApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const useSimulateMockCcipTokenBurn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'burn',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const useSimulateMockCcipTokenBurnFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useSimulateMockCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const useSimulateMockCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const useSimulateMockCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const useSimulateMockCcipTokenGrantMintRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useSimulateMockCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateMockCcipTokenInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateMockCcipTokenMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'mint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const useSimulateMockCcipTokenRecoverErc20 =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const useSimulateMockCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const useSimulateMockCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const useSimulateMockCcipTokenSetCcipAdmin =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateMockCcipTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const useSimulateMockCcipTokenTransferAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateMockCcipTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const useWatchMockCcipTokenEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: mockCcipTokenAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchMockCcipTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"BurnAccessGranted"`
+ */
+export const useWatchMockCcipTokenBurnAccessGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'BurnAccessGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"BurnAccessRevoked"`
+ */
+export const useWatchMockCcipTokenBurnAccessRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'BurnAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"CCIPAdminChanged"`
+ */
+export const useWatchMockCcipTokenCcipAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchMockCcipTokenInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"MintAccessGranted"`
+ */
+export const useWatchMockCcipTokenMintAccessGrantedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'MintAccessGranted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"MintAccessRevoked"`
+ */
+export const useWatchMockCcipTokenMintAccessRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchMockCcipTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchMockCcipTokenPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchMockCcipTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchMockCcipTokenUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const useReadMockErc20 = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadMockErc20Allowance = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadMockErc20BalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadMockErc20Decimals = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"name"`
+ */
+export const useReadMockErc20Name = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadMockErc20Symbol = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadMockErc20TotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: mockErc20Abi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const useWriteMockErc20 = /*#__PURE__*/ createUseWriteContract({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteMockErc20Approve = /*#__PURE__*/ createUseWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useWriteMockErc20DecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockErc20Abi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useWriteMockErc20IncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockErc20Abi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteMockErc20Mint = /*#__PURE__*/ createUseWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteMockErc20Transfer = /*#__PURE__*/ createUseWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteMockErc20TransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockErc20Abi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const useSimulateMockErc20 = /*#__PURE__*/ createUseSimulateContract({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateMockErc20Approve =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useSimulateMockErc20DecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useSimulateMockErc20IncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateMockErc20Mint = /*#__PURE__*/ createUseSimulateContract(
+  { abi: mockErc20Abi, functionName: 'mint' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateMockErc20Transfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateMockErc20TransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const useWatchMockErc20Event = /*#__PURE__*/ createUseWatchContractEvent(
+  { abi: mockErc20Abi },
+)
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockErc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchMockErc20ApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockErc20Abi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockErc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchMockErc20TransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockErc20Abi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const useReadMockLToken = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadMockLTokenAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadMockLTokenBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadMockLTokenDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"depositFor"`
+ */
+export const useReadMockLTokenDepositFor = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'depositFor',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"feesRateUD7x3"`
+ */
+export const useReadMockLTokenFeesRateUd7x3 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'feesRateUD7x3',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"frozenRequests"`
+ */
+export const useReadMockLTokenFrozenRequests =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'frozenRequests',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"fund"`
+ */
+export const useReadMockLTokenFund = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'fund',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"getAPR"`
+ */
+export const useReadMockLTokenGetApr = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'getAPR',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"getExpectedRetained"`
+ */
+export const useReadMockLTokenGetExpectedRetained =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'getExpectedRetained',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"getWithdrawnAmountAndFees"`
+ */
+export const useReadMockLTokenGetWithdrawnAmountAndFees =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'getWithdrawnAmountAndFees',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const useReadMockLTokenGlobalBlacklist =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'globalBlacklist',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const useReadMockLTokenGlobalOwner = /*#__PURE__*/ createUseReadContract(
+  { abi: mockLTokenAbi, functionName: 'globalOwner' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const useReadMockLTokenGlobalPause = /*#__PURE__*/ createUseReadContract(
+  { abi: mockLTokenAbi, functionName: 'globalPause' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"invested"`
+ */
+export const useReadMockLTokenInvested = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'invested',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"ldyStaking"`
+ */
+export const useReadMockLTokenLdyStaking = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'ldyStaking',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const useReadMockLTokenName = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"onlyHighTierInstantWithdrawal"`
+ */
+export const useReadMockLTokenOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'onlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadMockLTokenOwner = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadMockLTokenPaused = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const useReadMockLTokenProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'proxiableUUID',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"realBalanceOf"`
+ */
+export const useReadMockLTokenRealBalanceOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'realBalanceOf',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"realTotalSupply"`
+ */
+export const useReadMockLTokenRealTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'realTotalSupply',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useReadMockLTokenRenounceOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"retentionRateUD7x3"`
+ */
+export const useReadMockLTokenRetentionRateUd7x3 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'retentionRateUD7x3',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"rewardsRedirectsFromTo"`
+ */
+export const useReadMockLTokenRewardsRedirectsFromTo =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'rewardsRedirectsFromTo',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"rewardsRedirectsToFrom"`
+ */
+export const useReadMockLTokenRewardsRedirectsToFrom =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'rewardsRedirectsToFrom',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadMockLTokenSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"totalQueued"`
+ */
+export const useReadMockLTokenTotalQueued = /*#__PURE__*/ createUseReadContract(
+  { abi: mockLTokenAbi, functionName: 'totalQueued' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadMockLTokenTotalSupply = /*#__PURE__*/ createUseReadContract(
+  { abi: mockLTokenAbi, functionName: 'totalSupply' },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useReadMockLTokenTransferOwnership =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transfersListeners"`
+ */
+export const useReadMockLTokenTransfersListeners =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'transfersListeners',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unclaimedFees"`
+ */
+export const useReadMockLTokenUnclaimedFees =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'unclaimedFees',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"underlying"`
+ */
+export const useReadMockLTokenUnderlying = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'underlying',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unmintedRewardsOf"`
+ */
+export const useReadMockLTokenUnmintedRewardsOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'unmintedRewardsOf',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"usableUnderlyings"`
+ */
+export const useReadMockLTokenUsableUnderlyings =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'usableUnderlyings',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawTo"`
+ */
+export const useReadMockLTokenWithdrawTo = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'withdrawTo',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawalFeeInEth"`
+ */
+export const useReadMockLTokenWithdrawalFeeInEth =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'withdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawalQueue"`
+ */
+export const useReadMockLTokenWithdrawalQueue =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'withdrawalQueue',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawalQueueCursor"`
+ */
+export const useReadMockLTokenWithdrawalQueueCursor =
+  /*#__PURE__*/ createUseReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'withdrawalQueueCursor',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawer"`
+ */
+export const useReadMockLTokenWithdrawer = /*#__PURE__*/ createUseReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'withdrawer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const useWriteMockLToken = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteMockLTokenApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const useWriteMockLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const useWriteMockLTokenClaimFees = /*#__PURE__*/ createUseWriteContract(
+  { abi: mockLTokenAbi, functionName: 'claimFees' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useWriteMockLTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteMockLTokenDeposit = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useWriteMockLTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteMockLTokenInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
+ */
+export const useWriteMockLTokenInstantWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'instantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const useWriteMockLTokenListenToTransfers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useWriteMockLTokenMint = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
+ */
+export const useWriteMockLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'processBigQueuedRequest',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
+ */
+export const useWriteMockLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'processQueuedRequests',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const useWriteMockLTokenRecoverErc20 =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
+ */
+export const useWriteMockLTokenRecoverUnderlying =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverUnderlying',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const useWriteMockLTokenRepatriate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'repatriate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const useWriteMockLTokenRequestWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setAPR"`
+ */
+export const useWriteMockLTokenSetApr = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setAPR',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const useWriteMockLTokenSetFeesRate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setFeesRate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const useWriteMockLTokenSetFund = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setLDYStaking"`
+ */
+export const useWriteMockLTokenSetLdyStaking =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setLDYStaking',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setRetentionRate"`
+ */
+export const useWriteMockLTokenSetRetentionRate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setRetentionRate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const useWriteMockLTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const useWriteMockLTokenSetWithdrawer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
+ */
+export const useWriteMockLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'startRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
+ */
+export const useWriteMockLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'stopRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const useWriteMockLTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteMockLTokenTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteMockLTokenTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const useWriteMockLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const useWriteMockLTokenUpgradeTo = /*#__PURE__*/ createUseWriteContract(
+  { abi: mockLTokenAbi, functionName: 'upgradeTo' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useWriteMockLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const useSimulateMockLToken = /*#__PURE__*/ createUseSimulateContract({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateMockLTokenApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const useSimulateMockLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const useSimulateMockLTokenClaimFees =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'claimFees',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const useSimulateMockLTokenDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateMockLTokenDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const useSimulateMockLTokenIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateMockLTokenInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
+ */
+export const useSimulateMockLTokenInstantWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'instantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const useSimulateMockLTokenListenToTransfers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const useSimulateMockLTokenMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'mint',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
+ */
+export const useSimulateMockLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'processBigQueuedRequest',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
+ */
+export const useSimulateMockLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'processQueuedRequests',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const useSimulateMockLTokenRecoverErc20 =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
+ */
+export const useSimulateMockLTokenRecoverUnderlying =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverUnderlying',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const useSimulateMockLTokenRepatriate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'repatriate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const useSimulateMockLTokenRequestWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setAPR"`
+ */
+export const useSimulateMockLTokenSetApr =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setAPR',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const useSimulateMockLTokenSetFeesRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setFeesRate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const useSimulateMockLTokenSetFund =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setFund',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setLDYStaking"`
+ */
+export const useSimulateMockLTokenSetLdyStaking =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setLDYStaking',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setRetentionRate"`
+ */
+export const useSimulateMockLTokenSetRetentionRate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setRetentionRate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const useSimulateMockLTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const useSimulateMockLTokenSetWithdrawer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
+ */
+export const useSimulateMockLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'startRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
+ */
+export const useSimulateMockLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'stopRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const useSimulateMockLTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateMockLTokenTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateMockLTokenTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const useSimulateMockLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const useSimulateMockLTokenUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useSimulateMockLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const useWatchMockLTokenEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: mockLTokenAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"APRChangeEvent"`
+ */
+export const useWatchMockLTokenAprChangeEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'APRChangeEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"ActivityEvent"`
+ */
+export const useWatchMockLTokenActivityEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'ActivityEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"AdminChanged"`
+ */
+export const useWatchMockLTokenAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchMockLTokenApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ */
+export const useWatchMockLTokenBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const useWatchMockLTokenInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"MintedRewardsEvent"`
+ */
+export const useWatchMockLTokenMintedRewardsEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'MintedRewardsEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchMockLTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchMockLTokenPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"TVLChangeEvent"`
+ */
+export const useWatchMockLTokenTvlChangeEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'TVLChangeEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchMockLTokenTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchMockLTokenUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const useWatchMockLTokenUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: mockLTokenAbi,
     eventName: 'Upgraded',
   })
 
@@ -12473,6 +16760,14 @@ export const useReadWrappedLToken = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"RAY"`
+ */
+export const useReadWrappedLTokenRay = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'RAY',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"allowance"`
  */
 export const useReadWrappedLTokenAllowance =
@@ -12480,6 +16775,14 @@ export const useReadWrappedLTokenAllowance =
     abi: wrappedLTokenAbi,
     functionName: 'allowance',
   })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"asset"`
+ */
+export const useReadWrappedLTokenAsset = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'asset',
+})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"balanceOf"`
@@ -12496,6 +16799,24 @@ export const useReadWrappedLTokenBalanceOf =
 export const useReadWrappedLTokenBaseRate = /*#__PURE__*/ createUseReadContract(
   { abi: wrappedLTokenAbi, functionName: 'baseRate' },
 )
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"convertToAssets"`
+ */
+export const useReadWrappedLTokenConvertToAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'convertToAssets',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"convertToShares"`
+ */
+export const useReadWrappedLTokenConvertToShares =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'convertToShares',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decimals"`
@@ -12581,6 +16902,41 @@ export const useReadWrappedLTokenLastCheckpoint =
   })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxDeposit"`
+ */
+export const useReadWrappedLTokenMaxDeposit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'maxDeposit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxMint"`
+ */
+export const useReadWrappedLTokenMaxMint = /*#__PURE__*/ createUseReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'maxMint',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxRedeem"`
+ */
+export const useReadWrappedLTokenMaxRedeem =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'maxRedeem',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxWithdraw"`
+ */
+export const useReadWrappedLTokenMaxWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'maxWithdraw',
+  })
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"name"`
  */
 export const useReadWrappedLTokenName = /*#__PURE__*/ createUseReadContract({
@@ -12603,6 +16959,51 @@ export const useReadWrappedLTokenPaused = /*#__PURE__*/ createUseReadContract({
   abi: wrappedLTokenAbi,
   functionName: 'paused',
 })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewDeposit"`
+ */
+export const useReadWrappedLTokenPreviewDeposit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'previewDeposit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewMint"`
+ */
+export const useReadWrappedLTokenPreviewMint =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'previewMint',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const useReadWrappedLTokenPreviewRedeem =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'previewRedeem',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewWithdraw"`
+ */
+export const useReadWrappedLTokenPreviewWithdraw =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'previewWithdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const useReadWrappedLTokenProxiableUuid =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'proxiableUUID',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"renounceOwnership"`
@@ -12637,6 +17038,15 @@ export const useReadWrappedLTokenToWrappedAmount =
   /*#__PURE__*/ createUseReadContract({
     abi: wrappedLTokenAbi,
     functionName: 'toWrappedAmount',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalAssets"`
+ */
+export const useReadWrappedLTokenTotalAssets =
+  /*#__PURE__*/ createUseReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'totalAssets',
   })
 
 /**
@@ -12709,6 +17119,15 @@ export const useWriteWrappedLTokenDecreaseAllowance =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useWriteWrappedLTokenDeposit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'deposit',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"depositAndWrap"`
  */
 export const useWriteWrappedLTokenDepositAndWrap =
@@ -12778,6 +17197,13 @@ export const useWriteWrappedLTokenRecoverErc20 =
     abi: wrappedLTokenAbi,
     functionName: 'recoverERC20',
   })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useWriteWrappedLTokenRedeem = /*#__PURE__*/ createUseWriteContract(
+  { abi: wrappedLTokenAbi, functionName: 'redeem' },
+)
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
@@ -12859,6 +17285,33 @@ export const useWriteWrappedLTokenUpdateRateCheckpoint =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const useWriteWrappedLTokenUpgradeTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useWriteWrappedLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useWriteWrappedLTokenWithdraw =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'withdraw',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
  */
 export const useWriteWrappedLTokenWrap = /*#__PURE__*/ createUseWriteContract({
@@ -12907,6 +17360,15 @@ export const useSimulateWrappedLTokenDecreaseAllowance =
   /*#__PURE__*/ createUseSimulateContract({
     abi: wrappedLTokenAbi,
     functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const useSimulateWrappedLTokenDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'deposit',
   })
 
 /**
@@ -12979,6 +17441,15 @@ export const useSimulateWrappedLTokenRecoverErc20 =
   /*#__PURE__*/ createUseSimulateContract({
     abi: wrappedLTokenAbi,
     functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"redeem"`
+ */
+export const useSimulateWrappedLTokenRedeem =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'redeem',
   })
 
 /**
@@ -13063,6 +17534,33 @@ export const useSimulateWrappedLTokenUpdateRateCheckpoint =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const useSimulateWrappedLTokenUpgradeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const useSimulateWrappedLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const useSimulateWrappedLTokenWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'withdraw',
+  })
+
+/**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
  */
 export const useSimulateWrappedLTokenWrap =
@@ -13078,12 +17576,30 @@ export const useWatchWrappedLTokenEvent =
   /*#__PURE__*/ createUseWatchContractEvent({ abi: wrappedLTokenAbi })
 
 /**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"AdminChanged"`
+ */
+export const useWatchWrappedLTokenAdminChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'AdminChanged',
+  })
+
+/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Approval"`
  */
 export const useWatchWrappedLTokenApprovalEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: wrappedLTokenAbi,
     eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ */
+export const useWatchWrappedLTokenBeaconUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'BeaconUpgraded',
   })
 
 /**
@@ -13111,6 +17627,15 @@ export const useWatchWrappedLTokenCcipAdminChangedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: wrappedLTokenAbi,
     eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Deposit"`
+ */
+export const useWatchWrappedLTokenDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Deposit',
   })
 
 /**
@@ -13195,12 +17720,39 @@ export const useWatchWrappedLTokenUnwrapEvent =
   })
 
 /**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const useWatchWrappedLTokenUpgradedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Withdraw"`
+ */
+export const useWatchWrappedLTokenWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Withdraw',
+  })
+
+/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Wrap"`
  */
 export const useWatchWrappedLTokenWrapEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: wrappedLTokenAbi,
     eventName: 'Wrap',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"WrapUnwrapPausedSet"`
+ */
+export const useWatchWrappedLTokenWrapUnwrapPausedSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'WrapUnwrapPausedSet',
   })
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -13247,6 +17799,14 @@ export const readCcipTokenGetCcipAdmin = /*#__PURE__*/ createReadContract({
 })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const readCcipTokenGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'globalOwner',
+})
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"isBurner"`
  */
 export const readCcipTokenIsBurner = /*#__PURE__*/ createReadContract({
@@ -13271,6 +17831,22 @@ export const readCcipTokenName = /*#__PURE__*/ createReadContract({
 })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const readCcipTokenOwner = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const readCcipTokenRenounceOwnership = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'renounceOwnership',
+})
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"symbol"`
  */
 export const readCcipTokenSymbol = /*#__PURE__*/ createReadContract({
@@ -13284,6 +17860,14 @@ export const readCcipTokenSymbol = /*#__PURE__*/ createReadContract({
 export const readCcipTokenTotalSupply = /*#__PURE__*/ createReadContract({
   abi: ccipTokenAbi,
   functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ccipTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const readCcipTokenTransferOwnership = /*#__PURE__*/ createReadContract({
+  abi: ccipTokenAbi,
+  functionName: 'transferOwnership',
 })
 
 /**
@@ -13621,6 +18205,15 @@ export const watchCcipTokenMintAccessRevokedEvent =
   /*#__PURE__*/ createWatchContractEvent({
     abi: ccipTokenAbi,
     eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ccipTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const watchCcipTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ccipTokenAbi,
+    eventName: 'OwnershipTransferred',
   })
 
 /**
@@ -14031,6 +18624,7 @@ export const watchGenericErc20TransferEvent =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14051,6 +18645,7 @@ export const readGlobalBlacklist = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"globalOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14072,6 +18667,7 @@ export const readGlobalBlacklistGlobalOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"isBlacklisted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14094,6 +18690,7 @@ export const readGlobalBlacklistIsBlacklisted =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14115,6 +18712,7 @@ export const readGlobalBlacklistOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14137,6 +18735,7 @@ export const readGlobalBlacklistProxiableUuid =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14159,6 +18758,7 @@ export const readGlobalBlacklistRenounceOwnership =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14181,6 +18781,7 @@ export const readGlobalBlacklistTransferOwnership =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14201,6 +18802,7 @@ export const writeGlobalBlacklist = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14222,6 +18824,7 @@ export const writeGlobalBlacklistBlacklist = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14245,6 +18848,7 @@ export const writeGlobalBlacklistInitialize = /*#__PURE__*/ createWriteContract(
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14267,6 +18871,7 @@ export const writeGlobalBlacklistUnBlacklist =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14288,6 +18893,7 @@ export const writeGlobalBlacklistUpgradeTo = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14310,6 +18916,7 @@ export const writeGlobalBlacklistUpgradeToAndCall =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14330,6 +18937,7 @@ export const simulateGlobalBlacklist = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"blacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14352,6 +18960,7 @@ export const simulateGlobalBlacklistBlacklist =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14374,6 +18983,7 @@ export const simulateGlobalBlacklistInitialize =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"unBlacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14396,6 +19006,7 @@ export const simulateGlobalBlacklistUnBlacklist =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14418,6 +19029,7 @@ export const simulateGlobalBlacklistUpgradeTo =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalBlacklistAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14440,6 +19052,7 @@ export const simulateGlobalBlacklistUpgradeToAndCall =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14459,6 +19072,7 @@ export const watchGlobalBlacklistEvent = /*#__PURE__*/ createWatchContractEvent(
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14481,6 +19095,7 @@ export const watchGlobalBlacklistAdminChangedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14503,6 +19118,7 @@ export const watchGlobalBlacklistBeaconUpgradedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Blacklisted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14525,6 +19141,7 @@ export const watchGlobalBlacklistBlacklistedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14547,6 +19164,7 @@ export const watchGlobalBlacklistInitializedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14569,6 +19187,7 @@ export const watchGlobalBlacklistOwnershipTransferredEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Unblacklisted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14591,6 +19210,7 @@ export const watchGlobalBlacklistUnblacklistedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalBlacklistAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xFC71827E981Fe166299736f1A1CCc4f5d3a2597E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x93aAA26E893263f007D6bf25C7a6c8f27B3a0D29)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x9bD7AF4a9Af603A0f4f53d39Ab2a97Cea7E4A7e6)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x210482e0B5c29086F733e6Dd44e2C19f32ae1757)
@@ -14613,6 +19233,7 @@ export const watchGlobalBlacklistUpgradedEvent =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14633,6 +19254,7 @@ export const readGlobalOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14654,6 +19276,7 @@ export const readGlobalOwnerOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14675,6 +19298,7 @@ export const readGlobalOwnerPendingOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14696,6 +19320,7 @@ export const readGlobalOwnerProxiableUuid = /*#__PURE__*/ createReadContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14716,6 +19341,7 @@ export const writeGlobalOwner = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14738,6 +19364,7 @@ export const writeGlobalOwnerAcceptOwnership =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14759,6 +19386,7 @@ export const writeGlobalOwnerInitialize = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14781,6 +19409,7 @@ export const writeGlobalOwnerRenounceOwnership =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14803,6 +19432,7 @@ export const writeGlobalOwnerTransferOwnership =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14824,6 +19454,7 @@ export const writeGlobalOwnerUpgradeTo = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14846,6 +19477,7 @@ export const writeGlobalOwnerUpgradeToAndCall =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14866,6 +19498,7 @@ export const simulateGlobalOwner = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14888,6 +19521,7 @@ export const simulateGlobalOwnerAcceptOwnership =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14910,6 +19544,7 @@ export const simulateGlobalOwnerInitialize =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14932,6 +19567,7 @@ export const simulateGlobalOwnerRenounceOwnership =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14954,6 +19590,7 @@ export const simulateGlobalOwnerTransferOwnership =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14976,6 +19613,7 @@ export const simulateGlobalOwnerUpgradeTo =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalOwnerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -14998,6 +19636,7 @@ export const simulateGlobalOwnerUpgradeToAndCall =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15018,6 +19657,7 @@ export const watchGlobalOwnerEvent = /*#__PURE__*/ createWatchContractEvent({
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15040,6 +19680,7 @@ export const watchGlobalOwnerAdminChangedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15062,6 +19703,7 @@ export const watchGlobalOwnerBeaconUpgradedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15084,6 +19726,7 @@ export const watchGlobalOwnerInitializedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15106,6 +19749,7 @@ export const watchGlobalOwnerOwnershipTransferStartedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15128,6 +19772,7 @@ export const watchGlobalOwnerOwnershipTransferredEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalOwnerAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x730C21c81F2baaDEB54daD63050D42474a824900)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0xF2663B722E0FaCcC6fB2743AB8CB30B1d8d93649)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x4717bca6978f1BCAb59b7bc0B6849aba6062834c)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x2Aff7737dd64390f18e76E39c977b6b0736B5A59)
@@ -15150,6 +19795,7 @@ export const watchGlobalOwnerUpgradedEvent =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15170,6 +19816,7 @@ export const readGlobalPause = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"globalOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15191,6 +19838,7 @@ export const readGlobalPauseGlobalOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15212,6 +19860,7 @@ export const readGlobalPauseOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15233,6 +19882,7 @@ export const readGlobalPausePaused = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15254,6 +19904,7 @@ export const readGlobalPauseProxiableUuid = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15276,6 +19927,7 @@ export const readGlobalPauseRenounceOwnership =
  * Wraps __{@link readContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15298,6 +19950,7 @@ export const readGlobalPauseTransferOwnership =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15318,6 +19971,7 @@ export const writeGlobalPause = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15339,6 +19993,7 @@ export const writeGlobalPauseInitialize = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15360,6 +20015,7 @@ export const writeGlobalPausePause = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15381,6 +20037,7 @@ export const writeGlobalPauseUnpause = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15402,6 +20059,7 @@ export const writeGlobalPauseUpgradeTo = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15424,6 +20082,7 @@ export const writeGlobalPauseUpgradeToAndCall =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15444,6 +20103,7 @@ export const simulateGlobalPause = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15466,6 +20126,7 @@ export const simulateGlobalPauseInitialize =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"pause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15487,6 +20148,7 @@ export const simulateGlobalPausePause = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"unpause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15508,6 +20170,7 @@ export const simulateGlobalPauseUnpause = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15530,6 +20193,7 @@ export const simulateGlobalPauseUpgradeTo =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link globalPauseAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15552,6 +20216,7 @@ export const simulateGlobalPauseUpgradeToAndCall =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15572,6 +20237,7 @@ export const watchGlobalPauseEvent = /*#__PURE__*/ createWatchContractEvent({
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15594,6 +20260,7 @@ export const watchGlobalPauseAdminChangedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15616,6 +20283,7 @@ export const watchGlobalPauseBeaconUpgradedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15638,6 +20306,7 @@ export const watchGlobalPauseInitializedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15660,6 +20329,7 @@ export const watchGlobalPauseOwnershipTransferredEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15682,6 +20352,7 @@ export const watchGlobalPausePausedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Unpaused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15704,6 +20375,7 @@ export const watchGlobalPauseUnpausedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link globalPauseAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x6f6eB78d4A05Ef3Ec6a0194A552e08f804d46e8E)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x7F989877003Be72F795c23889ab452ad58C59271)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x30b62e9e4aA50Cab8974433CD1EB1C1C7fc40078)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x57791De9E18693834b37323D3c90190A8aB3b925)
@@ -15720,6 +20392,210 @@ export const watchGlobalPauseUpgradedEvent =
     abi: globalPauseAbi,
     address: globalPauseAddress,
     eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const readIerc4626 = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"asset"`
+ */
+export const readIerc4626Asset = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'asset',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"convertToAssets"`
+ */
+export const readIerc4626ConvertToAssets = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'convertToAssets',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"convertToShares"`
+ */
+export const readIerc4626ConvertToShares = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'convertToShares',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxDeposit"`
+ */
+export const readIerc4626MaxDeposit = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxDeposit',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxMint"`
+ */
+export const readIerc4626MaxMint = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxMint',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxRedeem"`
+ */
+export const readIerc4626MaxRedeem = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxRedeem',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"maxWithdraw"`
+ */
+export const readIerc4626MaxWithdraw = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'maxWithdraw',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewDeposit"`
+ */
+export const readIerc4626PreviewDeposit = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'previewDeposit',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewMint"`
+ */
+export const readIerc4626PreviewMint = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'previewMint',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const readIerc4626PreviewRedeem = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'previewRedeem',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"previewWithdraw"`
+ */
+export const readIerc4626PreviewWithdraw = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'previewWithdraw',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"totalAssets"`
+ */
+export const readIerc4626TotalAssets = /*#__PURE__*/ createReadContract({
+  abi: ierc4626Abi,
+  functionName: 'totalAssets',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const writeIerc4626 = /*#__PURE__*/ createWriteContract({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"deposit"`
+ */
+export const writeIerc4626Deposit = /*#__PURE__*/ createWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"mint"`
+ */
+export const writeIerc4626Mint = /*#__PURE__*/ createWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"redeem"`
+ */
+export const writeIerc4626Redeem = /*#__PURE__*/ createWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"withdraw"`
+ */
+export const writeIerc4626Withdraw = /*#__PURE__*/ createWriteContract({
+  abi: ierc4626Abi,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const simulateIerc4626 = /*#__PURE__*/ createSimulateContract({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"deposit"`
+ */
+export const simulateIerc4626Deposit = /*#__PURE__*/ createSimulateContract({
+  abi: ierc4626Abi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"mint"`
+ */
+export const simulateIerc4626Mint = /*#__PURE__*/ createSimulateContract({
+  abi: ierc4626Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"redeem"`
+ */
+export const simulateIerc4626Redeem = /*#__PURE__*/ createSimulateContract({
+  abi: ierc4626Abi,
+  functionName: 'redeem',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link ierc4626Abi}__ and `functionName` set to `"withdraw"`
+ */
+export const simulateIerc4626Withdraw = /*#__PURE__*/ createSimulateContract({
+  abi: ierc4626Abi,
+  functionName: 'withdraw',
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc4626Abi}__
+ */
+export const watchIerc4626Event = /*#__PURE__*/ createWatchContractEvent({
+  abi: ierc4626Abi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc4626Abi}__ and `eventName` set to `"Deposit"`
+ */
+export const watchIerc4626DepositEvent = /*#__PURE__*/ createWatchContractEvent(
+  { abi: ierc4626Abi, eventName: 'Deposit' },
+)
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ierc4626Abi}__ and `eventName` set to `"Withdraw"`
+ */
+export const watchIerc4626WithdrawEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: ierc4626Abi,
+    eventName: 'Withdraw',
   })
 
 /**
@@ -15902,14 +20778,6 @@ export const readIlTokenSymbol = /*#__PURE__*/ createReadContract({
 export const readIlTokenTotalSupply = /*#__PURE__*/ createReadContract({
   abi: ilTokenAbi,
   functionName: 'totalSupply',
-})
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link ilTokenAbi}__ and `functionName` set to `"transfersListeners"`
- */
-export const readIlTokenTransfersListeners = /*#__PURE__*/ createReadContract({
-  abi: ilTokenAbi,
-  functionName: 'transfersListeners',
 })
 
 /**
@@ -16454,6 +21322,7 @@ export const watchIWrappedLTokenWrapEvent =
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16467,6 +21336,7 @@ export const readLdy = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"allowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16481,6 +21351,7 @@ export const readLdyAllowance = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"balanceOf"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16495,6 +21366,7 @@ export const readLdyBalanceOf = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decimals"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16509,6 +21381,7 @@ export const readLdyDecimals = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"name"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16523,6 +21396,7 @@ export const readLdyName = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"symbol"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16537,6 +21411,7 @@ export const readLdySymbol = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"totalSupply"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16551,6 +21426,7 @@ export const readLdyTotalSupply = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16564,6 +21440,7 @@ export const writeLdy = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16578,6 +21455,7 @@ export const writeLdyApprove = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16592,6 +21470,7 @@ export const writeLdyBurn = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16606,6 +21485,7 @@ export const writeLdyBurnFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16620,6 +21500,7 @@ export const writeLdyDecreaseAllowance = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16634,6 +21515,7 @@ export const writeLdyIncreaseAllowance = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16648,6 +21530,7 @@ export const writeLdyTransfer = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16662,6 +21545,7 @@ export const writeLdyTransferFrom = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16675,6 +21559,7 @@ export const simulateLdy = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"approve"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16689,6 +21574,7 @@ export const simulateLdyApprove = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burn"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16703,6 +21589,7 @@ export const simulateLdyBurn = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"burnFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16717,6 +21604,7 @@ export const simulateLdyBurnFrom = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16732,6 +21620,7 @@ export const simulateLdyDecreaseAllowance =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"increaseAllowance"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16747,6 +21636,7 @@ export const simulateLdyIncreaseAllowance =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transfer"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16761,6 +21651,7 @@ export const simulateLdyTransfer = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyAbi}__ and `functionName` set to `"transferFrom"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16775,6 +21666,7 @@ export const simulateLdyTransferFrom = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16788,6 +21680,7 @@ export const watchLdyEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Approval"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16802,6 +21695,7 @@ export const watchLdyApprovalEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyAbi}__ and `eventName` set to `"Transfer"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x9cFBf905a444B5c871f0B447e137e8Ce7EeD0BCE)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x39c54346eFA8e38FBC7B4daB3dc9B61D76e80e3b)
  * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x8584BCd220A048104e654F842C56E33d37d6aEe3)
@@ -16817,6 +21711,7 @@ export const watchLdyTransferEvent = /*#__PURE__*/ createWatchContractEvent({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16837,6 +21732,7 @@ export const readLdyStaking = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"MULTIPLIER_BASIS"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16858,6 +21754,7 @@ export const readLdyStakingMultiplierBasis = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"earned"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16879,6 +21776,7 @@ export const readLdyStakingEarned = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"finishAt"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16900,6 +21798,7 @@ export const readLdyStakingFinishAt = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getEarnedUser"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16921,6 +21820,7 @@ export const readLdyStakingGetEarnedUser = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getStakeDurationInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16943,6 +21843,7 @@ export const readLdyStakingGetStakeDurationInfo =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getUserStakes"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16964,6 +21865,7 @@ export const readLdyStakingGetUserStakes = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"globalBlacklist"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -16985,6 +21887,7 @@ export const readLdyStakingGlobalBlacklist = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"globalOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17006,6 +21909,7 @@ export const readLdyStakingGlobalOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"globalPause"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17027,6 +21931,7 @@ export const readLdyStakingGlobalPause = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"highTierAccounts"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17048,6 +21953,7 @@ export const readLdyStakingHighTierAccounts = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"lastTimeRewardApplicable"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17070,6 +21976,7 @@ export const readLdyStakingLastTimeRewardApplicable =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"lastUpdateTime"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17091,6 +21998,7 @@ export const readLdyStakingLastUpdateTime = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"nbHighTierPositions"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17113,6 +22021,7 @@ export const readLdyStakingNbHighTierPositions =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17134,6 +22043,7 @@ export const readLdyStakingOwner = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17155,6 +22065,7 @@ export const readLdyStakingPaused = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"proxiableUUID"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17176,6 +22087,7 @@ export const readLdyStakingProxiableUuid = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17199,6 +22111,7 @@ export const readLdyStakingRenounceOwnership = /*#__PURE__*/ createReadContract(
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardPerToken"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17220,6 +22133,7 @@ export const readLdyStakingRewardPerToken = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardPerTokenStored"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17242,6 +22156,7 @@ export const readLdyStakingRewardPerTokenStored =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardRatePerSec"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17263,6 +22178,7 @@ export const readLdyStakingRewardRatePerSec = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"rewardsDuration"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17284,6 +22200,7 @@ export const readLdyStakingRewardsDuration = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeAmountForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17306,6 +22223,7 @@ export const readLdyStakingStakeAmountForPerks =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeDurationForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17328,6 +22246,7 @@ export const readLdyStakingStakeDurationForPerks =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeDurationInfos"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17350,6 +22269,7 @@ export const readLdyStakingStakeDurationInfos =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stakeRewardToken"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17371,6 +22291,7 @@ export const readLdyStakingStakeRewardToken = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"tierOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17392,6 +22313,7 @@ export const readLdyStakingTierOf = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"totalRewards"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17413,6 +22335,7 @@ export const readLdyStakingTotalRewards = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"totalStaked"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17434,6 +22357,7 @@ export const readLdyStakingTotalStaked = /*#__PURE__*/ createReadContract({
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"totalWeightedStake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17456,6 +22380,7 @@ export const readLdyStakingTotalWeightedStake =
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17479,6 +22404,7 @@ export const readLdyStakingTransferOwnership = /*#__PURE__*/ createReadContract(
  * Wraps __{@link readContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"userStakingInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17500,6 +22426,7 @@ export const readLdyStakingUserStakingInfo = /*#__PURE__*/ createReadContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17520,6 +22447,7 @@ export const writeLdyStaking = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getReward"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17541,6 +22469,7 @@ export const writeLdyStakingGetReward = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17562,6 +22491,7 @@ export const writeLdyStakingInitialize = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"notifyRewardAmount"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17584,6 +22514,7 @@ export const writeLdyStakingNotifyRewardAmount =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"pushStakeDurationInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17606,6 +22537,7 @@ export const writeLdyStakingPushStakeDurationInfo =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"recoverERC20"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17627,6 +22559,7 @@ export const writeLdyStakingRecoverErc20 = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setRewardsDuration"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17649,6 +22582,7 @@ export const writeLdyStakingSetRewardsDuration =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeAmountForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17671,6 +22605,7 @@ export const writeLdyStakingSetStakeAmountForPerks =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeDurationForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17693,6 +22628,7 @@ export const writeLdyStakingSetStakeDurationForPerks =
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17714,6 +22650,7 @@ export const writeLdyStakingStake = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"unstake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17735,6 +22672,7 @@ export const writeLdyStakingUnstake = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17756,6 +22694,7 @@ export const writeLdyStakingUpgradeTo = /*#__PURE__*/ createWriteContract({
  * Wraps __{@link writeContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17778,6 +22717,7 @@ export const writeLdyStakingUpgradeToAndCall =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17798,6 +22738,7 @@ export const simulateLdyStaking = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"getReward"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17817,6 +22758,7 @@ export const simulateLdyStakingGetReward = /*#__PURE__*/ createSimulateContract(
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17839,6 +22781,7 @@ export const simulateLdyStakingInitialize =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"notifyRewardAmount"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17861,6 +22804,7 @@ export const simulateLdyStakingNotifyRewardAmount =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"pushStakeDurationInfo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17883,6 +22827,7 @@ export const simulateLdyStakingPushStakeDurationInfo =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"recoverERC20"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17905,6 +22850,7 @@ export const simulateLdyStakingRecoverErc20 =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setRewardsDuration"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17927,6 +22873,7 @@ export const simulateLdyStakingSetRewardsDuration =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeAmountForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17949,6 +22896,7 @@ export const simulateLdyStakingSetStakeAmountForPerks =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"setStakeDurationForPerks"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17971,6 +22919,7 @@ export const simulateLdyStakingSetStakeDurationForPerks =
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"stake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -17992,6 +22941,7 @@ export const simulateLdyStakingStake = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"unstake"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18013,6 +22963,7 @@ export const simulateLdyStakingUnstake = /*#__PURE__*/ createSimulateContract({
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeTo"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18032,6 +22983,7 @@ export const simulateLdyStakingUpgradeTo = /*#__PURE__*/ createSimulateContract(
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link ldyStakingAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18054,6 +23006,7 @@ export const simulateLdyStakingUpgradeToAndCall =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18074,6 +23027,7 @@ export const watchLdyStakingEvent = /*#__PURE__*/ createWatchContractEvent({
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"AdminChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18096,6 +23050,7 @@ export const watchLdyStakingAdminChangedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18118,6 +23073,7 @@ export const watchLdyStakingBeaconUpgradedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18140,6 +23096,7 @@ export const watchLdyStakingInitializedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"NotifiedRewardAmount"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18162,6 +23119,7 @@ export const watchLdyStakingNotifiedRewardAmountEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18184,6 +23142,7 @@ export const watchLdyStakingOwnershipTransferredEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18206,6 +23165,7 @@ export const watchLdyStakingPausedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"RewardPaid"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18228,6 +23188,7 @@ export const watchLdyStakingRewardPaidEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Staked"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18250,6 +23211,7 @@ export const watchLdyStakingStakedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Unpaused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18272,6 +23234,7 @@ export const watchLdyStakingUnpausedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Unstaked"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -18294,6 +23257,7 @@ export const watchLdyStakingUnstakedEvent =
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link ldyStakingAbi}__ and `eventName` set to `"Upgraded"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2AeDFB927Aa2aE87c220b9071c0A1209786b5C5e)
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x53909d0db82c6b145c602fb64e9D3013e4430940)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0xd132b6D2cfACa8B5b9e0bA8004Df6275380fa895)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x891611398B53BBAaA3db04c158218c319c87d554)
@@ -19274,6 +24238,7 @@ export const watchLTokenUpgradedEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19293,6 +24258,7 @@ export const readLTokenSignaler = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"globalOwner"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19313,6 +24279,7 @@ export const readLTokenSignalerGlobalOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"owner"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19333,6 +24300,7 @@ export const readLTokenSignalerOwner = /*#__PURE__*/ createReadContract({
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"proxiableUUID"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19355,6 +24323,7 @@ export const readLTokenSignalerProxiableUuid = /*#__PURE__*/ createReadContract(
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"renounceOwnership"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19376,6 +24345,7 @@ export const readLTokenSignalerRenounceOwnership =
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"transferOwnership"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19397,6 +24367,7 @@ export const readLTokenSignalerTransferOwnership =
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19416,6 +24387,7 @@ export const writeLTokenSignaler = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19436,6 +24408,7 @@ export const writeLTokenSignalerInitialize = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19457,6 +24430,7 @@ export const writeLTokenSignalerSignalLToken =
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19477,6 +24451,7 @@ export const writeLTokenSignalerUpgradeTo = /*#__PURE__*/ createWriteContract({
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19498,6 +24473,7 @@ export const writeLTokenSignalerUpgradeToAndCall =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19517,6 +24493,7 @@ export const simulateLTokenSignaler = /*#__PURE__*/ createSimulateContract({
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"initialize"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19538,6 +24515,7 @@ export const simulateLTokenSignalerInitialize =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"signalLToken"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19559,6 +24537,7 @@ export const simulateLTokenSignalerSignalLToken =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeTo"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19580,6 +24559,7 @@ export const simulateLTokenSignalerUpgradeTo =
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `functionName` set to `"upgradeToAndCall"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19601,6 +24581,7 @@ export const simulateLTokenSignalerUpgradeToAndCall =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19620,6 +24601,7 @@ export const watchLTokenSignalerEvent = /*#__PURE__*/ createWatchContractEvent({
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"AdminChanged"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19641,6 +24623,7 @@ export const watchLTokenSignalerAdminChangedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"BeaconUpgraded"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19662,6 +24645,7 @@ export const watchLTokenSignalerBeaconUpgradedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Initialized"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19683,6 +24667,7 @@ export const watchLTokenSignalerInitializedEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"LTokenSignalEvent"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19704,6 +24689,7 @@ export const watchLTokenSignalerLTokenSignalEventEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19725,6 +24711,7 @@ export const watchLTokenSignalerOwnershipTransferredEvent =
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link lTokenSignalerAbi}__ and `eventName` set to `"Upgraded"`
  *
+ * - [__View Contract on Sonic Sonic Explorer__](https://sonicscan.org//address/0x283F35b6406a0e19a786ed119869eF2c0fE157Ee)
  * - [__View Contract on X1 Testnet Ok Link__](https://www.oklink.com/xlayer-test/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on X Layer Mainnet Ok Link__](https://www.oklink.com/xlayer/address/0x011C5B18aBC74A341209b12D1A6fD7B59E423428)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x4EeC09DB589C882fbA7C5D03065dfD20912FE877)
@@ -19740,6 +24727,1754 @@ export const watchLTokenSignalerUpgradedEvent =
   /*#__PURE__*/ createWatchContractEvent({
     abi: lTokenSignalerAbi,
     address: lTokenSignalerAddress,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const readMockCcipToken = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readMockCcipTokenAllowance = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readMockCcipTokenBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readMockCcipTokenDecimals = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"getCCIPAdmin"`
+ */
+export const readMockCcipTokenGetCcipAdmin = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'getCCIPAdmin',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const readMockCcipTokenGlobalBlacklist =
+  /*#__PURE__*/ createReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'globalBlacklist',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const readMockCcipTokenGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'globalOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const readMockCcipTokenGlobalPause = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'globalPause',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"isBurner"`
+ */
+export const readMockCcipTokenIsBurner = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'isBurner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"isMinter"`
+ */
+export const readMockCcipTokenIsMinter = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'isMinter',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const readMockCcipTokenName = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const readMockCcipTokenOwner = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const readMockCcipTokenPaused = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const readMockCcipTokenRenounceOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readMockCcipTokenSymbol = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readMockCcipTokenTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const readMockCcipTokenTransferOwnership =
+  /*#__PURE__*/ createReadContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const writeMockCcipToken = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeMockCcipTokenApprove = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const writeMockCcipTokenBurn = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const writeMockCcipTokenBurnFrom = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'burnFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeMockCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const writeMockCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const writeMockCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const writeMockCcipTokenGrantMintRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeMockCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const writeMockCcipTokenInitialize = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const writeMockCcipTokenMint = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const writeMockCcipTokenRecoverErc20 = /*#__PURE__*/ createWriteContract(
+  { abi: mockCcipTokenAbi, functionName: 'recoverERC20' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const writeMockCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const writeMockCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const writeMockCcipTokenSetCcipAdmin = /*#__PURE__*/ createWriteContract(
+  { abi: mockCcipTokenAbi, functionName: 'setCCIPAdmin' },
+)
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeMockCcipTokenTransfer = /*#__PURE__*/ createWriteContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const writeMockCcipTokenTransferAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeMockCcipTokenTransferFrom = /*#__PURE__*/ createWriteContract(
+  { abi: mockCcipTokenAbi, functionName: 'transferFrom' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const simulateMockCcipToken = /*#__PURE__*/ createSimulateContract({
+  abi: mockCcipTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateMockCcipTokenApprove =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burn"`
+ */
+export const simulateMockCcipTokenBurn = /*#__PURE__*/ createSimulateContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'burn',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"burnFrom"`
+ */
+export const simulateMockCcipTokenBurnFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'burnFrom',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateMockCcipTokenDecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantBurnRole"`
+ */
+export const simulateMockCcipTokenGrantBurnRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantBurnRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintAndBurnRoles"`
+ */
+export const simulateMockCcipTokenGrantMintAndBurnRoles =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintAndBurnRoles',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"grantMintRole"`
+ */
+export const simulateMockCcipTokenGrantMintRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'grantMintRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateMockCcipTokenIncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const simulateMockCcipTokenInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const simulateMockCcipTokenMint = /*#__PURE__*/ createSimulateContract({
+  abi: mockCcipTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const simulateMockCcipTokenRecoverErc20 =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
+ */
+export const simulateMockCcipTokenRevokeBurnRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeBurnRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"revokeMintRole"`
+ */
+export const simulateMockCcipTokenRevokeMintRole =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'revokeMintRole',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"setCCIPAdmin"`
+ */
+export const simulateMockCcipTokenSetCcipAdmin =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'setCCIPAdmin',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateMockCcipTokenTransfer =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transfer',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferAndCall"`
+ */
+export const simulateMockCcipTokenTransferAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateMockCcipTokenTransferFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockCcipTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__
+ */
+export const watchMockCcipTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: mockCcipTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchMockCcipTokenApprovalEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"BurnAccessGranted"`
+ */
+export const watchMockCcipTokenBurnAccessGrantedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'BurnAccessGranted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"BurnAccessRevoked"`
+ */
+export const watchMockCcipTokenBurnAccessRevokedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'BurnAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"CCIPAdminChanged"`
+ */
+export const watchMockCcipTokenCcipAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const watchMockCcipTokenInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"MintAccessGranted"`
+ */
+export const watchMockCcipTokenMintAccessGrantedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'MintAccessGranted',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"MintAccessRevoked"`
+ */
+export const watchMockCcipTokenMintAccessRevokedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'MintAccessRevoked',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const watchMockCcipTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const watchMockCcipTokenPausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchMockCcipTokenTransferEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockCcipTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const watchMockCcipTokenUnpausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockCcipTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const readMockErc20 = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"allowance"`
+ */
+export const readMockErc20Allowance = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readMockErc20BalanceOf = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"decimals"`
+ */
+export const readMockErc20Decimals = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"name"`
+ */
+export const readMockErc20Name = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"symbol"`
+ */
+export const readMockErc20Symbol = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readMockErc20TotalSupply = /*#__PURE__*/ createReadContract({
+  abi: mockErc20Abi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const writeMockErc20 = /*#__PURE__*/ createWriteContract({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const writeMockErc20Approve = /*#__PURE__*/ createWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeMockErc20DecreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockErc20Abi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeMockErc20IncreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockErc20Abi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"mint"`
+ */
+export const writeMockErc20Mint = /*#__PURE__*/ createWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const writeMockErc20Transfer = /*#__PURE__*/ createWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeMockErc20TransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: mockErc20Abi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const simulateMockErc20 = /*#__PURE__*/ createSimulateContract({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const simulateMockErc20Approve = /*#__PURE__*/ createSimulateContract({
+  abi: mockErc20Abi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateMockErc20DecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateMockErc20IncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"mint"`
+ */
+export const simulateMockErc20Mint = /*#__PURE__*/ createSimulateContract({
+  abi: mockErc20Abi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateMockErc20Transfer = /*#__PURE__*/ createSimulateContract({
+  abi: mockErc20Abi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockErc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateMockErc20TransferFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockErc20Abi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockErc20Abi}__
+ */
+export const watchMockErc20Event = /*#__PURE__*/ createWatchContractEvent({
+  abi: mockErc20Abi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockErc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const watchMockErc20ApprovalEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockErc20Abi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockErc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchMockErc20TransferEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockErc20Abi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const readMockLToken = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"allowance"`
+ */
+export const readMockLTokenAllowance = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const readMockLTokenBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"decimals"`
+ */
+export const readMockLTokenDecimals = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"depositFor"`
+ */
+export const readMockLTokenDepositFor = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'depositFor',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"feesRateUD7x3"`
+ */
+export const readMockLTokenFeesRateUd7x3 = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'feesRateUD7x3',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"frozenRequests"`
+ */
+export const readMockLTokenFrozenRequests = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'frozenRequests',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"fund"`
+ */
+export const readMockLTokenFund = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'fund',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"getAPR"`
+ */
+export const readMockLTokenGetApr = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'getAPR',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"getExpectedRetained"`
+ */
+export const readMockLTokenGetExpectedRetained =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'getExpectedRetained',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"getWithdrawnAmountAndFees"`
+ */
+export const readMockLTokenGetWithdrawnAmountAndFees =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'getWithdrawnAmountAndFees',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"globalBlacklist"`
+ */
+export const readMockLTokenGlobalBlacklist = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'globalBlacklist',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"globalOwner"`
+ */
+export const readMockLTokenGlobalOwner = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'globalOwner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"globalPause"`
+ */
+export const readMockLTokenGlobalPause = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'globalPause',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"invested"`
+ */
+export const readMockLTokenInvested = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'invested',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"ldyStaking"`
+ */
+export const readMockLTokenLdyStaking = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'ldyStaking',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"name"`
+ */
+export const readMockLTokenName = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"onlyHighTierInstantWithdrawal"`
+ */
+export const readMockLTokenOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'onlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"owner"`
+ */
+export const readMockLTokenOwner = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"paused"`
+ */
+export const readMockLTokenPaused = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const readMockLTokenProxiableUuid = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'proxiableUUID',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"realBalanceOf"`
+ */
+export const readMockLTokenRealBalanceOf = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'realBalanceOf',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"realTotalSupply"`
+ */
+export const readMockLTokenRealTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'realTotalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const readMockLTokenRenounceOwnership = /*#__PURE__*/ createReadContract(
+  { abi: mockLTokenAbi, functionName: 'renounceOwnership' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"retentionRateUD7x3"`
+ */
+export const readMockLTokenRetentionRateUd7x3 =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'retentionRateUD7x3',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"rewardsRedirectsFromTo"`
+ */
+export const readMockLTokenRewardsRedirectsFromTo =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'rewardsRedirectsFromTo',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"rewardsRedirectsToFrom"`
+ */
+export const readMockLTokenRewardsRedirectsToFrom =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'rewardsRedirectsToFrom',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"symbol"`
+ */
+export const readMockLTokenSymbol = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"totalQueued"`
+ */
+export const readMockLTokenTotalQueued = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'totalQueued',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const readMockLTokenTotalSupply = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const readMockLTokenTransferOwnership = /*#__PURE__*/ createReadContract(
+  { abi: mockLTokenAbi, functionName: 'transferOwnership' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transfersListeners"`
+ */
+export const readMockLTokenTransfersListeners =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'transfersListeners',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unclaimedFees"`
+ */
+export const readMockLTokenUnclaimedFees = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'unclaimedFees',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"underlying"`
+ */
+export const readMockLTokenUnderlying = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'underlying',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unmintedRewardsOf"`
+ */
+export const readMockLTokenUnmintedRewardsOf = /*#__PURE__*/ createReadContract(
+  { abi: mockLTokenAbi, functionName: 'unmintedRewardsOf' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"usableUnderlyings"`
+ */
+export const readMockLTokenUsableUnderlyings = /*#__PURE__*/ createReadContract(
+  { abi: mockLTokenAbi, functionName: 'usableUnderlyings' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawTo"`
+ */
+export const readMockLTokenWithdrawTo = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'withdrawTo',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawalFeeInEth"`
+ */
+export const readMockLTokenWithdrawalFeeInEth =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'withdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawalQueue"`
+ */
+export const readMockLTokenWithdrawalQueue = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'withdrawalQueue',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawalQueueCursor"`
+ */
+export const readMockLTokenWithdrawalQueueCursor =
+  /*#__PURE__*/ createReadContract({
+    abi: mockLTokenAbi,
+    functionName: 'withdrawalQueueCursor',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"withdrawer"`
+ */
+export const readMockLTokenWithdrawer = /*#__PURE__*/ createReadContract({
+  abi: mockLTokenAbi,
+  functionName: 'withdrawer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const writeMockLToken = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const writeMockLTokenApprove = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const writeMockLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const writeMockLTokenClaimFees = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'claimFees',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const writeMockLTokenDecreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const writeMockLTokenDeposit = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const writeMockLTokenIncreaseAllowance =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const writeMockLTokenInitialize = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
+ */
+export const writeMockLTokenInstantWithdrawal =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'instantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const writeMockLTokenListenToTransfers =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const writeMockLTokenMint = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
+ */
+export const writeMockLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'processBigQueuedRequest',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
+ */
+export const writeMockLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'processQueuedRequests',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const writeMockLTokenRecoverErc20 = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'recoverERC20',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
+ */
+export const writeMockLTokenRecoverUnderlying =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverUnderlying',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const writeMockLTokenRepatriate = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'repatriate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const writeMockLTokenRequestWithdrawal =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setAPR"`
+ */
+export const writeMockLTokenSetApr = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setAPR',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const writeMockLTokenSetFeesRate = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setFeesRate',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const writeMockLTokenSetFund = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setLDYStaking"`
+ */
+export const writeMockLTokenSetLdyStaking = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setLDYStaking',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setRetentionRate"`
+ */
+export const writeMockLTokenSetRetentionRate =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setRetentionRate',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const writeMockLTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const writeMockLTokenSetWithdrawer = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'setWithdrawer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
+ */
+export const writeMockLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'startRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
+ */
+export const writeMockLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'stopRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const writeMockLTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const writeMockLTokenTransfer = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const writeMockLTokenTransferFrom = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const writeMockLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const writeMockLTokenUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: mockLTokenAbi,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const writeMockLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: mockLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const simulateMockLToken = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"approve"`
+ */
+export const simulateMockLTokenApprove = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"cancelWithdrawalRequest"`
+ */
+export const simulateMockLTokenCancelWithdrawalRequest =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'cancelWithdrawalRequest',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"claimFees"`
+ */
+export const simulateMockLTokenClaimFees = /*#__PURE__*/ createSimulateContract(
+  { abi: mockLTokenAbi, functionName: 'claimFees' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"decreaseAllowance"`
+ */
+export const simulateMockLTokenDecreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const simulateMockLTokenDeposit = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"increaseAllowance"`
+ */
+export const simulateMockLTokenIncreaseAllowance =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'increaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"initialize"`
+ */
+export const simulateMockLTokenInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"instantWithdrawal"`
+ */
+export const simulateMockLTokenInstantWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'instantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"listenToTransfers"`
+ */
+export const simulateMockLTokenListenToTransfers =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'listenToTransfers',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"mint"`
+ */
+export const simulateMockLTokenMint = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processBigQueuedRequest"`
+ */
+export const simulateMockLTokenProcessBigQueuedRequest =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'processBigQueuedRequest',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"processQueuedRequests"`
+ */
+export const simulateMockLTokenProcessQueuedRequests =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'processQueuedRequests',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverERC20"`
+ */
+export const simulateMockLTokenRecoverErc20 =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverERC20',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"recoverUnderlying"`
+ */
+export const simulateMockLTokenRecoverUnderlying =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'recoverUnderlying',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"repatriate"`
+ */
+export const simulateMockLTokenRepatriate =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'repatriate',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"requestWithdrawal"`
+ */
+export const simulateMockLTokenRequestWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'requestWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setAPR"`
+ */
+export const simulateMockLTokenSetApr = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+  functionName: 'setAPR',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFeesRate"`
+ */
+export const simulateMockLTokenSetFeesRate =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setFeesRate',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setFund"`
+ */
+export const simulateMockLTokenSetFund = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+  functionName: 'setFund',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setLDYStaking"`
+ */
+export const simulateMockLTokenSetLdyStaking =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setLDYStaking',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setRetentionRate"`
+ */
+export const simulateMockLTokenSetRetentionRate =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setRetentionRate',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawalFeeInEth"`
+ */
+export const simulateMockLTokenSetWithdrawalFeeInEth =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawalFeeInEth',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"setWithdrawer"`
+ */
+export const simulateMockLTokenSetWithdrawer =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'setWithdrawer',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"startRewardsRedirection"`
+ */
+export const simulateMockLTokenStartRewardsRedirection =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'startRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"stopRewardsRedirection"`
+ */
+export const simulateMockLTokenStopRewardsRedirection =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'stopRewardsRedirection',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"switchOnlyHighTierInstantWithdrawal"`
+ */
+export const simulateMockLTokenSwitchOnlyHighTierInstantWithdrawal =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'switchOnlyHighTierInstantWithdrawal',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transfer"`
+ */
+export const simulateMockLTokenTransfer = /*#__PURE__*/ createSimulateContract({
+  abi: mockLTokenAbi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"transferFrom"`
+ */
+export const simulateMockLTokenTransferFrom =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"unlistenToTransfers"`
+ */
+export const simulateMockLTokenUnlistenToTransfers =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'unlistenToTransfers',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const simulateMockLTokenUpgradeTo = /*#__PURE__*/ createSimulateContract(
+  { abi: mockLTokenAbi, functionName: 'upgradeTo' },
+)
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link mockLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const simulateMockLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: mockLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__
+ */
+export const watchMockLTokenEvent = /*#__PURE__*/ createWatchContractEvent({
+  abi: mockLTokenAbi,
+})
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"APRChangeEvent"`
+ */
+export const watchMockLTokenAprChangeEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'APRChangeEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"ActivityEvent"`
+ */
+export const watchMockLTokenActivityEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'ActivityEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"AdminChanged"`
+ */
+export const watchMockLTokenAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'AdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Approval"`
+ */
+export const watchMockLTokenApprovalEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ */
+export const watchMockLTokenBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'BeaconUpgraded',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Initialized"`
+ */
+export const watchMockLTokenInitializedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"MintedRewardsEvent"`
+ */
+export const watchMockLTokenMintedRewardsEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'MintedRewardsEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const watchMockLTokenOwnershipTransferredEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Paused"`
+ */
+export const watchMockLTokenPausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"TVLChangeEvent"`
+ */
+export const watchMockLTokenTvlChangeEventEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'TVLChangeEvent',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Transfer"`
+ */
+export const watchMockLTokenTransferEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const watchMockLTokenUnpausedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
+    eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link mockLTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const watchMockLTokenUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: mockLTokenAbi,
     eventName: 'Upgraded',
   })
 
@@ -20501,11 +27236,27 @@ export const readWrappedLToken = /*#__PURE__*/ createReadContract({
 })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"RAY"`
+ */
+export const readWrappedLTokenRay = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'RAY',
+})
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"allowance"`
  */
 export const readWrappedLTokenAllowance = /*#__PURE__*/ createReadContract({
   abi: wrappedLTokenAbi,
   functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"asset"`
+ */
+export const readWrappedLTokenAsset = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'asset',
 })
 
 /**
@@ -20523,6 +27274,24 @@ export const readWrappedLTokenBaseRate = /*#__PURE__*/ createReadContract({
   abi: wrappedLTokenAbi,
   functionName: 'baseRate',
 })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"convertToAssets"`
+ */
+export const readWrappedLTokenConvertToAssets =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'convertToAssets',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"convertToShares"`
+ */
+export const readWrappedLTokenConvertToShares =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'convertToShares',
+  })
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"decimals"`
@@ -20605,6 +27374,38 @@ export const readWrappedLTokenLastCheckpoint = /*#__PURE__*/ createReadContract(
 )
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxDeposit"`
+ */
+export const readWrappedLTokenMaxDeposit = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'maxDeposit',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxMint"`
+ */
+export const readWrappedLTokenMaxMint = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'maxMint',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxRedeem"`
+ */
+export const readWrappedLTokenMaxRedeem = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'maxRedeem',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"maxWithdraw"`
+ */
+export const readWrappedLTokenMaxWithdraw = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'maxWithdraw',
+})
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"name"`
  */
 export const readWrappedLTokenName = /*#__PURE__*/ createReadContract({
@@ -20626,6 +27427,46 @@ export const readWrappedLTokenOwner = /*#__PURE__*/ createReadContract({
 export const readWrappedLTokenPaused = /*#__PURE__*/ createReadContract({
   abi: wrappedLTokenAbi,
   functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewDeposit"`
+ */
+export const readWrappedLTokenPreviewDeposit = /*#__PURE__*/ createReadContract(
+  { abi: wrappedLTokenAbi, functionName: 'previewDeposit' },
+)
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewMint"`
+ */
+export const readWrappedLTokenPreviewMint = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'previewMint',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewRedeem"`
+ */
+export const readWrappedLTokenPreviewRedeem = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'previewRedeem',
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"previewWithdraw"`
+ */
+export const readWrappedLTokenPreviewWithdraw =
+  /*#__PURE__*/ createReadContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'previewWithdraw',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"proxiableUUID"`
+ */
+export const readWrappedLTokenProxiableUuid = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'proxiableUUID',
 })
 
 /**
@@ -20662,6 +27503,14 @@ export const readWrappedLTokenToWrappedAmount =
     abi: wrappedLTokenAbi,
     functionName: 'toWrappedAmount',
   })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalAssets"`
+ */
+export const readWrappedLTokenTotalAssets = /*#__PURE__*/ createReadContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'totalAssets',
+})
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"totalLTokenBalance"`
@@ -20730,6 +27579,14 @@ export const writeWrappedLTokenDecreaseAllowance =
   })
 
 /**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const writeWrappedLTokenDeposit = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'deposit',
+})
+
+/**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"depositAndWrap"`
  */
 export const writeWrappedLTokenDepositAndWrap =
@@ -20796,6 +27653,14 @@ export const writeWrappedLTokenMint = /*#__PURE__*/ createWriteContract({
 export const writeWrappedLTokenRecoverErc20 = /*#__PURE__*/ createWriteContract(
   { abi: wrappedLTokenAbi, functionName: 'recoverERC20' },
 )
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"redeem"`
+ */
+export const writeWrappedLTokenRedeem = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'redeem',
+})
 
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
@@ -20873,6 +27738,31 @@ export const writeWrappedLTokenUpdateRateCheckpoint =
   })
 
 /**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const writeWrappedLTokenUpgradeTo = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'upgradeTo',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const writeWrappedLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createWriteContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const writeWrappedLTokenWithdraw = /*#__PURE__*/ createWriteContract({
+  abi: wrappedLTokenAbi,
+  functionName: 'withdraw',
+})
+
+/**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
  */
 export const writeWrappedLTokenWrap = /*#__PURE__*/ createWriteContract({
@@ -20920,6 +27810,15 @@ export const simulateWrappedLTokenDecreaseAllowance =
   /*#__PURE__*/ createSimulateContract({
     abi: wrappedLTokenAbi,
     functionName: 'decreaseAllowance',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"deposit"`
+ */
+export const simulateWrappedLTokenDeposit =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'deposit',
   })
 
 /**
@@ -20992,6 +27891,13 @@ export const simulateWrappedLTokenRecoverErc20 =
     abi: wrappedLTokenAbi,
     functionName: 'recoverERC20',
   })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"redeem"`
+ */
+export const simulateWrappedLTokenRedeem = /*#__PURE__*/ createSimulateContract(
+  { abi: wrappedLTokenAbi, functionName: 'redeem' },
+)
 
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"revokeBurnRole"`
@@ -21073,6 +27979,33 @@ export const simulateWrappedLTokenUpdateRateCheckpoint =
   })
 
 /**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeTo"`
+ */
+export const simulateWrappedLTokenUpgradeTo =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeTo',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"upgradeToAndCall"`
+ */
+export const simulateWrappedLTokenUpgradeToAndCall =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'upgradeToAndCall',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"withdraw"`
+ */
+export const simulateWrappedLTokenWithdraw =
+  /*#__PURE__*/ createSimulateContract({
+    abi: wrappedLTokenAbi,
+    functionName: 'withdraw',
+  })
+
+/**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `functionName` set to `"wrap"`
  */
 export const simulateWrappedLTokenWrap = /*#__PURE__*/ createSimulateContract({
@@ -21088,12 +28021,30 @@ export const watchWrappedLTokenEvent = /*#__PURE__*/ createWatchContractEvent({
 })
 
 /**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"AdminChanged"`
+ */
+export const watchWrappedLTokenAdminChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'AdminChanged',
+  })
+
+/**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Approval"`
  */
 export const watchWrappedLTokenApprovalEvent =
   /*#__PURE__*/ createWatchContractEvent({
     abi: wrappedLTokenAbi,
     eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"BeaconUpgraded"`
+ */
+export const watchWrappedLTokenBeaconUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'BeaconUpgraded',
   })
 
 /**
@@ -21121,6 +28072,15 @@ export const watchWrappedLTokenCcipAdminChangedEvent =
   /*#__PURE__*/ createWatchContractEvent({
     abi: wrappedLTokenAbi,
     eventName: 'CCIPAdminChanged',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Deposit"`
+ */
+export const watchWrappedLTokenDepositEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Deposit',
   })
 
 /**
@@ -21205,10 +28165,37 @@ export const watchWrappedLTokenUnwrapEvent =
   })
 
 /**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Upgraded"`
+ */
+export const watchWrappedLTokenUpgradedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Upgraded',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Withdraw"`
+ */
+export const watchWrappedLTokenWithdrawEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'Withdraw',
+  })
+
+/**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"Wrap"`
  */
 export const watchWrappedLTokenWrapEvent =
   /*#__PURE__*/ createWatchContractEvent({
     abi: wrappedLTokenAbi,
     eventName: 'Wrap',
+  })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link wrappedLTokenAbi}__ and `eventName` set to `"WrapUnwrapPausedSet"`
+ */
+export const watchWrappedLTokenWrapUnwrapPausedSetEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: wrappedLTokenAbi,
+    eventName: 'WrapUnwrapPausedSet',
   })
