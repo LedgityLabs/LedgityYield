@@ -23,8 +23,7 @@ export function AppDashboardLUSDCBalance({}) {
     (token) => token.symbol === "LUSDC",
   );
   const wLTokenData = wLTokenInfosCurrentChain.find(
-    (token) =>
-      token.address.toLowerCase() === lTokenData?.address.toLowerCase(),
+    (token) => token.lToken.toLowerCase() === lTokenData?.address.toLowerCase(),
   );
   const underlyingTokenInfo = tokenInfos.find(
     (tokenInfo) =>

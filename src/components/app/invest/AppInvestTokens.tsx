@@ -61,8 +61,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
     (token) => token.address === modalToken,
   );
   const wLTokenData = wLTokenInfosCurrentChain.find(
-    (token) =>
-      token.address.toLowerCase() === lTokenData?.address.toLowerCase(),
+    (token) => token.lToken.toLowerCase() === lTokenData?.address.toLowerCase(),
   );
   const underlyingTokenData = tokenInfos.find(
     (token) =>
