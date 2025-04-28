@@ -94,11 +94,16 @@ export function useTokenInfos(
         continue;
       }
 
+      const symbolRaw = data[i + 1].result as string;
+      const symbol = symbolRaw.includes(".e")
+        ? symbolRaw.replace(".e", "")
+        : symbolRaw;
+
       formattedData.push({
         address,
         chainId: chainId ?? appChainId,
         name: data[i].result as string,
-        symbol: data[i + 1].result as string,
+        symbol,
         decimals: data[i + 2].result as number,
       });
     }

@@ -35,6 +35,7 @@ export function useTokenPricesUsd(tokenSymbols: string[]): PriceMap {
     ...new Set(tokenSymbols.map((symbol) => symbol.toLowerCase())),
   ]
     .filter((symbol) => symbol !== undefined)
+    .map((symbol) => (symbol.includes(".e") ? symbol.slice(0, -2) : symbol))
     .sort((a, b) => a.localeCompare(b));
 
   useEffect(() => {

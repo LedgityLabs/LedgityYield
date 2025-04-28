@@ -116,9 +116,10 @@ export function useLTokenInfos(
         continue;
       }
 
-      const symbol = (data[i + 1].result as string).includes(".e")
-        ? (data[i + 1].result as string).replace(".e", "")
-        : (data[i + 1].result as string);
+      const symbolRaw = data[i + 1].result as string;
+      const symbol = symbolRaw.includes(".e")
+        ? symbolRaw.replace(".e", "")
+        : symbolRaw;
 
       formattedData.push({
         address,
