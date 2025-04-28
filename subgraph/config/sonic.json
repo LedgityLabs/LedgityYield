@@ -1,0 +1,7 @@
+{
+  "Network": "sonic",
+  "LTokenSignaler_Address": "0x283F35b6406a0e19a786ed119869eF2c0fE157Ee",
+  "LTokenSignaler_StartBlock": "22250690",
+  "LDYStaking_Address": "0x53909d0db82c6b145c602fb64e9D3013e4430940",
+  "LDYStaking_StartBlock": "22250690"
+}
