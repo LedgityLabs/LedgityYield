@@ -173,9 +173,7 @@ export function WrapPage() {
                           {formatUnits(tokenFrom.balance, tokenFrom.decimals)}
                         </span>
                       </div>
-                      <button className="text-buy disabled:opacity-30">
-                        MAX
-                      </button>
+                      <div className="text-buy disabled:opacity-30">MAX</div>
                     </button>
                   </div>
                   <div className="w-full border-2 border-border rounded-xl p-3 flex items-center gap-2">

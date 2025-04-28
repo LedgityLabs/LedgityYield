@@ -101,7 +101,8 @@ function fetchChainAddresses(
     | ChainId.mainnet
     | ChainId.arbitrum_one
     | ChainId.base
-    | ChainId.linea,
+    | ChainId.linea
+    | ChainId.sonic,
 ): {
   [key in ContractName]: Address;
 } {
@@ -141,6 +142,7 @@ const addressesProd: {
   [ChainId.arbitrum_one]: fetchChainAddresses(ChainId.arbitrum_one),
   [ChainId.base]: fetchChainAddresses(ChainId.base),
   [ChainId.linea]: fetchChainAddresses(ChainId.linea),
+  [ChainId.sonic]: fetchChainAddresses(ChainId.sonic),
 };
 
 export const ADDRESSES = addressesProd;
