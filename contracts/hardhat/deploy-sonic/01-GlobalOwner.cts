@@ -4,7 +4,6 @@ const deployerFunction: DeployFunction = async ({
   getNamedAccounts,
   deployments,
 }) => {
-  console.log("Starting GlobalOwner deployment...");
   const { deployer } = await getNamedAccounts();
 
   await deployments.deploy("GlobalOwner", {
