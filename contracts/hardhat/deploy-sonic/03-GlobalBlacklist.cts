@@ -8,14 +8,14 @@ const deployerFunction: DeployFunction = async ({
 
   const globalOwner = await deployments.get("GlobalOwner");
 
-  await deployments.deploy("GlobalBlacklist", {
+  await deployments.deploy("GlobalBlacklistSonic", {
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [globalOwner.address],
         },
       },

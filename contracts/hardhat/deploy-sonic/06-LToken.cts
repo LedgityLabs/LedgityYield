@@ -8,8 +8,8 @@ const deployerFunction: DeployFunction = async ({
   const aprHistory = await deployments.get("APRHistory");
 
   // Deploy the shared LToken implementation
-  await deployments.deploy("LToken_Implementation", {
-    contract: "LToken",
+  await deployments.deploy("LTokenSonic_Implementation", {
+    contract: "LTokenSonic",
     from: deployer,
     log: true,
     libraries: {

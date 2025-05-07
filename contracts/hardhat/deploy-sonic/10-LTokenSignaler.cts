@@ -14,14 +14,14 @@ const deployerFunction: DeployFunction = async ({
 
   const globalOwner = await deployments.get("GlobalOwner");
 
-  const result = await deployments.deploy("LTokenSignaler", {
+  const result = await deployments.deploy("LTokenSignalerSonic", {
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [globalOwner.address],
         },
       },

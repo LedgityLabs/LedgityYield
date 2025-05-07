@@ -41,14 +41,14 @@ const deployerFunction: DeployFunction = async ({
   const stakeDurationForPerks = 12 * ONE_MONTH;
   const stakeAmountForPerks = parseUnits("1000", 18);
 
-  await deployments.deploy("LDYStaking", {
+  await deployments.deploy("LDYStakingSonic", {
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [
             globalOwner.address,
             globalPause.address,

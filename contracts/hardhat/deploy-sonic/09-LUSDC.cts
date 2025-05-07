@@ -16,10 +16,10 @@ const deployerFunction: DeployFunction = async ({
   const chainId = await getChainId();
 
   // Retrieve global contracts
-  const globalOwner = await deployments.get("GlobalOwner");
-  const globalPause = await deployments.get("GlobalPause");
-  const globalBlacklist = await deployments.get("GlobalBlacklist");
-  const ldyStaking = await deployments.get("LDYStaking");
+  const globalOwner = await deployments.get("GlobalOwnerSonic");
+  const globalPause = await deployments.get("GlobalPauseSonic");
+  const globalBlacklist = await deployments.get("GlobalBlacklistSonic");
+  const ldyStaking = await deployments.get("LDYStakingSonic");
   const aprHistory = await deployments.get("APRHistory");
 
   if (!fs.existsSync("temp/lTokenDeploys.json")) {
@@ -38,9 +38,9 @@ const deployerFunction: DeployFunction = async ({
       `Missing ${UNDERLYING_TOKEN_SYMBOL} address for chain ${chainId}`,
     );
 
-  // Deploy the proxy using the shared implementation
+  // Deploy the proxy
   const result = await deployments.deploy(LTOKEN_SYMBOL, {
-    contract: "LToken",
+    contract: "LTokenSonic",
     from: deployer,
     log: true,
     libraries: {
@@ -48,10 +48,10 @@ const deployerFunction: DeployFunction = async ({
     },
     proxy: {
       proxyContract: "UUPS",
-      implementationName: "LToken_Implementation",
+      implementationName: "LTokenSonic_Implementation",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [
             globalOwner.address,
             globalPause.address,

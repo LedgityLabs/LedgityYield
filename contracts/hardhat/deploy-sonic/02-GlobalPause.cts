@@ -8,14 +8,14 @@ const deployerFunction: DeployFunction = async ({
 
   const globalOwner = await deployments.get("GlobalOwner");
 
-  await deployments.deploy("GlobalPause", {
+  await deployments.deploy("GlobalPauseSonic", {
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [globalOwner.address],
         },
       },

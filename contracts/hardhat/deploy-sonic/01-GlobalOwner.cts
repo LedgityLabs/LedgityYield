@@ -6,14 +6,14 @@ const deployerFunction: DeployFunction = async ({
 }) => {
   const { deployer } = await getNamedAccounts();
 
-  await deployments.deploy("GlobalOwner", {
+  await deployments.deploy("GlobalOwnerSonic", {
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [],
         },
       },

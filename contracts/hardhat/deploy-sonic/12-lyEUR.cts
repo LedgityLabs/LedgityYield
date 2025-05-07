@@ -3,8 +3,8 @@ import { type DeployFunction } from "hardhat-deploy/dist/types";
 import { isAddress, zeroAddress } from "viem";
 
 const LTOKEN_SYMBOL = "LEURC";
-const WLTOKEN_TOKEN_NAME = "Wrapped Ledgity EUR";
-const WLTOKEN_TOKEN_SYMBOL = "lyEUR";
+const WRAPPED_LTOKEN_NAME = "Wrapped Ledgity EUR";
+const WRAPPED_LTOKEN_SYMBOL = "lyEUR";
 
 if (!fs.existsSync("temp/lTokenDeploys.json"))
   throw new Error("lTokenDeploys.json not found");
@@ -18,9 +18,9 @@ const deployerFunction: DeployFunction = async ({
   const chainId = await getChainId();
 
   // Retrieve global contracts
-  const globalOwner = await deployments.get("GlobalOwner");
-  const globalPause = await deployments.get("GlobalPause");
-  const globalBlacklist = await deployments.get("GlobalBlacklist");
+  const globalOwner = await deployments.get("GlobalOwnerSonic");
+  const globalPause = await deployments.get("GlobalPauseSonic");
+  const globalBlacklist = await deployments.get("GlobalBlacklistSonic");
 
   const lTokenDeploys: {
     [chainId: string]: {
@@ -39,24 +39,24 @@ const deployerFunction: DeployFunction = async ({
       `Missing or invalid ${LTOKEN_SYMBOL} address for chain ${chainId}`,
     );
 
-  // Deploy the LToken
-  await deployments.deploy(WLTOKEN_TOKEN_SYMBOL, {
-    contract: "WrappedLToken",
+  // Deploy the proxy
+  const result = await deployments.deploy(WRAPPED_LTOKEN_SYMBOL, {
+    contract: "WrappedLTokenSonic",
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
-      implementationName: "WrappedLToken_Implementation",
+      implementationName: "WrappedLTokenSonic_Implementation",
       execute: {
         init: {
-          methodName: "initialize",
+          methodName: "initializeAndRegister",
           args: [
             globalOwner.address,
             globalPause.address,
             globalBlacklist.address,
             lTokenAddress,
-            WLTOKEN_TOKEN_NAME,
-            WLTOKEN_TOKEN_SYMBOL,
+            WRAPPED_LTOKEN_NAME,
+            WRAPPED_LTOKEN_SYMBOL,
           ],
         },
       },

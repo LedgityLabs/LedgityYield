@@ -14,7 +14,7 @@ const deployerFunction: DeployFunction = async ({
     fs.writeFileSync("temp/lTokenDeploys.json", "{}", "utf8");
   }
 
-  const result = await deployments.deploy("LDY", {
+  const result = await deployments.deploy("LDYSonic", {
     from: deployer,
     contract: "LDY",
     log: true,
