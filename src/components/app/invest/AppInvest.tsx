@@ -42,8 +42,8 @@ export function AppInvest() {
           </div>
         </div>
         <p className="sm:px-10 px-5 font-medium text-lg lg:w-[60%] md:w-[65%] sm:w-[80%] w-full text-fg/80 -mt-3">
-          Invest USDC and get exposed to real, stable and high-efficiency yield
-          backed by RWA (Real World Assets).
+          Invest USDC or EURC and get exposed to real, stable and
+          high-efficiency yield backed by RWA (Real World Assets).
           <br />
           <Link
             href="https://docs.ledgity.finance/"

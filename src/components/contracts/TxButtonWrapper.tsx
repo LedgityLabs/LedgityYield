@@ -8,7 +8,6 @@ import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
 import { useAllowances, configApprove } from "@/hooks/contracts";
 // Components
 import { WalletIcon } from "@/components/icons/WalletIcon";
-import { ArrowTopRightIcon } from "@/components/icons/ArrowTopRightIcon";
 import { Spinner } from "@/components/ui";
 import { TxModal } from "@/components/contracts/TxModal";
 import { Amount } from "@/components/ui";
