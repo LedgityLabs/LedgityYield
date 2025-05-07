@@ -3,6 +3,7 @@ import type { DeployFunction } from "hardhat-deploy/dist/types";
 import { isAddress, zeroAddress } from "viem";
 import { dependencies } from "../../dependencies.cts";
 
+const LTOKEN_NAME = "Ledgity USDC";
 const LTOKEN_SYMBOL = "LUSDC";
 const UNDERLYING_TOKEN_SYMBOL = "USDC";
 
@@ -57,6 +58,8 @@ const deployerFunction: DeployFunction = async ({
             globalBlacklist.address,
             ldyStaking.address,
             underlyingAddress,
+            LTOKEN_NAME,
+            LTOKEN_SYMBOL,
           ],
         },
       },

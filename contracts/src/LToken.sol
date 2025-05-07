@@ -246,19 +246,17 @@ contract LToken is
     address globalPause_,
     address globalBlacklist_,
     address ldyStaking_,
-    address underlyingToken
+    address underlyingToken,
+    string calldata name,
+    string calldata symbol
   ) public initializer {
     // Initialize ERC20 base.
-    string memory underlyingSymbol = IERC20MetadataUpgradeable(
-      underlyingToken
-    ).symbol();
-
     __ERC20Base_init(
       globalOwner_,
       globalPause_,
       globalBlacklist_,
-      string(abi.encodePacked("Ledgity ", underlyingSymbol)),
-      string(abi.encodePacked("L", underlyingSymbol))
+      name,
+      symbol
     );
 
     // IMPORTANT: Below calls must not be restricted to owner at any point.

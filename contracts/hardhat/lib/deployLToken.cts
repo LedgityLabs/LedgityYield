@@ -1,11 +1,12 @@
 import { type DeployFunction } from "hardhat-deploy/dist/types";
 import { dependencies } from "../../dependencies.cts";
 
-export const deployLToken = (
+export function deployLToken(
+  ltokenName: string,
   lTokenSymbol: string,
   underlyingSymbol: string,
-) => {
-  return (async ({ getNamedAccounts, deployments, getChainId }) => {
+): DeployFunction {
+  return async ({ getNamedAccounts, deployments, getChainId }) => {
     const { deployer } = await getNamedAccounts();
     const chainId = await getChainId();
 
@@ -53,6 +54,8 @@ export const deployLToken = (
               globalBlacklist.address,
               ldyStaking.address,
               underlyingAddress,
+              ltokenName,
+              lTokenSymbol,
             ],
           },
         },
@@ -63,5 +66,5 @@ export const deployLToken = (
       },
       waitConfirmations: 1,
     });
-  }) as DeployFunction;
-};
+  };
+}
