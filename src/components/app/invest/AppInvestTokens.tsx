@@ -3,8 +3,8 @@ import { twMerge } from "tailwind-merge";
 // Components
 import { DepositDialog } from "@/components/app/DepositDialog";
 import { WithdrawDialog } from "@/components/app/WithdrawDialog";
-import { Amount, Button, Rate } from "@/components/ui";
 import { TokenLogo } from "@/components/icons/TokenLogo";
+import { Amount, Button, Rate } from "@/components/ui";
 import { getSortIcon } from "@/functions/helpers";
 import {
   SortingState,
@@ -17,18 +17,25 @@ import {
 // Hooks
 import { useEffect, useState } from "react";
 // Context
+import { useTokenPricesUsd } from "@/hooks/api/useTokenPricesUsd";
 import { useAppDataContext } from "@/hooks/context/AppDataContextProvider";
 // Types
-import { LTokenInfo } from "@/types";
-import { Address } from "viem";
+import { LTokenInfo, WLTokenInfo } from "@/types";
+import { Address, formatUnits } from "viem";
+
+const RAY = 1000000000000000000000000000n;
 
 type Pool = {
   underlyingSymbol: string;
   apr: number;
   tvl: number;
   invested: bigint;
+  wrappedInvested: bigint;
+  investedUsd: number;
+  wrappedInvestedUsd: number;
   decimals: number;
   lTokenData: LTokenInfo;
+  wLTokenData?: WLTokenInfo;
 };
 
 /**
@@ -87,19 +94,49 @@ export function AppInvestTokens({ className }: { className?: string }) {
     }
   }
 
+  // Get USD prices for all underlying tokens
+  const underlyingSymbols = lTokenInfosCurrentChain.map((token) =>
+    token.symbol.slice(1),
+  );
+  const tokenPriceUsd = useTokenPricesUsd(underlyingSymbols);
+
   useEffect(() => {
     const newTableData = lTokenInfosCurrentChain.map((tokenData) => {
       const { symbol, apr, balance, decimals } = tokenData;
+      const underlyingSymbol = symbol.slice(1);
       const tokenTvl = tvlMetrics.byToken[symbol] || 0;
+      const wLToken = wLTokenInfosCurrentChain.find(
+        (wlt) => wlt.lToken.toLowerCase() === tokenData.address.toLowerCase(),
+      );
+
+      // Get USD price for the underlying token
+      const usdRate = tokenPriceUsd[underlyingSymbol] || 0;
+      console.log("tokenPriceUsd: ", tokenPriceUsd);
+      console.log("underlyingSymbol: ", underlyingSymbol);
+
+      // Calculate USD values for both normal and wrapped tokens
+      const investedUsd = Number(formatUnits(balance, decimals)) * usdRate;
+      console.log("investedUsd: ", investedUsd);
+      console.log("balance: ", balance);
+
+      // For wrapped tokens, we need to account for the exchange rate
+      const wrappedBalance = wLToken?.balance || 0n;
+      const exchangeRate = wLToken?.exchangeRate || RAY;
+      const unwrappedBalance = (wrappedBalance * exchangeRate) / RAY;
+      const wrappedInvestedUsd =
+        Number(formatUnits(unwrappedBalance, decimals)) * usdRate;
 
       return {
-        underlyingSymbol: symbol.slice(1),
+        underlyingSymbol,
         invested: balance,
+        wrappedInvested: wrappedBalance,
+        investedUsd,
+        wrappedInvestedUsd,
         tvl: tokenTvl,
         decimals,
         apr: apr,
-        //
         lTokenData: tokenData,
+        wLTokenData: wLToken,
       };
     });
 
@@ -108,7 +145,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
       setTableData(newTableData);
       setIsLoading(false);
     }
-  }, [lTokenInfosCurrentChain, tokenInfos]);
+  }, [lTokenInfosCurrentChain, tokenInfos, tokenPriceUsd]);
 
   /**
    * =============
@@ -122,17 +159,23 @@ export function AppInvestTokens({ className }: { className?: string }) {
     columnHelper.accessor("underlyingSymbol", {
       header: "Name",
       cell: (info) => {
-        const underlyingSymbol = info.getValue();
+        const row = info.row.original;
         return (
-          <div className="inline-flex items-center gap-2.5">
-            <TokenLogo
-              symbol={underlyingSymbol}
-              size={35}
-              className="border border-bg/80"
-            />
-            <p className="text-xl font-bold text-fg/80 min-[480px]:inline hidden">
-              {underlyingSymbol}
-            </p>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
+              <div className="inline-flex items-center gap-2.5">
+                <TokenLogo
+                  symbol={row.underlyingSymbol}
+                  size={35}
+                  className="border border-bg/80"
+                />
+                <div className="flex flex-col">
+                  <p className="text-xl font-bold text-fg/80">
+                    {row.underlyingSymbol}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         );
       },
@@ -157,7 +200,6 @@ export function AppInvestTokens({ className }: { className?: string }) {
             value={amount}
             decimals={0} // already formatted
             prefix={"$ "} // expressed in USD
-            displaySymbol={false}
             className="text-lg font-semibold "
           />
         );
@@ -166,17 +208,42 @@ export function AppInvestTokens({ className }: { className?: string }) {
     columnHelper.accessor("invested", {
       header: "Invested",
       cell: (info) => {
-        const amount = info.getValue();
-        const decimals = info.row.original.decimals;
-        const underlyingSymbol = info.row.original.underlyingSymbol;
+        const row = info.row.original;
         return (
-          <Amount
-            value={amount}
-            decimals={decimals}
-            suffix={underlyingSymbol}
-            displaySymbol={false}
-            className="text-lg font-semibold text-fg/90"
-          />
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
+              <Amount
+                value={row.invested}
+                decimals={row.decimals}
+                suffix={row.lTokenData.symbol}
+                displaySymbol={true}
+                className="text-lg font-semibold text-fg/90"
+              />
+              <Amount
+                value={row.investedUsd}
+                decimals={row.decimals}
+                prefix="$ "
+                className="text-sm text-fg/60"
+              />
+            </div>
+            {row.wLTokenData && (
+              <div className="flex flex-col">
+                <Amount
+                  value={row.wrappedInvested}
+                  decimals={row.decimals}
+                  suffix={row.wLTokenData.symbol}
+                  displaySymbol={true}
+                  className="text-lg font-semibold text-fg/90"
+                />
+                <Amount
+                  value={row.wrappedInvestedUsd}
+                  decimals={row.decimals}
+                  prefix="$ "
+                  className="text-sm text-fg/60"
+                />
+              </div>
+            )}
+          </div>
         );
       },
     }),
@@ -190,19 +257,6 @@ export function AppInvestTokens({ className }: { className?: string }) {
           <div className="flex items-center sm:gap-4 gap-2">
             <Button
               size="small"
-              onClick={() =>
-                handleSetOpenModal("deposit", lTokenData.address, true)
-              }
-              className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
-            >
-              <span className="rotate-90 text-bg/90">
-                <i className="ri-login-circle-line" />
-              </span>
-              <span className="sm:inline-block hidden">Deposit</span>
-            </Button>
-
-            <Button
-              size="small"
               variant="outline"
               onClick={() =>
                 handleSetOpenModal("withdraw", lTokenData.address, true)
@@ -213,6 +267,19 @@ export function AppInvestTokens({ className }: { className?: string }) {
                 <i className="ri-logout-circle-r-line" />
               </span>
               <span className="sm:inline-block hidden">Withdraw</span>
+            </Button>
+
+            <Button
+              size="small"
+              onClick={() =>
+                handleSetOpenModal("deposit", lTokenData.address, true)
+              }
+              className="text-lg inline-flex gap-1 justify-center items-center sm:aspect-auto aspect-square"
+            >
+              <span className="rotate-90 text-bg/90">
+                <i className="ri-login-circle-line" />
+              </span>
+              <span className="sm:inline-block hidden">Deposit</span>
             </Button>
           </div>
         );
@@ -314,6 +381,7 @@ export function AppInvestTokens({ className }: { className?: string }) {
           handleSetOpenModal("withdraw", lTokenData?.address, isOpen)
         }
         lTokenData={lTokenData}
+        wLTokenData={wLTokenData}
         underlyingTokenData={underlyingTokenData}
       />
     </article>
