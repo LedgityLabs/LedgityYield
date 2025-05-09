@@ -1,6 +1,7 @@
 "use client";
 
 // Components
+import Link from "next/link";
 import {
   InstantWithdrawalTx,
   RequestWithdrawalTx,
@@ -15,7 +16,9 @@ import {
   DialogTitle,
   DialogTrigger,
   Spinner,
+  Button,
 } from "@/components/ui";
+import { TokenLogo } from "@/components/icons/TokenLogo";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 // Hooks
 import { useWeb3Context } from "@/hooks/context/Web3ContextProvider";
@@ -29,27 +32,33 @@ import { useRef, useState } from "react";
 // Function
 import { formatUnits, parseUnits } from "viem";
 // Types
-import { LTokenInfo, TokenInfo } from "@/types";
+import { LTokenInfo, WLTokenInfo, TokenInfo } from "@/types";
 
 export function WithdrawDialog({
   isOpen,
   setIsOpen,
   lTokenData,
+  wLTokenData,
   underlyingTokenData,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   children?: React.ReactNode;
   lTokenData: LTokenInfo | undefined;
+  wLTokenData: WLTokenInfo | undefined;
   underlyingTokenData: TokenInfo | undefined;
 }) {
   const { currentAccount } = useWeb3Context();
   const lTokenBalance = useBalanceOf(lTokenData?.address, currentAccount);
+  const wLTokenBalance = useBalanceOf(wLTokenData?.address, currentAccount);
 
   const withdrawalFeeInEth = useLTokenWithdrawalFeeInEth(lTokenData?.address);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0n);
+  const [selectedToken, setSelectedToken] = useState<"lToken" | "wLToken">(
+    "lToken",
+  );
 
   const canInstantWithdraw = useCanInstantWithdraw(
     lTokenData?.address,
@@ -103,94 +112,158 @@ export function WithdrawDialog({
             <DialogHeader>
               <DialogTitle>Withdraw {underlyingTokenData.symbol}</DialogTitle>
               <DialogDescription>
-                <div>
-                  <span className="mb-1 inline-block text-xl font-semibold text-primary">
-                    You will receive {underlyingTokenData.symbol} in a 1:1
-                    ratio.
-                  </span>
-                  <br />
-                  Note that you won't receive yield anymore.
+                <div className="text-sm mb-4">
+                  Choose what asset you want to withdraw:
                 </div>
 
-                {!canInstantWithdraw && (
-                  <div className="flex items-stretch justify-stretch gap-2 rounded-2xl bg-fg/[7%] p-4 text-fg/80">
-                    <div className="flex items-center justify-center border-r border-r-fg/20 pr-4">
+                <div className="flex items-center space-x-4 w-full mb-4">
+                  <Button
+                    variant={selectedToken === "lToken" ? "primary" : "outline"}
+                    onClick={() => setSelectedToken("lToken")}
+                    className={`flex-1 flex items-center justify-center`}
+                  >
+                    <TokenLogo
+                      symbol={lTokenData.symbol}
+                      size={35}
+                      className="mx-1 p-1"
+                    />
+                    <span className="ml-1">{lTokenData.symbol}</span>
+                  </Button>
+
+                  {wLTokenData && (
+                    <Button
+                      variant={
+                        selectedToken === "wLToken" ? "primary" : "outline"
+                      }
+                      onClick={() => setSelectedToken("wLToken")}
+                      className={`flex-1 flex items-center justify-center`}
+                    >
+                      <TokenLogo
+                        symbol={wLTokenData.symbol}
+                        size={35}
+                        className="mx-1 p-1"
+                      />
+                      <span className="ml-1">{wLTokenData.symbol}</span>
+                    </Button>
+                  )}
+                </div>
+
+                {selectedToken === "wLToken" ? (
+                  <div className="flex gap-2 justify-stretch items-stretch bg-fg/[7%] text-fg/80 rounded-2xl p-4">
+                    <div className="flex justify-center items-center pr-4 border-r border-r-fg/20">
                       <i className="ri-information-line text-2xl" />
                     </div>
                     <div className="pl-4 text-left">
-                      Your request will be{" "}
-                      <span className="font-semibold">queued</span> and
-                      auto-processed in{" "}
-                      <span className="font-semibold">1-2 working days</span>.
+                      <span className="font-bold">
+                        You need to unwrap your {wLTokenData?.symbol} first
+                      </span>{" "}
+                      before being able to withdraw it. Please visit the{" "}
+                      <Link
+                        href="/app/wrap"
+                        className="text-primary hover:underline"
+                      >
+                        Wrap page
+                      </Link>{" "}
+                      to unwrap your tokens.
                     </div>
                   </div>
+                ) : (
+                  <>
+                    <div>
+                      <span className="mb-1 inline-block text-xl font-semibold text-primary">
+                        You will receive {underlyingTokenData.symbol} in a 1:1
+                        ratio.
+                      </span>
+                      <br />
+                      Note that you won't receive yield anymore.
+                    </div>
+
+                    {!canInstantWithdraw && (
+                      <div className="flex items-stretch justify-stretch gap-2 rounded-2xl bg-fg/[7%] p-4 text-fg/80">
+                        <div className="flex items-center justify-center border-r border-r-fg/20 pr-4">
+                          <i className="ri-information-line text-2xl" />
+                        </div>
+                        <div className="pl-4 text-left">
+                          Your request will be{" "}
+                          <span className="font-semibold">queued</span> and
+                          auto-processed in{" "}
+                          <span className="font-semibold">
+                            1-2 working days
+                          </span>
+                          .
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </DialogDescription>
             </DialogHeader>
 
             <DialogFooter>
-              <div className="mt-6 flex items-end justify-between gap-4 mb-3 w-full">
-                <AmountInput
-                  ref={inputEl}
-                  maxValue={lTokenBalance}
-                  decimals={lTokenData.decimals}
-                  symbol={lTokenData.symbol}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setWithdrawnAmount(
-                      parseUnits(e.target.value, lTokenData.decimals),
-                    )
-                  }
-                />
+              {selectedToken === "lToken" && (
+                <div className="mt-6 flex items-end justify-between gap-4 mb-3 w-full">
+                  <AmountInput
+                    ref={inputEl}
+                    maxValue={lTokenBalance}
+                    decimals={lTokenData.decimals}
+                    symbol={lTokenData.symbol}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setWithdrawnAmount(
+                        parseUnits(e.target.value, lTokenData.decimals),
+                      )
+                    }
+                  />
 
-                {canInstantWithdraw ? (
-                  <InstantWithdrawalTx
-                    buttonText="Withdraw"
-                    contractAddress={lTokenData.address}
-                    disabled={!withdrawnAmount}
-                    params={{
-                      symbol: lTokenData.symbol,
-                      amount: formatUnits(withdrawnAmount, lTokenData.decimals),
-                      tokenDecimals: lTokenData.decimals,
-                    }}
-                    approveChecks={[
-                      {
-                        token: lTokenData.address,
+                  {canInstantWithdraw ? (
+                    <InstantWithdrawalTx
+                      buttonText="Withdraw"
+                      contractAddress={lTokenData.address}
+                      disabled={!withdrawnAmount}
+                      params={{
                         symbol: lTokenData.symbol,
+                        amount: formatUnits(withdrawnAmount, lTokenData.decimals),
                         tokenDecimals: lTokenData.decimals,
-                        spender: lTokenData.address,
-                        amount: formatUnits(
-                          withdrawnAmount,
-                          lTokenData.decimals,
-                        ),
-                      },
-                    ]}
-                  />
-                ) : (
-                  <RequestWithdrawalTx
-                    buttonText="Request Withdrawal"
-                    contractAddress={lTokenData.address}
-                    disabled={!withdrawnAmount}
-                    params={{
-                      symbol: lTokenData.symbol,
-                      amount: formatUnits(withdrawnAmount, lTokenData.decimals),
-                      tokenDecimals: lTokenData.decimals,
-                      msgValue: withdrawalFeeInEth,
-                    }}
-                    approveChecks={[
-                      {
-                        token: lTokenData.address,
+                      }}
+                      approveChecks={[
+                        {
+                          token: lTokenData.address,
+                          symbol: lTokenData.symbol,
+                          tokenDecimals: lTokenData.decimals,
+                          spender: lTokenData.address,
+                          amount: formatUnits(
+                            withdrawnAmount,
+                            lTokenData.decimals,
+                          ),
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <RequestWithdrawalTx
+                      buttonText="Request Withdrawal"
+                      contractAddress={lTokenData.address}
+                      disabled={!withdrawnAmount}
+                      params={{
                         symbol: lTokenData.symbol,
+                        amount: formatUnits(withdrawnAmount, lTokenData.decimals),
                         tokenDecimals: lTokenData.decimals,
-                        spender: lTokenData.address,
-                        amount: formatUnits(
-                          withdrawnAmount,
-                          lTokenData.decimals,
-                        ),
-                      },
-                    ]}
-                  />
-                )}
-              </div>
+                        msgValue: withdrawalFeeInEth,
+                      }}
+                      approveChecks={[
+                        {
+                          token: lTokenData.address,
+                          symbol: lTokenData.symbol,
+                          tokenDecimals: lTokenData.decimals,
+                          spender: lTokenData.address,
+                          amount: formatUnits(
+                            withdrawnAmount,
+                            lTokenData.decimals,
+                          ),
+                        },
+                      ]}
+                    />
+                  )}
+                </div>
+              )}
             </DialogFooter>
           </>
         )}
