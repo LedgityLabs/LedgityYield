@@ -6,7 +6,7 @@ const deployerFunction: DeployFunction = async ({
 }) => {
   const { deployer } = await getNamedAccounts();
 
-  const globalOwner = await deployments.get("GlobalOwner");
+  const globalOwner = await deployments.get("GlobalOwnerSonic");
 
   await deployments.deploy("GlobalPauseSonic", {
     from: deployer,

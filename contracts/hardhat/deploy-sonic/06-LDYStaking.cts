@@ -25,9 +25,9 @@ const deployerFunction: DeployFunction = async ({
     throw Error("LDY token address not found in parameters.json");
 
   // Retrieve global contracts
-  const globalOwner = await deployments.get("GlobalOwner");
-  const globalPause = await deployments.get("GlobalPause");
-  const globalBlacklist = await deployments.get("GlobalBlacklist");
+  const globalOwner = await deployments.get("GlobalOwnerSonic");
+  const globalPause = await deployments.get("GlobalPauseSonic");
+  const globalBlacklist = await deployments.get("GlobalBlacklistSonic");
 
   const ONE_MONTH = 31 * 24 * 60 * 60;
   const stakingDurations = [

@@ -12,7 +12,7 @@ const deployerFunction: DeployFunction = async ({
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  const globalOwner = await deployments.get("GlobalOwner");
+  const globalOwner = await deployments.get("GlobalOwnerSonic");
 
   const result = await deployments.deploy("LTokenSignalerSonic", {
     from: deployer,
