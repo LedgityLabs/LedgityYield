@@ -2,9 +2,9 @@
 pragma solidity 0.8.18;
 
 import { LDYStaking } from "../LDYStaking.sol";
-import { SonicFeeMRegister } from "../libs/SonicFeeMRegister.sol";
+import { SonicFeeMRegister } from "../misc/SonicFeeMRegister.sol";
 
-contract LDYStakingSonic is LDYStaking {
+contract LDYStakingSonic is LDYStaking, SonicFeeMRegister {
   function initializeAndRegister(
     address globalOwner_,
     address globalPause_,
@@ -14,7 +14,7 @@ contract LDYStakingSonic is LDYStaking {
     uint256 stakeDurationForPerks_,
     uint256 stakeAmountForPerks_
   ) public {
-    SonicFeeMRegister.registerContract();
+    registerContract();
 
     LDYStaking.initialize(
       globalOwner_,

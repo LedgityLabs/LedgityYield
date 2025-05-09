@@ -2,9 +2,9 @@
 pragma solidity 0.8.18;
 
 import { WrappedLToken } from "../WrappedLToken.sol";
-import { SonicFeeMRegister } from "../libs/SonicFeeMRegister.sol";
+import { SonicFeeMRegister } from "../misc/SonicFeeMRegister.sol";
 
-contract WrappedLTokenSonic is WrappedLToken {
+contract WrappedLTokenSonic is WrappedLToken, SonicFeeMRegister {
   function initializeAndRegister(
     address globalOwner_,
     address globalPause_,
@@ -13,7 +13,7 @@ contract WrappedLTokenSonic is WrappedLToken {
     string calldata name_,
     string calldata symbol_
   ) public {
-    SonicFeeMRegister.registerContract();
+    registerContract();
 
     WrappedLToken.initialize(
       globalOwner_,

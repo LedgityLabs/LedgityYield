@@ -2,11 +2,11 @@
 pragma solidity 0.8.18;
 
 import { LTokenSignaler } from "../LTokenSignaler.sol";
-import { SonicFeeMRegister } from "../libs/SonicFeeMRegister.sol";
+import { SonicFeeMRegister } from "../misc/SonicFeeMRegister.sol";
 
-contract LTokenSignalerSonic is LTokenSignaler {
+contract LTokenSignalerSonic is LTokenSignaler, SonicFeeMRegister {
   function initializeAndRegister(address globalOwner_) public {
-    SonicFeeMRegister.registerContract();
+    registerContract();
 
     LTokenSignaler.initialize(globalOwner_);
   }

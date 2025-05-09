@@ -4,9 +4,9 @@ pragma solidity 0.8.18;
 // Contracts
 import { LToken } from "../LToken.sol";
 // Libraries
-import { SonicFeeMRegister } from "../libs/SonicFeeMRegister.sol";
+import { SonicFeeMRegister } from "../misc/SonicFeeMRegister.sol";
 
-contract LTokenSonic is LToken {
+contract LTokenSonic is LToken, SonicFeeMRegister {
   function initializeAndRegister(
     address globalOwner_,
     address globalPause_,
@@ -16,7 +16,7 @@ contract LTokenSonic is LToken {
     string calldata name,
     string calldata symbol
   ) public {
-    SonicFeeMRegister.registerContract();
+    registerContract();
 
     LToken.initialize(
       globalOwner_,
