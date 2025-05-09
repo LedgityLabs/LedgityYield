@@ -7,6 +7,12 @@ import {
   ldyStakingAddress,
   lTokenSignalerAddress,
   preMiningAddress,
+  //
+  globalBlacklistSonicAddress,
+  globalOwnerSonicAddress,
+  globalPauseSonicAddress,
+  ldyStakingSonicAddress,
+  lTokenSignalerSonicAddress,
 } from "@/types";
 
 // @dev Copied from contracts/dependencies.cts
@@ -65,8 +71,8 @@ export const lTokenAddresses: {
 } = {
   [ChainId.mainnet]: {},
   [ChainId.sonic]: {
-    LEURC: "0xc2503094BBcd67600319153f95C9b846BaC4a66B",
-    LUSDC: "0x6CdB485bEDd95C5460Eef6dFe1886d7a7Bc3B2cA",
+    LEURC: "0x88dC8674339731A12a08624f455Fd41Fe2d6DC82",
+    LUSDC: "0xD7cCABfBEfE332C9784FF3debeBdDbc787E75e69",
   },
   [ChainId.arbitrum_one]: {
     LUSDC: "0xd54d564606611A3502FE8909bBD3075dbeb77813",
@@ -88,8 +94,8 @@ export const wrappedLTokensAddresses: {
 } = {
   [ChainId.mainnet]: {},
   [ChainId.sonic]: {
-    lyEUR: "0x058A726CCa0a6235370262A802Ea126A2ECdBDF1",
-    lyUSD: "0xA1f155E87F56f6F5dE912C831e56d7CB8c0D4870",
+    lyEUR: "0xff95bE862813739C5f2A25b8d3B3E166fE5Dd49e",
+    lyUSD: "0xbb86bAe893F8EA5bf34e708ECB10e82090331C01",
   },
   [ChainId.arbitrum_one]: {},
   [ChainId.base]: {},
@@ -112,6 +118,28 @@ function fetchChainAddresses(
     (lTokenAddresses[chainId]?.LUSDC && !dependencies[chainId]?.USDC)
   )
     throw Error("LToken address specified without dependency address");
+
+  /// @dev Override for special Sonic implementation with FeeM register library
+  if (chainId === ChainId.sonic) {
+    return {
+      GlobalBlacklist: globalBlacklistSonicAddress[chainId] || zeroAddress,
+      GlobalOwner: globalOwnerSonicAddress[chainId] || zeroAddress,
+      GlobalPause: globalPauseSonicAddress[chainId] || zeroAddress,
+      LDYStaking: ldyStakingSonicAddress[chainId] || zeroAddress,
+      LTokenSignaler:
+        (lTokenSignalerSonicAddress as any)[chainId] || zeroAddress,
+      PreMining: (preMiningAddress as any)[chainId] || zeroAddress,
+      // Tokens
+      LDY: dependencies[chainId]?.LDY || zeroAddress,
+      LEURC: lTokenAddresses[chainId]?.LEURC || zeroAddress,
+      LUSDC: lTokenAddresses[chainId]?.LUSDC || zeroAddress,
+      EURC: dependencies[chainId]?.EURC || zeroAddress,
+      USDC: dependencies[chainId]?.USDC || zeroAddress,
+      // Wrapped
+      lyEUR: wrappedLTokensAddresses[chainId]?.lyEUR || zeroAddress,
+      lyUSD: wrappedLTokensAddresses[chainId]?.lyUSD || zeroAddress,
+    };
+  }
 
   // @dev The as const of the addresses is annoying for generic functions
   return {
