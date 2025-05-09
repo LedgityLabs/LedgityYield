@@ -1,12 +1,13 @@
+import { useEffect, useState } from "react";
+// Components
 import { Card } from "@/components/ui";
-import { FC, useEffect, useState } from "react";
-import { AppDashboardActivity } from "./AppDashboardActivity";
-import { AppDashboardChart } from "./AppDashboardChart";
-import { AppDashboardGrowth } from "./AppDashboardGrowth";
-import { AppDashboardLUSDCBalance } from "./AppDashboardLUSDCBalance";
-import { AppDashboardRevenue } from "./AppDashboardRevenue";
+import { AppDashboardActivity } from "@/components/app/dashboard/AppDashboardActivity";
+import { AppDashboardChart } from "@/components/app/dashboard/AppDashboardChart";
+import { AppDashboardGrowth } from "@/components/app/dashboard/AppDashboardGrowth";
+import { AppDashboardTokenBalances } from "@/components/app/dashboard/AppDashboardTokenBalances";
+import { AppDashboardRevenue } from "@/components/app/dashboard/AppDashboardRevenue";
 
-export const AppDashboard: FC = () => {
+export function AppDashboard() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const figureSmallScreen = () => {
@@ -64,9 +65,9 @@ export const AppDashboard: FC = () => {
 
               <div className="flex flex-col gap-2 items-end">
                 <h3 className="font-bold text-lg text-fg/50 whitespace-nowrap">
-                  LUSDC balance
+                  Invested
                 </h3>
-                <AppDashboardLUSDCBalance />
+                <AppDashboardTokenBalances />
               </div>
             </div>
           </div>
@@ -84,4 +85,4 @@ export const AppDashboard: FC = () => {
       </div>
     </>
   );
-};
+}
