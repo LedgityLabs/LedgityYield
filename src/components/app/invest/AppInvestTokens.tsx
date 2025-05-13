@@ -111,13 +111,8 @@ export function AppInvestTokens({ className }: { className?: string }) {
 
       // Get USD price for the underlying token
       const usdRate = tokenPriceUsd[underlyingSymbol] || 0;
-      console.log("tokenPriceUsd: ", tokenPriceUsd);
-      console.log("underlyingSymbol: ", underlyingSymbol);
-
       // Calculate USD values for both normal and wrapped tokens
       const investedUsd = Number(formatUnits(balance, decimals)) * usdRate;
-      console.log("investedUsd: ", investedUsd);
-      console.log("balance: ", balance);
 
       // For wrapped tokens, we need to account for the exchange rate
       const wrappedBalance = wLToken?.balance || 0n;
