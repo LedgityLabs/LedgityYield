@@ -1,6 +1,7 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { twMerge } from "tailwind-merge";
 // Components
+import { AmountWithValue } from "@/components/ui/AmountWithValue";
 import { DepositDialog } from "@/components/app/DepositDialog";
 import { WithdrawDialog } from "@/components/app/WithdrawDialog";
 import { TokenLogo } from "@/components/icons/TokenLogo";
@@ -206,37 +207,22 @@ export function AppInvestTokens({ className }: { className?: string }) {
         const row = info.row.original;
         return (
           <div className="flex flex-col gap-2">
-            <div className="flex flex-col">
-              <Amount
-                value={row.invested}
-                decimals={row.decimals}
-                suffix={row.lTokenData.symbol}
-                displaySymbol={true}
-                className="text-lg font-semibold text-fg/90"
-              />
-              <Amount
-                value={row.investedUsd}
-                decimals={row.decimals}
-                prefix="$ "
-                className="text-sm text-fg/60"
-              />
-            </div>
+            <AmountWithValue
+              tokenValue={row.invested}
+              tokenDecimals={row.decimals}
+              tokenSymbol={row.lTokenData.symbol}
+              usdValue={row.investedUsd}
+              usdDecimals={row.decimals}
+            />
+
             {row.wLTokenData && (
-              <div className="flex flex-col">
-                <Amount
-                  value={row.wrappedInvested}
-                  decimals={row.decimals}
-                  suffix={row.wLTokenData.symbol}
-                  displaySymbol={true}
-                  className="text-lg font-semibold text-fg/90"
-                />
-                <Amount
-                  value={row.wrappedInvestedUsd}
-                  decimals={row.decimals}
-                  prefix="$ "
-                  className="text-sm text-fg/60"
-                />
-              </div>
+              <AmountWithValue
+                tokenValue={row.wrappedInvested}
+                tokenDecimals={row.decimals}
+                tokenSymbol={row.wLTokenData.symbol}
+                usdValue={row.wrappedInvestedUsd}
+                usdDecimals={row.decimals}
+              />
             )}
           </div>
         );
