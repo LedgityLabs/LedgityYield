@@ -10,6 +10,12 @@ export type MarketConfig = {
 export const marketConfigsIndex: {
   [chainId: string]: MarketConfig;
 } = {
+  /// @dev The first market is used for the default chain
+  [ChainId.base]: {
+    marketTitle: "Base",
+    chainId: ChainId.base,
+    addresses: ADDRESSES[ChainId.base],
+  },
   [ChainId.mainnet]: {
     marketTitle: "Ethereum",
     chainId: ChainId.mainnet,
@@ -19,11 +25,6 @@ export const marketConfigsIndex: {
     marketTitle: "Arbitrum",
     chainId: ChainId.arbitrum_one,
     addresses: ADDRESSES[ChainId.arbitrum_one],
-  },
-  [ChainId.base]: {
-    marketTitle: "Base",
-    chainId: ChainId.base,
-    addresses: ADDRESSES[ChainId.base],
   },
   [ChainId.linea]: {
     marketTitle: "Linea",
