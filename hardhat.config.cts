@@ -28,6 +28,7 @@ const { HARDHAT_DEPLOY_FORK } = process.env;
 
 const {
   DEPLOYER_PK,
+  HEDERA_DEPLOYER_PK,
   MAINNET_RPC_URL,
   MAINNET_FORKING_BLOCK,
   MAINNET_VERIFY_API_KEY,
@@ -41,16 +42,21 @@ const {
   ARBISCAN_API_KEY,
   ETHERSCAN_API_KEY,
   OKXSCAN_API_KEY,
+  HEDERA_RPC_URL,
+  HEDERA_FORKING_BLOCK,
+  HEDERA_VERIFY_API_KEY,
 } = secrets;
 
 // Validation
-if (!DEPLOYER_PK) throw Error("Deployer private key not found in secrets.json");
+if (!DEPLOYER_PK && !HEDERA_DEPLOYER_PK)
+  throw Error("Deployer private key not found in secrets.json");
 if (!MAINNET_RPC_URL || !MAINNET_VERIFY_API_KEY)
   throw Error("Mainnet config not found in secrets.json");
 if (!BASE_RPC_URL || !BASE_VERIFY_API_KEY)
   throw Error("Base config not found in secrets.json");
 if (!SONIC_RPC_URL || !SONIC_VERIFY_API_KEY)
   throw Error("Sonic config not found in secrets.json");
+if (!HEDERA_RPC_URL) throw Error("Hedera config not found in secrets.json");
 
 // Centralized network configuration
 interface NetworkConfig {
@@ -116,6 +122,16 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     apiURL: "https://api.sonicscan.org/api",
     browserURL: "https://sonicscan.org",
     deploy: ["./contracts/hardhat/deploy-sonic"],
+  },
+  hedera: {
+    name: "hedera",
+    chainId: 295,
+    rpcUrl: HEDERA_RPC_URL,
+    forkingBlock: HEDERA_FORKING_BLOCK,
+    verifyApiKey: HEDERA_VERIFY_API_KEY,
+    apiURL: "",
+    browserURL: "https://hashscan.io/mainnet/",
+    deploy: ["./contracts/hardhat/deploy-hedera"],
   },
   arbitrum: {
     name: "arbitrumOne",
@@ -201,7 +217,7 @@ function makeForkConfig(chainName: string): HardhatNetworkUserConfig {
     },
     accounts: [
       {
-        privateKey: DEPLOYER_PK,
+        privateKey: chainName === "hedera" ? HEDERA_DEPLOYER_PK : DEPLOYER_PK,
         balance: parseEther("100000").toString(),
       },
     ],
@@ -214,18 +230,18 @@ const networks = Object.entries(networkConfigs).reduce(
     acc: {
       [key: string]: HttpNetworkUserConfig;
     },
-    [key, network],
+    [name, data],
   ) => {
-    acc[key] = {
-      chainId: network.chainId,
-      url: network.rpcUrl,
-      accounts: DEPLOYER_PK ? [DEPLOYER_PK] : [],
+    acc[name] = {
+      chainId: data.chainId,
+      url: data.rpcUrl,
+      accounts: name === "hedera" ? [HEDERA_DEPLOYER_PK] : [DEPLOYER_PK],
       saveDeployments: true,
-      deploy: network.deploy,
+      deploy: data.deploy,
       verify: {
         etherscan: {
-          apiKey: network.verifyApiKey,
-          apiUrl: network.apiURL,
+          apiKey: data.verifyApiKey,
+          apiUrl: data.apiURL,
         },
       },
     };
@@ -241,21 +257,21 @@ const etherscan = {
       acc: {
         [key: string]: string;
       },
-      [_, network],
+      [_, data],
     ) => {
-      acc[network.name] = network.verifyApiKey;
+      acc[data.name] = data.verifyApiKey;
       return acc;
     },
     {},
   ),
   customChains: Object.values(networkConfigs)
-    .filter((network) => network.name !== "mainnet")
-    .map((network) => ({
-      network: network.name,
-      chainId: network.chainId,
+    .filter((data) => data.name !== "mainnet")
+    .map((data) => ({
+      network: data.name,
+      chainId: data.chainId,
       urls: {
-        apiURL: network.apiURL,
-        browserURL: network.browserURL,
+        apiURL: data.apiURL,
+        browserURL: data.browserURL,
       },
     })),
 };
