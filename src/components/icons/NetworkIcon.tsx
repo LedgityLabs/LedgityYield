@@ -13,6 +13,7 @@ export const chainsIcons: { [key: number]: string } = {
   8453: "/assets/chains/base.png",
   84532: "/assets/chains/base.png",
   11155111: "/assets/chains/ethereum-sepolia.png",
+  295: "/assets/chains/hedera.svg",
 };
 
 export function NetworkIcon({

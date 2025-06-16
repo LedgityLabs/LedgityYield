@@ -12,6 +12,7 @@ import hznTokenLogo from "~/assets/tokens/hzn.png";
 import aaTokenLogo from "~/assets/tokens/aa.svg";
 import unknownTokenLogo from "~/assets/tokens/unknown.svg";
 import eurcTokenLogo from "~/assets/tokens/eurc.png";
+import hbarTokenLogo from "~/assets/tokens/hbar.svg";
 
 export const tokensLogos: Record<string, StaticImageData> = {
   "EUROC": eurocTokenLogo,
@@ -32,6 +33,7 @@ export const tokensLogos: Record<string, StaticImageData> = {
   "LEURC.e": leurcTokenLogo,
   "lyUSD": lusdcTokenLogo,
   "lyEUR": leurcTokenLogo,
+  "HBAR": hbarTokenLogo,
 };
 
 export function TokenLogo({
