@@ -127,7 +127,9 @@ contract WrappedLTokenTest is Test {
       address(globalPause),
       address(globalBlacklist),
       address(ldyStaking),
-      address(underlying)
+      address(underlying),
+      "LToken",
+      "LTK"
     );
     wLToken.initialize(
       address(globalOwner),

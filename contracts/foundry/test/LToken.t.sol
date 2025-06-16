@@ -253,7 +253,9 @@ contract Tests is Test, ModifiersExpectations {
       address(globalPause),
       address(globalBlacklist),
       address(ldyStaking),
-      address(underlyingToken)
+      address(underlyingToken),
+      "LToken",
+      "LTK"
     );
     vm.label(address(tested), "LToken");
 
@@ -305,7 +307,9 @@ contract Tests is Test, ModifiersExpectations {
       address(globalPause),
       address(globalBlacklist),
       address(ldyStaking),
-      address(underlyingToken)
+      address(underlyingToken),
+      "LToken",
+      "LTK"
     );
   }
 
