@@ -1,0 +1,15 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["../../lib", "../.."]
+
+# Required to invoke `curl`, used to query the Mirror Node for remote state.
+# This flag needs to be enabled to be able to use `HtsSystemContractJson`/`MirrorNodeFFI`.
+# https://book.getfoundry.sh/cheatcodes/ffi
+ffi = true
+
+[rpc_endpoints]
+mainnet = "https://mainnet.hashio.io/api"
+testnet = "https://testnet.hashio.io/api"
+previewnet = "https://previewnet.hashio.io/api"
+localnode = "http://localhost:7546"

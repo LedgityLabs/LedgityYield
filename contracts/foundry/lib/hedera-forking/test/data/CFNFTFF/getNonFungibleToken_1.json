@@ -1,0 +1,11 @@
+{
+    "account_id": "0.0.4436613",
+    "created_timestamp": "1734948254.215424000",
+    "delegating_spender": null,
+    "deleted": false,
+    "metadata": "aHR0cHM6Ly92ZXJ5LWxvbmctc3RyaW5nLXdoaWNoLWV4Y2VlZHMtMzEtYnl0ZXMtYW5kLXJlcXVpcmVzLW11bHRpcGxlLXN0b3JhZ2Utc2xvdHMuY29tLzE=",
+    "modified_timestamp": "1734948257.045141590",
+    "serial_number": 1,
+    "spender": "0.0.4454450",
+    "token_id": "0.0.5308378"
+}

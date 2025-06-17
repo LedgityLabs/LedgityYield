@@ -1,0 +1,15 @@
+{
+    "name": "hardhat-hts-plugin-example",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "scripts": {
+        "test": "hardhat test"
+    },
+    "author": "2024 Hedera Hashgraph, LLC",
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "@hashgraph/system-contracts-forking": "^0.1.2",
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "count": 12,
+    "hapi_version": "0.57.3",
+    "hash": "0x87a98d96112c016014665d4a702a885fa75a901c0a865cd82cf77bbe9a0ba2066e1c9cfc4c01c8ef58a4a63f8a5d5239",
+    "name": "2025-01-02T08_23_32.012515669Z.rcd.gz",
+    "number": 13890397,
+    "previous_hash": "0x6ba5130c21a8ac560f22676dc3d8c7ae32473db3ad6e3c0b36a8e5d9547a3e389cca24e07c9eba58d8cae571255c4123",
+    "size": 3671,
+    "timestamp": {
+        "from": "1735806212.012515669",
+        "to": "1735806213.965569848"
+    },
+    "gas_used": 0,
+    "logs_bloom": "0x"
+}

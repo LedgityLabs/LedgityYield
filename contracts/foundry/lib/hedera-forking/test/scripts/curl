@@ -1,0 +1,134 @@
+#!/usr/bin/env node
+
+const { strict: assert } = require('assert');
+const { appendFileSync } = require('fs');
+const { join } = require('path');
+
+const { tokens } = require('../data');
+
+const LONG_ZERO_PREFIX = '0x000000000000';
+
+const { endpoint, searchParams } = function () {
+    const urlarg = process.argv.at(-1);
+    assert(urlarg !== undefined);
+
+    const url = new URL(urlarg);
+    assert(url.pathname.startsWith('/api/v1/'));
+
+    appendFileSync(join(__dirname, 'curl.log'), `${urlarg}\n`, 'utf-8');
+    return {
+        endpoint: url.pathname.replace('/api/v1/', ''),
+        searchParams: url.searchParams
+    };
+}();
+
+for (const [re, fn] of /** @type {const} */([
+    [/^blocks\/([0-9]{1,10})$/, blockNumber => {
+        return require(`./blocks_${blockNumber}.json`);
+    }],
+    [/^tokens\/([\w.]+)$/, tokenId => {
+        assert(typeof tokenId === 'string');
+        const token = tokens[tokenId];
+        if (token === undefined) return undefined;
+
+        return require(`../data/${token.symbol}/getToken.json`);
+    }],
+    [/^tokens\/([\w.]+)\/balances$/, tokenId => {
+        assert(typeof tokenId === 'string');
+        const token = tokens[tokenId];
+        if (token === undefined)
+            return { timestamp: null, balances: [], links: { next: null } };
+
+        const accountId = searchParams.get('account.id');
+        assert(accountId !== null);
+        const timestamp = searchParams.get('timestamp');
+        assert(timestamp !== null);
+
+        return require(`../data/${token.symbol}/getBalanceOfToken_${accountId}.json`);
+    }],
+    [/^tokens\/([\w.]+)\/nfts\/(\d+)$/, (tokenId, nftNumber) => {
+        assert(typeof tokenId === 'string');
+        const token = tokens[tokenId];
+        if (token === undefined) return undefined;
+
+        return require(`../data/${token.symbol}/getNonFungibleToken_${nftNumber}.json`);
+    }],
+    [/^accounts\/((0x[0-9a-fA-F]{40})|(0\.0\.\d+))$/, idOrAliasOrEvmAddress => {
+        assert(typeof idOrAliasOrEvmAddress === 'string');
+        try {
+            return require(`../data/getAccount_${idOrAliasOrEvmAddress.toLowerCase()}.json`);
+        } catch {
+            if (idOrAliasOrEvmAddress.startsWith(LONG_ZERO_PREFIX)) {
+                return {
+                    account: '0.0.' + parseInt(idOrAliasOrEvmAddress, 16),
+                    evm_address: idOrAliasOrEvmAddress,
+                };
+            }
+            if (idOrAliasOrEvmAddress.startsWith('0.0.')) {
+                const accountNumber = parseInt(idOrAliasOrEvmAddress.slice(4));
+                return {
+                    account: idOrAliasOrEvmAddress,
+                    evm_address: `0x${accountNumber.toString(16).padStart(40, '0')}`
+                };
+            }
+            return undefined;
+        }
+    }],
+    [/^accounts\/(0\.0\.\d+)\/allowances\/tokens$/, accountId => {
+        assert(typeof accountId === 'string');
+        const tokenId = searchParams.get('token.id');
+        assert(tokenId !== null);
+        const spenderId = searchParams.get('spender.id');
+        assert(spenderId !== null);
+
+        const token = tokens[tokenId];
+        if (token === undefined)
+            return { allowances: [], links: { next: null } };
+
+        try {
+            return require(`../data/${token.symbol}/getAllowanceForToken_${accountId}_${spenderId}.json`);
+        } catch {
+            return undefined;
+        }
+    }],
+    [/^accounts\/(0\.0\.\d+)\/allowances\/nfts/, accountId => {
+        assert(typeof accountId === 'string');
+        const tokenId = searchParams.get('token.id');
+        assert(tokenId !== null);
+        const spenderId = searchParams.get('account.id');
+        assert(spenderId !== null);
+        const token = tokens[tokenId];
+        if (token === undefined)
+            return { allowances: [], links: { next: null } };
+        return require(`../data/${token.symbol}/getAllowanceForToken_${accountId}_${spenderId}.json`);
+    }],
+    [/^accounts\/((0x[0-9a-fA-F]{40})|(0\.0\.\d+))\/tokens/, idOrAliasOrEvmAddress => {
+        assert(typeof idOrAliasOrEvmAddress === 'string');
+        const tokenId = searchParams.get('token.id');
+        assert(tokenId !== null);
+
+        const token = tokens[tokenId];
+        if (token === undefined)
+            return { tokens: [], links: { next: null } };
+
+        try {
+            return require(`../data/${token.symbol}/getTokenRelationship_${idOrAliasOrEvmAddress.toLowerCase()}.json`);
+        } catch {
+            return undefined;
+        }
+    }],
+])) {
+    const match = endpoint.match(re);
+    if (match !== null) {
+        const response = fn(...match.slice(1));
+        if (response !== undefined) {
+            console.info(JSON.stringify(response));
+            console.info('200');
+            return;
+        }
+        break;
+    }
+}
+
+console.info(JSON.stringify({ "_status": { "messages": [{ "message": "Not found" }] } }));
+console.info('404');

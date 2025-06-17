@@ -1,0 +1,22 @@
+[
+    {
+        "endpoint": "tokens/0.0.4699434",
+        "response": "{\"admin_key\": null, \"auto_renew_account\": null, \"auto_renew_period\": 7776000, \"created_timestamp\": \"1724140660.796941104\", \"custom_fees\": {\"created_timestamp\": \"1724140660.796941104\", \"fixed_fees\": [], \"fractional_fees\": []}, \"decimals\": \"13\", \"deleted\": false, \"expiry_timestamp\": 1731916660000000000, \"fee_schedule_key\": null, \"freeze_default\": false, \"freeze_key\": null, \"initial_supply\": \"10000\", \"kyc_key\": null, \"max_supply\": \"0\", \"memo\": \"\", \"metadata\": \"\", \"metadata_key\": null, \"modified_timestamp\": \"1724140660.796941104\", \"name\": \"Very long string, just to make sure that it exceeds 31 bytes and requires more than 1 storage slot.\", \"pause_key\": null, \"pause_status\": \"NOT_APPLICABLE\", \"supply_key\": {\"_type\": \"ED25519\", \"key\": \"4bd90b0ad6522f2b3badf739f7de2cf8195cefef29028e4086bdcf247dd035cd\"}, \"supply_type\": \"INFINITE\", \"symbol\": \"SHRT\", \"token_id\": \"0.0.4699434\", \"total_supply\": \"10000\", \"treasury_account_id\": \"0.0.4361455\", \"type\": \"FUNGIBLE_COMMON\", \"wipe_key\": null}"
+    },
+    {
+        "endpoint": "tokens/0.0.4699434/balances?account.id=0.0.4361455",
+        "response": "{\"timestamp\": \"1724140665.556760003\", \"balances\": [{\"account\": \"0.0.4361455\", \"balance\": 9995, \"decimals\": 13}], \"links\": {\"next\": null}}"
+    },
+    {
+        "endpoint": "accounts/0x000000000000000000000000000000000043f832?transactions=false",
+        "response": "{\"account\": \"0.0.4454450\", \"alias\": \"CIQOYFVUGEKXWIRMIZZU7LYO74PCKUA43G3BGR75RN5FGXSKOLH47WQ\", \"auto_renew_period\": 7776000, \"balance\": {\"balance\": 100000000000, \"timestamp\": \"1718778540.398961204\", \"tokens\": []}, \"created_timestamp\": \"1718778540.398961203\", \"decline_reward\": false, \"deleted\": false, \"ethereum_nonce\": 0, \"evm_address\": \"0x000000000000000000000000000000000043f832\", \"expiry_timestamp\": \"1726554540.398961203\", \"key\": {\"_type\": \"ED25519\", \"key\": \"ec16b431157b222c46734faf0eff1e25501cd9b61347fd8b7a535e4a72cfcfda\"}, \"max_automatic_token_associations\": 0, \"memo\": \"auto-created account\", \"pending_reward\": 0, \"receiver_sig_required\": false, \"staked_account_id\": null, \"staked_node_id\": null, \"stake_period_start\": null, \"transactions\": [], \"links\": {\"next\": null}}"
+    },
+    {
+        "endpoint": "accounts/0x292c4acf9ec49af888d4051eb4a4dc53694d1380?transactions=false",
+        "response": "{\"account\": \"0.0.4361455\", \"alias\": \"HIQQFFVU5VAX67HAFIMV2HEUF5LWKZQI4D3RHML54ZXKOGCMVQOD2DSZ\", \"auto_renew_period\": 7776000, \"balance\": {\"balance\": 89403928709, \"timestamp\": \"1728044597.636795000\", \"tokens\": [{}, {}]}, \"created_timestamp\": \"1715794300.559368002\", \"decline_reward\": false, \"deleted\": false, \"ethereum_nonce\": 305, \"evm_address\": \"0x292c4acf9ec49af888d4051eb4a4dc53694d1380\", \"expiry_timestamp\": \"1723570300.559368002\", \"key\": {\"_type\": \"ECDSA_SECP256K1\", \"key\": \"0296b4ed417f7ce02a195d1c942f57656608e0f713b17de66ea7184cac1c3d0e59\"}, \"max_automatic_token_associations\": 0, \"memo\": \"auto-created account\", \"pending_reward\": 0, \"receiver_sig_required\": false, \"staked_account_id\": null, \"staked_node_id\": null, \"stake_period_start\": null, \"transactions\": [], \"links\": {\"next\": null}}"
+    },
+    {
+        "endpoint": "accounts/0.0.4361455/allowances/tokens?token.id=0.0.4699434&spender.id=0.0.4454450",
+        "response": "{\"allowances\": [], \"links\": {\"next\": null}}"
+    }
+]

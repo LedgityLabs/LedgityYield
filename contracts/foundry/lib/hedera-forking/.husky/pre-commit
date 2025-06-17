@@ -1,0 +1,3 @@
+# Runs linters defined in `.lintstagedrc.json` against staged git files.
+# See https://github.com/lint-staged/lint-staged?tab=readme-ov-file#configuration
+npx lint-staged

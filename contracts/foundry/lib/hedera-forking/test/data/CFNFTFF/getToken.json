@@ -1,0 +1,41 @@
+{
+    "admin_key": {
+        "_type": "ECDSA_SECP256K1",
+        "key": "0242b7c3beea2af6dfcc874c41d1332463407e283f602ce8ef2cbe324823561b6f"
+    },
+    "auto_renew_account": null,
+    "auto_renew_period": 7776000,
+    "created_timestamp": "1734948251.439270696",
+    "custom_fees": {
+        "created_timestamp": "1734948251.439270696",
+        "fixed_fees": [],
+        "royalty_fees": []
+    },
+    "decimals": "0",
+    "deleted": false,
+    "expiry_timestamp": 1742724250000000000,
+    "fee_schedule_key": null,
+    "freeze_default": false,
+    "freeze_key": null,
+    "initial_supply": "0",
+    "kyc_key": null,
+    "max_supply": "2",
+    "memo": "",
+    "metadata": "",
+    "metadata_key": null,
+    "modified_timestamp": "1734948251.439270696",
+    "name": "Custom Fee NFT (Fixed Fee)",
+    "pause_key": null,
+    "pause_status": "NOT_APPLICABLE",
+    "supply_key": {
+        "_type": "ECDSA_SECP256K1",
+        "key": "0242b7c3beea2af6dfcc874c41d1332463407e283f602ce8ef2cbe324823561b6f"
+    },
+    "supply_type": "FINITE",
+    "symbol": "CFNFTFF",
+    "token_id": "0.0.5308378",
+    "total_supply": "2",
+    "treasury_account_id": "0.0.4436613",
+    "type": "NON_FUNGIBLE_UNIQUE",
+    "wipe_key": null
+}

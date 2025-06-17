@@ -1,0 +1,44 @@
+{
+    "admin_key": {
+        "_type": "ED25519",
+        "key": "5db29fb3f19f8618cc4689cf13e78a935621845d67547719faf49f65d5c367cc"
+    },
+    "auto_renew_account": null,
+    "auto_renew_period": null,
+    "created_timestamp": "1706825561.156945003",
+    "custom_fees": {
+        "created_timestamp": "1706825561.156945003",
+        "fixed_fees": [],
+        "fractional_fees": []
+    },
+    "decimals": "6",
+    "deleted": false,
+    "expiry_timestamp": 1.706825707000718e18,
+    "fee_schedule_key": null,
+    "freeze_default": false,
+    "freeze_key": {
+        "_type": "ED25519",
+        "key": "baa2dd1684d8445d41b22f2b2c913484a7d885cf25ce525f8bf3fe8d5c8cb85d"
+    },
+    "initial_supply": "0",
+    "kyc_key": null,
+    "max_supply": "0",
+    "memo": "USDC HBAR",
+    "metadata": "",
+    "metadata_key": null,
+    "modified_timestamp": "1706825561.156945003",
+    "name": "USD Coin",
+    "pause_key": null,
+    "pause_status": "NOT_APPLICABLE",
+    "supply_key": {
+        "_type": "ED25519",
+        "key": "4e4658983980d1b25a634eeeb26cb2b0f0e2e9c83263ba5b056798d35f2139a8"
+    },
+    "supply_type": "INFINITE",
+    "symbol": "USDC",
+    "token_id": "0.0.429274",
+    "total_supply": "10000000005000000",
+    "treasury_account_id": "0.0.5176",
+    "type": "FUNGIBLE_COMMON",
+    "wipe_key": null
+}

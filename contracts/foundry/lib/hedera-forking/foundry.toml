@@ -1,0 +1,31 @@
+[profile.default]
+src = "contracts"
+out = "out"
+libs = ["lib"]
+
+# Required to invoke `curl`, used to query the Mirror Node for remote state.
+# This flag needs to be enabled to be able to use `HtsSystemContractJson`/`MirrorNodeFFI`.
+# https://book.getfoundry.sh/cheatcodes/ffi
+ffi = true
+
+# Extra output to include in the contract’s artifact.
+# https://book.getfoundry.sh/reference/config/solidity-compiler#extra_output
+#
+# See `outputSelection` property in Input Description
+# https://docs.soliditylang.org/en/latest/using-the-compiler.html#input-description
+extra_output = [
+    # Used by `getHtsStorageAt` to create the slot map when retrieving token info
+    "storageLayout", # Slots, offsets and types of the contract's state variables in storage
+
+    # Used to extract `function` and `event` docs to be included in the `README`
+    "userdoc", # User documentation (natspec)
+    "devdoc", # Developer documentation (natspec)
+]
+
+# Grant (test) contracts access to read files (`vm.readFile`) from the specified folders.
+fs_permissions = [
+    { access = "read", path = "./src"},
+    { access = "read", path = "./test/data"},
+]
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

@@ -1,0 +1,13 @@
+{
+    "timestamp": "1721405682.180568963",
+    "balances": [
+        {
+            "account": "0.0.1421",
+            "balance": 54300000,
+            "decimals": 6
+        }
+    ],
+    "links": {
+        "next": null
+    }
+}
