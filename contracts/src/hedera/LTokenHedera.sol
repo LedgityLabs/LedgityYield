@@ -3,18 +3,17 @@ pragma solidity 0.8.18;
 
 // Contracts
 import { ERC20WrapperUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20WrapperUpgradeable.sol";
-import "./abstracts/base/ERC20BaseUpgradeable.sol";
-import { InvestUpgradeable } from "./abstracts/InvestUpgradeable.sol";
-import { LDYStaking } from "./LDYStaking.sol";
-
+import { ERC20Upgradeable, ERC20BaseUpgradeable, GlobalPausableUpgradeable, RecoverableUpgradeable } from "../abstracts/base/ERC20BaseUpgradeable.sol";
+import { InvestUpgradeable } from "../abstracts/InvestUpgradeable.sol";
+import { LDYStaking } from "../LDYStaking.sol";
 // Libraries
 import { SafeERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
-import { SUD } from "./libs/SUD.sol";
-
+import { SUD } from "../libs/SUD.sol";
 // Interfaces
 import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import { ITransfersListener } from "./interfaces/ITransfersListener.sol";
+import { ITransfersListener } from "../interfaces/ITransfersListener.sol";
+import { IHederaTokenService } from "./lib/IHederaTokenService.sol";
 
 // Custom Errors
 error OnlyWithdrawer(); // "L39"
@@ -86,13 +85,11 @@ error OnlyHighTierAllowed();
  * @custom:oz-upgrades-unsafe-allow external-library-linking
  * @custom:security-contact security@ledgity.com
  */
-contract LToken is
+contract LTokenHedera is
   ERC20BaseUpgradeable,
   InvestUpgradeable,
   ERC20WrapperUpgradeable
 {
-  using SafeERC20Upgradeable for IERC20Upgradeable;
-
   /// @dev Represents type of actions triggering ActivityEvent events.
   enum Action {
     Deposit,
@@ -117,6 +114,9 @@ contract LToken is
     address account; // 20 bytes
     uint96 amount; // 12 bytes
   }
+
+  IHederaTokenService internal constant HTS =
+    IHederaTokenService(address(0x167));
 
   /// @notice Upper limit of retention rate.
   uint32 private constant MAX_RETENTION_RATE_UD7x3 = 10 * 10 ** 3; // 10%
@@ -258,6 +258,9 @@ contract LToken is
       name,
       symbol
     );
+
+    // Associate token to allow usage
+    HTS.associateToken(address(this), underlyingToken);
 
     // IMPORTANT: Below calls must not be restricted to owner at any point.
     // This is because the GlobalOwner contract may not be a fresh one, and so
@@ -452,7 +455,7 @@ contract LToken is
   function realBalanceOf(
     address account
   ) public view returns (uint256) {
-    return super.balanceOf(account);
+    return ERC20Upgradeable.balanceOf(account);
   }
 
   /**
@@ -474,7 +477,7 @@ contract LToken is
    * @return The real total supply of L-Tokens.
    */
   function realTotalSupply() public view returns (uint256) {
-    return super.totalSupply();
+    return ERC20Upgradeable.totalSupply();
   }
 
   /**
@@ -501,7 +504,7 @@ contract LToken is
       revert CantRecoverUnderlying();
 
     // Proceed to recovery
-    super.recoverERC20(tokenAddress, amount);
+    RecoverableUpgradeable.recoverERC20(tokenAddress, amount);
   }
 
   /**
@@ -521,7 +524,10 @@ contract LToken is
     if (recoverableAmount == 0) revert NothingToRecover();
 
     // Else, proceed to underlying tokens recovery
-    super.recoverERC20(address(underlying()), recoverableAmount);
+    RecoverableUpgradeable.recoverERC20(
+      address(underlying()),
+      recoverableAmount
+    );
   }
 
   /**
@@ -590,7 +596,7 @@ contract LToken is
     address to,
     uint256 amount
   ) internal override {
-    super._afterTokenTransfer(from, to, amount);
+    ERC20Upgradeable._afterTokenTransfer(from, to, amount);
 
     // If some L-Token have been burned/minted, inform listeners of a TVL change
     if (from == address(0) || to == address(0))
@@ -640,7 +646,7 @@ contract LToken is
     usableUnderlyings -= exceedingAmount;
 
     // Transfer the exceeding amount to the fund wallet
-    underlying().safeTransfer(fund, exceedingAmount);
+    underlying().transfer(fund, exceedingAmount);
   }
 
   /**
@@ -696,7 +702,8 @@ contract LToken is
     );
 
     // Receive underlying tokens and mint L-Tokens to the account in a 1:1 ratio
-    super.depositFor(_msgSender(), amount);
+    underlying().transferFrom(_msgSender(), address(this), amount);
+    _mint(_msgSender(), amount);
 
     // Transfer exceeding underlying tokens to the fund wallet
     _transferExceedingToFund();
@@ -786,11 +793,12 @@ contract LToken is
       ""
     );
 
-    // Burn withdrawal fees from the account
+    // Burn withdrawal fees from the account & account's withdrawn L-Tokens
     _burn(_msgSender(), fees);
+    _burn(_msgSender(), withdrawnAmount);
 
-    // Burn account's withdrawn L-Tokens and transfer to it underlying tokens in a 1:1 ratio
-    super.withdrawTo(_msgSender(), withdrawnAmount);
+    // Transfer account's withdrawn L-Tokens to it underlying tokens in a 1:1 ratio
+    underlying().transfer(_msgSender(), withdrawnAmount);
   }
 
   /**
@@ -969,7 +977,7 @@ contract LToken is
         // just been deleted from the queue, it will so be skipped if trying to
         // process it again.
         // slither-disable-next-line reentrancy-no-eth
-        underlying().safeTransfer(request.account, withdrawnAmount);
+        underlying().transfer(request.account, withdrawnAmount);
       }
 
       // Increment next request ID
@@ -1054,7 +1062,7 @@ contract LToken is
 
     // If fund wallet's balance can cover request, rely on it only
     if (withdrawnAmount <= fundBalance) {
-      underlying().safeTransferFrom(
+      underlying().transferFrom(
         _msgSender(),
         request.account,
         withdrawnAmount
@@ -1069,14 +1077,14 @@ contract LToken is
       usableUnderlyings -= missingAmount;
 
       // Transfer entire fund balance to request's emitter
-      underlying().safeTransferFrom(
+      underlying().transferFrom(
         _msgSender(),
         request.account,
         fundBalance
       );
 
       // Transfer missing amount from contract balance to request emitter
-      underlying().safeTransfer(request.account, missingAmount);
+      underlying().transfer(request.account, missingAmount);
     }
 
     // Transfer exceeding underlying tokens to the fund wallet
@@ -1143,11 +1151,7 @@ contract LToken is
     usableUnderlyings += amount;
 
     // Transfer amount from fund wallet to contract
-    underlying().safeTransferFrom(
-      _msgSender(),
-      address(this),
-      amount
-    );
+    underlying().transferFrom(_msgSender(), address(this), amount);
   }
 
   /// @notice Used by owner to claim fees generated from successful withdrawals.
@@ -1167,7 +1171,7 @@ contract LToken is
     unclaimedFees = 0;
 
     // Transfer unclaimed fees to owner
-    underlying().safeTransfer(owner(), fees);
+    underlying().transfer(owner(), fees);
   }
 
   /// @notice Enables or disables the restriction to high-tier users for instant withdrawals.
