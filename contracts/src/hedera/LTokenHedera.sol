@@ -9,6 +9,7 @@ import { LDYStaking } from "../LDYStaking.sol";
 // Libraries
 import { SafeERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 import { SUD } from "../libs/SUD.sol";
+import { HederaResponseCodes } from "./lib/HederaResponseCodes.sol";
 // Interfaces
 import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
@@ -46,6 +47,7 @@ error InvalidRequestId(); // "L66"
 
 error ExceedsMaxFeesRate(); // "L88"
 error OnlyHighTierAllowed();
+error FailedToAssociateTokens();
 
 /**
  * @title LToken
@@ -259,8 +261,14 @@ contract LTokenHedera is
       symbol
     );
 
-    // Associate token to allow usage
-    HTS.associateToken(address(this), underlyingToken);
+    // Associate HTS tokens to allow usage
+    int64 responseUnderlying = HTS.associateToken(
+      address(this),
+      underlyingToken
+    );
+    if (responseUnderlying != HederaResponseCodes.SUCCESS) {
+      revert FailedToAssociateTokens();
+    }
 
     // IMPORTANT: Below calls must not be restricted to owner at any point.
     // This is because the GlobalOwner contract may not be a fresh one, and so

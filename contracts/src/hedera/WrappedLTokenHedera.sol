@@ -101,12 +101,11 @@ contract WrappedLTokenHedera is
     // Approve LToken to spend the underlying tokens
     underlying.approve(lTokenAddr_, type(uint256).max);
 
-    // Associate tokens to allow usage
+    // Associate HTS tokens to allow usage
     int64 responseUnderlying = HTS.associateToken(
       address(this),
       address(underlying)
     );
-
     if (responseUnderlying != HederaResponseCodes.SUCCESS) {
       revert FailedToAssociateTokens();
     }
