@@ -44,6 +44,10 @@ export const dependencies: {
     USDC: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     EURC: "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
   },
+  [ChainId.hedera]: {
+    LDY: "0x9588f69388E905Dc55cF36f70c769da96aeE069F",
+    USDC: "0x000000000000000000000000000000000006f89a",
+  },
 };
 
 export type ContractName =
@@ -84,6 +88,9 @@ export const lTokenAddresses: {
   [ChainId.linea]: {
     LUSDC: "0x4AF215DbE27fc030F37f73109B85F421FAB45B7a",
   },
+  [ChainId.hedera]: {
+    LUSDC: "0x92A5C054358c7cfd10d6593570fb4E3349f4d459",
+  },
 };
 
 export const wrappedLTokensAddresses: {
@@ -100,6 +107,9 @@ export const wrappedLTokensAddresses: {
   [ChainId.arbitrum_one]: {},
   [ChainId.base]: {},
   [ChainId.linea]: {},
+  [ChainId.hedera]: {
+    lyUSD: "0x914850de7EdbA37457C451695eD912F61C16070B",
+  },
 };
 
 function fetchChainAddresses(
