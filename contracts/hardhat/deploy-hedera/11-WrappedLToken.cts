@@ -7,7 +7,7 @@ const deployerFunction: DeployFunction = async ({
   const { deployer } = await getNamedAccounts();
 
   // Deploy the shared LToken implementation
-  await deployments.deploy("WrappedLToken", {
+  await deployments.deploy("WrappedLTokenHedera", {
     from: deployer,
     log: true,
     waitConfirmations: 1,

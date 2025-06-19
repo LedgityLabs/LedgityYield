@@ -41,12 +41,12 @@ const deployerFunction: DeployFunction = async ({
 
   // Deploy the LToken
   await deployments.deploy(WRAPPED_LTOKEN_SYMBOL, {
-    contract: "WrappedLToken",
+    contract: "WrappedLTokenHedera",
     from: deployer,
     log: true,
     proxy: {
       proxyContract: "UUPS",
-      implementationName: "WrappedLToken_Implementation",
+      implementationName: "WrappedLTokenHedera_Implementation",
       execute: {
         init: {
           methodName: "initialize",

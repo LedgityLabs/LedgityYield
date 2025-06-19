@@ -48,7 +48,7 @@ const deployerFunction: DeployFunction = async ({
     },
     proxy: {
       proxyContract: "UUPS",
-      implementationName: "LToken_Implementation",
+      implementationName: "LTokenHedera_Implementation",
       execute: {
         init: {
           methodName: "initialize",
