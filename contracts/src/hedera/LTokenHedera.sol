@@ -13,7 +13,6 @@ import { HederaResponseCodes } from "./lib/HederaResponseCodes.sol";
 // Interfaces
 import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import { ITransfersListener } from "../interfaces/ITransfersListener.sol";
 import { IHederaTokenService } from "./lib/IHederaTokenService.sol";
 
 // Custom Errors
@@ -117,9 +116,6 @@ contract LTokenHedera is
     uint96 amount; // 12 bytes
   }
 
-  IHederaTokenService internal constant HTS =
-    IHederaTokenService(address(0x167));
-
   /// @notice Upper limit of retention rate.
   uint32 private constant MAX_RETENTION_RATE_UD7x3 = 10 * 10 ** 3; // 10%
 
@@ -168,12 +164,6 @@ contract LTokenHedera is
    * it from blocking the queue.
    */
   WithdrawalRequest[] public frozenRequests;
-
-  /**
-   * @notice Holds a list of contracts' references that are listening to L-Tokens transfers.
-   * @dev onLTokenTransfer() functions of those contracts will be called on each transfer.
-   */
-  ITransfersListener[] public transfersListeners;
 
   /**
    * @notice Holds the withdrawalFee amount in ETH that will be sent to withdrawer wallet.
@@ -251,7 +241,7 @@ contract LTokenHedera is
     address underlyingToken,
     string calldata name,
     string calldata symbol
-  ) public initializer {
+  ) external initializer {
     // Initialize ERC20 base.
     __ERC20Base_init(
       globalOwner_,
@@ -262,11 +252,9 @@ contract LTokenHedera is
     );
 
     // Associate HTS tokens to allow usage
-    int64 responseUnderlying = HTS.associateToken(
-      address(this),
-      underlyingToken
-    );
-    if (responseUnderlying != HederaResponseCodes.SUCCESS) {
+    int64 associateResponse = IHederaTokenService(address(0x167))
+      .associateToken(address(this), underlyingToken);
+    if (associateResponse != HederaResponseCodes.SUCCESS) {
       revert FailedToAssociateTokens();
     }
 
@@ -333,7 +321,7 @@ contract LTokenHedera is
    * @notice Updates the current withdrawal fee rate.
    * @param feesRateUD7x3_ The new withdrawal fee rate in UD7x3 format.
    */
-  function setFeesRate(uint32 feesRateUD7x3_) public onlyOwner {
+  function setFeesRate(uint32 feesRateUD7x3_) external onlyOwner {
     if (feesRateUD7x3_ > MAX_FEES_RATE_UD7x3)
       revert ExceedsMaxFeesRate();
     feesRateUD7x3 = feesRateUD7x3_;
@@ -345,7 +333,7 @@ contract LTokenHedera is
    */
   function setWithdrawalFeeInEth(
     uint256 withdrawalFeeInEth_
-  ) public onlyOwner {
+  ) external onlyOwner {
     withdrawalFeeInEth = withdrawalFeeInEth_;
   }
 
@@ -357,7 +345,7 @@ contract LTokenHedera is
    */
   function setRetentionRate(
     uint32 retentionRateUD7x3_
-  ) public onlyOwner {
+  ) external onlyOwner {
     if (retentionRateUD7x3_ > MAX_RETENTION_RATE_UD7x3)
       revert ExceedsRetentionRate();
     retentionRateUD7x3 = retentionRateUD7x3_;
@@ -367,7 +355,9 @@ contract LTokenHedera is
    * @notice Updates the address of LDYStaking contract.
    * @param ldyStakingAddress The address of the new LDYStaking contract.
    */
-  function setLDYStaking(address ldyStakingAddress) public onlyOwner {
+  function setLDYStaking(
+    address ldyStakingAddress
+  ) external onlyOwner {
     ldyStaking = LDYStaking(ldyStakingAddress);
   }
 
@@ -375,7 +365,7 @@ contract LTokenHedera is
    * @notice Updates the address of the withdrawer wallet.
    * @param withdrawer_ The address of the new withdrawer wallet.
    */
-  function setWithdrawer(address withdrawer_) public onlyOwner {
+  function setWithdrawer(address withdrawer_) external onlyOwner {
     // Ensure address is not the zero address (pre-processing fees would be lost else)
     if (withdrawer_ == address(0)) revert WithdrawerZeroAddress();
 
@@ -387,55 +377,12 @@ contract LTokenHedera is
    * @notice Updates the address of the fund wallet.
    * @param fund_ The address of the new fund wallet.
    */
-  function setFund(address fund_) public onlyOwner {
+  function setFund(address fund_) external onlyOwner {
     // Ensure address is not the zero address (deposited tokens would be lost else)
     if (fund_ == address(0)) revert FundZeroAddress();
 
     // Set new fund wallet's address
     fund = payable(fund_);
-  }
-
-  /**
-   * @notice Adds a new contract to the L-Token transfers list.
-   * @dev Each time a transfer occurs, the onLTokenTransfer() function of the
-   * specified contract will be called.
-   * @dev IMPORTANT SECURITY NOTE: This method is not intended to be used with
-   * contracts that are not owned by the Ledgity team.
-   * @param listenerContract The address of the new transfers listener contract.
-   */
-  function listenToTransfers(
-    address listenerContract
-  ) public onlyOwner {
-    transfersListeners.push(ITransfersListener(listenerContract));
-  }
-
-  /**
-   * @notice Removes a contract from the L-Token transfers list.
-   * @dev The onLTokenTransfer() function of the specified contract will not be called
-   * anymore each time a L-Token transfer occurs.
-   * @param listenerContract The address of the listener contract.
-   */
-  function unlistenToTransfers(
-    address listenerContract
-  ) public onlyOwner {
-    // Find index of listener contract in transferListeners array
-    int256 index = -1;
-    uint256 transfersListenersLength = transfersListeners.length;
-    for (uint256 i = 0; i < transfersListenersLength; i++) {
-      if (address(transfersListeners[i]) == listenerContract) {
-        index = int256(i);
-        break;
-      }
-    }
-
-    // Revert if given contract wasn't listening to transfers
-    if (index <= -1) revert ListenerNotFound();
-
-    // Else, remove transfers listener contract from listeners array
-    transfersListeners[uint256(index)] = transfersListeners[
-      transfersListenersLength - 1
-    ];
-    transfersListeners.pop();
   }
 
   /**
@@ -609,11 +556,6 @@ contract LTokenHedera is
     // If some L-Token have been burned/minted, inform listeners of a TVL change
     if (from == address(0) || to == address(0))
       emit TVLChangeEvent(totalSupply());
-
-    // Trigger onLTokenTransfer() functions of all the transfers listeners
-    for (uint256 i = 0; i < transfersListeners.length; i++) {
-      transfersListeners[i].onLTokenTransfer(from, to, amount);
-    }
   }
 
   /**
@@ -818,7 +760,7 @@ contract LTokenHedera is
    */
   function requestWithdrawal(
     uint256 amount
-  ) public payable whenNotPaused notBlacklisted(_msgSender()) {
+  ) external payable whenNotPaused notBlacklisted(_msgSender()) {
     // Ensure the account has enough L-Tokens to withdraw
     if (amount > balanceOf(_msgSender()))
       revert InsufficientLTokens();
@@ -1106,7 +1048,7 @@ contract LTokenHedera is
    */
   function cancelWithdrawalRequest(
     uint256 requestId
-  ) public whenNotPaused notBlacklisted(_msgSender()) {
+  ) external whenNotPaused notBlacklisted(_msgSender()) {
     // Retrieve request data
     WithdrawalRequest memory request = withdrawalQueue[requestId];
 

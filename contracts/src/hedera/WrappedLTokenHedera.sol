@@ -37,17 +37,15 @@ error FailedToAssociateTokens();
  */
 contract WrappedLTokenHedera is
   IWrappedLToken,
+  IERC4626,
   ERC20Upgradeable,
   BaseUpgradeable,
-  CCIPToken,
-  IERC4626
+  CCIPToken
 {
   // ======== LIBS ======== //
   using SafeERC20 for IERC20;
 
   // ======== STORAGE ======== //
-  IHederaTokenService internal constant HTS =
-    IHederaTokenService(address(0x167));
   uint256 public constant RAY = 1e27;
 
   // The underlying LToken being wrapped
@@ -91,24 +89,20 @@ contract WrappedLTokenHedera is
   ) public initializer {
     baseRate = RAY;
 
-    __ERC20_init(name_, symbol_);
-    __Base_init(globalOwner_, globalPause_, globalBlacklist_);
-
     lToken = ILToken(lTokenAddr_);
 
     // Get the underlying token from the LToken contract
-    IERC20 underlying = lToken.underlying();
-    // Approve LToken to spend the underlying tokens
-    underlying.approve(lTokenAddr_, type(uint256).max);
+    address underlyingToken = address(lToken.underlying());
 
     // Associate HTS tokens to allow usage
-    int64 responseUnderlying = HTS.associateToken(
-      address(this),
-      address(underlying)
-    );
-    if (responseUnderlying != HederaResponseCodes.SUCCESS) {
+    int64 associateResponse = IHederaTokenService(address(0x167))
+      .associateToken(address(this), underlyingToken);
+    if (associateResponse != HederaResponseCodes.SUCCESS) {
       revert FailedToAssociateTokens();
     }
+
+    __ERC20_init(name_, symbol_);
+    __Base_init(globalOwner_, globalPause_, globalBlacklist_);
 
     // Initialize the first checkpoint
     updateRateCheckpoint();
@@ -310,6 +304,7 @@ contract WrappedLTokenHedera is
     );
 
     // Deposit underlying tokens into LToken to get LTokens
+    underlying.approve(address(lToken), underlyingAmount);
     lToken.deposit(underlyingAmount, "");
 
     // Now wrap the received LTokens
@@ -338,6 +333,7 @@ contract WrappedLTokenHedera is
     );
 
     // Deposit underlying tokens into LToken to get LTokens
+    underlying.approve(address(lToken), underlyingAmount);
     lToken.deposit(underlyingAmount, "");
 
     // Now wrap the received LTokens and send them to the specified address
