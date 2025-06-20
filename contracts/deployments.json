@@ -39432,7 +39432,7 @@
           ]
         },
         "LTokenHedera_Implementation": {
-          "address": "0xdaa43F127046c25cD594955248ac0488e0e61EC0",
+          "address": "0xE8937cE3c9A9B9482231D999D2603Cf527d233B1",
           "abi": [
             {
               "inputs": [],
@@ -39462,6 +39462,11 @@
             {
               "inputs": [],
               "name": "ExceedsRetentionRate",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "FailedToAssociateTokens",
               "type": "error"
             },
             {
@@ -39507,11 +39512,6 @@
             {
               "inputs": [],
               "name": "InvalidRequestId",
-              "type": "error"
-            },
-            {
-              "inputs": [],
-              "name": "ListenerNotFound",
               "type": "error"
             },
             {
@@ -39594,7 +39594,7 @@
                 },
                 {
                   "indexed": true,
-                  "internalType": "enum LToken.Action",
+                  "internalType": "enum LTokenHedera.Action",
                   "name": "action",
                   "type": "uint8"
                 },
@@ -39612,7 +39612,7 @@
                 },
                 {
                   "indexed": false,
-                  "internalType": "enum LToken.Status",
+                  "internalType": "enum LTokenHedera.Status",
                   "name": "newStatus",
                   "type": "uint8"
                 },
@@ -40240,19 +40240,6 @@
               "type": "function"
             },
             {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "listenerContract",
-                  "type": "address"
-                }
-              ],
-              "name": "listenToTransfers",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
               "inputs": [],
               "name": "name",
               "outputs": [
@@ -40729,25 +40716,6 @@
               "type": "function"
             },
             {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "name": "transfersListeners",
-              "outputs": [
-                {
-                  "internalType": "contract ITransfersListener",
-                  "name": "",
-                  "type": "address"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
               "inputs": [],
               "name": "unclaimedFees",
               "outputs": [
@@ -40771,19 +40739,6 @@
                 }
               ],
               "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "listenerContract",
-                  "type": "address"
-                }
-              ],
-              "name": "unlistenToTransfers",
-              "outputs": [],
-              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -40939,7 +40894,7 @@
           ]
         },
         "LTokenSignaler": {
-          "address": "0xa5568A84Cb012C13dADA4106d49FC4a1d5386B24",
+          "address": "0xEf2864900bBBeC426B02aBD9A08f97329ebD14bc",
           "abi": [
             {
               "anonymous": false,
@@ -41174,7 +41129,7 @@
           ]
         },
         "LTokenSignaler_Implementation": {
-          "address": "0x3D328211B8C713663d099f215418862b2A53fCe3",
+          "address": "0x071C1860CEC683dd70bA1cc44418DD11266cD80F",
           "abi": [
             {
               "inputs": [],
@@ -41390,7 +41345,7 @@
           ]
         },
         "LTokenSignaler_Proxy": {
-          "address": "0xa5568A84Cb012C13dADA4106d49FC4a1d5386B24",
+          "address": "0xEf2864900bBBeC426B02aBD9A08f97329ebD14bc",
           "abi": [
             {
               "inputs": [
@@ -41464,7 +41419,7 @@
           ]
         },
         "LUSDC": {
-          "address": "0x92A5C054358c7cfd10d6593570fb4E3349f4d459",
+          "address": "0x483e6c53Ca341AF3C05EE5952f6Af48b3cFeE5cD",
           "abi": [
             {
               "anonymous": false,
@@ -41551,6 +41506,11 @@
             },
             {
               "inputs": [],
+              "name": "FailedToAssociateTokens",
+              "type": "error"
+            },
+            {
+              "inputs": [],
               "name": "FundZeroAddress",
               "type": "error"
             },
@@ -41592,11 +41552,6 @@
             {
               "inputs": [],
               "name": "InvalidRequestId",
-              "type": "error"
-            },
-            {
-              "inputs": [],
-              "name": "ListenerNotFound",
               "type": "error"
             },
             {
@@ -41679,7 +41634,7 @@
                 },
                 {
                   "indexed": true,
-                  "internalType": "enum LToken.Action",
+                  "internalType": "enum LTokenHedera.Action",
                   "name": "action",
                   "type": "uint8"
                 },
@@ -41697,7 +41652,7 @@
                 },
                 {
                   "indexed": false,
-                  "internalType": "enum LToken.Status",
+                  "internalType": "enum LTokenHedera.Status",
                   "name": "newStatus",
                   "type": "uint8"
                 },
@@ -42280,19 +42235,6 @@
               "type": "function"
             },
             {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "listenerContract",
-                  "type": "address"
-                }
-              ],
-              "name": "listenToTransfers",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
               "inputs": [],
               "name": "name",
               "outputs": [
@@ -42769,25 +42711,6 @@
               "type": "function"
             },
             {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "name": "transfersListeners",
-              "outputs": [
-                {
-                  "internalType": "contract ITransfersListener",
-                  "name": "",
-                  "type": "address"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
               "inputs": [],
               "name": "unclaimedFees",
               "outputs": [
@@ -42811,19 +42734,6 @@
                 }
               ],
               "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "listenerContract",
-                  "type": "address"
-                }
-              ],
-              "name": "unlistenToTransfers",
-              "outputs": [],
-              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -42995,7 +42905,7 @@
           ]
         },
         "LUSDC_Proxy": {
-          "address": "0x92A5C054358c7cfd10d6593570fb4E3349f4d459",
+          "address": "0x483e6c53Ca341AF3C05EE5952f6Af48b3cFeE5cD",
           "abi": [
             {
               "inputs": [
@@ -43069,7 +42979,7 @@
           ]
         },
         "WrappedLTokenHedera": {
-          "address": "0xb90498cea9b1C9049B1667c3ef6ecFE33e878fBb",
+          "address": "0x27EAD7BA11451Cd63818eA3372508f11cD44dbdE",
           "abi": [
             {
               "inputs": [],
@@ -44770,7 +44680,7 @@
           ]
         },
         "WrappedLTokenHedera_Implementation": {
-          "address": "0x39cD9179d278A42D447947e6040c0C88FEd614aD",
+          "address": "0xb7dC2048229cFea2690b245E02f9d3D027EdbaAe",
           "abi": [
             {
               "inputs": [],
@@ -46471,7 +46381,7 @@
           ]
         },
         "lyUSD": {
-          "address": "0x914850de7EdbA37457C451695eD912F61C16070B",
+          "address": "0x2363AB2520709BC63E887C3809F0D39bca676276",
           "abi": [
             {
               "anonymous": false,
@@ -48196,7 +48106,7 @@
           ]
         },
         "lyUSD_Proxy": {
-          "address": "0x914850de7EdbA37457C451695eD912F61C16070B",
+          "address": "0x2363AB2520709BC63E887C3809F0D39bca676276",
           "abi": [
             {
               "inputs": [

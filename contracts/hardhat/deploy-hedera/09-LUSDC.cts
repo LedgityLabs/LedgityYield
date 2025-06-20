@@ -40,7 +40,7 @@ const deployerFunction: DeployFunction = async ({
 
   // Deploy the proxy
   const result = await deployments.deploy(LTOKEN_SYMBOL, {
-    contract: "LToken",
+    contract: "LTokenHedera",
     from: deployer,
     log: true,
     libraries: {

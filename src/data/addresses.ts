@@ -89,7 +89,7 @@ export const lTokenAddresses: {
     LUSDC: "0x4AF215DbE27fc030F37f73109B85F421FAB45B7a",
   },
   [ChainId.hedera]: {
-    LUSDC: "0x92A5C054358c7cfd10d6593570fb4E3349f4d459",
+    LUSDC: "0x483e6c53Ca341AF3C05EE5952f6Af48b3cFeE5cD",
   },
 };
 
@@ -108,7 +108,7 @@ export const wrappedLTokensAddresses: {
   [ChainId.base]: {},
   [ChainId.linea]: {},
   [ChainId.hedera]: {
-    lyUSD: "0x914850de7EdbA37457C451695eD912F61C16070B",
+    lyUSD: "0x2363AB2520709BC63E887C3809F0D39bca676276",
   },
 };
 
