@@ -10,7 +10,7 @@
     "build:analyze": "npx cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
-    "compile": "hardhat compile && cross-env HARDHAT_DEPLOY_FORK=base wagmi generate --config wagmi.config.ts",
+    "compile": "hardhat compile && hardhat export --export-all contracts/deployments.json && cross-env HARDHAT_DEPLOY_FORK=base wagmi generate",
     "deploy-reset:fork": "hardhat deploy --reset --network hardhat",
     "deploy-reset:fork-base": "cross-env HARDHAT_DEPLOY_FORK=base hardhat deploy --reset --network hardhat",
     "deploy-reset:base": "hardhat deploy --reset --network base",
@@ -121,6 +121,7 @@
   "devDependencies": {
     "@graphprotocol/client-cli": "3.0.0",
     "@graphprotocol/graph-ts": "0.31.0",
+    "@hashgraph/system-contracts-forking": "^0.1.2",
     "@next/bundle-analyzer": "^14.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.14",
     "@openzeppelin/contracts": "4.9.0",
