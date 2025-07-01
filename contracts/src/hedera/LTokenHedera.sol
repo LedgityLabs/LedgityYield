@@ -173,6 +173,9 @@ contract LTokenHedera is
   /// @notice Whether only high tier accounts may use instant withdrawals
   bool public onlyHighTierInstantWithdrawal;
 
+  /// @notice Whether the underlying token is an HTS token
+  bool public isHtsUnderlying;
+
   /**
    * @notice Emitted to inform listeners about a change in the contract's TVL.
    * @dev TVL = realTotalSupply()
@@ -239,6 +242,7 @@ contract LTokenHedera is
     address globalBlacklist_,
     address ldyStaking_,
     address underlyingToken,
+    bool isHtsUnderlying_,
     string calldata name,
     string calldata symbol
   ) external initializer {
@@ -252,10 +256,14 @@ contract LTokenHedera is
     );
 
     // Associate HTS tokens to allow usage
-    int64 associateResponse = IHederaTokenService(address(0x167))
-      .associateToken(address(this), underlyingToken);
-    if (associateResponse != HederaResponseCodes.SUCCESS) {
-      revert FailedToAssociateTokens();
+    if (isHtsUnderlying_) {
+      int64 associateResponse = IHederaTokenService(address(0x167))
+        .associateToken(address(this), underlyingToken);
+      if (associateResponse != HederaResponseCodes.SUCCESS) {
+        revert FailedToAssociateTokens();
+      }
+
+      isHtsUnderlying = isHtsUnderlying_;
     }
 
     // IMPORTANT: Below calls must not be restricted to owner at any point.

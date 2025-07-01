@@ -15,8 +15,8 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 import { HederaResponseCodes } from "./lib/HederaResponseCodes.sol";
 // Interfaces
 import { IERC4626 } from "../interfaces/IERC4626.sol";
-import { ILToken } from "../interfaces/ILToken.sol";
-import { IWrappedLToken } from "../interfaces/IWrappedLToken.sol";
+import { IWrappedLTokenHedera } from "./interfaces/IWrappedLTokenHedera.sol";
+import { ILTokenHedera } from "./interfaces/ILTokenHedera.sol"; 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { IHederaTokenService } from "./lib/IHederaTokenService.sol";
 
@@ -36,7 +36,7 @@ error FailedToAssociateTokens();
  *      the growth is tracked through an exchange rate rather than balance increases
  */
 contract WrappedLTokenHedera is
-  IWrappedLToken,
+  IWrappedLTokenHedera,
   IERC4626,
   ERC20Upgradeable,
   BaseUpgradeable,
@@ -49,7 +49,7 @@ contract WrappedLTokenHedera is
   uint256 public constant RAY = 1e27;
 
   // The underlying LToken being wrapped
-  ILToken public lToken;
+  ILTokenHedera public lToken;
 
   // The initial exchange rate of the wrapped token in Ray (27 decimals)
   uint256 public baseRate;
@@ -89,16 +89,19 @@ contract WrappedLTokenHedera is
   ) public initializer {
     baseRate = RAY;
 
-    lToken = ILToken(lTokenAddr_);
+    lToken = ILTokenHedera(lTokenAddr_);
 
     // Get the underlying token from the LToken contract
     address underlyingToken = address(lToken.underlying());
+    bool isHtsUnderlying = lToken.isHtsUnderlying();
 
     // Associate HTS tokens to allow usage
-    int64 associateResponse = IHederaTokenService(address(0x167))
-      .associateToken(address(this), underlyingToken);
-    if (associateResponse != HederaResponseCodes.SUCCESS) {
-      revert FailedToAssociateTokens();
+    if (isHtsUnderlying) {
+      int64 associateResponse = IHederaTokenService(address(0x167))
+        .associateToken(address(this), underlyingToken);
+      if (associateResponse != HederaResponseCodes.SUCCESS) {
+        revert FailedToAssociateTokens();
+      }
     }
 
     __ERC20_init(name_, symbol_);
@@ -116,7 +119,7 @@ contract WrappedLTokenHedera is
    * @return decimals_ The number of decimals
    */
   function decimals() public view override returns (uint8) {
-    return ILToken(lToken).decimals();
+    return ILTokenHedera(lToken).decimals();
   }
 
   /**
