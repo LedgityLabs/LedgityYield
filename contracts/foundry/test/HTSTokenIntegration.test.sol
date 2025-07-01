@@ -15,7 +15,6 @@ import { LDYStaking } from "../../src/LDYStaking.sol";
 import { GenericERC20 } from "../../src/GenericERC20.sol";
 // Hedera imports
 import { IHederaTokenService } from "../../src/hedera/lib/IHederaTokenService.sol";
-import { HederaResponseCodes } from "../../src/hedera/lib/HederaResponseCodes.sol";
 import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 import { console2 as console } from "forge-std/console2.sol";
@@ -148,6 +147,7 @@ contract HTSTokenIntegration is Test {
       address(globalBlacklist),
       address(ldyStaking),
       address(htsToken),
+      true,
       "LToken HTS",
       "LHTS"
     );
