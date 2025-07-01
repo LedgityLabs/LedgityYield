@@ -6,6 +6,7 @@ import { dependencies } from "../../dependencies.cts";
 const LTOKEN_NAME = "Ledgity USDC";
 const LTOKEN_SYMBOL = "LUSDC";
 const UNDERLYING_TOKEN_SYMBOL = "USDC";
+const IS_HTOKEN = true;
 
 const deployerFunction: DeployFunction = async ({
   getNamedAccounts,
@@ -58,6 +59,7 @@ const deployerFunction: DeployFunction = async ({
             globalBlacklist.address,
             ldyStaking.address,
             underlyingAddress,
+            IS_HTOKEN,
             LTOKEN_NAME,
             LTOKEN_SYMBOL,
           ],

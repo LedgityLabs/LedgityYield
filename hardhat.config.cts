@@ -129,7 +129,7 @@ const networkConfigs: { [key: string]: NetworkConfig } = {
     rpcUrl: HEDERA_RPC_URL,
     forkingBlock: HEDERA_FORKING_BLOCK,
     verifyApiKey: HEDERA_VERIFY_API_KEY,
-    apiURL: "",
+    apiURL: "https://server-verify.hashscan.io",
     browserURL: "https://hashscan.io/mainnet/",
     deploy: ["./contracts/hardhat/deploy-hedera"],
   },
