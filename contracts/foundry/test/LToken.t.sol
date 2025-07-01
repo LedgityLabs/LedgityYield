@@ -277,7 +277,7 @@ contract Tests is Test, ModifiersExpectations {
   // ==================
   // === Invariants ===
   // - Usable underlyings should never exceeds expected retained
-  function invariant_1() external {
+  function invariant_1() external view {
     if (tested.decimals() > 18) return;
     assertLe(
       tested.usableUnderlyings(),
@@ -286,7 +286,7 @@ contract Tests is Test, ModifiersExpectations {
   }
 
   // - Contract underlying balance should never be lower than usable underlyings amount (= missing funds)
-  function invariant_2() external {
+  function invariant_2() external view {
     if (tested.decimals() > 18) return;
 
     assertGe(
@@ -313,7 +313,7 @@ contract Tests is Test, ModifiersExpectations {
     );
   }
 
-  function test_initialize_2() public {
+  function test_initialize_2() public view {
     console.log(
       "Should properly set global owner, pause, blacklist and ldy staking"
     );
@@ -323,36 +323,28 @@ contract Tests is Test, ModifiersExpectations {
     assertEq(address(tested.ldyStaking()), address(ldyStaking));
   }
 
-  function test_initialize_3() public {
+  function test_initialize_3() public view {
     console.log("Should properly set invested token to self");
     assertEq(address(tested.invested()), address(tested));
   }
 
-  function test_initialize_4() public {
+  function test_initialize_4() public view {
     console.log("Should properly set wrapped token");
     assertEq(address(tested.underlying()), address(underlyingToken));
   }
 
-  function test_initialize_5() public {
-    console.log(
-      "Should properly set L-Token name and symbol from underlying token ones"
-    );
-    assertEq(
-      tested.name(),
-      string.concat("Ledgity ", underlyingToken.symbol())
-    );
-    assertEq(
-      tested.symbol(),
-      string.concat("L", underlyingToken.symbol())
-    );
+  function test_initialize_5() public view {
+    console.log("Should properly set L-Token name and symbol");
+    assertEq(tested.name(), "LToken");
+    assertEq(tested.symbol(), "LTK");
   }
 
-  function test_initialize_6() public {
+  function test_initialize_6() public view {
     console.log("Should initialize withdrawal fees to 0.3%");
     assertEq(tested.feesRateUD7x3(), 300);
   }
 
-  function test_initialize_7() public {
+  function test_initialize_7() public view {
     console.log("Should initialize retention rate to 10%");
     assertEq(tested.retentionRateUD7x3(), 10_000);
   }
@@ -379,7 +371,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.assume(account != withdrawerWallet);
 
     // Should revert
-    vm.expectRevert(bytes("L39"));
+    vm.expectRevert(LToken.OnlyWithdrawer.selector);
     vm.prank(account);
     tested.restrictedToWithdrawer();
 
@@ -399,7 +391,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.assume(account != fundWallet);
 
     // Should revert
-    vm.expectRevert(bytes("L40"));
+    vm.expectRevert(LToken.OnlyFund.selector);
     vm.prank(account);
     tested.restrictedToFund();
 
@@ -412,7 +404,7 @@ contract Tests is Test, ModifiersExpectations {
   // === setFeesRate() function ===
   function testFuzz_setFeesRate_1(
     address account,
-    uint32 _feesRateUD7x3
+    uint32 feesRateUD7x3
   ) public {
     console.log("Should revert if not called by owner");
 
@@ -422,13 +414,15 @@ contract Tests is Test, ModifiersExpectations {
     // Expect revert
     expectRevertOnlyOwner();
     vm.prank(account);
-    tested.setFeesRate(_feesRateUD7x3);
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
+    tested.setFeesRate(feesRateUD7x3);
   }
 
-  function testFuzz_setFeesRate_2(uint32 _feesRateUD7x3) public {
+  function testFuzz_setFeesRate_2(uint32 feesRateUD7x3) public {
     console.log("Should change value of feesRateUD7x3");
-    tested.setFeesRate(_feesRateUD7x3);
-    assertEq(tested.feesRateUD7x3(), _feesRateUD7x3);
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
+    tested.setFeesRate(feesRateUD7x3);
+    assertEq(tested.feesRateUD7x3(), feesRateUD7x3);
   }
 
   // ====================================
@@ -457,11 +451,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is >10%
     _retentionRateUD7x3 = uint32(
-      bound(_retentionRateUD7x3, 10 * 10 ** 3 + 1, type(uint32).max)
+      bound(_retentionRateUD7x3, 10 * 1e3 + 1, type(uint32).max)
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L41"));
+    vm.expectRevert(LToken.ExceedsRetentionRate.selector);
     tested.setRetentionRate(_retentionRateUD7x3);
   }
 
@@ -472,7 +466,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is <10%
     _retentionRateUD7x3 = uint32(
-      bound(_retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(_retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     tested.setRetentionRate(_retentionRateUD7x3);
@@ -525,7 +519,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L63"));
+    vm.expectRevert(LToken.WithdrawerZeroAddress.selector);
     tested.setWithdrawer(payable(address(0)));
   }
 
@@ -567,7 +561,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L64"));
+    vm.expectRevert(LToken.FundZeroAddress.selector);
     tested.setFund(payable(address(0)));
   }
 
@@ -653,7 +647,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L42"));
+    vm.expectRevert(LToken.ListenerNotFound.selector);
     tested.unlistenToTransfers(listenerContract);
   }
 
@@ -671,11 +665,11 @@ contract Tests is Test, ModifiersExpectations {
     tested.unlistenToTransfers(listenerContract);
 
     // Expect revert
-    vm.expectRevert(bytes("L42"));
+    vm.expectRevert(LToken.ListenerNotFound.selector);
     tested.unlistenToTransfers(listenerContract);
   }
 
-  function testFuzz_unlistenToTransfers_3(
+  function testFuzz_unlistenToTransfers_4(
     address listenerContract1,
     address listenerContract2,
     address listenerContract3
@@ -728,7 +722,7 @@ contract Tests is Test, ModifiersExpectations {
 
   // ===========================
   // === decimals() function ===
-  function testFuzz_setFund_1(uint8 decimals) public {
+  function testFuzz_decimals_1(uint8 decimals) public {
     console.log("Should mirror wrapped/underlying token decimals");
 
     // Set underlying token decimals
@@ -913,7 +907,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.assume(withdrawnAmount <= depositedAmount);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Assert total supply is currently 0
     assertEq(tested.totalSupply(), 0);
@@ -961,7 +955,7 @@ contract Tests is Test, ModifiersExpectations {
     console.log(
       "Should revert if trying to recover underlying token"
     );
-    vm.expectRevert(bytes("L43"));
+    vm.expectRevert(LToken.CantRecoverUnderlying.selector);
     tested.recoverERC20(address(underlyingToken), 0);
   }
 
@@ -1028,7 +1022,7 @@ contract Tests is Test, ModifiersExpectations {
 
   function test_recoverUnderlying_2() public {
     console.log("Should revert if there is nothing to recover");
-    vm.expectRevert(bytes("L44"));
+    vm.expectRevert(LToken.NothingToRecover.selector);
     tested.recoverUnderlying();
   }
 
@@ -1051,7 +1045,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Force retention rate to 200% so it accepts deposited amount x 2 (as funded amount
     // is capped to deposited amount)
-    tested.tool_setRetentionRate(uint32(200 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(200 * 1e3));
 
     // Bound deposited amount to [2, 1T]
     depositedAmount = uint216(
@@ -1086,7 +1080,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.stopPrank();
 
     // Expect the function to consider there is nothing to recover
-    vm.expectRevert(bytes("L44"));
+    vm.expectRevert(LToken.NothingToRecover.selector);
     tested.recoverUnderlying();
   }
 
@@ -1384,7 +1378,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is >0 and <=10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     // Set retention rate
@@ -1452,7 +1446,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is >0 and <=10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 1, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 1, 10 * 1e3)
     );
 
     // Set retention rate
@@ -1526,7 +1520,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is >0 and <=10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 1, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 1, 10 * 1e3)
     );
 
     // Set retention rate
@@ -1590,7 +1584,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is >0 and <=10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 1, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 1, 10 * 1e3)
     );
 
     // Set retention rate
@@ -1643,7 +1637,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Ensure the retention rate is >0 and <=10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 1, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 1, 10 * 1e3)
     );
 
     // Set retention rate
@@ -1684,7 +1678,7 @@ contract Tests is Test, ModifiersExpectations {
     uint256 amount
   ) public {
     console.log("Should inconditionally revert");
-    vm.expectRevert(bytes("L45"));
+    vm.expectRevert(LToken.NotImplemented.selector);
     tested.withdrawTo(account, amount);
   }
 
@@ -1695,7 +1689,7 @@ contract Tests is Test, ModifiersExpectations {
     uint256 amount
   ) public {
     console.log("Should inconditionally revert");
-    vm.expectRevert(bytes("L46"));
+    vm.expectRevert(LToken.NotImplemented.selector);
     tested.depositFor(account, amount);
   }
 
@@ -1767,7 +1761,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Expect revert when trying to deposit more than account balance
     underlyingToken.approve(address(tested), depositedAmount);
-    vm.expectRevert(bytes("L47"));
+    vm.expectRevert(LToken.InsufficientBalance.selector);
     tested.deposit(depositedAmount, "");
     vm.stopPrank();
   }
@@ -1794,7 +1788,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap depositedAmount to 100T
     depositedAmount = bound(
@@ -1853,7 +1847,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap depositedAmount to 100T
     depositedAmount = bound(
@@ -1903,7 +1897,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap depositedAmount to 100T
     depositedAmount = bound(
@@ -1953,7 +1947,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Bound retention rate to [0, 10%]
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     // Set random retention rate
@@ -2010,7 +2004,7 @@ contract Tests is Test, ModifiersExpectations {
     // ldyStaking.setAPR(aprUD7x3);
 
     // Cap fees rate to 100%
-    feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 100 * 10 ** 3));
+    feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 20 * 1e3));
 
     // Set random fees rate
     tested.setFeesRate(feesRateUD7x3);
@@ -2019,7 +2013,7 @@ contract Tests is Test, ModifiersExpectations {
     tier2Amount = uint216(
       bound(
         tier2Amount,
-        1000,
+        1000 * 10 ** ldyToken.decimals(),
         100_000_000_000_000 * 10 ** ldyToken.decimals()
       )
     );
@@ -2031,13 +2025,14 @@ contract Tests is Test, ModifiersExpectations {
     deal(address(ldyToken), account, tier2Amount, true);
     vm.startPrank(account);
     ldyToken.approve(address(ldyStaking), tier2Amount);
-    ldyStaking.stake(tier2Amount, 2); // minimal 1000 tokens with 12 months stakng duration
+    ldyStaking.stake(tier2Amount, 3); // minimal 1000 tokens with 12 months stakng duration
     vm.stopPrank();
 
     // Get withdraw amount and fees
+    amount = bound(amount, 0, type(uint128).max);
     (uint256 withdrawnAmount, uint256 fees) = tested
       .getWithdrawnAmountAndFees(account, amount);
-
+ 
     // Expect withdrawn amount to be equal to input amount
     assertEq(withdrawnAmount, amount);
 
@@ -2066,7 +2061,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Cap fees rate to 100%
-    feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 100 * 10 ** 3));
+    feesRateUD7x3 = uint32(bound(feesRateUD7x3, 0, 20 * 1e3));
 
     // Set random fees rate
     tested.setFeesRate(feesRateUD7x3);
@@ -2103,7 +2098,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Cap fees rate to 100% and to a minimum of 0.1% to prevent below assertion revert because of precision loss
-    feesRateUD7x3 = uint32(bound(feesRateUD7x3, 100, 100 * 10 ** 3));
+    feesRateUD7x3 = uint32(bound(feesRateUD7x3, 100, 20 * 1e3));
 
     // Set random fees rate
     tested.setFeesRate(feesRateUD7x3);
@@ -2205,7 +2200,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.deposit(depositedAmount, "");
 
     // Expect revert when trying to withdraw more than deposited amount
-    vm.expectRevert(bytes("L48"));
+    vm.expectRevert(LToken.InsufficientLTokens.selector);
     tested.instantWithdrawal(requestedAmount);
     vm.stopPrank();
   }
@@ -2233,7 +2228,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Ensure total queued is greater than 0 and capped to 100T
     queuedAmount = bound(
@@ -2259,7 +2254,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.deposit(depositedAmount, "");
 
     // Expect revert when because of insufficient funds available
-    vm.expectRevert(bytes("L49"));
+    vm.expectRevert(LToken.InsufficientLiquidity.selector);
     tested.instantWithdrawal(depositedAmount);
     vm.stopPrank();
   }
@@ -2290,7 +2285,7 @@ contract Tests is Test, ModifiersExpectations {
     // ldyStaking.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Ensure total queued is greater than 0 and capped to 100T
     queuedAmount = bound(
@@ -2306,7 +2301,7 @@ contract Tests is Test, ModifiersExpectations {
     tier2Amount = uint216(
       bound(
         tier2Amount,
-        1000,
+        1000 * 10 ** ldyToken.decimals(),
         100_000_000_000_000 * 10 ** ldyToken.decimals()
       )
     );
@@ -2318,7 +2313,7 @@ contract Tests is Test, ModifiersExpectations {
     deal(address(ldyToken), account, tier2Amount, true);
     vm.startPrank(account);
     ldyToken.approve(address(ldyStaking), tier2Amount);
-    ldyStaking.stake(tier2Amount, 2); // minimal 1000 tokens with 12 months stakng duration
+    ldyStaking.stake(tier2Amount, 3); // minimal 1000 tokens with 12 months stakng duration
     vm.stopPrank();
 
     // Assert account is eligible to tier 2
@@ -2339,7 +2334,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert when because of insufficient funds available
-    vm.expectRevert(bytes("L49"));
+    vm.expectRevert(LToken.InsufficientLiquidity.selector);
     vm.prank(account);
     tested.instantWithdrawal(tier2Amount);
   }
@@ -2371,7 +2366,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Ensure total queued is ceiled to uint96 max (the max amount that can be requested at once)
     queuedAmount = bound(queuedAmount, 1, type(uint96).max);
@@ -2452,7 +2447,7 @@ contract Tests is Test, ModifiersExpectations {
     // ldyStaking.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Ensure total queued is greater than 0 and capped to 100T
     queuedAmount = bound(
@@ -2466,7 +2461,11 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap tier2Amount to 100T
     tier2Amount = uint216(
-      bound(tier2Amount, 1000, 100_000_000_000_000 * 10 ** decimals)
+      bound(
+        tier2Amount,
+        1000 * 10 ** ldyToken.decimals(),
+        100_000_000_000_000 * 10 ** ldyToken.decimals()
+      )
     );
 
     // // Set random tier 2 amount
@@ -2476,7 +2475,7 @@ contract Tests is Test, ModifiersExpectations {
     deal(address(ldyToken), account, tier2Amount, true);
     vm.startPrank(account);
     ldyToken.approve(address(ldyStaking), tier2Amount);
-    ldyStaking.stake(tier2Amount, 2); // minimal 1000 tokens with 12 months stakng duration
+    ldyStaking.stake(tier2Amount, 3); // minimal 1000 tokens with 12 months stakng duration
     vm.stopPrank();
 
     // Assert account is eligible to tier 2
@@ -2522,7 +2521,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap depositedAmount to 100T
     depositedAmount = bound(
@@ -2574,7 +2573,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap depositedAmount to 100T
     depositedAmount = bound(
@@ -2629,7 +2628,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so it doesn't interfer in calculations
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap depositedAmount to 100T
     depositedAmount = bound(
@@ -2667,7 +2666,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.assume(account != withdrawerWallet);
 
     // Expect revert
-    vm.expectRevert(bytes("L39"));
+    vm.expectRevert(LToken.OnlyWithdrawer.selector);
     vm.prank(account);
     tested.processQueuedRequests();
   }
@@ -2718,7 +2717,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap requestAmount to uint96.max which is the maximum amount of underlying tokens that can be requested at once
     requestAmount = bound(requestAmount, 1, type(uint96).max);
@@ -2814,7 +2813,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap requestAmount to uint96.max which is the maximum amount of underlying tokens that can be requested at once
     requestAmount = bound(requestAmount, 1, type(uint96).max);
@@ -2927,7 +2926,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Set retention rate to 10%
-    tested.tool_setRetentionRate(uint32(10 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(10 * 1e3));
 
     // Set no fees
     tested.setFeesRate(0);
@@ -3117,7 +3116,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap amount of requests to 30
     // The 3 floor is here to ensure that each request is not a big request (each request < 1/2 of expected retained)
@@ -3203,9 +3202,10 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount of requests to 30
@@ -3305,9 +3305,10 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount of requests to 30
@@ -3387,9 +3388,10 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount of requests to 30
@@ -3480,9 +3482,10 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount of requests to 30
@@ -3574,9 +3577,10 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount of requests to 30
@@ -3658,9 +3662,10 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force set retention rate to 100% so funds are kept on the contract and it doesn't have to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount of requests to 30
@@ -3724,7 +3729,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(7000);
 
     // Set retention rate to 100% so it doesn't interfer
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Set fees rate to 0.3%
     tested.setFeesRate(300);
@@ -3780,7 +3785,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.assume(account != fundWallet);
 
     // Expect revert
-    vm.expectRevert(bytes("L40"));
+    vm.expectRevert(LToken.OnlyFund.selector);
     vm.prank(account);
     tested.processBigQueuedRequest(requestId);
   }
@@ -3820,13 +3825,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Prevent amount from overflowing max withdrawal request amount
@@ -3850,7 +3856,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.cancelWithdrawalRequest(0);
 
     // Expect error when trying to process the inactive queued withdrawal
-    vm.expectRevert(bytes("L66"));
+    vm.expectRevert(LToken.InvalidRequestId.selector);
     vm.prank(address(fundWallet));
     tested.processBigQueuedRequest(0);
   }
@@ -3880,13 +3886,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount so it doesn't overflow max withdrawal request amount
@@ -3909,7 +3916,7 @@ contract Tests is Test, ModifiersExpectations {
     globalBlacklist.blacklist(account);
 
     // Expect revert
-    vm.expectRevert(bytes("L50"));
+    vm.expectRevert(LToken.RequestorBlacklisted.selector);
     vm.prank(address(fundWallet));
     tested.processBigQueuedRequest(0);
   }
@@ -3937,13 +3944,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount to  (0, 100T]
@@ -3969,7 +3977,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L51"));
+    vm.expectRevert(LToken.NotBigRequest.selector);
     vm.prank(address(fundWallet));
     tested.processBigQueuedRequest(0);
   }
@@ -3999,13 +4007,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Cap amount to  (0, 100T]
@@ -4048,7 +4057,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Expect revert because 1 token is missing to cover the request
     vm.startPrank(address(fundWallet));
-    vm.expectRevert(bytes("L52"));
+    vm.expectRevert(LToken.InsufficientCoverage.selector);
     tested.processBigQueuedRequest(0);
     vm.stopPrank();
   }
@@ -4079,7 +4088,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
@@ -4173,7 +4182,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
@@ -4241,13 +4250,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Prevent amount from overflowing max withdrawal request amount
@@ -4307,13 +4317,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Prevent amount from overflowing max withdrawal request amount
@@ -4368,13 +4379,14 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 100%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 100 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 100 * 1e3)
     );
 
     // Set random retention rate
     tested.tool_setRetentionRate(retentionRateUD7x3);
 
     // Set random fees rate
+    feesRateUD7x3 = uint16(bound(feesRateUD7x3, 0, 20 * 1e3));
     tested.setFeesRate(feesRateUD7x3);
 
     // Prevent amount from overflowing max withdrawal request amount
@@ -4474,7 +4486,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.stopPrank();
 
     // Expect revert when trying to request more than deposited amount
-    vm.expectRevert(bytes("L53"));
+    vm.expectRevert(LToken.InsufficientLTokens.selector);
     vm.prank(account);
     tested.requestWithdrawal(requestedAmount);
   }
@@ -4519,7 +4531,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.stopPrank();
 
     // Expect revert when trying to request more than type(uint96).max
-    vm.expectRevert(bytes("L54"));
+    vm.expectRevert(LToken.AmountExceedsUint96.selector);
     vm.prank(account);
     tested.requestWithdrawal(requestedAmount);
   }
@@ -4556,11 +4568,12 @@ contract Tests is Test, ModifiersExpectations {
     vm.stopPrank();
 
     // Ensure processing fees are different than 0.003ETH
-    vm.assume(attachedProcessingFees != 0.003 ether);
+    uint256 withdrawalFeeInEth = tested.withdrawalFeeInEth();
+    vm.assume(attachedProcessingFees < withdrawalFeeInEth);
 
     // Expect revert when not attaching processing fees
     deal(account, attachedProcessingFees);
-    vm.expectRevert(bytes("L55"));
+    vm.expectRevert(LToken.IncorrectETHValue.selector);
     vm.prank(account);
     tested.requestWithdrawal{ value: attachedProcessingFees }(
       requestedAmount
@@ -4799,7 +4812,7 @@ contract Tests is Test, ModifiersExpectations {
     deal(address(ldyToken), account2, tier2Amount, true);
     vm.startPrank(account2);
     ldyToken.approve(address(ldyStaking), tier2Amount);
-    ldyStaking.stake(tier2Amount, 2); // minimal 1000 tokens with 12 months stakng duration
+    ldyStaking.stake(tier2Amount, 3); // minimal 1000 tokens with 12 months stakng duration
     vm.stopPrank();
 
     // Assert account is eligible to tier 2
@@ -5045,7 +5058,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setWithdrawer(payable(address(failingWithdrawer)));
 
     // Request withdrawal
-    vm.expectRevert(bytes("L56"));
+    vm.expectRevert(LToken.ETHTransferFailed.selector);
     vm.prank(account);
     tested.requestWithdrawal{ value: processingFees }(
       requestedAmount
@@ -5125,7 +5138,7 @@ contract Tests is Test, ModifiersExpectations {
     assertEq(requestAccount, account1);
 
     // Expect revert when trying to cancel the request from account 2
-    vm.expectRevert(bytes("L57"));
+    vm.expectRevert(LToken.NotRequestOwner.selector);
     vm.prank(account2);
     tested.cancelWithdrawalRequest(0);
   }
@@ -5277,7 +5290,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.assume(account != fundWallet);
 
     // Expect revert
-    vm.expectRevert(bytes("L40"));
+    vm.expectRevert(LToken.OnlyFund.selector);
     vm.prank(account);
     tested.repatriate(requestId);
   }
@@ -5314,7 +5327,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     // Set random retention rate
@@ -5338,7 +5351,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert when trying to fund more than fund wallet balance
-    vm.expectRevert(bytes("L58"));
+    vm.expectRevert(LToken.InsufficientFundBalance.selector);
     vm.prank(fundWallet);
     tested.repatriate(fundedAmount);
   }
@@ -5367,7 +5380,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     // Set random retention rate
@@ -5396,7 +5409,7 @@ contract Tests is Test, ModifiersExpectations {
       tested.getExpectedRetained()
     ) {
       // Expect revert
-      vm.expectRevert(bytes("L59"));
+      vm.expectRevert(LToken.ExceedsRetention.selector);
       vm.prank(fundWallet);
       tested.repatriate(fundedAmount);
     }
@@ -5426,7 +5439,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     // Set random retention rate
@@ -5443,7 +5456,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.stopPrank();
 
     // Force retention rate to 100% so it won't be exceeded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Store old fund wallet and L-token contract underlying balances for later comparison
     uint256 oldFundWalletUnderlyingBalance = underlyingToken
@@ -5503,7 +5516,7 @@ contract Tests is Test, ModifiersExpectations {
 
     // Cap retention rate to 10%
     retentionRateUD7x3 = uint32(
-      bound(retentionRateUD7x3, 0, 10 * 10 ** 3)
+      bound(retentionRateUD7x3, 0, 10 * 1e3)
     );
 
     // Set random retention rate
@@ -5520,7 +5533,7 @@ contract Tests is Test, ModifiersExpectations {
     vm.stopPrank();
 
     // Force retention rate to 100% so it won't be exceeded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Store old usable underlying amount for later comparison
     uint256 oldUsableUnderlyings = tested.usableUnderlyings();
@@ -5566,7 +5579,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L60"));
+    vm.expectRevert(LToken.NoFeesToClaim.selector);
     tested.claimFees();
   }
 
@@ -5592,7 +5605,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so the contract doesn't need to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap requested amount to max withdrawal request amount
     depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -5614,7 +5627,7 @@ contract Tests is Test, ModifiersExpectations {
     );
 
     // Expect revert
-    vm.expectRevert(bytes("L61"));
+    vm.expectRevert(LToken.InsufficientForFees.selector);
     tested.claimFees();
   }
 
@@ -5640,7 +5653,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so the contract doesn't need to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap requested amount to max withdrawal request amount
     depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -5701,7 +5714,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so the contract doesn't need to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap requested amount to max withdrawal request amount
     depositedAmount = bound(depositedAmount, 1, type(uint96).max);
@@ -5747,7 +5760,7 @@ contract Tests is Test, ModifiersExpectations {
     tested.setAPR(aprUD7x3);
 
     // Force retention rate to 100% so the contract doesn't need to be funded
-    tested.tool_setRetentionRate(uint32(100 * 10 ** 3));
+    tested.tool_setRetentionRate(uint32(100 * 1e3));
 
     // Cap requested amount to max withdrawal request amount
     depositedAmount = bound(depositedAmount, 1, type(uint96).max);
