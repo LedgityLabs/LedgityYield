@@ -15,39 +15,6 @@ import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC
 import { IERC20MetadataUpgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 import { IHederaTokenService } from "./lib/IHederaTokenService.sol";
 
-// Custom Errors
-error OnlyWithdrawer(); // "L39"
-error OnlyFund(); // "L40"
-error ExceedsRetentionRate(); // "L41"
-error ListenerNotFound(); // "L42"
-error CantRecoverUnderlying(); // "L43"
-error NothingToRecover(); // "L44"
-error NotImplemented(); // "L45"
-error UseDeposit(); // "L46"
-error InsufficientBalance(); // "L47"
-error InsufficientLTokens(); // "L48"
-error InsufficientLiquidity(); // "L49"
-error RequestorBlacklisted(); // "L50"
-error NotBigRequest(); // "L51"
-error InsufficientCoverage(); // "L52"
-error AmountTooLarge(); // "L53"
-error AmountExceedsUint96(); // "L54"
-error IncorrectETHValue(); // "L55"
-error ETHTransferFailed(); // "L56"
-error NotRequestOwner(); // "L57"
-error InsufficientFundBalance(); // "L58"
-error ExceedsRetention(); // "L59"
-error NoFeesToClaim(); // "L60"
-error InsufficientForFees(); // "L61"
-
-error WithdrawerZeroAddress(); // "L63"
-error FundZeroAddress(); // "L64"
-error InvalidRequestId(); // "L66"
-
-error ExceedsMaxFeesRate(); // "L88"
-error OnlyHighTierAllowed();
-error FailedToAssociateTokens();
-
 /**
  * @title LToken
  * @author Lila Rest (https://lila.rest)
@@ -91,6 +58,38 @@ contract LTokenHedera is
   InvestUpgradeable,
   ERC20WrapperUpgradeable
 {
+  // Custom Errors
+  error OnlyWithdrawer(); // "L39"
+  error OnlyFund(); // "L40"
+  error ExceedsRetentionRate(); // "L41"
+  error ListenerNotFound(); // "L42"
+  error CantRecoverUnderlying(); // "L43"
+  error NothingToRecover(); // "L44"
+  error NotImplemented(); // "L45"
+  error UseDeposit(); // "L46"
+  error InsufficientBalance(); // "L47"
+  error InsufficientLTokens(); // "L48"
+  error InsufficientLiquidity(); // "L49"
+  error RequestorBlacklisted(); // "L50"
+  error NotBigRequest(); // "L51"
+  error InsufficientCoverage(); // "L52"
+  error AmountExceedsUint96(); // "L54"
+  error IncorrectETHValue(); // "L55"
+  error ETHTransferFailed(); // "L56"
+  error NotRequestOwner(); // "L57"
+  error InsufficientFundBalance(); // "L58"
+  error ExceedsRetention(); // "L59"
+  error NoFeesToClaim(); // "L60"
+  error InsufficientForFees(); // "L61"
+
+  error WithdrawerZeroAddress(); // "L63"
+  error FundZeroAddress(); // "L64"
+  error InvalidRequestId(); // "L66"
+
+  error ExceedsMaxFeesRate(); // "L88"
+  error OnlyHighTierAllowed();
+  error FailedToAssociateTokens();
+
   /// @dev Represents type of actions triggering ActivityEvent events.
   enum Action {
     Deposit,

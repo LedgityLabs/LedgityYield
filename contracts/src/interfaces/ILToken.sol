@@ -47,7 +47,6 @@ interface ILToken is IERC20MetadataUpgradeable {
   error RequestorBlacklisted();
   error NotBigRequest();
   error InsufficientCoverage();
-  error AmountTooLarge();
   error AmountExceedsUint96();
   error IncorrectETHValue();
   error ETHTransferFailed();
