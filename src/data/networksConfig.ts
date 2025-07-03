@@ -44,7 +44,7 @@ export type BaseNetworkConfig = Omit<
 
 export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
   [ChainId.mainnet]: {
-    order: 1,
+    order: 6,
     name: "Ethereum",
     chainId: ChainId.mainnet,
     publicJsonRPCUrl: [
@@ -64,7 +64,7 @@ export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
     ensCompatible: true,
   },
   [ChainId.base]: {
-    order: 2,
+    order: 1,
     name: "Base",
     chainId: ChainId.base,
     publicJsonRPCUrl: ["https://base.publicnode.com"],
@@ -82,7 +82,7 @@ export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
     ensCompatible: false,
   },
   [ChainId.arbitrum_one]: {
-    order: 3,
+    order: 2,
     name: "Arbitrum",
     chainId: ChainId.arbitrum_one,
     publicJsonRPCUrl: [
@@ -103,7 +103,7 @@ export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
     ensCompatible: false,
   },
   [ChainId.linea]: {
-    order: 4,
+    order: 3,
     name: "Linea",
     chainId: ChainId.linea,
     publicJsonRPCUrl: ["https://rpc.linea.build", "https://linea.drpc.org"],
@@ -121,7 +121,7 @@ export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
     ensCompatible: false,
   },
   [ChainId.sonic]: {
-    order: 5,
+    order: 4,
     name: "Sonic",
     chainId: ChainId.sonic,
     publicJsonRPCUrl: ["https://rpc.soniclabs.com"],
@@ -135,6 +135,27 @@ export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
     explorerName: "SonicScan",
     explorerLink: "https://sonicscan.org",
     logoPath: "assets/img/networks/sonic.svg",
+    isCompatibleNetwork: true,
+    ensCompatible: false,
+  },
+  [ChainId.hedera]: {
+    order: 5,
+    name: "Hedera",
+    chainId: ChainId.hedera,
+    publicJsonRPCUrl: [
+      "https://mainnet.hashio.io/api",
+      "https://hedera.linkpool.pro",
+    ],
+    publicJsonRPCWSUrl: "",
+    baseAssetName: "Hbar",
+    baseAssetDecimals: 8,
+    baseAssetSymbol: "HBAR",
+    wrappedBaseAssetSymbol: "",
+    wrappedBaseAssetAddress: "",
+    blockTime: 260,
+    explorerName: "HederaScan",
+    explorerLink: "https://hashscan.io/mainnet",
+    logoPath: "assets/img/networks/hedera.svg",
     isCompatibleNetwork: true,
     ensCompatible: false,
   },

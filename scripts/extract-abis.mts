@@ -47,5 +47,10 @@ const extractABIsFromDirectory = async (directory: string) => {
   }
 };
 
-await extractABIsFromDirectory(sourceDirectory);
-console.log("ABIs extracted successfully!");
+await extractABIsFromDirectory(sourceDirectory)
+  .then(() => {
+    console.log("ABIs extracted successfully!");
+  })
+  .catch((err) => {
+    console.error("Error extracting ABIs:", err);
+  });

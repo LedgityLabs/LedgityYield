@@ -28,6 +28,7 @@ export const ChainIdToNetwork: Record<number, string> = {
   134: "iexec",
   59144: "linea",
   146: "sonic",
+  295: "hedera",
 };
 
 export enum ChainId {
@@ -60,4 +61,5 @@ export enum ChainId {
   iexec = 134,
   linea = 59144,
   sonic = 146,
+  hedera = 295,
 }

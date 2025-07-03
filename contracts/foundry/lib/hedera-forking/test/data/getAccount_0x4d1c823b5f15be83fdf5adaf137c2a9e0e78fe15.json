@@ -1,0 +1,112 @@
+{
+    "account": "0.0.1421",
+    "alias": "HIQQGTURC3BKS63AX5FS5ZLAFKPAPLDYC2A4PDO4V5SPEML4SLKWOMYM",
+    "auto_renew_period": 7776000,
+    "balance": {
+        "balance": 100003522736,
+        "timestamp": "1723818780.692950003",
+        "tokens": [
+            {
+                "token_id": "0.0.5365",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.429274",
+                "balance": 54300000
+            },
+            {
+                "token_id": "0.0.1183558",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.2204136",
+                "balance": 1
+            },
+            {
+                "token_id": "0.0.2204192",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.2204327",
+                "balance": 1
+            },
+            {
+                "token_id": "0.0.2204362",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.3585964",
+                "balance": 1
+            },
+            {
+                "token_id": "0.0.3733947",
+                "balance": 410000000000
+            },
+            {
+                "token_id": "0.0.3981139",
+                "balance": 1
+            },
+            {
+                "token_id": "0.0.3984318",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.4230985",
+                "balance": 2000000000
+            },
+            {
+                "token_id": "0.0.4231117",
+                "balance": 600
+            },
+            {
+                "token_id": "0.0.4284350",
+                "balance": 110
+            },
+            {
+                "token_id": "0.0.4284356",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.4287302",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.4407163",
+                "balance": 0
+            },
+            {
+                "token_id": "0.0.4425229",
+                "balance": 16000
+            },
+            {
+                "token_id": "0.0.4431909",
+                "balance": 2500
+            },
+            {
+                "token_id": "0.0.4455317",
+                "balance": 0
+            }
+        ]
+    },
+    "created_timestamp": "1706816337.526419994",
+    "decline_reward": false,
+    "deleted": false,
+    "ethereum_nonce": 0,
+    "evm_address": "0x4d1c823b5f15be83fdf5adaf137c2a9e0e78fe15",
+    "expiry_timestamp": "1714592337.526419994",
+    "key": {
+        "_type": "ECDSA_SECP256K1",
+        "key": "034e9116c2a97b60bf4b2ee5602a9e07ac781681c78ddcaf64f2317c92d567330c"
+    },
+    "max_automatic_token_associations": 0,
+    "memo": "auto-created account",
+    "pending_reward": 31896000,
+    "receiver_sig_required": false,
+    "staked_account_id": null,
+    "staked_node_id": 6,
+    "stake_period_start": "1723680000.000000000",
+    "transactions": [],
+    "links": {
+        "next": null
+    }
+}

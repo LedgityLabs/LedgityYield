@@ -1,0 +1,3 @@
+# Validate that commit messages contain the line `Signed-off-by: `
+# See https://wiki.linuxfoundation.org/dco for more details
+grep --quiet "Signed-off-by: " $1 || (echo "No DCO's Signed-off-by found. Run 'git commit --signoff'" && false)

@@ -1,0 +1,18 @@
+{
+    "allowances": [
+        {
+            "amount": 5000000,
+            "amount_granted": 5000000,
+            "owner": "0.0.4233295",
+            "spender": "0.0.1335",
+            "timestamp": {
+                "from": "1714151124.613750003",
+                "to": null
+            },
+            "token_id": "0.0.429274"
+        }
+    ],
+    "links": {
+        "next": null
+    }
+}

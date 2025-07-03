@@ -1,0 +1,36 @@
+{
+    "account": "0.0.5176",
+    "alias": "CIQD4ABLBGPYCGAHN26OOJZYVA4YBUFDH4D2A7VQAJWJQNK6ITXRSMA",
+    "auto_renew_period": 7776000,
+    "balance": {
+        "balance": 187497785079,
+        "timestamp": "1724799522.972495003",
+        "tokens": [
+            {
+                "token_id": "0.0.429274",
+                "balance": 5000000
+            }
+        ]
+    },
+    "created_timestamp": "1706820250.556670189",
+    "decline_reward": false,
+    "deleted": false,
+    "ethereum_nonce": 0,
+    "evm_address": "0x0000000000000000000000000000000000001438",
+    "expiry_timestamp": "1714596250.556670189",
+    "key": {
+        "_type": "ED25519",
+        "key": "3e002b099f8118076ebce72738a83980d0a33f07a07eb0026c98355e44ef1930"
+    },
+    "max_automatic_token_associations": 0,
+    "memo": "auto-created account",
+    "pending_reward": 0,
+    "receiver_sig_required": false,
+    "staked_account_id": null,
+    "staked_node_id": null,
+    "stake_period_start": null,
+    "transactions": [],
+    "links": {
+        "next": "/api/v1/accounts/0.0.5176?timestamp=lt:1726313332.459000001"
+    }
+}

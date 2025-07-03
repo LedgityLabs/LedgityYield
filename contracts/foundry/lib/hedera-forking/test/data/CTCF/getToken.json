@@ -1,0 +1,82 @@
+{
+    "admin_key": {
+        "_type": "ECDSA_SECP256K1",
+        "key": "020189141bf465717d3c8eee1fa95c86d9d70e59bf744d52d530c3b1bbf1452ec7"
+    },
+    "auto_renew_account": null,
+    "auto_renew_period": 7776000,
+    "created_timestamp": "1733285979.395119081",
+    "custom_fees": {
+        "created_timestamp": "1733285979.395119081",
+        "fixed_fees": [
+            {
+                "all_collectors_are_exempt": false,
+                "amount": 1,
+                "collector_account_id": "0.0.2669675",
+                "denominating_token_id": null
+            },
+            {
+                "all_collectors_are_exempt": false,
+                "amount": 2,
+                "collector_account_id": "0.0.3465",
+                "denominating_token_id": "0.0.429274"
+            },
+            {
+                "all_collectors_are_exempt": false,
+                "amount": 3,
+                "collector_account_id": "0.0.2669675",
+                "denominating_token_id": "0.0.5206169"
+            }
+        ],
+        "fractional_fees": [
+            {
+                "all_collectors_are_exempt": false,
+                "amount": {
+                    "numerator": 1,
+                    "denominator": 100
+                },
+                "collector_account_id": "0.0.2669675",
+                "denominating_token_id": "0.0.5206169",
+                "maximum": 4,
+                "minimum": 3,
+                "net_of_transfers": false
+            },
+            {
+                "all_collectors_are_exempt": false,
+                "amount": {
+                    "numerator": 5,
+                    "denominator": 100
+                },
+                "collector_account_id": "0.0.2669675",
+                "denominating_token_id": "0.0.5206169",
+                "maximum": 4,
+                "minimum": 3,
+                "net_of_transfers": true
+            }
+        ]
+    },
+    "decimals": "0",
+    "deleted": false,
+    "expiry_timestamp": 1741061978000000000,
+    "fee_schedule_key": null,
+    "freeze_default": false,
+    "freeze_key": null,
+    "initial_supply": "15000",
+    "kyc_key": null,
+    "max_supply": "0",
+    "memo": "",
+    "metadata": "",
+    "metadata_key": null,
+    "modified_timestamp": "1733285979.395119081",
+    "name": "Crypto Token with Custom Fees",
+    "pause_key": null,
+    "pause_status": "NOT_APPLICABLE",
+    "supply_key": null,
+    "supply_type": "INFINITE",
+    "symbol": "CTCF",
+    "token_id": "0.0.5206169",
+    "total_supply": "15000",
+    "treasury_account_id": "0.0.2669675",
+    "type": "FUNGIBLE_COMMON",
+    "wipe_key": null
+}

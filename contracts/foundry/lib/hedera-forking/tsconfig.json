@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+
+        // It is used so that TypeScript is aware of self-referencing package.
+        // https://nodejs.org/docs/latest-v22.x/api/packages.html#self-referencing-a-package-using-its-name
+        // https://www.typescriptlang.org/tsconfig/#node16nodenext
+        "module": "Node16",
+        "moduleResolution": "Node16",
+        "resolveJsonModule": true,
+        "noEmit": true,
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+
+        // Until https://github.com/hashgraph/hedera-sdk-js/issues/2722 gets fixed
+        "skipLibCheck": true
+    },
+    "exclude": ["./examples/"]
+}
