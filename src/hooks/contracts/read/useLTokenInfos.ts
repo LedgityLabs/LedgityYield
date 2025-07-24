@@ -22,7 +22,7 @@ export function useLTokenInfos(
 
   useEffect(() => {
     if (!currentValue.length && localData.length) setCurrentValue(localData);
-  }, [currentValue]);
+  }, [currentValue, localData]);
 
   const tokensFiltered = [...new Set(tokenTargets)].filter(
     ({ address }) =>
@@ -93,7 +93,7 @@ export function useLTokenInfos(
   });
 
   useEffect(() => {
-    if (error || !data) {
+    if (error || !data?.length) {
       return;
     }
 
