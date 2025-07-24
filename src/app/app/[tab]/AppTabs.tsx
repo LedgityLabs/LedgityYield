@@ -60,8 +60,8 @@ export function AppTabs({ tabParams }: { tabParams: TabParam[] }) {
         return <AppStaking />;
       case "dashboard":
         return <AppDashboard />;
-      case "wrap":
-        return <WrapPage />;
+      // case "wrap":
+      //   return <WrapPage />;
       case "swap":
         return <SwapWidget />;
       case "bridge":

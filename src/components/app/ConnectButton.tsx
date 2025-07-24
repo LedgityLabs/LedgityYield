@@ -44,7 +44,9 @@ export function ConnectButton() {
     handleSwitchNetwork(Number(newChainid));
   }
 
-  const networkConfigs = getNetworkConfigs();
+  const networkConfigs = getNetworkConfigs().filter(
+    (networkConfig) => networkConfig.isImplemented,
+  );
   const isCompatibleNetwork = isConnected
     ? getNetworkConfig(walletChainId)?.isCompatibleNetwork
     : currentNetworkConfig.isCompatibleNetwork;

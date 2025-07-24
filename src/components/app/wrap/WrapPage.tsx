@@ -38,6 +38,9 @@ export function WrapPage() {
     (token) => token.lToken.toLowerCase() === lTokenData?.address.toLowerCase(),
   );
 
+  const lTokenDataSymbol = lTokenData?.symbol || "LUSDC";
+  const wLTokenDataSymbol = wLTokenData?.symbol || "lyUSD";
+
   const [tokenFrom, tokenTo] = toWrapped
     ? [lTokenData, wLTokenData]
     : [wLTokenData, lTokenData];
@@ -117,7 +120,7 @@ export function WrapPage() {
 
         <div className="pl-4 text-left">
           <span className="font-bold">
-            Convert {lTokenData?.symbol} (rebasing) to {wLTokenData?.symbol}.
+            Convert {lTokenDataSymbol} (rebasing) to {wLTokenDataSymbol}.
           </span>{" "}
           <br />
           <span>
@@ -126,11 +129,12 @@ export function WrapPage() {
           </span>
           <ul>
             <li>
-              • {lTokenData?.symbol}: your token balance increases over time
+              • <span className="font-bold">{lTokenDataSymbol}</span>: your
+              token balance increases over time
             </li>
             <li>
-              • {wLTokenData?.symbol}: your token value increases over time
-              (balance stays fixed)
+              • <span className="font-bold">{wLTokenDataSymbol}</span>: your
+              token value increases over time (balance stays fixed)
             </li>
           </ul>
           <span>

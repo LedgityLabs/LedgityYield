@@ -18,10 +18,10 @@ const tabParams: TabParam[] = [
   //   tab: "affiliate",
   //   title: "Affiliate Program",
   // },
-  {
-    tab: "wrap",
-    title: "Wrap",
-  },
+  // {
+  //   tab: "wrap",
+  //   title: "Wrap",
+  // },
   {
     tab: "swap",
     title: "Swap",
