@@ -36,6 +36,11 @@ export const marketConfigsIndex: {
     chainId: ChainId.sonic,
     addresses: ADDRESSES[ChainId.sonic],
   },
+  [ChainId.hedera]: {
+    marketTitle: "Hedera",
+    chainId: ChainId.hedera,
+    addresses: ADDRESSES[ChainId.hedera],
+  },
   // [ChainId.hardhat]: {
   //   marketTitle: "Hardhat",
   //   chainId: ChainId.hardhat,
