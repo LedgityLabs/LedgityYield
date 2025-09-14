@@ -32,7 +32,7 @@ export function AppStakingPools({
       <div className="font-heading font-bold text-xl text-white">
         MY $LDY POOLS
       </div>
-      {stakingInfos.length && (
+      {!!stakingInfos.length && (
         <Carousel className="w-full justify-center">
           <CarouselContent className="-ml-1">
             {stakingInfos.map((stakingInfo, i) => (
