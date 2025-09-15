@@ -68,7 +68,7 @@ export const networkConfigsIndex: { [chain: string]: BaseNetworkConfig } = {
     order: 1,
     name: "Base",
     chainId: ChainId.base,
-    publicJsonRPCUrl: ["https://base.publicnode.com"],
+    publicJsonRPCUrl: ["https://base.drpc.org", "https://base.publicnode.com"],
     publicJsonRPCWSUrl: "wss://base.publicnode.com",
     baseAssetName: "Ethereum",
     baseAssetDecimals: 18,
