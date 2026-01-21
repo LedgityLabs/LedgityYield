@@ -16,6 +16,7 @@
     "deploy-reset:base": "hardhat deploy --reset --network base",
     "deploy:fork": "hardhat deploy --network hardhat",
     "deploy:fork-base": "cross-env HARDHAT_DEPLOY_FORK=base hardhat deploy --network hardhat",
+    "deploy:fork-hedera": "cross-env HARDHAT_DEPLOY_FORK=hedera hardhat deploy --network hardhat",
     "deploy:fork-sonic": "cross-env HARDHAT_DEPLOY_FORK=sonic hardhat deploy --network hardhat",
     "deploy:base": "hardhat deploy --network base",
     "deploy:sonic": "hardhat deploy --network sonic",

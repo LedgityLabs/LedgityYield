@@ -1,3 +1,9 @@
+# ⚠️ DEPRECATED
+
+**This repository is now deprecated.** The new contracts are available at [https://github.com/LedgityLabs/ledgity-v2-contracts](https://github.com/LedgityLabs/ledgity-v2-contracts).
+
+---
+
 # Introduction
 
 **Ledgity Yield** is a protocol that provides stablecoins holders with a stable and scalable on-chain treasury management solution, backed by Real World Assets (RWA) and especially Revenue Based Financing strategy.
